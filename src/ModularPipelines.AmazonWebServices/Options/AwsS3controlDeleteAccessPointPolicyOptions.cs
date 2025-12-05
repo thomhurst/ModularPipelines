@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3control", "delete-access-point-policy")]
+[CliCommand("s3control", "delete-access-point-policy")]
 public record AwsS3controlDeleteAccessPointPolicyOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

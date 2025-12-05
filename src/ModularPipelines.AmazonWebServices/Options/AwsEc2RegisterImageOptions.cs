@@ -4,53 +4,53 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "register-image")]
+[CliCommand("ec2", "register-image")]
 public record AwsEc2RegisterImageOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--image-location")]
+    [CliOption("--image-location")]
     public string? ImageLocation { get; set; }
 
-    [CommandSwitch("--architecture")]
+    [CliOption("--architecture")]
     public string? Architecture { get; set; }
 
-    [CommandSwitch("--block-device-mappings")]
+    [CliOption("--block-device-mappings")]
     public string[]? BlockDeviceMappings { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--kernel-id")]
+    [CliOption("--kernel-id")]
     public string? KernelId { get; set; }
 
-    [CommandSwitch("--billing-products")]
+    [CliOption("--billing-products")]
     public string[]? BillingProducts { get; set; }
 
-    [CommandSwitch("--ramdisk-id")]
+    [CliOption("--ramdisk-id")]
     public string? RamdiskId { get; set; }
 
-    [CommandSwitch("--root-device-name")]
+    [CliOption("--root-device-name")]
     public string? RootDeviceName { get; set; }
 
-    [CommandSwitch("--sriov-net-support")]
+    [CliOption("--sriov-net-support")]
     public string? SriovNetSupport { get; set; }
 
-    [CommandSwitch("--virtualization-type")]
+    [CliOption("--virtualization-type")]
     public string? VirtualizationType { get; set; }
 
-    [CommandSwitch("--boot-mode")]
+    [CliOption("--boot-mode")]
     public string? BootMode { get; set; }
 
-    [CommandSwitch("--tpm-support")]
+    [CliOption("--tpm-support")]
     public string? TpmSupport { get; set; }
 
-    [CommandSwitch("--uefi-data")]
+    [CliOption("--uefi-data")]
     public string? UefiData { get; set; }
 
-    [CommandSwitch("--imds-support")]
+    [CliOption("--imds-support")]
     public string? ImdsSupport { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

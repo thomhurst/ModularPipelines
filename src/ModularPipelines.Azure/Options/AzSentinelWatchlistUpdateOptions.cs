@@ -4,96 +4,96 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "watchlist", "update")]
+[CliSubCommand("sentinel", "watchlist", "update")]
 public record AzSentinelWatchlistUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
-    [CommandSwitch("--created")]
+    [CliOption("--created")]
     public string? Created { get; set; }
 
-    [CommandSwitch("--created-by")]
+    [CliOption("--created-by")]
     public string? CreatedBy { get; set; }
 
-    [CommandSwitch("--default-duration")]
+    [CliOption("--default-duration")]
     public string? DefaultDuration { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--is-deleted")]
+    [CliFlag("--is-deleted")]
     public bool? IsDeleted { get; set; }
 
-    [CommandSwitch("--items-search-key")]
+    [CliOption("--items-search-key")]
     public string? ItemsSearchKey { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--provider")]
+    [CliOption("--provider")]
     public string? Provider { get; set; }
 
-    [CommandSwitch("--raw-content")]
+    [CliOption("--raw-content")]
     public string? RawContent { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--skip-num")]
+    [CliOption("--skip-num")]
     public string? SkipNum { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CommandSwitch("--source-type")]
+    [CliOption("--source-type")]
     public string? SourceType { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tenant-id")]
+    [CliOption("--tenant-id")]
     public string? TenantId { get; set; }
 
-    [CommandSwitch("--updated")]
+    [CliOption("--updated")]
     public string? Updated { get; set; }
 
-    [CommandSwitch("--updated-by")]
+    [CliOption("--updated-by")]
     public string? UpdatedBy { get; set; }
 
-    [CommandSwitch("--upload-status")]
+    [CliOption("--upload-status")]
     public string? UploadStatus { get; set; }
 
-    [CommandSwitch("--watchlist-id")]
+    [CliOption("--watchlist-id")]
     public string? WatchlistId { get; set; }
 
-    [CommandSwitch("--watchlist-type")]
+    [CliOption("--watchlist-type")]
     public string? WatchlistType { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime", "list-phone-numbers")]
+[CliCommand("chime", "list-phone-numbers")]
 public record AwsChimeListPhoneNumbersOptions : AwsOptions
 {
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--product-type")]
+    [CliOption("--product-type")]
     public string? ProductType { get; set; }
 
-    [CommandSwitch("--filter-name")]
+    [CliOption("--filter-name")]
     public string? FilterName { get; set; }
 
-    [CommandSwitch("--filter-value")]
+    [CliOption("--filter-value")]
     public string? FilterValue { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

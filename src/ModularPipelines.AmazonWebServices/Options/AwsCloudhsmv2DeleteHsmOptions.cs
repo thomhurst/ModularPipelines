@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudhsmv2", "delete-hsm")]
+[CliCommand("cloudhsmv2", "delete-hsm")]
 public record AwsCloudhsmv2DeleteHsmOptions(
-[property: CommandSwitch("--cluster-id")] string ClusterId
+[property: CliOption("--cluster-id")] string ClusterId
 ) : AwsOptions
 {
-    [CommandSwitch("--hsm-id")]
+    [CliOption("--hsm-id")]
     public string? HsmId { get; set; }
 
-    [CommandSwitch("--eni-id")]
+    [CliOption("--eni-id")]
     public string? EniId { get; set; }
 
-    [CommandSwitch("--eni-ip")]
+    [CliOption("--eni-ip")]
     public string? EniIp { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

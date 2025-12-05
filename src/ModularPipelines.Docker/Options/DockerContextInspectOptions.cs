@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("context", "inspect")]
+[CliCommand("context", "inspect")]
 [ExcludeFromCodeCoverage]
 public record DockerContextInspectOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? InspectContext { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? InspectContext { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 }

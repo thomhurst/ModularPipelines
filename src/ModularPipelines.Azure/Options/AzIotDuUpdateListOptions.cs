@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "du", "update", "list")]
+[CliSubCommand("iot", "du", "update", "list")]
 public record AzIotDuUpdateListOptions(
-[property: CommandSwitch("--account")] int Account,
-[property: CommandSwitch("--instance")] string Instance
+[property: CliOption("--account")] int Account,
+[property: CliOption("--instance")] string Instance
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--by-provider")]
+    [CliFlag("--by-provider")]
     public bool? ByProvider { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--search")]
+    [CliOption("--search")]
     public string? Search { get; set; }
 
-    [CommandSwitch("--un")]
+    [CliOption("--un")]
     public string? Un { get; set; }
 
-    [CommandSwitch("--up")]
+    [CliOption("--up")]
     public string? Up { get; set; }
 }

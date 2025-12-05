@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("projects", "get-ancestors-iam-policy")]
+[CliCommand("projects", "get-ancestors-iam-policy")]
 public record GcloudProjectsGetAncestorsIamPolicyOptions(
-[property: PositionalArgument] string ProjectId
+[property: CliArgument] string ProjectId
 ) : GcloudOptions;

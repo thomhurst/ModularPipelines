@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "namespace", "topic", "event-subscription", "update")]
+[CliSubCommand("eventgrid", "namespace", "topic", "event-subscription", "update")]
 public record AzEventgridNamespaceTopicEventSubscriptionUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--delivery-configuration")]
+    [CliOption("--delivery-configuration")]
     public string? DeliveryConfiguration { get; set; }
 
-    [CommandSwitch("--event-delivery-schema")]
+    [CliOption("--event-delivery-schema")]
     public string? EventDeliverySchema { get; set; }
 
-    [CommandSwitch("--event-subscription-name")]
+    [CliOption("--event-subscription-name")]
     public string? EventSubscriptionName { get; set; }
 
-    [CommandSwitch("--filters-configuration")]
+    [CliOption("--filters-configuration")]
     public string? FiltersConfiguration { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--namespace-name")]
+    [CliOption("--namespace-name")]
     public string? NamespaceName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--topic-name")]
+    [CliOption("--topic-name")]
     public string? TopicName { get; set; }
 }

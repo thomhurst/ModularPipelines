@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devicefarm", "renew-offering")]
+[CliCommand("devicefarm", "renew-offering")]
 public record AwsDevicefarmRenewOfferingOptions(
-[property: CommandSwitch("--offering-id")] string OfferingId,
-[property: CommandSwitch("--quantity")] int Quantity
+[property: CliOption("--offering-id")] string OfferingId,
+[property: CliOption("--quantity")] int Quantity
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

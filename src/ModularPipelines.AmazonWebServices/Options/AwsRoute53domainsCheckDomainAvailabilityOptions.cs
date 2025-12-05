@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53domains", "check-domain-availability")]
+[CliCommand("route53domains", "check-domain-availability")]
 public record AwsRoute53domainsCheckDomainAvailabilityOptions(
-[property: CommandSwitch("--domain-name")] string DomainName
+[property: CliOption("--domain-name")] string DomainName
 ) : AwsOptions
 {
-    [CommandSwitch("--idn-lang-code")]
+    [CliOption("--idn-lang-code")]
     public string? IdnLangCode { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

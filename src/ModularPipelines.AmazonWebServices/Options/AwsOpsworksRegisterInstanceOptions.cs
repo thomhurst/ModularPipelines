@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworks", "register-instance")]
+[CliCommand("opsworks", "register-instance")]
 public record AwsOpsworksRegisterInstanceOptions(
-[property: CommandSwitch("--stack-id")] string StackId
+[property: CliOption("--stack-id")] string StackId
 ) : AwsOptions
 {
-    [CommandSwitch("--hostname")]
+    [CliOption("--hostname")]
     public string? Hostname { get; set; }
 
-    [CommandSwitch("--public-ip")]
+    [CliOption("--public-ip")]
     public string? PublicIp { get; set; }
 
-    [CommandSwitch("--private-ip")]
+    [CliOption("--private-ip")]
     public string? PrivateIp { get; set; }
 
-    [CommandSwitch("--rsa-public-key")]
+    [CliOption("--rsa-public-key")]
     public string? RsaPublicKey { get; set; }
 
-    [CommandSwitch("--rsa-public-key-fingerprint")]
+    [CliOption("--rsa-public-key-fingerprint")]
     public string? RsaPublicKeyFingerprint { get; set; }
 
-    [CommandSwitch("--instance-identity")]
+    [CliOption("--instance-identity")]
     public string? InstanceIdentity { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

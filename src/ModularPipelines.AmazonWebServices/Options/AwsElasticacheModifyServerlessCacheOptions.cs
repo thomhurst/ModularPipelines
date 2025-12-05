@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticache", "modify-serverless-cache")]
+[CliCommand("elasticache", "modify-serverless-cache")]
 public record AwsElasticacheModifyServerlessCacheOptions(
-[property: CommandSwitch("--serverless-cache-name")] string ServerlessCacheName
+[property: CliOption("--serverless-cache-name")] string ServerlessCacheName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--cache-usage-limits")]
+    [CliOption("--cache-usage-limits")]
     public string? CacheUsageLimits { get; set; }
 
-    [CommandSwitch("--user-group-id")]
+    [CliOption("--user-group-id")]
     public string? UserGroupId { get; set; }
 
-    [CommandSwitch("--security-group-ids")]
+    [CliOption("--security-group-ids")]
     public string[]? SecurityGroupIds { get; set; }
 
-    [CommandSwitch("--snapshot-retention-limit")]
+    [CliOption("--snapshot-retention-limit")]
     public int? SnapshotRetentionLimit { get; set; }
 
-    [CommandSwitch("--daily-snapshot-time")]
+    [CliOption("--daily-snapshot-time")]
     public string? DailySnapshotTime { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

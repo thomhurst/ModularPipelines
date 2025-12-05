@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("metastore", "federations", "update")]
+[CliCommand("metastore", "federations", "update")]
 public record GcloudMetastoreFederationsUpdateOptions(
-[property: PositionalArgument] string Federation,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--update-backends")] string UpdateBackends,
-[property: BooleanCommandSwitch("--clear-backends")] bool ClearBackends,
-[property: CommandSwitch("--remove-backends")] string RemoveBackends
+[property: CliArgument] string Federation,
+[property: CliArgument] string Location,
+[property: CliOption("--update-backends")] string UpdateBackends,
+[property: CliFlag("--clear-backends")] bool ClearBackends,
+[property: CliOption("--remove-backends")] string RemoveBackends
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 }

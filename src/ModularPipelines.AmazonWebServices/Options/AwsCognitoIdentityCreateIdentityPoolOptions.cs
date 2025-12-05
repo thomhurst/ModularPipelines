@@ -5,29 +5,29 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-identity", "create-identity-pool")]
+[CliCommand("cognito-identity", "create-identity-pool")]
 public record AwsCognitoIdentityCreateIdentityPoolOptions(
-[property: CommandSwitch("--identity-pool-name")] string IdentityPoolName
+[property: CliOption("--identity-pool-name")] string IdentityPoolName
 ) : AwsOptions
 {
-    [CommandSwitch("--supported-login-providers")]
+    [CliOption("--supported-login-providers")]
     public IEnumerable<KeyValue>? SupportedLoginProviders { get; set; }
 
-    [CommandSwitch("--developer-provider-name")]
+    [CliOption("--developer-provider-name")]
     public string? DeveloperProviderName { get; set; }
 
-    [CommandSwitch("--open-id-connect-provider-arns")]
+    [CliOption("--open-id-connect-provider-arns")]
     public string[]? OpenIdConnectProviderArns { get; set; }
 
-    [CommandSwitch("--cognito-identity-providers")]
+    [CliOption("--cognito-identity-providers")]
     public string[]? CognitoIdentityProviders { get; set; }
 
-    [CommandSwitch("--saml-provider-arns")]
+    [CliOption("--saml-provider-arns")]
     public string[]? SamlProviderArns { get; set; }
 
-    [CommandSwitch("--identity-pool-tags")]
+    [CliOption("--identity-pool-tags")]
     public IEnumerable<KeyValue>? IdentityPoolTags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

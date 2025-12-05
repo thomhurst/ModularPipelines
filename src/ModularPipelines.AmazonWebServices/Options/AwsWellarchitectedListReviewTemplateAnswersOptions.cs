@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "list-review-template-answers")]
+[CliCommand("wellarchitected", "list-review-template-answers")]
 public record AwsWellarchitectedListReviewTemplateAnswersOptions(
-[property: CommandSwitch("--template-arn")] string TemplateArn,
-[property: CommandSwitch("--lens-alias")] string LensAlias
+[property: CliOption("--template-arn")] string TemplateArn,
+[property: CliOption("--lens-alias")] string LensAlias
 ) : AwsOptions
 {
-    [CommandSwitch("--pillar-id")]
+    [CliOption("--pillar-id")]
     public string? PillarId { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("greengrassv2", "describe-component")]
+[CliCommand("greengrassv2", "describe-component")]
 public record AwsGreengrassv2DescribeComponentOptions(
-[property: CommandSwitch("--arn")] string Arn
+[property: CliOption("--arn")] string Arn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

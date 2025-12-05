@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai", "models", "delete-version")]
+[CliCommand("ai", "models", "delete-version")]
 public record GcloudAiModelsDeleteVersionOptions(
-[property: PositionalArgument] string ModelVersion,
-[property: PositionalArgument] string Region
+[property: CliArgument] string ModelVersion,
+[property: CliArgument] string Region
 ) : GcloudOptions;

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-voice", "create-phone-number-order")]
+[CliCommand("chime-sdk-voice", "create-phone-number-order")]
 public record AwsChimeSdkVoiceCreatePhoneNumberOrderOptions(
-[property: CommandSwitch("--product-type")] string ProductType,
-[property: CommandSwitch("--e164-phone-numbers")] string[] E164PhoneNumbers
+[property: CliOption("--product-type")] string ProductType,
+[property: CliOption("--e164-phone-numbers")] string[] E164PhoneNumbers
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

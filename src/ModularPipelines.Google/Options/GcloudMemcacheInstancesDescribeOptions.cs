@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("memcache", "instances", "describe")]
+[CliCommand("memcache", "instances", "describe")]
 public record GcloudMemcacheInstancesDescribeOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Instance,
+[property: CliArgument] string Region
 ) : GcloudOptions;

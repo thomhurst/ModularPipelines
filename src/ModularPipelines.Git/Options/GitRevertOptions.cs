@@ -3,58 +3,58 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("revert")]
+[CliSubCommand("revert")]
 [ExcludeFromCodeCoverage]
 public record GitRevertOptions : GitOptions
 {
-    [BooleanCommandSwitch("--edit")]
+    [CliFlag("--edit")]
     public virtual bool? Edit { get; set; }
 
-    [BooleanCommandSwitch("--mainline")]
+    [CliFlag("--mainline")]
     public virtual bool? Mainline { get; set; }
 
-    [BooleanCommandSwitch("--no-edit")]
+    [CliFlag("--no-edit")]
     public virtual bool? NoEdit { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cleanup")]
-    public string? Cleanup { get; set; }
+    [CliOption("--cleanup", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Cleanup { get; set; }
 
-    [BooleanCommandSwitch("--no-commit")]
+    [CliFlag("--no-commit")]
     public virtual bool? NoCommit { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--gpg-sign")]
-    public string? GpgSign { get; set; }
+    [CliOption("--gpg-sign", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? GpgSign { get; set; }
 
-    [BooleanCommandSwitch("--no-gpg-sign")]
+    [CliFlag("--no-gpg-sign")]
     public virtual bool? NoGpgSign { get; set; }
 
-    [BooleanCommandSwitch("--signoff")]
+    [CliFlag("--signoff")]
     public virtual bool? Signoff { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--strategy")]
-    public string? Strategy { get; set; }
+    [CliOption("--strategy", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Strategy { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--strategy-option")]
-    public string? StrategyOption { get; set; }
+    [CliOption("--strategy-option", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? StrategyOption { get; set; }
 
-    [BooleanCommandSwitch("--rerere-autoupdate")]
+    [CliFlag("--rerere-autoupdate")]
     public virtual bool? RerereAutoupdate { get; set; }
 
-    [BooleanCommandSwitch("--no-rerere-autoupdate")]
+    [CliFlag("--no-rerere-autoupdate")]
     public virtual bool? NoRerereAutoupdate { get; set; }
 
-    [BooleanCommandSwitch("--reference")]
+    [CliFlag("--reference")]
     public virtual bool? Reference { get; set; }
 
-    [BooleanCommandSwitch("--continue")]
+    [CliFlag("--continue")]
     public virtual bool? Continue { get; set; }
 
-    [BooleanCommandSwitch("--skip")]
+    [CliFlag("--skip")]
     public virtual bool? Skip { get; set; }
 
-    [BooleanCommandSwitch("--quit")]
+    [CliFlag("--quit")]
     public virtual bool? Quit { get; set; }
 
-    [BooleanCommandSwitch("--abort")]
+    [CliFlag("--abort")]
     public virtual bool? Abort { get; set; }
 }

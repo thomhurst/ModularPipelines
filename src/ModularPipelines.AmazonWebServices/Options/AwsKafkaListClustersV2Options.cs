@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kafka", "list-clusters-v2")]
+[CliCommand("kafka", "list-clusters-v2")]
 public record AwsKafkaListClustersV2Options : AwsOptions
 {
-    [CommandSwitch("--cluster-name-filter")]
+    [CliOption("--cluster-name-filter")]
     public string? ClusterNameFilter { get; set; }
 
-    [CommandSwitch("--cluster-type-filter")]
+    [CliOption("--cluster-type-filter")]
     public string? ClusterTypeFilter { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "describe-launch-template-versions")]
+[CliCommand("ec2", "describe-launch-template-versions")]
 public record AwsEc2DescribeLaunchTemplateVersionsOptions : AwsOptions
 {
-    [CommandSwitch("--launch-template-id")]
+    [CliOption("--launch-template-id")]
     public string? LaunchTemplateId { get; set; }
 
-    [CommandSwitch("--launch-template-name")]
+    [CliOption("--launch-template-name")]
     public string? LaunchTemplateName { get; set; }
 
-    [CommandSwitch("--versions")]
+    [CliOption("--versions")]
     public string[]? Versions { get; set; }
 
-    [CommandSwitch("--min-version")]
+    [CliOption("--min-version")]
     public string? MinVersion { get; set; }
 
-    [CommandSwitch("--max-version")]
+    [CliOption("--max-version")]
     public string? MaxVersion { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup-dr", "management-servers", "create")]
+[CliCommand("backup-dr", "management-servers", "create")]
 public record GcloudBackupDrManagementServersCreateOptions(
-[property: PositionalArgument] string ManagementServer,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--network")] string Network
+[property: CliArgument] string ManagementServer,
+[property: CliArgument] string Location,
+[property: CliOption("--network")] string Network
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

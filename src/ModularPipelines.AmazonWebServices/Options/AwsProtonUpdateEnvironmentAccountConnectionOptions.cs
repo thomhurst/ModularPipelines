@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("proton", "update-environment-account-connection")]
+[CliCommand("proton", "update-environment-account-connection")]
 public record AwsProtonUpdateEnvironmentAccountConnectionOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--codebuild-role-arn")]
+    [CliOption("--codebuild-role-arn")]
     public string? CodebuildRoleArn { get; set; }
 
-    [CommandSwitch("--component-role-arn")]
+    [CliOption("--component-role-arn")]
     public string? ComponentRoleArn { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

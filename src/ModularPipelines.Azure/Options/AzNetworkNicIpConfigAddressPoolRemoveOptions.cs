@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "nic", "ip-config", "address-pool", "remove")]
+[CliSubCommand("network", "nic", "ip-config", "address-pool", "remove")]
 public record AzNetworkNicIpConfigAddressPoolRemoveOptions(
-[property: CommandSwitch("--address-pool")] string AddressPool,
-[property: CommandSwitch("--ip-config-name")] string IpConfigName,
-[property: CommandSwitch("--nic-name")] string NicName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--address-pool")] string AddressPool,
+[property: CliOption("--ip-config-name")] string IpConfigName,
+[property: CliOption("--nic-name")] string NicName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--gateway-name")]
+    [CliOption("--gateway-name")]
     public string? GatewayName { get; set; }
 
-    [CommandSwitch("--lb-name")]
+    [CliOption("--lb-name")]
     public string? LbName { get; set; }
 }

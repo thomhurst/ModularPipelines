@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sqs", "untag-queue")]
+[CliCommand("sqs", "untag-queue")]
 public record AwsSqsUntagQueueOptions(
-[property: CommandSwitch("--queue-url")] string QueueUrl,
-[property: CommandSwitch("--tag-keys")] string[] TagKeys
+[property: CliOption("--queue-url")] string QueueUrl,
+[property: CliOption("--tag-keys")] string[] TagKeys
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

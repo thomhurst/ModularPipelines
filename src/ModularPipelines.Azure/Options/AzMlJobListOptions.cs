@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "job", "list")]
+[CliSubCommand("ml", "job", "list")]
 public record AzMlJobListOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--all-results")]
+    [CliFlag("--all-results")]
     public bool? AllResults { get; set; }
 
-    [BooleanCommandSwitch("--archived-only")]
+    [CliFlag("--archived-only")]
     public bool? ArchivedOnly { get; set; }
 
-    [BooleanCommandSwitch("--include-archived")]
+    [CliFlag("--include-archived")]
     public bool? IncludeArchived { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public string? MaxResults { get; set; }
 
-    [CommandSwitch("--parent-job-name")]
+    [CliOption("--parent-job-name")]
     public string? ParentJobName { get; set; }
 }

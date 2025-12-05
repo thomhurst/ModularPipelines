@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "delete-partition-index")]
+[CliCommand("glue", "delete-partition-index")]
 public record AwsGlueDeletePartitionIndexOptions(
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--table-name")] string TableName,
-[property: CommandSwitch("--index-name")] string IndexName
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--table-name")] string TableName,
+[property: CliOption("--index-name")] string IndexName
 ) : AwsOptions
 {
-    [CommandSwitch("--catalog-id")]
+    [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

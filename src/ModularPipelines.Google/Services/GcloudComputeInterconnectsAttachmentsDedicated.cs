@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "interconnects", "attachments")]
+[CliCommand("compute", "interconnects", "attachments")]
 public class GcloudComputeInterconnectsAttachmentsDedicated
 {
     public GcloudComputeInterconnectsAttachmentsDedicated(

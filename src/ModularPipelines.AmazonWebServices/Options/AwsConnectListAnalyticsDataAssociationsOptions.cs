@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "list-analytics-data-associations")]
+[CliCommand("connect", "list-analytics-data-associations")]
 public record AwsConnectListAnalyticsDataAssociationsOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId
+[property: CliOption("--instance-id")] string InstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--data-set-id")]
+    [CliOption("--data-set-id")]
     public string? DataSetId { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

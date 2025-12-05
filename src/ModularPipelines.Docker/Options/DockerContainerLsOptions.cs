@@ -3,31 +3,31 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("container", "ls")]
+[CliCommand("container", "ls")]
 [ExcludeFromCodeCoverage]
 public record DockerContainerLsOptions : DockerOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public virtual string? Filter { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 
-    [CommandSwitch("--last")]
+    [CliOption("--last")]
     public virtual int? Last { get; set; }
 
-    [CommandSwitch("--latest")]
+    [CliOption("--latest")]
     public virtual string? Latest { get; set; }
 
-    [BooleanCommandSwitch("--no-trunc")]
+    [CliFlag("--no-trunc")]
     public virtual bool? NoTrunc { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [CommandSwitch("--size")]
+    [CliOption("--size")]
     public virtual string? Size { get; set; }
 }

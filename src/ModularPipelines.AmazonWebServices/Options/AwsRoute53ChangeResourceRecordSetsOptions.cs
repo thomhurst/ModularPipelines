@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53", "change-resource-record-sets")]
+[CliCommand("route53", "change-resource-record-sets")]
 public record AwsRoute53ChangeResourceRecordSetsOptions(
-[property: CommandSwitch("--hosted-zone-id")] string HostedZoneId,
-[property: CommandSwitch("--change-batch")] string ChangeBatch
+[property: CliOption("--hosted-zone-id")] string HostedZoneId,
+[property: CliOption("--change-batch")] string ChangeBatch
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

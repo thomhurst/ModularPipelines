@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "vm", "group")]
+[CliCommand("sql", "vm", "group")]
 public class AzSqlVmGroupAgListener
 {
     public AzSqlVmGroupAgListener(

@@ -4,61 +4,61 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "volume", "export-policy", "add")]
+[CliSubCommand("netappfiles", "volume", "export-policy", "add")]
 public record AzNetappfilesVolumeExportPolicyAddOptions(
-[property: BooleanCommandSwitch("--allowed-clients")] bool AllowedClients,
-[property: BooleanCommandSwitch("--cifs")] bool Cifs,
-[property: BooleanCommandSwitch("--nfsv3")] bool Nfsv3,
-[property: BooleanCommandSwitch("--nfsv41")] bool Nfsv41,
-[property: BooleanCommandSwitch("--unix-read-only")] bool UnixReadOnly,
-[property: BooleanCommandSwitch("--unix-read-write")] bool UnixReadWrite
+[property: CliFlag("--allowed-clients")] bool AllowedClients,
+[property: CliFlag("--cifs")] bool Cifs,
+[property: CliFlag("--nfsv3")] bool Nfsv3,
+[property: CliFlag("--nfsv41")] bool Nfsv41,
+[property: CliFlag("--unix-read-only")] bool UnixReadOnly,
+[property: CliFlag("--unix-read-write")] bool UnixReadWrite
 ) : AzOptions
 {
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--chown-mode")]
+    [CliOption("--chown-mode")]
     public string? ChownMode { get; set; }
 
-    [BooleanCommandSwitch("--has-root-access")]
+    [CliFlag("--has-root-access")]
     public bool? HasRootAccess { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--kerberos5-r")]
+    [CliOption("--kerberos5-r")]
     public string? Kerberos5R { get; set; }
 
-    [CommandSwitch("--kerberos5-rw")]
+    [CliOption("--kerberos5-rw")]
     public string? Kerberos5Rw { get; set; }
 
-    [CommandSwitch("--kerberos5i-r")]
+    [CliOption("--kerberos5i-r")]
     public string? Kerberos5iR { get; set; }
 
-    [CommandSwitch("--kerberos5i-rw")]
+    [CliOption("--kerberos5i-rw")]
     public string? Kerberos5iRw { get; set; }
 
-    [CommandSwitch("--kerberos5p-r")]
+    [CliOption("--kerberos5p-r")]
     public string? Kerberos5pR { get; set; }
 
-    [CommandSwitch("--kerberos5p-rw")]
+    [CliOption("--kerberos5p-rw")]
     public string? Kerberos5pRw { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--pool-name")]
+    [CliOption("--pool-name")]
     public string? PoolName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--rule-index")]
+    [CliOption("--rule-index")]
     public string? RuleIndex { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

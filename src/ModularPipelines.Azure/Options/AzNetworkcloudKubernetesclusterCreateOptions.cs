@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "kubernetescluster", "create")]
+[CliSubCommand("networkcloud", "kubernetescluster", "create")]
 public record AzNetworkcloudKubernetesclusterCreateOptions(
-[property: CommandSwitch("--control-plane-node-configuration")] string ControlPlaneNodeConfiguration,
-[property: CommandSwitch("--extended-location")] string ExtendedLocation,
-[property: CommandSwitch("--initial-agent-pool-configurations")] string InitialAgentPoolConfigurations,
-[property: CommandSwitch("--kubernetes-cluster-name")] string KubernetesClusterName,
-[property: CommandSwitch("--kubernetes-version")] string KubernetesVersion,
-[property: CommandSwitch("--network-configuration")] string NetworkConfiguration,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--control-plane-node-configuration")] string ControlPlaneNodeConfiguration,
+[property: CliOption("--extended-location")] string ExtendedLocation,
+[property: CliOption("--initial-agent-pool-configurations")] string InitialAgentPoolConfigurations,
+[property: CliOption("--kubernetes-cluster-name")] string KubernetesClusterName,
+[property: CliOption("--kubernetes-version")] string KubernetesVersion,
+[property: CliOption("--network-configuration")] string NetworkConfiguration,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--aad-configuration")]
+    [CliOption("--aad-configuration")]
     public string? AadConfiguration { get; set; }
 
-    [CommandSwitch("--admin-username")]
+    [CliOption("--admin-username")]
     public string? AdminUsername { get; set; }
 
-    [BooleanCommandSwitch("--generate-ssh-keys")]
+    [CliFlag("--generate-ssh-keys")]
     public bool? GenerateSshKeys { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--managed-resource-group-configuration")]
+    [CliOption("--managed-resource-group-configuration")]
     public string? ManagedResourceGroupConfiguration { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--ssh-dest-key-path")]
+    [CliOption("--ssh-dest-key-path")]
     public string? SshDestKeyPath { get; set; }
 
-    [CommandSwitch("--ssh-key-values")]
+    [CliOption("--ssh-key-values")]
     public string? SshKeyValues { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

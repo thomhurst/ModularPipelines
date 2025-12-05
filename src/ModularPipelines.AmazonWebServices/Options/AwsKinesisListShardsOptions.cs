@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesis", "list-shards")]
+[CliCommand("kinesis", "list-shards")]
 public record AwsKinesisListShardsOptions : AwsOptions
 {
-    [CommandSwitch("--stream-name")]
+    [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
-    [CommandSwitch("--exclusive-start-shard-id")]
+    [CliOption("--exclusive-start-shard-id")]
     public string? ExclusiveStartShardId { get; set; }
 
-    [CommandSwitch("--stream-creation-timestamp")]
+    [CliOption("--stream-creation-timestamp")]
     public long? StreamCreationTimestamp { get; set; }
 
-    [CommandSwitch("--shard-filter")]
+    [CliOption("--shard-filter")]
     public string? ShardFilter { get; set; }
 
-    [CommandSwitch("--stream-arn")]
+    [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

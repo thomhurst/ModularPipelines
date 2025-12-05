@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bicep", "build-params")]
+[CliSubCommand("bicep", "build-params")]
 public record AzBicepBuildParamsOptions(
-[property: CommandSwitch("--file")] string File
+[property: CliOption("--file")] string File
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-restore")]
+    [CliFlag("--no-restore")]
     public bool? NoRestore { get; set; }
 
-    [CommandSwitch("--outdir")]
+    [CliOption("--outdir")]
     public string? Outdir { get; set; }
 
-    [CommandSwitch("--outfile")]
+    [CliOption("--outfile")]
     public string? Outfile { get; set; }
 
-    [CommandSwitch("--stdout")]
+    [CliOption("--stdout")]
     public string? Stdout { get; set; }
 }

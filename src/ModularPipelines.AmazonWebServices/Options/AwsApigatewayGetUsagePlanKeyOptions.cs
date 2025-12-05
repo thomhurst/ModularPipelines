@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "get-usage-plan-key")]
+[CliCommand("apigateway", "get-usage-plan-key")]
 public record AwsApigatewayGetUsagePlanKeyOptions(
-[property: CommandSwitch("--usage-plan-id")] string UsagePlanId,
-[property: CommandSwitch("--key-id")] string KeyId
+[property: CliOption("--usage-plan-id")] string UsagePlanId,
+[property: CliOption("--key-id")] string KeyId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

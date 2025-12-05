@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "pipeline-run", "create")]
+[CliSubCommand("acr", "pipeline-run", "create")]
 public record AzAcrPipelineRunCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--pipeline")] string Pipeline,
-[property: CommandSwitch("--pipeline-type")] string PipelineType,
-[property: CommandSwitch("--registry")] string Registry,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--storage-blob")] string StorageBlob
+[property: CliOption("--name")] string Name,
+[property: CliOption("--pipeline")] string Pipeline,
+[property: CliOption("--pipeline-type")] string PipelineType,
+[property: CliOption("--registry")] string Registry,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--storage-blob")] string StorageBlob
 ) : AzOptions
 {
-    [CommandSwitch("--artifacts")]
+    [CliOption("--artifacts")]
     public string? Artifacts { get; set; }
 
-    [BooleanCommandSwitch("--force-redeploy")]
+    [CliFlag("--force-redeploy")]
     public bool? ForceRedeploy { get; set; }
 }

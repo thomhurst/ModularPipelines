@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("postgres", "server")]
+[CliCommand("postgres", "server")]
 public class AzPostgresServerKey
 {
     public AzPostgresServerKey(

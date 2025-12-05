@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("voice-id", "delete-domain")]
+[CliCommand("voice-id", "delete-domain")]
 public record AwsVoiceIdDeleteDomainOptions(
-[property: CommandSwitch("--domain-id")] string DomainId
+[property: CliOption("--domain-id")] string DomainId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

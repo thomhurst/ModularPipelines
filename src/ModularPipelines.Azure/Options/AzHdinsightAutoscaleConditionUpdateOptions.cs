@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hdinsight", "autoscale", "condition", "update")]
+[CliSubCommand("hdinsight", "autoscale", "condition", "update")]
 public record AzHdinsightAutoscaleConditionUpdateOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--index")] string Index,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--index")] string Index,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--days")]
+    [CliOption("--days")]
     public int? Days { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--time")]
+    [CliOption("--time")]
     public string? Time { get; set; }
 
-    [CommandSwitch("--workernode-count")]
+    [CliOption("--workernode-count")]
     public int? WorkernodeCount { get; set; }
 }

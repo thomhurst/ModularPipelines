@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "create-activation")]
+[CliCommand("ssm", "create-activation")]
 public record AwsSsmCreateActivationOptions(
-[property: CommandSwitch("--iam-role")] string IamRole
+[property: CliOption("--iam-role")] string IamRole
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--default-instance-name")]
+    [CliOption("--default-instance-name")]
     public string? DefaultInstanceName { get; set; }
 
-    [CommandSwitch("--registration-limit")]
+    [CliOption("--registration-limit")]
     public int? RegistrationLimit { get; set; }
 
-    [CommandSwitch("--expiration-date")]
+    [CliOption("--expiration-date")]
     public long? ExpirationDate { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--registration-metadata")]
+    [CliOption("--registration-metadata")]
     public string[]? RegistrationMetadata { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

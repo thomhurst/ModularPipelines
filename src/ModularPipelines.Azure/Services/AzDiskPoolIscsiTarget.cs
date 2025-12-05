@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("disk-pool")]
+[CliCommand("disk-pool")]
 public class AzDiskPoolIscsiTarget
 {
     public AzDiskPoolIscsiTarget(

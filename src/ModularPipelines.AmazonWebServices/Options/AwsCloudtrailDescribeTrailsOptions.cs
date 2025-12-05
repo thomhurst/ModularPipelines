@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudtrail", "describe-trails")]
+[CliCommand("cloudtrail", "describe-trails")]
 public record AwsCloudtrailDescribeTrailsOptions : AwsOptions
 {
-    [CommandSwitch("--trail-name-list")]
+    [CliOption("--trail-name-list")]
     public string[]? TrailNameList { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workdocs", "create-labels")]
+[CliCommand("workdocs", "create-labels")]
 public record AwsWorkdocsCreateLabelsOptions(
-[property: CommandSwitch("--resource-id")] string ResourceId,
-[property: CommandSwitch("--labels")] string[] Labels
+[property: CliOption("--resource-id")] string ResourceId,
+[property: CliOption("--labels")] string[] Labels
 ) : AwsOptions
 {
-    [CommandSwitch("--authentication-token")]
+    [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

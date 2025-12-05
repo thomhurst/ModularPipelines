@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub", "schemas", "delete-revision")]
+[CliCommand("pubsub", "schemas", "delete-revision")]
 public record GcloudPubsubSchemasDeleteRevisionOptions(
-[property: PositionalArgument] string Schema
+[property: CliArgument] string Schema
 ) : GcloudOptions;

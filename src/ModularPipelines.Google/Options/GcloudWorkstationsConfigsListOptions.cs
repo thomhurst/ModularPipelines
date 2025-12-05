@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workstations", "configs", "list")]
+[CliCommand("workstations", "configs", "list")]
 public record GcloudWorkstationsConfigsListOptions(
-[property: CommandSwitch("--cluster")] string Cluster,
-[property: CommandSwitch("--region")] string Region
+[property: CliOption("--cluster")] string Cluster,
+[property: CliOption("--region")] string Region
 ) : GcloudOptions;

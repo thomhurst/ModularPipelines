@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "update-document-metadata")]
+[CliCommand("ssm", "update-document-metadata")]
 public record AwsSsmUpdateDocumentMetadataOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--document-reviews")] string DocumentReviews
+[property: CliOption("--name")] string Name,
+[property: CliOption("--document-reviews")] string DocumentReviews
 ) : AwsOptions
 {
-    [CommandSwitch("--document-version")]
+    [CliOption("--document-version")]
     public string? DocumentVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

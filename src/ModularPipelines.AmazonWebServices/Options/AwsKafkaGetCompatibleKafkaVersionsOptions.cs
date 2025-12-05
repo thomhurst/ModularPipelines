@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kafka", "get-compatible-kafka-versions")]
+[CliCommand("kafka", "get-compatible-kafka-versions")]
 public record AwsKafkaGetCompatibleKafkaVersionsOptions : AwsOptions
 {
-    [CommandSwitch("--cluster-arn")]
+    [CliOption("--cluster-arn")]
     public string? ClusterArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

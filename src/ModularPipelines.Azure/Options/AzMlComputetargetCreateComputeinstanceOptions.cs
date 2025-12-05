@@ -4,54 +4,54 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "computetarget", "create", "computeinstance")]
+[CliSubCommand("ml", "computetarget", "create", "computeinstance")]
 public record AzMlComputetargetCreateComputeinstanceOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--vm-size")] string VmSize
+[property: CliOption("--name")] string Name,
+[property: CliOption("--vm-size")] string VmSize
 ) : AzOptions
 {
-    [CommandSwitch("--admin-user-ssh-public-key")]
+    [CliOption("--admin-user-ssh-public-key")]
     public string? AdminUserSshPublicKey { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--ssh-public-access")]
+    [CliOption("--ssh-public-access")]
     public string? SshPublicAccess { get; set; }
 
-    [CommandSwitch("--subnet-name")]
+    [CliOption("--subnet-name")]
     public string? SubnetName { get; set; }
 
-    [CommandSwitch("--subscription-id")]
+    [CliOption("--subscription-id")]
     public string? SubscriptionId { get; set; }
 
-    [CommandSwitch("--tag")]
+    [CliOption("--tag")]
     public string? Tag { get; set; }
 
-    [CommandSwitch("--user-object-id")]
+    [CliOption("--user-object-id")]
     public string? UserObjectId { get; set; }
 
-    [CommandSwitch("--user-tenant-id")]
+    [CliOption("--user-tenant-id")]
     public string? UserTenantId { get; set; }
 
-    [CommandSwitch("--vnet-name")]
+    [CliOption("--vnet-name")]
     public string? VnetName { get; set; }
 
-    [CommandSwitch("--vnet-resourcegroup-name")]
+    [CliOption("--vnet-resourcegroup-name")]
     public string? VnetResourcegroupName { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 
-    [BooleanCommandSwitch("-v")]
+    [CliFlag("-v")]
     public bool? V { get; set; }
 }

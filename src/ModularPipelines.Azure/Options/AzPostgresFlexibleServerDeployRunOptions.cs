@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("postgres", "flexible-server", "deploy", "run")]
+[CliSubCommand("postgres", "flexible-server", "deploy", "run")]
 public record AzPostgresFlexibleServerDeployRunOptions(
-[property: CommandSwitch("--action-name")] string ActionName,
-[property: CommandSwitch("--branch")] string Branch
+[property: CliOption("--action-name")] string ActionName,
+[property: CliOption("--branch")] string Branch
 ) : AzOptions;

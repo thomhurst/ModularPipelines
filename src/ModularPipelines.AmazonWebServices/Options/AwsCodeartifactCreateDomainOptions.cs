@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeartifact", "create-domain")]
+[CliCommand("codeartifact", "create-domain")]
 public record AwsCodeartifactCreateDomainOptions(
-[property: CommandSwitch("--domain")] string Domain
+[property: CliOption("--domain")] string Domain
 ) : AwsOptions
 {
-    [CommandSwitch("--encryption-key")]
+    [CliOption("--encryption-key")]
     public string? EncryptionKey { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

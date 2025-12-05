@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codepipeline", "put-third-party-job-failure-result")]
+[CliCommand("codepipeline", "put-third-party-job-failure-result")]
 public record AwsCodepipelinePutThirdPartyJobFailureResultOptions(
-[property: CommandSwitch("--job-id")] string JobId,
-[property: CommandSwitch("--client-token")] string ClientToken,
-[property: CommandSwitch("--failure-details")] string FailureDetails
+[property: CliOption("--job-id")] string JobId,
+[property: CliOption("--client-token")] string ClientToken,
+[property: CliOption("--failure-details")] string FailureDetails
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

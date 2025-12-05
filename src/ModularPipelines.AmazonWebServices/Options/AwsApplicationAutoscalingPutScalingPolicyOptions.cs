@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("application-autoscaling", "put-scaling-policy")]
+[CliCommand("application-autoscaling", "put-scaling-policy")]
 public record AwsApplicationAutoscalingPutScalingPolicyOptions(
-[property: CommandSwitch("--policy-name")] string PolicyName,
-[property: CommandSwitch("--service-namespace")] string ServiceNamespace,
-[property: CommandSwitch("--resource-id")] string ResourceId,
-[property: CommandSwitch("--scalable-dimension")] string ScalableDimension
+[property: CliOption("--policy-name")] string PolicyName,
+[property: CliOption("--service-namespace")] string ServiceNamespace,
+[property: CliOption("--resource-id")] string ResourceId,
+[property: CliOption("--scalable-dimension")] string ScalableDimension
 ) : AwsOptions
 {
-    [CommandSwitch("--policy-type")]
+    [CliOption("--policy-type")]
     public string? PolicyType { get; set; }
 
-    [CommandSwitch("--step-scaling-policy-configuration")]
+    [CliOption("--step-scaling-policy-configuration")]
     public string? StepScalingPolicyConfiguration { get; set; }
 
-    [CommandSwitch("--target-tracking-scaling-policy-configuration")]
+    [CliOption("--target-tracking-scaling-policy-configuration")]
     public string? TargetTrackingScalingPolicyConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcare", "dicom-stores", "create")]
+[CliCommand("healthcare", "dicom-stores", "create")]
 public record GcloudHealthcareDicomStoresCreateOptions(
-[property: PositionalArgument] string DicomStore,
-[property: PositionalArgument] string Dataset,
-[property: PositionalArgument] string Location
+[property: CliArgument] string DicomStore,
+[property: CliArgument] string Dataset,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--pubsub-topic")]
+    [CliOption("--pubsub-topic")]
     public string? PubsubTopic { get; set; }
 
-    [BooleanCommandSwitch("--send-for-bulk-import")]
+    [CliFlag("--send-for-bulk-import")]
     public bool? SendForBulkImport { get; set; }
 
-    [CommandSwitch("--stream-configs")]
+    [CliOption("--stream-configs")]
     public string? StreamConfigs { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "midb")]
+[CliCommand("sql", "midb")]
 public class AzSqlMidbLtrBackup
 {
     public AzSqlMidbLtrBackup(

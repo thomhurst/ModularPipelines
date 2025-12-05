@@ -15,9 +15,9 @@ public record DockerTrustRevokeOptions : DockerOptions
         Image = image;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Image { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Image { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public virtual bool? Yes { get; set; }
 }

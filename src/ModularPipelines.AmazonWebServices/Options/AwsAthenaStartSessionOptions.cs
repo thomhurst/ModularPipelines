@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("athena", "start-session")]
+[CliCommand("athena", "start-session")]
 public record AwsAthenaStartSessionOptions(
-[property: CommandSwitch("--work-group")] string WorkGroup,
-[property: CommandSwitch("--engine-configuration")] string EngineConfiguration
+[property: CliOption("--work-group")] string WorkGroup,
+[property: CliOption("--engine-configuration")] string EngineConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--notebook-version")]
+    [CliOption("--notebook-version")]
     public string? NotebookVersion { get; set; }
 
-    [CommandSwitch("--session-idle-timeout-in-minutes")]
+    [CliOption("--session-idle-timeout-in-minutes")]
     public int? SessionIdleTimeoutInMinutes { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

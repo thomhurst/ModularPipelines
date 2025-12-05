@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "lb", "address-pool", "address", "add")]
+[CliSubCommand("network", "lb", "address-pool", "address", "add")]
 public record AzNetworkLbAddressPoolAddressAddOptions(
-[property: CommandSwitch("--ip-address")] string IpAddress,
-[property: CommandSwitch("--lb-name")] string LbName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--pool-name")] string PoolName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--ip-address")] string IpAddress,
+[property: CliOption("--lb-name")] string LbName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--pool-name")] string PoolName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--admin-state")]
+    [CliOption("--admin-state")]
     public string? AdminState { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--virtual-network")]
+    [CliOption("--virtual-network")]
     public string? VirtualNetwork { get; set; }
 }

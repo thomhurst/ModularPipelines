@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("macie2", "update-resource-profile")]
+[CliCommand("macie2", "update-resource-profile")]
 public record AwsMacie2UpdateResourceProfileOptions(
-[property: CommandSwitch("--resource-arn")] string ResourceArn
+[property: CliOption("--resource-arn")] string ResourceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--sensitivity-score-override")]
+    [CliOption("--sensitivity-score-override")]
     public int? SensitivityScoreOverride { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

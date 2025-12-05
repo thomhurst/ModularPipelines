@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "update-document-default-version")]
+[CliCommand("ssm", "update-document-default-version")]
 public record AwsSsmUpdateDocumentDefaultVersionOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--document-version")] string DocumentVersion
+[property: CliOption("--name")] string Name,
+[property: CliOption("--document-version")] string DocumentVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

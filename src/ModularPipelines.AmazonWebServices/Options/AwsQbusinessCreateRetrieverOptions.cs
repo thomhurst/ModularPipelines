@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qbusiness", "create-retriever")]
+[CliCommand("qbusiness", "create-retriever")]
 public record AwsQbusinessCreateRetrieverOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--configuration")] string Configuration,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--configuration")] string Configuration,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

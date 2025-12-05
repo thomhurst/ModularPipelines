@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms")]
+[CliCommand("kms")]
 public class GcloudKmsEkmConnections
 {
     public GcloudKmsEkmConnections(

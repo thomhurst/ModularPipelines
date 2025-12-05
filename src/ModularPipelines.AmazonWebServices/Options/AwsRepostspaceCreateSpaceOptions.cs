@@ -5,25 +5,25 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repostspace", "create-space")]
+[CliCommand("repostspace", "create-space")]
 public record AwsRepostspaceCreateSpaceOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--subdomain")] string Subdomain,
-[property: CommandSwitch("--tier")] string Tier
+[property: CliOption("--name")] string Name,
+[property: CliOption("--subdomain")] string Subdomain,
+[property: CliOption("--tier")] string Tier
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--user-kms-key")]
+    [CliOption("--user-kms-key")]
     public string? UserKmsKey { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

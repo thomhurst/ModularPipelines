@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "private-link-scope")]
+[CliCommand("monitor", "private-link-scope")]
 public class AzMonitorPrivateLinkScopePrivateEndpointConnection
 {
     public AzMonitorPrivateLinkScopePrivateEndpointConnection(

@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose", "pause")]
+[CliCommand("compose", "pause")]
 [ExcludeFromCodeCoverage]
 public record DockerComposePauseOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public IEnumerable<string>? Service { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual IEnumerable<string>? Service { get; set; }
 }

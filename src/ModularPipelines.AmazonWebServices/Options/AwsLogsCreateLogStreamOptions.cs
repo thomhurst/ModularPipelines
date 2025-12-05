@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logs", "create-log-stream")]
+[CliCommand("logs", "create-log-stream")]
 public record AwsLogsCreateLogStreamOptions(
-[property: CommandSwitch("--log-group-name")] string LogGroupName,
-[property: CommandSwitch("--log-stream-name")] string LogStreamName
+[property: CliOption("--log-group-name")] string LogGroupName,
+[property: CliOption("--log-stream-name")] string LogStreamName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,47 +4,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "update-matchmaking-configuration")]
+[CliCommand("gamelift", "update-matchmaking-configuration")]
 public record AwsGameliftUpdateMatchmakingConfigurationOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--game-session-queue-arns")]
+    [CliOption("--game-session-queue-arns")]
     public string[]? GameSessionQueueArns { get; set; }
 
-    [CommandSwitch("--request-timeout-seconds")]
+    [CliOption("--request-timeout-seconds")]
     public int? RequestTimeoutSeconds { get; set; }
 
-    [CommandSwitch("--acceptance-timeout-seconds")]
+    [CliOption("--acceptance-timeout-seconds")]
     public int? AcceptanceTimeoutSeconds { get; set; }
 
-    [CommandSwitch("--rule-set-name")]
+    [CliOption("--rule-set-name")]
     public string? RuleSetName { get; set; }
 
-    [CommandSwitch("--notification-target")]
+    [CliOption("--notification-target")]
     public string? NotificationTarget { get; set; }
 
-    [CommandSwitch("--additional-player-count")]
+    [CliOption("--additional-player-count")]
     public int? AdditionalPlayerCount { get; set; }
 
-    [CommandSwitch("--custom-event-data")]
+    [CliOption("--custom-event-data")]
     public string? CustomEventData { get; set; }
 
-    [CommandSwitch("--game-properties")]
+    [CliOption("--game-properties")]
     public string[]? GameProperties { get; set; }
 
-    [CommandSwitch("--game-session-data")]
+    [CliOption("--game-session-data")]
     public string? GameSessionData { get; set; }
 
-    [CommandSwitch("--backfill-mode")]
+    [CliOption("--backfill-mode")]
     public string? BackfillMode { get; set; }
 
-    [CommandSwitch("--flex-match-mode")]
+    [CliOption("--flex-match-mode")]
     public string? FlexMatchMode { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

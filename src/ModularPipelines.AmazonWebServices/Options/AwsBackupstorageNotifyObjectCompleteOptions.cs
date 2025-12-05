@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backupstorage", "notify-object-complete")]
+[CliCommand("backupstorage", "notify-object-complete")]
 public record AwsBackupstorageNotifyObjectCompleteOptions(
-[property: CommandSwitch("--backup-job-id")] string BackupJobId,
-[property: CommandSwitch("--upload-id")] string UploadId,
-[property: CommandSwitch("--object-checksum")] string ObjectChecksum,
-[property: CommandSwitch("--object-checksum-algorithm")] string ObjectChecksumAlgorithm
+[property: CliOption("--backup-job-id")] string BackupJobId,
+[property: CliOption("--upload-id")] string UploadId,
+[property: CliOption("--object-checksum")] string ObjectChecksum,
+[property: CliOption("--object-checksum-algorithm")] string ObjectChecksumAlgorithm
 ) : AwsOptions
 {
-    [CommandSwitch("--metadata-string")]
+    [CliOption("--metadata-string")]
     public string? MetadataString { get; set; }
 
-    [CommandSwitch("--metadata-blob")]
+    [CliOption("--metadata-blob")]
     public string? MetadataBlob { get; set; }
 
-    [CommandSwitch("--metadata-blob-length")]
+    [CliOption("--metadata-blob-length")]
     public long? MetadataBlobLength { get; set; }
 
-    [CommandSwitch("--metadata-blob-checksum")]
+    [CliOption("--metadata-blob-checksum")]
     public string? MetadataBlobChecksum { get; set; }
 
-    [CommandSwitch("--metadata-blob-checksum-algorithm")]
+    [CliOption("--metadata-blob-checksum-algorithm")]
     public string? MetadataBlobChecksumAlgorithm { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

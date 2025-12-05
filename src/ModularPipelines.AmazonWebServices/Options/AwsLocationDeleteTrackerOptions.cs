@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "delete-tracker")]
+[CliCommand("location", "delete-tracker")]
 public record AwsLocationDeleteTrackerOptions(
-[property: CommandSwitch("--tracker-name")] string TrackerName
+[property: CliOption("--tracker-name")] string TrackerName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

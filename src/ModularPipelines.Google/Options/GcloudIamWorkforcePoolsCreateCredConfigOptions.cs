@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "workforce-pools", "create-cred-config")]
+[CliCommand("iam", "workforce-pools", "create-cred-config")]
 public record GcloudIamWorkforcePoolsCreateCredConfigOptions(
-[property: PositionalArgument] string Audience,
-[property: CommandSwitch("--output-file")] string OutputFile,
-[property: CommandSwitch("--workforce-pool-user-project")] string WorkforcePoolUserProject,
-[property: CommandSwitch("--credential-source-file")] string CredentialSourceFile,
-[property: CommandSwitch("--credential-source-url")] string CredentialSourceUrl,
-[property: CommandSwitch("--executable-command")] string ExecutableCommand
+[property: CliArgument] string Audience,
+[property: CliOption("--output-file")] string OutputFile,
+[property: CliOption("--workforce-pool-user-project")] string WorkforcePoolUserProject,
+[property: CliOption("--credential-source-file")] string CredentialSourceFile,
+[property: CliOption("--credential-source-url")] string CredentialSourceUrl,
+[property: CliOption("--executable-command")] string ExecutableCommand
 ) : GcloudOptions
 {
-    [CommandSwitch("--credential-source-field-name")]
+    [CliOption("--credential-source-field-name")]
     public string? CredentialSourceFieldName { get; set; }
 
-    [CommandSwitch("--credential-source-headers")]
+    [CliOption("--credential-source-headers")]
     public string[]? CredentialSourceHeaders { get; set; }
 
-    [CommandSwitch("--credential-source-type")]
+    [CliOption("--credential-source-type")]
     public string? CredentialSourceType { get; set; }
 
-    [CommandSwitch("--subject-token-type")]
+    [CliOption("--subject-token-type")]
     public string? SubjectTokenType { get; set; }
 
-    [CommandSwitch("--executable-interactive-timeout-millis")]
+    [CliOption("--executable-interactive-timeout-millis")]
     public string? ExecutableInteractiveTimeoutMillis { get; set; }
 
-    [CommandSwitch("--executable-output-file")]
+    [CliOption("--executable-output-file")]
     public string? ExecutableOutputFile { get; set; }
 
-    [CommandSwitch("--executable-timeout-millis")]
+    [CliOption("--executable-timeout-millis")]
     public string? ExecutableTimeoutMillis { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 
-    [CommandSwitch("--service-account-token-lifetime-seconds")]
+    [CliOption("--service-account-token-lifetime-seconds")]
     public string? ServiceAccountTokenLifetimeSeconds { get; set; }
 }

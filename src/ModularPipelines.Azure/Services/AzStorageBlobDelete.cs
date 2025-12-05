@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "blob")]
+[CliCommand("storage", "blob")]
 public class AzStorageBlobDelete
 {
     public AzStorageBlobDelete(

@@ -5,34 +5,34 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synthetics", "create-canary")]
+[CliCommand("synthetics", "create-canary")]
 public record AwsSyntheticsCreateCanaryOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--code")] string Code,
-[property: CommandSwitch("--artifact-s3-location")] string ArtifactS3Location,
-[property: CommandSwitch("--execution-role-arn")] string ExecutionRoleArn,
-[property: CommandSwitch("--schedule")] string Schedule,
-[property: CommandSwitch("--runtime-version")] string RuntimeVersion
+[property: CliOption("--name")] string Name,
+[property: CliOption("--code")] string Code,
+[property: CliOption("--artifact-s3-location")] string ArtifactS3Location,
+[property: CliOption("--execution-role-arn")] string ExecutionRoleArn,
+[property: CliOption("--schedule")] string Schedule,
+[property: CliOption("--runtime-version")] string RuntimeVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--run-config")]
+    [CliOption("--run-config")]
     public string? RunConfig { get; set; }
 
-    [CommandSwitch("--success-retention-period-in-days")]
+    [CliOption("--success-retention-period-in-days")]
     public int? SuccessRetentionPeriodInDays { get; set; }
 
-    [CommandSwitch("--failure-retention-period-in-days")]
+    [CliOption("--failure-retention-period-in-days")]
     public int? FailureRetentionPeriodInDays { get; set; }
 
-    [CommandSwitch("--vpc-config")]
+    [CliOption("--vpc-config")]
     public string? VpcConfig { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--artifact-config")]
+    [CliOption("--artifact-config")]
     public string? ArtifactConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

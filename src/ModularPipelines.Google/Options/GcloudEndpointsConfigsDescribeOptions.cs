@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("endpoints", "configs", "describe")]
+[CliCommand("endpoints", "configs", "describe")]
 public record GcloudEndpointsConfigsDescribeOptions(
-[property: PositionalArgument] string ConfigId
+[property: CliArgument] string ConfigId
 ) : GcloudOptions
 {
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 }

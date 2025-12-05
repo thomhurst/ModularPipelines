@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticbeanstalk", "request-environment-info")]
+[CliCommand("elasticbeanstalk", "request-environment-info")]
 public record AwsElasticbeanstalkRequestEnvironmentInfoOptions(
-[property: CommandSwitch("--info-type")] string InfoType
+[property: CliOption("--info-type")] string InfoType
 ) : AwsOptions
 {
-    [CommandSwitch("--environment-id")]
+    [CliOption("--environment-id")]
     public string? EnvironmentId { get; set; }
 
-    [CommandSwitch("--environment-name")]
+    [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

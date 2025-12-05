@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "retry-pipeline-execution")]
+[CliCommand("sagemaker", "retry-pipeline-execution")]
 public record AwsSagemakerRetryPipelineExecutionOptions(
-[property: CommandSwitch("--pipeline-execution-arn")] string PipelineExecutionArn
+[property: CliOption("--pipeline-execution-arn")] string PipelineExecutionArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--parallelism-configuration")]
+    [CliOption("--parallelism-configuration")]
     public string? ParallelismConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

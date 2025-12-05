@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "container", "legal-hold", "clear")]
+[CliSubCommand("storage", "container", "legal-hold", "clear")]
 public record AzStorageContainerLegalHoldClearOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--container-name")] string ContainerName,
-[property: CommandSwitch("--tags")] string Tags
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--container-name")] string ContainerName,
+[property: CliOption("--tags")] string Tags
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--allow-protected-append-writes-all")]
+    [CliFlag("--allow-protected-append-writes-all")]
     public bool? AllowProtectedAppendWritesAll { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

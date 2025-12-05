@@ -4,47 +4,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datasync", "update-location-hdfs")]
+[CliCommand("datasync", "update-location-hdfs")]
 public record AwsDatasyncUpdateLocationHdfsOptions(
-[property: CommandSwitch("--location-arn")] string LocationArn
+[property: CliOption("--location-arn")] string LocationArn
 ) : AwsOptions
 {
-    [CommandSwitch("--subdirectory")]
+    [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
 
-    [CommandSwitch("--name-nodes")]
+    [CliOption("--name-nodes")]
     public string[]? NameNodes { get; set; }
 
-    [CommandSwitch("--block-size")]
+    [CliOption("--block-size")]
     public int? BlockSize { get; set; }
 
-    [CommandSwitch("--replication-factor")]
+    [CliOption("--replication-factor")]
     public int? ReplicationFactor { get; set; }
 
-    [CommandSwitch("--kms-key-provider-uri")]
+    [CliOption("--kms-key-provider-uri")]
     public string? KmsKeyProviderUri { get; set; }
 
-    [CommandSwitch("--qop-configuration")]
+    [CliOption("--qop-configuration")]
     public string? QopConfiguration { get; set; }
 
-    [CommandSwitch("--authentication-type")]
+    [CliOption("--authentication-type")]
     public string? AuthenticationType { get; set; }
 
-    [CommandSwitch("--simple-user")]
+    [CliOption("--simple-user")]
     public string? SimpleUser { get; set; }
 
-    [CommandSwitch("--kerberos-principal")]
+    [CliOption("--kerberos-principal")]
     public string? KerberosPrincipal { get; set; }
 
-    [CommandSwitch("--kerberos-keytab")]
+    [CliOption("--kerberos-keytab")]
     public string? KerberosKeytab { get; set; }
 
-    [CommandSwitch("--kerberos-krb5-conf")]
+    [CliOption("--kerberos-krb5-conf")]
     public string? KerberosKrb5Conf { get; set; }
 
-    [CommandSwitch("--agent-arns")]
+    [CliOption("--agent-arns")]
     public string[]? AgentArns { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

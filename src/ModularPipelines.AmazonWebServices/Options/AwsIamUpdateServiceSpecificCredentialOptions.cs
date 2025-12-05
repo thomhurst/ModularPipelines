@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "update-service-specific-credential")]
+[CliCommand("iam", "update-service-specific-credential")]
 public record AwsIamUpdateServiceSpecificCredentialOptions(
-[property: CommandSwitch("--service-specific-credential-id")] string ServiceSpecificCredentialId,
-[property: CommandSwitch("--status")] string Status
+[property: CliOption("--service-specific-credential-id")] string ServiceSpecificCredentialId,
+[property: CliOption("--status")] string Status
 ) : AwsOptions
 {
-    [CommandSwitch("--user-name")]
+    [CliOption("--user-name")]
     public string? UserName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

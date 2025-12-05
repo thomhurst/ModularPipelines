@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("machinelearning", "update-ml-model")]
+[CliCommand("machinelearning", "update-ml-model")]
 public record AwsMachinelearningUpdateMlModelOptions(
-[property: CommandSwitch("--ml-model-id")] string MlModelId
+[property: CliOption("--ml-model-id")] string MlModelId
 ) : AwsOptions
 {
-    [CommandSwitch("--ml-model-name")]
+    [CliOption("--ml-model-name")]
     public string? MlModelName { get; set; }
 
-    [CommandSwitch("--score-threshold")]
+    [CliOption("--score-threshold")]
     public float? ScoreThreshold { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

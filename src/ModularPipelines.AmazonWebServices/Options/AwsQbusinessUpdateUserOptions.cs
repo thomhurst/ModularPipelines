@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qbusiness", "update-user")]
+[CliCommand("qbusiness", "update-user")]
 public record AwsQbusinessUpdateUserOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--user-id")] string UserId
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--user-id")] string UserId
 ) : AwsOptions
 {
-    [CommandSwitch("--user-aliases-to-delete")]
+    [CliOption("--user-aliases-to-delete")]
     public string[]? UserAliasesToDelete { get; set; }
 
-    [CommandSwitch("--user-aliases-to-update")]
+    [CliOption("--user-aliases-to-update")]
     public string[]? UserAliasesToUpdate { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

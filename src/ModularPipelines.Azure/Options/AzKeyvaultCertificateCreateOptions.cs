@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "certificate", "create")]
+[CliSubCommand("keyvault", "certificate", "create")]
 public record AzKeyvaultCertificateCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--policy")] string Policy,
-[property: CommandSwitch("--vault-name")] string VaultName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--policy")] string Policy,
+[property: CliOption("--vault-name")] string VaultName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--validity")]
+    [CliOption("--validity")]
     public string? Validity { get; set; }
 }

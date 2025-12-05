@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("auth", "configure-docker")]
+[CliCommand("auth", "configure-docker")]
 public record GcloudAuthConfigureDockerOptions(
-[property: PositionalArgument] string Registries
+[property: CliArgument] string Registries
 ) : GcloudOptions;

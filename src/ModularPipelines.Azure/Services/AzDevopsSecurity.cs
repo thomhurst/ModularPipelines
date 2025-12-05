@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops")]
+[CliCommand("devops")]
 public class AzDevopsSecurity
 {
     public AzDevopsSecurity(

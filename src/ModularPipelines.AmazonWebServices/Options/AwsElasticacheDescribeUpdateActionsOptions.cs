@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticache", "describe-update-actions")]
+[CliCommand("elasticache", "describe-update-actions")]
 public record AwsElasticacheDescribeUpdateActionsOptions : AwsOptions
 {
-    [CommandSwitch("--service-update-name")]
+    [CliOption("--service-update-name")]
     public string? ServiceUpdateName { get; set; }
 
-    [CommandSwitch("--replication-group-ids")]
+    [CliOption("--replication-group-ids")]
     public string[]? ReplicationGroupIds { get; set; }
 
-    [CommandSwitch("--cache-cluster-ids")]
+    [CliOption("--cache-cluster-ids")]
     public string[]? CacheClusterIds { get; set; }
 
-    [CommandSwitch("--engine")]
+    [CliOption("--engine")]
     public string? Engine { get; set; }
 
-    [CommandSwitch("--service-update-status")]
+    [CliOption("--service-update-status")]
     public string[]? ServiceUpdateStatus { get; set; }
 
-    [CommandSwitch("--service-update-time-range")]
+    [CliOption("--service-update-time-range")]
     public string? ServiceUpdateTimeRange { get; set; }
 
-    [CommandSwitch("--update-action-status")]
+    [CliOption("--update-action-status")]
     public string[]? UpdateActionStatus { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("waf", "get-regex-match-set")]
+[CliCommand("waf", "get-regex-match-set")]
 public record AwsWafGetRegexMatchSetOptions(
-[property: CommandSwitch("--regex-match-set-id")] string RegexMatchSetId
+[property: CliOption("--regex-match-set-id")] string RegexMatchSetId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

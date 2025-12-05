@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("application-autoscaling", "describe-scaling-policies")]
+[CliCommand("application-autoscaling", "describe-scaling-policies")]
 public record AwsApplicationAutoscalingDescribeScalingPoliciesOptions(
-[property: CommandSwitch("--service-namespace")] string ServiceNamespace
+[property: CliOption("--service-namespace")] string ServiceNamespace
 ) : AwsOptions
 {
-    [CommandSwitch("--policy-names")]
+    [CliOption("--policy-names")]
     public string[]? PolicyNames { get; set; }
 
-    [CommandSwitch("--resource-id")]
+    [CliOption("--resource-id")]
     public string? ResourceId { get; set; }
 
-    [CommandSwitch("--scalable-dimension")]
+    [CliOption("--scalable-dimension")]
     public string? ScalableDimension { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

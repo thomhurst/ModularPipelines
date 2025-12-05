@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datazone", "update-domain")]
+[CliCommand("datazone", "update-domain")]
 public record AwsDatazoneUpdateDomainOptions(
-[property: CommandSwitch("--identifier")] string Identifier
+[property: CliOption("--identifier")] string Identifier
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--domain-execution-role")]
+    [CliOption("--domain-execution-role")]
     public string? DomainExecutionRole { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--single-sign-on")]
+    [CliOption("--single-sign-on")]
     public string? SingleSignOn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

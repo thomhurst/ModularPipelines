@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workmail", "assume-impersonation-role")]
+[CliCommand("workmail", "assume-impersonation-role")]
 public record AwsWorkmailAssumeImpersonationRoleOptions(
-[property: CommandSwitch("--organization-id")] string OrganizationId,
-[property: CommandSwitch("--impersonation-role-id")] string ImpersonationRoleId
+[property: CliOption("--organization-id")] string OrganizationId,
+[property: CliOption("--impersonation-role-id")] string ImpersonationRoleId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "tag-saml-provider")]
+[CliCommand("iam", "tag-saml-provider")]
 public record AwsIamTagSamlProviderOptions(
-[property: CommandSwitch("--saml-provider-arn")] string SamlProviderArn,
-[property: CommandSwitch("--tags")] string[] Tags
+[property: CliOption("--saml-provider-arn")] string SamlProviderArn,
+[property: CliOption("--tags")] string[] Tags
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

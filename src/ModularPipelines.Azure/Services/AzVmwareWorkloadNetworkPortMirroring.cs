@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "workload-network")]
+[CliCommand("vmware", "workload-network")]
 public class AzVmwareWorkloadNetworkPortMirroring
 {
     public AzVmwareWorkloadNetworkPortMirroring(

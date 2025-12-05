@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-identity-id-format")]
+[CliCommand("ec2", "modify-identity-id-format")]
 public record AwsEc2ModifyIdentityIdFormatOptions(
-[property: CommandSwitch("--principal-arn")] string PrincipalArn,
-[property: CommandSwitch("--resource")] string Resource
+[property: CliOption("--principal-arn")] string PrincipalArn,
+[property: CliOption("--resource")] string Resource
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

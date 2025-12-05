@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "route-filter")]
+[CliCommand("network", "route-filter")]
 public class AzNetworkRouteFilterRule
 {
     public AzNetworkRouteFilterRule(

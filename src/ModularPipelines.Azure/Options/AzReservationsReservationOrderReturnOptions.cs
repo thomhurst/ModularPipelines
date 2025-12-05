@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("reservations", "reservation-order", "return")]
+[CliSubCommand("reservations", "reservation-order", "return")]
 public record AzReservationsReservationOrderReturnOptions(
-[property: CommandSwitch("--reservation-order-id")] string ReservationOrderId
+[property: CliOption("--reservation-order-id")] string ReservationOrderId
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--quantity")]
+    [CliOption("--quantity")]
     public string? Quantity { get; set; }
 
-    [CommandSwitch("--reservation-id")]
+    [CliOption("--reservation-id")]
     public string? ReservationId { get; set; }
 
-    [CommandSwitch("--return-reason")]
+    [CliOption("--return-reason")]
     public string? ReturnReason { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--session-id")]
+    [CliOption("--session-id")]
     public string? SessionId { get; set; }
 }

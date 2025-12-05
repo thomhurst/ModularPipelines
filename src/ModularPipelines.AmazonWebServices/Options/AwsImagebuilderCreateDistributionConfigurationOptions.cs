@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("imagebuilder", "create-distribution-configuration")]
+[CliCommand("imagebuilder", "create-distribution-configuration")]
 public record AwsImagebuilderCreateDistributionConfigurationOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--distributions")] string[] Distributions
+[property: CliOption("--name")] string Name,
+[property: CliOption("--distributions")] string[] Distributions
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

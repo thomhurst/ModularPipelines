@@ -5,12 +5,12 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "update-global-settings")]
+[CliCommand("backup", "update-global-settings")]
 public record AwsBackupUpdateGlobalSettingsOptions : AwsOptions
 {
-    [CommandSwitch("--global-settings")]
+    [CliOption("--global-settings")]
     public IEnumerable<KeyValue>? GlobalSettings { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

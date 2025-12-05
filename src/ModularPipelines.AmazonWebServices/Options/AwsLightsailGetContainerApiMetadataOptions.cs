@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "get-container-api-metadata")]
+[CliCommand("lightsail", "get-container-api-metadata")]
 public record AwsLightsailGetContainerApiMetadataOptions : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-subnet")]
+[CliCommand("ec2", "create-subnet")]
 public record AwsEc2CreateSubnetOptions(
-[property: CommandSwitch("--vpc-id")] string VpcId
+[property: CliOption("--vpc-id")] string VpcId
 ) : AwsOptions
 {
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--availability-zone")]
+    [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
-    [CommandSwitch("--availability-zone-id")]
+    [CliOption("--availability-zone-id")]
     public string? AvailabilityZoneId { get; set; }
 
-    [CommandSwitch("--cidr-block")]
+    [CliOption("--cidr-block")]
     public string? CidrBlock { get; set; }
 
-    [CommandSwitch("--ipv6-cidr-block")]
+    [CliOption("--ipv6-cidr-block")]
     public string? Ipv6CidrBlock { get; set; }
 
-    [CommandSwitch("--outpost-arn")]
+    [CliOption("--outpost-arn")]
     public string? OutpostArn { get; set; }
 
-    [CommandSwitch("--ipv4-ipam-pool-id")]
+    [CliOption("--ipv4-ipam-pool-id")]
     public string? Ipv4IpamPoolId { get; set; }
 
-    [CommandSwitch("--ipv4-netmask-length")]
+    [CliOption("--ipv4-netmask-length")]
     public int? Ipv4NetmaskLength { get; set; }
 
-    [CommandSwitch("--ipv6-ipam-pool-id")]
+    [CliOption("--ipv6-ipam-pool-id")]
     public string? Ipv6IpamPoolId { get; set; }
 
-    [CommandSwitch("--ipv6-netmask-length")]
+    [CliOption("--ipv6-netmask-length")]
     public int? Ipv6NetmaskLength { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("account", "lock", "list")]
+[CliSubCommand("account", "lock", "list")]
 public record AzAccountLockListOptions : AzOptions
 {
-    [CommandSwitch("--filter-string")]
+    [CliOption("--filter-string")]
     public string? FilterString { get; set; }
 }

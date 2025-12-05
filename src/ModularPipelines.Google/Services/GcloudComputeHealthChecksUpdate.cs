@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "health-checks")]
+[CliCommand("compute", "health-checks")]
 public class GcloudComputeHealthChecksUpdate
 {
     public GcloudComputeHealthChecksUpdate(

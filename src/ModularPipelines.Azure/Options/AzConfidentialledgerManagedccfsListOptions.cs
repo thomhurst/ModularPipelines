@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("confidentialledger", "managedccfs", "list")]
+[CliSubCommand("confidentialledger", "managedccfs", "list")]
 public record AzConfidentialledgerManagedccfsListOptions : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

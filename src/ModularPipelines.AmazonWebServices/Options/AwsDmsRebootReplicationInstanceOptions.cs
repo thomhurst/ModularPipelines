@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "reboot-replication-instance")]
+[CliCommand("dms", "reboot-replication-instance")]
 public record AwsDmsRebootReplicationInstanceOptions(
-[property: CommandSwitch("--replication-instance-arn")] string ReplicationInstanceArn
+[property: CliOption("--replication-instance-arn")] string ReplicationInstanceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

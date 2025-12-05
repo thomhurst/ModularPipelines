@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elb", "wait", "any-instance-in-service")]
+[CliCommand("elb", "wait", "any-instance-in-service")]
 public record AwsElbWaitAnyInstanceInServiceOptions(
-[property: CommandSwitch("--load-balancer-name")] string LoadBalancerName
+[property: CliOption("--load-balancer-name")] string LoadBalancerName
 ) : AwsOptions
 {
-    [CommandSwitch("--instances")]
+    [CliOption("--instances")]
     public string[]? Instances { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

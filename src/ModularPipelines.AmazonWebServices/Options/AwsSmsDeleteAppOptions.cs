@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sms", "delete-app")]
+[CliCommand("sms", "delete-app")]
 public record AwsSmsDeleteAppOptions : AwsOptions
 {
-    [CommandSwitch("--app-id")]
+    [CliOption("--app-id")]
     public string? AppId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

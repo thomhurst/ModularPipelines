@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "enrichment", "ip-geodata", "show")]
+[CliSubCommand("sentinel", "enrichment", "ip-geodata", "show")]
 public record AzSentinelEnrichmentIpGeodataShowOptions(
-[property: CommandSwitch("--ip-address")] string IpAddress,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--ip-address")] string IpAddress,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

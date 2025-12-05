@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spanner", "databases", "ddl", "update")]
+[CliCommand("spanner", "databases", "ddl", "update")]
 public record GcloudSpannerDatabasesDdlUpdateOptions(
-[property: PositionalArgument] string Database,
-[property: PositionalArgument] string Instance
+[property: CliArgument] string Database,
+[property: CliArgument] string Instance
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--ddl")]
+    [CliOption("--ddl")]
     public string? Ddl { get; set; }
 
-    [CommandSwitch("--ddl-file")]
+    [CliOption("--ddl-file")]
     public string? DdlFile { get; set; }
 }

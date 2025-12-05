@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("evidently", "delete-launch")]
+[CliCommand("evidently", "delete-launch")]
 public record AwsEvidentlyDeleteLaunchOptions(
-[property: CommandSwitch("--launch")] string Launch,
-[property: CommandSwitch("--project")] string Project
+[property: CliOption("--launch")] string Launch,
+[property: CliOption("--project")] string Project
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "ops", "check")]
+[CliSubCommand("iot", "ops", "check")]
 public record AzIotOpsCheckOptions : AzOptions
 {
-    [BooleanCommandSwitch("--as-object")]
+    [CliFlag("--as-object")]
     public bool? AsObject { get; set; }
 
-    [CommandSwitch("--context")]
+    [CliOption("--context")]
     public string? Context { get; set; }
 
-    [CommandSwitch("--detail-level")]
+    [CliOption("--detail-level")]
     public string? DetailLevel { get; set; }
 
-    [CommandSwitch("--ops-service")]
+    [CliOption("--ops-service")]
     public string? OpsService { get; set; }
 
-    [BooleanCommandSwitch("--post")]
+    [CliFlag("--post")]
     public bool? Post { get; set; }
 
-    [BooleanCommandSwitch("--pre")]
+    [CliFlag("--pre")]
     public bool? Pre { get; set; }
 
-    [CommandSwitch("--resources")]
+    [CliOption("--resources")]
     public string? Resources { get; set; }
 }

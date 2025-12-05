@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "untag-policy")]
+[CliCommand("iam", "untag-policy")]
 public record AwsIamUntagPolicyOptions(
-[property: CommandSwitch("--policy-arn")] string PolicyArn,
-[property: CommandSwitch("--tag-keys")] string[] TagKeys
+[property: CliOption("--policy-arn")] string PolicyArn,
+[property: CliOption("--tag-keys")] string[] TagKeys
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

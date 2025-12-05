@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("migrationhuborchestrator", "delete-workflow-step-group")]
+[CliCommand("migrationhuborchestrator", "delete-workflow-step-group")]
 public record AwsMigrationhuborchestratorDeleteWorkflowStepGroupOptions(
-[property: CommandSwitch("--workflow-id")] string WorkflowId,
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--workflow-id")] string WorkflowId,
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

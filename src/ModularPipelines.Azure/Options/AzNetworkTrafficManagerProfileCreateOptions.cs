@@ -4,47 +4,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "traffic-manager", "profile", "create")]
+[CliSubCommand("network", "traffic-manager", "profile", "create")]
 public record AzNetworkTrafficManagerProfileCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--routing-method")] string RoutingMethod,
-[property: CommandSwitch("--unique-dns-name")] string UniqueDnsName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--routing-method")] string RoutingMethod,
+[property: CliOption("--unique-dns-name")] string UniqueDnsName
 ) : AzOptions
 {
-    [CommandSwitch("--custom-headers")]
+    [CliOption("--custom-headers")]
     public string? CustomHeaders { get; set; }
 
-    [CommandSwitch("--interval")]
+    [CliOption("--interval")]
     public int? Interval { get; set; }
 
-    [CommandSwitch("--max-failures")]
+    [CliOption("--max-failures")]
     public string? MaxFailures { get; set; }
 
-    [CommandSwitch("--max-return")]
+    [CliOption("--max-return")]
     public string? MaxReturn { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--status-code-ranges")]
+    [CliOption("--status-code-ranges")]
     public string? StatusCodeRanges { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--ttl")]
+    [CliOption("--ttl")]
     public string? Ttl { get; set; }
 }

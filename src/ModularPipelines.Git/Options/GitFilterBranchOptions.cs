@@ -3,46 +3,46 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("filter-branch")]
+[CliSubCommand("filter-branch")]
 [ExcludeFromCodeCoverage]
 public record GitFilterBranchOptions : GitOptions
 {
-    [CommandEqualsSeparatorSwitch("--setup")]
-    public string? Setup { get; set; }
+    [CliOption("--setup", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Setup { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--subdirectory-filter")]
-    public string? SubdirectoryFilter { get; set; }
+    [CliOption("--subdirectory-filter", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? SubdirectoryFilter { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--env-filter")]
-    public string? EnvFilter { get; set; }
+    [CliOption("--env-filter", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? EnvFilter { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--tree-filter")]
-    public string? TreeFilter { get; set; }
+    [CliOption("--tree-filter", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? TreeFilter { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--index-filter")]
-    public string? IndexFilter { get; set; }
+    [CliOption("--index-filter", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? IndexFilter { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--parent-filter")]
-    public string? ParentFilter { get; set; }
+    [CliOption("--parent-filter", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ParentFilter { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--msg-filter")]
-    public string? MsgFilter { get; set; }
+    [CliOption("--msg-filter", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? MsgFilter { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--commit-filter")]
-    public string? CommitFilter { get; set; }
+    [CliOption("--commit-filter", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? CommitFilter { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--tag-name-filter")]
-    public string? TagNameFilter { get; set; }
+    [CliOption("--tag-name-filter", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? TagNameFilter { get; set; }
 
-    [BooleanCommandSwitch("--prune-empty")]
+    [CliFlag("--prune-empty")]
     public virtual bool? PruneEmpty { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--original")]
-    public string? Original { get; set; }
+    [CliOption("--original", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Original { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--state-branch")]
-    public string? StateBranch { get; set; }
+    [CliOption("--state-branch", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? StateBranch { get; set; }
 }

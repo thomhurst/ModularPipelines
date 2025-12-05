@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fis", "list-experiment-target-account-configurations")]
+[CliCommand("fis", "list-experiment-target-account-configurations")]
 public record AwsFisListExperimentTargetAccountConfigurationsOptions(
-[property: CommandSwitch("--experiment-id")] string ExperimentId
+[property: CliOption("--experiment-id")] string ExperimentId
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

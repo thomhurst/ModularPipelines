@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scvmm", "vm", "update")]
+[CliSubCommand("scvmm", "vm", "update")]
 public record AzScvmmVmUpdateOptions : AzOptions
 {
-    [CommandSwitch("--availability-sets")]
+    [CliOption("--availability-sets")]
     public string? AvailabilitySets { get; set; }
 
-    [CommandSwitch("--cpu-count")]
+    [CliOption("--cpu-count")]
     public int? CpuCount { get; set; }
 
-    [BooleanCommandSwitch("--dynamic-memory-enabled")]
+    [CliFlag("--dynamic-memory-enabled")]
     public bool? DynamicMemoryEnabled { get; set; }
 
-    [CommandSwitch("--dynamic-memory-max")]
+    [CliOption("--dynamic-memory-max")]
     public string? DynamicMemoryMax { get; set; }
 
-    [CommandSwitch("--dynamic-memory-min")]
+    [CliOption("--dynamic-memory-min")]
     public string? DynamicMemoryMin { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--memory-size")]
+    [CliOption("--memory-size")]
     public string? MemorySize { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

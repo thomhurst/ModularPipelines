@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "spark", "job", "submit")]
+[CliSubCommand("synapse", "spark", "job", "submit")]
 public record AzSynapseSparkJobSubmitOptions(
-[property: CommandSwitch("--executor-size")] string ExecutorSize,
-[property: CommandSwitch("--executors")] string Executors,
-[property: CommandSwitch("--main-definition-file")] string MainDefinitionFile,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--spark-pool-name")] string SparkPoolName,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--executor-size")] string ExecutorSize,
+[property: CliOption("--executors")] string Executors,
+[property: CliOption("--main-definition-file")] string MainDefinitionFile,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--spark-pool-name")] string SparkPoolName,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--archives")]
+    [CliOption("--archives")]
     public string? Archives { get; set; }
 
-    [CommandSwitch("--arguments")]
+    [CliOption("--arguments")]
     public string? SynapseSparkJobSubmitArguments { get; set; }
 
-    [CommandSwitch("--configuration")]
+    [CliOption("--configuration")]
     public string? Configuration { get; set; }
 
-    [CommandSwitch("--language")]
+    [CliOption("--language")]
     public string? Language { get; set; }
 
-    [CommandSwitch("--main-class-name")]
+    [CliOption("--main-class-name")]
     public string? MainClassName { get; set; }
 
-    [CommandSwitch("--reference-files")]
+    [CliOption("--reference-files")]
     public string? ReferenceFiles { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workmail", "put-email-monitoring-configuration")]
+[CliCommand("workmail", "put-email-monitoring-configuration")]
 public record AwsWorkmailPutEmailMonitoringConfigurationOptions(
-[property: CommandSwitch("--organization-id")] string OrganizationId,
-[property: CommandSwitch("--role-arn")] string RoleArn,
-[property: CommandSwitch("--log-group-arn")] string LogGroupArn
+[property: CliOption("--organization-id")] string OrganizationId,
+[property: CliOption("--role-arn")] string RoleArn,
+[property: CliOption("--log-group-arn")] string LogGroupArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

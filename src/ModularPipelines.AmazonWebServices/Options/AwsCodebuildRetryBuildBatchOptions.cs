@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codebuild", "retry-build-batch")]
+[CliCommand("codebuild", "retry-build-batch")]
 public record AwsCodebuildRetryBuildBatchOptions : AwsOptions
 {
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CommandSwitch("--idempotency-token")]
+    [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
-    [CommandSwitch("--retry-type")]
+    [CliOption("--retry-type")]
     public string? RetryType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint", "get-apns-sandbox-channel")]
+[CliCommand("pinpoint", "get-apns-sandbox-channel")]
 public record AwsPinpointGetApnsSandboxChannelOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId
+[property: CliOption("--application-id")] string ApplicationId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

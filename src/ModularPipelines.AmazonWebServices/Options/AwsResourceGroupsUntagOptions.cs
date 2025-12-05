@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-groups", "untag")]
+[CliCommand("resource-groups", "untag")]
 public record AwsResourceGroupsUntagOptions(
-[property: CommandSwitch("--arn")] string Arn,
-[property: CommandSwitch("--keys")] string[] Keys
+[property: CliOption("--arn")] string Arn,
+[property: CliOption("--keys")] string[] Keys
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

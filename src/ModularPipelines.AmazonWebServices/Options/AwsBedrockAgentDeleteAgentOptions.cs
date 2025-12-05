@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bedrock-agent", "delete-agent")]
+[CliCommand("bedrock-agent", "delete-agent")]
 public record AwsBedrockAgentDeleteAgentOptions(
-[property: CommandSwitch("--agent-id")] string AgentId
+[property: CliOption("--agent-id")] string AgentId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

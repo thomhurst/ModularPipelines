@@ -4,53 +4,53 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kendra", "query")]
+[CliCommand("kendra", "query")]
 public record AwsKendraQueryOptions(
-[property: CommandSwitch("--index-id")] string IndexId
+[property: CliOption("--index-id")] string IndexId
 ) : AwsOptions
 {
-    [CommandSwitch("--query-text")]
+    [CliOption("--query-text")]
     public string? QueryText { get; set; }
 
-    [CommandSwitch("--attribute-filter")]
+    [CliOption("--attribute-filter")]
     public string? AttributeFilter { get; set; }
 
-    [CommandSwitch("--facets")]
+    [CliOption("--facets")]
     public string[]? Facets { get; set; }
 
-    [CommandSwitch("--requested-document-attributes")]
+    [CliOption("--requested-document-attributes")]
     public string[]? RequestedDocumentAttributes { get; set; }
 
-    [CommandSwitch("--query-result-type-filter")]
+    [CliOption("--query-result-type-filter")]
     public string? QueryResultTypeFilter { get; set; }
 
-    [CommandSwitch("--document-relevance-override-configurations")]
+    [CliOption("--document-relevance-override-configurations")]
     public string[]? DocumentRelevanceOverrideConfigurations { get; set; }
 
-    [CommandSwitch("--page-number")]
+    [CliOption("--page-number")]
     public int? PageNumber { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--sorting-configuration")]
+    [CliOption("--sorting-configuration")]
     public string? SortingConfiguration { get; set; }
 
-    [CommandSwitch("--sorting-configurations")]
+    [CliOption("--sorting-configurations")]
     public string[]? SortingConfigurations { get; set; }
 
-    [CommandSwitch("--user-context")]
+    [CliOption("--user-context")]
     public string? UserContext { get; set; }
 
-    [CommandSwitch("--visitor-id")]
+    [CliOption("--visitor-id")]
     public string? VisitorId { get; set; }
 
-    [CommandSwitch("--spell-correction-configuration")]
+    [CliOption("--spell-correction-configuration")]
     public string? SpellCorrectionConfiguration { get; set; }
 
-    [CommandSwitch("--collapse-configuration")]
+    [CliOption("--collapse-configuration")]
     public string? CollapseConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

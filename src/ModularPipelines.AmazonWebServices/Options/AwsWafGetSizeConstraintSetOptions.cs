@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("waf", "get-size-constraint-set")]
+[CliCommand("waf", "get-size-constraint-set")]
 public record AwsWafGetSizeConstraintSetOptions(
-[property: CommandSwitch("--size-constraint-set-id")] string SizeConstraintSetId
+[property: CliOption("--size-constraint-set-id")] string SizeConstraintSetId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

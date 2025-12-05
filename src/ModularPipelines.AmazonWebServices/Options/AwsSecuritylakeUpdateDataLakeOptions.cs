@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securitylake", "update-data-lake")]
+[CliCommand("securitylake", "update-data-lake")]
 public record AwsSecuritylakeUpdateDataLakeOptions(
-[property: CommandSwitch("--configurations")] string[] Configurations
+[property: CliOption("--configurations")] string[] Configurations
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

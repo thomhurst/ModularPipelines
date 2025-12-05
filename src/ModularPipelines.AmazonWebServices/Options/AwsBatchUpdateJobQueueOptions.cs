@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "update-job-queue")]
+[CliCommand("batch", "update-job-queue")]
 public record AwsBatchUpdateJobQueueOptions(
-[property: CommandSwitch("--job-queue")] string JobQueue
+[property: CliOption("--job-queue")] string JobQueue
 ) : AwsOptions
 {
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [CommandSwitch("--scheduling-policy-arn")]
+    [CliOption("--scheduling-policy-arn")]
     public string? SchedulingPolicyArn { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public int? Priority { get; set; }
 
-    [CommandSwitch("--compute-environment-order")]
+    [CliOption("--compute-environment-order")]
     public string[]? ComputeEnvironmentOrder { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

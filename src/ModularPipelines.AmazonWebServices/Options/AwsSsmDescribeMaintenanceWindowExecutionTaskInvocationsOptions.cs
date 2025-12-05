@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "describe-maintenance-window-execution-task-invocations")]
+[CliCommand("ssm", "describe-maintenance-window-execution-task-invocations")]
 public record AwsSsmDescribeMaintenanceWindowExecutionTaskInvocationsOptions(
-[property: CommandSwitch("--window-execution-id")] string WindowExecutionId,
-[property: CommandSwitch("--task-id")] string TaskId
+[property: CliOption("--window-execution-id")] string WindowExecutionId,
+[property: CliOption("--task-id")] string TaskId
 ) : AwsOptions
 {
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

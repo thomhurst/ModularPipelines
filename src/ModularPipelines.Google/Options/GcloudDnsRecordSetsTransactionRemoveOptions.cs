@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns", "record-sets", "transaction", "remove")]
+[CliCommand("dns", "record-sets", "transaction", "remove")]
 public record GcloudDnsRecordSetsTransactionRemoveOptions(
-[property: PositionalArgument] string Rrdatas,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--ttl")] string Ttl,
-[property: CommandSwitch("--type")] string Type,
-[property: CommandSwitch("--zone")] string Zone
+[property: CliArgument] string Rrdatas,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--ttl")] string Ttl,
+[property: CliOption("--type")] string Type,
+[property: CliOption("--zone")] string Zone
 ) : GcloudOptions
 {
-    [CommandSwitch("--transaction-file")]
+    [CliOption("--transaction-file")]
     public string? TransactionFile { get; set; }
 }

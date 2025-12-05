@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lex-models", "get-migrations")]
+[CliCommand("lex-models", "get-migrations")]
 public record AwsLexModelsGetMigrationsOptions : AwsOptions
 {
-    [CommandSwitch("--sort-by-attribute")]
+    [CliOption("--sort-by-attribute")]
     public string? SortByAttribute { get; set; }
 
-    [CommandSwitch("--sort-by-order")]
+    [CliOption("--sort-by-order")]
     public string? SortByOrder { get; set; }
 
-    [CommandSwitch("--v1-bot-name-contains")]
+    [CliOption("--v1-bot-name-contains")]
     public string? V1BotNameContains { get; set; }
 
-    [CommandSwitch("--migration-status-equals")]
+    [CliOption("--migration-status-equals")]
     public string? MigrationStatusEquals { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "wizard")]
+[CliCommand("iam", "wizard")]
 public record AwsIamWizardOptions : AwsOptions;

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("inspector", "delete-assessment-template")]
+[CliCommand("inspector", "delete-assessment-template")]
 public record AwsInspectorDeleteAssessmentTemplateOptions(
-[property: CommandSwitch("--assessment-template-arn")] string AssessmentTemplateArn
+[property: CliOption("--assessment-template-arn")] string AssessmentTemplateArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

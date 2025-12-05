@@ -5,12 +5,12 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("entityresolution", "get-match-id")]
+[CliCommand("entityresolution", "get-match-id")]
 public record AwsEntityresolutionGetMatchIdOptions(
-[property: CommandSwitch("--record")] IEnumerable<KeyValue> Record,
-[property: CommandSwitch("--workflow-name")] string WorkflowName
+[property: CliOption("--record")] IEnumerable<KeyValue> Record,
+[property: CliOption("--workflow-name")] string WorkflowName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

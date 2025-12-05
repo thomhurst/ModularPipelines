@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "set-default-policy-version")]
+[CliCommand("iam", "set-default-policy-version")]
 public record AwsIamSetDefaultPolicyVersionOptions(
-[property: CommandSwitch("--policy-arn")] string PolicyArn,
-[property: CommandSwitch("--version-id")] string VersionId
+[property: CliOption("--policy-arn")] string PolicyArn,
+[property: CliOption("--version-id")] string VersionId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts", "files", "list")]
+[CliCommand("artifacts", "files", "list")]
 public record GcloudArtifactsFilesListOptions : GcloudOptions
 {
-    [CommandSwitch("--package")]
+    [CliOption("--package")]
     public string? Package { get; set; }
 
-    [CommandSwitch("--tag")]
+    [CliOption("--tag")]
     public string? Tag { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string? Version { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--repository")]
+    [CliOption("--repository")]
     public string? Repository { get; set; }
 }

@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("firestore", "indexes", "fields", "describe")]
+[CliCommand("firestore", "indexes", "fields", "describe")]
 public record GcloudFirestoreIndexesFieldsDescribeOptions(
-[property: PositionalArgument] string Field,
-[property: PositionalArgument] string CollectionGroup,
-[property: PositionalArgument] string Database
+[property: CliArgument] string Field,
+[property: CliArgument] string CollectionGroup,
+[property: CliArgument] string Database
 ) : GcloudOptions;

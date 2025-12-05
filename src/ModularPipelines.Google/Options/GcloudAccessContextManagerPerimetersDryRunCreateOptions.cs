@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access-context-manager", "perimeters", "dry-run", "create")]
+[CliCommand("access-context-manager", "perimeters", "dry-run", "create")]
 public record GcloudAccessContextManagerPerimetersDryRunCreateOptions(
-[property: PositionalArgument] string Perimeter,
-[property: PositionalArgument] string Policy,
-[property: CommandSwitch("--access-levels")] string[] AccessLevels,
-[property: CommandSwitch("--egress-policies")] string EgressPolicies,
-[property: CommandSwitch("--ingress-policies")] string IngressPolicies,
-[property: CommandSwitch("--resources")] string[] Resources,
-[property: CommandSwitch("--restricted-services")] string[] RestrictedServices,
-[property: BooleanCommandSwitch("--enable-vpc-accessible-services")] bool EnableVpcAccessibleServices,
-[property: CommandSwitch("--vpc-allowed-services")] string[] VpcAllowedServices,
-[property: CommandSwitch("--perimeter-title")] string PerimeterTitle,
-[property: CommandSwitch("--perimeter-type")] string PerimeterType,
-[property: CommandSwitch("--perimeter-access-levels")] string[] PerimeterAccessLevels,
-[property: CommandSwitch("--perimeter-description")] string PerimeterDescription,
-[property: CommandSwitch("--perimeter-egress-policies")] string PerimeterEgressPolicies,
-[property: CommandSwitch("--perimeter-ingress-policies")] string PerimeterIngressPolicies,
-[property: CommandSwitch("--perimeter-resources")] string[] PerimeterResources,
-[property: CommandSwitch("--perimeter-restricted-services")] string[] PerimeterRestrictedServices,
-[property: BooleanCommandSwitch("--perimeter-enable-vpc-accessible-services")] bool PerimeterEnableVpcAccessibleServices,
-[property: CommandSwitch("--perimeter-vpc-allowed-services")] string[] PerimeterVpcAllowedServices
+[property: CliArgument] string Perimeter,
+[property: CliArgument] string Policy,
+[property: CliOption("--access-levels")] string[] AccessLevels,
+[property: CliOption("--egress-policies")] string EgressPolicies,
+[property: CliOption("--ingress-policies")] string IngressPolicies,
+[property: CliOption("--resources")] string[] Resources,
+[property: CliOption("--restricted-services")] string[] RestrictedServices,
+[property: CliFlag("--enable-vpc-accessible-services")] bool EnableVpcAccessibleServices,
+[property: CliOption("--vpc-allowed-services")] string[] VpcAllowedServices,
+[property: CliOption("--perimeter-title")] string PerimeterTitle,
+[property: CliOption("--perimeter-type")] string PerimeterType,
+[property: CliOption("--perimeter-access-levels")] string[] PerimeterAccessLevels,
+[property: CliOption("--perimeter-description")] string PerimeterDescription,
+[property: CliOption("--perimeter-egress-policies")] string PerimeterEgressPolicies,
+[property: CliOption("--perimeter-ingress-policies")] string PerimeterIngressPolicies,
+[property: CliOption("--perimeter-resources")] string[] PerimeterResources,
+[property: CliOption("--perimeter-restricted-services")] string[] PerimeterRestrictedServices,
+[property: CliFlag("--perimeter-enable-vpc-accessible-services")] bool PerimeterEnableVpcAccessibleServices,
+[property: CliOption("--perimeter-vpc-allowed-services")] string[] PerimeterVpcAllowedServices
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

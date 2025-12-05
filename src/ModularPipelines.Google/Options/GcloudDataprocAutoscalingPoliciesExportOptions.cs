@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "autoscaling-policies", "export")]
+[CliCommand("dataproc", "autoscaling-policies", "export")]
 public record GcloudDataprocAutoscalingPoliciesExportOptions(
-[property: PositionalArgument] string AutoscalingPolicy,
-[property: PositionalArgument] string Region
+[property: CliArgument] string AutoscalingPolicy,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [CommandSwitch("--destination")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 }

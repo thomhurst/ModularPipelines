@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "attached", "clusters", "generate-install-manifest")]
+[CliCommand("container", "attached", "clusters", "generate-install-manifest")]
 public record GcloudContainerAttachedClustersGenerateInstallManifestOptions(
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--platform-version")] string PlatformVersion
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Location,
+[property: CliOption("--platform-version")] string PlatformVersion
 ) : GcloudOptions
 {
-    [CommandSwitch("--output-file")]
+    [CliOption("--output-file")]
     public string? OutputFile { get; set; }
 
-    [CommandSwitch("--proxy-secret-name")]
+    [CliOption("--proxy-secret-name")]
     public string? ProxySecretName { get; set; }
 
-    [CommandSwitch("--proxy-secret-namespace")]
+    [CliOption("--proxy-secret-namespace")]
     public string? ProxySecretNamespace { get; set; }
 }

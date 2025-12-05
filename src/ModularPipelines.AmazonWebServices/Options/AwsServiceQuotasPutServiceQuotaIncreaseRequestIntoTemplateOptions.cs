@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("service-quotas", "put-service-quota-increase-request-into-template")]
+[CliCommand("service-quotas", "put-service-quota-increase-request-into-template")]
 public record AwsServiceQuotasPutServiceQuotaIncreaseRequestIntoTemplateOptions(
-[property: CommandSwitch("--quota-code")] string QuotaCode,
-[property: CommandSwitch("--service-code")] string ServiceCode,
-[property: CommandSwitch("--aws-region")] string AwsRegion,
-[property: CommandSwitch("--desired-value")] double DesiredValue
+[property: CliOption("--quota-code")] string QuotaCode,
+[property: CliOption("--service-code")] string ServiceCode,
+[property: CliOption("--aws-region")] string AwsRegion,
+[property: CliOption("--desired-value")] double DesiredValue
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

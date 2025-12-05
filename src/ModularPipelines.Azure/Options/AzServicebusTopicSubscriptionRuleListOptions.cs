@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicebus", "topic", "subscription", "rule", "list")]
+[CliSubCommand("servicebus", "topic", "subscription", "rule", "list")]
 public record AzServicebusTopicSubscriptionRuleListOptions(
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--subscription-name")] string SubscriptionName,
-[property: CommandSwitch("--topic-name")] string TopicName
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--subscription-name")] string SubscriptionName,
+[property: CliOption("--topic-name")] string TopicName
 ) : AzOptions
 {
-    [CommandSwitch("--skip")]
+    [CliOption("--skip")]
     public string? Skip { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 }

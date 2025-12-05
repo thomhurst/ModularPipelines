@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("assured")]
+[CliCommand("assured")]
 public class GcloudAssuredWorkloads
 {
     public GcloudAssuredWorkloads(

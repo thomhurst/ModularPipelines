@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-instance-export-task")]
+[CliCommand("ec2", "create-instance-export-task")]
 public record AwsEc2CreateInstanceExportTaskOptions(
-[property: CommandSwitch("--export-to-s3-task")] string ExportToS3Task,
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--target-environment")] string TargetEnvironment
+[property: CliOption("--export-to-s3-task")] string ExportToS3Task,
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--target-environment")] string TargetEnvironment
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

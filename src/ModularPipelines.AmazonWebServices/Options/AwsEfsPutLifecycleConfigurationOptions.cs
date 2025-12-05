@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("efs", "put-lifecycle-configuration")]
+[CliCommand("efs", "put-lifecycle-configuration")]
 public record AwsEfsPutLifecycleConfigurationOptions(
-[property: CommandSwitch("--file-system-id")] string FileSystemId,
-[property: CommandSwitch("--lifecycle-policies")] string[] LifecyclePolicies
+[property: CliOption("--file-system-id")] string FileSystemId,
+[property: CliOption("--lifecycle-policies")] string[] LifecyclePolicies
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

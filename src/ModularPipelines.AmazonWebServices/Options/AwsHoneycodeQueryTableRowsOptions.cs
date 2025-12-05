@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("honeycode", "query-table-rows")]
+[CliCommand("honeycode", "query-table-rows")]
 public record AwsHoneycodeQueryTableRowsOptions(
-[property: CommandSwitch("--workbook-id")] string WorkbookId,
-[property: CommandSwitch("--table-id")] string TableId,
-[property: CommandSwitch("--filter-formula")] string FilterFormula
+[property: CliOption("--workbook-id")] string WorkbookId,
+[property: CliOption("--table-id")] string TableId,
+[property: CliOption("--filter-formula")] string FilterFormula
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

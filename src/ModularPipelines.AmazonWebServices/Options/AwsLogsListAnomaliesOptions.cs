@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logs", "list-anomalies")]
+[CliCommand("logs", "list-anomalies")]
 public record AwsLogsListAnomaliesOptions : AwsOptions
 {
-    [CommandSwitch("--anomaly-detector-arn")]
+    [CliOption("--anomaly-detector-arn")]
     public string? AnomalyDetectorArn { get; set; }
 
-    [CommandSwitch("--suppression-state")]
+    [CliOption("--suppression-state")]
     public string? SuppressionState { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

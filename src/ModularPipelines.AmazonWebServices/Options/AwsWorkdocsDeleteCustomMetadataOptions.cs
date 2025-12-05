@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workdocs", "delete-custom-metadata")]
+[CliCommand("workdocs", "delete-custom-metadata")]
 public record AwsWorkdocsDeleteCustomMetadataOptions(
-[property: CommandSwitch("--resource-id")] string ResourceId
+[property: CliOption("--resource-id")] string ResourceId
 ) : AwsOptions
 {
-    [CommandSwitch("--authentication-token")]
+    [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
-    [CommandSwitch("--version-id")]
+    [CliOption("--version-id")]
     public string? VersionId { get; set; }
 
-    [CommandSwitch("--keys")]
+    [CliOption("--keys")]
     public string[]? Keys { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

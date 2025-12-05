@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("drs", "update-failback-replication-configuration")]
+[CliCommand("drs", "update-failback-replication-configuration")]
 public record AwsDrsUpdateFailbackReplicationConfigurationOptions(
-[property: CommandSwitch("--recovery-instance-id")] string RecoveryInstanceId
+[property: CliOption("--recovery-instance-id")] string RecoveryInstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--bandwidth-throttling")]
+    [CliOption("--bandwidth-throttling")]
     public long? BandwidthThrottling { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

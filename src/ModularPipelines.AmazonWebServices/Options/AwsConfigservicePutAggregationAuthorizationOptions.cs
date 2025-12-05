@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configservice", "put-aggregation-authorization")]
+[CliCommand("configservice", "put-aggregation-authorization")]
 public record AwsConfigservicePutAggregationAuthorizationOptions(
-[property: CommandSwitch("--authorized-account-id")] string AuthorizedAccountId,
-[property: CommandSwitch("--authorized-aws-region")] string AuthorizedAwsRegion
+[property: CliOption("--authorized-account-id")] string AuthorizedAccountId,
+[property: CliOption("--authorized-aws-region")] string AuthorizedAwsRegion
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

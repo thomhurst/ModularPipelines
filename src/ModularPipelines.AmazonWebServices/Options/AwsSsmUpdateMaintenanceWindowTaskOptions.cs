@@ -5,51 +5,51 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "update-maintenance-window-task")]
+[CliCommand("ssm", "update-maintenance-window-task")]
 public record AwsSsmUpdateMaintenanceWindowTaskOptions(
-[property: CommandSwitch("--window-id")] string WindowId,
-[property: CommandSwitch("--window-task-id")] string WindowTaskId
+[property: CliOption("--window-id")] string WindowId,
+[property: CliOption("--window-task-id")] string WindowTaskId
 ) : AwsOptions
 {
-    [CommandSwitch("--targets")]
+    [CliOption("--targets")]
     public string[]? Targets { get; set; }
 
-    [CommandSwitch("--task-arn")]
+    [CliOption("--task-arn")]
     public string? TaskArn { get; set; }
 
-    [CommandSwitch("--service-role-arn")]
+    [CliOption("--service-role-arn")]
     public string? ServiceRoleArn { get; set; }
 
-    [CommandSwitch("--task-parameters")]
+    [CliOption("--task-parameters")]
     public IEnumerable<KeyValue>? TaskParameters { get; set; }
 
-    [CommandSwitch("--task-invocation-parameters")]
+    [CliOption("--task-invocation-parameters")]
     public string? TaskInvocationParameters { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public int? Priority { get; set; }
 
-    [CommandSwitch("--max-concurrency")]
+    [CliOption("--max-concurrency")]
     public string? MaxConcurrency { get; set; }
 
-    [CommandSwitch("--max-errors")]
+    [CliOption("--max-errors")]
     public string? MaxErrors { get; set; }
 
-    [CommandSwitch("--logging-info")]
+    [CliOption("--logging-info")]
     public string? LoggingInfo { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--cutoff-behavior")]
+    [CliOption("--cutoff-behavior")]
     public string? CutoffBehavior { get; set; }
 
-    [CommandSwitch("--alarm-configuration")]
+    [CliOption("--alarm-configuration")]
     public string? AlarmConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

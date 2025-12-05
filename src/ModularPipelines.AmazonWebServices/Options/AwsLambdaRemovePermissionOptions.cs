@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "remove-permission")]
+[CliCommand("lambda", "remove-permission")]
 public record AwsLambdaRemovePermissionOptions(
-[property: CommandSwitch("--function-name")] string FunctionName,
-[property: CommandSwitch("--statement-id")] string StatementId
+[property: CliOption("--function-name")] string FunctionName,
+[property: CliOption("--statement-id")] string StatementId
 ) : AwsOptions
 {
-    [CommandSwitch("--qualifier")]
+    [CliOption("--qualifier")]
     public string? Qualifier { get; set; }
 
-    [CommandSwitch("--revision-id")]
+    [CliOption("--revision-id")]
     public string? RevisionId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

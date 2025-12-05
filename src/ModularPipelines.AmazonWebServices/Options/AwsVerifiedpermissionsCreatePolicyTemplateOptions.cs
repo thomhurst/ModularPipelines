@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("verifiedpermissions", "create-policy-template")]
+[CliCommand("verifiedpermissions", "create-policy-template")]
 public record AwsVerifiedpermissionsCreatePolicyTemplateOptions(
-[property: CommandSwitch("--policy-store-id")] string PolicyStoreId,
-[property: CommandSwitch("--statement")] string Statement
+[property: CliOption("--policy-store-id")] string PolicyStoreId,
+[property: CliOption("--statement")] string Statement
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

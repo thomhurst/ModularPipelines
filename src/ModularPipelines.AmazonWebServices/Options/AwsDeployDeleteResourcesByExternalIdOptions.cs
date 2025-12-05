@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "delete-resources-by-external-id")]
+[CliCommand("deploy", "delete-resources-by-external-id")]
 public record AwsDeployDeleteResourcesByExternalIdOptions : AwsOptions
 {
-    [CommandSwitch("--external-id")]
+    [CliOption("--external-id")]
     public string? ExternalId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

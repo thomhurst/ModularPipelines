@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutequipment", "start-data-ingestion-job")]
+[CliCommand("lookoutequipment", "start-data-ingestion-job")]
 public record AwsLookoutequipmentStartDataIngestionJobOptions(
-[property: CommandSwitch("--dataset-name")] string DatasetName,
-[property: CommandSwitch("--ingestion-input-configuration")] string IngestionInputConfiguration,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--dataset-name")] string DatasetName,
+[property: CliOption("--ingestion-input-configuration")] string IngestionInputConfiguration,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

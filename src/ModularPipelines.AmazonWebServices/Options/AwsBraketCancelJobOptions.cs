@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("braket", "cancel-job")]
+[CliCommand("braket", "cancel-job")]
 public record AwsBraketCancelJobOptions(
-[property: CommandSwitch("--job-arn")] string JobArn
+[property: CliOption("--job-arn")] string JobArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

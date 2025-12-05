@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint-sms-voice-v2", "send-destination-number-verification-code")]
+[CliCommand("pinpoint-sms-voice-v2", "send-destination-number-verification-code")]
 public record AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeOptions(
-[property: CommandSwitch("--verified-destination-number-id")] string VerifiedDestinationNumberId,
-[property: CommandSwitch("--verification-channel")] string VerificationChannel
+[property: CliOption("--verified-destination-number-id")] string VerifiedDestinationNumberId,
+[property: CliOption("--verification-channel")] string VerificationChannel
 ) : AwsOptions
 {
-    [CommandSwitch("--language-code")]
+    [CliOption("--language-code")]
     public string? LanguageCode { get; set; }
 
-    [CommandSwitch("--origination-identity")]
+    [CliOption("--origination-identity")]
     public string? OriginationIdentity { get; set; }
 
-    [CommandSwitch("--configuration-set-name")]
+    [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; set; }
 
-    [CommandSwitch("--context")]
+    [CliOption("--context")]
     public IEnumerable<KeyValue>? Context { get; set; }
 
-    [CommandSwitch("--destination-country-parameters")]
+    [CliOption("--destination-country-parameters")]
     public IEnumerable<KeyValue>? DestinationCountryParameters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

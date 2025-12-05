@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "remove-tags-from-resource")]
+[CliCommand("ssm", "remove-tags-from-resource")]
 public record AwsSsmRemoveTagsFromResourceOptions(
-[property: CommandSwitch("--resource-type")] string ResourceType,
-[property: CommandSwitch("--resource-id")] string ResourceId,
-[property: CommandSwitch("--tag-keys")] string[] TagKeys
+[property: CliOption("--resource-type")] string ResourceType,
+[property: CliOption("--resource-id")] string ResourceId,
+[property: CliOption("--tag-keys")] string[] TagKeys
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

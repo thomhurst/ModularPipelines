@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-egress-only-internet-gateway")]
+[CliCommand("ec2", "create-egress-only-internet-gateway")]
 public record AwsEc2CreateEgressOnlyInternetGatewayOptions(
-[property: CommandSwitch("--vpc-id")] string VpcId
+[property: CliOption("--vpc-id")] string VpcId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

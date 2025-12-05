@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "set-user-pool-mfa-config")]
+[CliCommand("cognito-idp", "set-user-pool-mfa-config")]
 public record AwsCognitoIdpSetUserPoolMfaConfigOptions(
-[property: CommandSwitch("--user-pool-id")] string UserPoolId
+[property: CliOption("--user-pool-id")] string UserPoolId
 ) : AwsOptions
 {
-    [CommandSwitch("--sms-mfa-configuration")]
+    [CliOption("--sms-mfa-configuration")]
     public string? SmsMfaConfiguration { get; set; }
 
-    [CommandSwitch("--software-token-mfa-configuration")]
+    [CliOption("--software-token-mfa-configuration")]
     public string? SoftwareTokenMfaConfiguration { get; set; }
 
-    [CommandSwitch("--mfa-configuration")]
+    [CliOption("--mfa-configuration")]
     public string? MfaConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

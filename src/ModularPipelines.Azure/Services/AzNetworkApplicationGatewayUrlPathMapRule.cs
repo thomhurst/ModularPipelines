@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "url-path-map")]
+[CliCommand("network", "application-gateway", "url-path-map")]
 public class AzNetworkApplicationGatewayUrlPathMapRule
 {
     public AzNetworkApplicationGatewayUrlPathMapRule(

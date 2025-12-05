@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai", "endpoints", "raw-predict")]
+[CliCommand("ai", "endpoints", "raw-predict")]
 public record GcloudAiEndpointsRawPredictOptions(
-[property: PositionalArgument] string Endpoint,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--request")] string Request
+[property: CliArgument] string Endpoint,
+[property: CliArgument] string Region,
+[property: CliOption("--request")] string Request
 ) : GcloudOptions
 {
-    [CommandSwitch("--http-headers")]
+    [CliOption("--http-headers")]
     public string[]? HttpHeaders { get; set; }
 }

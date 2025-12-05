@@ -5,38 +5,38 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "keys", "create")]
+[CliCommand("kms", "keys", "create")]
 public record GcloudKmsKeysCreateOptions(
-[property: PositionalArgument] string Key,
-[property: PositionalArgument] string Keyring,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--purpose")] string Purpose
+[property: CliArgument] string Key,
+[property: CliArgument] string Keyring,
+[property: CliArgument] string Location,
+[property: CliOption("--purpose")] string Purpose
 ) : GcloudOptions
 {
-    [CommandSwitch("--crypto-key-backend")]
+    [CliOption("--crypto-key-backend")]
     public string? CryptoKeyBackend { get; set; }
 
-    [CommandSwitch("--default-algorithm")]
+    [CliOption("--default-algorithm")]
     public string? DefaultAlgorithm { get; set; }
 
-    [CommandSwitch("--destroy-scheduled-duration")]
+    [CliOption("--destroy-scheduled-duration")]
     public string? DestroyScheduledDuration { get; set; }
 
-    [BooleanCommandSwitch("--import-only")]
+    [CliFlag("--import-only")]
     public bool? ImportOnly { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--next-rotation-time")]
+    [CliOption("--next-rotation-time")]
     public string? NextRotationTime { get; set; }
 
-    [CommandSwitch("--protection-level")]
+    [CliOption("--protection-level")]
     public string? ProtectionLevel { get; set; }
 
-    [CommandSwitch("--rotation-period")]
+    [CliOption("--rotation-period")]
     public string? RotationPeriod { get; set; }
 
-    [BooleanCommandSwitch("--skip-initial-version-creation")]
+    [CliFlag("--skip-initial-version-creation")]
     public bool? SkipInitialVersionCreation { get; set; }
 }

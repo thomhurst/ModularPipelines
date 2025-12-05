@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appsync", "delete-function")]
+[CliCommand("appsync", "delete-function")]
 public record AwsAppsyncDeleteFunctionOptions(
-[property: CommandSwitch("--api-id")] string ApiId,
-[property: CommandSwitch("--function-id")] string FunctionId
+[property: CliOption("--api-id")] string ApiId,
+[property: CliOption("--function-id")] string FunctionId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

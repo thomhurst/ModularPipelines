@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "partner", "registration", "create", "(eventgrid", "extension)")]
+[CliSubCommand("eventgrid", "partner", "registration", "create", "(eventgrid", "extension)")]
 public record AzEventgridPartnerRegistrationCreateEventgridExtensionOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--partner-name")] string PartnerName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--resource-type-name")] string ResourceTypeName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--partner-name")] string PartnerName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--resource-type-name")] string ResourceTypeName
 ) : AzOptions
 {
-    [CommandSwitch("--authorized-subscription-ids")]
+    [CliOption("--authorized-subscription-ids")]
     public string? AuthorizedSubscriptionIds { get; set; }
 
-    [CommandSwitch("--customer-service-extension")]
+    [CliOption("--customer-service-extension")]
     public string? CustomerServiceExtension { get; set; }
 
-    [CommandSwitch("--customer-service-number")]
+    [CliOption("--customer-service-number")]
     public string? CustomerServiceNumber { get; set; }
 
-    [CommandSwitch("--customer-service-uri")]
+    [CliOption("--customer-service-uri")]
     public string? CustomerServiceUri { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--logo-uri")]
+    [CliOption("--logo-uri")]
     public string? LogoUri { get; set; }
 
-    [CommandSwitch("--long-description")]
+    [CliOption("--long-description")]
     public string? LongDescription { get; set; }
 
-    [CommandSwitch("--setup-uri")]
+    [CliOption("--setup-uri")]
     public string? SetupUri { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redis", "instances", "describe")]
+[CliCommand("redis", "instances", "describe")]
 public record GcloudRedisInstancesDescribeOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Instance,
+[property: CliArgument] string Region
 ) : GcloudOptions;

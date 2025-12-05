@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ad", "group", "owner", "remove")]
+[CliSubCommand("ad", "group", "owner", "remove")]
 public record AzAdGroupOwnerRemoveOptions(
-[property: CommandSwitch("--group")] string Group,
-[property: CommandSwitch("--owner-object-id")] string OwnerObjectId
+[property: CliOption("--group")] string Group,
+[property: CliOption("--owner-object-id")] string OwnerObjectId
 ) : AzOptions;

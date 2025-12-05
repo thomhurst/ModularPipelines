@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bigtable", "clusters", "delete")]
+[CliCommand("bigtable", "clusters", "delete")]
 public record GcloudBigtableClustersDeleteOptions(
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Instance
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Instance
 ) : GcloudOptions;

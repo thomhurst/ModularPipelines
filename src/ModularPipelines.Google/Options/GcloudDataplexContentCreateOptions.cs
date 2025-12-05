@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataplex", "content", "create")]
+[CliCommand("dataplex", "content", "create")]
 public record GcloudDataplexContentCreateOptions(
-[property: CommandSwitch("--data-text")] string DataText,
-[property: CommandSwitch("--path")] string Path,
-[property: CommandSwitch("--kernel-type")] string KernelType,
-[property: BooleanCommandSwitch("PYTHON3")] bool PYTHON3,
-[property: CommandSwitch("--query-engine")] string QueryEngine,
-[property: BooleanCommandSwitch("SPARK")] bool Spark,
-[property: CommandSwitch("--lake")] string Lake,
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--data-text")] string DataText,
+[property: CliOption("--path")] string Path,
+[property: CliOption("--kernel-type")] string KernelType,
+[property: CliFlag("PYTHON3")] bool PYTHON3,
+[property: CliOption("--query-engine")] string QueryEngine,
+[property: CliFlag("SPARK")] bool Spark,
+[property: CliOption("--lake")] string Lake,
+[property: CliOption("--location")] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 }

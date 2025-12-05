@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("infra-manager")]
+[CliCommand("infra-manager")]
 public class GcloudInfraManagerResources
 {
     public GcloudInfraManagerResources(

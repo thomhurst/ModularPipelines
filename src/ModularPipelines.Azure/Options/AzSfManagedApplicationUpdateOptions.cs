@@ -4,70 +4,70 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "managed-application", "update")]
+[CliSubCommand("sf", "managed-application", "update")]
 public record AzSfManagedApplicationUpdateOptions(
-[property: CommandSwitch("--application-name")] string ApplicationName,
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--application-name")] string ApplicationName,
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--application-parameters")]
+    [CliOption("--application-parameters")]
     public string? ApplicationParameters { get; set; }
 
-    [CommandSwitch("--application-type-version")]
+    [CliOption("--application-type-version")]
     public string? ApplicationTypeVersion { get; set; }
 
-    [CommandSwitch("--close-duration")]
+    [CliOption("--close-duration")]
     public string? CloseDuration { get; set; }
 
-    [BooleanCommandSwitch("--consider-warning-as-error")]
+    [CliFlag("--consider-warning-as-error")]
     public bool? ConsiderWarningAsError { get; set; }
 
-    [CommandSwitch("--failure-action")]
+    [CliOption("--failure-action")]
     public string? FailureAction { get; set; }
 
-    [BooleanCommandSwitch("--force-restart")]
+    [CliFlag("--force-restart")]
     public bool? ForceRestart { get; set; }
 
-    [CommandSwitch("--hc-retry-timeout")]
+    [CliOption("--hc-retry-timeout")]
     public string? HcRetryTimeout { get; set; }
 
-    [CommandSwitch("--hc-stable-duration")]
+    [CliOption("--hc-stable-duration")]
     public string? HcStableDuration { get; set; }
 
-    [CommandSwitch("--hc-wait-duration")]
+    [CliOption("--hc-wait-duration")]
     public string? HcWaitDuration { get; set; }
 
-    [CommandSwitch("--max-percent-unhealthy-apps")]
+    [CliOption("--max-percent-unhealthy-apps")]
     public string? MaxPercentUnhealthyApps { get; set; }
 
-    [CommandSwitch("--max-percent-unhealthy-partitions")]
+    [CliOption("--max-percent-unhealthy-partitions")]
     public string? MaxPercentUnhealthyPartitions { get; set; }
 
-    [CommandSwitch("--max-percent-unhealthy-replicas")]
+    [CliOption("--max-percent-unhealthy-replicas")]
     public string? MaxPercentUnhealthyReplicas { get; set; }
 
-    [CommandSwitch("--max-percent-unhealthy-services")]
+    [CliOption("--max-percent-unhealthy-services")]
     public string? MaxPercentUnhealthyServices { get; set; }
 
-    [BooleanCommandSwitch("--recreate-application")]
+    [CliFlag("--recreate-application")]
     public bool? RecreateApplication { get; set; }
 
-    [CommandSwitch("--rep-check-timeout")]
+    [CliOption("--rep-check-timeout")]
     public string? RepCheckTimeout { get; set; }
 
-    [CommandSwitch("--service-type-health-policy-map")]
+    [CliOption("--service-type-health-policy-map")]
     public string? ServiceTypeHealthPolicyMap { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--ud-timeout")]
+    [CliOption("--ud-timeout")]
     public string? UdTimeout { get; set; }
 
-    [CommandSwitch("--upgrade-mode")]
+    [CliOption("--upgrade-mode")]
     public string? UpgradeMode { get; set; }
 
-    [CommandSwitch("--upgrade-timeout")]
+    [CliOption("--upgrade-timeout")]
     public string? UpgradeTimeout { get; set; }
 }

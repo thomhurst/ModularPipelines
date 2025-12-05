@@ -5,30 +5,30 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wisdom", "create-knowledge-base")]
+[CliCommand("wisdom", "create-knowledge-base")]
 public record AwsWisdomCreateKnowledgeBaseOptions(
-[property: CommandSwitch("--knowledge-base-type")] string KnowledgeBaseType,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--knowledge-base-type")] string KnowledgeBaseType,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--rendering-configuration")]
+    [CliOption("--rendering-configuration")]
     public string? RenderingConfiguration { get; set; }
 
-    [CommandSwitch("--server-side-encryption-configuration")]
+    [CliOption("--server-side-encryption-configuration")]
     public string? ServerSideEncryptionConfiguration { get; set; }
 
-    [CommandSwitch("--source-configuration")]
+    [CliOption("--source-configuration")]
     public string? SourceConfiguration { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

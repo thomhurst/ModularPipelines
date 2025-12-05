@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "virtualmachine", "console", "create")]
+[CliSubCommand("networkcloud", "virtualmachine", "console", "create")]
 public record AzNetworkcloudVirtualmachineConsoleCreateOptions(
-[property: BooleanCommandSwitch("--enabled")] bool Enabled,
-[property: CommandSwitch("--extended-location")] string ExtendedLocation,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--ssh-public-key")] string SshPublicKey,
-[property: CommandSwitch("--virtual-machine-name")] string VirtualMachineName
+[property: CliFlag("--enabled")] bool Enabled,
+[property: CliOption("--extended-location")] string ExtendedLocation,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--ssh-public-key")] string SshPublicKey,
+[property: CliOption("--virtual-machine-name")] string VirtualMachineName
 ) : AzOptions
 {
-    [CommandSwitch("--expiration")]
+    [CliOption("--expiration")]
     public string? Expiration { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

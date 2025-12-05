@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("buildx", "version")]
+[CliCommand("buildx", "version")]
 [ExcludeFromCodeCoverage]
 public record DockerBuildxVersionOptions : DockerOptions
 {
-    [CommandSwitch("--builder")]
+    [CliOption("--builder")]
     public virtual string? Builder { get; set; }
 }

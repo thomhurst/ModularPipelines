@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sig", "image-version", "list-community")]
+[CliCommand("sig", "image-version", "list-community")]
 public class AzSigImageVersionListCommunityImageGallery
 {
     public AzSigImageVersionListCommunityImageGallery(

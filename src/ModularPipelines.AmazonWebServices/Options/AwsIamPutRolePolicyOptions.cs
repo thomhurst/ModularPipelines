@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "put-role-policy")]
+[CliCommand("iam", "put-role-policy")]
 public record AwsIamPutRolePolicyOptions(
-[property: CommandSwitch("--role-name")] string RoleName,
-[property: CommandSwitch("--policy-name")] string PolicyName,
-[property: CommandSwitch("--policy-document")] string PolicyDocument
+[property: CliOption("--role-name")] string RoleName,
+[property: CliOption("--policy-name")] string PolicyName,
+[property: CliOption("--policy-document")] string PolicyDocument
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

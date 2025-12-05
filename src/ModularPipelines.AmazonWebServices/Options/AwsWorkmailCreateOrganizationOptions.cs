@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workmail", "create-organization")]
+[CliCommand("workmail", "create-organization")]
 public record AwsWorkmailCreateOrganizationOptions(
-[property: CommandSwitch("--alias")] string Alias
+[property: CliOption("--alias")] string Alias
 ) : AwsOptions
 {
-    [CommandSwitch("--directory-id")]
+    [CliOption("--directory-id")]
     public string? DirectoryId { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--domains")]
+    [CliOption("--domains")]
     public string[]? Domains { get; set; }
 
-    [CommandSwitch("--kms-key-arn")]
+    [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

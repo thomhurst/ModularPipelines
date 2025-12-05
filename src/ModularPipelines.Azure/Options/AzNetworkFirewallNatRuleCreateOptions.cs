@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "firewall", "nat-rule", "create")]
+[CliSubCommand("network", "firewall", "nat-rule", "create")]
 public record AzNetworkFirewallNatRuleCreateOptions(
-[property: CommandSwitch("--collection-name")] string CollectionName,
-[property: CommandSwitch("--dest-addr")] string DestAddr,
-[property: CommandSwitch("--destination-ports")] string DestinationPorts,
-[property: CommandSwitch("--firewall-name")] string FirewallName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--protocols")] string Protocols,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--translated-port")] string TranslatedPort
+[property: CliOption("--collection-name")] string CollectionName,
+[property: CliOption("--dest-addr")] string DestAddr,
+[property: CliOption("--destination-ports")] string DestinationPorts,
+[property: CliOption("--firewall-name")] string FirewallName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--protocols")] string Protocols,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--translated-port")] string TranslatedPort
 ) : AzOptions
 {
-    [CommandSwitch("--action")]
+    [CliOption("--action")]
     public string? Action { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--source-addresses")]
+    [CliOption("--source-addresses")]
     public string? SourceAddresses { get; set; }
 
-    [CommandSwitch("--source-ip-groups")]
+    [CliOption("--source-ip-groups")]
     public string? SourceIpGroups { get; set; }
 
-    [CommandSwitch("--translated-address")]
+    [CliOption("--translated-address")]
     public string? TranslatedAddress { get; set; }
 
-    [CommandSwitch("--translated-fqdn")]
+    [CliOption("--translated-fqdn")]
     public string? TranslatedFqdn { get; set; }
 }

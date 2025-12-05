@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ce", "get-dimension-values")]
+[CliCommand("ce", "get-dimension-values")]
 public record AwsCeGetDimensionValuesOptions(
-[property: CommandSwitch("--time-period")] string TimePeriod,
-[property: CommandSwitch("--dimension")] string Dimension
+[property: CliOption("--time-period")] string TimePeriod,
+[property: CliOption("--dimension")] string Dimension
 ) : AwsOptions
 {
-    [CommandSwitch("--search-string")]
+    [CliOption("--search-string")]
     public string? SearchString { get; set; }
 
-    [CommandSwitch("--context")]
+    [CliOption("--context")]
     public string? Context { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--sort-by")]
+    [CliOption("--sort-by")]
     public string[]? SortBy { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-page-token")]
+    [CliOption("--next-page-token")]
     public string? NextPageToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

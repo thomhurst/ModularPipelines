@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("info")]
+[CliCommand("info")]
 public record InfoOptions : ChocoOptions
 {
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public virtual string? Source { get; set; }
 
-    [BooleanCommandSwitch("--local-only")]
+    [CliFlag("--local-only")]
     public virtual bool? LocalOnly { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public virtual string? Version { get; set; }
 
-    [BooleanCommandSwitch("--prerelease")]
+    [CliFlag("--prerelease")]
     public virtual bool? Prerelease { get; set; }
 
-    [CommandSwitch("--user")]
+    [CliOption("--user")]
     public virtual string? User { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public virtual string? Password { get; set; }
 
-    [CommandSwitch("--cert")]
+    [CliOption("--cert")]
     public virtual string? Cert { get; set; }
 
-    [CommandSwitch("--certpassword")]
+    [CliOption("--certpassword")]
     public virtual string? Certpassword { get; set; }
 
-    [BooleanCommandSwitch("--disable-package-repository-optimizations")]
+    [CliFlag("--disable-package-repository-optimizations")]
     public virtual bool? DisablePackageRepositoryOptimizations { get; set; }
 
-    [BooleanCommandSwitch("--force-self-service")]
+    [CliFlag("--force-self-service")]
     public virtual bool? ForceSelfService { get; set; }
 }

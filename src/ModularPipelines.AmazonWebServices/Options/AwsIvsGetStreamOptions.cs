@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ivs", "get-stream")]
+[CliCommand("ivs", "get-stream")]
 public record AwsIvsGetStreamOptions(
-[property: CommandSwitch("--channel-arn")] string ChannelArn
+[property: CliOption("--channel-arn")] string ChannelArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

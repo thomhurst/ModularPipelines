@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "create-snapshot-copy-grant")]
+[CliCommand("redshift", "create-snapshot-copy-grant")]
 public record AwsRedshiftCreateSnapshotCopyGrantOptions(
-[property: CommandSwitch("--snapshot-copy-grant-name")] string SnapshotCopyGrantName
+[property: CliOption("--snapshot-copy-grant-name")] string SnapshotCopyGrantName
 ) : AwsOptions
 {
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

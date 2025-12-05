@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "describe-engine-versions")]
+[CliCommand("dms", "describe-engine-versions")]
 public record AwsDmsDescribeEngineVersionsOptions : AwsOptions
 {
-    [CommandSwitch("--max-records")]
+    [CliOption("--max-records")]
     public int? MaxRecords { get; set; }
 
-    [CommandSwitch("--marker")]
+    [CliOption("--marker")]
     public string? Marker { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

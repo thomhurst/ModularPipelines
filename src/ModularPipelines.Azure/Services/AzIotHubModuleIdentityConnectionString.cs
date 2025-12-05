@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "module-identity")]
+[CliCommand("iot", "hub", "module-identity")]
 public class AzIotHubModuleIdentityConnectionString
 {
     public AzIotHubModuleIdentityConnectionString(

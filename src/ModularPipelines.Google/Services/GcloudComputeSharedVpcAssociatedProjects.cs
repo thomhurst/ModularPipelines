@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "shared-vpc")]
+[CliCommand("compute", "shared-vpc")]
 public class GcloudComputeSharedVpcAssociatedProjects
 {
     public GcloudComputeSharedVpcAssociatedProjects(

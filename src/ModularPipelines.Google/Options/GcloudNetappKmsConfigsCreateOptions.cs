@@ -5,22 +5,22 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netapp", "kms-configs", "create")]
+[CliCommand("netapp", "kms-configs", "create")]
 public record GcloudNetappKmsConfigsCreateOptions(
-[property: PositionalArgument] string KmsConfig,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--kms-key")] string KmsKey,
-[property: CommandSwitch("--kms-keyring")] string KmsKeyring,
-[property: CommandSwitch("--kms-location")] string KmsLocation,
-[property: CommandSwitch("--kms-project")] string KmsProject
+[property: CliArgument] string KmsConfig,
+[property: CliArgument] string Location,
+[property: CliOption("--kms-key")] string KmsKey,
+[property: CliOption("--kms-keyring")] string KmsKeyring,
+[property: CliOption("--kms-location")] string KmsLocation,
+[property: CliOption("--kms-project")] string KmsProject
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 }

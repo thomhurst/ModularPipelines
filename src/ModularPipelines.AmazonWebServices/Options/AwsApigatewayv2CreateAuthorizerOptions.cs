@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigatewayv2", "create-authorizer")]
+[CliCommand("apigatewayv2", "create-authorizer")]
 public record AwsApigatewayv2CreateAuthorizerOptions(
-[property: CommandSwitch("--api-id")] string ApiId,
-[property: CommandSwitch("--authorizer-type")] string AuthorizerType,
-[property: CommandSwitch("--identity-source")] string[] IdentitySource,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--api-id")] string ApiId,
+[property: CliOption("--authorizer-type")] string AuthorizerType,
+[property: CliOption("--identity-source")] string[] IdentitySource,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--authorizer-credentials-arn")]
+    [CliOption("--authorizer-credentials-arn")]
     public string? AuthorizerCredentialsArn { get; set; }
 
-    [CommandSwitch("--authorizer-payload-format-version")]
+    [CliOption("--authorizer-payload-format-version")]
     public string? AuthorizerPayloadFormatVersion { get; set; }
 
-    [CommandSwitch("--authorizer-result-ttl-in-seconds")]
+    [CliOption("--authorizer-result-ttl-in-seconds")]
     public int? AuthorizerResultTtlInSeconds { get; set; }
 
-    [CommandSwitch("--authorizer-uri")]
+    [CliOption("--authorizer-uri")]
     public string? AuthorizerUri { get; set; }
 
-    [CommandSwitch("--identity-validation-expression")]
+    [CliOption("--identity-validation-expression")]
     public string? IdentityValidationExpression { get; set; }
 
-    [CommandSwitch("--jwt-configuration")]
+    [CliOption("--jwt-configuration")]
     public string? JwtConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

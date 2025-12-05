@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("finspace", "delete-kx-dataview")]
+[CliCommand("finspace", "delete-kx-dataview")]
 public record AwsFinspaceDeleteKxDataviewOptions(
-[property: CommandSwitch("--environment-id")] string EnvironmentId,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--dataview-name")] string DataviewName
+[property: CliOption("--environment-id")] string EnvironmentId,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--dataview-name")] string DataviewName
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

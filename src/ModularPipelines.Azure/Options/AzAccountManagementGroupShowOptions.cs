@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("account", "management-group", "show")]
+[CliSubCommand("account", "management-group", "show")]
 public record AzAccountManagementGroupShowOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--expand")]
+    [CliFlag("--expand")]
     public bool? Expand { get; set; }
 
-    [BooleanCommandSwitch("--no-register")]
+    [CliFlag("--no-register")]
     public bool? NoRegister { get; set; }
 
-    [BooleanCommandSwitch("--recurse")]
+    [CliFlag("--recurse")]
     public bool? Recurse { get; set; }
 }

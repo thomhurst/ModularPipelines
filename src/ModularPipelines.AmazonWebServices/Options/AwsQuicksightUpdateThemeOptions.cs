@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "update-theme")]
+[CliCommand("quicksight", "update-theme")]
 public record AwsQuicksightUpdateThemeOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--theme-id")] string ThemeId,
-[property: CommandSwitch("--base-theme-id")] string BaseThemeId
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--theme-id")] string ThemeId,
+[property: CliOption("--base-theme-id")] string BaseThemeId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--version-description")]
+    [CliOption("--version-description")]
     public string? VersionDescription { get; set; }
 
-    [CommandSwitch("--configuration")]
+    [CliOption("--configuration")]
     public string? Configuration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

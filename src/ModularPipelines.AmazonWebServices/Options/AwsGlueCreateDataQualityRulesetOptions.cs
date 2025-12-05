@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "create-data-quality-ruleset")]
+[CliCommand("glue", "create-data-quality-ruleset")]
 public record AwsGlueCreateDataQualityRulesetOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--ruleset")] string Ruleset
+[property: CliOption("--name")] string Name,
+[property: CliOption("--ruleset")] string Ruleset
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--target-table")]
+    [CliOption("--target-table")]
     public string? TargetTable { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

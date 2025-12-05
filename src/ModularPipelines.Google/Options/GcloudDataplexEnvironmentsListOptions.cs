@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataplex", "environments", "list")]
+[CliCommand("dataplex", "environments", "list")]
 public record GcloudDataplexEnvironmentsListOptions(
-[property: CommandSwitch("--lake")] string Lake,
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--lake")] string Lake,
+[property: CliOption("--location")] string Location
 ) : GcloudOptions;

@@ -5,32 +5,32 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fis", "update-experiment-template")]
+[CliCommand("fis", "update-experiment-template")]
 public record AwsFisUpdateExperimentTemplateOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--stop-conditions")]
+    [CliOption("--stop-conditions")]
     public string[]? StopConditions { get; set; }
 
-    [CommandSwitch("--targets")]
+    [CliOption("--targets")]
     public IEnumerable<KeyValue>? Targets { get; set; }
 
-    [CommandSwitch("--actions")]
+    [CliOption("--actions")]
     public IEnumerable<KeyValue>? Actions { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--log-configuration")]
+    [CliOption("--log-configuration")]
     public string? LogConfiguration { get; set; }
 
-    [CommandSwitch("--experiment-options")]
+    [CliOption("--experiment-options")]
     public string? ExperimentOptions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

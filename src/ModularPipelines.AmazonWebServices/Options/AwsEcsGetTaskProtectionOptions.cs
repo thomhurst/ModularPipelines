@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "get-task-protection")]
+[CliCommand("ecs", "get-task-protection")]
 public record AwsEcsGetTaskProtectionOptions(
-[property: CommandSwitch("--cluster")] string Cluster
+[property: CliOption("--cluster")] string Cluster
 ) : AwsOptions
 {
-    [CommandSwitch("--tasks")]
+    [CliOption("--tasks")]
     public string[]? Tasks { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

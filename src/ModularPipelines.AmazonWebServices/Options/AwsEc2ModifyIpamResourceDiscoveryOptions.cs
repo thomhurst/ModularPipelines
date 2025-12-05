@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-ipam-resource-discovery")]
+[CliCommand("ec2", "modify-ipam-resource-discovery")]
 public record AwsEc2ModifyIpamResourceDiscoveryOptions(
-[property: CommandSwitch("--ipam-resource-discovery-id")] string IpamResourceDiscoveryId
+[property: CliOption("--ipam-resource-discovery-id")] string IpamResourceDiscoveryId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--add-operating-regions")]
+    [CliOption("--add-operating-regions")]
     public string[]? AddOperatingRegions { get; set; }
 
-    [CommandSwitch("--remove-operating-regions")]
+    [CliOption("--remove-operating-regions")]
     public string[]? RemoveOperatingRegions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

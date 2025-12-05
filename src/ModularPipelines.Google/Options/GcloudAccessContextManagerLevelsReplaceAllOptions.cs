@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access-context-manager", "levels", "replace-all")]
+[CliCommand("access-context-manager", "levels", "replace-all")]
 public record GcloudAccessContextManagerLevelsReplaceAllOptions(
-[property: PositionalArgument] string Policy,
-[property: CommandSwitch("--source-file")] string SourceFile
+[property: CliArgument] string Policy,
+[property: CliOption("--source-file")] string SourceFile
 ) : GcloudOptions
 {
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 }

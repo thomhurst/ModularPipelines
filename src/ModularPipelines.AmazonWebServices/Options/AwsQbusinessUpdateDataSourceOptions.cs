@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qbusiness", "update-data-source")]
+[CliCommand("qbusiness", "update-data-source")]
 public record AwsQbusinessUpdateDataSourceOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--data-source-id")] string DataSourceId,
-[property: CommandSwitch("--index-id")] string IndexId
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--data-source-id")] string DataSourceId,
+[property: CliOption("--index-id")] string IndexId
 ) : AwsOptions
 {
-    [CommandSwitch("--configuration")]
+    [CliOption("--configuration")]
     public string? Configuration { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--document-enrichment-configuration")]
+    [CliOption("--document-enrichment-configuration")]
     public string? DocumentEnrichmentConfiguration { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--sync-schedule")]
+    [CliOption("--sync-schedule")]
     public string? SyncSchedule { get; set; }
 
-    [CommandSwitch("--vpc-configuration")]
+    [CliOption("--vpc-configuration")]
     public string? VpcConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

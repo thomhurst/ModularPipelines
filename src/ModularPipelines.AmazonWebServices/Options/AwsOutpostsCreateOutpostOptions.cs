@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("outposts", "create-outpost")]
+[CliCommand("outposts", "create-outpost")]
 public record AwsOutpostsCreateOutpostOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--site-id")] string SiteId
+[property: CliOption("--name")] string Name,
+[property: CliOption("--site-id")] string SiteId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--availability-zone")]
+    [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
-    [CommandSwitch("--availability-zone-id")]
+    [CliOption("--availability-zone-id")]
     public string? AvailabilityZoneId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--supported-hardware-type")]
+    [CliOption("--supported-hardware-type")]
     public string? SupportedHardwareType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

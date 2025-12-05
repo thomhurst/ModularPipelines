@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appfabric", "stop-ingestion")]
+[CliCommand("appfabric", "stop-ingestion")]
 public record AwsAppfabricStopIngestionOptions(
-[property: CommandSwitch("--ingestion-identifier")] string IngestionIdentifier,
-[property: CommandSwitch("--app-bundle-identifier")] string AppBundleIdentifier
+[property: CliOption("--ingestion-identifier")] string IngestionIdentifier,
+[property: CliOption("--app-bundle-identifier")] string AppBundleIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

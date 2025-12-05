@@ -1,0 +1,145 @@
+{
+  "$schema": "./schema.json",
+  "global": {
+    "--help": {
+      "type": "bool",
+      "reason": "Standard help flag"
+    },
+    "--debug": {
+      "type": "bool",
+      "reason": "Enable verbose output"
+    },
+    "--kube-insecure-skip-tls-verify": {
+      "type": "bool",
+      "reason": "Skip TLS certificate verification"
+    }
+  },
+  "commands": {
+    "install": {
+      "--create-namespace": {
+        "type": "bool",
+        "reason": "Create the release namespace if not present"
+      },
+      "--dependency-update": {
+        "type": "bool",
+        "reason": "Update dependencies before installing"
+      },
+      "--dry-run": {
+        "type": "bool",
+        "reason": "Simulate an install"
+      },
+      "--force": {
+        "type": "bool",
+        "reason": "Force resource updates"
+      },
+      "--replace": {
+        "type": "bool",
+        "reason": "Re-use the given name"
+      },
+      "--skip-crds": {
+        "type": "bool",
+        "reason": "Skip CRD installation"
+      },
+      "--verify": {
+        "type": "bool",
+        "reason": "Verify package before installing"
+      },
+      "--wait": {
+        "type": "bool",
+        "reason": "Wait until all resources are ready"
+      },
+      "--wait-for-jobs": {
+        "type": "bool",
+        "reason": "Wait for all Jobs to complete"
+      },
+      "--atomic": {
+        "type": "bool",
+        "reason": "Delete on failure"
+      },
+      "--set": {
+        "type": "stringList",
+        "reason": "Set values on the command line"
+      },
+      "--set-string": {
+        "type": "stringList",
+        "reason": "Set string values on the command line"
+      },
+      "--values": {
+        "type": "stringList",
+        "reason": "Specify values in a YAML file"
+      },
+      "--timeout": {
+        "type": "string",
+        "reason": "Duration string (e.g., 5m0s)"
+      }
+    },
+    "upgrade": {
+      "--atomic": {
+        "type": "bool",
+        "reason": "Rollback on failure"
+      },
+      "--cleanup-on-fail": {
+        "type": "bool",
+        "reason": "Clean up on upgrade failure"
+      },
+      "--create-namespace": {
+        "type": "bool",
+        "reason": "Create namespace if not present"
+      },
+      "--dependency-update": {
+        "type": "bool",
+        "reason": "Update dependencies"
+      },
+      "--dry-run": {
+        "type": "bool",
+        "reason": "Simulate an upgrade"
+      },
+      "--force": {
+        "type": "bool",
+        "reason": "Force resource updates"
+      },
+      "--install": {
+        "type": "bool",
+        "reason": "Install if release doesn't exist"
+      },
+      "--reset-values": {
+        "type": "bool",
+        "reason": "Reset values to chart defaults"
+      },
+      "--reuse-values": {
+        "type": "bool",
+        "reason": "Reuse last release's values"
+      },
+      "--skip-crds": {
+        "type": "bool",
+        "reason": "Skip CRD installation"
+      },
+      "--wait": {
+        "type": "bool",
+        "reason": "Wait for resources to be ready"
+      },
+      "--wait-for-jobs": {
+        "type": "bool",
+        "reason": "Wait for Jobs to complete"
+      }
+    },
+    "uninstall": {
+      "--dry-run": {
+        "type": "bool",
+        "reason": "Simulate an uninstall"
+      },
+      "--keep-history": {
+        "type": "bool",
+        "reason": "Remove all associated resources but keep history"
+      },
+      "--no-hooks": {
+        "type": "bool",
+        "reason": "Prevent hooks from running"
+      },
+      "--wait": {
+        "type": "bool",
+        "reason": "Wait for deletion to complete"
+      }
+    }
+  }
+}

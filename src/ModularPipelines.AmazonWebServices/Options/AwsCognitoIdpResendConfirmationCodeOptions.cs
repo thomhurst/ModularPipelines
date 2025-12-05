@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "resend-confirmation-code")]
+[CliCommand("cognito-idp", "resend-confirmation-code")]
 public record AwsCognitoIdpResendConfirmationCodeOptions(
-[property: CommandSwitch("--client-id")] string ClientId,
-[property: CommandSwitch("--username")] string Username
+[property: CliOption("--client-id")] string ClientId,
+[property: CliOption("--username")] string Username
 ) : AwsOptions
 {
-    [CommandSwitch("--secret-hash")]
+    [CliOption("--secret-hash")]
     public string? SecretHash { get; set; }
 
-    [CommandSwitch("--user-context-data")]
+    [CliOption("--user-context-data")]
     public string? UserContextData { get; set; }
 
-    [CommandSwitch("--analytics-metadata")]
+    [CliOption("--analytics-metadata")]
     public string? AnalyticsMetadata { get; set; }
 
-    [CommandSwitch("--client-metadata")]
+    [CliOption("--client-metadata")]
     public IEnumerable<KeyValue>? ClientMetadata { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

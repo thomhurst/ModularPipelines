@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "midb-arc", "restore")]
+[CliSubCommand("sql", "midb-arc", "restore")]
 public record AzSqlMidbArcRestoreOptions : AzOptions
 {
-    [CommandSwitch("--dest-name")]
+    [CliOption("--dest-name")]
     public string? DestName { get; set; }
 
-    [CommandSwitch("--dry-run")]
+    [CliOption("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandSwitch("--k8s-namespace")]
+    [CliOption("--k8s-namespace")]
     public string? K8sNamespace { get; set; }
 
-    [CommandSwitch("--managed-instance")]
+    [CliOption("--managed-instance")]
     public string? ManagedInstance { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--time")]
+    [CliOption("--time")]
     public string? Time { get; set; }
 
-    [BooleanCommandSwitch("--use-k8s")]
+    [CliFlag("--use-k8s")]
     public bool? UseK8s { get; set; }
 }

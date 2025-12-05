@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resiliencehub", "import-resources-to-draft-app-version")]
+[CliCommand("resiliencehub", "import-resources-to-draft-app-version")]
 public record AwsResiliencehubImportResourcesToDraftAppVersionOptions(
-[property: CommandSwitch("--app-arn")] string AppArn
+[property: CliOption("--app-arn")] string AppArn
 ) : AwsOptions
 {
-    [CommandSwitch("--eks-sources")]
+    [CliOption("--eks-sources")]
     public string[]? EksSources { get; set; }
 
-    [CommandSwitch("--import-strategy")]
+    [CliOption("--import-strategy")]
     public string? ImportStrategy { get; set; }
 
-    [CommandSwitch("--source-arns")]
+    [CliOption("--source-arns")]
     public string[]? SourceArns { get; set; }
 
-    [CommandSwitch("--terraform-sources")]
+    [CliOption("--terraform-sources")]
     public string[]? TerraformSources { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

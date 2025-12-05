@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access", "get", "status")]
+[CliCommand("access", "get", "status")]
 public record NpmAccessGetStatusOptions : NpmOptions
 {
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 
-    [CommandSwitch("--otp")]
+    [CliOption("--otp")]
     public virtual string? Otp { get; set; }
 
-    [CommandSwitch("--registry")]
+    [CliOption("--registry")]
     public virtual Uri? Registry { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
-    public string? Package { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    public virtual string? Package { get; set; }
 }

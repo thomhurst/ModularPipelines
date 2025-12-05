@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint", "get-segment-import-jobs")]
+[CliCommand("pinpoint", "get-segment-import-jobs")]
 public record AwsPinpointGetSegmentImportJobsOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--segment-id")] string SegmentId
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--segment-id")] string SegmentId
 ) : AwsOptions
 {
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public string? PageSize { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

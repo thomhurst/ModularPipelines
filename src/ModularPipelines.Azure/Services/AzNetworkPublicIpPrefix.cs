@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "public-ip")]
+[CliCommand("network", "public-ip")]
 public class AzNetworkPublicIpPrefix
 {
     public AzNetworkPublicIpPrefix(

@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arcdata", "ad-connector", "update")]
+[CliSubCommand("arcdata", "ad-connector", "update")]
 public record AzArcdataAdConnectorUpdateOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--data-controller-name")]
+    [CliOption("--data-controller-name")]
     public string? DataControllerName { get; set; }
 
-    [CommandSwitch("--dns-replicas")]
+    [CliOption("--dns-replicas")]
     public string? DnsReplicas { get; set; }
 
-    [CommandSwitch("--domain-service-account-secret")]
+    [CliOption("--domain-service-account-secret")]
     public int? DomainServiceAccountSecret { get; set; }
 
-    [CommandSwitch("--k8s-namespace")]
+    [CliOption("--k8s-namespace")]
     public string? K8sNamespace { get; set; }
 
-    [CommandSwitch("--nameserver-addresses")]
+    [CliOption("--nameserver-addresses")]
     public string? NameserverAddresses { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--prefer-k8s-dns")]
+    [CliOption("--prefer-k8s-dns")]
     public string? PreferK8sDns { get; set; }
 
-    [CommandSwitch("--primary-ad-dc-hostname")]
+    [CliOption("--primary-ad-dc-hostname")]
     public string? PrimaryAdDcHostname { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--secondary-ad-dc-hostnames")]
+    [CliOption("--secondary-ad-dc-hostnames")]
     public string? SecondaryAdDcHostnames { get; set; }
 
-    [BooleanCommandSwitch("--use-k8s")]
+    [CliFlag("--use-k8s")]
     public bool? UseK8s { get; set; }
 }

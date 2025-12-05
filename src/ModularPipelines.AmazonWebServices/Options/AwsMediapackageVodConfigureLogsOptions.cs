@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediapackage-vod", "configure-logs")]
+[CliCommand("mediapackage-vod", "configure-logs")]
 public record AwsMediapackageVodConfigureLogsOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--egress-access-logs")]
+    [CliOption("--egress-access-logs")]
     public string? EgressAccessLogs { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

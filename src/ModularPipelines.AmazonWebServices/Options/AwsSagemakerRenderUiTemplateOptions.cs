@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "render-ui-template")]
+[CliCommand("sagemaker", "render-ui-template")]
 public record AwsSagemakerRenderUiTemplateOptions(
-[property: CommandSwitch("--task")] string Task,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--task")] string Task,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--ui-template")]
+    [CliOption("--ui-template")]
     public string? UiTemplate { get; set; }
 
-    [CommandSwitch("--human-task-ui-arn")]
+    [CliOption("--human-task-ui-arn")]
     public string? HumanTaskUiArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -3,28 +3,28 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("registry", "login")]
+[CliCommand("registry", "login")]
 [ExcludeFromCodeCoverage]
 public record HelmRegistryLoginOptions : HelmOptions
 {
-    [CommandEqualsSeparatorSwitch("--ca-file", SwitchValueSeparator = " ")]
-    public string? CaFile { get; set; }
+    [CliOption("--ca-file")]
+    public virtual string? CaFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cert-file", SwitchValueSeparator = " ")]
-    public string? CertFile { get; set; }
+    [CliOption("--cert-file")]
+    public virtual string? CertFile { get; set; }
 
-    [BooleanCommandSwitch("--insecure")]
+    [CliFlag("--insecure")]
     public virtual bool? Insecure { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--key-file", SwitchValueSeparator = " ")]
-    public string? KeyFile { get; set; }
+    [CliOption("--key-file")]
+    public virtual string? KeyFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--password", SwitchValueSeparator = " ")]
-    public string? Password { get; set; }
+    [CliOption("--password")]
+    public virtual string? Password { get; set; }
 
-    [BooleanCommandSwitch("--password-stdin")]
+    [CliFlag("--password-stdin")]
     public virtual bool? PasswordStdin { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--username", SwitchValueSeparator = " ")]
-    public string? Username { get; set; }
+    [CliOption("--username")]
+    public virtual string? Username { get; set; }
 }

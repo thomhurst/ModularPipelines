@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instances", "detach-disk")]
+[CliCommand("compute", "instances", "detach-disk")]
 public record GcloudComputeInstancesDetachDiskOptions(
-[property: PositionalArgument] string InstanceName,
-[property: CommandSwitch("--device-name")] string DeviceName,
-[property: CommandSwitch("--disk")] string Disk
+[property: CliArgument] string InstanceName,
+[property: CliOption("--device-name")] string DeviceName,
+[property: CliOption("--disk")] string Disk
 ) : GcloudOptions
 {
-    [CommandSwitch("--disk-scope")]
+    [CliOption("--disk-scope")]
     public string? DiskScope { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

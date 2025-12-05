@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "restore")]
+[CliSubCommand("cosmosdb", "restore")]
 public record AzCosmosdbRestoreOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--restore-timestamp")] string RestoreTimestamp,
-[property: CommandSwitch("--target-database-account-name")] int TargetDatabaseAccountName
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--restore-timestamp")] string RestoreTimestamp,
+[property: CliOption("--target-database-account-name")] int TargetDatabaseAccountName
 ) : AzOptions
 {
-    [CommandSwitch("--assign-identity")]
+    [CliOption("--assign-identity")]
     public string? AssignIdentity { get; set; }
 
-    [CommandSwitch("--databases-to-restore")]
+    [CliOption("--databases-to-restore")]
     public string? DatabasesToRestore { get; set; }
 
-    [CommandSwitch("--default-identity")]
+    [CliOption("--default-identity")]
     public string? DefaultIdentity { get; set; }
 
-    [CommandSwitch("--gremlin-databases-to-restore")]
+    [CliOption("--gremlin-databases-to-restore")]
     public string? GremlinDatabasesToRestore { get; set; }
 
-    [CommandSwitch("--public-network-access")]
+    [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
 
-    [CommandSwitch("--tables-to-restore")]
+    [CliOption("--tables-to-restore")]
     public string? TablesToRestore { get; set; }
 }

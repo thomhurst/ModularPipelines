@@ -5,55 +5,55 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataplex", "zones", "update")]
+[CliCommand("dataplex", "zones", "update")]
 public record GcloudDataplexZonesUpdateOptions(
-[property: PositionalArgument] string Zone,
-[property: PositionalArgument] string Lake,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Zone,
+[property: CliArgument] string Lake,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
-    [CommandSwitch("--[no-]discovery-enabled")]
+    [CliOption("--[no-]discovery-enabled")]
     public string[]? NoDiscoveryEnabled { get; set; }
 
-    [CommandSwitch("--discovery-exclude-patterns")]
+    [CliOption("--discovery-exclude-patterns")]
     public string[]? DiscoveryExcludePatterns { get; set; }
 
-    [CommandSwitch("--discovery-include-patterns")]
+    [CliOption("--discovery-include-patterns")]
     public string[]? DiscoveryIncludePatterns { get; set; }
 
-    [CommandSwitch("--discovery-schedule")]
+    [CliOption("--discovery-schedule")]
     public string? DiscoverySchedule { get; set; }
 
-    [CommandSwitch("--csv-delimiter")]
+    [CliOption("--csv-delimiter")]
     public string? CsvDelimiter { get; set; }
 
-    [CommandSwitch("--[no-]csv-disable-type-inference")]
+    [CliOption("--[no-]csv-disable-type-inference")]
     public string[]? NoCsvDisableTypeInference { get; set; }
 
-    [CommandSwitch("--csv-encoding")]
+    [CliOption("--csv-encoding")]
     public string? CsvEncoding { get; set; }
 
-    [CommandSwitch("--csv-header-rows")]
+    [CliOption("--csv-header-rows")]
     public string? CsvHeaderRows { get; set; }
 
-    [CommandSwitch("--[no-]json-disable-type-inference")]
+    [CliOption("--[no-]json-disable-type-inference")]
     public string[]? NoJsonDisableTypeInference { get; set; }
 
-    [CommandSwitch("--json-encoding")]
+    [CliOption("--json-encoding")]
     public string? JsonEncoding { get; set; }
 }

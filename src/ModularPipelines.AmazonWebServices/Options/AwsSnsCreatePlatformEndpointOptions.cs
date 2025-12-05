@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sns", "create-platform-endpoint")]
+[CliCommand("sns", "create-platform-endpoint")]
 public record AwsSnsCreatePlatformEndpointOptions(
-[property: CommandSwitch("--platform-application-arn")] string PlatformApplicationArn,
-[property: CommandSwitch("--token")] string Token
+[property: CliOption("--platform-application-arn")] string PlatformApplicationArn,
+[property: CliOption("--token")] string Token
 ) : AwsOptions
 {
-    [CommandSwitch("--custom-user-data")]
+    [CliOption("--custom-user-data")]
     public string? CustomUserData { get; set; }
 
-    [CommandSwitch("--attributes")]
+    [CliOption("--attributes")]
     public IEnumerable<KeyValue>? Attributes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

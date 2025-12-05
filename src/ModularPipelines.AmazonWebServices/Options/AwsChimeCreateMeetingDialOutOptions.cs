@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime", "create-meeting-dial-out")]
+[CliCommand("chime", "create-meeting-dial-out")]
 public record AwsChimeCreateMeetingDialOutOptions(
-[property: CommandSwitch("--meeting-id")] string MeetingId,
-[property: CommandSwitch("--from-phone-number")] string FromPhoneNumber,
-[property: CommandSwitch("--to-phone-number")] string ToPhoneNumber,
-[property: CommandSwitch("--join-token")] string JoinToken
+[property: CliOption("--meeting-id")] string MeetingId,
+[property: CliOption("--from-phone-number")] string FromPhoneNumber,
+[property: CliOption("--to-phone-number")] string ToPhoneNumber,
+[property: CliOption("--join-token")] string JoinToken
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("personalize", "create-dataset-import-job")]
+[CliCommand("personalize", "create-dataset-import-job")]
 public record AwsPersonalizeCreateDatasetImportJobOptions(
-[property: CommandSwitch("--job-name")] string JobName,
-[property: CommandSwitch("--dataset-arn")] string DatasetArn,
-[property: CommandSwitch("--data-source")] string DataSource,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--job-name")] string JobName,
+[property: CliOption("--dataset-arn")] string DatasetArn,
+[property: CliOption("--data-source")] string DataSource,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--import-mode")]
+    [CliOption("--import-mode")]
     public string? ImportMode { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,12 +5,12 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sqs", "set-queue-attributes")]
+[CliCommand("sqs", "set-queue-attributes")]
 public record AwsSqsSetQueueAttributesOptions(
-[property: CommandSwitch("--queue-url")] string QueueUrl,
-[property: CommandSwitch("--attributes")] IEnumerable<KeyValue> Attributes
+[property: CliOption("--queue-url")] string QueueUrl,
+[property: CliOption("--attributes")] IEnumerable<KeyValue> Attributes
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

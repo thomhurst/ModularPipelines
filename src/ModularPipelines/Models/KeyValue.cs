@@ -9,6 +9,7 @@ namespace ModularPipelines.Models;
 public record KeyValue(string Key, string Value, string Separator)
 {
     /// <summary>
+    /// Initialises a new instance of the <see cref="KeyValue"/> class.
     /// Initializes a new instance of the <see cref="KeyValue"/> record with a default "=" separator.
     /// </summary>
     /// <param name="key">The key portion of the key-value pair.</param>

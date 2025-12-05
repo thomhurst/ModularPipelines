@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("uninstall")]
+[CliCommand("uninstall")]
 public record UninstallOptions(
-    [property: PositionalArgument] string Package
+    [property: CliArgument] string Package
 ) : ChocoOptions;

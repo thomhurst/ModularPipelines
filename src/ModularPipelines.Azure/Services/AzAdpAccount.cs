@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("adp")]
+[CliCommand("adp")]
 public class AzAdpAccount
 {
     public AzAdpAccount(

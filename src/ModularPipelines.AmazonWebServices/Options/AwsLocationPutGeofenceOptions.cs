@@ -5,16 +5,16 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "put-geofence")]
+[CliCommand("location", "put-geofence")]
 public record AwsLocationPutGeofenceOptions(
-[property: CommandSwitch("--collection-name")] string CollectionName,
-[property: CommandSwitch("--geofence-id")] string GeofenceId,
-[property: CommandSwitch("--geometry")] string Geometry
+[property: CliOption("--collection-name")] string CollectionName,
+[property: CliOption("--geofence-id")] string GeofenceId,
+[property: CliOption("--geometry")] string Geometry
 ) : AwsOptions
 {
-    [CommandSwitch("--geofence-properties")]
+    [CliOption("--geofence-properties")]
     public IEnumerable<KeyValue>? GeofenceProperties { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

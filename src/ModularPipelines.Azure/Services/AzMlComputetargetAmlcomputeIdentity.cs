@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "computetarget", "amlcompute")]
+[CliCommand("ml", "computetarget", "amlcompute")]
 public class AzMlComputetargetAmlcomputeIdentity
 {
     public AzMlComputetargetAmlcomputeIdentity(

@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "copy-files")]
+[CliCommand("compute", "copy-files")]
 public record GcloudComputeCopyFilesOptions(
-[property: PositionalArgument] string User
+[property: CliArgument] string User
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("--force-key-file-overwrite")]
+    [CliFlag("--force-key-file-overwrite")]
     public bool? ForceKeyFileOverwrite { get; set; }
 
-    [BooleanCommandSwitch("--plain")]
+    [CliFlag("--plain")]
     public bool? Plain { get; set; }
 
-    [CommandSwitch("--ssh-key-file")]
+    [CliOption("--ssh-key-file")]
     public string? SshKeyFile { get; set; }
 
-    [CommandSwitch("--strict-host-key-checking")]
+    [CliOption("--strict-host-key-checking")]
     public string? StrictHostKeyChecking { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [CommandSwitch("--ssh-key-expiration")]
+    [CliOption("--ssh-key-expiration")]
     public string? SshKeyExpiration { get; set; }
 
-    [CommandSwitch("--ssh-key-expire-after")]
+    [CliOption("--ssh-key-expire-after")]
     public string? SshKeyExpireAfter { get; set; }
 }

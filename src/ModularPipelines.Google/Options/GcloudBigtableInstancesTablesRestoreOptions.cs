@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bigtable", "instances", "tables", "restore")]
+[CliCommand("bigtable", "instances", "tables", "restore")]
 public record GcloudBigtableInstancesTablesRestoreOptions(
-[property: CommandSwitch("--destination")] string Destination,
-[property: CommandSwitch("--destination-instance")] string DestinationInstance,
-[property: CommandSwitch("--source")] string Source,
-[property: CommandSwitch("--source-cluster")] string SourceCluster,
-[property: CommandSwitch("--source-instance")] string SourceInstance
+[property: CliOption("--destination")] string Destination,
+[property: CliOption("--destination-instance")] string DestinationInstance,
+[property: CliOption("--source")] string Source,
+[property: CliOption("--source-cluster")] string SourceCluster,
+[property: CliOption("--source-instance")] string SourceInstance
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

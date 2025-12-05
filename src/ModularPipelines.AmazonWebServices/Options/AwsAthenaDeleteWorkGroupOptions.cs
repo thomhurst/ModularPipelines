@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("athena", "delete-work-group")]
+[CliCommand("athena", "delete-work-group")]
 public record AwsAthenaDeleteWorkGroupOptions(
-[property: CommandSwitch("--work-group")] string WorkGroup
+[property: CliOption("--work-group")] string WorkGroup
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

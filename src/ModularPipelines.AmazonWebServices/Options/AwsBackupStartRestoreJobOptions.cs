@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "start-restore-job")]
+[CliCommand("backup", "start-restore-job")]
 public record AwsBackupStartRestoreJobOptions(
-[property: CommandSwitch("--recovery-point-arn")] string RecoveryPointArn,
-[property: CommandSwitch("--metadata")] IEnumerable<KeyValue> Metadata
+[property: CliOption("--recovery-point-arn")] string RecoveryPointArn,
+[property: CliOption("--metadata")] IEnumerable<KeyValue> Metadata
 ) : AwsOptions
 {
-    [CommandSwitch("--iam-role-arn")]
+    [CliOption("--iam-role-arn")]
     public string? IamRoleArn { get; set; }
 
-    [CommandSwitch("--idempotency-token")]
+    [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "public-advertised-prefixes", "create")]
+[CliCommand("compute", "public-advertised-prefixes", "create")]
 public record GcloudComputePublicAdvertisedPrefixesCreateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--dns-verification-ip")] string DnsVerificationIp,
-[property: CommandSwitch("--range")] string Range
+[property: CliArgument] string Name,
+[property: CliOption("--dns-verification-ip")] string DnsVerificationIp,
+[property: CliOption("--range")] string Range
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 }

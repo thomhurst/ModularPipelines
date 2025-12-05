@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops", "wiki")]
+[CliCommand("devops", "wiki")]
 public class AzDevopsWikiPage
 {
     public AzDevopsWikiPage(

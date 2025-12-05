@@ -15,12 +15,12 @@ public record DockerConfigInspectOptions : DockerOptions
         InspectConfig = config;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public IEnumerable<string>? InspectConfig { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual IEnumerable<string>? InspectConfig { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 
-    [CommandSwitch("--pretty")]
+    [CliOption("--pretty")]
     public virtual string? Pretty { get; set; }
 }

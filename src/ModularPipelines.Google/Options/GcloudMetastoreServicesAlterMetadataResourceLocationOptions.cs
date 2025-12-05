@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("metastore", "services", "alter-metadata-resource-location")]
+[CliCommand("metastore", "services", "alter-metadata-resource-location")]
 public record GcloudMetastoreServicesAlterMetadataResourceLocationOptions(
-[property: PositionalArgument] string Service,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--location_uri")] string LocationUri,
-[property: CommandSwitch("--resource_name")] string ResourceName
+[property: CliArgument] string Service,
+[property: CliArgument] string Location,
+[property: CliOption("--location_uri")] string LocationUri,
+[property: CliOption("--resource_name")] string ResourceName
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

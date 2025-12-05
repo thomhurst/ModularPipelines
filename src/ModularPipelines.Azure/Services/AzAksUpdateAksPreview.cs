@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "update")]
+[CliCommand("aks", "update")]
 public class AzAksUpdateAksPreview
 {
     public AzAksUpdateAksPreview(

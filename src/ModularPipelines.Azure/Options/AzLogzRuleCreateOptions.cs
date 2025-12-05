@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logz", "rule", "create")]
+[CliSubCommand("logz", "rule", "create")]
 public record AzLogzRuleCreateOptions(
-[property: CommandSwitch("--monitor-name")] string MonitorName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--rule-set-name")] string RuleSetName
+[property: CliOption("--monitor-name")] string MonitorName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--rule-set-name")] string RuleSetName
 ) : AzOptions
 {
-    [CommandSwitch("--filtering-tags")]
+    [CliOption("--filtering-tags")]
     public string? FilteringTags { get; set; }
 
-    [BooleanCommandSwitch("--send-aad-logs")]
+    [CliFlag("--send-aad-logs")]
     public bool? SendAadLogs { get; set; }
 
-    [BooleanCommandSwitch("--send-activity-logs")]
+    [CliFlag("--send-activity-logs")]
     public bool? SendActivityLogs { get; set; }
 
-    [BooleanCommandSwitch("--send-subscription-logs")]
+    [CliFlag("--send-subscription-logs")]
     public bool? SendSubscriptionLogs { get; set; }
 }

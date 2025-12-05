@@ -4,50 +4,50 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticbeanstalk", "create-environment")]
+[CliCommand("elasticbeanstalk", "create-environment")]
 public record AwsElasticbeanstalkCreateEnvironmentOptions(
-[property: CommandSwitch("--application-name")] string ApplicationName
+[property: CliOption("--application-name")] string ApplicationName
 ) : AwsOptions
 {
-    [CommandSwitch("--environment-name")]
+    [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 
-    [CommandSwitch("--group-name")]
+    [CliOption("--group-name")]
     public string? GroupName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--cname-prefix")]
+    [CliOption("--cname-prefix")]
     public string? CnamePrefix { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--version-label")]
+    [CliOption("--version-label")]
     public string? VersionLabel { get; set; }
 
-    [CommandSwitch("--template-name")]
+    [CliOption("--template-name")]
     public string? TemplateName { get; set; }
 
-    [CommandSwitch("--solution-stack-name")]
+    [CliOption("--solution-stack-name")]
     public string? SolutionStackName { get; set; }
 
-    [CommandSwitch("--platform-arn")]
+    [CliOption("--platform-arn")]
     public string? PlatformArn { get; set; }
 
-    [CommandSwitch("--option-settings")]
+    [CliOption("--option-settings")]
     public string[]? OptionSettings { get; set; }
 
-    [CommandSwitch("--options-to-remove")]
+    [CliOption("--options-to-remove")]
     public string[]? OptionsToRemove { get; set; }
 
-    [CommandSwitch("--operations-role")]
+    [CliOption("--operations-role")]
     public string? OperationsRole { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

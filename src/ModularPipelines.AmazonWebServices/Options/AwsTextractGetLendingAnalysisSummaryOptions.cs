@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("textract", "get-lending-analysis-summary")]
+[CliCommand("textract", "get-lending-analysis-summary")]
 public record AwsTextractGetLendingAnalysisSummaryOptions(
-[property: CommandSwitch("--job-id")] string JobId
+[property: CliOption("--job-id")] string JobId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

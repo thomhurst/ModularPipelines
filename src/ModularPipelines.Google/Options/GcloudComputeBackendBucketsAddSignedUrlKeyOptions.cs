@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "backend-buckets", "add-signed-url-key")]
+[CliCommand("compute", "backend-buckets", "add-signed-url-key")]
 public record GcloudComputeBackendBucketsAddSignedUrlKeyOptions(
-[property: PositionalArgument] string BackendBucketName,
-[property: CommandSwitch("--key-file")] string KeyFile,
-[property: CommandSwitch("--key-name")] string KeyName
+[property: CliArgument] string BackendBucketName,
+[property: CliOption("--key-file")] string KeyFile,
+[property: CliOption("--key-name")] string KeyName
 ) : GcloudOptions;

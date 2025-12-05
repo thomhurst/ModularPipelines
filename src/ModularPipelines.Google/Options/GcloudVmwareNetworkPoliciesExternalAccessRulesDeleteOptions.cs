@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "network-policies", "external-access-rules", "delete")]
+[CliCommand("vmware", "network-policies", "external-access-rules", "delete")]
 public record GcloudVmwareNetworkPoliciesExternalAccessRulesDeleteOptions(
-[property: PositionalArgument] string ExternalAccessRule,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string NetworkPolicy
+[property: CliArgument] string ExternalAccessRule,
+[property: CliArgument] string Location,
+[property: CliArgument] string NetworkPolicy
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

@@ -7,21 +7,21 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 public record AzOptions() : CommandLineToolOptions("az")
 {
-    [BooleanCommandSwitch("--debug")]
+    [CliFlag("--debug")]
     public bool? Debug { get; set; }
 
-    [BooleanCommandSwitch("--only-show-errors")]
+    [CliFlag("--only-show-errors")]
     public bool? OnlyShowErrors { get; set; }
 
-    [CommandSwitch("--output")]
+    [CliOption("--output")]
     public string? Output { get; set; }
 
-    [CommandSwitch("--query")]
+    [CliOption("--query")]
     public string? Query { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public bool? Verbose { get; set; }
 }

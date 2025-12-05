@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("shield", "update-emergency-contact-settings")]
+[CliCommand("shield", "update-emergency-contact-settings")]
 public record AwsShieldUpdateEmergencyContactSettingsOptions : AwsOptions
 {
-    [CommandSwitch("--emergency-contact-list")]
+    [CliOption("--emergency-contact-list")]
     public string[]? EmergencyContactList { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

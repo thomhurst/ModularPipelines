@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops", "admin")]
+[CliCommand("devops", "admin")]
 public class AzDevopsAdminBanner
 {
     public AzDevopsAdminBanner(

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptunedata", "get-open-cypher-query-status")]
+[CliCommand("neptunedata", "get-open-cypher-query-status")]
 public record AwsNeptunedataGetOpenCypherQueryStatusOptions(
-[property: CommandSwitch("--query-id")] string QueryId
+[property: CliOption("--query-id")] string QueryId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

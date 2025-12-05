@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spanner", "databases", "sessions", "delete")]
+[CliCommand("spanner", "databases", "sessions", "delete")]
 public record GcloudSpannerDatabasesSessionsDeleteOptions(
-[property: PositionalArgument] string Session,
-[property: PositionalArgument] string Database,
-[property: PositionalArgument] string Instance
+[property: CliArgument] string Session,
+[property: CliArgument] string Database,
+[property: CliArgument] string Instance
 ) : GcloudOptions;

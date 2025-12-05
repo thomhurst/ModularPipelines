@@ -5,25 +5,25 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scc", "findings", "update")]
+[CliCommand("scc", "findings", "update")]
 public record GcloudSccFindingsUpdateOptions(
-[property: PositionalArgument] string Finding,
-[property: PositionalArgument] string Organization,
-[property: PositionalArgument] string Source
+[property: CliArgument] string Finding,
+[property: CliArgument] string Organization,
+[property: CliArgument] string Source
 ) : GcloudOptions
 {
-    [CommandSwitch("--event-time")]
+    [CliOption("--event-time")]
     public string? EventTime { get; set; }
 
-    [CommandSwitch("--external-uri")]
+    [CliOption("--external-uri")]
     public string? ExternalUri { get; set; }
 
-    [CommandSwitch("--source-properties")]
+    [CliOption("--source-properties")]
     public IEnumerable<KeyValue>? SourceProperties { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [CommandSwitch("--update-mask")]
+    [CliOption("--update-mask")]
     public string? UpdateMask { get; set; }
 }

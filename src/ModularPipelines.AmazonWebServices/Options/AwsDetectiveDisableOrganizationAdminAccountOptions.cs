@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("detective", "disable-organization-admin-account")]
+[CliCommand("detective", "disable-organization-admin-account")]
 public record AwsDetectiveDisableOrganizationAdminAccountOptions : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "route", "list")]
+[CliSubCommand("dt", "route", "list")]
 public record AzDtRouteListOptions(
-[property: CommandSwitch("--dt-name")] string DtName
+[property: CliOption("--dt-name")] string DtName
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

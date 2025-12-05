@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dynamodbstreams", "get-records")]
+[CliCommand("dynamodbstreams", "get-records")]
 public record AwsDynamodbstreamsGetRecordsOptions(
-[property: CommandSwitch("--shard-iterator")] string ShardIterator
+[property: CliOption("--shard-iterator")] string ShardIterator
 ) : AwsOptions
 {
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public int? Limit { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

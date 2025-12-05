@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dynamodb", "batch-execute-statement")]
+[CliCommand("dynamodb", "batch-execute-statement")]
 public record AwsDynamodbBatchExecuteStatementOptions(
-[property: CommandSwitch("--statements")] string[] Statements
+[property: CliOption("--statements")] string[] Statements
 ) : AwsOptions
 {
-    [CommandSwitch("--return-consumed-capacity")]
+    [CliOption("--return-consumed-capacity")]
     public string? ReturnConsumedCapacity { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

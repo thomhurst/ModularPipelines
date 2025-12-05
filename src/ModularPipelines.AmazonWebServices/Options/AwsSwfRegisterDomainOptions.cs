@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("swf", "register-domain")]
+[CliCommand("swf", "register-domain")]
 public record AwsSwfRegisterDomainOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--workflow-execution-retention-period-in-days")] string WorkflowExecutionRetentionPeriodInDays
+[property: CliOption("--name")] string Name,
+[property: CliOption("--workflow-execution-retention-period-in-days")] string WorkflowExecutionRetentionPeriodInDays
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

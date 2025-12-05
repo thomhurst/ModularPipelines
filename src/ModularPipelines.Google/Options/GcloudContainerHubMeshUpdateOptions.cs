@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "hub", "mesh", "update")]
+[CliCommand("container", "hub", "mesh", "update")]
 public record GcloudContainerHubMeshUpdateOptions(
-[property: CommandSwitch("--fleet-default-member-config")] string FleetDefaultMemberConfig,
-[property: CommandSwitch("--control-plane")] string ControlPlane,
-[property: CommandSwitch("--management")] string Management,
-[property: CommandSwitch("--origin")] string Origin,
-[property: CommandSwitch("--memberships")] string[] Memberships,
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--fleet-default-member-config")] string FleetDefaultMemberConfig,
+[property: CliOption("--control-plane")] string ControlPlane,
+[property: CliOption("--management")] string Management,
+[property: CliOption("--origin")] string Origin,
+[property: CliOption("--memberships")] string[] Memberships,
+[property: CliOption("--location")] string Location
 ) : GcloudOptions;

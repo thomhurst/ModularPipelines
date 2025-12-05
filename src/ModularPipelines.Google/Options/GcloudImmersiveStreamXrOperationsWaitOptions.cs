@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("immersive-stream", "xr", "operations", "wait")]
+[CliCommand("immersive-stream", "xr", "operations", "wait")]
 public record GcloudImmersiveStreamXrOperationsWaitOptions(
-[property: PositionalArgument] string Operation,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Operation,
+[property: CliArgument] string Location
 ) : GcloudOptions;

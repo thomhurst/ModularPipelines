@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-groups", "group-resources")]
+[CliCommand("resource-groups", "group-resources")]
 public record AwsResourceGroupsGroupResourcesOptions(
-[property: CommandSwitch("--group")] string Group,
-[property: CommandSwitch("--resource-arns")] string[] ResourceArns
+[property: CliOption("--group")] string Group,
+[property: CliOption("--resource-arns")] string[] ResourceArns
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

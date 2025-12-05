@@ -5,22 +5,22 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managedblockchain", "create-proposal")]
+[CliCommand("managedblockchain", "create-proposal")]
 public record AwsManagedblockchainCreateProposalOptions(
-[property: CommandSwitch("--network-id")] string NetworkId,
-[property: CommandSwitch("--member-id")] string MemberId,
-[property: CommandSwitch("--actions")] string Actions
+[property: CliOption("--network-id")] string NetworkId,
+[property: CliOption("--member-id")] string MemberId,
+[property: CliOption("--actions")] string Actions
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

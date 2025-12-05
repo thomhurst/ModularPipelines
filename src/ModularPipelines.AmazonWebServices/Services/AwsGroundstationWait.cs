@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("groundstation")]
+[CliCommand("groundstation")]
 public class AwsGroundstationWait
 {
     public AwsGroundstationWait(

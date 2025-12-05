@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "get-tags")]
+[CliCommand("apigateway", "get-tags")]
 public record AwsApigatewayGetTagsOptions(
-[property: CommandSwitch("--resource-arn")] string ResourceArn
+[property: CliOption("--resource-arn")] string ResourceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--position")]
+    [CliOption("--position")]
     public string? Position { get; set; }
 
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public int? Limit { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

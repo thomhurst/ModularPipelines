@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hdinsight", "monitor", "enable")]
+[CliSubCommand("hdinsight", "monitor", "enable")]
 public record AzHdinsightMonitorEnableOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace")] string Workspace
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace")] string Workspace
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-validation-timeout")]
+    [CliFlag("--no-validation-timeout")]
     public bool? NoValidationTimeout { get; set; }
 
-    [CommandSwitch("--primary-key")]
+    [CliOption("--primary-key")]
     public string? PrimaryKey { get; set; }
 }

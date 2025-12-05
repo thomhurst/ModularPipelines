@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elastic-san", "volume-group", "create")]
+[CliSubCommand("elastic-san", "volume-group", "create")]
 public record AzElasticSanVolumeGroupCreateOptions(
-[property: CommandSwitch("--elastic-san")] string ElasticSan,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--elastic-san")] string ElasticSan,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--encryption")]
+    [CliOption("--encryption")]
     public string? Encryption { get; set; }
 
-    [CommandSwitch("--encryption-properties")]
+    [CliOption("--encryption-properties")]
     public string? EncryptionProperties { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--network-acls")]
+    [CliOption("--network-acls")]
     public string? NetworkAcls { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--protocol-type")]
+    [CliOption("--protocol-type")]
     public string? ProtocolType { get; set; }
 }

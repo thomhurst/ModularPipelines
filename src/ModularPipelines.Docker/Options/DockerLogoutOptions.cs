@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("logout")]
+[CliCommand("logout")]
 [ExcludeFromCodeCoverage]
 public record DockerLogoutOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Server { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Server { get; set; }
 }

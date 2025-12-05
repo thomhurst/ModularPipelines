@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("alloydb", "instances", "create-secondary")]
+[CliCommand("alloydb", "instances", "create-secondary")]
 public record GcloudAlloydbInstancesCreateSecondaryOptions(
-[property: PositionalArgument] string Instance,
-[property: CommandSwitch("--cluster")] string Cluster,
-[property: CommandSwitch("--region")] string Region
+[property: CliArgument] string Instance,
+[property: CliOption("--cluster")] string Cluster,
+[property: CliOption("--region")] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--availability-type")]
+    [CliOption("--availability-type")]
     public string? AvailabilityType { get; set; }
 }

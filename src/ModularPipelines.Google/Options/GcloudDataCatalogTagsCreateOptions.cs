@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("data-catalog", "tags", "create")]
+[CliCommand("data-catalog", "tags", "create")]
 public record GcloudDataCatalogTagsCreateOptions(
-[property: CommandSwitch("--tag-file")] string TagFile,
-[property: CommandSwitch("--entry")] string Entry,
-[property: CommandSwitch("--entry-group")] string EntryGroup,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--tag-template")] string TagTemplate,
-[property: CommandSwitch("--tag-template-location")] string TagTemplateLocation,
-[property: CommandSwitch("--tag-template-project")] string TagTemplateProject
+[property: CliOption("--tag-file")] string TagFile,
+[property: CliOption("--entry")] string Entry,
+[property: CliOption("--entry-group")] string EntryGroup,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--tag-template")] string TagTemplate,
+[property: CliOption("--tag-template-location")] string TagTemplateLocation,
+[property: CliOption("--tag-template-project")] string TagTemplateProject
 ) : GcloudOptions
 {
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 }

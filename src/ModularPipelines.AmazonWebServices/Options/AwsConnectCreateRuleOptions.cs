@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "create-rule")]
+[CliCommand("connect", "create-rule")]
 public record AwsConnectCreateRuleOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--trigger-event-source")] string TriggerEventSource,
-[property: CommandSwitch("--function")] string Function,
-[property: CommandSwitch("--actions")] string[] Actions,
-[property: CommandSwitch("--publish-status")] string PublishStatus
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--trigger-event-source")] string TriggerEventSource,
+[property: CliOption("--function")] string Function,
+[property: CliOption("--actions")] string[] Actions,
+[property: CliOption("--publish-status")] string PublishStatus
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

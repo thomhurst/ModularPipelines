@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm-contacts", "list-rotation-shifts")]
+[CliCommand("ssm-contacts", "list-rotation-shifts")]
 public record AwsSsmContactsListRotationShiftsOptions(
-[property: CommandSwitch("--rotation-id")] string RotationId,
-[property: CommandSwitch("--end-time")] long EndTime
+[property: CliOption("--rotation-id")] string RotationId,
+[property: CliOption("--end-time")] long EndTime
 ) : AwsOptions
 {
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public long? StartTime { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

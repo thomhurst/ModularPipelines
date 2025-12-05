@@ -3,130 +3,130 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("commit")]
+[CliSubCommand("commit")]
 [ExcludeFromCodeCoverage]
 public record GitCommitOptions : GitOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [BooleanCommandSwitch("--patch")]
+    [CliFlag("--patch")]
     public virtual bool? Patch { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--reuse-message")]
-    public string? ReuseMessage { get; set; }
+    [CliOption("--reuse-message", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ReuseMessage { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--reedit-message")]
-    public string? ReeditMessage { get; set; }
+    [CliOption("--reedit-message", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ReeditMessage { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--fixup")]
-    public string? Fixup { get; set; }
+    [CliOption("--fixup", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Fixup { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--squash")]
-    public string? Squash { get; set; }
+    [CliOption("--squash", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Squash { get; set; }
 
-    [BooleanCommandSwitch("--reset-author")]
+    [CliFlag("--reset-author")]
     public virtual bool? ResetAuthor { get; set; }
 
-    [BooleanCommandSwitch("--short")]
+    [CliFlag("--short")]
     public virtual bool? Short { get; set; }
 
-    [BooleanCommandSwitch("--branch")]
+    [CliFlag("--branch")]
     public virtual bool? Branch { get; set; }
 
-    [BooleanCommandSwitch("--porcelain")]
+    [CliFlag("--porcelain")]
     public virtual bool? Porcelain { get; set; }
 
-    [BooleanCommandSwitch("--long")]
+    [CliFlag("--long")]
     public virtual bool? Long { get; set; }
 
-    [BooleanCommandSwitch("--null")]
+    [CliFlag("--null")]
     public virtual bool? Null { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--file")]
-    public string? File { get; set; }
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? File { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--author")]
-    public string? Author { get; set; }
+    [CliOption("--author", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Author { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--date")]
-    public string? Date { get; set; }
+    [CliOption("--date", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Date { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--message")]
-    public string? Message { get; set; }
+    [CliOption("--message", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Message { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template")]
-    public string? Template { get; set; }
+    [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Template { get; set; }
 
-    [BooleanCommandSwitch("--signoff")]
+    [CliFlag("--signoff")]
     public virtual bool? Signoff { get; set; }
 
-    [BooleanCommandSwitch("--no-signoff")]
+    [CliFlag("--no-signoff")]
     public virtual bool? NoSignoff { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--trailer")]
-    public string? Trailer { get; set; }
+    [CliOption("--trailer", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Trailer { get; set; }
 
-    [BooleanCommandSwitch("--no-verify")]
+    [CliFlag("--no-verify")]
     public virtual bool? NoVerify { get; set; }
 
-    [BooleanCommandSwitch("--verify")]
+    [CliFlag("--verify")]
     public virtual bool? Verify { get; set; }
 
-    [BooleanCommandSwitch("--allow-empty")]
+    [CliFlag("--allow-empty")]
     public virtual bool? AllowEmpty { get; set; }
 
-    [BooleanCommandSwitch("--allow-empty-message")]
+    [CliFlag("--allow-empty-message")]
     public virtual bool? AllowEmptyMessage { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cleanup")]
-    public string? Cleanup { get; set; }
+    [CliOption("--cleanup", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Cleanup { get; set; }
 
-    [BooleanCommandSwitch("--edit")]
+    [CliFlag("--edit")]
     public virtual bool? Edit { get; set; }
 
-    [BooleanCommandSwitch("--no-edit")]
+    [CliFlag("--no-edit")]
     public virtual bool? NoEdit { get; set; }
 
-    [BooleanCommandSwitch("--amend")]
+    [CliFlag("--amend")]
     public virtual bool? Amend { get; set; }
 
-    [BooleanCommandSwitch("--no-post-rewrite")]
+    [CliFlag("--no-post-rewrite")]
     public virtual bool? NoPostRewrite { get; set; }
 
-    [BooleanCommandSwitch("--include")]
+    [CliFlag("--include")]
     public virtual bool? Include { get; set; }
 
-    [BooleanCommandSwitch("--only")]
+    [CliFlag("--only")]
     public virtual bool? Only { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--pathspec-from-file")]
-    public string? PathspecFromFile { get; set; }
+    [CliOption("--pathspec-from-file", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? PathspecFromFile { get; set; }
 
-    [BooleanCommandSwitch("--pathspec-file-nul")]
+    [CliFlag("--pathspec-file-nul")]
     public virtual bool? PathspecFileNul { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--untracked-files")]
-    public string? UntrackedFiles { get; set; }
+    [CliOption("--untracked-files", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? UntrackedFiles { get; set; }
 
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("--status")]
+    [CliFlag("--status")]
     public virtual bool? Status { get; set; }
 
-    [BooleanCommandSwitch("--no-status")]
+    [CliFlag("--no-status")]
     public virtual bool? NoStatus { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--gpg-sign")]
-    public string? GpgSign { get; set; }
+    [CliOption("--gpg-sign", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? GpgSign { get; set; }
 
-    [BooleanCommandSwitch("--no-gpg-sign")]
+    [CliFlag("--no-gpg-sign")]
     public virtual bool? NoGpgSign { get; set; }
 }

@@ -3,61 +3,61 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("list")]
+[CliCommand("list")]
 [ExcludeFromCodeCoverage]
 public record HelmListOptions : HelmOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [BooleanCommandSwitch("--all-namespaces")]
+    [CliFlag("--all-namespaces")]
     public virtual bool? AllNamespaces { get; set; }
 
-    [BooleanCommandSwitch("--date")]
+    [CliFlag("--date")]
     public virtual bool? Date { get; set; }
 
-    [BooleanCommandSwitch("--deployed")]
+    [CliFlag("--deployed")]
     public virtual bool? Deployed { get; set; }
 
-    [BooleanCommandSwitch("--failed")]
+    [CliFlag("--failed")]
     public virtual bool? Failed { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filter", SwitchValueSeparator = " ")]
-    public string? Filter { get; set; }
+    [CliOption("--filter")]
+    public virtual string? Filter { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--max", SwitchValueSeparator = " ")]
-    public int? Max { get; set; }
+    [CliOption("--max")]
+    public virtual int? Max { get; set; }
 
-    [BooleanCommandSwitch("--no-headers")]
+    [CliFlag("--no-headers")]
     public virtual bool? NoHeaders { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--offset", SwitchValueSeparator = " ")]
-    public int? Offset { get; set; }
+    [CliOption("--offset")]
+    public virtual int? Offset { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
-    public string? Output { get; set; }
+    [CliOption("--output")]
+    public virtual string? Output { get; set; }
 
-    [BooleanCommandSwitch("--pending")]
+    [CliFlag("--pending")]
     public virtual bool? Pending { get; set; }
 
-    [BooleanCommandSwitch("--reverse")]
+    [CliFlag("--reverse")]
     public virtual bool? Reverse { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
-    public string? Selector { get; set; }
+    [CliOption("--selector")]
+    public virtual string? Selector { get; set; }
 
-    [BooleanCommandSwitch("--short")]
+    [CliFlag("--short")]
     public virtual bool? Short { get; set; }
 
-    [BooleanCommandSwitch("--superseded")]
+    [CliFlag("--superseded")]
     public virtual bool? Superseded { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--time-format", SwitchValueSeparator = " ")]
-    public string? TimeFormat { get; set; }
+    [CliOption("--time-format")]
+    public virtual string? TimeFormat { get; set; }
 
-    [BooleanCommandSwitch("--uninstalled")]
+    [CliFlag("--uninstalled")]
     public virtual bool? Uninstalled { get; set; }
 
-    [BooleanCommandSwitch("--uninstalling")]
+    [CliFlag("--uninstalling")]
     public virtual bool? Uninstalling { get; set; }
 }

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-endpoint")]
+[CliCommand("sagemaker", "create-endpoint")]
 public record AwsSagemakerCreateEndpointOptions(
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--endpoint-config-name")] string EndpointConfigName
+[property: CliOption("--endpoint-name")] string EndpointName,
+[property: CliOption("--endpoint-config-name")] string EndpointConfigName
 ) : AwsOptions
 {
-    [CommandSwitch("--deployment-config")]
+    [CliOption("--deployment-config")]
     public string? DeploymentConfig { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

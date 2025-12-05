@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptune-graph", "delete-graph-snapshot")]
+[CliCommand("neptune-graph", "delete-graph-snapshot")]
 public record AwsNeptuneGraphDeleteGraphSnapshotOptions(
-[property: CommandSwitch("--snapshot-identifier")] string SnapshotIdentifier
+[property: CliOption("--snapshot-identifier")] string SnapshotIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

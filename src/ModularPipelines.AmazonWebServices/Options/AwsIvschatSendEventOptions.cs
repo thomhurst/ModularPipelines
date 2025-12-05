@@ -5,15 +5,15 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ivschat", "send-event")]
+[CliCommand("ivschat", "send-event")]
 public record AwsIvschatSendEventOptions(
-[property: CommandSwitch("--event-name")] string EventName,
-[property: CommandSwitch("--room-identifier")] string RoomIdentifier
+[property: CliOption("--event-name")] string EventName,
+[property: CliOption("--room-identifier")] string RoomIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--attributes")]
+    [CliOption("--attributes")]
     public IEnumerable<KeyValue>? Attributes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

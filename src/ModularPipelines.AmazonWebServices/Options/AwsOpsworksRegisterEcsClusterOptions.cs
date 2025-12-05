@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworks", "register-ecs-cluster")]
+[CliCommand("opsworks", "register-ecs-cluster")]
 public record AwsOpsworksRegisterEcsClusterOptions(
-[property: CommandSwitch("--ecs-cluster-arn")] string EcsClusterArn,
-[property: CommandSwitch("--stack-id")] string StackId
+[property: CliOption("--ecs-cluster-arn")] string EcsClusterArn,
+[property: CliOption("--stack-id")] string StackId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

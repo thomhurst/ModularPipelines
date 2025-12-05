@@ -5,7 +5,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("recommender", "recommendations", "mark-failed")]
+[CliCommand("recommender", "recommendations", "mark-failed")]
 public record GcloudRecommenderRecommendationsMarkFailedOptions : GcloudOptions
 {
     public GcloudRecommenderRecommendationsMarkFailedOptions(
@@ -29,27 +29,27 @@ public record GcloudRecommenderRecommendationsMarkFailedOptions : GcloudOptions
         Project = project;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Recommendation { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string Etag { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string Location { get; set; }
 
-    [CommandSwitch("--recommender")]
+    [CliOption("--recommender")]
     public string Recommender { get; set; }
 
-    [CommandSwitch("--billing-account")]
+    [CliOption("--billing-account")]
     public string BillingAccount { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 
-    [CommandSwitch("--state-metadata")]
+    [CliOption("--state-metadata")]
     public IEnumerable<KeyValue>? StateMetadata { get; set; }
 }

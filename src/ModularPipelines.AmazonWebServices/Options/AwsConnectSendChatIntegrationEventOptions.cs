@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "send-chat-integration-event")]
+[CliCommand("connect", "send-chat-integration-event")]
 public record AwsConnectSendChatIntegrationEventOptions(
-[property: CommandSwitch("--source-id")] string SourceId,
-[property: CommandSwitch("--destination-id")] string DestinationId,
-[property: CommandSwitch("--event")] string Event
+[property: CliOption("--source-id")] string SourceId,
+[property: CliOption("--destination-id")] string DestinationId,
+[property: CliOption("--event")] string Event
 ) : AwsOptions
 {
-    [CommandSwitch("--subtype")]
+    [CliOption("--subtype")]
     public string? Subtype { get; set; }
 
-    [CommandSwitch("--new-session-details")]
+    [CliOption("--new-session-details")]
     public string? NewSessionDetails { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

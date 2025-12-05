@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qconnect", "delete-assistant")]
+[CliCommand("qconnect", "delete-assistant")]
 public record AwsQconnectDeleteAssistantOptions(
-[property: CommandSwitch("--assistant-id")] string AssistantId
+[property: CliOption("--assistant-id")] string AssistantId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

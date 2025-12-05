@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("privatenetworks", "update-network-site")]
+[CliCommand("privatenetworks", "update-network-site")]
 public record AwsPrivatenetworksUpdateNetworkSiteOptions(
-[property: CommandSwitch("--network-site-arn")] string NetworkSiteArn
+[property: CliOption("--network-site-arn")] string NetworkSiteArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

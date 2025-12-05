@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "update-game-server")]
+[CliCommand("gamelift", "update-game-server")]
 public record AwsGameliftUpdateGameServerOptions(
-[property: CommandSwitch("--game-server-group-name")] string GameServerGroupName,
-[property: CommandSwitch("--game-server-id")] string GameServerId
+[property: CliOption("--game-server-group-name")] string GameServerGroupName,
+[property: CliOption("--game-server-id")] string GameServerId
 ) : AwsOptions
 {
-    [CommandSwitch("--game-server-data")]
+    [CliOption("--game-server-data")]
     public string? GameServerData { get; set; }
 
-    [CommandSwitch("--utilization-status")]
+    [CliOption("--utilization-status")]
     public string? UtilizationStatus { get; set; }
 
-    [CommandSwitch("--health-check")]
+    [CliOption("--health-check")]
     public string? HealthCheck { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

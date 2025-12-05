@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("context", "rm")]
+[CliCommand("context", "rm")]
 [ExcludeFromCodeCoverage]
 public record DockerContextRmOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public IEnumerable<string>? RmContext { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual IEnumerable<string>? RmContext { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 }

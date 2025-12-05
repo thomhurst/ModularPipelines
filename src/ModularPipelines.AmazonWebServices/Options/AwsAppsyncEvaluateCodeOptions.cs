@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appsync", "evaluate-code")]
+[CliCommand("appsync", "evaluate-code")]
 public record AwsAppsyncEvaluateCodeOptions(
-[property: CommandSwitch("--runtime")] string Runtime,
-[property: CommandSwitch("--code")] string Code,
-[property: CommandSwitch("--context")] string Context
+[property: CliOption("--runtime")] string Runtime,
+[property: CliOption("--code")] string Code,
+[property: CliOption("--context")] string Context
 ) : AwsOptions
 {
-    [CommandSwitch("--function")]
+    [CliOption("--function")]
     public string? Function { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

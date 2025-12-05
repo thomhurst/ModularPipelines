@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datastore", "indexes", "describe")]
+[CliCommand("datastore", "indexes", "describe")]
 public record GcloudDatastoreIndexesDescribeOptions(
-[property: PositionalArgument] string Index
+[property: CliArgument] string Index
 ) : GcloudOptions;

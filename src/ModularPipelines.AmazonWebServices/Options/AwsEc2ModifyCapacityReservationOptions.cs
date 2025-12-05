@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-capacity-reservation")]
+[CliCommand("ec2", "modify-capacity-reservation")]
 public record AwsEc2ModifyCapacityReservationOptions(
-[property: CommandSwitch("--capacity-reservation-id")] string CapacityReservationId
+[property: CliOption("--capacity-reservation-id")] string CapacityReservationId
 ) : AwsOptions
 {
-    [CommandSwitch("--instance-count")]
+    [CliOption("--instance-count")]
     public int? InstanceCount { get; set; }
 
-    [CommandSwitch("--end-date")]
+    [CliOption("--end-date")]
     public long? EndDate { get; set; }
 
-    [CommandSwitch("--end-date-type")]
+    [CliOption("--end-date-type")]
     public string? EndDateType { get; set; }
 
-    [CommandSwitch("--additional-info")]
+    [CliOption("--additional-info")]
     public string? AdditionalInfo { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

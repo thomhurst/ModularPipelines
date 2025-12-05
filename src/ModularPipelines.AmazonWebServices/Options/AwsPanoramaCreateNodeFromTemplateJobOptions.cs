@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("panorama", "create-node-from-template-job")]
+[CliCommand("panorama", "create-node-from-template-job")]
 public record AwsPanoramaCreateNodeFromTemplateJobOptions(
-[property: CommandSwitch("--node-name")] string NodeName,
-[property: CommandSwitch("--output-package-name")] string OutputPackageName,
-[property: CommandSwitch("--output-package-version")] string OutputPackageVersion,
-[property: CommandSwitch("--template-parameters")] IEnumerable<KeyValue> TemplateParameters,
-[property: CommandSwitch("--template-type")] string TemplateType
+[property: CliOption("--node-name")] string NodeName,
+[property: CliOption("--output-package-name")] string OutputPackageName,
+[property: CliOption("--output-package-version")] string OutputPackageVersion,
+[property: CliOption("--template-parameters")] IEnumerable<KeyValue> TemplateParameters,
+[property: CliOption("--template-type")] string TemplateType
 ) : AwsOptions
 {
-    [CommandSwitch("--job-tags")]
+    [CliOption("--job-tags")]
     public string[]? JobTags { get; set; }
 
-    [CommandSwitch("--node-description")]
+    [CliOption("--node-description")]
     public string? NodeDescription { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

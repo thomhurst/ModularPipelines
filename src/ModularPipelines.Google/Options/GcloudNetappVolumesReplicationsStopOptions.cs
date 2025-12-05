@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netapp", "volumes", "replications", "stop")]
+[CliCommand("netapp", "volumes", "replications", "stop")]
 public record GcloudNetappVolumesReplicationsStopOptions(
-[property: PositionalArgument] string Replication,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Replication,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 
-    [CommandSwitch("--volume")]
+    [CliOption("--volume")]
     public string? Volume { get; set; }
 }

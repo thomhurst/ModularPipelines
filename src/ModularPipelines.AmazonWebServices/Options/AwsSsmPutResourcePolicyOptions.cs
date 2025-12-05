@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "put-resource-policy")]
+[CliCommand("ssm", "put-resource-policy")]
 public record AwsSsmPutResourcePolicyOptions(
-[property: CommandSwitch("--resource-arn")] string ResourceArn,
-[property: CommandSwitch("--policy")] string Policy
+[property: CliOption("--resource-arn")] string ResourceArn,
+[property: CliOption("--policy")] string Policy
 ) : AwsOptions
 {
-    [CommandSwitch("--policy-id")]
+    [CliOption("--policy-id")]
     public string? PolicyId { get; set; }
 
-    [CommandSwitch("--policy-hash")]
+    [CliOption("--policy-hash")]
     public string? PolicyHash { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

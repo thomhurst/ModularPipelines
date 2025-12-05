@@ -4,56 +4,56 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elbv2", "create-target-group")]
+[CliCommand("elbv2", "create-target-group")]
 public record AwsElbv2CreateTargetGroupOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--protocol-version")]
+    [CliOption("--protocol-version")]
     public string? ProtocolVersion { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--vpc-id")]
+    [CliOption("--vpc-id")]
     public string? VpcId { get; set; }
 
-    [CommandSwitch("--health-check-protocol")]
+    [CliOption("--health-check-protocol")]
     public string? HealthCheckProtocol { get; set; }
 
-    [CommandSwitch("--health-check-port")]
+    [CliOption("--health-check-port")]
     public string? HealthCheckPort { get; set; }
 
-    [CommandSwitch("--health-check-path")]
+    [CliOption("--health-check-path")]
     public string? HealthCheckPath { get; set; }
 
-    [CommandSwitch("--health-check-interval-seconds")]
+    [CliOption("--health-check-interval-seconds")]
     public int? HealthCheckIntervalSeconds { get; set; }
 
-    [CommandSwitch("--health-check-timeout-seconds")]
+    [CliOption("--health-check-timeout-seconds")]
     public int? HealthCheckTimeoutSeconds { get; set; }
 
-    [CommandSwitch("--healthy-threshold-count")]
+    [CliOption("--healthy-threshold-count")]
     public int? HealthyThresholdCount { get; set; }
 
-    [CommandSwitch("--unhealthy-threshold-count")]
+    [CliOption("--unhealthy-threshold-count")]
     public int? UnhealthyThresholdCount { get; set; }
 
-    [CommandSwitch("--matcher")]
+    [CliOption("--matcher")]
     public string? Matcher { get; set; }
 
-    [CommandSwitch("--target-type")]
+    [CliOption("--target-type")]
     public string? TargetType { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--ip-address-type")]
+    [CliOption("--ip-address-type")]
     public string? IpAddressType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

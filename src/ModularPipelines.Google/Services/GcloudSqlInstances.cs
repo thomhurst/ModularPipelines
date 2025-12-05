@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql")]
+[CliCommand("sql")]
 public class GcloudSqlInstances
 {
     public GcloudSqlInstances(

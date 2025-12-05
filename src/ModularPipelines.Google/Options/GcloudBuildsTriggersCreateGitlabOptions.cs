@@ -5,28 +5,28 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("builds", "triggers", "create", "gitlab")]
+[CliCommand("builds", "triggers", "create", "gitlab")]
 public record GcloudBuildsTriggersCreateGitlabOptions(
-[property: CommandSwitch("--trigger-config")] string TriggerConfig,
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--ignored-files")] string[] IgnoredFiles,
-[property: CommandSwitch("--included-files")] string[] IncludedFiles,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--region")] string Region,
-[property: CommandSwitch("--repository")] string Repository,
-[property: CommandSwitch("--[no-]require-approval")] string[] NoRequireApproval,
-[property: CommandSwitch("--service-account")] string ServiceAccount,
-[property: CommandSwitch("--substitutions")] IEnumerable<KeyValue> Substitutions,
-[property: CommandSwitch("--branch-pattern")] string BranchPattern,
-[property: CommandSwitch("--tag-pattern")] string TagPattern,
-[property: CommandSwitch("--pull-request-pattern")] string PullRequestPattern,
-[property: CommandSwitch("--comment-control")] string CommentControl,
-[property: BooleanCommandSwitch("COMMENTS_DISABLED")] bool CommentsDisabled,
-[property: BooleanCommandSwitch("COMMENTS_ENABLED")] bool CommentsEnabled,
-[property: BooleanCommandSwitch("COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY")] bool CommentsEnabledForExternalContributorsOnly,
-[property: CommandSwitch("--build-config")] string BuildConfig,
-[property: CommandSwitch("--inline-config")] string InlineConfig,
-[property: CommandSwitch("--dockerfile")] string Dockerfile,
-[property: CommandSwitch("--dockerfile-image")] string DockerfileImage,
-[property: CommandSwitch("--dockerfile-dir")] string DockerfileDir
+[property: CliOption("--trigger-config")] string TriggerConfig,
+[property: CliOption("--description")] string Description,
+[property: CliOption("--ignored-files")] string[] IgnoredFiles,
+[property: CliOption("--included-files")] string[] IncludedFiles,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--region")] string Region,
+[property: CliOption("--repository")] string Repository,
+[property: CliOption("--[no-]require-approval")] string[] NoRequireApproval,
+[property: CliOption("--service-account")] string ServiceAccount,
+[property: CliOption("--substitutions")] IEnumerable<KeyValue> Substitutions,
+[property: CliOption("--branch-pattern")] string BranchPattern,
+[property: CliOption("--tag-pattern")] string TagPattern,
+[property: CliOption("--pull-request-pattern")] string PullRequestPattern,
+[property: CliOption("--comment-control")] string CommentControl,
+[property: CliFlag("COMMENTS_DISABLED")] bool CommentsDisabled,
+[property: CliFlag("COMMENTS_ENABLED")] bool CommentsEnabled,
+[property: CliFlag("COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY")] bool CommentsEnabledForExternalContributorsOnly,
+[property: CliOption("--build-config")] string BuildConfig,
+[property: CliOption("--inline-config")] string InlineConfig,
+[property: CliOption("--dockerfile")] string Dockerfile,
+[property: CliOption("--dockerfile-image")] string DockerfileImage,
+[property: CliOption("--dockerfile-dir")] string DockerfileDir
 ) : GcloudOptions;

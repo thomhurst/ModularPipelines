@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "update-domain-name")]
+[CliCommand("apigateway", "update-domain-name")]
 public record AwsApigatewayUpdateDomainNameOptions(
-[property: CommandSwitch("--domain-name")] string DomainName
+[property: CliOption("--domain-name")] string DomainName
 ) : AwsOptions
 {
-    [CommandSwitch("--patch-operations")]
+    [CliOption("--patch-operations")]
     public string[]? PatchOperations { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptune", "modify-event-subscription")]
+[CliCommand("neptune", "modify-event-subscription")]
 public record AwsNeptuneModifyEventSubscriptionOptions(
-[property: CommandSwitch("--subscription-name")] string SubscriptionName
+[property: CliOption("--subscription-name")] string SubscriptionName
 ) : AwsOptions
 {
-    [CommandSwitch("--sns-topic-arn")]
+    [CliOption("--sns-topic-arn")]
     public string? SnsTopicArn { get; set; }
 
-    [CommandSwitch("--source-type")]
+    [CliOption("--source-type")]
     public string? SourceType { get; set; }
 
-    [CommandSwitch("--event-categories")]
+    [CliOption("--event-categories")]
     public string[]? EventCategories { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

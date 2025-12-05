@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mturk", "accept-qualification-request")]
+[CliCommand("mturk", "accept-qualification-request")]
 public record AwsMturkAcceptQualificationRequestOptions(
-[property: CommandSwitch("--qualification-request-id")] string QualificationRequestId
+[property: CliOption("--qualification-request-id")] string QualificationRequestId
 ) : AwsOptions
 {
-    [CommandSwitch("--integer-value")]
+    [CliOption("--integer-value")]
     public int? IntegerValue { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

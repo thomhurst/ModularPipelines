@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "create-domain-configuration")]
+[CliCommand("iot", "create-domain-configuration")]
 public record AwsIotCreateDomainConfigurationOptions(
-[property: CommandSwitch("--domain-configuration-name")] string DomainConfigurationName
+[property: CliOption("--domain-configuration-name")] string DomainConfigurationName
 ) : AwsOptions
 {
-    [CommandSwitch("--domain-name")]
+    [CliOption("--domain-name")]
     public string? DomainName { get; set; }
 
-    [CommandSwitch("--server-certificate-arns")]
+    [CliOption("--server-certificate-arns")]
     public string[]? ServerCertificateArns { get; set; }
 
-    [CommandSwitch("--validation-certificate-arn")]
+    [CliOption("--validation-certificate-arn")]
     public string? ValidationCertificateArn { get; set; }
 
-    [CommandSwitch("--authorizer-config")]
+    [CliOption("--authorizer-config")]
     public string? AuthorizerConfig { get; set; }
 
-    [CommandSwitch("--service-type")]
+    [CliOption("--service-type")]
     public string? ServiceType { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--tls-config")]
+    [CliOption("--tls-config")]
     public string? TlsConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

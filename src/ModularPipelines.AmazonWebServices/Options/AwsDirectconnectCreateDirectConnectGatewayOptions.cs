@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("directconnect", "create-direct-connect-gateway")]
+[CliCommand("directconnect", "create-direct-connect-gateway")]
 public record AwsDirectconnectCreateDirectConnectGatewayOptions(
-[property: CommandSwitch("--direct-connect-gateway-name")] string DirectConnectGatewayName
+[property: CliOption("--direct-connect-gateway-name")] string DirectConnectGatewayName
 ) : AwsOptions
 {
-    [CommandSwitch("--amazon-side-asn")]
+    [CliOption("--amazon-side-asn")]
     public long? AmazonSideAsn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

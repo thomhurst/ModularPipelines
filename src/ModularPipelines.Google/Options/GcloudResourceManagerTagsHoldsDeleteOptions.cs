@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-manager", "tags", "holds", "delete")]
+[CliCommand("resource-manager", "tags", "holds", "delete")]
 public record GcloudResourceManagerTagsHoldsDeleteOptions(
-[property: PositionalArgument] string TagHoldName
+[property: CliArgument] string TagHoldName
 ) : GcloudOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

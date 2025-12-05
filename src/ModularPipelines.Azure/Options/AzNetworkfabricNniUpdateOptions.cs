@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkfabric", "nni", "update")]
+[CliSubCommand("networkfabric", "nni", "update")]
 public record AzNetworkfabricNniUpdateOptions : AzOptions
 {
-    [CommandSwitch("--egress-acl-id")]
+    [CliOption("--egress-acl-id")]
     public string? EgressAclId { get; set; }
 
-    [CommandSwitch("--export-route-policy")]
+    [CliOption("--export-route-policy")]
     public string? ExportRoutePolicy { get; set; }
 
-    [CommandSwitch("--fabric")]
+    [CliOption("--fabric")]
     public string? Fabric { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--import-route-policy")]
+    [CliOption("--import-route-policy")]
     public string? ImportRoutePolicy { get; set; }
 
-    [CommandSwitch("--ingress-acl-id")]
+    [CliOption("--ingress-acl-id")]
     public string? IngressAclId { get; set; }
 
-    [CommandSwitch("--layer2-configuration")]
+    [CliOption("--layer2-configuration")]
     public string? Layer2Configuration { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--npb-static-route-configuration")]
+    [CliOption("--npb-static-route-configuration")]
     public string? NpbStaticRouteConfiguration { get; set; }
 
-    [CommandSwitch("--option-b-layer3-configuration")]
+    [CliOption("--option-b-layer3-configuration")]
     public string? OptionBLayer3Configuration { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-name")]
+    [CliOption("--resource-name")]
     public string? ResourceName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

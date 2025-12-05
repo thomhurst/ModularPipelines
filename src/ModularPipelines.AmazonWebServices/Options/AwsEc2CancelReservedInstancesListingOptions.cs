@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "cancel-reserved-instances-listing")]
+[CliCommand("ec2", "cancel-reserved-instances-listing")]
 public record AwsEc2CancelReservedInstancesListingOptions(
-[property: CommandSwitch("--reserved-instances-listing-id")] string ReservedInstancesListingId
+[property: CliOption("--reserved-instances-listing-id")] string ReservedInstancesListingId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault")]
+[CliCommand("keyvault")]
 public class AzKeyvaultPrivateLinkResource
 {
     public AzKeyvaultPrivateLinkResource(

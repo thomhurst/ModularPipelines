@@ -5,12 +5,12 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "update-event-configurations")]
+[CliCommand("iot", "update-event-configurations")]
 public record AwsIotUpdateEventConfigurationsOptions : AwsOptions
 {
-    [CommandSwitch("--event-configurations")]
+    [CliOption("--event-configurations")]
     public IEnumerable<KeyValue>? EventConfigurations { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

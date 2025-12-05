@@ -4,37 +4,37 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "list-hub-content-versions")]
+[CliCommand("sagemaker", "list-hub-content-versions")]
 public record AwsSagemakerListHubContentVersionsOptions(
-[property: CommandSwitch("--hub-name")] string HubName,
-[property: CommandSwitch("--hub-content-type")] string HubContentType,
-[property: CommandSwitch("--hub-content-name")] string HubContentName
+[property: CliOption("--hub-name")] string HubName,
+[property: CliOption("--hub-content-type")] string HubContentType,
+[property: CliOption("--hub-content-name")] string HubContentName
 ) : AwsOptions
 {
-    [CommandSwitch("--min-version")]
+    [CliOption("--min-version")]
     public string? MinVersion { get; set; }
 
-    [CommandSwitch("--max-schema-version")]
+    [CliOption("--max-schema-version")]
     public string? MaxSchemaVersion { get; set; }
 
-    [CommandSwitch("--creation-time-before")]
+    [CliOption("--creation-time-before")]
     public long? CreationTimeBefore { get; set; }
 
-    [CommandSwitch("--creation-time-after")]
+    [CliOption("--creation-time-after")]
     public long? CreationTimeAfter { get; set; }
 
-    [CommandSwitch("--sort-by")]
+    [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
-    [CommandSwitch("--sort-order")]
+    [CliOption("--sort-order")]
     public string? SortOrder { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

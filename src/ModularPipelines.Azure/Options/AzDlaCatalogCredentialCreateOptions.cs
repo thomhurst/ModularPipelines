@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dla", "catalog", "credential", "create")]
+[CliSubCommand("dla", "catalog", "credential", "create")]
 public record AzDlaCatalogCredentialCreateOptions(
-[property: CommandSwitch("--account")] int Account,
-[property: CommandSwitch("--credential-name")] string CredentialName,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--uri")] string Uri,
-[property: CommandSwitch("--user-name")] string UserName
+[property: CliOption("--account")] int Account,
+[property: CliOption("--credential-name")] string CredentialName,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--uri")] string Uri,
+[property: CliOption("--user-name")] string UserName
 ) : AzOptions
 {
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "associate-queue-quick-connects")]
+[CliCommand("connect", "associate-queue-quick-connects")]
 public record AwsConnectAssociateQueueQuickConnectsOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--queue-id")] string QueueId,
-[property: CommandSwitch("--quick-connect-ids")] string[] QuickConnectIds
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--queue-id")] string QueueId,
+[property: CliOption("--quick-connect-ids")] string[] QuickConnectIds
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

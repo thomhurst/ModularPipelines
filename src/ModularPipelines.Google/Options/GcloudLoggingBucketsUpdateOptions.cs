@@ -5,42 +5,42 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logging", "buckets", "update")]
+[CliCommand("logging", "buckets", "update")]
 public record GcloudLoggingBucketsUpdateOptions(
-[property: PositionalArgument] string BucketId,
-[property: CommandSwitch("--location")] string Location
+[property: CliArgument] string BucketId,
+[property: CliOption("--location")] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--add-index")]
+    [CliOption("--add-index")]
     public IEnumerable<KeyValue>? AddIndex { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--clear-indexes")]
+    [CliFlag("--clear-indexes")]
     public bool? ClearIndexes { get; set; }
 
-    [CommandSwitch("--cmek-kms-key-name")]
+    [CliOption("--cmek-kms-key-name")]
     public string? CmekKmsKeyName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--enable-analytics")]
+    [CliFlag("--enable-analytics")]
     public bool? EnableAnalytics { get; set; }
 
-    [BooleanCommandSwitch("--locked")]
+    [CliFlag("--locked")]
     public bool? Locked { get; set; }
 
-    [CommandSwitch("--remove-indexes")]
+    [CliOption("--remove-indexes")]
     public string[]? RemoveIndexes { get; set; }
 
-    [CommandSwitch("--restricted-fields")]
+    [CliOption("--restricted-fields")]
     public string[]? RestrictedFields { get; set; }
 
-    [CommandSwitch("--retention-days")]
+    [CliOption("--retention-days")]
     public string? RetentionDays { get; set; }
 
-    [CommandSwitch("--update-index")]
+    [CliOption("--update-index")]
     public IEnumerable<KeyValue>? UpdateIndex { get; set; }
 }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "connection", "create")]
+[CliCommand("containerapp", "connection", "create")]
 public class AzContainerappConnectionCreateSql
 {
     public AzContainerappConnectionCreateSql(

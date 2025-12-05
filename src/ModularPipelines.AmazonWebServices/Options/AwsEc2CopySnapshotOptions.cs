@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "copy-snapshot")]
+[CliCommand("ec2", "copy-snapshot")]
 public record AwsEc2CopySnapshotOptions(
-[property: CommandSwitch("--source-region")] string SourceRegion,
-[property: CommandSwitch("--source-snapshot-id")] string SourceSnapshotId
+[property: CliOption("--source-region")] string SourceRegion,
+[property: CliOption("--source-snapshot-id")] string SourceSnapshotId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--destination-outpost-arn")]
+    [CliOption("--destination-outpost-arn")]
     public string? DestinationOutpostArn { get; set; }
 
-    [CommandSwitch("--destination-region")]
+    [CliOption("--destination-region")]
     public string? DestinationRegion { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--presigned-url")]
+    [CliOption("--presigned-url")]
     public string? PresignedUrl { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

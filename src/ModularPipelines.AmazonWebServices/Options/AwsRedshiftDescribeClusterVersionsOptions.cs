@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "describe-cluster-versions")]
+[CliCommand("redshift", "describe-cluster-versions")]
 public record AwsRedshiftDescribeClusterVersionsOptions : AwsOptions
 {
-    [CommandSwitch("--cluster-version")]
+    [CliOption("--cluster-version")]
     public string? ClusterVersion { get; set; }
 
-    [CommandSwitch("--cluster-parameter-group-family")]
+    [CliOption("--cluster-parameter-group-family")]
     public string? ClusterParameterGroupFamily { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

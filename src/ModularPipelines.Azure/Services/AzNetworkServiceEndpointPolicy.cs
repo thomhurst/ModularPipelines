@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "service-endpoint")]
+[CliCommand("network", "service-endpoint")]
 public class AzNetworkServiceEndpointPolicy
 {
     public AzNetworkServiceEndpointPolicy(

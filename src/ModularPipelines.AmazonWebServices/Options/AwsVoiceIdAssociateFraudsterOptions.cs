@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("voice-id", "associate-fraudster")]
+[CliCommand("voice-id", "associate-fraudster")]
 public record AwsVoiceIdAssociateFraudsterOptions(
-[property: CommandSwitch("--domain-id")] string DomainId,
-[property: CommandSwitch("--fraudster-id")] string FraudsterId,
-[property: CommandSwitch("--watchlist-id")] string WatchlistId
+[property: CliOption("--domain-id")] string DomainId,
+[property: CliOption("--fraudster-id")] string FraudsterId,
+[property: CliOption("--watchlist-id")] string WatchlistId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

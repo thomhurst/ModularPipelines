@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codestar-notifications", "create-notification-rule")]
+[CliCommand("codestar-notifications", "create-notification-rule")]
 public record AwsCodestarNotificationsCreateNotificationRuleOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--event-type-ids")] string[] EventTypeIds,
-[property: CommandSwitch("--resource")] string Resource,
-[property: CommandSwitch("--targets")] string[] Targets,
-[property: CommandSwitch("--detail-type")] string DetailType
+[property: CliOption("--name")] string Name,
+[property: CliOption("--event-type-ids")] string[] EventTypeIds,
+[property: CliOption("--resource")] string Resource,
+[property: CliOption("--targets")] string[] Targets,
+[property: CliOption("--detail-type")] string DetailType
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

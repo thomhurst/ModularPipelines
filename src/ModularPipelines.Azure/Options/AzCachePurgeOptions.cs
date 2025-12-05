@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cache", "purge")]
+[CliSubCommand("cache", "purge")]
 public record AzCachePurgeOptions : AzOptions;

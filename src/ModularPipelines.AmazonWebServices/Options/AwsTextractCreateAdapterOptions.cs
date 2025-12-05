@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("textract", "create-adapter")]
+[CliCommand("textract", "create-adapter")]
 public record AwsTextractCreateAdapterOptions(
-[property: CommandSwitch("--adapter-name")] string AdapterName,
-[property: CommandSwitch("--feature-types")] string[] FeatureTypes
+[property: CliOption("--adapter-name")] string AdapterName,
+[property: CliOption("--feature-types")] string[] FeatureTypes
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--auto-update")]
+    [CliOption("--auto-update")]
     public string? AutoUpdate { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

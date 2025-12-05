@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qldb-session", "send-command")]
+[CliCommand("qldb-session", "send-command")]
 public record AwsQldbSessionSendCommandOptions : AwsOptions
 {
-    [CommandSwitch("--session-token")]
+    [CliOption("--session-token")]
     public string? SessionToken { get; set; }
 
-    [CommandSwitch("--start-session")]
+    [CliOption("--start-session")]
     public string? StartSession { get; set; }
 
-    [CommandSwitch("--start-transaction")]
+    [CliOption("--start-transaction")]
     public string? StartTransaction { get; set; }
 
-    [CommandSwitch("--end-session")]
+    [CliOption("--end-session")]
     public string? EndSession { get; set; }
 
-    [CommandSwitch("--commit-transaction")]
+    [CliOption("--commit-transaction")]
     public string? CommitTransaction { get; set; }
 
-    [CommandSwitch("--abort-transaction")]
+    [CliOption("--abort-transaction")]
     public string? AbortTransaction { get; set; }
 
-    [CommandSwitch("--execute-statement")]
+    [CliOption("--execute-statement")]
     public string? ExecuteStatement { get; set; }
 
-    [CommandSwitch("--fetch-page")]
+    [CliOption("--fetch-page")]
     public string? FetchPage { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

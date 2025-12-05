@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "create-game-session")]
+[CliCommand("gamelift", "create-game-session")]
 public record AwsGameliftCreateGameSessionOptions(
-[property: CommandSwitch("--maximum-player-session-count")] int MaximumPlayerSessionCount
+[property: CliOption("--maximum-player-session-count")] int MaximumPlayerSessionCount
 ) : AwsOptions
 {
-    [CommandSwitch("--fleet-id")]
+    [CliOption("--fleet-id")]
     public string? FleetId { get; set; }
 
-    [CommandSwitch("--alias-id")]
+    [CliOption("--alias-id")]
     public string? AliasId { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--game-properties")]
+    [CliOption("--game-properties")]
     public string[]? GameProperties { get; set; }
 
-    [CommandSwitch("--creator-id")]
+    [CliOption("--creator-id")]
     public string? CreatorId { get; set; }
 
-    [CommandSwitch("--game-session-id")]
+    [CliOption("--game-session-id")]
     public string? GameSessionId { get; set; }
 
-    [CommandSwitch("--idempotency-token")]
+    [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
-    [CommandSwitch("--game-session-data")]
+    [CliOption("--game-session-data")]
     public string? GameSessionData { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

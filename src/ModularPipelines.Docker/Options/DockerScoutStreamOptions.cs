@@ -3,22 +3,22 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("scout", "stream")]
+[CliCommand("scout", "stream")]
 [ExcludeFromCodeCoverage]
 public record DockerScoutStreamOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Stream { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Stream { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Image { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Image { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public virtual string? Org { get; set; }
 
-    [CommandSwitch("--output")]
+    [CliOption("--output")]
     public virtual string? Output { get; set; }
 
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public virtual string? Platform { get; set; }
 }

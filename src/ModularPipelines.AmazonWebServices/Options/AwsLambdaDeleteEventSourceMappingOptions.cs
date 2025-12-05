@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "delete-event-source-mapping")]
+[CliCommand("lambda", "delete-event-source-mapping")]
 public record AwsLambdaDeleteEventSourceMappingOptions(
-[property: CommandSwitch("--uuid")] string Uuid
+[property: CliOption("--uuid")] string Uuid
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

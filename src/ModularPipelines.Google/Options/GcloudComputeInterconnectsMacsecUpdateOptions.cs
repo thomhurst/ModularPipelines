@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "interconnects", "macsec", "update")]
+[CliCommand("compute", "interconnects", "macsec", "update")]
 public record GcloudComputeInterconnectsMacsecUpdateOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--enabled")]
+    [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
 
-    [BooleanCommandSwitch("--fail-open")]
+    [CliFlag("--fail-open")]
     public bool? FailOpen { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devicefarm", "get-vpce-configuration")]
+[CliCommand("devicefarm", "get-vpce-configuration")]
 public record AwsDevicefarmGetVpceConfigurationOptions(
-[property: CommandSwitch("--arn")] string Arn
+[property: CliOption("--arn")] string Arn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

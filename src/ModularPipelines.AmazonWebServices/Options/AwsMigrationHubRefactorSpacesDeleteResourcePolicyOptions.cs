@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("migration-hub-refactor-spaces", "delete-resource-policy")]
+[CliCommand("migration-hub-refactor-spaces", "delete-resource-policy")]
 public record AwsMigrationHubRefactorSpacesDeleteResourcePolicyOptions(
-[property: CommandSwitch("--identifier")] string Identifier
+[property: CliOption("--identifier")] string Identifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

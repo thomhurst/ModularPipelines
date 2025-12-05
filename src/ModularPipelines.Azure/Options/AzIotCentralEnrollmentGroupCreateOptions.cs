@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "central", "enrollment-group", "create")]
+[CliSubCommand("iot", "central", "enrollment-group", "create")]
 public record AzIotCentralEnrollmentGroupCreateOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--at")] string At,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--group-id")] string GroupId,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--at")] string At,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--group-id")] string GroupId,
+[property: CliOption("--type")] string Type
 ) : AzOptions
 {
-    [CommandSwitch("--central-api-uri")]
+    [CliOption("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 
-    [CommandSwitch("--certificate-path")]
+    [CliOption("--certificate-path")]
     public string? CertificatePath { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [CommandSwitch("--pk")]
+    [CliOption("--pk")]
     public string? Pk { get; set; }
 
-    [CommandSwitch("--provisioning-status")]
+    [CliOption("--provisioning-status")]
     public string? ProvisioningStatus { get; set; }
 
-    [CommandSwitch("--scp")]
+    [CliOption("--scp")]
     public string? Scp { get; set; }
 
-    [CommandSwitch("--secondary-key")]
+    [CliOption("--secondary-key")]
     public string? SecondaryKey { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 }

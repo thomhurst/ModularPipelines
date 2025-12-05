@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ds", "update-directory-setup")]
+[CliCommand("ds", "update-directory-setup")]
 public record AwsDsUpdateDirectorySetupOptions(
-[property: CommandSwitch("--directory-id")] string DirectoryId,
-[property: CommandSwitch("--update-type")] string UpdateType
+[property: CliOption("--directory-id")] string DirectoryId,
+[property: CliOption("--update-type")] string UpdateType
 ) : AwsOptions
 {
-    [CommandSwitch("--os-update-settings")]
+    [CliOption("--os-update-settings")]
     public string? OsUpdateSettings { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codestar-notifications", "update-notification-rule")]
+[CliCommand("codestar-notifications", "update-notification-rule")]
 public record AwsCodestarNotificationsUpdateNotificationRuleOptions(
-[property: CommandSwitch("--arn")] string Arn
+[property: CliOption("--arn")] string Arn
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--event-type-ids")]
+    [CliOption("--event-type-ids")]
     public string[]? EventTypeIds { get; set; }
 
-    [CommandSwitch("--targets")]
+    [CliOption("--targets")]
     public string[]? Targets { get; set; }
 
-    [CommandSwitch("--detail-type")]
+    [CliOption("--detail-type")]
     public string? DetailType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

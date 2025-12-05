@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotevents", "create-input")]
+[CliCommand("iotevents", "create-input")]
 public record AwsIoteventsCreateInputOptions(
-[property: CommandSwitch("--input-name")] string InputName,
-[property: CommandSwitch("--input-definition")] string InputDefinition
+[property: CliOption("--input-name")] string InputName,
+[property: CliOption("--input-definition")] string InputDefinition
 ) : AwsOptions
 {
-    [CommandSwitch("--input-description")]
+    [CliOption("--input-description")]
     public string? InputDescription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

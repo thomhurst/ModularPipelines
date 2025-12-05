@@ -4,65 +4,65 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apim", "api", "import")]
+[CliSubCommand("apim", "api", "import")]
 public record AzApimApiImportOptions(
-[property: CommandSwitch("--path")] string Path,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service-name")] string ServiceName,
-[property: CommandSwitch("--specification-format")] string SpecificationFormat
+[property: CliOption("--path")] string Path,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service-name")] string ServiceName,
+[property: CliOption("--specification-format")] string SpecificationFormat
 ) : AzOptions
 {
-    [CommandSwitch("--api-id")]
+    [CliOption("--api-id")]
     public string? ApiId { get; set; }
 
-    [CommandSwitch("--api-revision")]
+    [CliOption("--api-revision")]
     public string? ApiRevision { get; set; }
 
-    [CommandSwitch("--api-type")]
+    [CliOption("--api-type")]
     public string? ApiType { get; set; }
 
-    [CommandSwitch("--api-version")]
+    [CliOption("--api-version")]
     public string? ApiVersion { get; set; }
 
-    [CommandSwitch("--api-version-set-id")]
+    [CliOption("--api-version-set-id")]
     public string? ApiVersionSetId { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--protocols")]
+    [CliOption("--protocols")]
     public string? Protocols { get; set; }
 
-    [CommandSwitch("--service-url")]
+    [CliOption("--service-url")]
     public string? ServiceUrl { get; set; }
 
-    [CommandSwitch("--soap-api-type")]
+    [CliOption("--soap-api-type")]
     public string? SoapApiType { get; set; }
 
-    [CommandSwitch("--specification-path")]
+    [CliOption("--specification-path")]
     public string? SpecificationPath { get; set; }
 
-    [CommandSwitch("--specification-url")]
+    [CliOption("--specification-url")]
     public string? SpecificationUrl { get; set; }
 
-    [CommandSwitch("--subscription-key-header-name")]
+    [CliOption("--subscription-key-header-name")]
     public string? SubscriptionKeyHeaderName { get; set; }
 
-    [CommandSwitch("--subscription-key-query-param-name")]
+    [CliOption("--subscription-key-query-param-name")]
     public string? SubscriptionKeyQueryParamName { get; set; }
 
-    [BooleanCommandSwitch("--subscription-required")]
+    [CliFlag("--subscription-required")]
     public bool? SubscriptionRequired { get; set; }
 
-    [CommandSwitch("--wsdl-endpoint-name")]
+    [CliOption("--wsdl-endpoint-name")]
     public string? WsdlEndpointName { get; set; }
 
-    [CommandSwitch("--wsdl-service-name")]
+    [CliOption("--wsdl-service-name")]
     public string? WsdlServiceName { get; set; }
 }

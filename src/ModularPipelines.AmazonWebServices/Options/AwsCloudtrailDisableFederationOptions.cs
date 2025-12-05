@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudtrail", "disable-federation")]
+[CliCommand("cloudtrail", "disable-federation")]
 public record AwsCloudtrailDisableFederationOptions(
-[property: CommandSwitch("--event-data-store")] string EventDataStore
+[property: CliOption("--event-data-store")] string EventDataStore
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

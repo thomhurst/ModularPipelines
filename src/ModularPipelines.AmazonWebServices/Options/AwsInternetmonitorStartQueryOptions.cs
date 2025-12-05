@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("internetmonitor", "start-query")]
+[CliCommand("internetmonitor", "start-query")]
 public record AwsInternetmonitorStartQueryOptions(
-[property: CommandSwitch("--monitor-name")] string MonitorName,
-[property: CommandSwitch("--start-time")] long StartTime,
-[property: CommandSwitch("--end-time")] long EndTime,
-[property: CommandSwitch("--query-type")] string QueryType
+[property: CliOption("--monitor-name")] string MonitorName,
+[property: CliOption("--start-time")] long StartTime,
+[property: CliOption("--end-time")] long EndTime,
+[property: CliOption("--query-type")] string QueryType
 ) : AwsOptions
 {
-    [CommandSwitch("--filter-parameters")]
+    [CliOption("--filter-parameters")]
     public string[]? FilterParameters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

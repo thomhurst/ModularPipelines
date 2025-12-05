@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "alb", "frontend", "delete")]
+[CliSubCommand("network", "alb", "frontend", "delete")]
 public record AzNetworkAlbFrontendDeleteOptions : AzOptions
 {
-    [CommandSwitch("--alb-name")]
+    [CliOption("--alb-name")]
     public string? AlbName { get; set; }
 
-    [CommandSwitch("--frontend-name")]
+    [CliOption("--frontend-name")]
     public string? FrontendName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

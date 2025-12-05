@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "describe-instance-topology")]
+[CliCommand("ec2", "describe-instance-topology")]
 public record AwsEc2DescribeInstanceTopologyOptions : AwsOptions
 {
-    [CommandSwitch("--instance-ids")]
+    [CliOption("--instance-ids")]
     public string[]? InstanceIds { get; set; }
 
-    [CommandSwitch("--group-names")]
+    [CliOption("--group-names")]
     public string[]? GroupNames { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

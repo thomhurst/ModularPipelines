@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("migrationhubstrategy", "update-server-config")]
+[CliCommand("migrationhubstrategy", "update-server-config")]
 public record AwsMigrationhubstrategyUpdateServerConfigOptions(
-[property: CommandSwitch("--server-id")] string ServerId
+[property: CliOption("--server-id")] string ServerId
 ) : AwsOptions
 {
-    [CommandSwitch("--strategy-option")]
+    [CliOption("--strategy-option")]
     public string? StrategyOption { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

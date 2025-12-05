@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("machinelearning", "delete-realtime-endpoint")]
+[CliCommand("machinelearning", "delete-realtime-endpoint")]
 public record AwsMachinelearningDeleteRealtimeEndpointOptions(
-[property: CommandSwitch("--ml-model-id")] string MlModelId
+[property: CliOption("--ml-model-id")] string MlModelId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

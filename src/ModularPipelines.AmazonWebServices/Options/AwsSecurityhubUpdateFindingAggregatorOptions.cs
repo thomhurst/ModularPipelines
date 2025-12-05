@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securityhub", "update-finding-aggregator")]
+[CliCommand("securityhub", "update-finding-aggregator")]
 public record AwsSecurityhubUpdateFindingAggregatorOptions(
-[property: CommandSwitch("--finding-aggregator-arn")] string FindingAggregatorArn,
-[property: CommandSwitch("--region-linking-mode")] string RegionLinkingMode
+[property: CliOption("--finding-aggregator-arn")] string FindingAggregatorArn,
+[property: CliOption("--region-linking-mode")] string RegionLinkingMode
 ) : AwsOptions
 {
-    [CommandSwitch("--regions")]
+    [CliOption("--regions")]
     public string[]? Regions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

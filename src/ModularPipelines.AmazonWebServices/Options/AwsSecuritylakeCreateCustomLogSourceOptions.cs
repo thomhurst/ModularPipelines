@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securitylake", "create-custom-log-source")]
+[CliCommand("securitylake", "create-custom-log-source")]
 public record AwsSecuritylakeCreateCustomLogSourceOptions(
-[property: CommandSwitch("--source-name")] string SourceName
+[property: CliOption("--source-name")] string SourceName
 ) : AwsOptions
 {
-    [CommandSwitch("--configuration")]
+    [CliOption("--configuration")]
     public string? Configuration { get; set; }
 
-    [CommandSwitch("--event-classes")]
+    [CliOption("--event-classes")]
     public string[]? EventClasses { get; set; }
 
-    [CommandSwitch("--source-version")]
+    [CliOption("--source-version")]
     public string? SourceVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

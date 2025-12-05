@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mgn", "update-wave")]
+[CliCommand("mgn", "update-wave")]
 public record AwsMgnUpdateWaveOptions(
-[property: CommandSwitch("--wave-id")] string WaveId
+[property: CliOption("--wave-id")] string WaveId
 ) : AwsOptions
 {
-    [CommandSwitch("--account-id")]
+    [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

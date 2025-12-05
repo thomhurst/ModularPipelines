@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai", "custom-jobs", "local-run")]
+[CliCommand("ai", "custom-jobs", "local-run")]
 public record GcloudAiCustomJobsLocalRunOptions(
-[property: PositionalArgument] string Args,
-[property: CommandSwitch("--executor-image-uri")] string ExecutorImageUri
+[property: CliArgument] string Args,
+[property: CliOption("--executor-image-uri")] string ExecutorImageUri
 ) : GcloudOptions
 {
-    [CommandSwitch("--extra-dirs")]
+    [CliOption("--extra-dirs")]
     public string[]? ExtraDirs { get; set; }
 
-    [CommandSwitch("--extra-packages")]
+    [CliOption("--extra-packages")]
     public string[]? ExtraPackages { get; set; }
 
-    [BooleanCommandSwitch("--gpu")]
+    [CliFlag("--gpu")]
     public bool? Gpu { get; set; }
 
-    [CommandSwitch("--local-package-path")]
+    [CliOption("--local-package-path")]
     public string? LocalPackagePath { get; set; }
 
-    [CommandSwitch("--output-image-uri")]
+    [CliOption("--output-image-uri")]
     public string? OutputImageUri { get; set; }
 
-    [CommandSwitch("--requirements")]
+    [CliOption("--requirements")]
     public string[]? Requirements { get; set; }
 
-    [CommandSwitch("--service-account-key-file")]
+    [CliOption("--service-account-key-file")]
     public string? ServiceAccountKeyFile { get; set; }
 
-    [CommandSwitch("--python-module")]
+    [CliOption("--python-module")]
     public string? PythonModule { get; set; }
 
-    [CommandSwitch("--script")]
+    [CliOption("--script")]
     public string? Script { get; set; }
 }

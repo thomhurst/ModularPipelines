@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("evidently", "stop-experiment")]
+[CliCommand("evidently", "stop-experiment")]
 public record AwsEvidentlyStopExperimentOptions(
-[property: CommandSwitch("--experiment")] string Experiment,
-[property: CommandSwitch("--project")] string Project
+[property: CliOption("--experiment")] string Experiment,
+[property: CliOption("--project")] string Project
 ) : AwsOptions
 {
-    [CommandSwitch("--desired-state")]
+    [CliOption("--desired-state")]
     public string? DesiredState { get; set; }
 
-    [CommandSwitch("--reason")]
+    [CliOption("--reason")]
     public string? Reason { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

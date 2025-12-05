@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rebuild")]
+[CliCommand("rebuild")]
 public record NpmRebuildOptions : NpmOptions
 {
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public virtual bool? Global { get; set; }
 
-    [BooleanCommandSwitch("--bin-links")]
+    [CliFlag("--bin-links")]
     public virtual bool? BinLinks { get; set; }
 
-    [BooleanCommandSwitch("--foreground-scripts")]
+    [CliFlag("--foreground-scripts")]
     public virtual bool? ForegroundScripts { get; set; }
 
-    [BooleanCommandSwitch("--ignore-scripts")]
+    [CliFlag("--ignore-scripts")]
     public virtual bool? IgnoreScripts { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public virtual string[]? Workspace { get; set; }
 
-    [BooleanCommandSwitch("--workspaces")]
+    [CliFlag("--workspaces")]
     public virtual bool? Workspaces { get; set; }
 
-    [BooleanCommandSwitch("--include-workspace-root")]
+    [CliFlag("--include-workspace-root")]
     public virtual bool? IncludeWorkspaceRoot { get; set; }
 
-    [BooleanCommandSwitch("--install-links")]
+    [CliFlag("--install-links")]
     public virtual bool? InstallLinks { get; set; }
 }

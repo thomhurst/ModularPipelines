@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "create-player-session")]
+[CliCommand("gamelift", "create-player-session")]
 public record AwsGameliftCreatePlayerSessionOptions(
-[property: CommandSwitch("--game-session-id")] string GameSessionId,
-[property: CommandSwitch("--player-id")] string PlayerId
+[property: CliOption("--game-session-id")] string GameSessionId,
+[property: CliOption("--player-id")] string PlayerId
 ) : AwsOptions
 {
-    [CommandSwitch("--player-data")]
+    [CliOption("--player-data")]
     public string? PlayerData { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("importexport", "update-job")]
+[CliCommand("importexport", "update-job")]
 public record AwsImportexportUpdateJobOptions(
-[property: CommandSwitch("--job-id")] string JobId,
-[property: CommandSwitch("--manifest")] string Manifest,
-[property: CommandSwitch("--job-type")] string JobType
+[property: CliOption("--job-id")] string JobId,
+[property: CliOption("--manifest")] string Manifest,
+[property: CliOption("--job-type")] string JobType
 ) : AwsOptions
 {
-    [CommandSwitch("--api-version")]
+    [CliOption("--api-version")]
     public string? ApiVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

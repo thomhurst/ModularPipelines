@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "fleet", "memberships", "bindings", "update")]
+[CliCommand("container", "fleet", "memberships", "bindings", "update")]
 public record GcloudContainerFleetMembershipsBindingsUpdateOptions(
-[property: PositionalArgument] string Binding,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Membership,
-[property: CommandSwitch("--scope")] string Scope
+[property: CliArgument] string Binding,
+[property: CliArgument] string Location,
+[property: CliArgument] string Membership,
+[property: CliOption("--scope")] string Scope
 ) : GcloudOptions
 {
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 }

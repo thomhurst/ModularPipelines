@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apic", "api")]
+[CliCommand("apic", "api")]
 public class AzApicApiDeployment
 {
     public AzApicApiDeployment(

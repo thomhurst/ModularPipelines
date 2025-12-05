@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "enable-addons")]
+[CliCommand("aks", "enable-addons")]
 public class AzAksEnableAddonsAksPreview
 {
     public AzAksEnableAddonsAksPreview(

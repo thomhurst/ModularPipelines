@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stack", "mg", "list")]
+[CliSubCommand("stack", "mg", "list")]
 public record AzStackMgListOptions(
-[property: CommandSwitch("--management-group-id")] string ManagementGroupId
+[property: CliOption("--management-group-id")] string ManagementGroupId
 ) : AzOptions;

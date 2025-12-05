@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "clusters", "set-iam-policy")]
+[CliCommand("dataproc", "clusters", "set-iam-policy")]
 public record GcloudDataprocClustersSetIamPolicyOptions(
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Region,
-[property: PositionalArgument] string PolicyFile
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Region,
+[property: CliArgument] string PolicyFile
 ) : GcloudOptions;

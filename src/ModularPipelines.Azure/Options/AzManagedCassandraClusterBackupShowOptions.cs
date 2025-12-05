@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managed-cassandra", "cluster", "backup", "show")]
+[CliSubCommand("managed-cassandra", "cluster", "backup", "show")]
 public record AzManagedCassandraClusterBackupShowOptions(
-[property: CommandSwitch("--backup-id")] string BackupId,
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--backup-id")] string BackupId,
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

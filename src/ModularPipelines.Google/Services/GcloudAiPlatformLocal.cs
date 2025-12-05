@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai-platform")]
+[CliCommand("ai-platform")]
 public class GcloudAiPlatformLocal
 {
     public GcloudAiPlatformLocal(

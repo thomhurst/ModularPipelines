@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "state", "export")]
+[CliSubCommand("iot", "hub", "state", "export")]
 public record AzIotHubStateExportOptions(
-[property: CommandSwitch("--state-file")] string StateFile
+[property: CliOption("--state-file")] string StateFile
 ) : AzOptions
 {
-    [CommandSwitch("--aspects")]
+    [CliOption("--aspects")]
     public string? Aspects { get; set; }
 
-    [CommandSwitch("--auth-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [CommandSwitch("--hub-name")]
+    [CliOption("--hub-name")]
     public string? HubName { get; set; }
 
-    [CommandSwitch("--login")]
+    [CliOption("--login")]
     public string? Login { get; set; }
 
-    [BooleanCommandSwitch("--replace")]
+    [CliFlag("--replace")]
     public bool? Replace { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

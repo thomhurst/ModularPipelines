@@ -4,46 +4,46 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "http-listener", "update")]
+[CliSubCommand("network", "application-gateway", "http-listener", "update")]
 public record AzNetworkApplicationGatewayHttpListenerUpdateOptions(
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--frontend-ip")]
+    [CliOption("--frontend-ip")]
     public string? FrontendIp { get; set; }
 
-    [CommandSwitch("--frontend-port")]
+    [CliOption("--frontend-port")]
     public string? FrontendPort { get; set; }
 
-    [CommandSwitch("--host-name")]
+    [CliOption("--host-name")]
     public string? HostName { get; set; }
 
-    [CommandSwitch("--host-names")]
+    [CliOption("--host-names")]
     public string? HostNames { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--ssl-cert")]
+    [CliOption("--ssl-cert")]
     public string? SslCert { get; set; }
 
-    [CommandSwitch("--ssl-profile-id")]
+    [CliOption("--ssl-profile-id")]
     public string? SslProfileId { get; set; }
 
-    [CommandSwitch("--waf-policy")]
+    [CliOption("--waf-policy")]
     public string? WafPolicy { get; set; }
 }

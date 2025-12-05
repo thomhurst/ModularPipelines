@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "secret", "format")]
+[CliSubCommand("vm", "secret", "format")]
 public record AzVmSecretFormatOptions(
-[property: CommandSwitch("--secrets")] string Secrets
+[property: CliOption("--secrets")] string Secrets
 ) : AzOptions
 {
-    [CommandSwitch("--certificate-store")]
+    [CliOption("--certificate-store")]
     public string? CertificateStore { get; set; }
 
-    [CommandSwitch("--keyvault")]
+    [CliOption("--keyvault")]
     public string? Keyvault { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

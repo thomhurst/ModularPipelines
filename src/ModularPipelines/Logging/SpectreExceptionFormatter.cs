@@ -12,7 +12,7 @@ namespace ModularPipelines.Logging;
 /// This implementation uses Spectre.Console's markup capabilities to provide:
 /// - Warning icon and colored "Deferred Exceptions" header
 /// - Blank lines for visual separation
-/// - Direct output to AnsiConsole for immediate display
+/// - Direct output to AnsiConsole for immediate display.
 /// </remarks>
 [ExcludeFromCodeCoverage]
 internal class SpectreExceptionFormatter : IExceptionOutputFormatter

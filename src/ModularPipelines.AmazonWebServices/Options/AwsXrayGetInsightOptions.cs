@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("xray", "get-insight")]
+[CliCommand("xray", "get-insight")]
 public record AwsXrayGetInsightOptions(
-[property: CommandSwitch("--insight-id")] string InsightId
+[property: CliOption("--insight-id")] string InsightId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

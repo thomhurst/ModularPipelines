@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "list-deployment-targets")]
+[CliCommand("deploy", "list-deployment-targets")]
 public record AwsDeployListDeploymentTargetsOptions(
-[property: CommandSwitch("--deployment-id")] string DeploymentId
+[property: CliOption("--deployment-id")] string DeploymentId
 ) : AwsOptions
 {
-    [CommandSwitch("--target-filters")]
+    [CliOption("--target-filters")]
     public IEnumerable<KeyValue>? TargetFilters { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

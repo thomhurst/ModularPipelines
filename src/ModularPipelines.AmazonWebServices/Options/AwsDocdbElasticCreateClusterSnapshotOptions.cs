@@ -5,15 +5,15 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("docdb-elastic", "create-cluster-snapshot")]
+[CliCommand("docdb-elastic", "create-cluster-snapshot")]
 public record AwsDocdbElasticCreateClusterSnapshotOptions(
-[property: CommandSwitch("--cluster-arn")] string ClusterArn,
-[property: CommandSwitch("--snapshot-name")] string SnapshotName
+[property: CliOption("--cluster-arn")] string ClusterArn,
+[property: CliOption("--snapshot-name")] string SnapshotName
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

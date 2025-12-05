@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-volume")]
+[CliCommand("ec2", "create-volume")]
 public record AwsEc2CreateVolumeOptions(
-[property: CommandSwitch("--availability-zone")] string AvailabilityZone
+[property: CliOption("--availability-zone")] string AvailabilityZone
 ) : AwsOptions
 {
-    [CommandSwitch("--iops")]
+    [CliOption("--iops")]
     public int? Iops { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--outpost-arn")]
+    [CliOption("--outpost-arn")]
     public string? OutpostArn { get; set; }
 
-    [CommandSwitch("--size")]
+    [CliOption("--size")]
     public int? Size { get; set; }
 
-    [CommandSwitch("--snapshot-id")]
+    [CliOption("--snapshot-id")]
     public string? SnapshotId { get; set; }
 
-    [CommandSwitch("--volume-type")]
+    [CliOption("--volume-type")]
     public string? VolumeType { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--throughput")]
+    [CliOption("--throughput")]
     public int? Throughput { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

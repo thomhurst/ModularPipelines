@@ -5,22 +5,22 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vpc-lattice", "create-rule")]
+[CliCommand("vpc-lattice", "create-rule")]
 public record AwsVpcLatticeCreateRuleOptions(
-[property: CommandSwitch("--action")] string Action,
-[property: CommandSwitch("--listener-identifier")] string ListenerIdentifier,
-[property: CommandSwitch("--match")] string Match,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--priority")] int Priority,
-[property: CommandSwitch("--service-identifier")] string ServiceIdentifier
+[property: CliOption("--action")] string Action,
+[property: CliOption("--listener-identifier")] string ListenerIdentifier,
+[property: CliOption("--match")] string Match,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--priority")] int Priority,
+[property: CliOption("--service-identifier")] string ServiceIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

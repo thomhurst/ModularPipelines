@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("globalaccelerator", "update-accelerator")]
+[CliCommand("globalaccelerator", "update-accelerator")]
 public record AwsGlobalacceleratorUpdateAcceleratorOptions(
-[property: CommandSwitch("--accelerator-arn")] string AcceleratorArn
+[property: CliOption("--accelerator-arn")] string AcceleratorArn
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--ip-address-type")]
+    [CliOption("--ip-address-type")]
     public string? IpAddressType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

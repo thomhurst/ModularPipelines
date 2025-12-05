@@ -5,28 +5,28 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "start-data-quality-ruleset-evaluation-run")]
+[CliCommand("glue", "start-data-quality-ruleset-evaluation-run")]
 public record AwsGlueStartDataQualityRulesetEvaluationRunOptions(
-[property: CommandSwitch("--data-source")] string DataSource,
-[property: CommandSwitch("--role")] string Role,
-[property: CommandSwitch("--ruleset-names")] string[] RulesetNames
+[property: CliOption("--data-source")] string DataSource,
+[property: CliOption("--role")] string Role,
+[property: CliOption("--ruleset-names")] string[] RulesetNames
 ) : AwsOptions
 {
-    [CommandSwitch("--number-of-workers")]
+    [CliOption("--number-of-workers")]
     public int? NumberOfWorkers { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public int? Timeout { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--additional-run-options")]
+    [CliOption("--additional-run-options")]
     public string? AdditionalRunOptions { get; set; }
 
-    [CommandSwitch("--additional-data-sources")]
+    [CliOption("--additional-data-sources")]
     public IEnumerable<KeyValue>? AdditionalDataSources { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

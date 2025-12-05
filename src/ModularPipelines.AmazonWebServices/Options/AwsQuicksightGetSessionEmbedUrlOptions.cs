@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "get-session-embed-url")]
+[CliCommand("quicksight", "get-session-embed-url")]
 public record AwsQuicksightGetSessionEmbedUrlOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId
+[property: CliOption("--aws-account-id")] string AwsAccountId
 ) : AwsOptions
 {
-    [CommandSwitch("--entry-point")]
+    [CliOption("--entry-point")]
     public string? EntryPoint { get; set; }
 
-    [CommandSwitch("--session-lifetime-in-minutes")]
+    [CliOption("--session-lifetime-in-minutes")]
     public long? SessionLifetimeInMinutes { get; set; }
 
-    [CommandSwitch("--user-arn")]
+    [CliOption("--user-arn")]
     public string? UserArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

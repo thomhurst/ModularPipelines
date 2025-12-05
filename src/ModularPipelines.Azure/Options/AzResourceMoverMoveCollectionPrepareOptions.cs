@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-mover", "move-collection", "prepare")]
+[CliSubCommand("resource-mover", "move-collection", "prepare")]
 public record AzResourceMoverMoveCollectionPrepareOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--input-type")]
+    [CliOption("--input-type")]
     public string? InputType { get; set; }
 
-    [CommandSwitch("--move-collection-name")]
+    [CliOption("--move-collection-name")]
     public string? MoveCollectionName { get; set; }
 
-    [CommandSwitch("--move-resources")]
+    [CliOption("--move-resources")]
     public string? MoveResources { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectcases", "batch-put-field-options")]
+[CliCommand("connectcases", "batch-put-field-options")]
 public record AwsConnectcasesBatchPutFieldOptionsOptions(
-[property: CommandSwitch("--domain-id")] string DomainId,
-[property: CommandSwitch("--field-id")] string FieldId,
-[property: CommandSwitch("--options")] string[] Options
+[property: CliOption("--domain-id")] string DomainId,
+[property: CliOption("--field-id")] string FieldId,
+[property: CliOption("--options")] string[] Options
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecr-public", "put-repository-catalog-data")]
+[CliCommand("ecr-public", "put-repository-catalog-data")]
 public record AwsEcrPublicPutRepositoryCatalogDataOptions(
-[property: CommandSwitch("--repository-name")] string RepositoryName,
-[property: CommandSwitch("--catalog-data")] string CatalogData
+[property: CliOption("--repository-name")] string RepositoryName,
+[property: CliOption("--catalog-data")] string CatalogData
 ) : AwsOptions
 {
-    [CommandSwitch("--registry-id")]
+    [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

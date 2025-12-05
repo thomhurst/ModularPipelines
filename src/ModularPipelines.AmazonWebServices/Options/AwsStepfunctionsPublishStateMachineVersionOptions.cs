@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stepfunctions", "publish-state-machine-version")]
+[CliCommand("stepfunctions", "publish-state-machine-version")]
 public record AwsStepfunctionsPublishStateMachineVersionOptions(
-[property: CommandSwitch("--state-machine-arn")] string StateMachineArn
+[property: CliOption("--state-machine-arn")] string StateMachineArn
 ) : AwsOptions
 {
-    [CommandSwitch("--revision-id")]
+    [CliOption("--revision-id")]
     public string? RevisionId { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

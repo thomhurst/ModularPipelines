@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("config", "set-context")]
+[CliCommand("config", "set-context")]
 [ExcludeFromCodeCoverage]
-public record KubernetesConfigSetContextOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesConfigSetContextOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--current")]
+    [CliFlag("--current")]
     public virtual bool? Current { get; set; }
 }

@@ -336,5 +336,4 @@ internal class ProgressPrinter : IProgressPrinter,
             ? dateTimeOffset.ToTimeOnly().ToString("h:mm:ss tt")
             : dateTimeOffset.ToString("yyyy/MM/dd h:mm:ss tt");
     }
-
 }

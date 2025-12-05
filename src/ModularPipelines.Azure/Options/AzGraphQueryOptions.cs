@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("graph", "query")]
+[CliSubCommand("graph", "query")]
 public record AzGraphQueryOptions(
-[property: CommandSwitch("--graph-query")] string GraphQuery
+[property: CliOption("--graph-query")] string GraphQuery
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--allow-partial-scopes")]
+    [CliFlag("--allow-partial-scopes")]
     public bool? AllowPartialScopes { get; set; }
 
-    [CommandSwitch("--first")]
+    [CliOption("--first")]
     public string? First { get; set; }
 
-    [CommandSwitch("--management-groups")]
+    [CliOption("--management-groups")]
     public string? ManagementGroups { get; set; }
 
-    [CommandSwitch("--skip")]
+    [CliOption("--skip")]
     public string? Skip { get; set; }
 
-    [CommandSwitch("--skip-token")]
+    [CliOption("--skip-token")]
     public string? SkipToken { get; set; }
 
-    [CommandSwitch("--subscriptions")]
+    [CliOption("--subscriptions")]
     public string? Subscriptions { get; set; }
 }

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ds", "enable-sso")]
+[CliCommand("ds", "enable-sso")]
 public record AwsDsEnableSsoOptions(
-[property: CommandSwitch("--directory-id")] string DirectoryId
+[property: CliOption("--directory-id")] string DirectoryId
 ) : AwsOptions
 {
-    [CommandSwitch("--user-name")]
+    [CliOption("--user-name")]
     public string? UserName { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

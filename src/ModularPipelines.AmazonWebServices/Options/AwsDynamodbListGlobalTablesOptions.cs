@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dynamodb", "list-global-tables")]
+[CliCommand("dynamodb", "list-global-tables")]
 public record AwsDynamodbListGlobalTablesOptions : AwsOptions
 {
-    [CommandSwitch("--exclusive-start-global-table-name")]
+    [CliOption("--exclusive-start-global-table-name")]
     public string? ExclusiveStartGlobalTableName { get; set; }
 
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public int? Limit { get; set; }
 
-    [CommandSwitch("--region-name")]
+    [CliOption("--region-name")]
     public string? RegionName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

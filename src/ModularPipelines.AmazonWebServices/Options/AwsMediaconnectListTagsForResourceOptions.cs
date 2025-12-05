@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediaconnect", "list-tags-for-resource")]
+[CliCommand("mediaconnect", "list-tags-for-resource")]
 public record AwsMediaconnectListTagsForResourceOptions(
-[property: CommandSwitch("--resource-arn")] string ResourceArn
+[property: CliOption("--resource-arn")] string ResourceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

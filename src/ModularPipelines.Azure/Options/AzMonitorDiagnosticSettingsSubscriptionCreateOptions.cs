@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "diagnostic-settings", "subscription", "create")]
+[CliSubCommand("monitor", "diagnostic-settings", "subscription", "create")]
 public record AzMonitorDiagnosticSettingsSubscriptionCreateOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--event-hub-auth-rule")]
+    [CliOption("--event-hub-auth-rule")]
     public string? EventHubAuthRule { get; set; }
 
-    [CommandSwitch("--event-hub-name")]
+    [CliOption("--event-hub-name")]
     public string? EventHubName { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--logs")]
+    [CliOption("--logs")]
     public string? Logs { get; set; }
 
-    [CommandSwitch("--service-bus-rule")]
+    [CliOption("--service-bus-rule")]
     public string? ServiceBusRule { get; set; }
 
-    [CommandSwitch("--storage-account")]
+    [CliOption("--storage-account")]
     public int? StorageAccount { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public string? Workspace { get; set; }
 }

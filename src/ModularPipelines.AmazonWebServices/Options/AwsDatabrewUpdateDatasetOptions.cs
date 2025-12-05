@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databrew", "update-dataset")]
+[CliCommand("databrew", "update-dataset")]
 public record AwsDatabrewUpdateDatasetOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--input")] string Input
+[property: CliOption("--name")] string Name,
+[property: CliOption("--input")] string Input
 ) : AwsOptions
 {
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public string? Format { get; set; }
 
-    [CommandSwitch("--format-options")]
+    [CliOption("--format-options")]
     public string? FormatOptions { get; set; }
 
-    [CommandSwitch("--path-options")]
+    [CliOption("--path-options")]
     public string? PathOptions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

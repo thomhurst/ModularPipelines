@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "delete-network-acl-entry")]
+[CliCommand("ec2", "delete-network-acl-entry")]
 public record AwsEc2DeleteNetworkAclEntryOptions(
-[property: CommandSwitch("--network-acl-id")] string NetworkAclId,
-[property: CommandSwitch("--rule-number")] int RuleNumber
+[property: CliOption("--network-acl-id")] string NetworkAclId,
+[property: CliOption("--rule-number")] int RuleNumber
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

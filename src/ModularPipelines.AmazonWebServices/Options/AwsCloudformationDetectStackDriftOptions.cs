@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation", "detect-stack-drift")]
+[CliCommand("cloudformation", "detect-stack-drift")]
 public record AwsCloudformationDetectStackDriftOptions(
-[property: CommandSwitch("--stack-name")] string StackName
+[property: CliOption("--stack-name")] string StackName
 ) : AwsOptions
 {
-    [CommandSwitch("--logical-resource-ids")]
+    [CliOption("--logical-resource-ids")]
     public string[]? LogicalResourceIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

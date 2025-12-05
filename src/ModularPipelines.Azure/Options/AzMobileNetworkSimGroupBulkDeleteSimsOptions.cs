@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mobile-network", "sim", "group", "bulk-delete-sims")]
+[CliSubCommand("mobile-network", "sim", "group", "bulk-delete-sims")]
 public record AzMobileNetworkSimGroupBulkDeleteSimsOptions(
-[property: CommandSwitch("--sims")] string Sims
+[property: CliOption("--sims")] string Sims
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--sim-group-name")]
+    [CliOption("--sim-group-name")]
     public string? SimGroupName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("afd", "rule-set", "create")]
+[CliSubCommand("afd", "rule-set", "create")]
 public record AzAfdRuleSetCreateOptions(
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--rule-set-name")] string RuleSetName
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--rule-set-name")] string RuleSetName
 ) : AzOptions;

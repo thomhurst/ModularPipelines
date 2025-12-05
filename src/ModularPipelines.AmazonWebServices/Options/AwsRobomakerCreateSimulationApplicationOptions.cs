@@ -5,25 +5,25 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("robomaker", "create-simulation-application")]
+[CliCommand("robomaker", "create-simulation-application")]
 public record AwsRobomakerCreateSimulationApplicationOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--simulation-software-suite")] string SimulationSoftwareSuite,
-[property: CommandSwitch("--robot-software-suite")] string RobotSoftwareSuite
+[property: CliOption("--name")] string Name,
+[property: CliOption("--simulation-software-suite")] string SimulationSoftwareSuite,
+[property: CliOption("--robot-software-suite")] string RobotSoftwareSuite
 ) : AwsOptions
 {
-    [CommandSwitch("--sources")]
+    [CliOption("--sources")]
     public string[]? Sources { get; set; }
 
-    [CommandSwitch("--rendering-engine")]
+    [CliOption("--rendering-engine")]
     public string? RenderingEngine { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--environment")]
+    [CliOption("--environment")]
     public string? Environment { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

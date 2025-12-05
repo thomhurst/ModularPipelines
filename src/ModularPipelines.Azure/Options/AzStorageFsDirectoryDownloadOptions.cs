@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "fs", "directory", "download")]
+[CliSubCommand("storage", "fs", "directory", "download")]
 public record AzStorageFsDirectoryDownloadOptions(
-[property: CommandSwitch("--destination-path")] string DestinationPath,
-[property: CommandSwitch("--file-system")] string FileSystem
+[property: CliOption("--destination-path")] string DestinationPath,
+[property: CliOption("--file-system")] string FileSystem
 ) : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--recursive")]
+    [CliOption("--recursive")]
     public string? Recursive { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--source-path")]
+    [CliOption("--source-path")]
     public string? SourcePath { get; set; }
 }

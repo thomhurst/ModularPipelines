@@ -4,56 +4,56 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "scheduled-query", "create")]
+[CliSubCommand("monitor", "scheduled-query", "create")]
 public record AzMonitorScheduledQueryCreateOptions(
-[property: CommandSwitch("--condition")] string Condition,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--scopes")] string Scopes
+[property: CliOption("--condition")] string Condition,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--scopes")] string Scopes
 ) : AzOptions
 {
-    [CommandSwitch("--action-groups")]
+    [CliOption("--action-groups")]
     public string? ActionGroups { get; set; }
 
-    [BooleanCommandSwitch("--auto-mitigate")]
+    [CliFlag("--auto-mitigate")]
     public bool? AutoMitigate { get; set; }
 
-    [BooleanCommandSwitch("--check-ws-alerts-storage")]
+    [CliFlag("--check-ws-alerts-storage")]
     public bool? CheckWsAlertsStorage { get; set; }
 
-    [CommandSwitch("--condition-query")]
+    [CliOption("--condition-query")]
     public string? ConditionQuery { get; set; }
 
-    [CommandSwitch("--custom-properties")]
+    [CliOption("--custom-properties")]
     public string? CustomProperties { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CommandSwitch("--evaluation-frequency")]
+    [CliOption("--evaluation-frequency")]
     public string? EvaluationFrequency { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--mad")]
+    [CliOption("--mad")]
     public string? Mad { get; set; }
 
-    [CommandSwitch("--severity")]
+    [CliOption("--severity")]
     public string? Severity { get; set; }
 
-    [BooleanCommandSwitch("--skip-query-validation")]
+    [CliFlag("--skip-query-validation")]
     public bool? SkipQueryValidation { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--target-resource-type")]
+    [CliOption("--target-resource-type")]
     public string? TargetResourceType { get; set; }
 
-    [CommandSwitch("--window-size")]
+    [CliOption("--window-size")]
     public string? WindowSize { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("alias", "export")]
+[CliSubCommand("alias", "export")]
 public record AzAliasExportOptions : AzOptions
 {
-    [CommandSwitch("--exclude")]
+    [CliOption("--exclude")]
     public string? Exclude { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 }

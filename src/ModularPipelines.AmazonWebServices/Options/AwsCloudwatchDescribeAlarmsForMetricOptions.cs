@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudwatch", "describe-alarms-for-metric")]
+[CliCommand("cloudwatch", "describe-alarms-for-metric")]
 public record AwsCloudwatchDescribeAlarmsForMetricOptions(
-[property: CommandSwitch("--metric-name")] string MetricName,
-[property: CommandSwitch("--namespace")] string Namespace
+[property: CliOption("--metric-name")] string MetricName,
+[property: CliOption("--namespace")] string Namespace
 ) : AwsOptions
 {
-    [CommandSwitch("--statistic")]
+    [CliOption("--statistic")]
     public string? Statistic { get; set; }
 
-    [CommandSwitch("--extended-statistic")]
+    [CliOption("--extended-statistic")]
     public string? ExtendedStatistic { get; set; }
 
-    [CommandSwitch("--dimensions")]
+    [CliOption("--dimensions")]
     public string[]? Dimensions { get; set; }
 
-    [CommandSwitch("--period")]
+    [CliOption("--period")]
     public int? Period { get; set; }
 
-    [CommandSwitch("--unit")]
+    [CliOption("--unit")]
     public string? Unit { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

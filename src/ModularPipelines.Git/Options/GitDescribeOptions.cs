@@ -3,49 +3,49 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("describe")]
+[CliSubCommand("describe")]
 [ExcludeFromCodeCoverage]
 public record GitDescribeOptions : GitOptions
 {
-    [CommandEqualsSeparatorSwitch("--dirty")]
-    public string? Dirty { get; set; }
+    [CliOption("--dirty", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Dirty { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--broken")]
-    public string? Broken { get; set; }
+    [CliOption("--broken", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Broken { get; set; }
 
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [BooleanCommandSwitch("--tags")]
+    [CliFlag("--tags")]
     public virtual bool? Tags { get; set; }
 
-    [BooleanCommandSwitch("--contains")]
+    [CliFlag("--contains")]
     public virtual bool? Contains { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--abbrev")]
-    public string? Abbrev { get; set; }
+    [CliOption("--abbrev", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Abbrev { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--candidates")]
-    public string? Candidates { get; set; }
+    [CliOption("--candidates", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Candidates { get; set; }
 
-    [BooleanCommandSwitch("--exact-match")]
+    [CliFlag("--exact-match")]
     public virtual bool? ExactMatch { get; set; }
 
-    [BooleanCommandSwitch("--debug")]
+    [CliFlag("--debug")]
     public virtual bool? Debug { get; set; }
 
-    [BooleanCommandSwitch("--long")]
+    [CliFlag("--long")]
     public virtual bool? Long { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--match")]
-    public string? Match { get; set; }
+    [CliOption("--match", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Match { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--exclude")]
-    public string? Exclude { get; set; }
+    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Exclude { get; set; }
 
-    [BooleanCommandSwitch("--always")]
+    [CliFlag("--always")]
     public virtual bool? Always { get; set; }
 
-    [BooleanCommandSwitch("--first-parent")]
+    [CliFlag("--first-parent")]
     public virtual bool? FirstParent { get; set; }
 }

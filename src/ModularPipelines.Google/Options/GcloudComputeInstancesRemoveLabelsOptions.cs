@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instances", "remove-labels")]
+[CliCommand("compute", "instances", "remove-labels")]
 public record GcloudComputeInstancesRemoveLabelsOptions(
-[property: PositionalArgument] string InstanceName,
-[property: BooleanCommandSwitch("--all")] bool All,
-[property: CommandSwitch("--labels")] string[] Labels
+[property: CliArgument] string InstanceName,
+[property: CliFlag("--all")] bool All,
+[property: CliOption("--labels")] string[] Labels
 ) : GcloudOptions
 {
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

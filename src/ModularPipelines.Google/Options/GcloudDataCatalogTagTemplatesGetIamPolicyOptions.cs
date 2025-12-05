@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("data-catalog", "tag-templates", "get-iam-policy")]
+[CliCommand("data-catalog", "tag-templates", "get-iam-policy")]
 public record GcloudDataCatalogTagTemplatesGetIamPolicyOptions(
-[property: PositionalArgument] string TagTemplate,
-[property: PositionalArgument] string Location
+[property: CliArgument] string TagTemplate,
+[property: CliArgument] string Location
 ) : GcloudOptions;

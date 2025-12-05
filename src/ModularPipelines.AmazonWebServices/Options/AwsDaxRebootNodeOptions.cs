@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dax", "reboot-node")]
+[CliCommand("dax", "reboot-node")]
 public record AwsDaxRebootNodeOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--node-id")] string NodeId
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--node-id")] string NodeId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutequipment", "list-inference-executions")]
+[CliCommand("lookoutequipment", "list-inference-executions")]
 public record AwsLookoutequipmentListInferenceExecutionsOptions(
-[property: CommandSwitch("--inference-scheduler-name")] string InferenceSchedulerName
+[property: CliOption("--inference-scheduler-name")] string InferenceSchedulerName
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--data-start-time-after")]
+    [CliOption("--data-start-time-after")]
     public long? DataStartTimeAfter { get; set; }
 
-    [CommandSwitch("--data-end-time-before")]
+    [CliOption("--data-end-time-before")]
     public long? DataEndTimeBefore { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

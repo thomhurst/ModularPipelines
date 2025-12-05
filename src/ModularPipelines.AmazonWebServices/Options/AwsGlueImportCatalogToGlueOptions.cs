@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "import-catalog-to-glue")]
+[CliCommand("glue", "import-catalog-to-glue")]
 public record AwsGlueImportCatalogToGlueOptions : AwsOptions
 {
-    [CommandSwitch("--catalog-id")]
+    [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

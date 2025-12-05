@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logging", "metrics", "update")]
+[CliCommand("logging", "metrics", "update")]
 public record GcloudLoggingMetricsUpdateOptions(
-[property: PositionalArgument] string MetricName,
-[property: CommandSwitch("--config-from-file")] string ConfigFromFile,
-[property: CommandSwitch("--bucket-name")] string BucketName,
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--log-filter")] string LogFilter
+[property: CliArgument] string MetricName,
+[property: CliOption("--config-from-file")] string ConfigFromFile,
+[property: CliOption("--bucket-name")] string BucketName,
+[property: CliOption("--description")] string Description,
+[property: CliOption("--log-filter")] string LogFilter
 ) : GcloudOptions;

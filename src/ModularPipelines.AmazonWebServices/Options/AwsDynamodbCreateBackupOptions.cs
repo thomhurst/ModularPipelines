@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dynamodb", "create-backup")]
+[CliCommand("dynamodb", "create-backup")]
 public record AwsDynamodbCreateBackupOptions(
-[property: CommandSwitch("--table-name")] string TableName,
-[property: CommandSwitch("--backup-name")] string BackupName
+[property: CliOption("--table-name")] string TableName,
+[property: CliOption("--backup-name")] string BackupName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

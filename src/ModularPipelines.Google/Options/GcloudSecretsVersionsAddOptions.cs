@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("secrets", "versions", "add")]
+[CliCommand("secrets", "versions", "add")]
 public record GcloudSecretsVersionsAddOptions(
-[property: PositionalArgument] string Secret,
-[property: CommandSwitch("--data-file")] string DataFile
+[property: CliArgument] string Secret,
+[property: CliOption("--data-file")] string DataFile
 ) : GcloudOptions;

@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("orbital", "contact-profile", "create")]
+[CliSubCommand("orbital", "contact-profile", "create")]
 public record AzOrbitalContactProfileCreateOptions(
-[property: CommandSwitch("--contact-profile-name")] string ContactProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--contact-profile-name")] string ContactProfileName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--auto-tracking")]
+    [CliOption("--auto-tracking")]
     public string? AutoTracking { get; set; }
 
-    [CommandSwitch("--event-hub-uri")]
+    [CliOption("--event-hub-uri")]
     public string? EventHubUri { get; set; }
 
-    [CommandSwitch("--links")]
+    [CliOption("--links")]
     public string? Links { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--min-elevation")]
+    [CliOption("--min-elevation")]
     public string? MinElevation { get; set; }
 
-    [CommandSwitch("--min-viable-duration")]
+    [CliOption("--min-viable-duration")]
     public string? MinViableDuration { get; set; }
 
-    [CommandSwitch("--network-configuration")]
+    [CliOption("--network-configuration")]
     public string? NetworkConfiguration { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

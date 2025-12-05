@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automation")]
+[CliCommand("automation")]
 public class AzAutomationSchedule
 {
     public AzAutomationSchedule(

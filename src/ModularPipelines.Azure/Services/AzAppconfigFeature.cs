@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appconfig")]
+[CliCommand("appconfig")]
 public class AzAppconfigFeature
 {
     public AzAppconfigFeature(

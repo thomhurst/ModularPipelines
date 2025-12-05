@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "create-tape-pool")]
+[CliCommand("storagegateway", "create-tape-pool")]
 public record AwsStoragegatewayCreateTapePoolOptions(
-[property: CommandSwitch("--pool-name")] string PoolName,
-[property: CommandSwitch("--storage-class")] string StorageClass
+[property: CliOption("--pool-name")] string PoolName,
+[property: CliOption("--storage-class")] string StorageClass
 ) : AwsOptions
 {
-    [CommandSwitch("--retention-lock-type")]
+    [CliOption("--retention-lock-type")]
     public string? RetentionLockType { get; set; }
 
-    [CommandSwitch("--retention-lock-time-in-days")]
+    [CliOption("--retention-lock-time-in-days")]
     public int? RetentionLockTimeInDays { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

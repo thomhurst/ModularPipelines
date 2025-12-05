@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("blueprint", "version", "artifact", "show")]
+[CliSubCommand("blueprint", "version", "artifact", "show")]
 public record AzBlueprintVersionArtifactShowOptions(
-[property: CommandSwitch("--artifact-name")] string ArtifactName,
-[property: CommandSwitch("--blueprint-name")] string BlueprintName,
-[property: CommandSwitch("--version")] string Version
+[property: CliOption("--artifact-name")] string ArtifactName,
+[property: CliOption("--blueprint-name")] string BlueprintName,
+[property: CliOption("--version")] string Version
 ) : AzOptions
 {
-    [CommandSwitch("--management-group")]
+    [CliOption("--management-group")]
     public string? ManagementGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

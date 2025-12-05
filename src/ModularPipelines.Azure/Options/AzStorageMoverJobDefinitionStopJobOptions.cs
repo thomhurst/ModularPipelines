@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage-mover", "job-definition", "stop-job")]
+[CliSubCommand("storage-mover", "job-definition", "stop-job")]
 public record AzStorageMoverJobDefinitionStopJobOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--job-definition-name")]
+    [CliOption("--job-definition-name")]
     public string? JobDefinitionName { get; set; }
 
-    [CommandSwitch("--project-name")]
+    [CliOption("--project-name")]
     public string? ProjectName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--storage-mover-name")]
+    [CliOption("--storage-mover-name")]
     public string? StorageMoverName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "wait", "conversion-task-completed")]
+[CliCommand("ec2", "wait", "conversion-task-completed")]
 public record AwsEc2WaitConversionTaskCompletedOptions : AwsOptions
 {
-    [CommandSwitch("--conversion-task-ids")]
+    [CliOption("--conversion-task-ids")]
     public string[]? ConversionTaskIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("secrets", "delete")]
+[CliCommand("secrets", "delete")]
 public record GcloudSecretsDeleteOptions(
-[property: PositionalArgument] string Secret
+[property: CliArgument] string Secret
 ) : GcloudOptions
 {
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 }

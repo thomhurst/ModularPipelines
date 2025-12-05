@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("memorydb", "delete-acl")]
+[CliCommand("memorydb", "delete-acl")]
 public record AwsMemorydbDeleteAclOptions(
-[property: CommandSwitch("--acl-name")] string AclName
+[property: CliOption("--acl-name")] string AclName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

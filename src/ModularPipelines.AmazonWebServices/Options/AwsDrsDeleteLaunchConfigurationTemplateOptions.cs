@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("drs", "delete-launch-configuration-template")]
+[CliCommand("drs", "delete-launch-configuration-template")]
 public record AwsDrsDeleteLaunchConfigurationTemplateOptions(
-[property: CommandSwitch("--launch-configuration-template-id")] string LaunchConfigurationTemplateId
+[property: CliOption("--launch-configuration-template-id")] string LaunchConfigurationTemplateId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

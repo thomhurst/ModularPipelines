@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logs", "put-log-events")]
+[CliCommand("logs", "put-log-events")]
 public record AwsLogsPutLogEventsOptions(
-[property: CommandSwitch("--log-group-name")] string LogGroupName,
-[property: CommandSwitch("--log-stream-name")] string LogStreamName,
-[property: CommandSwitch("--log-events")] string[] LogEvents
+[property: CliOption("--log-group-name")] string LogGroupName,
+[property: CliOption("--log-stream-name")] string LogStreamName,
+[property: CliOption("--log-events")] string[] LogEvents
 ) : AwsOptions
 {
-    [CommandSwitch("--sequence-token")]
+    [CliOption("--sequence-token")]
     public string? SequenceToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

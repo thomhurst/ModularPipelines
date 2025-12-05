@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-management", "connectivity-tests", "describe")]
+[CliCommand("network-management", "connectivity-tests", "describe")]
 public record GcloudNetworkManagementConnectivityTestsDescribeOptions(
-[property: PositionalArgument] string ConnectivityTest
+[property: CliArgument] string ConnectivityTest
 ) : GcloudOptions;

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kafka", "update-broker-count")]
+[CliCommand("kafka", "update-broker-count")]
 public record AwsKafkaUpdateBrokerCountOptions(
-[property: CommandSwitch("--cluster-arn")] string ClusterArn,
-[property: CommandSwitch("--current-version")] string CurrentVersion,
-[property: CommandSwitch("--target-number-of-broker-nodes")] int TargetNumberOfBrokerNodes
+[property: CliOption("--cluster-arn")] string ClusterArn,
+[property: CliOption("--current-version")] string CurrentVersion,
+[property: CliOption("--target-number-of-broker-nodes")] int TargetNumberOfBrokerNodes
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

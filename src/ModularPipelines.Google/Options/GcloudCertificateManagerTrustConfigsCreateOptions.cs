@@ -5,19 +5,19 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("certificate-manager", "trust-configs", "create")]
+[CliCommand("certificate-manager", "trust-configs", "create")]
 public record GcloudCertificateManagerTrustConfigsCreateOptions(
-[property: PositionalArgument] string TrustConfig,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--trust-store")] string[] TrustStore
+[property: CliArgument] string TrustConfig,
+[property: CliArgument] string Location,
+[property: CliOption("--trust-store")] string[] TrustStore
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 }

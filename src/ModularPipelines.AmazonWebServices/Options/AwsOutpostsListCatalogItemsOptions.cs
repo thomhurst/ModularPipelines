@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("outposts", "list-catalog-items")]
+[CliCommand("outposts", "list-catalog-items")]
 public record AwsOutpostsListCatalogItemsOptions : AwsOptions
 {
-    [CommandSwitch("--item-class-filter")]
+    [CliOption("--item-class-filter")]
     public string[]? ItemClassFilter { get; set; }
 
-    [CommandSwitch("--supported-storage-filter")]
+    [CliOption("--supported-storage-filter")]
     public string[]? SupportedStorageFilter { get; set; }
 
-    [CommandSwitch("--ec2-family-filter")]
+    [CliOption("--ec2-family-filter")]
     public string[]? Ec2FamilyFilter { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

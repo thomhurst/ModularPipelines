@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instances", "update-from-file")]
+[CliCommand("compute", "instances", "update-from-file")]
 public record GcloudComputeInstancesUpdateFromFileOptions(
-[property: PositionalArgument] string InstanceName
+[property: CliArgument] string InstanceName
 ) : GcloudOptions
 {
-    [CommandSwitch("--minimal-action")]
+    [CliOption("--minimal-action")]
     public string? MinimalAction { get; set; }
 
-    [CommandSwitch("--most-disruptive-allowed-action")]
+    [CliOption("--most-disruptive-allowed-action")]
     public string? MostDisruptiveAllowedAction { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

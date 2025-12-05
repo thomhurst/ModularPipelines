@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sso-oidc", "register-client")]
+[CliCommand("sso-oidc", "register-client")]
 public record AwsSsoOidcRegisterClientOptions(
-[property: CommandSwitch("--client-name")] string ClientName,
-[property: CommandSwitch("--client-type")] string ClientType
+[property: CliOption("--client-name")] string ClientName,
+[property: CliOption("--client-type")] string ClientType
 ) : AwsOptions
 {
-    [CommandSwitch("--scopes")]
+    [CliOption("--scopes")]
     public string[]? Scopes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

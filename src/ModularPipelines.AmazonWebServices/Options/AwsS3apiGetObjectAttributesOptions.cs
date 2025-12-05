@@ -4,37 +4,37 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3api", "get-object-attributes")]
+[CliCommand("s3api", "get-object-attributes")]
 public record AwsS3apiGetObjectAttributesOptions(
-[property: CommandSwitch("--bucket")] string Bucket,
-[property: CommandSwitch("--key")] string Key,
-[property: CommandSwitch("--object-attributes")] string[] ObjectAttributes
+[property: CliOption("--bucket")] string Bucket,
+[property: CliOption("--key")] string Key,
+[property: CliOption("--object-attributes")] string[] ObjectAttributes
 ) : AwsOptions
 {
-    [CommandSwitch("--version-id")]
+    [CliOption("--version-id")]
     public string? VersionId { get; set; }
 
-    [CommandSwitch("--max-parts")]
+    [CliOption("--max-parts")]
     public int? MaxParts { get; set; }
 
-    [CommandSwitch("--part-number-marker")]
+    [CliOption("--part-number-marker")]
     public int? PartNumberMarker { get; set; }
 
-    [CommandSwitch("--sse-customer-algorithm")]
+    [CliOption("--sse-customer-algorithm")]
     public string? SseCustomerAlgorithm { get; set; }
 
-    [CommandSwitch("--sse-customer-key")]
+    [CliOption("--sse-customer-key")]
     public string? SseCustomerKey { get; set; }
 
-    [CommandSwitch("--sse-customer-key-md5")]
+    [CliOption("--sse-customer-key-md5")]
     public string? SseCustomerKeyMd5 { get; set; }
 
-    [CommandSwitch("--request-payer")]
+    [CliOption("--request-payer")]
     public string? RequestPayer { get; set; }
 
-    [CommandSwitch("--expected-bucket-owner")]
+    [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

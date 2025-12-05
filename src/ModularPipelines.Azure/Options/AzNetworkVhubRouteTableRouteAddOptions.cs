@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vhub", "route-table", "route", "add")]
+[CliSubCommand("network", "vhub", "route-table", "route", "add")]
 public record AzNetworkVhubRouteTableRouteAddOptions(
-[property: CommandSwitch("--destination-type")] string DestinationType,
-[property: CommandSwitch("--destinations")] string Destinations,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--next-hop-type")] string NextHopType,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vhub-name")] string VhubName
+[property: CliOption("--destination-type")] string DestinationType,
+[property: CliOption("--destinations")] string Destinations,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--next-hop-type")] string NextHopType,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vhub-name")] string VhubName
 ) : AzOptions
 {
-    [CommandSwitch("--next-hop")]
+    [CliOption("--next-hop")]
     public string? NextHop { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--route-name")]
+    [CliOption("--route-name")]
     public string? RouteName { get; set; }
 }

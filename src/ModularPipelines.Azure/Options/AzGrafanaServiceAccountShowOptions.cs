@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("grafana", "service-account", "show")]
+[CliSubCommand("grafana", "service-account", "show")]
 public record AzGrafanaServiceAccountShowOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--service-account")] int ServiceAccount
+[property: CliOption("--name")] string Name,
+[property: CliOption("--service-account")] int ServiceAccount
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

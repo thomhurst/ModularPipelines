@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops", "security", "group", "list")]
+[CliSubCommand("devops", "security", "group", "list")]
 public record AzDevopsSecurityGroupListOptions : AzOptions
 {
-    [CommandSwitch("--continuation-token")]
+    [CliOption("--continuation-token")]
     public string? ContinuationToken { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--subject-types")]
+    [CliOption("--subject-types")]
     public string? SubjectTypes { get; set; }
 }

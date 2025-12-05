@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lakeformation", "delete-lake-formation-opt-in")]
+[CliCommand("lakeformation", "delete-lake-formation-opt-in")]
 public record AwsLakeformationDeleteLakeFormationOptInOptions(
-[property: CommandSwitch("--principal")] string Principal,
-[property: CommandSwitch("--resource")] string Resource
+[property: CliOption("--principal")] string Principal,
+[property: CliOption("--resource")] string Resource
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

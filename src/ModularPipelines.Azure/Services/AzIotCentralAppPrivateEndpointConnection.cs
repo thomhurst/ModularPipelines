@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "central", "app")]
+[CliCommand("iot", "central", "app")]
 public class AzIotCentralAppPrivateEndpointConnection
 {
     public AzIotCentralAppPrivateEndpointConnection(

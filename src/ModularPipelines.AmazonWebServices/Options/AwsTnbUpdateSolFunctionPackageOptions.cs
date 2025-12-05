@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tnb", "update-sol-function-package")]
+[CliCommand("tnb", "update-sol-function-package")]
 public record AwsTnbUpdateSolFunctionPackageOptions(
-[property: CommandSwitch("--operational-state")] string OperationalState,
-[property: CommandSwitch("--vnf-pkg-id")] string VnfPkgId
+[property: CliOption("--operational-state")] string OperationalState,
+[property: CliOption("--vnf-pkg-id")] string VnfPkgId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

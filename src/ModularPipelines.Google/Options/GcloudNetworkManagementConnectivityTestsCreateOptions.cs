@@ -5,53 +5,53 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-management", "connectivity-tests", "create")]
+[CliCommand("network-management", "connectivity-tests", "create")]
 public record GcloudNetworkManagementConnectivityTestsCreateOptions(
-[property: PositionalArgument] string ConnectivityTest,
-[property: CommandSwitch("--destination-cloud-sql-instance")] string DestinationCloudSqlInstance,
-[property: CommandSwitch("--destination-forwarding-rule")] string DestinationForwardingRule,
-[property: CommandSwitch("--destination-gke-master-cluster")] string DestinationGkeMasterCluster,
-[property: CommandSwitch("--destination-instance")] string DestinationInstance,
-[property: CommandSwitch("--destination-ip-address")] string DestinationIpAddress,
-[property: CommandSwitch("--source-app-engine-version")] string SourceAppEngineVersion,
-[property: CommandSwitch("--source-cloud-function")] string SourceCloudFunction,
-[property: CommandSwitch("--source-cloud-run-revision")] string SourceCloudRunRevision,
-[property: CommandSwitch("--source-cloud-sql-instance")] string SourceCloudSqlInstance,
-[property: CommandSwitch("--source-gke-master-cluster")] string SourceGkeMasterCluster,
-[property: CommandSwitch("--source-instance")] string SourceInstance,
-[property: CommandSwitch("--source-ip-address")] string SourceIpAddress
+[property: CliArgument] string ConnectivityTest,
+[property: CliOption("--destination-cloud-sql-instance")] string DestinationCloudSqlInstance,
+[property: CliOption("--destination-forwarding-rule")] string DestinationForwardingRule,
+[property: CliOption("--destination-gke-master-cluster")] string DestinationGkeMasterCluster,
+[property: CliOption("--destination-instance")] string DestinationInstance,
+[property: CliOption("--destination-ip-address")] string DestinationIpAddress,
+[property: CliOption("--source-app-engine-version")] string SourceAppEngineVersion,
+[property: CliOption("--source-cloud-function")] string SourceCloudFunction,
+[property: CliOption("--source-cloud-run-revision")] string SourceCloudRunRevision,
+[property: CliOption("--source-cloud-sql-instance")] string SourceCloudSqlInstance,
+[property: CliOption("--source-gke-master-cluster")] string SourceGkeMasterCluster,
+[property: CliOption("--source-instance")] string SourceInstance,
+[property: CliOption("--source-ip-address")] string SourceIpAddress
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--destination-network")]
+    [CliOption("--destination-network")]
     public string? DestinationNetwork { get; set; }
 
-    [CommandSwitch("--destination-port")]
+    [CliOption("--destination-port")]
     public string? DestinationPort { get; set; }
 
-    [CommandSwitch("--destination-project")]
+    [CliOption("--destination-project")]
     public string? DestinationProject { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--other-projects")]
+    [CliOption("--other-projects")]
     public string[]? OtherProjects { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--source-network")]
+    [CliOption("--source-network")]
     public string? SourceNetwork { get; set; }
 
-    [CommandSwitch("--source-network-type")]
+    [CliOption("--source-network-type")]
     public string? SourceNetworkType { get; set; }
 
-    [CommandSwitch("--source-project")]
+    [CliOption("--source-project")]
     public string? SourceProject { get; set; }
 }

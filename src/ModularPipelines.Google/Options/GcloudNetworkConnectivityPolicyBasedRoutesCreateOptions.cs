@@ -5,45 +5,45 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-connectivity", "policy-based-routes", "create")]
+[CliCommand("network-connectivity", "policy-based-routes", "create")]
 public record GcloudNetworkConnectivityPolicyBasedRoutesCreateOptions(
-[property: PositionalArgument] string PolicyBasedRoute,
-[property: CommandSwitch("--network")] string Network
+[property: CliArgument] string PolicyBasedRoute,
+[property: CliOption("--network")] string Network
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--destination-range")]
+    [CliOption("--destination-range")]
     public string? DestinationRange { get; set; }
 
-    [CommandSwitch("--ip-protocol")]
+    [CliOption("--ip-protocol")]
     public string? IpProtocol { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--protocol-version")]
+    [CliOption("--protocol-version")]
     public string? ProtocolVersion { get; set; }
 
-    [CommandSwitch("--source-range")]
+    [CliOption("--source-range")]
     public string? SourceRange { get; set; }
 
-    [CommandSwitch("--interconnect-attachment-region")]
+    [CliOption("--interconnect-attachment-region")]
     public string? InterconnectAttachmentRegion { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--next-hop-ilb-ip")]
+    [CliOption("--next-hop-ilb-ip")]
     public string? NextHopIlbIp { get; set; }
 
-    [CommandSwitch("--next-hop-other-routes")]
+    [CliOption("--next-hop-other-routes")]
     public string? NextHopOtherRoutes { get; set; }
 }

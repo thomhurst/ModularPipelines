@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudhsmv2", "restore-backup")]
+[CliCommand("cloudhsmv2", "restore-backup")]
 public record AwsCloudhsmv2RestoreBackupOptions(
-[property: CommandSwitch("--backup-id")] string BackupId
+[property: CliOption("--backup-id")] string BackupId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

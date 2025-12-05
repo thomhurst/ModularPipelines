@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("license-manager-linux-subscriptions", "update-service-settings")]
+[CliCommand("license-manager-linux-subscriptions", "update-service-settings")]
 public record AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsOptions(
-[property: CommandSwitch("--linux-subscriptions-discovery")] string LinuxSubscriptionsDiscovery,
-[property: CommandSwitch("--linux-subscriptions-discovery-settings")] string LinuxSubscriptionsDiscoverySettings
+[property: CliOption("--linux-subscriptions-discovery")] string LinuxSubscriptionsDiscovery,
+[property: CliOption("--linux-subscriptions-discovery-settings")] string LinuxSubscriptionsDiscoverySettings
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("medialive", "describe-thumbnails")]
+[CliCommand("medialive", "describe-thumbnails")]
 public record AwsMedialiveDescribeThumbnailsOptions(
-[property: CommandSwitch("--channel-id")] string ChannelId,
-[property: CommandSwitch("--pipeline-id")] string PipelineId,
-[property: CommandSwitch("--thumbnail-type")] string ThumbnailType
+[property: CliOption("--channel-id")] string ChannelId,
+[property: CliOption("--pipeline-id")] string PipelineId,
+[property: CliOption("--thumbnail-type")] string ThumbnailType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

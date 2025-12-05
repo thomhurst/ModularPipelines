@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation", "delete-stack-instances")]
+[CliCommand("cloudformation", "delete-stack-instances")]
 public record AwsCloudformationDeleteStackInstancesOptions(
-[property: CommandSwitch("--stack-set-name")] string StackSetName,
-[property: CommandSwitch("--regions")] string[] Regions
+[property: CliOption("--stack-set-name")] string StackSetName,
+[property: CliOption("--regions")] string[] Regions
 ) : AwsOptions
 {
-    [CommandSwitch("--accounts")]
+    [CliOption("--accounts")]
     public string[]? Accounts { get; set; }
 
-    [CommandSwitch("--deployment-targets")]
+    [CliOption("--deployment-targets")]
     public string? DeploymentTargets { get; set; }
 
-    [CommandSwitch("--operation-preferences")]
+    [CliOption("--operation-preferences")]
     public string? OperationPreferences { get; set; }
 
-    [CommandSwitch("--operation-id")]
+    [CliOption("--operation-id")]
     public string? OperationId { get; set; }
 
-    [CommandSwitch("--call-as")]
+    [CliOption("--call-as")]
     public string? CallAs { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

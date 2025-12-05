@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-identity", "create-app-instance-bot")]
+[CliCommand("chime-sdk-identity", "create-app-instance-bot")]
 public record AwsChimeSdkIdentityCreateAppInstanceBotOptions(
-[property: CommandSwitch("--app-instance-arn")] string AppInstanceArn,
-[property: CommandSwitch("--configuration")] string Configuration
+[property: CliOption("--app-instance-arn")] string AppInstanceArn,
+[property: CliOption("--configuration")] string Configuration
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public string? Metadata { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("firestore", "fields", "ttls", "list")]
+[CliCommand("firestore", "fields", "ttls", "list")]
 public record GcloudFirestoreFieldsTtlsListOptions : GcloudOptions
 {
-    [CommandSwitch("--collection-group")]
+    [CliOption("--collection-group")]
     public string? CollectionGroup { get; set; }
 
-    [CommandSwitch("--database")]
+    [CliOption("--database")]
     public string? Database { get; set; }
 }

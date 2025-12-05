@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "tpus", "versions", "describe")]
+[CliCommand("compute", "tpus", "versions", "describe")]
 public record GcloudComputeTpusVersionsDescribeOptions : GcloudOptions
 {
     public GcloudComputeTpusVersionsDescribeOptions(
@@ -16,9 +16,9 @@ public record GcloudComputeTpusVersionsDescribeOptions : GcloudOptions
         Zone = zone;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string GcloudComputeTpusVersionsDescribeOptionsVersion { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Zone { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backupstorage", "delete-object")]
+[CliCommand("backupstorage", "delete-object")]
 public record AwsBackupstorageDeleteObjectOptions(
-[property: CommandSwitch("--backup-job-id")] string BackupJobId,
-[property: CommandSwitch("--object-name")] string ObjectName
+[property: CliOption("--backup-job-id")] string BackupJobId,
+[property: CliOption("--object-name")] string ObjectName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

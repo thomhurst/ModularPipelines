@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotfleetwise", "update-campaign")]
+[CliCommand("iotfleetwise", "update-campaign")]
 public record AwsIotfleetwiseUpdateCampaignOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--action")] string Action
+[property: CliOption("--name")] string Name,
+[property: CliOption("--action")] string Action
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--data-extra-dimensions")]
+    [CliOption("--data-extra-dimensions")]
     public string[]? DataExtraDimensions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

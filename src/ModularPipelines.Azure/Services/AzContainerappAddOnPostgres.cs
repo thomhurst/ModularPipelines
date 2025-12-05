@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "add-on")]
+[CliCommand("containerapp", "add-on")]
 public class AzContainerappAddOnPostgres
 {
     public AzContainerappAddOnPostgres(

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "import-jobs", "describe")]
+[CliCommand("kms", "import-jobs", "describe")]
 public record GcloudKmsImportJobsDescribeOptions(
-[property: PositionalArgument] string ImportJob
+[property: CliArgument] string ImportJob
 ) : GcloudOptions
 {
-    [CommandSwitch("--attestation-file")]
+    [CliOption("--attestation-file")]
     public string? AttestationFile { get; set; }
 
-    [CommandSwitch("--keyring")]
+    [CliOption("--keyring")]
     public string? Keyring { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

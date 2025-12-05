@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("evidently", "get-experiment-results")]
+[CliCommand("evidently", "get-experiment-results")]
 public record AwsEvidentlyGetExperimentResultsOptions(
-[property: CommandSwitch("--experiment")] string Experiment,
-[property: CommandSwitch("--metric-names")] string[] MetricNames,
-[property: CommandSwitch("--project")] string Project,
-[property: CommandSwitch("--treatment-names")] string[] TreatmentNames
+[property: CliOption("--experiment")] string Experiment,
+[property: CliOption("--metric-names")] string[] MetricNames,
+[property: CliOption("--project")] string Project,
+[property: CliOption("--treatment-names")] string[] TreatmentNames
 ) : AwsOptions
 {
-    [CommandSwitch("--base-stat")]
+    [CliOption("--base-stat")]
     public string? BaseStat { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public long? EndTime { get; set; }
 
-    [CommandSwitch("--period")]
+    [CliOption("--period")]
     public long? Period { get; set; }
 
-    [CommandSwitch("--report-names")]
+    [CliOption("--report-names")]
     public string[]? ReportNames { get; set; }
 
-    [CommandSwitch("--result-stats")]
+    [CliOption("--result-stats")]
     public string[]? ResultStats { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public long? StartTime { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

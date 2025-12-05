@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("athena", "update-work-group")]
+[CliCommand("athena", "update-work-group")]
 public record AwsAthenaUpdateWorkGroupOptions(
-[property: CommandSwitch("--work-group")] string WorkGroup
+[property: CliOption("--work-group")] string WorkGroup
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--configuration-updates")]
+    [CliOption("--configuration-updates")]
     public string? ConfigurationUpdates { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

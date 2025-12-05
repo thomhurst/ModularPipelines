@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("orbital", "available-ground-station", "show")]
+[CliSubCommand("orbital", "available-ground-station", "show")]
 public record AzOrbitalAvailableGroundStationShowOptions : AzOptions
 {
-    [CommandSwitch("--ground-station-name")]
+    [CliOption("--ground-station-name")]
     public string? GroundStationName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

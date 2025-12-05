@@ -15,15 +15,15 @@ public record DotNetNugetLocalsOptions : DotNetOptions
         CacheLocation = cacheLocation;
     }
 
-    [PositionalArgument(PlaceholderName = "<CACHE_LOCATION>")]
-    public string? CacheLocation { get; set; }
+    [CliArgument(Name = "<CACHE_LOCATION>")]
+    public virtual string? CacheLocation { get; set; }
 
-    [BooleanCommandSwitch("--clear")]
+    [CliFlag("--clear")]
     public virtual bool? Clear { get; set; }
 
-    [BooleanCommandSwitch("--list")]
+    [CliFlag("--list")]
     public virtual bool? List { get; set; }
 
-    [BooleanCommandSwitch("--force-english-output")]
+    [CliFlag("--force-english-output")]
     public virtual bool? ForceEnglishOutput { get; set; }
 }

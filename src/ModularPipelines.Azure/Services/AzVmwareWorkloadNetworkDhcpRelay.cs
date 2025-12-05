@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "workload-network", "dhcp")]
+[CliCommand("vmware", "workload-network", "dhcp")]
 public class AzVmwareWorkloadNetworkDhcpRelay
 {
     public AzVmwareWorkloadNetworkDhcpRelay(

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "managed-service")]
+[CliCommand("sf", "managed-service")]
 public class AzSfManagedServiceLoadMetrics
 {
     public AzSfManagedServiceLoadMetrics(

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudwatch", "get-metric-widget-image")]
+[CliCommand("cloudwatch", "get-metric-widget-image")]
 public record AwsCloudwatchGetMetricWidgetImageOptions(
-[property: CommandSwitch("--metric-widget")] string MetricWidget
+[property: CliOption("--metric-widget")] string MetricWidget
 ) : AwsOptions
 {
-    [CommandSwitch("--output-format")]
+    [CliOption("--output-format")]
     public string? OutputFormat { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,80 +5,80 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("customer-profiles", "create-profile")]
+[CliCommand("customer-profiles", "create-profile")]
 public record AwsCustomerProfilesCreateProfileOptions(
-[property: CommandSwitch("--domain-name")] string DomainName
+[property: CliOption("--domain-name")] string DomainName
 ) : AwsOptions
 {
-    [CommandSwitch("--account-number")]
+    [CliOption("--account-number")]
     public string? AccountNumber { get; set; }
 
-    [CommandSwitch("--additional-information")]
+    [CliOption("--additional-information")]
     public string? AdditionalInformation { get; set; }
 
-    [CommandSwitch("--party-type")]
+    [CliOption("--party-type")]
     public string? PartyType { get; set; }
 
-    [CommandSwitch("--business-name")]
+    [CliOption("--business-name")]
     public string? BusinessName { get; set; }
 
-    [CommandSwitch("--first-name")]
+    [CliOption("--first-name")]
     public string? FirstName { get; set; }
 
-    [CommandSwitch("--middle-name")]
+    [CliOption("--middle-name")]
     public string? MiddleName { get; set; }
 
-    [CommandSwitch("--last-name")]
+    [CliOption("--last-name")]
     public string? LastName { get; set; }
 
-    [CommandSwitch("--birth-date")]
+    [CliOption("--birth-date")]
     public string? BirthDate { get; set; }
 
-    [CommandSwitch("--gender")]
+    [CliOption("--gender")]
     public string? Gender { get; set; }
 
-    [CommandSwitch("--phone-number")]
+    [CliOption("--phone-number")]
     public string? PhoneNumber { get; set; }
 
-    [CommandSwitch("--mobile-phone-number")]
+    [CliOption("--mobile-phone-number")]
     public string? MobilePhoneNumber { get; set; }
 
-    [CommandSwitch("--home-phone-number")]
+    [CliOption("--home-phone-number")]
     public string? HomePhoneNumber { get; set; }
 
-    [CommandSwitch("--business-phone-number")]
+    [CliOption("--business-phone-number")]
     public string? BusinessPhoneNumber { get; set; }
 
-    [CommandSwitch("--email-address")]
+    [CliOption("--email-address")]
     public string? EmailAddress { get; set; }
 
-    [CommandSwitch("--personal-email-address")]
+    [CliOption("--personal-email-address")]
     public string? PersonalEmailAddress { get; set; }
 
-    [CommandSwitch("--business-email-address")]
+    [CliOption("--business-email-address")]
     public string? BusinessEmailAddress { get; set; }
 
-    [CommandSwitch("--address")]
+    [CliOption("--address")]
     public string? Address { get; set; }
 
-    [CommandSwitch("--shipping-address")]
+    [CliOption("--shipping-address")]
     public string? ShippingAddress { get; set; }
 
-    [CommandSwitch("--mailing-address")]
+    [CliOption("--mailing-address")]
     public string? MailingAddress { get; set; }
 
-    [CommandSwitch("--billing-address")]
+    [CliOption("--billing-address")]
     public string? BillingAddress { get; set; }
 
-    [CommandSwitch("--attributes")]
+    [CliOption("--attributes")]
     public IEnumerable<KeyValue>? Attributes { get; set; }
 
-    [CommandSwitch("--party-type-string")]
+    [CliOption("--party-type-string")]
     public string? PartyTypeString { get; set; }
 
-    [CommandSwitch("--gender-string")]
+    [CliOption("--gender-string")]
     public string? GenderString { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

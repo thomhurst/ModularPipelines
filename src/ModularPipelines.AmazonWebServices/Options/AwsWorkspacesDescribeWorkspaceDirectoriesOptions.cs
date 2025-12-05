@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces", "describe-workspace-directories")]
+[CliCommand("workspaces", "describe-workspace-directories")]
 public record AwsWorkspacesDescribeWorkspaceDirectoriesOptions : AwsOptions
 {
-    [CommandSwitch("--directory-ids")]
+    [CliOption("--directory-ids")]
     public string[]? DirectoryIds { get; set; }
 
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public int? Limit { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "create-replication-instance")]
+[CliCommand("dms", "create-replication-instance")]
 public record AwsDmsCreateReplicationInstanceOptions(
-[property: CommandSwitch("--replication-instance-identifier")] string ReplicationInstanceIdentifier,
-[property: CommandSwitch("--replication-instance-class")] string ReplicationInstanceClass
+[property: CliOption("--replication-instance-identifier")] string ReplicationInstanceIdentifier,
+[property: CliOption("--replication-instance-class")] string ReplicationInstanceClass
 ) : AwsOptions
 {
-    [CommandSwitch("--allocated-storage")]
+    [CliOption("--allocated-storage")]
     public int? AllocatedStorage { get; set; }
 
-    [CommandSwitch("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids")]
     public string[]? VpcSecurityGroupIds { get; set; }
 
-    [CommandSwitch("--availability-zone")]
+    [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
-    [CommandSwitch("--replication-subnet-group-identifier")]
+    [CliOption("--replication-subnet-group-identifier")]
     public string? ReplicationSubnetGroupIdentifier { get; set; }
 
-    [CommandSwitch("--preferred-maintenance-window")]
+    [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
-    [CommandSwitch("--engine-version")]
+    [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--dns-name-servers")]
+    [CliOption("--dns-name-servers")]
     public string? DnsNameServers { get; set; }
 
-    [CommandSwitch("--resource-identifier")]
+    [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; set; }
 
-    [CommandSwitch("--network-type")]
+    [CliOption("--network-type")]
     public string? NetworkType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

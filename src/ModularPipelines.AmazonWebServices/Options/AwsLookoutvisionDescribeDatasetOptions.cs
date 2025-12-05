@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutvision", "describe-dataset")]
+[CliCommand("lookoutvision", "describe-dataset")]
 public record AwsLookoutvisionDescribeDatasetOptions(
-[property: CommandSwitch("--project-name")] string ProjectName,
-[property: CommandSwitch("--dataset-type")] string DatasetType
+[property: CliOption("--project-name")] string ProjectName,
+[property: CliOption("--dataset-type")] string DatasetType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("globalaccelerator", "describe-endpoint-group")]
+[CliCommand("globalaccelerator", "describe-endpoint-group")]
 public record AwsGlobalacceleratorDescribeEndpointGroupOptions(
-[property: CommandSwitch("--endpoint-group-arn")] string EndpointGroupArn
+[property: CliOption("--endpoint-group-arn")] string EndpointGroupArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

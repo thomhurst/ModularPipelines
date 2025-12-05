@@ -5,228 +5,228 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("composer", "environments", "create")]
+[CliCommand("composer", "environments", "create")]
 public record GcloudComposerEnvironmentsCreateOptions(
-[property: PositionalArgument] string Environment,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Environment,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--airflow-configs")]
+    [CliOption("--airflow-configs")]
     public IEnumerable<KeyValue>? AirflowConfigs { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--cloud-sql-machine-type")]
+    [CliOption("--cloud-sql-machine-type")]
     public string? CloudSqlMachineType { get; set; }
 
-    [CommandSwitch("--cloud-sql-preferred-zone")]
+    [CliOption("--cloud-sql-preferred-zone")]
     public string? CloudSqlPreferredZone { get; set; }
 
-    [BooleanCommandSwitch("--disable-logs-in-cloud-logging-only")]
+    [CliFlag("--disable-logs-in-cloud-logging-only")]
     public bool? DisableLogsInCloudLoggingOnly { get; set; }
 
-    [CommandSwitch("--disk-size")]
+    [CliOption("--disk-size")]
     public string? DiskSize { get; set; }
 
-    [BooleanCommandSwitch("--enable-high-resilience")]
+    [CliFlag("--enable-high-resilience")]
     public bool? EnableHighResilience { get; set; }
 
-    [BooleanCommandSwitch("--enable-logs-in-cloud-logging-only")]
+    [CliFlag("--enable-logs-in-cloud-logging-only")]
     public bool? EnableLogsInCloudLoggingOnly { get; set; }
 
-    [CommandSwitch("--env-variables")]
+    [CliOption("--env-variables")]
     public string[]? EnvVariables { get; set; }
 
-    [CommandSwitch("--environment-size")]
+    [CliOption("--environment-size")]
     public string? EnvironmentSize { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--machine-type")]
+    [CliOption("--machine-type")]
     public string? MachineType { get; set; }
 
-    [CommandSwitch("--node-count")]
+    [CliOption("--node-count")]
     public string? NodeCount { get; set; }
 
-    [CommandSwitch("--oauth-scopes")]
+    [CliOption("--oauth-scopes")]
     public string[]? OauthScopes { get; set; }
 
-    [CommandSwitch("--python-version")]
+    [CliOption("--python-version")]
     public string? PythonVersion { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 
-    [CommandSwitch("--storage-bucket")]
+    [CliOption("--storage-bucket")]
     public string? StorageBucket { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--web-server-machine-type")]
+    [CliOption("--web-server-machine-type")]
     public string? WebServerMachineType { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [CommandSwitch("--airflow-version")]
+    [CliOption("--airflow-version")]
     public string? AirflowVersion { get; set; }
 
-    [CommandSwitch("--image-version")]
+    [CliOption("--image-version")]
     public string? ImageVersion { get; set; }
 
-    [CommandSwitch("--cloud-sql-ipv4-cidr")]
+    [CliOption("--cloud-sql-ipv4-cidr")]
     public string? CloudSqlIpv4Cidr { get; set; }
 
-    [CommandSwitch("--composer-network-ipv4-cidr")]
+    [CliOption("--composer-network-ipv4-cidr")]
     public string? ComposerNetworkIpv4Cidr { get; set; }
 
-    [CommandSwitch("--connection-subnetwork")]
+    [CliOption("--connection-subnetwork")]
     public string? ConnectionSubnetwork { get; set; }
 
-    [CommandSwitch("--connection-type")]
+    [CliOption("--connection-type")]
     public string? ConnectionType { get; set; }
 
-    [BooleanCommandSwitch("--enable-private-endpoint")]
+    [CliFlag("--enable-private-endpoint")]
     public bool? EnablePrivateEndpoint { get; set; }
 
-    [BooleanCommandSwitch("--enable-private-environment")]
+    [CliFlag("--enable-private-environment")]
     public bool? EnablePrivateEnvironment { get; set; }
 
-    [BooleanCommandSwitch("--enable-privately-used-public-ips")]
+    [CliFlag("--enable-privately-used-public-ips")]
     public bool? EnablePrivatelyUsedPublicIps { get; set; }
 
-    [CommandSwitch("--master-ipv4-cidr")]
+    [CliOption("--master-ipv4-cidr")]
     public string? MasterIpv4Cidr { get; set; }
 
-    [CommandSwitch("--web-server-ipv4-cidr")]
+    [CliOption("--web-server-ipv4-cidr")]
     public string? WebServerIpv4Cidr { get; set; }
 
-    [CommandSwitch("--cluster-ipv4-cidr")]
+    [CliOption("--cluster-ipv4-cidr")]
     public string? ClusterIpv4Cidr { get; set; }
 
-    [CommandSwitch("--cluster-secondary-range-name")]
+    [CliOption("--cluster-secondary-range-name")]
     public string? ClusterSecondaryRangeName { get; set; }
 
-    [BooleanCommandSwitch("--enable-ip-alias")]
+    [CliFlag("--enable-ip-alias")]
     public bool? EnableIpAlias { get; set; }
 
-    [BooleanCommandSwitch("--enable-ip-masq-agent")]
+    [CliFlag("--enable-ip-masq-agent")]
     public bool? EnableIpMasqAgent { get; set; }
 
-    [CommandSwitch("--services-ipv4-cidr")]
+    [CliOption("--services-ipv4-cidr")]
     public string? ServicesIpv4Cidr { get; set; }
 
-    [CommandSwitch("--services-secondary-range-name")]
+    [CliOption("--services-secondary-range-name")]
     public string? ServicesSecondaryRangeName { get; set; }
 
-    [BooleanCommandSwitch("--enable-master-authorized-networks")]
+    [CliFlag("--enable-master-authorized-networks")]
     public bool? EnableMasterAuthorizedNetworks { get; set; }
 
-    [CommandSwitch("--master-authorized-networks")]
+    [CliOption("--master-authorized-networks")]
     public string[]? MasterAuthorizedNetworks { get; set; }
 
-    [BooleanCommandSwitch("--enable-scheduled-snapshot-creation")]
+    [CliFlag("--enable-scheduled-snapshot-creation")]
     public bool? EnableScheduledSnapshotCreation { get; set; }
 
-    [CommandSwitch("--snapshot-creation-schedule")]
+    [CliOption("--snapshot-creation-schedule")]
     public string? SnapshotCreationSchedule { get; set; }
 
-    [CommandSwitch("--snapshot-location")]
+    [CliOption("--snapshot-location")]
     public string? SnapshotLocation { get; set; }
 
-    [CommandSwitch("--snapshot-schedule-timezone")]
+    [CliOption("--snapshot-schedule-timezone")]
     public string? SnapshotScheduleTimezone { get; set; }
 
-    [BooleanCommandSwitch("--enable-triggerer")]
+    [CliFlag("--enable-triggerer")]
     public bool? EnableTriggerer { get; set; }
 
-    [CommandSwitch("--triggerer-count")]
+    [CliOption("--triggerer-count")]
     public string? TriggererCount { get; set; }
 
-    [CommandSwitch("--triggerer-cpu")]
+    [CliOption("--triggerer-cpu")]
     public string? TriggererCpu { get; set; }
 
-    [CommandSwitch("--triggerer-memory")]
+    [CliOption("--triggerer-memory")]
     public string? TriggererMemory { get; set; }
 
-    [CommandSwitch("--kms-key")]
+    [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [CommandSwitch("--kms-keyring")]
+    [CliOption("--kms-keyring")]
     public string? KmsKeyring { get; set; }
 
-    [CommandSwitch("--kms-location")]
+    [CliOption("--kms-location")]
     public string? KmsLocation { get; set; }
 
-    [CommandSwitch("--kms-project")]
+    [CliOption("--kms-project")]
     public string? KmsProject { get; set; }
 
-    [CommandSwitch("--maintenance-window-end")]
+    [CliOption("--maintenance-window-end")]
     public string? MaintenanceWindowEnd { get; set; }
 
-    [CommandSwitch("--maintenance-window-recurrence")]
+    [CliOption("--maintenance-window-recurrence")]
     public string? MaintenanceWindowRecurrence { get; set; }
 
-    [CommandSwitch("--maintenance-window-start")]
+    [CliOption("--maintenance-window-start")]
     public string? MaintenanceWindowStart { get; set; }
 
-    [CommandSwitch("--max-workers")]
+    [CliOption("--max-workers")]
     public string? MaxWorkers { get; set; }
 
-    [CommandSwitch("--min-workers")]
+    [CliOption("--min-workers")]
     public string? MinWorkers { get; set; }
 
-    [CommandSwitch("--scheduler-count")]
+    [CliOption("--scheduler-count")]
     public string? SchedulerCount { get; set; }
 
-    [CommandSwitch("--scheduler-cpu")]
+    [CliOption("--scheduler-cpu")]
     public string? SchedulerCpu { get; set; }
 
-    [CommandSwitch("--scheduler-memory")]
+    [CliOption("--scheduler-memory")]
     public string? SchedulerMemory { get; set; }
 
-    [CommandSwitch("--scheduler-storage")]
+    [CliOption("--scheduler-storage")]
     public string? SchedulerStorage { get; set; }
 
-    [CommandSwitch("--web-server-cpu")]
+    [CliOption("--web-server-cpu")]
     public string? WebServerCpu { get; set; }
 
-    [CommandSwitch("--web-server-memory")]
+    [CliOption("--web-server-memory")]
     public string? WebServerMemory { get; set; }
 
-    [CommandSwitch("--web-server-storage")]
+    [CliOption("--web-server-storage")]
     public string? WebServerStorage { get; set; }
 
-    [CommandSwitch("--worker-cpu")]
+    [CliOption("--worker-cpu")]
     public string? WorkerCpu { get; set; }
 
-    [CommandSwitch("--worker-memory")]
+    [CliOption("--worker-memory")]
     public string? WorkerMemory { get; set; }
 
-    [CommandSwitch("--worker-storage")]
+    [CliOption("--worker-storage")]
     public string? WorkerStorage { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--subnetwork")]
+    [CliOption("--subnetwork")]
     public string? Subnetwork { get; set; }
 
-    [BooleanCommandSwitch("--web-server-allow-all")]
+    [CliFlag("--web-server-allow-all")]
     public bool? WebServerAllowAll { get; set; }
 
-    [CommandSwitch("--web-server-allow-ip")]
+    [CliOption("--web-server-allow-ip")]
     public string[]? WebServerAllowIp { get; set; }
 
-    [BooleanCommandSwitch("ip_range")]
+    [CliFlag("ip_range")]
     public bool? IpRange { get; set; }
 
-    [BooleanCommandSwitch("description")]
+    [CliFlag("description")]
     public bool? Description { get; set; }
 
-    [BooleanCommandSwitch("--web-server-deny-all")]
+    [CliFlag("--web-server-deny-all")]
     public bool? WebServerDenyAll { get; set; }
 }

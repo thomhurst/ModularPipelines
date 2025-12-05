@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scvmm", "vm", "nic", "add")]
+[CliSubCommand("scvmm", "vm", "nic", "add")]
 public record AzScvmmVmNicAddOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vm-name")] string VmName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vm-name")] string VmName
 ) : AzOptions
 {
-    [CommandSwitch("--ipv4-address-type")]
+    [CliOption("--ipv4-address-type")]
     public string? Ipv4AddressType { get; set; }
 
-    [CommandSwitch("--ipv6-address-type")]
+    [CliOption("--ipv6-address-type")]
     public string? Ipv6AddressType { get; set; }
 
-    [CommandSwitch("--mac-address")]
+    [CliOption("--mac-address")]
     public string? MacAddress { get; set; }
 
-    [CommandSwitch("--mac-address-type")]
+    [CliOption("--mac-address-type")]
     public string? MacAddressType { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ad", "sp", "list")]
+[CliSubCommand("ad", "sp", "list")]
 public record AzAdSpListOptions : AzOptions
 {
-    [CommandSwitch("--all")]
+    [CliOption("--all")]
     public string? All { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--show-mine")]
+    [CliOption("--show-mine")]
     public string? ShowMine { get; set; }
 
-    [CommandSwitch("--spn")]
+    [CliOption("--spn")]
     public string? Spn { get; set; }
 }

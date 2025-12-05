@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bigtable", "instances")]
+[CliCommand("bigtable", "instances")]
 public class GcloudBigtableInstancesTables
 {
     public GcloudBigtableInstancesTables(

@@ -3,34 +3,34 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("rollback")]
+[CliCommand("rollback")]
 [ExcludeFromCodeCoverage]
 public record HelmRollbackOptions : HelmOptions
 {
-    [BooleanCommandSwitch("--cleanup-on-fail")]
+    [CliFlag("--cleanup-on-fail")]
     public virtual bool? CleanupOnFail { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--history-max", SwitchValueSeparator = " ")]
-    public int? HistoryMax { get; set; }
+    [CliOption("--history-max")]
+    public virtual int? HistoryMax { get; set; }
 
-    [BooleanCommandSwitch("--no-hooks")]
+    [CliFlag("--no-hooks")]
     public virtual bool? NoHooks { get; set; }
 
-    [BooleanCommandSwitch("--recreate-pods")]
+    [CliFlag("--recreate-pods")]
     public virtual bool? RecreatePods { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
-    public string? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public virtual string? Timeout { get; set; }
 
-    [BooleanCommandSwitch("--wait")]
+    [CliFlag("--wait")]
     public virtual bool? Wait { get; set; }
 
-    [BooleanCommandSwitch("--wait-for-jobs")]
+    [CliFlag("--wait-for-jobs")]
     public virtual bool? WaitForJobs { get; set; }
 }

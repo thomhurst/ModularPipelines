@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edgeorder", "address", "update")]
+[CliSubCommand("edgeorder", "address", "update")]
 public record AzEdgeorderAddressUpdateOptions : AzOptions
 {
-    [CommandSwitch("--address-name")]
+    [CliOption("--address-name")]
     public string? AddressName { get; set; }
 
-    [CommandSwitch("--contact-details")]
+    [CliOption("--contact-details")]
     public string? ContactDetails { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--shipping-address")]
+    [CliOption("--shipping-address")]
     public string? ShippingAddress { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

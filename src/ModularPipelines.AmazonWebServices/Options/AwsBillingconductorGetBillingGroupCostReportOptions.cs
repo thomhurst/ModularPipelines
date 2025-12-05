@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billingconductor", "get-billing-group-cost-report")]
+[CliCommand("billingconductor", "get-billing-group-cost-report")]
 public record AwsBillingconductorGetBillingGroupCostReportOptions(
-[property: CommandSwitch("--arn")] string Arn
+[property: CliOption("--arn")] string Arn
 ) : AwsOptions
 {
-    [CommandSwitch("--billing-period-range")]
+    [CliOption("--billing-period-range")]
     public string? BillingPeriodRange { get; set; }
 
-    [CommandSwitch("--group-by")]
+    [CliOption("--group-by")]
     public string[]? GroupBy { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

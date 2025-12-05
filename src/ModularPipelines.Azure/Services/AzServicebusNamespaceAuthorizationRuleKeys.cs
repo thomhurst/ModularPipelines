@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicebus", "namespace", "authorization-rule")]
+[CliCommand("servicebus", "namespace", "authorization-rule")]
 public class AzServicebusNamespaceAuthorizationRuleKeys
 {
     public AzServicebusNamespaceAuthorizationRuleKeys(

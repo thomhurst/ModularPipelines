@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "delete-framework")]
+[CliCommand("backup", "delete-framework")]
 public record AwsBackupDeleteFrameworkOptions(
-[property: CommandSwitch("--framework-name")] string FrameworkName
+[property: CliOption("--framework-name")] string FrameworkName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

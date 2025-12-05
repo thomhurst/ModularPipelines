@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "hub", "policycontroller", "content")]
+[CliCommand("container", "hub", "policycontroller", "content")]
 public class GcloudContainerHubPolicycontrollerContentTemplates
 {
     public GcloudContainerHubPolicycontrollerContentTemplates(

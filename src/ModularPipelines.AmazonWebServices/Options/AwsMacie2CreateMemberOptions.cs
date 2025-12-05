@@ -5,14 +5,14 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("macie2", "create-member")]
+[CliCommand("macie2", "create-member")]
 public record AwsMacie2CreateMemberOptions(
-[property: CommandSwitch("--account")] string Account
+[property: CliOption("--account")] string Account
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

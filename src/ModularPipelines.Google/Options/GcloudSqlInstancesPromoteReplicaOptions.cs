@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "instances", "promote-replica")]
+[CliCommand("sql", "instances", "promote-replica")]
 public record GcloudSqlInstancesPromoteReplicaOptions(
-[property: PositionalArgument] string Replica
+[property: CliArgument] string Replica
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--[no-]failover")]
+    [CliOption("--[no-]failover")]
     public string[]? NoFailover { get; set; }
 }

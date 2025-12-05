@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netapp")]
+[CliCommand("netapp")]
 public class GcloudNetappVolumes
 {
     public GcloudNetappVolumes(

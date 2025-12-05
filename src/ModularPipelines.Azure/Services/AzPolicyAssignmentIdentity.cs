@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("policy", "assignment")]
+[CliCommand("policy", "assignment")]
 public class AzPolicyAssignmentIdentity
 {
     public AzPolicyAssignmentIdentity(

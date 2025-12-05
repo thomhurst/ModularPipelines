@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "os-config", "patch-deployments", "pause")]
+[CliCommand("compute", "os-config", "patch-deployments", "pause")]
 public record GcloudComputeOsConfigPatchDeploymentsPauseOptions(
-[property: PositionalArgument] string PatchDeployment
+[property: CliArgument] string PatchDeployment
 ) : GcloudOptions;

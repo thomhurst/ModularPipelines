@@ -5,32 +5,32 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "forwarding-rules", "update")]
+[CliCommand("compute", "forwarding-rules", "update")]
 public record GcloudComputeForwardingRulesUpdateOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--allow-global-access")]
+    [CliFlag("--allow-global-access")]
     public bool? AllowGlobalAccess { get; set; }
 
-    [BooleanCommandSwitch("--allow-psc-global-access")]
+    [CliFlag("--allow-psc-global-access")]
     public bool? AllowPscGlobalAccess { get; set; }
 
-    [CommandSwitch("--source-ip-ranges")]
+    [CliOption("--source-ip-ranges")]
     public string[]? SourceIpRanges { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

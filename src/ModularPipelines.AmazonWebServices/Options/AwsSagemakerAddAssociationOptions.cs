@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "add-association")]
+[CliCommand("sagemaker", "add-association")]
 public record AwsSagemakerAddAssociationOptions(
-[property: CommandSwitch("--source-arn")] string SourceArn,
-[property: CommandSwitch("--destination-arn")] string DestinationArn
+[property: CliOption("--source-arn")] string SourceArn,
+[property: CliOption("--destination-arn")] string DestinationArn
 ) : AwsOptions
 {
-    [CommandSwitch("--association-type")]
+    [CliOption("--association-type")]
     public string? AssociationType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

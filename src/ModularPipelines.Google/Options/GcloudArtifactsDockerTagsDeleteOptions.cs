@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts", "docker", "tags", "delete")]
+[CliCommand("artifacts", "docker", "tags", "delete")]
 public record GcloudArtifactsDockerTagsDeleteOptions(
-[property: PositionalArgument] string DockerTag
+[property: CliArgument] string DockerTag
 ) : GcloudOptions;

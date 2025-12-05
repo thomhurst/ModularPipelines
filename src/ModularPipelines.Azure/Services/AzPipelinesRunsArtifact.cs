@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pipelines", "runs")]
+[CliCommand("pipelines", "runs")]
 public class AzPipelinesRunsArtifact
 {
     public AzPipelinesRunsArtifact(

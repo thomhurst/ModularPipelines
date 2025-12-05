@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "switchover-blue-green-deployment")]
+[CliCommand("rds", "switchover-blue-green-deployment")]
 public record AwsRdsSwitchoverBlueGreenDeploymentOptions(
-[property: CommandSwitch("--blue-green-deployment-identifier")] string BlueGreenDeploymentIdentifier
+[property: CliOption("--blue-green-deployment-identifier")] string BlueGreenDeploymentIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--switchover-timeout")]
+    [CliOption("--switchover-timeout")]
     public int? SwitchoverTimeout { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

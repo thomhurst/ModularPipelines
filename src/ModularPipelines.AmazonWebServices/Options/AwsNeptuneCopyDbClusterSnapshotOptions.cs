@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptune", "copy-db-cluster-snapshot")]
+[CliCommand("neptune", "copy-db-cluster-snapshot")]
 public record AwsNeptuneCopyDbClusterSnapshotOptions(
-[property: CommandSwitch("--source-db-cluster-snapshot-identifier")] string SourceDbClusterSnapshotIdentifier,
-[property: CommandSwitch("--target-db-cluster-snapshot-identifier")] string TargetDbClusterSnapshotIdentifier
+[property: CliOption("--source-db-cluster-snapshot-identifier")] string SourceDbClusterSnapshotIdentifier,
+[property: CliOption("--target-db-cluster-snapshot-identifier")] string TargetDbClusterSnapshotIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--pre-signed-url")]
+    [CliOption("--pre-signed-url")]
     public string? PreSignedUrl { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--source-region")]
+    [CliOption("--source-region")]
     public string? SourceRegion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

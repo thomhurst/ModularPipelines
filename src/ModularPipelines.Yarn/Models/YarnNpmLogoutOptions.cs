@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("npm", "logout")]
+[CliCommand("npm", "logout")]
 public record YarnNpmLogoutOptions : YarnOptions
 {
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public virtual string? Scope { get; set; }
 
-    [BooleanCommandSwitch("--publish")]
+    [CliFlag("--publish")]
     public virtual bool? Publish { get; set; }
 
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 }

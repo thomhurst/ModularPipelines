@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repos")]
+[CliCommand("repos")]
 public class AzReposPolicy
 {
     public AzReposPolicy(

@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "list-share-invitations")]
+[CliCommand("wellarchitected", "list-share-invitations")]
 public record AwsWellarchitectedListShareInvitationsOptions : AwsOptions
 {
-    [CommandSwitch("--workload-name-prefix")]
+    [CliOption("--workload-name-prefix")]
     public string? WorkloadNamePrefix { get; set; }
 
-    [CommandSwitch("--lens-name-prefix")]
+    [CliOption("--lens-name-prefix")]
     public string? LensNamePrefix { get; set; }
 
-    [CommandSwitch("--share-resource-type")]
+    [CliOption("--share-resource-type")]
     public string? ShareResourceType { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--profile-name-prefix")]
+    [CliOption("--profile-name-prefix")]
     public string? ProfileNamePrefix { get; set; }
 
-    [CommandSwitch("--template-name-prefix")]
+    [CliOption("--template-name-prefix")]
     public string? TemplateNamePrefix { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

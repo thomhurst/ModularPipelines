@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amp", "update-logging-configuration")]
+[CliCommand("amp", "update-logging-configuration")]
 public record AwsAmpUpdateLoggingConfigurationOptions(
-[property: CommandSwitch("--workspace-id")] string WorkspaceId,
-[property: CommandSwitch("--log-group-arn")] string LogGroupArn
+[property: CliOption("--workspace-id")] string WorkspaceId,
+[property: CliOption("--log-group-arn")] string LogGroupArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

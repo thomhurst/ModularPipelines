@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "ssl-policies", "delete")]
+[CliCommand("compute", "ssl-policies", "delete")]
 public record GcloudComputeSslPoliciesDeleteOptions(
-[property: PositionalArgument] string SslPolicy
+[property: CliArgument] string SslPolicy
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

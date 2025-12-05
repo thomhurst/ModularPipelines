@@ -4,69 +4,69 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("image", "builder", "create")]
+[CliSubCommand("image", "builder", "create")]
 public record AzImageBuilderCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--build-timeout")]
+    [CliOption("--build-timeout")]
     public string? BuildTimeout { get; set; }
 
-    [CommandSwitch("--build-vm-identities")]
+    [CliOption("--build-vm-identities")]
     public string? BuildVmIdentities { get; set; }
 
-    [CommandSwitch("--checksum")]
+    [CliOption("--checksum")]
     public string? Checksum { get; set; }
 
-    [CommandSwitch("--defer")]
+    [CliOption("--defer")]
     public string? Defer { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--image-source")]
+    [CliOption("--image-source")]
     public string? ImageSource { get; set; }
 
-    [CommandSwitch("--image-template")]
+    [CliOption("--image-template")]
     public string? ImageTemplate { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--managed-image-destinations")]
+    [CliOption("--managed-image-destinations")]
     public string? ManagedImageDestinations { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--os-disk-size")]
+    [CliOption("--os-disk-size")]
     public string? OsDiskSize { get; set; }
 
-    [CommandSwitch("--proxy-vm-size")]
+    [CliOption("--proxy-vm-size")]
     public string? ProxyVmSize { get; set; }
 
-    [CommandSwitch("--scripts")]
+    [CliOption("--scripts")]
     public string? Scripts { get; set; }
 
-    [CommandSwitch("--shared-image-destinations")]
+    [CliOption("--shared-image-destinations")]
     public string? SharedImageDestinations { get; set; }
 
-    [CommandSwitch("--staging-resource-group")]
+    [CliOption("--staging-resource-group")]
     public string? StagingResourceGroup { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--validator")]
+    [CliOption("--validator")]
     public string? Validator { get; set; }
 
-    [CommandSwitch("--vm-size")]
+    [CliOption("--vm-size")]
     public string? VmSize { get; set; }
 
-    [CommandSwitch("--vnet")]
+    [CliOption("--vnet")]
     public string? Vnet { get; set; }
 }

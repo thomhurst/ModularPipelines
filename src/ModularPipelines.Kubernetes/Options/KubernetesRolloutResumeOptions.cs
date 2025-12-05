@@ -3,31 +3,31 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("rollout", "resume")]
+[CliCommand("rollout", "resume")]
 [ExcludeFromCodeCoverage]
-public record KubernetesRolloutResumeOptions([property: PositionalArgument] string Resource) : KubernetesOptions
+public record KubernetesRolloutResumeOptions([property: CliArgument] string Resource) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--allow-missing-template-keys")]
+    [CliFlag("--allow-missing-template-keys")]
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
-    public string? FieldManager { get; set; }
+    [CliOption("--field-manager")]
+    public virtual string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
-    public string[]? Filename { get; set; }
+    [CliOption("--filename")]
+    public virtual string[]? Filename { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
-    public string? Kustomize { get; set; }
+    [CliOption("--kustomize")]
+    public virtual string? Kustomize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
-    public string? Output { get; set; }
+    [CliOption("--output")]
+    public virtual string? Output { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [BooleanCommandSwitch("--show-managed-fields")]
+    [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
-    public string? Template { get; set; }
+    [CliOption("--template")]
+    public virtual string? Template { get; set; }
 }

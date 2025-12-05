@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "account", "show")]
+[CliSubCommand("monitor", "account", "show")]
 public record AzMonitorAccountShowOptions : AzOptions
 {
-    [CommandSwitch("--azure-monitor-workspace-name")]
+    [CliOption("--azure-monitor-workspace-name")]
     public string? AzureMonitorWorkspaceName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

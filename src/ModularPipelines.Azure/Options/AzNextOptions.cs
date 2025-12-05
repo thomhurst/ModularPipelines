@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("next")]
+[CliSubCommand("next")]
 public record AzNextOptions : AzOptions
 {
-    [BooleanCommandSwitch("--command")]
+    [CliFlag("--command")]
     public bool? Command { get; set; }
 
-    [BooleanCommandSwitch("--scenario")]
+    [CliFlag("--scenario")]
     public bool? Scenario { get; set; }
 }

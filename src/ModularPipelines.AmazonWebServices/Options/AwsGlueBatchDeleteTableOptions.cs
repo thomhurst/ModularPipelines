@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "batch-delete-table")]
+[CliCommand("glue", "batch-delete-table")]
 public record AwsGlueBatchDeleteTableOptions(
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--tables-to-delete")] string[] TablesToDelete
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--tables-to-delete")] string[] TablesToDelete
 ) : AwsOptions
 {
-    [CommandSwitch("--catalog-id")]
+    [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CommandSwitch("--transaction-id")]
+    [CliOption("--transaction-id")]
     public string? TransactionId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("voice-id", "start-fraudster-registration-job")]
+[CliCommand("voice-id", "start-fraudster-registration-job")]
 public record AwsVoiceIdStartFraudsterRegistrationJobOptions(
-[property: CommandSwitch("--data-access-role-arn")] string DataAccessRoleArn,
-[property: CommandSwitch("--domain-id")] string DomainId,
-[property: CommandSwitch("--input-data-config")] string InputDataConfig,
-[property: CommandSwitch("--output-data-config")] string OutputDataConfig
+[property: CliOption("--data-access-role-arn")] string DataAccessRoleArn,
+[property: CliOption("--domain-id")] string DomainId,
+[property: CliOption("--input-data-config")] string InputDataConfig,
+[property: CliOption("--output-data-config")] string OutputDataConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--job-name")]
+    [CliOption("--job-name")]
     public string? JobName { get; set; }
 
-    [CommandSwitch("--registration-config")]
+    [CliOption("--registration-config")]
     public string? RegistrationConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

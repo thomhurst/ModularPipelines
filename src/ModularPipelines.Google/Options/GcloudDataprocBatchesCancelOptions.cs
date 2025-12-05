@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "batches", "cancel")]
+[CliCommand("dataproc", "batches", "cancel")]
 public record GcloudDataprocBatchesCancelOptions(
-[property: PositionalArgument] string Batch,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Batch,
+[property: CliArgument] string Region
 ) : GcloudOptions;

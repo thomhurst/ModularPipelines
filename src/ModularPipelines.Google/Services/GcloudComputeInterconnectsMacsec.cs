@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "interconnects")]
+[CliCommand("compute", "interconnects")]
 public class GcloudComputeInterconnectsMacsec
 {
     public GcloudComputeInterconnectsMacsec(

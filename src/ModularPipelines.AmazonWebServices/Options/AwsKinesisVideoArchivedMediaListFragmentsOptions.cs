@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesis-video-archived-media", "list-fragments")]
+[CliCommand("kinesis-video-archived-media", "list-fragments")]
 public record AwsKinesisVideoArchivedMediaListFragmentsOptions : AwsOptions
 {
-    [CommandSwitch("--stream-name")]
+    [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
-    [CommandSwitch("--stream-arn")]
+    [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
-    [CommandSwitch("--fragment-selector")]
+    [CliOption("--fragment-selector")]
     public string? FragmentSelector { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public long? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public long? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

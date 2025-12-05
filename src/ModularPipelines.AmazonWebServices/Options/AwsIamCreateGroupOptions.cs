@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "create-group")]
+[CliCommand("iam", "create-group")]
 public record AwsIamCreateGroupOptions(
-[property: CommandSwitch("--group-name")] string GroupName
+[property: CliOption("--group-name")] string GroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

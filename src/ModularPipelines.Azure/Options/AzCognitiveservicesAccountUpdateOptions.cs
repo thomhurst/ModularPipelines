@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognitiveservices", "account", "update")]
+[CliSubCommand("cognitiveservices", "account", "update")]
 public record AzCognitiveservicesAccountUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--api-properties")]
+    [CliOption("--api-properties")]
     public string? ApiProperties { get; set; }
 
-    [CommandSwitch("--custom-domain")]
+    [CliOption("--custom-domain")]
     public string? CustomDomain { get; set; }
 
-    [CommandSwitch("--encryption")]
+    [CliOption("--encryption")]
     public string? Encryption { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--storage")]
+    [CliOption("--storage")]
     public string? Storage { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

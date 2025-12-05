@@ -4,59 +4,59 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "network-endpoint-groups", "create")]
+[CliCommand("compute", "network-endpoint-groups", "create")]
 public record GcloudComputeNetworkEndpointGroupsCreateOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--default-port")]
+    [CliOption("--default-port")]
     public string? DefaultPort { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--network-endpoint-type")]
+    [CliOption("--network-endpoint-type")]
     public string? NetworkEndpointType { get; set; }
 
-    [CommandSwitch("--psc-target-service")]
+    [CliOption("--psc-target-service")]
     public string? PscTargetService { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--cloud-function-name")]
+    [CliOption("--cloud-function-name")]
     public string? CloudFunctionName { get; set; }
 
-    [CommandSwitch("--cloud-function-url-mask")]
+    [CliOption("--cloud-function-url-mask")]
     public string? CloudFunctionUrlMask { get; set; }
 
-    [CommandSwitch("--cloud-run-service")]
+    [CliOption("--cloud-run-service")]
     public string? CloudRunService { get; set; }
 
-    [CommandSwitch("--cloud-run-tag")]
+    [CliOption("--cloud-run-tag")]
     public string? CloudRunTag { get; set; }
 
-    [CommandSwitch("--cloud-run-url-mask")]
+    [CliOption("--cloud-run-url-mask")]
     public string? CloudRunUrlMask { get; set; }
 
-    [CommandSwitch("--[no-]app-engine-app")]
+    [CliOption("--[no-]app-engine-app")]
     public string[]? NoAppEngineApp { get; set; }
 
-    [CommandSwitch("--app-engine-service")]
+    [CliOption("--app-engine-service")]
     public string? AppEngineService { get; set; }
 
-    [CommandSwitch("--app-engine-url-mask")]
+    [CliOption("--app-engine-url-mask")]
     public string? AppEngineUrlMask { get; set; }
 
-    [CommandSwitch("--app-engine-version")]
+    [CliOption("--app-engine-version")]
     public string? AppEngineVersion { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

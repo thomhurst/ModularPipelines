@@ -5,16 +5,16 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("accessanalyzer", "create-archive-rule")]
+[CliCommand("accessanalyzer", "create-archive-rule")]
 public record AwsAccessanalyzerCreateArchiveRuleOptions(
-[property: CommandSwitch("--analyzer-name")] string AnalyzerName,
-[property: CommandSwitch("--rule-name")] string RuleName,
-[property: CommandSwitch("--filter")] IEnumerable<KeyValue> Filter
+[property: CliOption("--analyzer-name")] string AnalyzerName,
+[property: CliOption("--rule-name")] string RuleName,
+[property: CliOption("--filter")] IEnumerable<KeyValue> Filter
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

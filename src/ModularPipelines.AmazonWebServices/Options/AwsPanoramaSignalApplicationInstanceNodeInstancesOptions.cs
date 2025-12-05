@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("panorama", "signal-application-instance-node-instances")]
+[CliCommand("panorama", "signal-application-instance-node-instances")]
 public record AwsPanoramaSignalApplicationInstanceNodeInstancesOptions(
-[property: CommandSwitch("--application-instance-id")] string ApplicationInstanceId,
-[property: CommandSwitch("--node-signals")] string[] NodeSignals
+[property: CliOption("--application-instance-id")] string ApplicationInstanceId,
+[property: CliOption("--node-signals")] string[] NodeSignals
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

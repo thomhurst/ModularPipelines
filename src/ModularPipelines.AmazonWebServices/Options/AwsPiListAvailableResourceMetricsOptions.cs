@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pi", "list-available-resource-metrics")]
+[CliCommand("pi", "list-available-resource-metrics")]
 public record AwsPiListAvailableResourceMetricsOptions(
-[property: CommandSwitch("--service-type")] string ServiceType,
-[property: CommandSwitch("--identifier")] string Identifier,
-[property: CommandSwitch("--metric-types")] string[] MetricTypes
+[property: CliOption("--service-type")] string ServiceType,
+[property: CliOption("--identifier")] string Identifier,
+[property: CliOption("--metric-types")] string[] MetricTypes
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

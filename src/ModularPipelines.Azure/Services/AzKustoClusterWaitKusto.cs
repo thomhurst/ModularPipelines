@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kusto", "cluster", "wait")]
+[CliCommand("kusto", "cluster", "wait")]
 public class AzKustoClusterWaitKusto
 {
     public AzKustoClusterWaitKusto(

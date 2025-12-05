@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datasync", "describe-location-fsx-open-zfs")]
+[CliCommand("datasync", "describe-location-fsx-open-zfs")]
 public record AwsDatasyncDescribeLocationFsxOpenZfsOptions(
-[property: CommandSwitch("--location-arn")] string LocationArn
+[property: CliOption("--location-arn")] string LocationArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

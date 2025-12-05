@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "application")]
+[CliCommand("sf", "application")]
 public class AzSfApplicationCertificate
 {
     public AzSfApplicationCertificate(

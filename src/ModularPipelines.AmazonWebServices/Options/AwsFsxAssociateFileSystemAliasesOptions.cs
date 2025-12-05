@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fsx", "associate-file-system-aliases")]
+[CliCommand("fsx", "associate-file-system-aliases")]
 public record AwsFsxAssociateFileSystemAliasesOptions(
-[property: CommandSwitch("--file-system-id")] string FileSystemId,
-[property: CommandSwitch("--aliases")] string[] Aliases
+[property: CliOption("--file-system-id")] string FileSystemId,
+[property: CliOption("--aliases")] string[] Aliases
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

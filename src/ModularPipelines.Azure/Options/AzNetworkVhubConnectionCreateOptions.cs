@@ -4,47 +4,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vhub", "connection", "create")]
+[CliSubCommand("network", "vhub", "connection", "create")]
 public record AzNetworkVhubConnectionCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--remote-vnet")] string RemoteVnet,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vhub-name")] string VhubName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--remote-vnet")] string RemoteVnet,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vhub-name")] string VhubName
 ) : AzOptions
 {
-    [CommandSwitch("--address-prefixes")]
+    [CliOption("--address-prefixes")]
     public string? AddressPrefixes { get; set; }
 
-    [CommandSwitch("--associated")]
+    [CliOption("--associated")]
     public string? Associated { get; set; }
 
-    [CommandSwitch("--associated-inbound-routemap")]
+    [CliOption("--associated-inbound-routemap")]
     public string? AssociatedInboundRoutemap { get; set; }
 
-    [CommandSwitch("--associated-outbound-routemap")]
+    [CliOption("--associated-outbound-routemap")]
     public string? AssociatedOutboundRoutemap { get; set; }
 
-    [BooleanCommandSwitch("--internet-security")]
+    [CliFlag("--internet-security")]
     public bool? InternetSecurity { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 
-    [CommandSwitch("--next-hop")]
+    [CliOption("--next-hop")]
     public string? NextHop { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--propagated")]
+    [CliOption("--propagated")]
     public string? Propagated { get; set; }
 
-    [BooleanCommandSwitch("--remote-vnet-transit")]
+    [CliFlag("--remote-vnet-transit")]
     public bool? RemoteVnetTransit { get; set; }
 
-    [CommandSwitch("--route-name")]
+    [CliOption("--route-name")]
     public string? RouteName { get; set; }
 
-    [BooleanCommandSwitch("--use-hub-vnet-gateways")]
+    [CliFlag("--use-hub-vnet-gateways")]
     public bool? UseHubVnetGateways { get; set; }
 }

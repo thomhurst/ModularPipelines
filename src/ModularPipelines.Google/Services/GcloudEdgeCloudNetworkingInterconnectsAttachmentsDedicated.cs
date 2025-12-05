@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cloud", "networking", "interconnects", "attachments")]
+[CliCommand("edge-cloud", "networking", "interconnects", "attachments")]
 public class GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicated
 {
     public GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicated(

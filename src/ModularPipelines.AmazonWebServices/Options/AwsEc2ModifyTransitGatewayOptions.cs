@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-transit-gateway")]
+[CliCommand("ec2", "modify-transit-gateway")]
 public record AwsEc2ModifyTransitGatewayOptions(
-[property: CommandSwitch("--transit-gateway-id")] string TransitGatewayId
+[property: CliOption("--transit-gateway-id")] string TransitGatewayId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--options")]
+    [CliOption("--options")]
     public string? Options { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

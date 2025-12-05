@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute-optimizer", "get-license-recommendations")]
+[CliCommand("compute-optimizer", "get-license-recommendations")]
 public record AwsComputeOptimizerGetLicenseRecommendationsOptions : AwsOptions
 {
-    [CommandSwitch("--resource-arns")]
+    [CliOption("--resource-arns")]
     public string[]? ResourceArns { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--account-ids")]
+    [CliOption("--account-ids")]
     public string[]? AccountIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "images", "add-tag")]
+[CliCommand("container", "images", "add-tag")]
 public record GcloudContainerImagesAddTagOptions(
-[property: PositionalArgument] string SrcImage,
-[property: PositionalArgument] string DestImage
+[property: CliArgument] string SrcImage,
+[property: CliArgument] string DestImage
 ) : GcloudOptions;

@@ -5,41 +5,41 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesis-video-archived-media", "get-images")]
+[CliCommand("kinesis-video-archived-media", "get-images")]
 public record AwsKinesisVideoArchivedMediaGetImagesOptions(
-[property: CommandSwitch("--image-selector-type")] string ImageSelectorType,
-[property: CommandSwitch("--start-timestamp")] long StartTimestamp,
-[property: CommandSwitch("--end-timestamp")] long EndTimestamp,
-[property: CommandSwitch("--format")] string Format
+[property: CliOption("--image-selector-type")] string ImageSelectorType,
+[property: CliOption("--start-timestamp")] long StartTimestamp,
+[property: CliOption("--end-timestamp")] long EndTimestamp,
+[property: CliOption("--format")] string Format
 ) : AwsOptions
 {
-    [CommandSwitch("--stream-name")]
+    [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
-    [CommandSwitch("--stream-arn")]
+    [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
-    [CommandSwitch("--sampling-interval")]
+    [CliOption("--sampling-interval")]
     public int? SamplingInterval { get; set; }
 
-    [CommandSwitch("--format-config")]
+    [CliOption("--format-config")]
     public IEnumerable<KeyValue>? FormatConfig { get; set; }
 
-    [CommandSwitch("--width-pixels")]
+    [CliOption("--width-pixels")]
     public int? WidthPixels { get; set; }
 
-    [CommandSwitch("--height-pixels")]
+    [CliOption("--height-pixels")]
     public int? HeightPixels { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public long? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public long? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

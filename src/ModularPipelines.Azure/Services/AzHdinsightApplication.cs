@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hdinsight")]
+[CliCommand("hdinsight")]
 public class AzHdinsightApplication
 {
     public AzHdinsightApplication(

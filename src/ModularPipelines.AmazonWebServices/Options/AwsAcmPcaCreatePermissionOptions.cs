@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acm-pca", "create-permission")]
+[CliCommand("acm-pca", "create-permission")]
 public record AwsAcmPcaCreatePermissionOptions(
-[property: CommandSwitch("--certificate-authority-arn")] string CertificateAuthorityArn,
-[property: CommandSwitch("--principal")] string Principal,
-[property: CommandSwitch("--actions")] string[] Actions
+[property: CliOption("--certificate-authority-arn")] string CertificateAuthorityArn,
+[property: CliOption("--principal")] string Principal,
+[property: CliOption("--actions")] string[] Actions
 ) : AwsOptions
 {
-    [CommandSwitch("--source-account")]
+    [CliOption("--source-account")]
     public string? SourceAccount { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

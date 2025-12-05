@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("alexaforbusiness", "send-announcement")]
+[CliCommand("alexaforbusiness", "send-announcement")]
 public record AwsAlexaforbusinessSendAnnouncementOptions(
-[property: CommandSwitch("--room-filters")] string[] RoomFilters,
-[property: CommandSwitch("--content")] string Content
+[property: CliOption("--room-filters")] string[] RoomFilters,
+[property: CliOption("--content")] string Content
 ) : AwsOptions
 {
-    [CommandSwitch("--time-to-live-in-seconds")]
+    [CliOption("--time-to-live-in-seconds")]
     public int? TimeToLiveInSeconds { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

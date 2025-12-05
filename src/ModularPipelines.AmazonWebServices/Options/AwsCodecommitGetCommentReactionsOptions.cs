@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecommit", "get-comment-reactions")]
+[CliCommand("codecommit", "get-comment-reactions")]
 public record AwsCodecommitGetCommentReactionsOptions(
-[property: CommandSwitch("--comment-id")] string CommentId
+[property: CliOption("--comment-id")] string CommentId
 ) : AwsOptions
 {
-    [CommandSwitch("--reaction-user-arn")]
+    [CliOption("--reaction-user-arn")]
     public string? ReactionUserArn { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

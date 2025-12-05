@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "disassociate-transit-gateway-route-table")]
+[CliCommand("ec2", "disassociate-transit-gateway-route-table")]
 public record AwsEc2DisassociateTransitGatewayRouteTableOptions(
-[property: CommandSwitch("--transit-gateway-route-table-id")] string TransitGatewayRouteTableId,
-[property: CommandSwitch("--transit-gateway-attachment-id")] string TransitGatewayAttachmentId
+[property: CliOption("--transit-gateway-route-table-id")] string TransitGatewayRouteTableId,
+[property: CliOption("--transit-gateway-attachment-id")] string TransitGatewayAttachmentId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

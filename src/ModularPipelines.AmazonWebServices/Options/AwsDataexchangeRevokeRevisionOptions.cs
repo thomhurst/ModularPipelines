@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataexchange", "revoke-revision")]
+[CliCommand("dataexchange", "revoke-revision")]
 public record AwsDataexchangeRevokeRevisionOptions(
-[property: CommandSwitch("--data-set-id")] string DataSetId,
-[property: CommandSwitch("--revision-id")] string RevisionId,
-[property: CommandSwitch("--revocation-comment")] string RevocationComment
+[property: CliOption("--data-set-id")] string DataSetId,
+[property: CliOption("--revision-id")] string RevisionId,
+[property: CliOption("--revocation-comment")] string RevocationComment
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

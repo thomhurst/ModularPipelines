@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("secrets", "replication", "update")]
+[CliCommand("secrets", "replication", "update")]
 public record GcloudSecretsReplicationUpdateOptions(
-[property: PositionalArgument] string Secret
+[property: CliArgument] string Secret
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--remove-cmek")]
+    [CliFlag("--remove-cmek")]
     public bool? RemoveCmek { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--set-kms-key")]
+    [CliOption("--set-kms-key")]
     public string? SetKmsKey { get; set; }
 }

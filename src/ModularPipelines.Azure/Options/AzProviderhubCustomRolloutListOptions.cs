@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("providerhub", "custom-rollout", "list")]
+[CliSubCommand("providerhub", "custom-rollout", "list")]
 public record AzProviderhubCustomRolloutListOptions(
-[property: CommandSwitch("--provider-namespace")] string ProviderNamespace
+[property: CliOption("--provider-namespace")] string ProviderNamespace
 ) : AzOptions;

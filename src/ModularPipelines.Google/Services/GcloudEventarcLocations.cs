@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventarc")]
+[CliCommand("eventarc")]
 public class GcloudEventarcLocations
 {
     public GcloudEventarcLocations(

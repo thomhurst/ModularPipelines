@@ -4,57 +4,57 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mariadb", "server", "create")]
+[CliSubCommand("mariadb", "server", "create")]
 public record AzMariadbServerCreateOptions : AzOptions
 {
-    [CommandSwitch("--admin-password")]
+    [CliOption("--admin-password")]
     public string? AdminPassword { get; set; }
 
-    [CommandSwitch("--admin-user")]
+    [CliOption("--admin-user")]
     public string? AdminUser { get; set; }
 
-    [BooleanCommandSwitch("--assign-identity")]
+    [CliFlag("--assign-identity")]
     public bool? AssignIdentity { get; set; }
 
-    [CommandSwitch("--auto-grow")]
+    [CliOption("--auto-grow")]
     public string? AutoGrow { get; set; }
 
-    [CommandSwitch("--backup-retention")]
+    [CliOption("--backup-retention")]
     public string? BackupRetention { get; set; }
 
-    [CommandSwitch("--geo-redundant-backup")]
+    [CliOption("--geo-redundant-backup")]
     public string? GeoRedundantBackup { get; set; }
 
-    [CommandSwitch("--infrastructure-encryption")]
+    [CliOption("--infrastructure-encryption")]
     public string? InfrastructureEncryption { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--minimal-tls-version")]
+    [CliOption("--minimal-tls-version")]
     public string? MinimalTlsVersion { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--public")]
+    [CliOption("--public")]
     public string? Public { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--sku-name")]
+    [CliOption("--sku-name")]
     public string? SkuName { get; set; }
 
-    [CommandSwitch("--ssl-enforcement")]
+    [CliOption("--ssl-enforcement")]
     public string? SslEnforcement { get; set; }
 
-    [CommandSwitch("--storage-size")]
+    [CliOption("--storage-size")]
     public string? StorageSize { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 }

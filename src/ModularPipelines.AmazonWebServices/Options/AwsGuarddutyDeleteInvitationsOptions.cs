@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("guardduty", "delete-invitations")]
+[CliCommand("guardduty", "delete-invitations")]
 public record AwsGuarddutyDeleteInvitationsOptions(
-[property: CommandSwitch("--account-ids")] string[] AccountIds
+[property: CliOption("--account-ids")] string[] AccountIds
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

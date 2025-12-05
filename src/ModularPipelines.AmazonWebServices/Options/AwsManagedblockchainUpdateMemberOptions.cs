@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managedblockchain", "update-member")]
+[CliCommand("managedblockchain", "update-member")]
 public record AwsManagedblockchainUpdateMemberOptions(
-[property: CommandSwitch("--network-id")] string NetworkId,
-[property: CommandSwitch("--member-id")] string MemberId
+[property: CliOption("--network-id")] string NetworkId,
+[property: CliOption("--member-id")] string MemberId
 ) : AwsOptions
 {
-    [CommandSwitch("--log-publishing-configuration")]
+    [CliOption("--log-publishing-configuration")]
     public string? LogPublishingConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

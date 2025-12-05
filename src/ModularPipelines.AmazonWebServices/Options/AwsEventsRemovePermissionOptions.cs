@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("events", "remove-permission")]
+[CliCommand("events", "remove-permission")]
 public record AwsEventsRemovePermissionOptions : AwsOptions
 {
-    [CommandSwitch("--statement-id")]
+    [CliOption("--statement-id")]
     public string? StatementId { get; set; }
 
-    [CommandSwitch("--event-bus-name")]
+    [CliOption("--event-bus-name")]
     public string? EventBusName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

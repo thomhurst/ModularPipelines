@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ses", "set-identity-dkim-enabled")]
+[CliCommand("ses", "set-identity-dkim-enabled")]
 public record AwsSesSetIdentityDkimEnabledOptions(
-[property: CommandSwitch("--identity")] string Identity
+[property: CliOption("--identity")] string Identity
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

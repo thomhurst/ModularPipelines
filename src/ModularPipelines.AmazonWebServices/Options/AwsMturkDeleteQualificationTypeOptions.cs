@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mturk", "delete-qualification-type")]
+[CliCommand("mturk", "delete-qualification-type")]
 public record AwsMturkDeleteQualificationTypeOptions(
-[property: CommandSwitch("--qualification-type-id")] string QualificationTypeId
+[property: CliOption("--qualification-type-id")] string QualificationTypeId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

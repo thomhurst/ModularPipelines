@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker-runtime", "invoke-endpoint")]
+[CliCommand("sagemaker-runtime", "invoke-endpoint")]
 public record AwsSagemakerRuntimeInvokeEndpointOptions(
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--body")] string Body
+[property: CliOption("--endpoint-name")] string EndpointName,
+[property: CliOption("--body")] string Body
 ) : AwsOptions
 {
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
-    [CommandSwitch("--accept")]
+    [CliOption("--accept")]
     public string? Accept { get; set; }
 
-    [CommandSwitch("--custom-attributes")]
+    [CliOption("--custom-attributes")]
     public string? CustomAttributes { get; set; }
 
-    [CommandSwitch("--target-model")]
+    [CliOption("--target-model")]
     public string? TargetModel { get; set; }
 
-    [CommandSwitch("--target-variant")]
+    [CliOption("--target-variant")]
     public string? TargetVariant { get; set; }
 
-    [CommandSwitch("--target-container-hostname")]
+    [CliOption("--target-container-hostname")]
     public string? TargetContainerHostname { get; set; }
 
-    [CommandSwitch("--inference-id")]
+    [CliOption("--inference-id")]
     public string? InferenceId { get; set; }
 
-    [CommandSwitch("--enable-explanations")]
+    [CliOption("--enable-explanations")]
     public string? EnableExplanations { get; set; }
 
-    [CommandSwitch("--inference-component-name")]
+    [CliOption("--inference-component-name")]
     public string? InferenceComponentName { get; set; }
 }

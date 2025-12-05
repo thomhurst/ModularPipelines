@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "create-alias")]
+[CliCommand("gamelift", "create-alias")]
 public record AwsGameliftCreateAliasOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--routing-strategy")] string RoutingStrategy
+[property: CliOption("--name")] string Name,
+[property: CliOption("--routing-strategy")] string RoutingStrategy
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

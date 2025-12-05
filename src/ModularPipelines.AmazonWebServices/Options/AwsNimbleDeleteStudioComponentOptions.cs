@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("nimble", "delete-studio-component")]
+[CliCommand("nimble", "delete-studio-component")]
 public record AwsNimbleDeleteStudioComponentOptions(
-[property: CommandSwitch("--studio-component-id")] string StudioComponentId,
-[property: CommandSwitch("--studio-id")] string StudioId
+[property: CliOption("--studio-component-id")] string StudioComponentId,
+[property: CliOption("--studio-id")] string StudioId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

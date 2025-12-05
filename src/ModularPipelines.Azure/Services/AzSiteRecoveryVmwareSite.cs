@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("site-recovery")]
+[CliCommand("site-recovery")]
 public class AzSiteRecoveryVmwareSite
 {
     public AzSiteRecoveryVmwareSite(

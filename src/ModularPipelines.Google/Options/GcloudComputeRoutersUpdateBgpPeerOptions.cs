@@ -4,105 +4,105 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "routers", "update-bgp-peer")]
+[CliCommand("compute", "routers", "update-bgp-peer")]
 public record GcloudComputeRoutersUpdateBgpPeerOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--peer-name")] string PeerName
+[property: CliArgument] string Name,
+[property: CliOption("--peer-name")] string PeerName
 ) : GcloudOptions
 {
-    [CommandSwitch("--advertised-route-priority")]
+    [CliOption("--advertised-route-priority")]
     public string? AdvertisedRoutePriority { get; set; }
 
-    [CommandSwitch("--advertisement-mode")]
+    [CliOption("--advertisement-mode")]
     public string? AdvertisementMode { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--clear-md5-authentication-key")]
+    [CliFlag("--clear-md5-authentication-key")]
     public bool? ClearMd5AuthenticationKey { get; set; }
 
-    [CommandSwitch("--custom-learned-route-priority")]
+    [CliOption("--custom-learned-route-priority")]
     public string? CustomLearnedRoutePriority { get; set; }
 
-    [CommandSwitch("--[no-]enable-ipv6")]
+    [CliOption("--[no-]enable-ipv6")]
     public string[]? NoEnableIpv6 { get; set; }
 
-    [CommandSwitch("--[no-]enabled")]
+    [CliOption("--[no-]enabled")]
     public string[]? NoEnabled { get; set; }
 
-    [CommandSwitch("--interface")]
+    [CliOption("--interface")]
     public string? Interface { get; set; }
 
-    [CommandSwitch("--ip-address")]
+    [CliOption("--ip-address")]
     public string? IpAddress { get; set; }
 
-    [CommandSwitch("--ipv6-nexthop-address")]
+    [CliOption("--ipv6-nexthop-address")]
     public string? Ipv6NexthopAddress { get; set; }
 
-    [CommandSwitch("--md5-authentication-key")]
+    [CliOption("--md5-authentication-key")]
     public string? Md5AuthenticationKey { get; set; }
 
-    [CommandSwitch("--peer-asn")]
+    [CliOption("--peer-asn")]
     public string? PeerAsn { get; set; }
 
-    [CommandSwitch("--peer-ip-address")]
+    [CliOption("--peer-ip-address")]
     public string? PeerIpAddress { get; set; }
 
-    [CommandSwitch("--peer-ipv6-nexthop-address")]
+    [CliOption("--peer-ipv6-nexthop-address")]
     public string? PeerIpv6NexthopAddress { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--set-advertisement-groups")]
+    [CliOption("--set-advertisement-groups")]
     public string[]? SetAdvertisementGroups { get; set; }
 
-    [CommandSwitch("--set-advertisement-ranges")]
+    [CliOption("--set-advertisement-ranges")]
     public string[]? SetAdvertisementRanges { get; set; }
 
-    [CommandSwitch("--set-custom-learned-route-ranges")]
+    [CliOption("--set-custom-learned-route-ranges")]
     public string[]? SetCustomLearnedRouteRanges { get; set; }
 
-    [CommandSwitch("--add-advertisement-groups")]
+    [CliOption("--add-advertisement-groups")]
     public string[]? AddAdvertisementGroups { get; set; }
 
-    [BooleanCommandSwitch("ALL_SUBNETS")]
+    [CliFlag("ALL_SUBNETS")]
     public bool? AllSubnets { get; set; }
 
-    [CommandSwitch("--add-advertisement-ranges")]
+    [CliOption("--add-advertisement-ranges")]
     public string[]? AddAdvertisementRanges { get; set; }
 
-    [CommandSwitch("--remove-advertisement-groups")]
+    [CliOption("--remove-advertisement-groups")]
     public string[]? RemoveAdvertisementGroups { get; set; }
 
-    [CommandSwitch("--remove-advertisement-ranges")]
+    [CliOption("--remove-advertisement-ranges")]
     public string[]? RemoveAdvertisementRanges { get; set; }
 
-    [CommandSwitch("--add-custom-learned-route-ranges")]
+    [CliOption("--add-custom-learned-route-ranges")]
     public string[]? AddCustomLearnedRouteRanges { get; set; }
 
-    [CommandSwitch("--remove-custom-learned-route-ranges")]
+    [CliOption("--remove-custom-learned-route-ranges")]
     public string[]? RemoveCustomLearnedRouteRanges { get; set; }
 
-    [CommandSwitch("--bfd-min-receive-interval")]
+    [CliOption("--bfd-min-receive-interval")]
     public string? BfdMinReceiveInterval { get; set; }
 
-    [CommandSwitch("--bfd-min-transmit-interval")]
+    [CliOption("--bfd-min-transmit-interval")]
     public string? BfdMinTransmitInterval { get; set; }
 
-    [CommandSwitch("--bfd-multiplier")]
+    [CliOption("--bfd-multiplier")]
     public string? BfdMultiplier { get; set; }
 
-    [CommandSwitch("--bfd-session-initialization-mode")]
+    [CliOption("--bfd-session-initialization-mode")]
     public string? BfdSessionInitializationMode { get; set; }
 
-    [BooleanCommandSwitch("ACTIVE")]
+    [CliFlag("ACTIVE")]
     public bool? Active { get; set; }
 
-    [BooleanCommandSwitch("DISABLED")]
+    [CliFlag("DISABLED")]
     public bool? Disabled { get; set; }
 
-    [BooleanCommandSwitch("PASSIVE")]
+    [CliFlag("PASSIVE")]
     public bool? Passive { get; set; }
 }

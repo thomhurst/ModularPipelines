@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "private-clouds", "create")]
+[CliCommand("vmware", "private-clouds", "create")]
 public record GcloudVmwarePrivateCloudsCreateOptions(
-[property: PositionalArgument] string PrivateCloud,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--cluster")] string Cluster,
-[property: CommandSwitch("--management-range")] string ManagementRange,
-[property: CommandSwitch("--node-type-config")] string[] NodeTypeConfig,
-[property: CommandSwitch("--vmware-engine-network")] string VmwareEngineNetwork
+[property: CliArgument] string PrivateCloud,
+[property: CliArgument] string Location,
+[property: CliOption("--cluster")] string Cluster,
+[property: CliOption("--management-range")] string ManagementRange,
+[property: CliOption("--node-type-config")] string[] NodeTypeConfig,
+[property: CliOption("--vmware-engine-network")] string VmwareEngineNetwork
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--preferred-zone")]
+    [CliOption("--preferred-zone")]
     public string? PreferredZone { get; set; }
 
-    [CommandSwitch("--secondary-zone")]
+    [CliOption("--secondary-zone")]
     public string? SecondaryZone { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 }

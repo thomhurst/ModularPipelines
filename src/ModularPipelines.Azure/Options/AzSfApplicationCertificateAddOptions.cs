@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "application", "certificate", "add")]
+[CliSubCommand("sf", "application", "certificate", "add")]
 public record AzSfApplicationCertificateAddOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--cert-out-folder")]
+    [CliOption("--cert-out-folder")]
     public string? CertOutFolder { get; set; }
 
-    [CommandSwitch("--cert-subject-name")]
+    [CliOption("--cert-subject-name")]
     public string? CertSubjectName { get; set; }
 
-    [CommandSwitch("--certificate-file")]
+    [CliOption("--certificate-file")]
     public string? CertificateFile { get; set; }
 
-    [CommandSwitch("--certificate-password")]
+    [CliOption("--certificate-password")]
     public string? CertificatePassword { get; set; }
 
-    [CommandSwitch("--secret-identifier")]
+    [CliOption("--secret-identifier")]
     public string? SecretIdentifier { get; set; }
 
-    [CommandSwitch("--vault-name")]
+    [CliOption("--vault-name")]
     public string? VaultName { get; set; }
 
-    [CommandSwitch("--vault-rg")]
+    [CliOption("--vault-rg")]
     public string? VaultRg { get; set; }
 }

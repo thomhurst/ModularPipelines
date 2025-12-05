@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-reserved-instances")]
+[CliCommand("ec2", "modify-reserved-instances")]
 public record AwsEc2ModifyReservedInstancesOptions(
-[property: CommandSwitch("--reserved-instances-ids")] string[] ReservedInstancesIds,
-[property: CommandSwitch("--target-configurations")] string[] TargetConfigurations
+[property: CliOption("--reserved-instances-ids")] string[] ReservedInstancesIds,
+[property: CliOption("--target-configurations")] string[] TargetConfigurations
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

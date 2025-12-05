@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworks", "set-permission")]
+[CliCommand("opsworks", "set-permission")]
 public record AwsOpsworksSetPermissionOptions(
-[property: CommandSwitch("--stack-id")] string StackId,
-[property: CommandSwitch("--iam-user-arn")] string IamUserArn
+[property: CliOption("--stack-id")] string StackId,
+[property: CliOption("--iam-user-arn")] string IamUserArn
 ) : AwsOptions
 {
-    [CommandSwitch("--level")]
+    [CliOption("--level")]
     public string? Level { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

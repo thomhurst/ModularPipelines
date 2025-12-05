@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connection")]
+[CliCommand("connection")]
 public class AzConnectionCreate
 {
     public AzConnectionCreate(

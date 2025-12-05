@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datazone", "list-notifications")]
+[CliCommand("datazone", "list-notifications")]
 public record AwsDatazoneListNotificationsOptions(
-[property: CommandSwitch("--domain-identifier")] string DomainIdentifier,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--domain-identifier")] string DomainIdentifier,
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--after-timestamp")]
+    [CliOption("--after-timestamp")]
     public long? AfterTimestamp { get; set; }
 
-    [CommandSwitch("--before-timestamp")]
+    [CliOption("--before-timestamp")]
     public long? BeforeTimestamp { get; set; }
 
-    [CommandSwitch("--subjects")]
+    [CliOption("--subjects")]
     public string[]? Subjects { get; set; }
 
-    [CommandSwitch("--task-status")]
+    [CliOption("--task-status")]
     public string? TaskStatus { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,183 +5,183 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functions", "deploy")]
+[CliCommand("functions", "deploy")]
 public record GcloudFunctionsDeployOptions(
-[property: PositionalArgument] string Name,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Name,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [CommandSwitch("--[no-]allow-unauthenticated")]
+    [CliOption("--[no-]allow-unauthenticated")]
     public string[]? NoAllowUnauthenticated { get; set; }
 
-    [CommandSwitch("--concurrency")]
+    [CliOption("--concurrency")]
     public string? Concurrency { get; set; }
 
-    [CommandSwitch("--docker-registry")]
+    [CliOption("--docker-registry")]
     public string? DockerRegistry { get; set; }
 
-    [CommandSwitch("--egress-settings")]
+    [CliOption("--egress-settings")]
     public string? EgressSettings { get; set; }
 
-    [CommandSwitch("--entry-point")]
+    [CliOption("--entry-point")]
     public string? EntryPoint { get; set; }
 
-    [BooleanCommandSwitch("--gen2")]
+    [CliFlag("--gen2")]
     public bool? Gen2 { get; set; }
 
-    [CommandSwitch("--ignore-file")]
+    [CliOption("--ignore-file")]
     public string? IgnoreFile { get; set; }
 
-    [CommandSwitch("--ingress-settings")]
+    [CliOption("--ingress-settings")]
     public string? IngressSettings { get; set; }
 
-    [BooleanCommandSwitch("--retry")]
+    [CliFlag("--retry")]
     public bool? Retry { get; set; }
 
-    [CommandSwitch("--run-service-account")]
+    [CliOption("--run-service-account")]
     public string? RunServiceAccount { get; set; }
 
-    [CommandSwitch("--runtime")]
+    [CliOption("--runtime")]
     public string? Runtime { get; set; }
 
-    [CommandSwitch("--runtime-update-policy")]
+    [CliOption("--runtime-update-policy")]
     public string? RuntimeUpdatePolicy { get; set; }
 
-    [CommandSwitch("--security-level")]
+    [CliOption("--security-level")]
     public string? SecurityLevel { get; set; }
 
-    [BooleanCommandSwitch("--serve-all-traffic-latest-revision")]
+    [CliFlag("--serve-all-traffic-latest-revision")]
     public bool? ServeAllTrafficLatestRevision { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CommandSwitch("--stage-bucket")]
+    [CliOption("--stage-bucket")]
     public string? StageBucket { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--trigger-location")]
+    [CliOption("--trigger-location")]
     public string? TriggerLocation { get; set; }
 
-    [CommandSwitch("--trigger-service-account")]
+    [CliOption("--trigger-service-account")]
     public string? TriggerServiceAccount { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [CommandSwitch("--build-env-vars-file")]
+    [CliOption("--build-env-vars-file")]
     public string? BuildEnvVarsFile { get; set; }
 
-    [BooleanCommandSwitch("--clear-build-env-vars")]
+    [CliFlag("--clear-build-env-vars")]
     public bool? ClearBuildEnvVars { get; set; }
 
-    [CommandSwitch("--set-build-env-vars")]
+    [CliOption("--set-build-env-vars")]
     public IEnumerable<KeyValue>? SetBuildEnvVars { get; set; }
 
-    [CommandSwitch("--remove-build-env-vars")]
+    [CliOption("--remove-build-env-vars")]
     public string[]? RemoveBuildEnvVars { get; set; }
 
-    [CommandSwitch("--update-build-env-vars")]
+    [CliOption("--update-build-env-vars")]
     public IEnumerable<KeyValue>? UpdateBuildEnvVars { get; set; }
 
-    [CommandSwitch("--build-worker-pool")]
+    [CliOption("--build-worker-pool")]
     public string? BuildWorkerPool { get; set; }
 
-    [BooleanCommandSwitch("--clear-build-worker-pool")]
+    [CliFlag("--clear-build-worker-pool")]
     public bool? ClearBuildWorkerPool { get; set; }
 
-    [BooleanCommandSwitch("--clear-docker-repository")]
+    [CliFlag("--clear-docker-repository")]
     public bool? ClearDockerRepository { get; set; }
 
-    [CommandSwitch("--docker-repository")]
+    [CliOption("--docker-repository")]
     public string? DockerRepository { get; set; }
 
-    [BooleanCommandSwitch("--clear-env-vars")]
+    [CliFlag("--clear-env-vars")]
     public bool? ClearEnvVars { get; set; }
 
-    [CommandSwitch("--env-vars-file")]
+    [CliOption("--env-vars-file")]
     public string? EnvVarsFile { get; set; }
 
-    [CommandSwitch("--set-env-vars")]
+    [CliOption("--set-env-vars")]
     public IEnumerable<KeyValue>? SetEnvVars { get; set; }
 
-    [CommandSwitch("--remove-env-vars")]
+    [CliOption("--remove-env-vars")]
     public string[]? RemoveEnvVars { get; set; }
 
-    [CommandSwitch("--update-env-vars")]
+    [CliOption("--update-env-vars")]
     public IEnumerable<KeyValue>? UpdateEnvVars { get; set; }
 
-    [BooleanCommandSwitch("--clear-kms-key")]
+    [CliFlag("--clear-kms-key")]
     public bool? ClearKmsKey { get; set; }
 
-    [CommandSwitch("--kms-key")]
+    [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-max-instances")]
+    [CliFlag("--clear-max-instances")]
     public bool? ClearMaxInstances { get; set; }
 
-    [CommandSwitch("--max-instances")]
+    [CliOption("--max-instances")]
     public string? MaxInstances { get; set; }
 
-    [BooleanCommandSwitch("--clear-min-instances")]
+    [CliFlag("--clear-min-instances")]
     public bool? ClearMinInstances { get; set; }
 
-    [CommandSwitch("--min-instances")]
+    [CliOption("--min-instances")]
     public string? MinInstances { get; set; }
 
-    [BooleanCommandSwitch("--clear-secrets")]
+    [CliFlag("--clear-secrets")]
     public bool? ClearSecrets { get; set; }
 
-    [CommandSwitch("--set-secrets")]
+    [CliOption("--set-secrets")]
     public string[]? SetSecrets { get; set; }
 
-    [CommandSwitch("--remove-secrets")]
+    [CliOption("--remove-secrets")]
     public string[]? RemoveSecrets { get; set; }
 
-    [CommandSwitch("--update-secrets")]
+    [CliOption("--update-secrets")]
     public string[]? UpdateSecrets { get; set; }
 
-    [BooleanCommandSwitch("--clear-vpc-connector")]
+    [CliFlag("--clear-vpc-connector")]
     public bool? ClearVpcConnector { get; set; }
 
-    [CommandSwitch("--vpc-connector")]
+    [CliOption("--vpc-connector")]
     public string? VpcConnector { get; set; }
 
-    [CommandSwitch("--memory")]
+    [CliOption("--memory")]
     public string? Memory { get; set; }
 
-    [CommandSwitch("--cpu")]
+    [CliOption("--cpu")]
     public string? Cpu { get; set; }
 
-    [CommandSwitch("--trigger-bucket")]
+    [CliOption("--trigger-bucket")]
     public string? TriggerBucket { get; set; }
 
-    [BooleanCommandSwitch("--trigger-http")]
+    [CliFlag("--trigger-http")]
     public bool? TriggerHttp { get; set; }
 
-    [CommandSwitch("--trigger-topic")]
+    [CliOption("--trigger-topic")]
     public string? TriggerTopic { get; set; }
 
-    [CommandSwitch("--trigger-event")]
+    [CliOption("--trigger-event")]
     public string? TriggerEvent { get; set; }
 
-    [CommandSwitch("--trigger-resource")]
+    [CliOption("--trigger-resource")]
     public string? TriggerResource { get; set; }
 
-    [CommandSwitch("--trigger-event-filters")]
+    [CliOption("--trigger-event-filters")]
     public string[]? TriggerEventFilters { get; set; }
 
-    [CommandSwitch("--trigger-event-filters-path-pattern")]
+    [CliOption("--trigger-event-filters-path-pattern")]
     public string[]? TriggerEventFiltersPathPattern { get; set; }
 }

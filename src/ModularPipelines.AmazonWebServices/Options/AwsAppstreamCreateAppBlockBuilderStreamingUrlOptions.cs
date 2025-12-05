@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appstream", "create-app-block-builder-streaming-url")]
+[CliCommand("appstream", "create-app-block-builder-streaming-url")]
 public record AwsAppstreamCreateAppBlockBuilderStreamingUrlOptions(
-[property: CommandSwitch("--app-block-builder-name")] string AppBlockBuilderName
+[property: CliOption("--app-block-builder-name")] string AppBlockBuilderName
 ) : AwsOptions
 {
-    [CommandSwitch("--validity")]
+    [CliOption("--validity")]
     public long? Validity { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

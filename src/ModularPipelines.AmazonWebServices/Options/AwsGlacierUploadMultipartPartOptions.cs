@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glacier", "upload-multipart-part")]
+[CliCommand("glacier", "upload-multipart-part")]
 public record AwsGlacierUploadMultipartPartOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--vault-name")] string VaultName,
-[property: CommandSwitch("--upload-id")] string UploadId
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--vault-name")] string VaultName,
+[property: CliOption("--upload-id")] string UploadId
 ) : AwsOptions
 {
-    [CommandSwitch("--checksum")]
+    [CliOption("--checksum")]
     public string? Checksum { get; set; }
 
-    [CommandSwitch("--range")]
+    [CliOption("--range")]
     public string? Range { get; set; }
 
-    [CommandSwitch("--body")]
+    [CliOption("--body")]
     public string? Body { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eks", "describe-nodegroup")]
+[CliCommand("eks", "describe-nodegroup")]
 public record AwsEksDescribeNodegroupOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--nodegroup-name")] string NodegroupName
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--nodegroup-name")] string NodegroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

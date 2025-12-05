@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("palo-alto", "cloudngfw", "local-rulestack", "fqdnlist", "list")]
+[CliSubCommand("palo-alto", "cloudngfw", "local-rulestack", "fqdnlist", "list")]
 public record AzPaloAltoCloudngfwLocalRulestackFqdnlistListOptions(
-[property: CommandSwitch("--local-rulestack-name")] string LocalRulestackName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--local-rulestack-name")] string LocalRulestackName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 }

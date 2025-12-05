@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("internetmonitor", "update-monitor")]
+[CliCommand("internetmonitor", "update-monitor")]
 public record AwsInternetmonitorUpdateMonitorOptions(
-[property: CommandSwitch("--monitor-name")] string MonitorName
+[property: CliOption("--monitor-name")] string MonitorName
 ) : AwsOptions
 {
-    [CommandSwitch("--resources-to-add")]
+    [CliOption("--resources-to-add")]
     public string[]? ResourcesToAdd { get; set; }
 
-    [CommandSwitch("--resources-to-remove")]
+    [CliOption("--resources-to-remove")]
     public string[]? ResourcesToRemove { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--max-city-networks-to-monitor")]
+    [CliOption("--max-city-networks-to-monitor")]
     public int? MaxCityNetworksToMonitor { get; set; }
 
-    [CommandSwitch("--internet-measurements-log-delivery")]
+    [CliOption("--internet-measurements-log-delivery")]
     public string? InternetMeasurementsLogDelivery { get; set; }
 
-    [CommandSwitch("--traffic-percentage-to-monitor")]
+    [CliOption("--traffic-percentage-to-monitor")]
     public int? TrafficPercentageToMonitor { get; set; }
 
-    [CommandSwitch("--health-events-config")]
+    [CliOption("--health-events-config")]
     public string? HealthEventsConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

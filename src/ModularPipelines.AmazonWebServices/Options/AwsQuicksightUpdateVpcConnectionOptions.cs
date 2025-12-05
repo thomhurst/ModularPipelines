@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "update-vpc-connection")]
+[CliCommand("quicksight", "update-vpc-connection")]
 public record AwsQuicksightUpdateVpcConnectionOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--vpc-connection-id")] string VpcConnectionId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--subnet-ids")] string[] SubnetIds,
-[property: CommandSwitch("--security-group-ids")] string[] SecurityGroupIds,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--vpc-connection-id")] string VpcConnectionId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--subnet-ids")] string[] SubnetIds,
+[property: CliOption("--security-group-ids")] string[] SecurityGroupIds,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--dns-resolvers")]
+    [CliOption("--dns-resolvers")]
     public string[]? DnsResolvers { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,43 +4,43 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "pack", "build")]
+[CliSubCommand("acr", "pack", "build")]
 public record AzAcrPackBuildOptions(
-[property: CommandSwitch("--builder")] string Builder,
-[property: CommandSwitch("--image")] string Image,
-[property: CommandSwitch("--registry")] string Registry
+[property: CliOption("--builder")] string Builder,
+[property: CliOption("--image")] string Image,
+[property: CliOption("--registry")] string Registry
 ) : AzOptions
 {
-    [CommandSwitch("--agent-pool")]
+    [CliOption("--agent-pool")]
     public string? AgentPool { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [BooleanCommandSwitch("--no-format")]
+    [CliFlag("--no-format")]
     public bool? NoFormat { get; set; }
 
-    [BooleanCommandSwitch("--no-logs")]
+    [CliFlag("--no-logs")]
     public bool? NoLogs { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--pack-image-tag")]
+    [CliOption("--pack-image-tag")]
     public string? PackImageTag { get; set; }
 
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public string? Platform { get; set; }
 
-    [BooleanCommandSwitch("--pull")]
+    [CliFlag("--pull")]
     public bool? Pull { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? SOURCELOCATION { get; set; }
 }

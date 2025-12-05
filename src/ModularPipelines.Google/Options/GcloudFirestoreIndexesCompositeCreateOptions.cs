@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("firestore", "indexes", "composite", "create")]
+[CliCommand("firestore", "indexes", "composite", "create")]
 public record GcloudFirestoreIndexesCompositeCreateOptions(
-[property: CommandSwitch("--field-config")] string[] FieldConfig,
-[property: CommandSwitch("--collection-group")] string CollectionGroup,
-[property: CommandSwitch("--database")] string Database
+[property: CliOption("--field-config")] string[] FieldConfig,
+[property: CliOption("--collection-group")] string CollectionGroup,
+[property: CliOption("--database")] string Database
 ) : GcloudOptions
 {
-    [CommandSwitch("--api-scope")]
+    [CliOption("--api-scope")]
     public string? ApiScope { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--query-scope")]
+    [CliOption("--query-scope")]
     public string? QueryScope { get; set; }
 }

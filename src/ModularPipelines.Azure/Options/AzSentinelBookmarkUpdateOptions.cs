@@ -4,84 +4,84 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "bookmark", "update")]
+[CliSubCommand("sentinel", "bookmark", "update")]
 public record AzSentinelBookmarkUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--bookmark-id")]
+    [CliOption("--bookmark-id")]
     public string? BookmarkId { get; set; }
 
-    [CommandSwitch("--created")]
+    [CliOption("--created")]
     public string? Created { get; set; }
 
-    [CommandSwitch("--created-by")]
+    [CliOption("--created-by")]
     public string? CreatedBy { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--entity-mappings")]
+    [CliOption("--entity-mappings")]
     public string? EntityMappings { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [CommandSwitch("--event-time")]
+    [CliOption("--event-time")]
     public string? EventTime { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--incident-info")]
+    [CliOption("--incident-info")]
     public string? IncidentInfo { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 
-    [CommandSwitch("--notes")]
+    [CliOption("--notes")]
     public string? Notes { get; set; }
 
-    [CommandSwitch("--query-content")]
+    [CliOption("--query-content")]
     public string? QueryContent { get; set; }
 
-    [CommandSwitch("--query-end-time")]
+    [CliOption("--query-end-time")]
     public string? QueryEndTime { get; set; }
 
-    [CommandSwitch("--query-result")]
+    [CliOption("--query-result")]
     public string? QueryResult { get; set; }
 
-    [CommandSwitch("--query-start-time")]
+    [CliOption("--query-start-time")]
     public string? QueryStartTime { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tactics")]
+    [CliOption("--tactics")]
     public string? Tactics { get; set; }
 
-    [CommandSwitch("--techniques")]
+    [CliOption("--techniques")]
     public string? Techniques { get; set; }
 
-    [CommandSwitch("--updated")]
+    [CliOption("--updated")]
     public string? Updated { get; set; }
 
-    [CommandSwitch("--updated-by")]
+    [CliOption("--updated-by")]
     public string? UpdatedBy { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("recommender", "insight-type-config", "describe")]
+[CliCommand("recommender", "insight-type-config", "describe")]
 public record GcloudRecommenderInsightTypeConfigDescribeOptions : GcloudOptions
 {
     public GcloudRecommenderInsightTypeConfigDescribeOptions(
@@ -22,15 +22,15 @@ public record GcloudRecommenderInsightTypeConfigDescribeOptions : GcloudOptions
         Project = project;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string InsightType { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string Location { get; set; }
 
-    [CommandSwitch("--billing-account")]
+    [CliOption("--billing-account")]
     public string BillingAccount { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 }

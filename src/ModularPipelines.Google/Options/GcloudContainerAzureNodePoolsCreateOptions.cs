@@ -4,58 +4,58 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "azure", "node-pools", "create")]
+[CliCommand("container", "azure", "node-pools", "create")]
 public record GcloudContainerAzureNodePoolsCreateOptions(
-[property: PositionalArgument] string NodePool,
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--max-pods-per-node")] string MaxPodsPerNode,
-[property: CommandSwitch("--node-version")] string NodeVersion,
-[property: CommandSwitch("--ssh-public-key")] string SshPublicKey,
-[property: CommandSwitch("--subnet-id")] string SubnetId,
-[property: CommandSwitch("--max-nodes")] string MaxNodes,
-[property: CommandSwitch("--min-nodes")] string MinNodes
+[property: CliArgument] string NodePool,
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Location,
+[property: CliOption("--max-pods-per-node")] string MaxPodsPerNode,
+[property: CliOption("--node-version")] string NodeVersion,
+[property: CliOption("--ssh-public-key")] string SshPublicKey,
+[property: CliOption("--subnet-id")] string SubnetId,
+[property: CliOption("--max-nodes")] string MaxNodes,
+[property: CliOption("--min-nodes")] string MinNodes
 ) : GcloudOptions
 {
-    [CommandSwitch("--annotations")]
+    [CliOption("--annotations")]
     public string[]? Annotations { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--azure-availability-zone")]
+    [CliOption("--azure-availability-zone")]
     public string? AzureAvailabilityZone { get; set; }
 
-    [CommandSwitch("--config-encryption-key-id")]
+    [CliOption("--config-encryption-key-id")]
     public string? ConfigEncryptionKeyId { get; set; }
 
-    [CommandSwitch("--config-encryption-public-key")]
+    [CliOption("--config-encryption-public-key")]
     public string? ConfigEncryptionPublicKey { get; set; }
 
-    [BooleanCommandSwitch("--enable-autorepair")]
+    [CliFlag("--enable-autorepair")]
     public bool? EnableAutorepair { get; set; }
 
-    [CommandSwitch("--node-labels")]
+    [CliOption("--node-labels")]
     public string[]? NodeLabels { get; set; }
 
-    [CommandSwitch("--node-taints")]
+    [CliOption("--node-taints")]
     public string[]? NodeTaints { get; set; }
 
-    [CommandSwitch("--root-volume-size")]
+    [CliOption("--root-volume-size")]
     public string? RootVolumeSize { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
-    [CommandSwitch("--vm-size")]
+    [CliOption("--vm-size")]
     public string? VmSize { get; set; }
 
-    [CommandSwitch("--proxy-resource-group-id")]
+    [CliOption("--proxy-resource-group-id")]
     public string? ProxyResourceGroupId { get; set; }
 
-    [CommandSwitch("--proxy-secret-id")]
+    [CliOption("--proxy-secret-id")]
     public string? ProxySecretId { get; set; }
 }

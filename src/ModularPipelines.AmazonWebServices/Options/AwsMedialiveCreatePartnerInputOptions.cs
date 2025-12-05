@@ -5,17 +5,17 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("medialive", "create-partner-input")]
+[CliCommand("medialive", "create-partner-input")]
 public record AwsMedialiveCreatePartnerInputOptions(
-[property: CommandSwitch("--input-id")] string InputId
+[property: CliOption("--input-id")] string InputId
 ) : AwsOptions
 {
-    [CommandSwitch("--request-id")]
+    [CliOption("--request-id")]
     public string? RequestId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

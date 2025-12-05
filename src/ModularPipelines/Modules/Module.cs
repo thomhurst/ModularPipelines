@@ -23,7 +23,7 @@ namespace ModularPipelines.Modules;
 public abstract class Module<T> : IModule
 {
     internal TaskCompletionSource<ModuleResult<T?>> CompletionSource { get; } = new();
-    
+
     /// <inheritdoc />
     Type IModule.ResultType => typeof(T);
 
@@ -34,6 +34,6 @@ public abstract class Module<T> : IModule
     /// <param name="cancellationToken">A token that will be cancelled if the pipeline fails or the module times out.</param>
     /// <returns>The result of the module execution, or null.</returns>
     public abstract Task<T?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken);
-    
+
     public TaskAwaiter<ModuleResult<T?>> GetAwaiter() => CompletionSource.Task.GetAwaiter();
 }

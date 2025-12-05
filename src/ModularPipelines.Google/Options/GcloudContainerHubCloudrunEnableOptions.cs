@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "hub", "cloudrun", "enable")]
+[CliCommand("container", "hub", "cloudrun", "enable")]
 public record GcloudContainerHubCloudrunEnableOptions : GcloudOptions;

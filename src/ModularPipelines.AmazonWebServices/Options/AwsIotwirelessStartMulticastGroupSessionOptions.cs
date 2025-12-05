@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotwireless", "start-multicast-group-session")]
+[CliCommand("iotwireless", "start-multicast-group-session")]
 public record AwsIotwirelessStartMulticastGroupSessionOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--lorawan")] string Lorawan
+[property: CliOption("--id")] string Id,
+[property: CliOption("--lorawan")] string Lorawan
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

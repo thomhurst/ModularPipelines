@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redis", "instances", "upgrade")]
+[CliCommand("redis", "instances", "upgrade")]
 public record GcloudRedisInstancesUpgradeOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--redis-version")] string RedisVersion
+[property: CliArgument] string Instance,
+[property: CliArgument] string Region,
+[property: CliOption("--redis-version")] string RedisVersion
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

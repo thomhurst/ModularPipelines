@@ -8,4 +8,4 @@ namespace ModularPipelines.Options;
 /// </summary>
 /// <param name="Command">The bash command to execute.</param>
 [ExcludeFromCodeCoverage]
-public record BashCommandOptions([property: CommandSwitch("-c")] string Command) : BashOptions;
+public record BashCommandOptions([property: CliOption("-c")] string Command) : BashOptions;

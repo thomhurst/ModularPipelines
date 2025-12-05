@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("payment-cryptography", "export-key")]
+[CliCommand("payment-cryptography", "export-key")]
 public record AwsPaymentCryptographyExportKeyOptions(
-[property: CommandSwitch("--export-key-identifier")] string ExportKeyIdentifier,
-[property: CommandSwitch("--key-material")] string KeyMaterial
+[property: CliOption("--export-key-identifier")] string ExportKeyIdentifier,
+[property: CliOption("--key-material")] string KeyMaterial
 ) : AwsOptions
 {
-    [CommandSwitch("--export-attributes")]
+    [CliOption("--export-attributes")]
     public string? ExportAttributes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

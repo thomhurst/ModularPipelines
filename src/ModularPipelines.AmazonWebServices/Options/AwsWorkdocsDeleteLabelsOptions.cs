@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workdocs", "delete-labels")]
+[CliCommand("workdocs", "delete-labels")]
 public record AwsWorkdocsDeleteLabelsOptions(
-[property: CommandSwitch("--resource-id")] string ResourceId
+[property: CliOption("--resource-id")] string ResourceId
 ) : AwsOptions
 {
-    [CommandSwitch("--authentication-token")]
+    [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string[]? Labels { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

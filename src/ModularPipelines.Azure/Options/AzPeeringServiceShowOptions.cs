@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("peering", "service", "show")]
+[CliSubCommand("peering", "service", "show")]
 public record AzPeeringServiceShowOptions(
-[property: CommandSwitch("--peering-service-name")] string PeeringServiceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--peering-service-name")] string PeeringServiceName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

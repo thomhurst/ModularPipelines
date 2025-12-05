@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("frauddetector", "delete-model")]
+[CliCommand("frauddetector", "delete-model")]
 public record AwsFrauddetectorDeleteModelOptions(
-[property: CommandSwitch("--model-id")] string ModelId,
-[property: CommandSwitch("--model-type")] string ModelType
+[property: CliOption("--model-id")] string ModelId,
+[property: CliOption("--model-type")] string ModelType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

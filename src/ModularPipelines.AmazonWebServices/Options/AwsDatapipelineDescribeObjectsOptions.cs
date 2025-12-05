@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datapipeline", "describe-objects")]
+[CliCommand("datapipeline", "describe-objects")]
 public record AwsDatapipelineDescribeObjectsOptions(
-[property: CommandSwitch("--pipeline-id")] string PipelineId,
-[property: CommandSwitch("--object-ids")] string[] ObjectIds
+[property: CliOption("--pipeline-id")] string PipelineId,
+[property: CliOption("--object-ids")] string[] ObjectIds
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

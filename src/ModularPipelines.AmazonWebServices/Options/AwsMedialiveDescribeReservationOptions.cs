@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("medialive", "describe-reservation")]
+[CliCommand("medialive", "describe-reservation")]
 public record AwsMedialiveDescribeReservationOptions(
-[property: CommandSwitch("--reservation-id")] string ReservationId
+[property: CliOption("--reservation-id")] string ReservationId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

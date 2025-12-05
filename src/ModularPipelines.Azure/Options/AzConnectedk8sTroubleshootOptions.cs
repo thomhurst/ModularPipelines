@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectedk8s", "troubleshoot")]
+[CliSubCommand("connectedk8s", "troubleshoot")]
 public record AzConnectedk8sTroubleshootOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--kube-config")]
+    [CliOption("--kube-config")]
     public string? KubeConfig { get; set; }
 
-    [CommandSwitch("--kube-context")]
+    [CliOption("--kube-context")]
     public string? KubeContext { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stepfunctions", "update-map-run")]
+[CliCommand("stepfunctions", "update-map-run")]
 public record AwsStepfunctionsUpdateMapRunOptions(
-[property: CommandSwitch("--map-run-arn")] string MapRunArn
+[property: CliOption("--map-run-arn")] string MapRunArn
 ) : AwsOptions
 {
-    [CommandSwitch("--max-concurrency")]
+    [CliOption("--max-concurrency")]
     public int? MaxConcurrency { get; set; }
 
-    [CommandSwitch("--tolerated-failure-percentage")]
+    [CliOption("--tolerated-failure-percentage")]
     public float? ToleratedFailurePercentage { get; set; }
 
-    [CommandSwitch("--tolerated-failure-count")]
+    [CliOption("--tolerated-failure-count")]
     public long? ToleratedFailureCount { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

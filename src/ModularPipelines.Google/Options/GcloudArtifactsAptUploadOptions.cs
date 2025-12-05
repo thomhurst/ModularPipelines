@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts", "apt", "upload")]
+[CliCommand("artifacts", "apt", "upload")]
 public record GcloudArtifactsAptUploadOptions(
-[property: PositionalArgument] string Repository,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--source")] string Source
+[property: CliArgument] string Repository,
+[property: CliArgument] string Location,
+[property: CliOption("--source")] string Source
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

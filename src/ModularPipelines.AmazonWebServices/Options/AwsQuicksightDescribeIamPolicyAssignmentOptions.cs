@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "describe-iam-policy-assignment")]
+[CliCommand("quicksight", "describe-iam-policy-assignment")]
 public record AwsQuicksightDescribeIamPolicyAssignmentOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--assignment-name")] string AssignmentName,
-[property: CommandSwitch("--namespace")] string Namespace
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--assignment-name")] string AssignmentName,
+[property: CliOption("--namespace")] string Namespace
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

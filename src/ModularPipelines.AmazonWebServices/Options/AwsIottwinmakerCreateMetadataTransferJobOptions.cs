@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iottwinmaker", "create-metadata-transfer-job")]
+[CliCommand("iottwinmaker", "create-metadata-transfer-job")]
 public record AwsIottwinmakerCreateMetadataTransferJobOptions(
-[property: CommandSwitch("--sources")] string[] Sources,
-[property: CommandSwitch("--destination")] string Destination
+[property: CliOption("--sources")] string[] Sources,
+[property: CliOption("--destination")] string Destination
 ) : AwsOptions
 {
-    [CommandSwitch("--metadata-transfer-job-id")]
+    [CliOption("--metadata-transfer-job-id")]
     public string? MetadataTransferJobId { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sts", "assume-role")]
+[CliCommand("sts", "assume-role")]
 public record AwsStsAssumeRoleOptions(
-[property: CommandSwitch("--role-arn")] string RoleArn,
-[property: CommandSwitch("--role-session-name")] string RoleSessionName
+[property: CliOption("--role-arn")] string RoleArn,
+[property: CliOption("--role-session-name")] string RoleSessionName
 ) : AwsOptions
 {
-    [CommandSwitch("--policy-arns")]
+    [CliOption("--policy-arns")]
     public string[]? PolicyArns { get; set; }
 
-    [CommandSwitch("--policy")]
+    [CliOption("--policy")]
     public string? Policy { get; set; }
 
-    [CommandSwitch("--duration-seconds")]
+    [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--transitive-tag-keys")]
+    [CliOption("--transitive-tag-keys")]
     public string[]? TransitiveTagKeys { get; set; }
 
-    [CommandSwitch("--external-id")]
+    [CliOption("--external-id")]
     public string? ExternalId { get; set; }
 
-    [CommandSwitch("--serial-number")]
+    [CliOption("--serial-number")]
     public string? SerialNumber { get; set; }
 
-    [CommandSwitch("--token-code")]
+    [CliOption("--token-code")]
     public string? TokenCode { get; set; }
 
-    [CommandSwitch("--source-identity")]
+    [CliOption("--source-identity")]
     public string? SourceIdentity { get; set; }
 
-    [CommandSwitch("--provided-contexts")]
+    [CliOption("--provided-contexts")]
     public string[]? ProvidedContexts { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

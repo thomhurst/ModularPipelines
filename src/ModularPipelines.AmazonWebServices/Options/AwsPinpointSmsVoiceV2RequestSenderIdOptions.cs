@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint-sms-voice-v2", "request-sender-id")]
+[CliCommand("pinpoint-sms-voice-v2", "request-sender-id")]
 public record AwsPinpointSmsVoiceV2RequestSenderIdOptions(
-[property: CommandSwitch("--sender-id")] string SenderId,
-[property: CommandSwitch("--iso-country-code")] string IsoCountryCode
+[property: CliOption("--sender-id")] string SenderId,
+[property: CliOption("--iso-country-code")] string IsoCountryCode
 ) : AwsOptions
 {
-    [CommandSwitch("--message-types")]
+    [CliOption("--message-types")]
     public string[]? MessageTypes { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

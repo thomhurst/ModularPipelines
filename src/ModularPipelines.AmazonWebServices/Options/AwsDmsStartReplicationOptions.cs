@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "start-replication")]
+[CliCommand("dms", "start-replication")]
 public record AwsDmsStartReplicationOptions(
-[property: CommandSwitch("--replication-config-arn")] string ReplicationConfigArn,
-[property: CommandSwitch("--start-replication-type")] string StartReplicationType
+[property: CliOption("--replication-config-arn")] string ReplicationConfigArn,
+[property: CliOption("--start-replication-type")] string StartReplicationType
 ) : AwsOptions
 {
-    [CommandSwitch("--cdc-start-time")]
+    [CliOption("--cdc-start-time")]
     public long? CdcStartTime { get; set; }
 
-    [CommandSwitch("--cdc-start-position")]
+    [CliOption("--cdc-start-position")]
     public string? CdcStartPosition { get; set; }
 
-    [CommandSwitch("--cdc-stop-position")]
+    [CliOption("--cdc-stop-position")]
     public string? CdcStopPosition { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

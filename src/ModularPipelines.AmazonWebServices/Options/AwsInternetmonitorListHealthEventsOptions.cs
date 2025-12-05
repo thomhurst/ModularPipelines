@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("internetmonitor", "list-health-events")]
+[CliCommand("internetmonitor", "list-health-events")]
 public record AwsInternetmonitorListHealthEventsOptions(
-[property: CommandSwitch("--monitor-name")] string MonitorName
+[property: CliOption("--monitor-name")] string MonitorName
 ) : AwsOptions
 {
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public long? StartTime { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public long? EndTime { get; set; }
 
-    [CommandSwitch("--event-status")]
+    [CliOption("--event-status")]
     public string? EventStatus { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

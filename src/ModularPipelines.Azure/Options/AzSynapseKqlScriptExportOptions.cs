@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "kql-script", "export")]
+[CliSubCommand("synapse", "kql-script", "export")]
 public record AzSynapseKqlScriptExportOptions(
-[property: CommandSwitch("--output-folder")] string OutputFolder,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--output-folder")] string OutputFolder,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 }

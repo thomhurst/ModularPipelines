@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "authorize-client-vpn-ingress")]
+[CliCommand("ec2", "authorize-client-vpn-ingress")]
 public record AwsEc2AuthorizeClientVpnIngressOptions(
-[property: CommandSwitch("--client-vpn-endpoint-id")] string ClientVpnEndpointId,
-[property: CommandSwitch("--target-network-cidr")] string TargetNetworkCidr
+[property: CliOption("--client-vpn-endpoint-id")] string ClientVpnEndpointId,
+[property: CliOption("--target-network-cidr")] string TargetNetworkCidr
 ) : AwsOptions
 {
-    [CommandSwitch("--access-group-id")]
+    [CliOption("--access-group-id")]
     public string? AccessGroupId { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

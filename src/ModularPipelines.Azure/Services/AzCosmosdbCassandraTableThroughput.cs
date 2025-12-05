@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "cassandra", "table")]
+[CliCommand("cosmosdb", "cassandra", "table")]
 public class AzCosmosdbCassandraTableThroughput
 {
     public AzCosmosdbCassandraTableThroughput(

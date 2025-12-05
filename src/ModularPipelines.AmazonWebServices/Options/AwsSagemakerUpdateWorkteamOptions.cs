@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "update-workteam")]
+[CliCommand("sagemaker", "update-workteam")]
 public record AwsSagemakerUpdateWorkteamOptions(
-[property: CommandSwitch("--workteam-name")] string WorkteamName
+[property: CliOption("--workteam-name")] string WorkteamName
 ) : AwsOptions
 {
-    [CommandSwitch("--member-definitions")]
+    [CliOption("--member-definitions")]
     public string[]? MemberDefinitions { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--notification-configuration")]
+    [CliOption("--notification-configuration")]
     public string? NotificationConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

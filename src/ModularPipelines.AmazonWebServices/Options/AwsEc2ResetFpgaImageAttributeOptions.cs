@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "reset-fpga-image-attribute")]
+[CliCommand("ec2", "reset-fpga-image-attribute")]
 public record AwsEc2ResetFpgaImageAttributeOptions(
-[property: CommandSwitch("--fpga-image-id")] string FpgaImageId
+[property: CliOption("--fpga-image-id")] string FpgaImageId
 ) : AwsOptions
 {
-    [CommandSwitch("--attribute")]
+    [CliOption("--attribute")]
     public string? Attribute { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("database-migration", "migration-jobs", "stop")]
+[CliCommand("database-migration", "migration-jobs", "stop")]
 public record GcloudDatabaseMigrationMigrationJobsStopOptions(
-[property: PositionalArgument] string MigrationJob,
-[property: PositionalArgument] string Region
+[property: CliArgument] string MigrationJob,
+[property: CliArgument] string Region
 ) : GcloudOptions;

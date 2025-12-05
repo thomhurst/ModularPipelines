@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("auth", "print-access-token")]
+[CliCommand("auth", "print-access-token")]
 public record GcloudAuthPrintAccessTokenOptions : GcloudOptions
 {
     public GcloudAuthPrintAccessTokenOptions(
@@ -14,9 +14,9 @@ public record GcloudAuthPrintAccessTokenOptions : GcloudOptions
         GcloudAuthPrintAccessTokenOptionsAccount = account;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string GcloudAuthPrintAccessTokenOptionsAccount { get; set; }
 
-    [CommandSwitch("--lifetime")]
+    [CliOption("--lifetime")]
     public string? Lifetime { get; set; }
 }

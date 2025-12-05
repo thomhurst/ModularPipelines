@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("accessanalyzer", "delete-analyzer")]
+[CliCommand("accessanalyzer", "delete-analyzer")]
 public record AwsAccessanalyzerDeleteAnalyzerOptions(
-[property: CommandSwitch("--analyzer-name")] string AnalyzerName
+[property: CliOption("--analyzer-name")] string AnalyzerName
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

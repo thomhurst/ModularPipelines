@@ -27,30 +27,30 @@ public record DotNetAddPackageOptions : DotNetOptions
         PackageName = packageName;
     }
 
-    [PositionalArgument(PlaceholderName = "[<PROJECT>]")]
-    public string? Project { get; set; }
+    [CliArgument(Name = "[<PROJECT>]")]
+    public virtual string? Project { get; set; }
 
-    [PositionalArgument(PlaceholderName = "<PACKAGE_NAME>")]
-    public string? PackageName { get; set; }
+    [CliArgument(Name = "<PACKAGE_NAME>")]
+    public virtual string? PackageName { get; set; }
 
-    [CommandSwitch("--framework")]
+    [CliOption("--framework")]
     public virtual string? Framework { get; set; }
 
-    [BooleanCommandSwitch("--interactive")]
+    [CliFlag("--interactive")]
     public virtual bool? Interactive { get; set; }
 
-    [BooleanCommandSwitch("--no-restore")]
+    [CliFlag("--no-restore")]
     public virtual bool? NoRestore { get; set; }
 
-    [CommandSwitch("--package-directory")]
+    [CliOption("--package-directory")]
     public virtual string? PackageDirectory { get; set; }
 
-    [BooleanCommandSwitch("--prerelease")]
+    [CliFlag("--prerelease")]
     public virtual bool? Prerelease { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public virtual string? Source { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public virtual string? Version { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("launch-wizard", "get-workload")]
+[CliCommand("launch-wizard", "get-workload")]
 public record AwsLaunchWizardGetWorkloadOptions(
-[property: CommandSwitch("--workload-name")] string WorkloadName
+[property: CliOption("--workload-name")] string WorkloadName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

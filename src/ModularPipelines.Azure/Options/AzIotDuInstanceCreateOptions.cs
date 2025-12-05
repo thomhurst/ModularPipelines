@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "du", "instance", "create")]
+[CliSubCommand("iot", "du", "instance", "create")]
 public record AzIotDuInstanceCreateOptions(
-[property: CommandSwitch("--account")] int Account,
-[property: CommandSwitch("--instance")] string Instance,
-[property: CommandSwitch("--iothub-ids")] string IothubIds
+[property: CliOption("--account")] int Account,
+[property: CliOption("--instance")] string Instance,
+[property: CliOption("--iothub-ids")] string IothubIds
 ) : AzOptions
 {
-    [CommandSwitch("--diagnostics-storage-id")]
+    [CliOption("--diagnostics-storage-id")]
     public string? DiagnosticsStorageId { get; set; }
 
-    [BooleanCommandSwitch("--enable-diagnostics")]
+    [CliFlag("--enable-diagnostics")]
     public bool? EnableDiagnostics { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

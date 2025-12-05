@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "delete-global-cluster")]
+[CliCommand("rds", "delete-global-cluster")]
 public record AwsRdsDeleteGlobalClusterOptions(
-[property: CommandSwitch("--global-cluster-identifier")] string GlobalClusterIdentifier
+[property: CliOption("--global-cluster-identifier")] string GlobalClusterIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

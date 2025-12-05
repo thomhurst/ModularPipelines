@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "metrics", "update")]
+[CliSubCommand("storage", "metrics", "update")]
 public record AzStorageMetricsUpdateOptions(
-[property: CommandSwitch("--retention")] string Retention,
-[property: CommandSwitch("--services")] string Services
+[property: CliOption("--retention")] string Retention,
+[property: CliOption("--services")] string Services
 ) : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [BooleanCommandSwitch("--api")]
+    [CliFlag("--api")]
     public bool? Api { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [BooleanCommandSwitch("--hour")]
+    [CliFlag("--hour")]
     public bool? Hour { get; set; }
 
-    [BooleanCommandSwitch("--minute")]
+    [CliFlag("--minute")]
     public bool? Minute { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

@@ -5,57 +5,57 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "create-job")]
+[CliCommand("iot", "create-job")]
 public record AwsIotCreateJobOptions(
-[property: CommandSwitch("--job-id")] string JobId,
-[property: CommandSwitch("--targets")] string[] Targets
+[property: CliOption("--job-id")] string JobId,
+[property: CliOption("--targets")] string[] Targets
 ) : AwsOptions
 {
-    [CommandSwitch("--document-source")]
+    [CliOption("--document-source")]
     public string? DocumentSource { get; set; }
 
-    [CommandSwitch("--document")]
+    [CliOption("--document")]
     public string? Document { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--presigned-url-config")]
+    [CliOption("--presigned-url-config")]
     public string? PresignedUrlConfig { get; set; }
 
-    [CommandSwitch("--target-selection")]
+    [CliOption("--target-selection")]
     public string? TargetSelection { get; set; }
 
-    [CommandSwitch("--job-executions-rollout-config")]
+    [CliOption("--job-executions-rollout-config")]
     public string? JobExecutionsRolloutConfig { get; set; }
 
-    [CommandSwitch("--abort-config")]
+    [CliOption("--abort-config")]
     public string? AbortConfig { get; set; }
 
-    [CommandSwitch("--timeout-config")]
+    [CliOption("--timeout-config")]
     public string? TimeoutConfig { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--namespace-id")]
+    [CliOption("--namespace-id")]
     public string? NamespaceId { get; set; }
 
-    [CommandSwitch("--job-template-arn")]
+    [CliOption("--job-template-arn")]
     public string? JobTemplateArn { get; set; }
 
-    [CommandSwitch("--job-executions-retry-config")]
+    [CliOption("--job-executions-retry-config")]
     public string? JobExecutionsRetryConfig { get; set; }
 
-    [CommandSwitch("--document-parameters")]
+    [CliOption("--document-parameters")]
     public IEnumerable<KeyValue>? DocumentParameters { get; set; }
 
-    [CommandSwitch("--scheduling-config")]
+    [CliOption("--scheduling-config")]
     public string? SchedulingConfig { get; set; }
 
-    [CommandSwitch("--destination-package-versions")]
+    [CliOption("--destination-package-versions")]
     public string[]? DestinationPackageVersions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

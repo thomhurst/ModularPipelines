@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-messaging", "update-channel-flow")]
+[CliCommand("chime-sdk-messaging", "update-channel-flow")]
 public record AwsChimeSdkMessagingUpdateChannelFlowOptions(
-[property: CommandSwitch("--channel-flow-arn")] string ChannelFlowArn,
-[property: CommandSwitch("--processors")] string[] Processors,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--channel-flow-arn")] string ChannelFlowArn,
+[property: CliOption("--processors")] string[] Processors,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

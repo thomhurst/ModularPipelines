@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("scout", "integration")]
+[CliCommand("scout", "integration")]
 [ExcludeFromCodeCoverage]
 public record DockerScoutIntegrationOptions : DockerOptions
 {

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitoring", "snoozes", "create")]
+[CliCommand("monitoring", "snoozes", "create")]
 public record GcloudMonitoringSnoozesCreateOptions : GcloudOptions
 {
-    [CommandSwitch("--snooze-from-file")]
+    [CliOption("--snooze-from-file")]
     public string? SnoozeFromFile { get; set; }
 
-    [CommandSwitch("--criteria-policies")]
+    [CliOption("--criteria-policies")]
     public string[]? CriteriaPolicies { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public string? StartTime { get; set; }
 }

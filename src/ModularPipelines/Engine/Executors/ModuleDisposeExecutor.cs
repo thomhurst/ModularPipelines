@@ -41,7 +41,7 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
         {
             try
             {
-                await _moduleDisposer.DisposeAsync((IModule)module);
+                await _moduleDisposer.DisposeAsync((IModule) module);
             }
             catch (Exception e)
             {

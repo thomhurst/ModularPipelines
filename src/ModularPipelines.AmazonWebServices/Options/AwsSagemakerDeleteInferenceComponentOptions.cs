@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "delete-inference-component")]
+[CliCommand("sagemaker", "delete-inference-component")]
 public record AwsSagemakerDeleteInferenceComponentOptions(
-[property: CommandSwitch("--inference-component-name")] string InferenceComponentName
+[property: CliOption("--inference-component-name")] string InferenceComponentName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

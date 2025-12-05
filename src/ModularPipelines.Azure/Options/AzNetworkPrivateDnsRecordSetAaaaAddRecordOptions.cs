@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "private-dns", "record-set", "aaaa", "add-record")]
+[CliSubCommand("network", "private-dns", "record-set", "aaaa", "add-record")]
 public record AzNetworkPrivateDnsRecordSetAaaaAddRecordOptions(
-[property: CommandSwitch("--ipv6-address")] string Ipv6Address,
-[property: CommandSwitch("--record-set-name")] string RecordSetName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--zone-name")] string ZoneName
+[property: CliOption("--ipv6-address")] string Ipv6Address,
+[property: CliOption("--record-set-name")] string RecordSetName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--zone-name")] string ZoneName
 ) : AzOptions;

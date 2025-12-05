@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "network-policies", "delete")]
+[CliCommand("vmware", "network-policies", "delete")]
 public record GcloudVmwareNetworkPoliciesDeleteOptions(
-[property: PositionalArgument] string NetworkPolicy,
-[property: PositionalArgument] string Location
+[property: CliArgument] string NetworkPolicy,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

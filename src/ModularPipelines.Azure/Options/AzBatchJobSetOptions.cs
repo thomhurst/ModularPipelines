@@ -4,56 +4,56 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "job", "set")]
+[CliSubCommand("batch", "job", "set")]
 public record AzBatchJobSetOptions(
-[property: CommandSwitch("--job-id")] string JobId
+[property: CliOption("--job-id")] string JobId
 ) : AzOptions
 {
-    [CommandSwitch("--account-endpoint")]
+    [CliOption("--account-endpoint")]
     public int? AccountEndpoint { get; set; }
 
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [BooleanCommandSwitch("--allow-task-preemption")]
+    [CliFlag("--allow-task-preemption")]
     public bool? AllowTaskPreemption { get; set; }
 
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--if-modified-since")]
+    [CliOption("--if-modified-since")]
     public string? IfModifiedSince { get; set; }
 
-    [CommandSwitch("--if-none-match")]
+    [CliOption("--if-none-match")]
     public string? IfNoneMatch { get; set; }
 
-    [CommandSwitch("--if-unmodified-since")]
+    [CliOption("--if-unmodified-since")]
     public string? IfUnmodifiedSince { get; set; }
 
-    [CommandSwitch("--job-max-task-retry-count")]
+    [CliOption("--job-max-task-retry-count")]
     public int? JobMaxTaskRetryCount { get; set; }
 
-    [CommandSwitch("--job-max-wall-clock-time")]
+    [CliOption("--job-max-wall-clock-time")]
     public string? JobMaxWallClockTime { get; set; }
 
-    [CommandSwitch("--json-file")]
+    [CliOption("--json-file")]
     public string? JsonFile { get; set; }
 
-    [CommandSwitch("--max-parallel-tasks")]
+    [CliOption("--max-parallel-tasks")]
     public string? MaxParallelTasks { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public string? Metadata { get; set; }
 
-    [CommandSwitch("--on-all-tasks-complete")]
+    [CliOption("--on-all-tasks-complete")]
     public string? OnAllTasksComplete { get; set; }
 
-    [CommandSwitch("--pool-id")]
+    [CliOption("--pool-id")]
     public string? PoolId { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 }

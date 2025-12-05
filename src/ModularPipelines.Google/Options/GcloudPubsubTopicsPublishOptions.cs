@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub", "topics", "publish")]
+[CliCommand("pubsub", "topics", "publish")]
 public record GcloudPubsubTopicsPublishOptions(
-[property: PositionalArgument] string Topic
+[property: CliArgument] string Topic
 ) : GcloudOptions
 {
-    [CommandSwitch("--attribute")]
+    [CliOption("--attribute")]
     public string[]? Attribute { get; set; }
 
-    [CommandSwitch("--message")]
+    [CliOption("--message")]
     public string? Message { get; set; }
 
-    [CommandSwitch("--ordering-key")]
+    [CliOption("--ordering-key")]
     public string? OrderingKey { get; set; }
 }

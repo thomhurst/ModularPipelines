@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quantum", "offerings", "list")]
+[CliSubCommand("quantum", "offerings", "list")]
 public record AzQuantumOfferingsListOptions(
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--location")] string Location
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--autoadd-only")]
+    [CliFlag("--autoadd-only")]
     public bool? AutoaddOnly { get; set; }
 }

@@ -5,37 +5,37 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wafv2", "update-web-acl")]
+[CliCommand("wafv2", "update-web-acl")]
 public record AwsWafv2UpdateWebAclOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--scope")] string Scope,
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--default-action")] string DefaultAction,
-[property: CommandSwitch("--visibility-config")] string VisibilityConfig,
-[property: CommandSwitch("--lock-token")] string LockToken
+[property: CliOption("--name")] string Name,
+[property: CliOption("--scope")] string Scope,
+[property: CliOption("--id")] string Id,
+[property: CliOption("--default-action")] string DefaultAction,
+[property: CliOption("--visibility-config")] string VisibilityConfig,
+[property: CliOption("--lock-token")] string LockToken
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--rules")]
+    [CliOption("--rules")]
     public string[]? Rules { get; set; }
 
-    [CommandSwitch("--custom-response-bodies")]
+    [CliOption("--custom-response-bodies")]
     public IEnumerable<KeyValue>? CustomResponseBodies { get; set; }
 
-    [CommandSwitch("--captcha-config")]
+    [CliOption("--captcha-config")]
     public string? CaptchaConfig { get; set; }
 
-    [CommandSwitch("--challenge-config")]
+    [CliOption("--challenge-config")]
     public string? ChallengeConfig { get; set; }
 
-    [CommandSwitch("--token-domains")]
+    [CliOption("--token-domains")]
     public string[]? TokenDomains { get; set; }
 
-    [CommandSwitch("--association-config")]
+    [CliOption("--association-config")]
     public string? AssociationConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

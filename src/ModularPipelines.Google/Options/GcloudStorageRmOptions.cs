@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "rm")]
+[CliCommand("storage", "rm")]
 public record GcloudStorageRmOptions(
-[property: PositionalArgument] string Urls
+[property: CliArgument] string Urls
 ) : GcloudOptions
 {
-    [CommandSwitch("--additional-headers")]
+    [CliOption("--additional-headers")]
     public string? AdditionalHeaders { get; set; }
 
-    [BooleanCommandSwitch("--all-versions")]
+    [CliFlag("--all-versions")]
     public bool? AllVersions { get; set; }
 
-    [BooleanCommandSwitch("--continue-on-error")]
+    [CliFlag("--continue-on-error")]
     public bool? ContinueOnError { get; set; }
 
-    [BooleanCommandSwitch("--read-paths-from-stdin")]
+    [CliFlag("--read-paths-from-stdin")]
     public bool? ReadPathsFromStdin { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public bool? Recursive { get; set; }
 }

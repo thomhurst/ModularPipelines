@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("waf-regional", "create-rule")]
+[CliCommand("waf-regional", "create-rule")]
 public record AwsWafRegionalCreateRuleOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--metric-name")] string MetricName,
-[property: CommandSwitch("--change-token")] string ChangeToken
+[property: CliOption("--name")] string Name,
+[property: CliOption("--metric-name")] string MetricName,
+[property: CliOption("--change-token")] string ChangeToken
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

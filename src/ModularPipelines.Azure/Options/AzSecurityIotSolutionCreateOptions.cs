@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "iot-solution", "create")]
+[CliSubCommand("security", "iot-solution", "create")]
 public record AzSecurityIotSolutionCreateOptions(
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--iot-hubs")] string IotHubs,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--solution-name")] string SolutionName
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--iot-hubs")] string IotHubs,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--solution-name")] string SolutionName
 ) : AzOptions;

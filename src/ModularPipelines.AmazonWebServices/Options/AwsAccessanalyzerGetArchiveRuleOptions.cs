@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("accessanalyzer", "get-archive-rule")]
+[CliCommand("accessanalyzer", "get-archive-rule")]
 public record AwsAccessanalyzerGetArchiveRuleOptions(
-[property: CommandSwitch("--analyzer-name")] string AnalyzerName,
-[property: CommandSwitch("--rule-name")] string RuleName
+[property: CliOption("--analyzer-name")] string AnalyzerName,
+[property: CliOption("--rule-name")] string RuleName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

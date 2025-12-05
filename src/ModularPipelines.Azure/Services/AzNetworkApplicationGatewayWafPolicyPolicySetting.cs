@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "waf-policy")]
+[CliCommand("network", "application-gateway", "waf-policy")]
 public class AzNetworkApplicationGatewayWafPolicyPolicySetting
 {
     public AzNetworkApplicationGatewayWafPolicyPolicySetting(

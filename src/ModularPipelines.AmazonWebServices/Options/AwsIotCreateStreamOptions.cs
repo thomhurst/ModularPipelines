@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "create-stream")]
+[CliCommand("iot", "create-stream")]
 public record AwsIotCreateStreamOptions(
-[property: CommandSwitch("--stream-id")] string StreamId,
-[property: CommandSwitch("--files")] string[] Files,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--stream-id")] string StreamId,
+[property: CliOption("--files")] string[] Files,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

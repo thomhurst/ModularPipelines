@@ -5,25 +5,25 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "create-integration-association")]
+[CliCommand("connect", "create-integration-association")]
 public record AwsConnectCreateIntegrationAssociationOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--integration-type")] string IntegrationType,
-[property: CommandSwitch("--integration-arn")] string IntegrationArn
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--integration-type")] string IntegrationType,
+[property: CliOption("--integration-arn")] string IntegrationArn
 ) : AwsOptions
 {
-    [CommandSwitch("--source-application-url")]
+    [CliOption("--source-application-url")]
     public string? SourceApplicationUrl { get; set; }
 
-    [CommandSwitch("--source-application-name")]
+    [CliOption("--source-application-name")]
     public string? SourceApplicationName { get; set; }
 
-    [CommandSwitch("--source-type")]
+    [CliOption("--source-type")]
     public string? SourceType { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

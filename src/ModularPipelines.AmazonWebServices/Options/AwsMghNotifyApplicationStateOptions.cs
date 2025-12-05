@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mgh", "notify-application-state")]
+[CliCommand("mgh", "notify-application-state")]
 public record AwsMghNotifyApplicationStateOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--status")] string Status
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--status")] string Status
 ) : AwsOptions
 {
-    [CommandSwitch("--update-date-time")]
+    [CliOption("--update-date-time")]
     public long? UpdateDateTime { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

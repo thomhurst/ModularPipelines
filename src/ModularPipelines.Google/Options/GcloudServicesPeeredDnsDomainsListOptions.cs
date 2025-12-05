@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("services", "peered-dns-domains", "list")]
+[CliCommand("services", "peered-dns-domains", "list")]
 public record GcloudServicesPeeredDnsDomainsListOptions(
-[property: CommandSwitch("--network")] string Network
+[property: CliOption("--network")] string Network
 ) : GcloudOptions
 {
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 }

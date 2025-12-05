@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amplify", "get-artifact-url")]
+[CliCommand("amplify", "get-artifact-url")]
 public record AwsAmplifyGetArtifactUrlOptions(
-[property: CommandSwitch("--artifact-id")] string ArtifactId
+[property: CliOption("--artifact-id")] string ArtifactId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

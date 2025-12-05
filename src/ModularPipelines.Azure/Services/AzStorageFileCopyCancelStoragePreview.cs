@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "file", "copy", "cancel")]
+[CliCommand("storage", "file", "copy", "cancel")]
 public class AzStorageFileCopyCancelStoragePreview
 {
     public AzStorageFileCopyCancelStoragePreview(

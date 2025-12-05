@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "video")]
+[CliCommand("ml", "video")]
 public class GcloudMlVideoOperations
 {
     public GcloudMlVideoOperations(

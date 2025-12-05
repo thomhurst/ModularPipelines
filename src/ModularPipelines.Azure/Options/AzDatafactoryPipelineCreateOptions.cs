@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datafactory", "pipeline", "create")]
+[CliSubCommand("datafactory", "pipeline", "create")]
 public record AzDatafactoryPipelineCreateOptions(
-[property: CommandSwitch("--factory-name")] string FactoryName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--pipeline")] string Pipeline,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--factory-name")] string FactoryName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--pipeline")] string Pipeline,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 }

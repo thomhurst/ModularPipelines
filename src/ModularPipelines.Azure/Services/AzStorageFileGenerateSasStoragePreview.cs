@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "file", "generate-sas")]
+[CliCommand("storage", "file", "generate-sas")]
 public class AzStorageFileGenerateSasStoragePreview
 {
     public AzStorageFileGenerateSasStoragePreview(

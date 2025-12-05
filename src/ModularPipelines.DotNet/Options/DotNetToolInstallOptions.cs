@@ -27,54 +27,54 @@ public record DotNetToolInstallOptions : DotNetOptions
         PackageName = packageName;
     }
 
-    [PositionalArgument(PlaceholderName = "<PACKAGE_NAME>")]
-    public string? PackageName { get; set; }
+    [CliArgument(Name = "<PACKAGE_NAME>")]
+    public virtual string? PackageName { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public virtual bool? Global { get; set; }
 
-    [CommandSwitch("--arch")]
+    [CliOption("--arch")]
     public virtual string? Architecture { get; set; }
 
-    [CommandSwitch("--add-source")]
+    [CliOption("--add-source")]
     public virtual string? AddSource { get; set; }
 
-    [CommandSwitch("--configfile")]
+    [CliOption("--configfile")]
     public virtual string? Configfile { get; set; }
 
-    [BooleanCommandSwitch("--disable-parallel")]
+    [CliFlag("--disable-parallel")]
     public virtual bool? DisableParallel { get; set; }
 
-    [CommandSwitch("--framework")]
+    [CliOption("--framework")]
     public virtual string? Framework { get; set; }
 
-    [BooleanCommandSwitch("--ignore-failed-sources")]
+    [CliFlag("--ignore-failed-sources")]
     public virtual bool? IgnoreFailedSources { get; set; }
 
-    [BooleanCommandSwitch("--interactive")]
+    [CliFlag("--interactive")]
     public virtual bool? Interactive { get; set; }
 
-    [BooleanCommandSwitch("--no-cache")]
+    [CliFlag("--no-cache")]
     public virtual bool? NoCache { get; set; }
 
-    [BooleanCommandSwitch("--prerelease")]
+    [CliFlag("--prerelease")]
     public virtual bool? Prerelease { get; set; }
 
-    [CommandSwitch("--tool-manifest")]
+    [CliOption("--tool-manifest")]
     public virtual string? ToolManifest { get; set; }
 
-    [CommandSwitch("--verbosity")]
+    [CliOption("--verbosity")]
     public virtual string? Verbosity { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public virtual string? VersionNumber { get; set; }
 
-    [BooleanCommandSwitch("--tool-path")]
+    [CliFlag("--tool-path")]
     public virtual string? ToolPath { get; set; }
 
-    [BooleanCommandSwitch("--local")]
+    [CliFlag("--local")]
     public virtual bool? Local { get; set; }
 
-    [BooleanCommandSwitch("--create-manifest-if-needed")]
+    [CliFlag("--create-manifest-if-needed")]
     public virtual bool? CreateManifestIfNeeded { get; set; }
 }

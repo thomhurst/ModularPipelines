@@ -4,107 +4,107 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptune", "create-db-instance")]
+[CliCommand("neptune", "create-db-instance")]
 public record AwsNeptuneCreateDbInstanceOptions(
-[property: CommandSwitch("--db-instance-identifier")] string DbInstanceIdentifier,
-[property: CommandSwitch("--db-instance-class")] string DbInstanceClass,
-[property: CommandSwitch("--engine")] string Engine,
-[property: CommandSwitch("--db-cluster-identifier")] string DbClusterIdentifier
+[property: CliOption("--db-instance-identifier")] string DbInstanceIdentifier,
+[property: CliOption("--db-instance-class")] string DbInstanceClass,
+[property: CliOption("--engine")] string Engine,
+[property: CliOption("--db-cluster-identifier")] string DbClusterIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--db-name")]
+    [CliOption("--db-name")]
     public string? DbName { get; set; }
 
-    [CommandSwitch("--allocated-storage")]
+    [CliOption("--allocated-storage")]
     public int? AllocatedStorage { get; set; }
 
-    [CommandSwitch("--master-username")]
+    [CliOption("--master-username")]
     public string? MasterUsername { get; set; }
 
-    [CommandSwitch("--master-user-password")]
+    [CliOption("--master-user-password")]
     public string? MasterUserPassword { get; set; }
 
-    [CommandSwitch("--db-security-groups")]
+    [CliOption("--db-security-groups")]
     public string[]? DbSecurityGroups { get; set; }
 
-    [CommandSwitch("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids")]
     public string[]? VpcSecurityGroupIds { get; set; }
 
-    [CommandSwitch("--availability-zone")]
+    [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
-    [CommandSwitch("--db-subnet-group-name")]
+    [CliOption("--db-subnet-group-name")]
     public string? DbSubnetGroupName { get; set; }
 
-    [CommandSwitch("--preferred-maintenance-window")]
+    [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
-    [CommandSwitch("--db-parameter-group-name")]
+    [CliOption("--db-parameter-group-name")]
     public string? DbParameterGroupName { get; set; }
 
-    [CommandSwitch("--backup-retention-period")]
+    [CliOption("--backup-retention-period")]
     public int? BackupRetentionPeriod { get; set; }
 
-    [CommandSwitch("--preferred-backup-window")]
+    [CliOption("--preferred-backup-window")]
     public string? PreferredBackupWindow { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--engine-version")]
+    [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CommandSwitch("--license-model")]
+    [CliOption("--license-model")]
     public string? LicenseModel { get; set; }
 
-    [CommandSwitch("--iops")]
+    [CliOption("--iops")]
     public int? Iops { get; set; }
 
-    [CommandSwitch("--option-group-name")]
+    [CliOption("--option-group-name")]
     public string? OptionGroupName { get; set; }
 
-    [CommandSwitch("--character-set-name")]
+    [CliOption("--character-set-name")]
     public string? CharacterSetName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--storage-type")]
+    [CliOption("--storage-type")]
     public string? StorageType { get; set; }
 
-    [CommandSwitch("--tde-credential-arn")]
+    [CliOption("--tde-credential-arn")]
     public string? TdeCredentialArn { get; set; }
 
-    [CommandSwitch("--tde-credential-password")]
+    [CliOption("--tde-credential-password")]
     public string? TdeCredentialPassword { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--domain")]
+    [CliOption("--domain")]
     public string? Domain { get; set; }
 
-    [CommandSwitch("--monitoring-interval")]
+    [CliOption("--monitoring-interval")]
     public int? MonitoringInterval { get; set; }
 
-    [CommandSwitch("--monitoring-role-arn")]
+    [CliOption("--monitoring-role-arn")]
     public string? MonitoringRoleArn { get; set; }
 
-    [CommandSwitch("--domain-iam-role-name")]
+    [CliOption("--domain-iam-role-name")]
     public string? DomainIamRoleName { get; set; }
 
-    [CommandSwitch("--promotion-tier")]
+    [CliOption("--promotion-tier")]
     public int? PromotionTier { get; set; }
 
-    [CommandSwitch("--timezone")]
+    [CliOption("--timezone")]
     public string? Timezone { get; set; }
 
-    [CommandSwitch("--performance-insights-kms-key-id")]
+    [CliOption("--performance-insights-kms-key-id")]
     public string? PerformanceInsightsKmsKeyId { get; set; }
 
-    [CommandSwitch("--enable-cloudwatch-logs-exports")]
+    [CliOption("--enable-cloudwatch-logs-exports")]
     public string[]? EnableCloudwatchLogsExports { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

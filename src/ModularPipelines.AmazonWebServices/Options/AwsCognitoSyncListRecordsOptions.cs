@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-sync", "list-records")]
+[CliCommand("cognito-sync", "list-records")]
 public record AwsCognitoSyncListRecordsOptions(
-[property: CommandSwitch("--identity-pool-id")] string IdentityPoolId,
-[property: CommandSwitch("--identity-id")] string IdentityId,
-[property: CommandSwitch("--dataset-name")] string DatasetName
+[property: CliOption("--identity-pool-id")] string IdentityPoolId,
+[property: CliOption("--identity-id")] string IdentityId,
+[property: CliOption("--dataset-name")] string DatasetName
 ) : AwsOptions
 {
-    [CommandSwitch("--last-sync-count")]
+    [CliOption("--last-sync-count")]
     public long? LastSyncCount { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--sync-session-token")]
+    [CliOption("--sync-session-token")]
     public string? SyncSessionToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

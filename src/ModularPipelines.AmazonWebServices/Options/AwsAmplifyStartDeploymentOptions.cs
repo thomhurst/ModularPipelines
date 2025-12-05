@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amplify", "start-deployment")]
+[CliCommand("amplify", "start-deployment")]
 public record AwsAmplifyStartDeploymentOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--branch-name")] string BranchName
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--branch-name")] string BranchName
 ) : AwsOptions
 {
-    [CommandSwitch("--job-id")]
+    [CliOption("--job-id")]
     public string? JobId { get; set; }
 
-    [CommandSwitch("--source-url")]
+    [CliOption("--source-url")]
     public string? SourceUrl { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

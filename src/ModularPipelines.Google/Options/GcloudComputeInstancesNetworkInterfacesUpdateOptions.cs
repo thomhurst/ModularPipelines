@@ -4,50 +4,50 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instances", "network-interfaces", "update")]
+[CliCommand("compute", "instances", "network-interfaces", "update")]
 public record GcloudComputeInstancesNetworkInterfacesUpdateOptions(
-[property: PositionalArgument] string InstanceName
+[property: CliArgument] string InstanceName
 ) : GcloudOptions
 {
-    [CommandSwitch("--aliases")]
+    [CliOption("--aliases")]
     public string? Aliases { get; set; }
 
-    [CommandSwitch("--external-ipv6-address")]
+    [CliOption("--external-ipv6-address")]
     public string? ExternalIpv6Address { get; set; }
 
-    [CommandSwitch("--external-ipv6-prefix-length")]
+    [CliOption("--external-ipv6-prefix-length")]
     public string? ExternalIpv6PrefixLength { get; set; }
 
-    [CommandSwitch("--internal-ipv6-address")]
+    [CliOption("--internal-ipv6-address")]
     public string? InternalIpv6Address { get; set; }
 
-    [CommandSwitch("--internal-ipv6-prefix-length")]
+    [CliOption("--internal-ipv6-prefix-length")]
     public string? InternalIpv6PrefixLength { get; set; }
 
-    [CommandSwitch("--ipv6-network-tier")]
+    [CliOption("--ipv6-network-tier")]
     public string? Ipv6NetworkTier { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--network-interface")]
+    [CliOption("--network-interface")]
     public string? NetworkInterface { get; set; }
 
-    [CommandSwitch("--private-network-ip")]
+    [CliOption("--private-network-ip")]
     public string? PrivateNetworkIp { get; set; }
 
-    [CommandSwitch("--security-policy")]
+    [CliOption("--security-policy")]
     public string? SecurityPolicy { get; set; }
 
-    [CommandSwitch("--security-policy-region")]
+    [CliOption("--security-policy-region")]
     public string? SecurityPolicyRegion { get; set; }
 
-    [CommandSwitch("--stack-type")]
+    [CliOption("--stack-type")]
     public string? StackType { get; set; }
 
-    [CommandSwitch("--subnetwork")]
+    [CliOption("--subnetwork")]
     public string? Subnetwork { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

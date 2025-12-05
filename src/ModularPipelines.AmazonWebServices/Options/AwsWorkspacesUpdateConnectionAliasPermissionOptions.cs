@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces", "update-connection-alias-permission")]
+[CliCommand("workspaces", "update-connection-alias-permission")]
 public record AwsWorkspacesUpdateConnectionAliasPermissionOptions(
-[property: CommandSwitch("--alias-id")] string AliasId,
-[property: CommandSwitch("--connection-alias-permission")] string ConnectionAliasPermission
+[property: CliOption("--alias-id")] string AliasId,
+[property: CliOption("--connection-alias-permission")] string ConnectionAliasPermission
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

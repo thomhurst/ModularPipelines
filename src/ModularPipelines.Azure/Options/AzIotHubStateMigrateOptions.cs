@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "state", "migrate")]
+[CliSubCommand("iot", "hub", "state", "migrate")]
 public record AzIotHubStateMigrateOptions : AzOptions
 {
-    [CommandSwitch("--aspects")]
+    [CliOption("--aspects")]
     public string? Aspects { get; set; }
 
-    [CommandSwitch("--auth-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [CommandSwitch("--destination-hub")]
+    [CliOption("--destination-hub")]
     public string? DestinationHub { get; set; }
 
-    [CommandSwitch("--destination-hub-login")]
+    [CliOption("--destination-hub-login")]
     public string? DestinationHubLogin { get; set; }
 
-    [CommandSwitch("--destination-resource-group")]
+    [CliOption("--destination-resource-group")]
     public string? DestinationResourceGroup { get; set; }
 
-    [CommandSwitch("--og")]
+    [CliOption("--og")]
     public string? Og { get; set; }
 
-    [CommandSwitch("--oh")]
+    [CliOption("--oh")]
     public string? Oh { get; set; }
 
-    [CommandSwitch("--ol")]
+    [CliOption("--ol")]
     public string? Ol { get; set; }
 
-    [BooleanCommandSwitch("--replace")]
+    [CliFlag("--replace")]
     public bool? Replace { get; set; }
 }

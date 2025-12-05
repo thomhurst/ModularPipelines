@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "hmac", "create")]
+[CliCommand("storage", "hmac", "create")]
 public record GcloudStorageHmacCreateOptions(
-[property: PositionalArgument] string ServiceAccount
+[property: CliArgument] string ServiceAccount
 ) : GcloudOptions;

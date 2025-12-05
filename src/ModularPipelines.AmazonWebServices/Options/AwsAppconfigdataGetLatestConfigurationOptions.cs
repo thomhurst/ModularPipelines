@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appconfigdata", "get-latest-configuration")]
+[CliCommand("appconfigdata", "get-latest-configuration")]
 public record AwsAppconfigdataGetLatestConfigurationOptions(
-[property: CommandSwitch("--configuration-token")] string ConfigurationToken
+[property: CliOption("--configuration-token")] string ConfigurationToken
 ) : AwsOptions;

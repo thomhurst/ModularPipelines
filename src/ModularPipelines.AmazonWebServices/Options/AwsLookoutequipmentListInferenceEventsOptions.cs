@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutequipment", "list-inference-events")]
+[CliCommand("lookoutequipment", "list-inference-events")]
 public record AwsLookoutequipmentListInferenceEventsOptions(
-[property: CommandSwitch("--inference-scheduler-name")] string InferenceSchedulerName,
-[property: CommandSwitch("--interval-start-time")] long IntervalStartTime,
-[property: CommandSwitch("--interval-end-time")] long IntervalEndTime
+[property: CliOption("--inference-scheduler-name")] string InferenceSchedulerName,
+[property: CliOption("--interval-start-time")] long IntervalStartTime,
+[property: CliOption("--interval-end-time")] long IntervalEndTime
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

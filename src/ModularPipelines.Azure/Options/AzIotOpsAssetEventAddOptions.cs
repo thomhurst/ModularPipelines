@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "ops", "asset", "event", "add")]
+[CliSubCommand("iot", "ops", "asset", "event", "add")]
 public record AzIotOpsAssetEventAddOptions(
-[property: CommandSwitch("--asset")] string Asset,
-[property: CommandSwitch("--en")] string En,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--asset")] string Asset,
+[property: CliOption("--en")] string En,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--capability-id")]
+    [CliOption("--capability-id")]
     public string? CapabilityId { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--observability-mode")]
+    [CliOption("--observability-mode")]
     public string? ObservabilityMode { get; set; }
 
-    [CommandSwitch("--qs")]
+    [CliOption("--qs")]
     public string? Qs { get; set; }
 
-    [CommandSwitch("--sampling-interval")]
+    [CliOption("--sampling-interval")]
     public string? SamplingInterval { get; set; }
 }

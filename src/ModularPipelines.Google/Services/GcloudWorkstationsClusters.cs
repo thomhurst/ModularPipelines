@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workstations")]
+[CliCommand("workstations")]
 public class GcloudWorkstationsClusters
 {
     public GcloudWorkstationsClusters(

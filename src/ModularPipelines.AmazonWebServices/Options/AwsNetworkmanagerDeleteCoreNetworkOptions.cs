@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkmanager", "delete-core-network")]
+[CliCommand("networkmanager", "delete-core-network")]
 public record AwsNetworkmanagerDeleteCoreNetworkOptions(
-[property: CommandSwitch("--core-network-id")] string CoreNetworkId
+[property: CliOption("--core-network-id")] string CoreNetworkId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

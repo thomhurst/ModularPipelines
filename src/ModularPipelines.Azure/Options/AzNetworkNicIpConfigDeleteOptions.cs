@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "nic", "ip-config", "delete")]
+[CliSubCommand("network", "nic", "ip-config", "delete")]
 public record AzNetworkNicIpConfigDeleteOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--nic-name")] string NicName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--nic-name")] string NicName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

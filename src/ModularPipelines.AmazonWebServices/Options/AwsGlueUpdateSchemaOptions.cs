@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "update-schema")]
+[CliCommand("glue", "update-schema")]
 public record AwsGlueUpdateSchemaOptions(
-[property: CommandSwitch("--schema-id")] string SchemaId
+[property: CliOption("--schema-id")] string SchemaId
 ) : AwsOptions
 {
-    [CommandSwitch("--schema-version-number")]
+    [CliOption("--schema-version-number")]
     public string? SchemaVersionNumber { get; set; }
 
-    [CommandSwitch("--compatibility")]
+    [CliOption("--compatibility")]
     public string? Compatibility { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

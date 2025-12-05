@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "jobs", "submit")]
+[CliCommand("batch", "jobs", "submit")]
 public record GcloudBatchJobsSubmitOptions(
-[property: PositionalArgument] string Job,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--config")] string Config,
-[property: CommandSwitch("--container-commands-file")] string ContainerCommandsFile,
-[property: CommandSwitch("--container-entrypoint")] string ContainerEntrypoint,
-[property: CommandSwitch("--container-image-uri")] string ContainerImageUri,
-[property: CommandSwitch("--script-file-path")] string ScriptFilePath,
-[property: CommandSwitch("--script-text")] string ScriptText
+[property: CliArgument] string Job,
+[property: CliArgument] string Location,
+[property: CliOption("--config")] string Config,
+[property: CliOption("--container-commands-file")] string ContainerCommandsFile,
+[property: CliOption("--container-entrypoint")] string ContainerEntrypoint,
+[property: CliOption("--container-image-uri")] string ContainerImageUri,
+[property: CliOption("--script-file-path")] string ScriptFilePath,
+[property: CliOption("--script-text")] string ScriptText
 ) : GcloudOptions
 {
-    [CommandSwitch("--job-prefix")]
+    [CliOption("--job-prefix")]
     public string? JobPrefix { get; set; }
 
-    [CommandSwitch("--machine-type")]
+    [CliOption("--machine-type")]
     public string? MachineType { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--provisioning-model")]
+    [CliOption("--provisioning-model")]
     public string? ProvisioningModel { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--subnetwork")]
+    [CliOption("--subnetwork")]
     public string? Subnetwork { get; set; }
 
-    [BooleanCommandSwitch("--no-external-ip-address")]
+    [CliFlag("--no-external-ip-address")]
     public bool? NoExternalIpAddress { get; set; }
 }

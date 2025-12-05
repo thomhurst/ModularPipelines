@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "put-parameter")]
+[CliCommand("ssm", "put-parameter")]
 public record AwsSsmPutParameterOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--value")] string Value
+[property: CliOption("--name")] string Name,
+[property: CliOption("--value")] string Value
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--key-id")]
+    [CliOption("--key-id")]
     public string? KeyId { get; set; }
 
-    [CommandSwitch("--allowed-pattern")]
+    [CliOption("--allowed-pattern")]
     public string? AllowedPattern { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 
-    [CommandSwitch("--policies")]
+    [CliOption("--policies")]
     public string? Policies { get; set; }
 
-    [CommandSwitch("--data-type")]
+    [CliOption("--data-type")]
     public string? DataType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

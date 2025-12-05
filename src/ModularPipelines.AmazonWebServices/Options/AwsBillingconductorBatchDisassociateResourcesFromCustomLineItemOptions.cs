@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billingconductor", "batch-disassociate-resources-from-custom-line-item")]
+[CliCommand("billingconductor", "batch-disassociate-resources-from-custom-line-item")]
 public record AwsBillingconductorBatchDisassociateResourcesFromCustomLineItemOptions(
-[property: CommandSwitch("--target-arn")] string TargetArn,
-[property: CommandSwitch("--resource-arns")] string[] ResourceArns
+[property: CliOption("--target-arn")] string TargetArn,
+[property: CliOption("--resource-arns")] string[] ResourceArns
 ) : AwsOptions
 {
-    [CommandSwitch("--billing-period-range")]
+    [CliOption("--billing-period-range")]
     public string? BillingPeriodRange { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

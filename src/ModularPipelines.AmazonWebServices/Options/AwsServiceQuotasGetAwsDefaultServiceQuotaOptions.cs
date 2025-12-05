@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("service-quotas", "get--default-service-quota")]
+[CliCommand("service-quotas", "get--default-service-quota")]
 public record AwsServiceQuotasGetAwsDefaultServiceQuotaOptions(
-[property: CommandSwitch("--service-code")] string ServiceCode,
-[property: CommandSwitch("--quota-code")] string QuotaCode
+[property: CliOption("--service-code")] string ServiceCode,
+[property: CliOption("--quota-code")] string QuotaCode
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

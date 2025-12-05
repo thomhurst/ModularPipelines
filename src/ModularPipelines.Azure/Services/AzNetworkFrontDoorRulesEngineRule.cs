@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "rules-engine")]
+[CliCommand("network", "front-door", "rules-engine")]
 public class AzNetworkFrontDoorRulesEngineRule
 {
     public AzNetworkFrontDoorRulesEngineRule(

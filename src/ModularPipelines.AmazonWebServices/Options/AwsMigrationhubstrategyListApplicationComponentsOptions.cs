@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("migrationhubstrategy", "list-application-components")]
+[CliCommand("migrationhubstrategy", "list-application-components")]
 public record AwsMigrationhubstrategyListApplicationComponentsOptions : AwsOptions
 {
-    [CommandSwitch("--application-component-criteria")]
+    [CliOption("--application-component-criteria")]
     public string? ApplicationComponentCriteria { get; set; }
 
-    [CommandSwitch("--filter-value")]
+    [CliOption("--filter-value")]
     public string? FilterValue { get; set; }
 
-    [CommandSwitch("--group-id-filter")]
+    [CliOption("--group-id-filter")]
     public string[]? GroupIdFilter { get; set; }
 
-    [CommandSwitch("--sort")]
+    [CliOption("--sort")]
     public string? Sort { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

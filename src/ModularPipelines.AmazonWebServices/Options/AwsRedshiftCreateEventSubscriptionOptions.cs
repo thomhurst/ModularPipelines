@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "create-event-subscription")]
+[CliCommand("redshift", "create-event-subscription")]
 public record AwsRedshiftCreateEventSubscriptionOptions(
-[property: CommandSwitch("--subscription-name")] string SubscriptionName,
-[property: CommandSwitch("--sns-topic-arn")] string SnsTopicArn
+[property: CliOption("--subscription-name")] string SubscriptionName,
+[property: CliOption("--sns-topic-arn")] string SnsTopicArn
 ) : AwsOptions
 {
-    [CommandSwitch("--source-type")]
+    [CliOption("--source-type")]
     public string? SourceType { get; set; }
 
-    [CommandSwitch("--source-ids")]
+    [CliOption("--source-ids")]
     public string[]? SourceIds { get; set; }
 
-    [CommandSwitch("--event-categories")]
+    [CliOption("--event-categories")]
     public string[]? EventCategories { get; set; }
 
-    [CommandSwitch("--severity")]
+    [CliOption("--severity")]
     public string? Severity { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

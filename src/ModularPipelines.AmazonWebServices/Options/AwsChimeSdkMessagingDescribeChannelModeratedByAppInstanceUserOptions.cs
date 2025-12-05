@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-messaging", "describe-channel-moderated-by-app-instance-user")]
+[CliCommand("chime-sdk-messaging", "describe-channel-moderated-by-app-instance-user")]
 public record AwsChimeSdkMessagingDescribeChannelModeratedByAppInstanceUserOptions(
-[property: CommandSwitch("--channel-arn")] string ChannelArn,
-[property: CommandSwitch("--app-instance-user-arn")] string AppInstanceUserArn,
-[property: CommandSwitch("--chime-bearer")] string ChimeBearer
+[property: CliOption("--channel-arn")] string ChannelArn,
+[property: CliOption("--app-instance-user-arn")] string AppInstanceUserArn,
+[property: CliOption("--chime-bearer")] string ChimeBearer
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

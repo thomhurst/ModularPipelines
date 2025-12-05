@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("shrinkwrap")]
+[CliCommand("shrinkwrap")]
 public record NpmShrinkwrapOptions : NpmOptions;

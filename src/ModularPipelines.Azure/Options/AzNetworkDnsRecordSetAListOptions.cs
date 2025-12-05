@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "dns", "record-set", "a", "list")]
+[CliSubCommand("network", "dns", "record-set", "a", "list")]
 public record AzNetworkDnsRecordSetAListOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--zone-name")] string ZoneName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--zone-name")] string ZoneName
 ) : AzOptions
 {
-    [CommandSwitch("--recordsetnamesuffix")]
+    [CliOption("--recordsetnamesuffix")]
     public string? Recordsetnamesuffix { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 }

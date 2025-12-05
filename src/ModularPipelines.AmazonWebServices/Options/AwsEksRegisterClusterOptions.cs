@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eks", "register-cluster")]
+[CliCommand("eks", "register-cluster")]
 public record AwsEksRegisterClusterOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--connector-config")] string ConnectorConfig
+[property: CliOption("--name")] string Name,
+[property: CliOption("--connector-config")] string ConnectorConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

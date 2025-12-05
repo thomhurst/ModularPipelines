@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "tpus", "tpu-vm", "ssh")]
+[CliCommand("compute", "tpus", "tpu-vm", "ssh")]
 public record GcloudComputeTpusTpuVmSshOptions(
-[property: PositionalArgument] string User,
-[property: PositionalArgument] string SshArgs
+[property: CliArgument] string User,
+[property: CliArgument] string SshArgs
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("--force-key-file-overwrite")]
+    [CliFlag("--force-key-file-overwrite")]
     public bool? ForceKeyFileOverwrite { get; set; }
 
-    [BooleanCommandSwitch("--internal-ip")]
+    [CliFlag("--internal-ip")]
     public bool? InternalIp { get; set; }
 
-    [BooleanCommandSwitch("--plain")]
+    [CliFlag("--plain")]
     public bool? Plain { get; set; }
 
-    [CommandSwitch("--ssh-flag")]
+    [CliOption("--ssh-flag")]
     public string? SshFlag { get; set; }
 
-    [CommandSwitch("--ssh-key-file")]
+    [CliOption("--ssh-key-file")]
     public string? SshKeyFile { get; set; }
 
-    [CommandSwitch("--strict-host-key-checking")]
+    [CliOption("--strict-host-key-checking")]
     public string? StrictHostKeyChecking { get; set; }
 
-    [CommandSwitch("--worker")]
+    [CliOption("--worker")]
     public string? Worker { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [CommandSwitch("--command")]
+    [CliOption("--command")]
     public string? Command { get; set; }
 
-    [CommandSwitch("--output-directory")]
+    [CliOption("--output-directory")]
     public string? OutputDirectory { get; set; }
 
-    [CommandSwitch("--ssh-key-expiration")]
+    [CliOption("--ssh-key-expiration")]
     public string? SshKeyExpiration { get; set; }
 
-    [CommandSwitch("--ssh-key-expire-after")]
+    [CliOption("--ssh-key-expire-after")]
     public string? SshKeyExpireAfter { get; set; }
 }

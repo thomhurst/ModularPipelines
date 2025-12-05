@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("site-recovery", "vmware-site", "machine", "list")]
+[CliSubCommand("site-recovery", "vmware-site", "machine", "list")]
 public record AzSiteRecoveryVmwareSiteMachineListOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--site-name")] string SiteName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--site-name")] string SiteName
 ) : AzOptions
 {
-    [CommandSwitch("--continuation-token")]
+    [CliOption("--continuation-token")]
     public string? ContinuationToken { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 
-    [CommandSwitch("--total-record-count")]
+    [CliOption("--total-record-count")]
     public int? TotalRecordCount { get; set; }
 }

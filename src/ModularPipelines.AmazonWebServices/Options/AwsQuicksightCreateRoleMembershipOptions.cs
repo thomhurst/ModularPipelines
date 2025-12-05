@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "create-role-membership")]
+[CliCommand("quicksight", "create-role-membership")]
 public record AwsQuicksightCreateRoleMembershipOptions(
-[property: CommandSwitch("--member-name")] string MemberName,
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--namespace")] string Namespace,
-[property: CommandSwitch("--role")] string Role
+[property: CliOption("--member-name")] string MemberName,
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--namespace")] string Namespace,
+[property: CliOption("--role")] string Role
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

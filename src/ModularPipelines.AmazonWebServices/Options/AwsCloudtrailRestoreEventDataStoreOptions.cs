@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudtrail", "restore-event-data-store")]
+[CliCommand("cloudtrail", "restore-event-data-store")]
 public record AwsCloudtrailRestoreEventDataStoreOptions(
-[property: CommandSwitch("--event-data-store")] string EventDataStore
+[property: CliOption("--event-data-store")] string EventDataStore
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

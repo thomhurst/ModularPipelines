@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesis-video-webrtc-storage", "join-storage-session")]
+[CliCommand("kinesis-video-webrtc-storage", "join-storage-session")]
 public record AwsKinesisVideoWebrtcStorageJoinStorageSessionOptions(
-[property: CommandSwitch("--channel-arn")] string ChannelArn
+[property: CliOption("--channel-arn")] string ChannelArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

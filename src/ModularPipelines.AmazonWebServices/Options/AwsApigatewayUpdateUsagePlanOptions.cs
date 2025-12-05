@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "update-usage-plan")]
+[CliCommand("apigateway", "update-usage-plan")]
 public record AwsApigatewayUpdateUsagePlanOptions(
-[property: CommandSwitch("--usage-plan-id")] string UsagePlanId
+[property: CliOption("--usage-plan-id")] string UsagePlanId
 ) : AwsOptions
 {
-    [CommandSwitch("--patch-operations")]
+    [CliOption("--patch-operations")]
     public string[]? PatchOperations { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

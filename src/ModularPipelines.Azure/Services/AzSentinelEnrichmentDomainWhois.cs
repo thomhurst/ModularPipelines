@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "enrichment")]
+[CliCommand("sentinel", "enrichment")]
 public class AzSentinelEnrichmentDomainWhois
 {
     public AzSentinelEnrichmentDomainWhois(

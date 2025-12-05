@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "stop")]
+[CliCommand("aks", "stop")]
 public class AzAksStopAksPreview
 {
     public AzAksStopAksPreview(

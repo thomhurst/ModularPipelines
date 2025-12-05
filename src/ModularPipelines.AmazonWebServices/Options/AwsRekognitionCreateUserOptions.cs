@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "create-user")]
+[CliCommand("rekognition", "create-user")]
 public record AwsRekognitionCreateUserOptions(
-[property: CommandSwitch("--collection-id")] string CollectionId,
-[property: CommandSwitch("--user-id")] string UserId
+[property: CliOption("--collection-id")] string CollectionId,
+[property: CliOption("--user-id")] string UserId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

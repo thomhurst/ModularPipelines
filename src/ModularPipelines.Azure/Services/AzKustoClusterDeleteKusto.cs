@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kusto", "cluster", "delete")]
+[CliCommand("kusto", "cluster", "delete")]
 public class AzKustoClusterDeleteKusto
 {
     public AzKustoClusterDeleteKusto(

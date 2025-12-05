@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "releases", "abandon")]
+[CliCommand("deploy", "releases", "abandon")]
 public record GcloudDeployReleasesAbandonOptions(
-[property: PositionalArgument] string Release,
-[property: PositionalArgument] string DeliveryPipeline,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Release,
+[property: CliArgument] string DeliveryPipeline,
+[property: CliArgument] string Region
 ) : GcloudOptions;

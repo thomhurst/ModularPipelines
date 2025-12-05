@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotevents-data", "batch-reset-alarm")]
+[CliCommand("iotevents-data", "batch-reset-alarm")]
 public record AwsIoteventsDataBatchResetAlarmOptions(
-[property: CommandSwitch("--reset-action-requests")] string[] ResetActionRequests
+[property: CliOption("--reset-action-requests")] string[] ResetActionRequests
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

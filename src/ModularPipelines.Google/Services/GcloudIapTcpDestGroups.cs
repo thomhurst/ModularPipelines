@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iap", "tcp")]
+[CliCommand("iap", "tcp")]
 public class GcloudIapTcpDestGroups
 {
     public GcloudIapTcpDestGroups(

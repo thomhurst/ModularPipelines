@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "sql", "pool", "restore")]
+[CliSubCommand("synapse", "sql", "pool", "restore")]
 public record AzSynapseSqlPoolRestoreOptions(
-[property: CommandSwitch("--dest-name")] string DestName
+[property: CliOption("--dest-name")] string DestName
 ) : AzOptions
 {
-    [CommandSwitch("--deleted-time")]
+    [CliOption("--deleted-time")]
     public string? DeletedTime { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--performance-level")]
+    [CliOption("--performance-level")]
     public string? PerformanceLevel { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--storage-type")]
+    [CliOption("--storage-type")]
     public string? StorageType { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--time")]
+    [CliOption("--time")]
     public string? Time { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

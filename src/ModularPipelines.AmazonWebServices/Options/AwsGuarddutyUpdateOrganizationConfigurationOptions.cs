@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("guardduty", "update-organization-configuration")]
+[CliCommand("guardduty", "update-organization-configuration")]
 public record AwsGuarddutyUpdateOrganizationConfigurationOptions(
-[property: CommandSwitch("--detector-id")] string DetectorId
+[property: CliOption("--detector-id")] string DetectorId
 ) : AwsOptions
 {
-    [CommandSwitch("--data-sources")]
+    [CliOption("--data-sources")]
     public string? DataSources { get; set; }
 
-    [CommandSwitch("--features")]
+    [CliOption("--features")]
     public string[]? Features { get; set; }
 
-    [CommandSwitch("--auto-enable-organization-members")]
+    [CliOption("--auto-enable-organization-members")]
     public string? AutoEnableOrganizationMembers { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

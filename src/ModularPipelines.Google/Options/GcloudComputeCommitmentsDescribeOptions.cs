@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "commitments", "describe")]
+[CliCommand("compute", "commitments", "describe")]
 public record GcloudComputeCommitmentsDescribeOptions(
-[property: PositionalArgument] string Commitment
+[property: CliArgument] string Commitment
 ) : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

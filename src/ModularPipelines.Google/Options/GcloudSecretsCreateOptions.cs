@@ -5,44 +5,44 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("secrets", "create")]
+[CliCommand("secrets", "create")]
 public record GcloudSecretsCreateOptions(
-[property: PositionalArgument] string Secret
+[property: CliArgument] string Secret
 ) : GcloudOptions
 {
-    [CommandSwitch("--data-file")]
+    [CliOption("--data-file")]
     public string? DataFile { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--set-annotations")]
+    [CliOption("--set-annotations")]
     public IEnumerable<KeyValue>? SetAnnotations { get; set; }
 
-    [CommandSwitch("--topics")]
+    [CliOption("--topics")]
     public string[]? Topics { get; set; }
 
-    [CommandSwitch("--expire-time")]
+    [CliOption("--expire-time")]
     public string? ExpireTime { get; set; }
 
-    [CommandSwitch("--ttl")]
+    [CliOption("--ttl")]
     public string? Ttl { get; set; }
 
-    [CommandSwitch("--next-rotation-time")]
+    [CliOption("--next-rotation-time")]
     public string? NextRotationTime { get; set; }
 
-    [CommandSwitch("--rotation-period")]
+    [CliOption("--rotation-period")]
     public string? RotationPeriod { get; set; }
 
-    [CommandSwitch("--replication-policy-file")]
+    [CliOption("--replication-policy-file")]
     public string? ReplicationPolicyFile { get; set; }
 
-    [CommandSwitch("--kms-key-name")]
+    [CliOption("--kms-key-name")]
     public string? KmsKeyName { get; set; }
 
-    [CommandSwitch("--locations")]
+    [CliOption("--locations")]
     public string[]? Locations { get; set; }
 
-    [CommandSwitch("--replication-policy")]
+    [CliOption("--replication-policy")]
     public string? ReplicationPolicy { get; set; }
 }

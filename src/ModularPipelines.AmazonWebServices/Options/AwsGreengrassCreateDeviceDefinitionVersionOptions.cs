@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("greengrass", "create-device-definition-version")]
+[CliCommand("greengrass", "create-device-definition-version")]
 public record AwsGreengrassCreateDeviceDefinitionVersionOptions(
-[property: CommandSwitch("--device-definition-id")] string DeviceDefinitionId
+[property: CliOption("--device-definition-id")] string DeviceDefinitionId
 ) : AwsOptions
 {
-    [CommandSwitch("--amzn-client-token")]
+    [CliOption("--amzn-client-token")]
     public string? AmznClientToken { get; set; }
 
-    [CommandSwitch("--devices")]
+    [CliOption("--devices")]
     public string[]? Devices { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

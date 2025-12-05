@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "modify-endpoint-access")]
+[CliCommand("redshift", "modify-endpoint-access")]
 public record AwsRedshiftModifyEndpointAccessOptions(
-[property: CommandSwitch("--endpoint-name")] string EndpointName
+[property: CliOption("--endpoint-name")] string EndpointName
 ) : AwsOptions
 {
-    [CommandSwitch("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids")]
     public string[]? VpcSecurityGroupIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

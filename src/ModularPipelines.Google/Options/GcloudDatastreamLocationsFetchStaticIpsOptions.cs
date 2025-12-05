@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datastream", "locations", "fetch-static-ips")]
+[CliCommand("datastream", "locations", "fetch-static-ips")]
 public record GcloudDatastreamLocationsFetchStaticIpsOptions(
-[property: PositionalArgument] string Location
+[property: CliArgument] string Location
 ) : GcloudOptions;

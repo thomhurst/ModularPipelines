@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qbusiness", "create-user")]
+[CliCommand("qbusiness", "create-user")]
 public record AwsQbusinessCreateUserOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--user-id")] string UserId
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--user-id")] string UserId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--user-aliases")]
+    [CliOption("--user-aliases")]
     public string[]? UserAliases { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

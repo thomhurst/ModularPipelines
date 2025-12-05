@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sms", "import-app-catalog")]
+[CliCommand("sms", "import-app-catalog")]
 public record AwsSmsImportAppCatalogOptions : AwsOptions
 {
-    [CommandSwitch("--role-name")]
+    [CliOption("--role-name")]
     public string? RoleName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

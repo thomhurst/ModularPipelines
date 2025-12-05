@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "firewall-policies", "update")]
+[CliCommand("compute", "firewall-policies", "update")]
 public record GcloudComputeFirewallPoliciesUpdateOptions(
-[property: PositionalArgument] string FirewallPolicy
+[property: CliArgument] string FirewallPolicy
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string? Organization { get; set; }
 }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access-approval", "requests", "dismiss")]
+[CliCommand("access-approval", "requests", "dismiss")]
 public record GcloudAccessApprovalRequestsDismissOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions;

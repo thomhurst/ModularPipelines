@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "bastion", "tunnel")]
+[CliSubCommand("network", "bastion", "tunnel")]
 public record AzNetworkBastionTunnelOptions(
-[property: CommandSwitch("--port")] int Port,
-[property: CommandSwitch("--resource-port")] string ResourcePort
+[property: CliOption("--port")] int Port,
+[property: CliOption("--resource-port")] string ResourcePort
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--target-ip-address")]
+    [CliOption("--target-ip-address")]
     public string? TargetIpAddress { get; set; }
 
-    [CommandSwitch("--target-resource-id")]
+    [CliOption("--target-resource-id")]
     public string? TargetResourceId { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

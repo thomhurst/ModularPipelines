@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ivschat", "disconnect-user")]
+[CliCommand("ivschat", "disconnect-user")]
 public record AwsIvschatDisconnectUserOptions(
-[property: CommandSwitch("--room-identifier")] string RoomIdentifier,
-[property: CommandSwitch("--user-id")] string UserId
+[property: CliOption("--room-identifier")] string RoomIdentifier,
+[property: CliOption("--user-id")] string UserId
 ) : AwsOptions
 {
-    [CommandSwitch("--reason")]
+    [CliOption("--reason")]
     public string? Reason { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

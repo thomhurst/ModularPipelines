@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appstream", "update-app-block-builder")]
+[CliCommand("appstream", "update-app-block-builder")]
 public record AwsAppstreamUpdateAppBlockBuilderOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public string? Platform { get; set; }
 
-    [CommandSwitch("--instance-type")]
+    [CliOption("--instance-type")]
     public string? InstanceType { get; set; }
 
-    [CommandSwitch("--vpc-config")]
+    [CliOption("--vpc-config")]
     public string? VpcConfig { get; set; }
 
-    [CommandSwitch("--iam-role-arn")]
+    [CliOption("--iam-role-arn")]
     public string? IamRoleArn { get; set; }
 
-    [CommandSwitch("--access-endpoints")]
+    [CliOption("--access-endpoints")]
     public string[]? AccessEndpoints { get; set; }
 
-    [CommandSwitch("--attributes-to-delete")]
+    [CliOption("--attributes-to-delete")]
     public string[]? AttributesToDelete { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesis", "get-resource-policy")]
+[CliCommand("kinesis", "get-resource-policy")]
 public record AwsKinesisGetResourcePolicyOptions(
-[property: CommandSwitch("--resource-arn")] string ResourceArn
+[property: CliOption("--resource-arn")] string ResourceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securityhub", "batch-delete-automation-rules")]
+[CliCommand("securityhub", "batch-delete-automation-rules")]
 public record AwsSecurityhubBatchDeleteAutomationRulesOptions(
-[property: CommandSwitch("--automation-rules-arns")] string[] AutomationRulesArns
+[property: CliOption("--automation-rules-arns")] string[] AutomationRulesArns
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

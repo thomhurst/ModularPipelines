@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecommit", "get-differences")]
+[CliCommand("codecommit", "get-differences")]
 public record AwsCodecommitGetDifferencesOptions(
-[property: CommandSwitch("--repository-name")] string RepositoryName,
-[property: CommandSwitch("--after-commit-specifier")] string AfterCommitSpecifier
+[property: CliOption("--repository-name")] string RepositoryName,
+[property: CliOption("--after-commit-specifier")] string AfterCommitSpecifier
 ) : AwsOptions
 {
-    [CommandSwitch("--before-commit-specifier")]
+    [CliOption("--before-commit-specifier")]
     public string? BeforeCommitSpecifier { get; set; }
 
-    [CommandSwitch("--before-path")]
+    [CliOption("--before-path")]
     public string? BeforePath { get; set; }
 
-    [CommandSwitch("--after-path")]
+    [CliOption("--after-path")]
     public string? AfterPath { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

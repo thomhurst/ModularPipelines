@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("proton", "notify-resource-deployment-status-change")]
+[CliCommand("proton", "notify-resource-deployment-status-change")]
 public record AwsProtonNotifyResourceDeploymentStatusChangeOptions(
-[property: CommandSwitch("--resource-arn")] string ResourceArn
+[property: CliOption("--resource-arn")] string ResourceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--deployment-id")]
+    [CliOption("--deployment-id")]
     public string? DeploymentId { get; set; }
 
-    [CommandSwitch("--outputs")]
+    [CliOption("--outputs")]
     public string[]? Outputs { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--status-message")]
+    [CliOption("--status-message")]
     public string? StatusMessage { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

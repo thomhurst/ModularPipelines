@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "accept-reserved-instances-exchange-quote")]
+[CliCommand("ec2", "accept-reserved-instances-exchange-quote")]
 public record AwsEc2AcceptReservedInstancesExchangeQuoteOptions(
-[property: CommandSwitch("--reserved-instance-ids")] string[] ReservedInstanceIds
+[property: CliOption("--reserved-instance-ids")] string[] ReservedInstanceIds
 ) : AwsOptions
 {
-    [CommandSwitch("--target-configurations")]
+    [CliOption("--target-configurations")]
     public string[]? TargetConfigurations { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

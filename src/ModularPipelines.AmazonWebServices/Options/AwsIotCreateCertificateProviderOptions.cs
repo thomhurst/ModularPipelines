@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "create-certificate-provider")]
+[CliCommand("iot", "create-certificate-provider")]
 public record AwsIotCreateCertificateProviderOptions(
-[property: CommandSwitch("--certificate-provider-name")] string CertificateProviderName,
-[property: CommandSwitch("--lambda-function-arn")] string LambdaFunctionArn,
-[property: CommandSwitch("--account-default-for-operations")] string[] AccountDefaultForOperations
+[property: CliOption("--certificate-provider-name")] string CertificateProviderName,
+[property: CliOption("--lambda-function-arn")] string LambdaFunctionArn,
+[property: CliOption("--account-default-for-operations")] string[] AccountDefaultForOperations
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

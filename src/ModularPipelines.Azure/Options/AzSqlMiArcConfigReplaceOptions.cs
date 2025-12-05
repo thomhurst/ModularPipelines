@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "mi-arc", "config", "replace")]
+[CliSubCommand("sql", "mi-arc", "config", "replace")]
 public record AzSqlMiArcConfigReplaceOptions(
-[property: CommandSwitch("--json-values")] string JsonValues,
-[property: CommandSwitch("--path")] string Path
+[property: CliOption("--json-values")] string JsonValues,
+[property: CliOption("--path")] string Path
 ) : AzOptions;

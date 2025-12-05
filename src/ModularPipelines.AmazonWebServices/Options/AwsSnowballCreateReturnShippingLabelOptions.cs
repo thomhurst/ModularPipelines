@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("snowball", "create-return-shipping-label")]
+[CliCommand("snowball", "create-return-shipping-label")]
 public record AwsSnowballCreateReturnShippingLabelOptions(
-[property: CommandSwitch("--job-id")] string JobId
+[property: CliOption("--job-id")] string JobId
 ) : AwsOptions
 {
-    [CommandSwitch("--shipping-option")]
+    [CliOption("--shipping-option")]
     public string? ShippingOption { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

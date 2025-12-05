@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "pool")]
+[CliCommand("batch", "pool")]
 public class AzBatchPoolCreate
 {
     public AzBatchPoolCreate(

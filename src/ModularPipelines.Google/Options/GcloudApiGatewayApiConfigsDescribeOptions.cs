@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("api-gateway", "api-configs", "describe")]
+[CliCommand("api-gateway", "api-configs", "describe")]
 public record GcloudApiGatewayApiConfigsDescribeOptions(
-[property: PositionalArgument] string ApiConfig,
-[property: PositionalArgument] string Api
+[property: CliArgument] string ApiConfig,
+[property: CliArgument] string Api
 ) : GcloudOptions
 {
-    [CommandSwitch("--view")]
+    [CliOption("--view")]
     public string? View { get; set; }
 }

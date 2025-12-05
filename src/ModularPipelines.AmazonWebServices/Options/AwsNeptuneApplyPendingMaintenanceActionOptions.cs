@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptune", "apply-pending-maintenance-action")]
+[CliCommand("neptune", "apply-pending-maintenance-action")]
 public record AwsNeptuneApplyPendingMaintenanceActionOptions(
-[property: CommandSwitch("--resource-identifier")] string ResourceIdentifier,
-[property: CommandSwitch("--apply-action")] string ApplyAction,
-[property: CommandSwitch("--opt-in-type")] string OptInType
+[property: CliOption("--resource-identifier")] string ResourceIdentifier,
+[property: CliOption("--apply-action")] string ApplyAction,
+[property: CliOption("--opt-in-type")] string OptInType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

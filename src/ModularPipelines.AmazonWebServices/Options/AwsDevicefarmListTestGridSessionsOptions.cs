@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devicefarm", "list-test-grid-sessions")]
+[CliCommand("devicefarm", "list-test-grid-sessions")]
 public record AwsDevicefarmListTestGridSessionsOptions(
-[property: CommandSwitch("--project-arn")] string ProjectArn
+[property: CliOption("--project-arn")] string ProjectArn
 ) : AwsOptions
 {
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--creation-time-after")]
+    [CliOption("--creation-time-after")]
     public long? CreationTimeAfter { get; set; }
 
-    [CommandSwitch("--creation-time-before")]
+    [CliOption("--creation-time-before")]
     public long? CreationTimeBefore { get; set; }
 
-    [CommandSwitch("--end-time-after")]
+    [CliOption("--end-time-after")]
     public long? EndTimeAfter { get; set; }
 
-    [CommandSwitch("--end-time-before")]
+    [CliOption("--end-time-before")]
     public long? EndTimeBefore { get; set; }
 
-    [CommandSwitch("--max-result")]
+    [CliOption("--max-result")]
     public int? MaxResult { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

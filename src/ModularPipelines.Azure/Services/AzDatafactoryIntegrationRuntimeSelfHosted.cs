@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datafactory", "integration-runtime")]
+[CliCommand("datafactory", "integration-runtime")]
 public class AzDatafactoryIntegrationRuntimeSelfHosted
 {
     public AzDatafactoryIntegrationRuntimeSelfHosted(

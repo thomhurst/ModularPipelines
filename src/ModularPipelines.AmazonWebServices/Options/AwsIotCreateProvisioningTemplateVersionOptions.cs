@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "create-provisioning-template-version")]
+[CliCommand("iot", "create-provisioning-template-version")]
 public record AwsIotCreateProvisioningTemplateVersionOptions(
-[property: CommandSwitch("--template-name")] string TemplateName,
-[property: CommandSwitch("--template-body")] string TemplateBody
+[property: CliOption("--template-name")] string TemplateName,
+[property: CliOption("--template-body")] string TemplateBody
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

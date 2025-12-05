@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "vision", "detect-document")]
+[CliCommand("ml", "vision", "detect-document")]
 public record GcloudMlVisionDetectDocumentOptions(
-[property: PositionalArgument] string ImagePath
+[property: CliArgument] string ImagePath
 ) : GcloudOptions
 {
-    [CommandSwitch("--language-hints")]
+    [CliOption("--language-hints")]
     public string[]? LanguageHints { get; set; }
 }

@@ -5,14 +5,14 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transcoder", "templates", "create")]
+[CliCommand("transcoder", "templates", "create")]
 public record GcloudTranscoderTemplatesCreateOptions(
-[property: PositionalArgument] string TemplateId,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--file")] string File,
-[property: CommandSwitch("--json")] string Json
+[property: CliArgument] string TemplateId,
+[property: CliArgument] string Location,
+[property: CliOption("--file")] string File,
+[property: CliOption("--json")] string Json
 ) : GcloudOptions
 {
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 }

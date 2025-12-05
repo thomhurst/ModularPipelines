@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datashare", "email-registration", "register-email")]
+[CliSubCommand("datashare", "email-registration", "register-email")]
 public record AzDatashareEmailRegistrationRegisterEmailOptions(
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--location")] string Location
 ) : AzOptions;

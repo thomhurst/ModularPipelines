@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "watcher", "show-security-group-view")]
+[CliSubCommand("network", "watcher", "show-security-group-view")]
 public record AzNetworkWatcherShowSecurityGroupViewOptions(
-[property: CommandSwitch("--vm")] string Vm
+[property: CliOption("--vm")] string Vm
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

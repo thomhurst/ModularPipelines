@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access-context-manager", "levels", "update")]
+[CliCommand("access-context-manager", "levels", "update")]
 public record GcloudAccessContextManagerLevelsUpdateOptions(
-[property: PositionalArgument] string Level,
-[property: PositionalArgument] string Policy
+[property: CliArgument] string Level,
+[property: CliArgument] string Policy
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--title")]
+    [CliOption("--title")]
     public string? Title { get; set; }
 
-    [CommandSwitch("--custom-level-spec")]
+    [CliOption("--custom-level-spec")]
     public string? CustomLevelSpec { get; set; }
 
-    [CommandSwitch("--basic-level-spec")]
+    [CliOption("--basic-level-spec")]
     public string? BasicLevelSpec { get; set; }
 
-    [CommandSwitch("--combine-function")]
+    [CliOption("--combine-function")]
     public string? CombineFunction { get; set; }
 }

@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3api", "delete-object")]
+[CliCommand("s3api", "delete-object")]
 public record AwsS3apiDeleteObjectOptions(
-[property: CommandSwitch("--bucket")] string Bucket,
-[property: CommandSwitch("--key")] string Key
+[property: CliOption("--bucket")] string Bucket,
+[property: CliOption("--key")] string Key
 ) : AwsOptions
 {
-    [CommandSwitch("--mfa")]
+    [CliOption("--mfa")]
     public string? Mfa { get; set; }
 
-    [CommandSwitch("--version-id")]
+    [CliOption("--version-id")]
     public string? VersionId { get; set; }
 
-    [CommandSwitch("--request-payer")]
+    [CliOption("--request-payer")]
     public string? RequestPayer { get; set; }
 
-    [CommandSwitch("--expected-bucket-owner")]
+    [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

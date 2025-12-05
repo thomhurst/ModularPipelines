@@ -4,62 +4,62 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "feature-store", "create")]
+[CliSubCommand("ml", "feature-store", "create")]
 public record AzMlFeatureStoreCreateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--application-insights")]
+    [CliOption("--application-insights")]
     public string? ApplicationInsights { get; set; }
 
-    [CommandSwitch("--container-registry")]
+    [CliOption("--container-registry")]
     public string? ContainerRegistry { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public string? File { get; set; }
 
-    [CommandSwitch("--image-build-compute")]
+    [CliOption("--image-build-compute")]
     public string? ImageBuildCompute { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--managed-network")]
+    [CliOption("--managed-network")]
     public string? ManagedNetwork { get; set; }
 
-    [CommandSwitch("--materialization-identity")]
+    [CliOption("--materialization-identity")]
     public string? MaterializationIdentity { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--not-grant-permissions")]
+    [CliFlag("--not-grant-permissions")]
     public bool? NotGrantPermissions { get; set; }
 
-    [CommandSwitch("--offline-store")]
+    [CliOption("--offline-store")]
     public string? OfflineStore { get; set; }
 
-    [CommandSwitch("--primary-user-assigned-identity")]
+    [CliOption("--primary-user-assigned-identity")]
     public string? PrimaryUserAssignedIdentity { get; set; }
 
-    [CommandSwitch("--public-network-access")]
+    [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [BooleanCommandSwitch("--update-dependent-resources")]
+    [CliFlag("--update-dependent-resources")]
     public bool? UpdateDependentResources { get; set; }
 }

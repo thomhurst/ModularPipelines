@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-services", "tcp-routes", "export")]
+[CliCommand("network-services", "tcp-routes", "export")]
 public record GcloudNetworkServicesTcpRoutesExportOptions(
-[property: PositionalArgument] string TcpRoute,
-[property: PositionalArgument] string Location
+[property: CliArgument] string TcpRoute,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--destination")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 }

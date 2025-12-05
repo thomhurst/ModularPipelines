@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("memorydb", "create-subnet-group")]
+[CliCommand("memorydb", "create-subnet-group")]
 public record AwsMemorydbCreateSubnetGroupOptions(
-[property: CommandSwitch("--subnet-group-name")] string SubnetGroupName,
-[property: CommandSwitch("--subnet-ids")] string[] SubnetIds
+[property: CliOption("--subnet-group-name")] string SubnetGroupName,
+[property: CliOption("--subnet-ids")] string[] SubnetIds
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

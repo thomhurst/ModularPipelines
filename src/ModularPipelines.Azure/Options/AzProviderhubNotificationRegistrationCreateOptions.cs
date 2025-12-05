@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("providerhub", "notification-registration", "create")]
+[CliSubCommand("providerhub", "notification-registration", "create")]
 public record AzProviderhubNotificationRegistrationCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--provider-namespace")] string ProviderNamespace
+[property: CliOption("--name")] string Name,
+[property: CliOption("--provider-namespace")] string ProviderNamespace
 ) : AzOptions
 {
-    [CommandSwitch("--included-events")]
+    [CliOption("--included-events")]
     public string? IncludedEvents { get; set; }
 
-    [CommandSwitch("--message-scope")]
+    [CliOption("--message-scope")]
     public string? MessageScope { get; set; }
 
-    [CommandSwitch("--notification-endpoints")]
+    [CliOption("--notification-endpoints")]
     public string? NotificationEndpoints { get; set; }
 
-    [CommandSwitch("--notification-mode")]
+    [CliOption("--notification-mode")]
     public string? NotificationMode { get; set; }
 }

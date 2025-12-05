@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "build-service", "builder", "buildpack-binding", "set")]
+[CliSubCommand("spring", "build-service", "builder", "buildpack-binding", "set")]
 public record AzSpringBuildServiceBuilderBuildpackBindingSetOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service,
+[property: CliOption("--type")] string Type
 ) : AzOptions
 {
-    [CommandSwitch("--builder-name")]
+    [CliOption("--builder-name")]
     public string? BuilderName { get; set; }
 
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public string? Properties { get; set; }
 
-    [CommandSwitch("--secrets")]
+    [CliOption("--secrets")]
     public string? Secrets { get; set; }
 }

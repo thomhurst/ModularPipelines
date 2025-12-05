@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr", "remove-managed-scaling-policy")]
+[CliCommand("emr", "remove-managed-scaling-policy")]
 public record AwsEmrRemoveManagedScalingPolicyOptions(
-[property: CommandSwitch("--cluster-id")] string ClusterId
+[property: CliOption("--cluster-id")] string ClusterId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

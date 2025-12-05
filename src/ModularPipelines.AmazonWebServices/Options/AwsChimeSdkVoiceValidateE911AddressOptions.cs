@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-voice", "validate-e911-address")]
+[CliCommand("chime-sdk-voice", "validate-e911-address")]
 public record AwsChimeSdkVoiceValidateE911AddressOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--street-number")] string StreetNumber,
-[property: CommandSwitch("--street-info")] string StreetInfo,
-[property: CommandSwitch("--city")] string City,
-[property: CommandSwitch("--state")] string State,
-[property: CommandSwitch("--country")] string Country,
-[property: CommandSwitch("--postal-code")] string PostalCode
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--street-number")] string StreetNumber,
+[property: CliOption("--street-info")] string StreetInfo,
+[property: CliOption("--city")] string City,
+[property: CliOption("--state")] string State,
+[property: CliOption("--country")] string Country,
+[property: CliOption("--postal-code")] string PostalCode
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

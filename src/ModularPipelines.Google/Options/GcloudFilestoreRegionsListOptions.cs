@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("filestore", "regions", "list")]
+[CliCommand("filestore", "regions", "list")]
 public record GcloudFilestoreRegionsListOptions : GcloudOptions;

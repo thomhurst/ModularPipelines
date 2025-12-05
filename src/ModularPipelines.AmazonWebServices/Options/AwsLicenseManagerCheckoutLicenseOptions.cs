@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("license-manager", "checkout-license")]
+[CliCommand("license-manager", "checkout-license")]
 public record AwsLicenseManagerCheckoutLicenseOptions(
-[property: CommandSwitch("--product-sku")] string ProductSku,
-[property: CommandSwitch("--checkout-type")] string CheckoutType,
-[property: CommandSwitch("--key-fingerprint")] string KeyFingerprint,
-[property: CommandSwitch("--entitlements")] string[] Entitlements,
-[property: CommandSwitch("--client-token")] string ClientToken
+[property: CliOption("--product-sku")] string ProductSku,
+[property: CliOption("--checkout-type")] string CheckoutType,
+[property: CliOption("--key-fingerprint")] string KeyFingerprint,
+[property: CliOption("--entitlements")] string[] Entitlements,
+[property: CliOption("--client-token")] string ClientToken
 ) : AwsOptions
 {
-    [CommandSwitch("--beneficiary")]
+    [CliOption("--beneficiary")]
     public string? Beneficiary { get; set; }
 
-    [CommandSwitch("--node-id")]
+    [CliOption("--node-id")]
     public string? NodeId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyspaces", "create-keyspace")]
+[CliCommand("keyspaces", "create-keyspace")]
 public record AwsKeyspacesCreateKeyspaceOptions(
-[property: CommandSwitch("--keyspace-name")] string KeyspaceName
+[property: CliOption("--keyspace-name")] string KeyspaceName
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--replication-specification")]
+    [CliOption("--replication-specification")]
     public string? ReplicationSpecification { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

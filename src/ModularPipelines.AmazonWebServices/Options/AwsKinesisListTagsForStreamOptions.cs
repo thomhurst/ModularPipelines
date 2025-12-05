@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesis", "list-tags-for-stream")]
+[CliCommand("kinesis", "list-tags-for-stream")]
 public record AwsKinesisListTagsForStreamOptions : AwsOptions
 {
-    [CommandSwitch("--stream-name")]
+    [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
-    [CommandSwitch("--exclusive-start-tag-key")]
+    [CliOption("--exclusive-start-tag-key")]
     public string? ExclusiveStartTagKey { get; set; }
 
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public int? Limit { get; set; }
 
-    [CommandSwitch("--stream-arn")]
+    [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

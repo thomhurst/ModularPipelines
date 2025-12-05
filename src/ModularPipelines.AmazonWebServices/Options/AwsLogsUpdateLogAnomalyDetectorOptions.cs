@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logs", "update-log-anomaly-detector")]
+[CliCommand("logs", "update-log-anomaly-detector")]
 public record AwsLogsUpdateLogAnomalyDetectorOptions(
-[property: CommandSwitch("--anomaly-detector-arn")] string AnomalyDetectorArn
+[property: CliOption("--anomaly-detector-arn")] string AnomalyDetectorArn
 ) : AwsOptions
 {
-    [CommandSwitch("--evaluation-frequency")]
+    [CliOption("--evaluation-frequency")]
     public string? EvaluationFrequency { get; set; }
 
-    [CommandSwitch("--filter-pattern")]
+    [CliOption("--filter-pattern")]
     public string? FilterPattern { get; set; }
 
-    [CommandSwitch("--anomaly-visibility-time")]
+    [CliOption("--anomaly-visibility-time")]
     public long? AnomalyVisibilityTime { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

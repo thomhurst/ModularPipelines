@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("team", "create")]
+[CliCommand("team", "create")]
 public record NpmTeamCreateOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Scope,
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Otpcode
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Scope,
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Otpcode
 ) : NpmOptions
 {
-    [CommandSwitch("--registry")]
+    [CliOption("--registry")]
     public virtual Uri? Registry { get; set; }
 
-    [CommandSwitch("--otp")]
+    [CliOption("--otp")]
     public virtual string? Otp { get; set; }
 
-    [BooleanCommandSwitch("--parseable")]
+    [CliFlag("--parseable")]
     public virtual bool? Parseable { get; set; }
 
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 }

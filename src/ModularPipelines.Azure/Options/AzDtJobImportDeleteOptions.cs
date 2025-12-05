@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "job", "import", "delete")]
+[CliSubCommand("dt", "job", "import", "delete")]
 public record AzDtJobImportDeleteOptions(
-[property: CommandSwitch("--dt-name")] string DtName,
-[property: CommandSwitch("--job-id")] string JobId
+[property: CliOption("--dt-name")] string DtName,
+[property: CliOption("--job-id")] string JobId
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

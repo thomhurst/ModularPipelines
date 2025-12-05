@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "disks", "resize")]
+[CliCommand("compute", "disks", "resize")]
 public record GcloudComputeDisksResizeOptions(
-[property: PositionalArgument] string DiskName,
-[property: CommandSwitch("--size")] string Size
+[property: CliArgument] string DiskName,
+[property: CliOption("--size")] string Size
 ) : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

@@ -8,4 +8,4 @@ namespace ModularPipelines.Options;
 /// </summary>
 /// <param name="FilePath">The path to the PowerShell script file to execute.</param>
 [ExcludeFromCodeCoverage]
-public record PowershellFileOptions([property: CommandSwitch("-File")] string FilePath) : PowershellOptions;
+public record PowershellFileOptions([property: CliOption("-File")] string FilePath) : PowershellOptions;

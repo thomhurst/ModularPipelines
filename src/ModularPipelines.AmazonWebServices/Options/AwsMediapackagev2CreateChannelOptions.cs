@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediapackagev2", "create-channel")]
+[CliCommand("mediapackagev2", "create-channel")]
 public record AwsMediapackagev2CreateChannelOptions(
-[property: CommandSwitch("--channel-group-name")] string ChannelGroupName,
-[property: CommandSwitch("--channel-name")] string ChannelName
+[property: CliOption("--channel-group-name")] string ChannelGroupName,
+[property: CliOption("--channel-name")] string ChannelName
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

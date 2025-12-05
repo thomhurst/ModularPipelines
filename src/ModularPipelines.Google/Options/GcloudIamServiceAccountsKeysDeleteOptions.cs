@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "service-accounts", "keys", "delete")]
+[CliCommand("iam", "service-accounts", "keys", "delete")]
 public record GcloudIamServiceAccountsKeysDeleteOptions(
-[property: PositionalArgument] string KeyId,
-[property: CommandSwitch("--iam-account")] string IamAccount
+[property: CliArgument] string KeyId,
+[property: CliOption("--iam-account")] string IamAccount
 ) : GcloudOptions;

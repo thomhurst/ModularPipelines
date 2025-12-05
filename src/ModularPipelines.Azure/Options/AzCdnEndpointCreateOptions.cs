@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cdn", "endpoint", "create")]
+[CliSubCommand("cdn", "endpoint", "create")]
 public record AzCdnEndpointCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--origin")] string Origin,
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--origin")] string Origin,
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--content-types-to-compress")]
+    [CliOption("--content-types-to-compress")]
     public string? ContentTypesToCompress { get; set; }
 
-    [BooleanCommandSwitch("--enable-compression")]
+    [CliFlag("--enable-compression")]
     public bool? EnableCompression { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-http")]
+    [CliFlag("--no-http")]
     public bool? NoHttp { get; set; }
 
-    [BooleanCommandSwitch("--no-https")]
+    [CliFlag("--no-https")]
     public bool? NoHttps { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--origin-host-header")]
+    [CliOption("--origin-host-header")]
     public string? OriginHostHeader { get; set; }
 
-    [CommandSwitch("--origin-path")]
+    [CliOption("--origin-path")]
     public string? OriginPath { get; set; }
 
-    [CommandSwitch("--query-string-caching")]
+    [CliOption("--query-string-caching")]
     public string? QueryStringCaching { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

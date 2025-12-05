@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automation", "hrwg")]
+[CliCommand("automation", "hrwg")]
 public class AzAutomationHrwgHrw
 {
     public AzAutomationHrwgHrw(

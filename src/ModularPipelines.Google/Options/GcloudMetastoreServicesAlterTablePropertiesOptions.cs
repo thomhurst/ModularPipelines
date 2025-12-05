@@ -5,15 +5,15 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("metastore", "services", "alter-table-properties")]
+[CliCommand("metastore", "services", "alter-table-properties")]
 public record GcloudMetastoreServicesAlterTablePropertiesOptions(
-[property: PositionalArgument] string Service,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--properties")] IEnumerable<KeyValue> Properties,
-[property: CommandSwitch("--table-name")] string TableName,
-[property: CommandSwitch("--update-mask")] string UpdateMask
+[property: CliArgument] string Service,
+[property: CliArgument] string Location,
+[property: CliOption("--properties")] IEnumerable<KeyValue> Properties,
+[property: CliOption("--table-name")] string TableName,
+[property: CliOption("--update-mask")] string UpdateMask
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

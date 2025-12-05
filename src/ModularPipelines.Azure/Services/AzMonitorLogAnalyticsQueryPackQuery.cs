@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "log-analytics", "query-pack")]
+[CliCommand("monitor", "log-analytics", "query-pack")]
 public class AzMonitorLogAnalyticsQueryPackQuery
 {
     public AzMonitorLogAnalyticsQueryPackQuery(

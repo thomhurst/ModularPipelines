@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("globalaccelerator", "delete-accelerator")]
+[CliCommand("globalaccelerator", "delete-accelerator")]
 public record AwsGlobalacceleratorDeleteAcceleratorOptions(
-[property: CommandSwitch("--accelerator-arn")] string AcceleratorArn
+[property: CliOption("--accelerator-arn")] string AcceleratorArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

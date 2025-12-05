@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instances", "set-machine-type")]
+[CliCommand("compute", "instances", "set-machine-type")]
 public record GcloudComputeInstancesSetMachineTypeOptions(
-[property: PositionalArgument] string InstanceName
+[property: CliArgument] string InstanceName
 ) : GcloudOptions
 {
-    [CommandSwitch("--machine-type")]
+    [CliOption("--machine-type")]
     public string? MachineType { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [CommandSwitch("--custom-cpu")]
+    [CliOption("--custom-cpu")]
     public string? CustomCpu { get; set; }
 
-    [CommandSwitch("--custom-memory")]
+    [CliOption("--custom-memory")]
     public string? CustomMemory { get; set; }
 
-    [BooleanCommandSwitch("--custom-extensions")]
+    [CliFlag("--custom-extensions")]
     public bool? CustomExtensions { get; set; }
 
-    [CommandSwitch("--custom-vm-type")]
+    [CliOption("--custom-vm-type")]
     public string? CustomVmType { get; set; }
 }

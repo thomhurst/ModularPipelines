@@ -27,30 +27,30 @@ public record DotNetWatchOptions : DotNetOptions
         ForwardedArguments = forwardedArguments;
     }
 
-    [PositionalArgument(PlaceholderName = "[<command>]")]
-    public string? Command { get; set; }
+    [CliArgument(Name = "[<command>]")]
+    public virtual string? Command { get; set; }
 
-    [BooleanCommandSwitch("--list")]
+    [CliFlag("--list")]
     public virtual bool? List { get; set; }
 
-    [BooleanCommandSwitch("--no-hot-reload")]
+    [CliFlag("--no-hot-reload")]
     public virtual bool? NoHotReload { get; set; }
 
-    [BooleanCommandSwitch("--non-interactive")]
+    [CliFlag("--non-interactive")]
     public virtual bool? NonInteractive { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public virtual string? Project { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("--version")]
+    [CliFlag("--version")]
     public virtual bool? Version { get; set; }
 
-    [PositionalArgument(PlaceholderName = "<forwarded arguments>")]
-    public string? ForwardedArguments { get; set; }
+    [CliArgument(Name = "<forwarded arguments>")]
+    public virtual string? ForwardedArguments { get; set; }
 }

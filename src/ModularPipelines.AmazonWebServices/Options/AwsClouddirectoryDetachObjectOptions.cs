@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("clouddirectory", "detach-object")]
+[CliCommand("clouddirectory", "detach-object")]
 public record AwsClouddirectoryDetachObjectOptions(
-[property: CommandSwitch("--directory-arn")] string DirectoryArn,
-[property: CommandSwitch("--parent-reference")] string ParentReference,
-[property: CommandSwitch("--link-name")] string LinkName
+[property: CliOption("--directory-arn")] string DirectoryArn,
+[property: CliOption("--parent-reference")] string ParentReference,
+[property: CliOption("--link-name")] string LinkName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -3,22 +3,22 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("hash-object")]
+[CliSubCommand("hash-object")]
 [ExcludeFromCodeCoverage]
 public record GitHashObjectOptions : GitOptions
 {
-    [BooleanCommandSwitch("--stdin")]
+    [CliFlag("--stdin")]
     public virtual bool? Stdin { get; set; }
 
-    [BooleanCommandSwitch("--stdin-paths")]
+    [CliFlag("--stdin-paths")]
     public virtual bool? StdinPaths { get; set; }
 
-    [BooleanCommandSwitch("--path")]
+    [CliFlag("--path")]
     public virtual bool? Path { get; set; }
 
-    [BooleanCommandSwitch("--no-filters")]
+    [CliFlag("--no-filters")]
     public virtual bool? NoFilters { get; set; }
 
-    [BooleanCommandSwitch("--literally")]
+    [CliFlag("--literally")]
     public virtual bool? Literally { get; set; }
 }

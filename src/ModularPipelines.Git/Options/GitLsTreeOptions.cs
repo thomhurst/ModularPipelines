@@ -3,31 +3,31 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("ls-tree")]
+[CliSubCommand("ls-tree")]
 [ExcludeFromCodeCoverage]
 public record GitLsTreeOptions : GitOptions
 {
-    [BooleanCommandSwitch("--long")]
+    [CliFlag("--long")]
     public virtual bool? Long { get; set; }
 
-    [BooleanCommandSwitch("--name-only")]
+    [CliFlag("--name-only")]
     public virtual bool? NameOnly { get; set; }
 
-    [BooleanCommandSwitch("--name-status")]
+    [CliFlag("--name-status")]
     public virtual bool? NameStatus { get; set; }
 
-    [BooleanCommandSwitch("--object-only")]
+    [CliFlag("--object-only")]
     public virtual bool? ObjectOnly { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--abbrev")]
-    public string? Abbrev { get; set; }
+    [CliOption("--abbrev", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Abbrev { get; set; }
 
-    [BooleanCommandSwitch("--full-name")]
+    [CliFlag("--full-name")]
     public virtual bool? FullName { get; set; }
 
-    [BooleanCommandSwitch("--full-tree")]
+    [CliFlag("--full-tree")]
     public virtual bool? FullTree { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--format")]
-    public string? Format { get; set; }
+    [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Format { get; set; }
 }

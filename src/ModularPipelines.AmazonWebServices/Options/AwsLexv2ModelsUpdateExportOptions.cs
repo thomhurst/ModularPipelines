@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lexv2-models", "update-export")]
+[CliCommand("lexv2-models", "update-export")]
 public record AwsLexv2ModelsUpdateExportOptions(
-[property: CommandSwitch("--export-id")] string ExportId
+[property: CliOption("--export-id")] string ExportId
 ) : AwsOptions
 {
-    [CommandSwitch("--file-password")]
+    [CliOption("--file-password")]
     public string? FilePassword { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

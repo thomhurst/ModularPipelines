@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "certificate", "contact", "delete")]
+[CliSubCommand("keyvault", "certificate", "contact", "delete")]
 public record AzKeyvaultCertificateContactDeleteOptions(
-[property: CommandSwitch("--email")] string Email,
-[property: CommandSwitch("--vault-name")] string VaultName
+[property: CliOption("--email")] string Email,
+[property: CliOption("--vault-name")] string VaultName
 ) : AzOptions;

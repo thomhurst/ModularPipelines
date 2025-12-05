@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotsitewise", "update-dashboard")]
+[CliCommand("iotsitewise", "update-dashboard")]
 public record AwsIotsitewiseUpdateDashboardOptions(
-[property: CommandSwitch("--dashboard-id")] string DashboardId,
-[property: CommandSwitch("--dashboard-name")] string DashboardName,
-[property: CommandSwitch("--dashboard-definition")] string DashboardDefinition
+[property: CliOption("--dashboard-id")] string DashboardId,
+[property: CliOption("--dashboard-name")] string DashboardName,
+[property: CliOption("--dashboard-definition")] string DashboardDefinition
 ) : AwsOptions
 {
-    [CommandSwitch("--dashboard-description")]
+    [CliOption("--dashboard-description")]
     public string? DashboardDescription { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

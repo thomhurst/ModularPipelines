@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "delete-vpn-connection")]
+[CliCommand("ec2", "delete-vpn-connection")]
 public record AwsEc2DeleteVpnConnectionOptions(
-[property: CommandSwitch("--vpn-connection-id")] string VpnConnectionId
+[property: CliOption("--vpn-connection-id")] string VpnConnectionId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

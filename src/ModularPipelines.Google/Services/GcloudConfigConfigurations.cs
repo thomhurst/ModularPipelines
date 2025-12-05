@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("config")]
+[CliCommand("config")]
 public class GcloudConfigConfigurations
 {
     public GcloudConfigConfigurations(

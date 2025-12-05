@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecr-public", "complete-layer-upload")]
+[CliCommand("ecr-public", "complete-layer-upload")]
 public record AwsEcrPublicCompleteLayerUploadOptions(
-[property: CommandSwitch("--repository-name")] string RepositoryName,
-[property: CommandSwitch("--upload-id")] string UploadId,
-[property: CommandSwitch("--layer-digests")] string[] LayerDigests
+[property: CliOption("--repository-name")] string RepositoryName,
+[property: CliOption("--upload-id")] string UploadId,
+[property: CliOption("--layer-digests")] string[] LayerDigests
 ) : AwsOptions
 {
-    [CommandSwitch("--registry-id")]
+    [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

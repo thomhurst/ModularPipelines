@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotanalytics", "list-dataset-contents")]
+[CliCommand("iotanalytics", "list-dataset-contents")]
 public record AwsIotanalyticsListDatasetContentsOptions(
-[property: CommandSwitch("--dataset-name")] string DatasetName
+[property: CliOption("--dataset-name")] string DatasetName
 ) : AwsOptions
 {
-    [CommandSwitch("--scheduled-on-or-after")]
+    [CliOption("--scheduled-on-or-after")]
     public long? ScheduledOnOrAfter { get; set; }
 
-    [CommandSwitch("--scheduled-before")]
+    [CliOption("--scheduled-before")]
     public long? ScheduledBefore { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

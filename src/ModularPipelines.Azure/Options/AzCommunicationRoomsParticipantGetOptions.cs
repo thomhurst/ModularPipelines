@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("communication", "rooms", "participant", "get")]
+[CliSubCommand("communication", "rooms", "participant", "get")]
 public record AzCommunicationRoomsParticipantGetOptions(
-[property: CommandSwitch("--room")] string Room
+[property: CliOption("--room")] string Room
 ) : AzOptions
 {
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 }

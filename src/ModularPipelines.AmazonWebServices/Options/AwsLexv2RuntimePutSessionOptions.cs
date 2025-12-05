@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lexv2-runtime", "put-session")]
+[CliCommand("lexv2-runtime", "put-session")]
 public record AwsLexv2RuntimePutSessionOptions(
-[property: CommandSwitch("--bot-id")] string BotId,
-[property: CommandSwitch("--bot-alias-id")] string BotAliasId,
-[property: CommandSwitch("--locale-id")] string LocaleId,
-[property: CommandSwitch("--session-id")] string SessionId,
-[property: CommandSwitch("--session-state")] string SessionState
+[property: CliOption("--bot-id")] string BotId,
+[property: CliOption("--bot-alias-id")] string BotAliasId,
+[property: CliOption("--locale-id")] string LocaleId,
+[property: CliOption("--session-id")] string SessionId,
+[property: CliOption("--session-state")] string SessionState
 ) : AwsOptions
 {
-    [CommandSwitch("--messages")]
+    [CliOption("--messages")]
     public string[]? Messages { get; set; }
 
-    [CommandSwitch("--request-attributes")]
+    [CliOption("--request-attributes")]
     public IEnumerable<KeyValue>? RequestAttributes { get; set; }
 
-    [CommandSwitch("--response-content-type")]
+    [CliOption("--response-content-type")]
     public string? ResponseContentType { get; set; }
 }

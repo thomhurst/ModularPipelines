@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deployment-manager", "operations", "list")]
+[CliCommand("deployment-manager", "operations", "list")]
 public record GcloudDeploymentManagerOperationsListOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--simple-list")]
+    [CliFlag("--simple-list")]
     public bool? SimpleList { get; set; }
 }

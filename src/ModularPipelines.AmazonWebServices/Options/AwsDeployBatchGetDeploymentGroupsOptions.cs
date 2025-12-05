@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "batch-get-deployment-groups")]
+[CliCommand("deploy", "batch-get-deployment-groups")]
 public record AwsDeployBatchGetDeploymentGroupsOptions(
-[property: CommandSwitch("--application-name")] string ApplicationName,
-[property: CommandSwitch("--deployment-group-names")] string[] DeploymentGroupNames
+[property: CliOption("--application-name")] string ApplicationName,
+[property: CliOption("--deployment-group-names")] string[] DeploymentGroupNames
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

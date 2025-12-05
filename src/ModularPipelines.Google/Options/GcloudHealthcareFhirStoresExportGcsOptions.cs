@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcare", "fhir-stores", "export", "gcs")]
+[CliCommand("healthcare", "fhir-stores", "export", "gcs")]
 public record GcloudHealthcareFhirStoresExportGcsOptions(
-[property: PositionalArgument] string FhirStore,
-[property: PositionalArgument] string Dataset,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--gcs-uri")] string GcsUri
+[property: CliArgument] string FhirStore,
+[property: CliArgument] string Dataset,
+[property: CliArgument] string Location,
+[property: CliOption("--gcs-uri")] string GcsUri
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--since")]
+    [CliOption("--since")]
     public string? Since { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("services")]
+[CliCommand("services")]
 public class GcloudServicesApiKeys
 {
     public GcloudServicesApiKeys(

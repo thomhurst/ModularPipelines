@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cleanrooms", "preview-privacy-impact")]
+[CliCommand("cleanrooms", "preview-privacy-impact")]
 public record AwsCleanroomsPreviewPrivacyImpactOptions(
-[property: CommandSwitch("--membership-identifier")] string MembershipIdentifier,
-[property: CommandSwitch("--parameters")] string Parameters
+[property: CliOption("--membership-identifier")] string MembershipIdentifier,
+[property: CliOption("--parameters")] string Parameters
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotsitewise", "get-asset-property-aggregates")]
+[CliCommand("iotsitewise", "get-asset-property-aggregates")]
 public record AwsIotsitewiseGetAssetPropertyAggregatesOptions(
-[property: CommandSwitch("--aggregate-types")] string[] AggregateTypes,
-[property: CommandSwitch("--resolution")] string Resolution,
-[property: CommandSwitch("--start-date")] long StartDate,
-[property: CommandSwitch("--end-date")] long EndDate
+[property: CliOption("--aggregate-types")] string[] AggregateTypes,
+[property: CliOption("--resolution")] string Resolution,
+[property: CliOption("--start-date")] long StartDate,
+[property: CliOption("--end-date")] long EndDate
 ) : AwsOptions
 {
-    [CommandSwitch("--asset-id")]
+    [CliOption("--asset-id")]
     public string? AssetId { get; set; }
 
-    [CommandSwitch("--property-id")]
+    [CliOption("--property-id")]
     public string? PropertyId { get; set; }
 
-    [CommandSwitch("--property-alias")]
+    [CliOption("--property-alias")]
     public string? PropertyAlias { get; set; }
 
-    [CommandSwitch("--qualities")]
+    [CliOption("--qualities")]
     public string[]? Qualities { get; set; }
 
-    [CommandSwitch("--time-ordering")]
+    [CliOption("--time-ordering")]
     public string? TimeOrdering { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sns", "confirm-subscription")]
+[CliCommand("sns", "confirm-subscription")]
 public record AwsSnsConfirmSubscriptionOptions(
-[property: CommandSwitch("--topic-arn")] string TopicArn,
-[property: CommandSwitch("--token")] string Token
+[property: CliOption("--topic-arn")] string TopicArn,
+[property: CliOption("--token")] string Token
 ) : AwsOptions
 {
-    [CommandSwitch("--authenticate-on-unsubscribe")]
+    [CliOption("--authenticate-on-unsubscribe")]
     public string? AuthenticateOnUnsubscribe { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

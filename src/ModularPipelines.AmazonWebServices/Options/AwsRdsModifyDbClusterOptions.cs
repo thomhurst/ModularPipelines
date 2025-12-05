@@ -4,98 +4,98 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "modify-db-cluster")]
+[CliCommand("rds", "modify-db-cluster")]
 public record AwsRdsModifyDbClusterOptions(
-[property: CommandSwitch("--db-cluster-identifier")] string DbClusterIdentifier
+[property: CliOption("--db-cluster-identifier")] string DbClusterIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--new-db-cluster-identifier")]
+    [CliOption("--new-db-cluster-identifier")]
     public string? NewDbClusterIdentifier { get; set; }
 
-    [CommandSwitch("--backup-retention-period")]
+    [CliOption("--backup-retention-period")]
     public int? BackupRetentionPeriod { get; set; }
 
-    [CommandSwitch("--db-cluster-parameter-group-name")]
+    [CliOption("--db-cluster-parameter-group-name")]
     public string? DbClusterParameterGroupName { get; set; }
 
-    [CommandSwitch("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids")]
     public string[]? VpcSecurityGroupIds { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--master-user-password")]
+    [CliOption("--master-user-password")]
     public string? MasterUserPassword { get; set; }
 
-    [CommandSwitch("--option-group-name")]
+    [CliOption("--option-group-name")]
     public string? OptionGroupName { get; set; }
 
-    [CommandSwitch("--preferred-backup-window")]
+    [CliOption("--preferred-backup-window")]
     public string? PreferredBackupWindow { get; set; }
 
-    [CommandSwitch("--preferred-maintenance-window")]
+    [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
-    [CommandSwitch("--backtrack-window")]
+    [CliOption("--backtrack-window")]
     public long? BacktrackWindow { get; set; }
 
-    [CommandSwitch("--cloudwatch-logs-export-configuration")]
+    [CliOption("--cloudwatch-logs-export-configuration")]
     public string? CloudwatchLogsExportConfiguration { get; set; }
 
-    [CommandSwitch("--engine-version")]
+    [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CommandSwitch("--db-instance-parameter-group-name")]
+    [CliOption("--db-instance-parameter-group-name")]
     public string? DbInstanceParameterGroupName { get; set; }
 
-    [CommandSwitch("--domain")]
+    [CliOption("--domain")]
     public string? Domain { get; set; }
 
-    [CommandSwitch("--domain-iam-role-name")]
+    [CliOption("--domain-iam-role-name")]
     public string? DomainIamRoleName { get; set; }
 
-    [CommandSwitch("--scaling-configuration")]
+    [CliOption("--scaling-configuration")]
     public string? ScalingConfiguration { get; set; }
 
-    [CommandSwitch("--db-cluster-instance-class")]
+    [CliOption("--db-cluster-instance-class")]
     public string? DbClusterInstanceClass { get; set; }
 
-    [CommandSwitch("--allocated-storage")]
+    [CliOption("--allocated-storage")]
     public int? AllocatedStorage { get; set; }
 
-    [CommandSwitch("--storage-type")]
+    [CliOption("--storage-type")]
     public string? StorageType { get; set; }
 
-    [CommandSwitch("--iops")]
+    [CliOption("--iops")]
     public int? Iops { get; set; }
 
-    [CommandSwitch("--monitoring-interval")]
+    [CliOption("--monitoring-interval")]
     public int? MonitoringInterval { get; set; }
 
-    [CommandSwitch("--monitoring-role-arn")]
+    [CliOption("--monitoring-role-arn")]
     public string? MonitoringRoleArn { get; set; }
 
-    [CommandSwitch("--performance-insights-kms-key-id")]
+    [CliOption("--performance-insights-kms-key-id")]
     public string? PerformanceInsightsKmsKeyId { get; set; }
 
-    [CommandSwitch("--performance-insights-retention-period")]
+    [CliOption("--performance-insights-retention-period")]
     public int? PerformanceInsightsRetentionPeriod { get; set; }
 
-    [CommandSwitch("--serverless-v2-scaling-configuration")]
+    [CliOption("--serverless-v2-scaling-configuration")]
     public string? ServerlessV2ScalingConfiguration { get; set; }
 
-    [CommandSwitch("--network-type")]
+    [CliOption("--network-type")]
     public string? NetworkType { get; set; }
 
-    [CommandSwitch("--master-user-secret-kms-key-id")]
+    [CliOption("--master-user-secret-kms-key-id")]
     public string? MasterUserSecretKmsKeyId { get; set; }
 
-    [CommandSwitch("--engine-mode")]
+    [CliOption("--engine-mode")]
     public string? EngineMode { get; set; }
 
-    [CommandSwitch("--aws-backup-recovery-point-arn")]
+    [CliOption("--aws-backup-recovery-point-arn")]
     public string? AwsBackupRecoveryPointArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

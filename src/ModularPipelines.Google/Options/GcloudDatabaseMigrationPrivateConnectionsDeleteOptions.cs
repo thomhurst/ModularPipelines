@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("database-migration", "private-connections", "delete")]
+[CliCommand("database-migration", "private-connections", "delete")]
 public record GcloudDatabaseMigrationPrivateConnectionsDeleteOptions(
-[property: PositionalArgument] string PrivateConnection,
-[property: PositionalArgument] string Region
+[property: CliArgument] string PrivateConnection,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--no-async")]
+    [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }
 }

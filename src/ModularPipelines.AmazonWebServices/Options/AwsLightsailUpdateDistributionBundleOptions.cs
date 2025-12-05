@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "update-distribution-bundle")]
+[CliCommand("lightsail", "update-distribution-bundle")]
 public record AwsLightsailUpdateDistributionBundleOptions : AwsOptions
 {
-    [CommandSwitch("--distribution-name")]
+    [CliOption("--distribution-name")]
     public string? DistributionName { get; set; }
 
-    [CommandSwitch("--bundle-id")]
+    [CliOption("--bundle-id")]
     public string? BundleId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

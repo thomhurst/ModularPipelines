@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("config", "unset")]
+[CliCommand("config", "unset")]
 public record ConfigUnsetOptions : ChocoOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public virtual string? Name { get; set; }
 
-    [CommandSwitch("--value")]
+    [CliOption("--value")]
     public virtual string? Value { get; set; }
 }

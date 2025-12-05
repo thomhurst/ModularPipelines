@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudfront", "update-key-value-store")]
+[CliCommand("cloudfront", "update-key-value-store")]
 public record AwsCloudfrontUpdateKeyValueStoreOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--comment")] string Comment,
-[property: CommandSwitch("--if-match")] string IfMatch
+[property: CliOption("--name")] string Name,
+[property: CliOption("--comment")] string Comment,
+[property: CliOption("--if-match")] string IfMatch
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

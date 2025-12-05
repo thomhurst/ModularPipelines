@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datazone", "update-glossary-term")]
+[CliCommand("datazone", "update-glossary-term")]
 public record AwsDatazoneUpdateGlossaryTermOptions(
-[property: CommandSwitch("--domain-identifier")] string DomainIdentifier,
-[property: CommandSwitch("--identifier")] string Identifier
+[property: CliOption("--domain-identifier")] string DomainIdentifier,
+[property: CliOption("--identifier")] string Identifier
 ) : AwsOptions
 {
-    [CommandSwitch("--glossary-identifier")]
+    [CliOption("--glossary-identifier")]
     public string? GlossaryIdentifier { get; set; }
 
-    [CommandSwitch("--long-description")]
+    [CliOption("--long-description")]
     public string? LongDescription { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--short-description")]
+    [CliOption("--short-description")]
     public string? ShortDescription { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--term-relations")]
+    [CliOption("--term-relations")]
     public string? TermRelations { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

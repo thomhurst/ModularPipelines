@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "list-layers")]
+[CliCommand("lambda", "list-layers")]
 public record AwsLambdaListLayersOptions : AwsOptions
 {
-    [CommandSwitch("--compatible-runtime")]
+    [CliOption("--compatible-runtime")]
     public string? CompatibleRuntime { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--compatible-architecture")]
+    [CliOption("--compatible-architecture")]
     public string? CompatibleArchitecture { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

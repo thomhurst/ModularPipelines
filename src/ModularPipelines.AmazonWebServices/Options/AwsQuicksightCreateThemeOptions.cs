@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "create-theme")]
+[CliCommand("quicksight", "create-theme")]
 public record AwsQuicksightCreateThemeOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--theme-id")] string ThemeId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--base-theme-id")] string BaseThemeId,
-[property: CommandSwitch("--configuration")] string Configuration
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--theme-id")] string ThemeId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--base-theme-id")] string BaseThemeId,
+[property: CliOption("--configuration")] string Configuration
 ) : AwsOptions
 {
-    [CommandSwitch("--version-description")]
+    [CliOption("--version-description")]
     public string? VersionDescription { get; set; }
 
-    [CommandSwitch("--permissions")]
+    [CliOption("--permissions")]
     public string[]? Permissions { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

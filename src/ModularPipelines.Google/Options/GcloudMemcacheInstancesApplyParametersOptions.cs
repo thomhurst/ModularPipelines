@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("memcache", "instances", "apply-parameters")]
+[CliCommand("memcache", "instances", "apply-parameters")]
 public record GcloudMemcacheInstancesApplyParametersOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Region,
-[property: BooleanCommandSwitch("--apply-all")] bool ApplyAll,
-[property: CommandSwitch("--node-ids")] string[] NodeIds
+[property: CliArgument] string Instance,
+[property: CliArgument] string Region,
+[property: CliFlag("--apply-all")] bool ApplyAll,
+[property: CliOption("--node-ids")] string[] NodeIds
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

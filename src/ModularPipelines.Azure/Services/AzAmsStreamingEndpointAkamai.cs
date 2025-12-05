@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ams", "streaming-endpoint")]
+[CliCommand("ams", "streaming-endpoint")]
 public class AzAmsStreamingEndpointAkamai
 {
     public AzAmsStreamingEndpointAkamai(

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "set-v2-logging-options")]
+[CliCommand("iot", "set-v2-logging-options")]
 public record AwsIotSetV2LoggingOptionsOptions : AwsOptions
 {
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--default-log-level")]
+    [CliOption("--default-log-level")]
     public string? DefaultLogLevel { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

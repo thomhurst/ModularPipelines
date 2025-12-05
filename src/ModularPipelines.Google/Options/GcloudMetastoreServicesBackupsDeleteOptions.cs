@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("metastore", "services", "backups", "delete")]
+[CliCommand("metastore", "services", "backups", "delete")]
 public record GcloudMetastoreServicesBackupsDeleteOptions(
-[property: PositionalArgument] string Backup,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Service
+[property: CliArgument] string Backup,
+[property: CliArgument] string Location,
+[property: CliArgument] string Service
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

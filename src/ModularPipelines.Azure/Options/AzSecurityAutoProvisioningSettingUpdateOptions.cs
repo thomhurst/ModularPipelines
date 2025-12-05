@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "auto-provisioning-setting", "update")]
+[CliSubCommand("security", "auto-provisioning-setting", "update")]
 public record AzSecurityAutoProvisioningSettingUpdateOptions(
-[property: CommandSwitch("--auto-provision")] string AutoProvision,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--auto-provision")] string AutoProvision,
+[property: CliOption("--name")] string Name
 ) : AzOptions;

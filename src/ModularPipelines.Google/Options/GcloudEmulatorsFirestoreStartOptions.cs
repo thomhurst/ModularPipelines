@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emulators", "firestore", "start")]
+[CliCommand("emulators", "firestore", "start")]
 public record GcloudEmulatorsFirestoreStartOptions : GcloudOptions
 {
-    [CommandSwitch("--host-port")]
+    [CliOption("--host-port")]
     public string? HostPort { get; set; }
 
-    [CommandSwitch("--rules")]
+    [CliOption("--rules")]
     public string? Rules { get; set; }
 }

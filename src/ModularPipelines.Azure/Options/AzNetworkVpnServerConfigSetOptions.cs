@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vpn-server-config", "set")]
+[CliSubCommand("network", "vpn-server-config", "set")]
 public record AzNetworkVpnServerConfigSetOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--aad-audience")]
+    [CliOption("--aad-audience")]
     public string? AadAudience { get; set; }
 
-    [CommandSwitch("--aad-issuer")]
+    [CliOption("--aad-issuer")]
     public string? AadIssuer { get; set; }
 
-    [CommandSwitch("--aad-tenant")]
+    [CliOption("--aad-tenant")]
     public string? AadTenant { get; set; }
 
-    [CommandSwitch("--auth-types")]
+    [CliOption("--auth-types")]
     public string? AuthTypes { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--protocols")]
+    [CliOption("--protocols")]
     public string? Protocols { get; set; }
 
-    [CommandSwitch("--radius-client-root-certs")]
+    [CliOption("--radius-client-root-certs")]
     public string? RadiusClientRootCerts { get; set; }
 
-    [CommandSwitch("--radius-server-root-certs")]
+    [CliOption("--radius-server-root-certs")]
     public string? RadiusServerRootCerts { get; set; }
 
-    [CommandSwitch("--radius-servers")]
+    [CliOption("--radius-servers")]
     public string? RadiusServers { get; set; }
 
-    [CommandSwitch("--vpn-client-revoked-certs")]
+    [CliOption("--vpn-client-revoked-certs")]
     public string? VpnClientRevokedCerts { get; set; }
 
-    [CommandSwitch("--vpn-client-root-certs")]
+    [CliOption("--vpn-client-root-certs")]
     public string? VpnClientRootCerts { get; set; }
 }

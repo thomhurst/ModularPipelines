@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm-incidents", "create-timeline-event")]
+[CliCommand("ssm-incidents", "create-timeline-event")]
 public record AwsSsmIncidentsCreateTimelineEventOptions(
-[property: CommandSwitch("--event-data")] string EventData,
-[property: CommandSwitch("--event-time")] long EventTime,
-[property: CommandSwitch("--event-type")] string EventType,
-[property: CommandSwitch("--incident-record-arn")] string IncidentRecordArn
+[property: CliOption("--event-data")] string EventData,
+[property: CliOption("--event-time")] long EventTime,
+[property: CliOption("--event-type")] string EventType,
+[property: CliOption("--incident-record-arn")] string IncidentRecordArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--event-references")]
+    [CliOption("--event-references")]
     public string[]? EventReferences { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

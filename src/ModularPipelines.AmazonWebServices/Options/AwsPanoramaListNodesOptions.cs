@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("panorama", "list-nodes")]
+[CliCommand("panorama", "list-nodes")]
 public record AwsPanoramaListNodesOptions : AwsOptions
 {
-    [CommandSwitch("--category")]
+    [CliOption("--category")]
     public string? Category { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--owner-account")]
+    [CliOption("--owner-account")]
     public string? OwnerAccount { get; set; }
 
-    [CommandSwitch("--package-name")]
+    [CliOption("--package-name")]
     public string? PackageName { get; set; }
 
-    [CommandSwitch("--package-version")]
+    [CliOption("--package-version")]
     public string? PackageVersion { get; set; }
 
-    [CommandSwitch("--patch-version")]
+    [CliOption("--patch-version")]
     public string? PatchVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

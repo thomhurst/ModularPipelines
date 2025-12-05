@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resiliencehub", "list-app-assessments")]
+[CliCommand("resiliencehub", "list-app-assessments")]
 public record AwsResiliencehubListAppAssessmentsOptions : AwsOptions
 {
-    [CommandSwitch("--app-arn")]
+    [CliOption("--app-arn")]
     public string? AppArn { get; set; }
 
-    [CommandSwitch("--assessment-name")]
+    [CliOption("--assessment-name")]
     public string? AssessmentName { get; set; }
 
-    [CommandSwitch("--assessment-status")]
+    [CliOption("--assessment-status")]
     public string[]? AssessmentStatus { get; set; }
 
-    [CommandSwitch("--compliance-status")]
+    [CliOption("--compliance-status")]
     public string? ComplianceStatus { get; set; }
 
-    [CommandSwitch("--invoker")]
+    [CliOption("--invoker")]
     public string? Invoker { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

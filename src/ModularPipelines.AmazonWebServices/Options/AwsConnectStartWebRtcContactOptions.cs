@@ -5,31 +5,31 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "start-web-rtc-contact")]
+[CliCommand("connect", "start-web-rtc-contact")]
 public record AwsConnectStartWebRtcContactOptions(
-[property: CommandSwitch("--contact-flow-id")] string ContactFlowId,
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--participant-details")] string ParticipantDetails
+[property: CliOption("--contact-flow-id")] string ContactFlowId,
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--participant-details")] string ParticipantDetails
 ) : AwsOptions
 {
-    [CommandSwitch("--attributes")]
+    [CliOption("--attributes")]
     public IEnumerable<KeyValue>? Attributes { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--allowed-capabilities")]
+    [CliOption("--allowed-capabilities")]
     public string? AllowedCapabilities { get; set; }
 
-    [CommandSwitch("--related-contact-id")]
+    [CliOption("--related-contact-id")]
     public string? RelatedContactId { get; set; }
 
-    [CommandSwitch("--references")]
+    [CliOption("--references")]
     public IEnumerable<KeyValue>? References { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

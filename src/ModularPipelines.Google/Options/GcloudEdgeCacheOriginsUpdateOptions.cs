@@ -5,39 +5,39 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cache", "origins", "update")]
+[CliCommand("edge-cache", "origins", "update")]
 public record GcloudEdgeCacheOriginsUpdateOptions(
-[property: PositionalArgument] string Origin,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Origin,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--failover-origin")]
+    [CliOption("--failover-origin")]
     public string? FailoverOrigin { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--max-attempts")]
+    [CliOption("--max-attempts")]
     public string? MaxAttempts { get; set; }
 
-    [CommandSwitch("--origin-address")]
+    [CliOption("--origin-address")]
     public string? OriginAddress { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public string? Port { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--response-timeout")]
+    [CliOption("--response-timeout")]
     public string? ResponseTimeout { get; set; }
 
-    [CommandSwitch("--retry-conditions")]
+    [CliOption("--retry-conditions")]
     public string[]? RetryConditions { get; set; }
 }

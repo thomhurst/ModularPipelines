@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("finspace", "update-kx-database")]
+[CliCommand("finspace", "update-kx-database")]
 public record AwsFinspaceUpdateKxDatabaseOptions(
-[property: CommandSwitch("--environment-id")] string EnvironmentId,
-[property: CommandSwitch("--database-name")] string DatabaseName
+[property: CliOption("--environment-id")] string EnvironmentId,
+[property: CliOption("--database-name")] string DatabaseName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

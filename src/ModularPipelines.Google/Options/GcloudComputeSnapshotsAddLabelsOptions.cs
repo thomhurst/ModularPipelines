@@ -5,8 +5,8 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "snapshots", "add-labels")]
+[CliCommand("compute", "snapshots", "add-labels")]
 public record GcloudComputeSnapshotsAddLabelsOptions(
-[property: PositionalArgument] string SnapshotName,
-[property: CommandSwitch("--labels")] IEnumerable<KeyValue> Labels
+[property: CliArgument] string SnapshotName,
+[property: CliOption("--labels")] IEnumerable<KeyValue> Labels
 ) : GcloudOptions;

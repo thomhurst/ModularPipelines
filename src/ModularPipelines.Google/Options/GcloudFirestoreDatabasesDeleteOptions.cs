@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("firestore", "databases", "delete")]
+[CliCommand("firestore", "databases", "delete")]
 public record GcloudFirestoreDatabasesDeleteOptions(
-[property: CommandSwitch("--database")] string Database
+[property: CliOption("--database")] string Database
 ) : GcloudOptions
 {
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 }

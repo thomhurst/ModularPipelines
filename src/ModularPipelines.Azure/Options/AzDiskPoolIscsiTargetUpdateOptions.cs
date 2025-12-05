@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("disk-pool", "iscsi-target", "update")]
+[CliSubCommand("disk-pool", "iscsi-target", "update")]
 public record AzDiskPoolIscsiTargetUpdateOptions : AzOptions
 {
-    [CommandSwitch("--disk-pool-name")]
+    [CliOption("--disk-pool-name")]
     public string? DiskPoolName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--iscsi-target-name")]
+    [CliOption("--iscsi-target-name")]
     public string? IscsiTargetName { get; set; }
 
-    [CommandSwitch("--luns")]
+    [CliOption("--luns")]
     public string? Luns { get; set; }
 
-    [CommandSwitch("--managed-by")]
+    [CliOption("--managed-by")]
     public string? ManagedBy { get; set; }
 
-    [CommandSwitch("--managed-by-extended")]
+    [CliOption("--managed-by-extended")]
     public string? ManagedByExtended { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--static-acls")]
+    [CliOption("--static-acls")]
     public string? StaticAcls { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

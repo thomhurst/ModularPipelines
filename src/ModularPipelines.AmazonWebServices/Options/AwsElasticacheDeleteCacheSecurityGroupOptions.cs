@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticache", "delete-cache-security-group")]
+[CliCommand("elasticache", "delete-cache-security-group")]
 public record AwsElasticacheDeleteCacheSecurityGroupOptions(
-[property: CommandSwitch("--cache-security-group-name")] string CacheSecurityGroupName
+[property: CliOption("--cache-security-group-name")] string CacheSecurityGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

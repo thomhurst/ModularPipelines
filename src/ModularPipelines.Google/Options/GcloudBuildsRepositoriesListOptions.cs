@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("builds", "repositories", "list")]
+[CliCommand("builds", "repositories", "list")]
 public record GcloudBuildsRepositoriesListOptions(
-[property: CommandSwitch("--connection")] string Connection,
-[property: CommandSwitch("--region")] string Region
+[property: CliOption("--connection")] string Connection,
+[property: CliOption("--region")] string Region
 ) : GcloudOptions;

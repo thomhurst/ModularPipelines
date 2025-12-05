@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "update-lens-review")]
+[CliCommand("wellarchitected", "update-lens-review")]
 public record AwsWellarchitectedUpdateLensReviewOptions(
-[property: CommandSwitch("--workload-id")] string WorkloadId,
-[property: CommandSwitch("--lens-alias")] string LensAlias
+[property: CliOption("--workload-id")] string WorkloadId,
+[property: CliOption("--lens-alias")] string LensAlias
 ) : AwsOptions
 {
-    [CommandSwitch("--lens-notes")]
+    [CliOption("--lens-notes")]
     public string? LensNotes { get; set; }
 
-    [CommandSwitch("--pillar-notes")]
+    [CliOption("--pillar-notes")]
     public IEnumerable<KeyValue>? PillarNotes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

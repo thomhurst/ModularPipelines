@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "export-image")]
+[CliCommand("ec2", "export-image")]
 public record AwsEc2ExportImageOptions(
-[property: CommandSwitch("--disk-image-format")] string DiskImageFormat,
-[property: CommandSwitch("--image-id")] string ImageId,
-[property: CommandSwitch("--s3-export-location")] string S3ExportLocation
+[property: CliOption("--disk-image-format")] string DiskImageFormat,
+[property: CliOption("--image-id")] string ImageId,
+[property: CliOption("--s3-export-location")] string S3ExportLocation
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--role-name")]
+    [CliOption("--role-name")]
     public string? RoleName { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

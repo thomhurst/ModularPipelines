@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managed-cassandra", "datacenter", "delete")]
+[CliCommand("managed-cassandra", "datacenter", "delete")]
 public class AzManagedCassandraDatacenterDeleteCosmosdbPreview
 {
     public AzManagedCassandraDatacenterDeleteCosmosdbPreview(

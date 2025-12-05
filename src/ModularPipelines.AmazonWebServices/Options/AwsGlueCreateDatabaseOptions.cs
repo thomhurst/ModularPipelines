@@ -5,17 +5,17 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "create-database")]
+[CliCommand("glue", "create-database")]
 public record AwsGlueCreateDatabaseOptions(
-[property: CommandSwitch("--database-input")] string DatabaseInput
+[property: CliOption("--database-input")] string DatabaseInput
 ) : AwsOptions
 {
-    [CommandSwitch("--catalog-id")]
+    [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

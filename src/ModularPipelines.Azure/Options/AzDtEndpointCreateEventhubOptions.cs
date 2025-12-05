@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "endpoint", "create", "eventhub")]
+[CliSubCommand("dt", "endpoint", "create", "eventhub")]
 public record AzDtEndpointCreateEventhubOptions(
-[property: CommandSwitch("--dt-name")] string DtName,
-[property: CommandSwitch("--eh")] string Eh,
-[property: CommandSwitch("--ehn")] string Ehn,
-[property: CommandSwitch("--en")] string En
+[property: CliOption("--dt-name")] string DtName,
+[property: CliOption("--eh")] string Eh,
+[property: CliOption("--ehn")] string Ehn,
+[property: CliOption("--en")] string En
 ) : AzOptions
 {
-    [CommandSwitch("--deadletter-sas-uri")]
+    [CliOption("--deadletter-sas-uri")]
     public string? DeadletterSasUri { get; set; }
 
-    [CommandSwitch("--deadletter-uri")]
+    [CliOption("--deadletter-uri")]
     public string? DeadletterUri { get; set; }
 
-    [CommandSwitch("--ehg")]
+    [CliOption("--ehg")]
     public string? Ehg { get; set; }
 
-    [CommandSwitch("--ehp")]
+    [CliOption("--ehp")]
     public string? Ehp { get; set; }
 
-    [CommandSwitch("--ehs")]
+    [CliOption("--ehs")]
     public string? Ehs { get; set; }
 
-    [BooleanCommandSwitch("--mi-system-assigned")]
+    [CliFlag("--mi-system-assigned")]
     public bool? MiSystemAssigned { get; set; }
 
-    [CommandSwitch("--mi-user-assigned")]
+    [CliOption("--mi-user-assigned")]
     public string? MiUserAssigned { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

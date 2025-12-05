@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "describe-local-gateway-virtual-interfaces")]
+[CliCommand("ec2", "describe-local-gateway-virtual-interfaces")]
 public record AwsEc2DescribeLocalGatewayVirtualInterfacesOptions : AwsOptions
 {
-    [CommandSwitch("--local-gateway-virtual-interface-ids")]
+    [CliOption("--local-gateway-virtual-interface-ids")]
     public string[]? LocalGatewayVirtualInterfaceIds { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

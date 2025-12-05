@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "delete-server-certificate")]
+[CliCommand("iam", "delete-server-certificate")]
 public record AwsIamDeleteServerCertificateOptions(
-[property: CommandSwitch("--server-certificate-name")] string ServerCertificateName
+[property: CliOption("--server-certificate-name")] string ServerCertificateName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

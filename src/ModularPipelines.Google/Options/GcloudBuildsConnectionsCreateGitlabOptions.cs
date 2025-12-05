@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("builds", "connections", "create", "gitlab")]
+[CliCommand("builds", "connections", "create", "gitlab")]
 public record GcloudBuildsConnectionsCreateGitlabOptions(
-[property: PositionalArgument] string Connection,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--authorizer-token-secret-version")] string AuthorizerTokenSecretVersion,
-[property: CommandSwitch("--read-authorizer-token-secret-version")] string ReadAuthorizerTokenSecretVersion,
-[property: CommandSwitch("--webhook-secret-secret-version")] string WebhookSecretSecretVersion
+[property: CliArgument] string Connection,
+[property: CliArgument] string Region,
+[property: CliOption("--authorizer-token-secret-version")] string AuthorizerTokenSecretVersion,
+[property: CliOption("--read-authorizer-token-secret-version")] string ReadAuthorizerTokenSecretVersion,
+[property: CliOption("--webhook-secret-secret-version")] string WebhookSecretSecretVersion
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--host-uri")]
+    [CliOption("--host-uri")]
     public string? HostUri { get; set; }
 
-    [CommandSwitch("--service-directory-service")]
+    [CliOption("--service-directory-service")]
     public string? ServiceDirectoryService { get; set; }
 
-    [CommandSwitch("--ssl-ca-file")]
+    [CliOption("--ssl-ca-file")]
     public string? SslCaFile { get; set; }
 }

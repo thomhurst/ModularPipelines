@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "cluster")]
+[CliCommand("networkcloud", "cluster")]
 public class AzNetworkcloudClusterMetricsconfiguration
 {
     public AzNetworkcloudClusterMetricsconfiguration(

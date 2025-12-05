@@ -5,17 +5,17 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces-web", "create-identity-provider")]
+[CliCommand("workspaces-web", "create-identity-provider")]
 public record AwsWorkspacesWebCreateIdentityProviderOptions(
-[property: CommandSwitch("--identity-provider-details")] IEnumerable<KeyValue> IdentityProviderDetails,
-[property: CommandSwitch("--identity-provider-name")] string IdentityProviderName,
-[property: CommandSwitch("--identity-provider-type")] string IdentityProviderType,
-[property: CommandSwitch("--portal-arn")] string PortalArn
+[property: CliOption("--identity-provider-details")] IEnumerable<KeyValue> IdentityProviderDetails,
+[property: CliOption("--identity-provider-name")] string IdentityProviderName,
+[property: CliOption("--identity-provider-type")] string IdentityProviderType,
+[property: CliOption("--portal-arn")] string PortalArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

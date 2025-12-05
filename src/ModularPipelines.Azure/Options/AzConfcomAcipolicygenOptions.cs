@@ -4,54 +4,54 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("confcom", "acipolicygen")]
+[CliSubCommand("confcom", "acipolicygen")]
 public record AzConfcomAcipolicygenOptions : AzOptions
 {
-    [BooleanCommandSwitch("--approve-wildcards")]
+    [CliFlag("--approve-wildcards")]
     public bool? ApproveWildcards { get; set; }
 
-    [BooleanCommandSwitch("--debug-mode")]
+    [CliFlag("--debug-mode")]
     public bool? DebugMode { get; set; }
 
-    [BooleanCommandSwitch("--diff")]
+    [CliFlag("--diff")]
     public bool? Diff { get; set; }
 
-    [BooleanCommandSwitch("--disable-stdio")]
+    [CliFlag("--disable-stdio")]
     public bool? DisableStdio { get; set; }
 
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [CommandSwitch("--infrastructure-svn")]
+    [CliOption("--infrastructure-svn")]
     public string? InfrastructureSvn { get; set; }
 
-    [CommandSwitch("--input")]
+    [CliOption("--input")]
     public string? Input { get; set; }
 
-    [BooleanCommandSwitch("--outraw")]
+    [CliFlag("--outraw")]
     public bool? Outraw { get; set; }
 
-    [BooleanCommandSwitch("--outraw-pretty-print")]
+    [CliFlag("--outraw-pretty-print")]
     public bool? OutrawPrettyPrint { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [BooleanCommandSwitch("--print-existing-policy")]
+    [CliFlag("--print-existing-policy")]
     public bool? PrintExistingPolicy { get; set; }
 
-    [BooleanCommandSwitch("--print-policy")]
+    [CliFlag("--print-policy")]
     public bool? PrintPolicy { get; set; }
 
-    [CommandSwitch("--save-to-file")]
+    [CliOption("--save-to-file")]
     public string? SaveToFile { get; set; }
 
-    [CommandSwitch("--tar")]
+    [CliOption("--tar")]
     public string? Tar { get; set; }
 
-    [CommandSwitch("--template-file")]
+    [CliOption("--template-file")]
     public string? TemplateFile { get; set; }
 
-    [BooleanCommandSwitch("--validate-sidecar")]
+    [CliFlag("--validate-sidecar")]
     public bool? ValidateSidecar { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "nic")]
+[CliCommand("network", "nic")]
 public class AzNetworkNicVtapConfig
 {
     public AzNetworkNicVtapConfig(

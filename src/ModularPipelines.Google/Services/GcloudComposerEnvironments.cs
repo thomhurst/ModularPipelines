@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("composer")]
+[CliCommand("composer")]
 public class GcloudComposerEnvironments
 {
     public GcloudComposerEnvironments(

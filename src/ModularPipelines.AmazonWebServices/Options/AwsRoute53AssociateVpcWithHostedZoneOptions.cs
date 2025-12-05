@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53", "associate-vpc-with-hosted-zone")]
+[CliCommand("route53", "associate-vpc-with-hosted-zone")]
 public record AwsRoute53AssociateVpcWithHostedZoneOptions(
-[property: CommandSwitch("--hosted-zone-id")] string HostedZoneId,
-[property: CommandSwitch("--vpc")] string Vpc
+[property: CliOption("--hosted-zone-id")] string HostedZoneId,
+[property: CliOption("--vpc")] string Vpc
 ) : AwsOptions
 {
-    [CommandSwitch("--comment")]
+    [CliOption("--comment")]
     public string? Comment { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

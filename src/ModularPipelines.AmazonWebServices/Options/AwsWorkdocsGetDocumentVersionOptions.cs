@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workdocs", "get-document-version")]
+[CliCommand("workdocs", "get-document-version")]
 public record AwsWorkdocsGetDocumentVersionOptions(
-[property: CommandSwitch("--document-id")] string DocumentId,
-[property: CommandSwitch("--version-id")] string VersionId
+[property: CliOption("--document-id")] string DocumentId,
+[property: CliOption("--version-id")] string VersionId
 ) : AwsOptions
 {
-    [CommandSwitch("--authentication-token")]
+    [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
-    [CommandSwitch("--fields")]
+    [CliOption("--fields")]
     public string? Fields { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

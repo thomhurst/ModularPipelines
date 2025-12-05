@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "assessment", "delete")]
+[CliSubCommand("security", "assessment", "delete")]
 public record AzSecurityAssessmentDeleteOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--assessed-resource-id")]
+    [CliOption("--assessed-resource-id")]
     public string? AssessedResourceId { get; set; }
 }

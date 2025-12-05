@@ -5,56 +5,56 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("firebase", "test", "android", "run")]
+[CliCommand("firebase", "test", "android", "run")]
 public record GcloudFirebaseTestAndroidRunOptions(
-[property: PositionalArgument] string Argspec
+[property: CliArgument] string Argspec
 ) : GcloudOptions
 {
-    [CommandSwitch("--additional-apks")]
+    [CliOption("--additional-apks")]
     public string[]? AdditionalApks { get; set; }
 
-    [CommandSwitch("--app-package")]
+    [CliOption("--app-package")]
     public string? AppPackage { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--auto-google-login")]
+    [CliFlag("--auto-google-login")]
     public bool? AutoGoogleLogin { get; set; }
 
-    [CommandSwitch("--client-details")]
+    [CliOption("--client-details")]
     public IEnumerable<KeyValue>? ClientDetails { get; set; }
 
-    [CommandSwitch("--directories-to-pull")]
+    [CliOption("--directories-to-pull")]
     public string[]? DirectoriesToPull { get; set; }
 
-    [CommandSwitch("--environment-variables")]
+    [CliOption("--environment-variables")]
     public IEnumerable<KeyValue>? GcloudFEnvironmentVariables { get; set; }
 
-    [CommandSwitch("--network-profile")]
+    [CliOption("--network-profile")]
     public string? NetworkProfile { get; set; }
 
-    [CommandSwitch("--num-flaky-test-attempts")]
+    [CliOption("--num-flaky-test-attempts")]
     public string? NumFlakyTestAttempts { get; set; }
 
-    [CommandSwitch("--obb-files")]
+    [CliOption("--obb-files")]
     public string[]? ObbFiles { get; set; }
 
-    [CommandSwitch("--other-files")]
+    [CliOption("--other-files")]
     public string[]? OtherFiles { get; set; }
 
-    [BooleanCommandSwitch("--performance-metrics")]
+    [CliFlag("--performance-metrics")]
     public bool? PerformanceMetrics { get; set; }
 
-    [BooleanCommandSwitch("--record-video")]
+    [CliFlag("--record-video")]
     public bool? RecordVideo { get; set; }
 
-    [CommandSwitch("--results-bucket")]
+    [CliOption("--results-bucket")]
     public string? ResultsBucket { get; set; }
 
-    [CommandSwitch("--results-dir")]
+    [CliOption("--results-dir")]
     public string? ResultsDir { get; set; }
 
-    [CommandSwitch("--results-history-name")]
+    [CliOption("--results-history-name")]
     public string? ResultsHistoryName { get; set; }
 }

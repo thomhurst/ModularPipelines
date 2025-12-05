@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sphere", "image", "add")]
+[CliSubCommand("sphere", "image", "add")]
 public record AzSphereImageAddOptions(
-[property: CommandSwitch("--catalog")] string Catalog,
-[property: CommandSwitch("--image-path")] string ImagePath,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--catalog")] string Catalog,
+[property: CliOption("--image-path")] string ImagePath,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--regional-data-boundary")]
+    [CliOption("--regional-data-boundary")]
     public string? RegionalDataBoundary { get; set; }
 }

@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-hosts")]
+[CliCommand("ec2", "modify-hosts")]
 public record AwsEc2ModifyHostsOptions(
-[property: CommandSwitch("--host-ids")] string[] HostIds
+[property: CliOption("--host-ids")] string[] HostIds
 ) : AwsOptions
 {
-    [CommandSwitch("--auto-placement")]
+    [CliOption("--auto-placement")]
     public string? AutoPlacement { get; set; }
 
-    [CommandSwitch("--host-recovery")]
+    [CliOption("--host-recovery")]
     public string? HostRecovery { get; set; }
 
-    [CommandSwitch("--instance-type")]
+    [CliOption("--instance-type")]
     public string? InstanceType { get; set; }
 
-    [CommandSwitch("--instance-family")]
+    [CliOption("--instance-family")]
     public string? InstanceFamily { get; set; }
 
-    [CommandSwitch("--host-maintenance")]
+    [CliOption("--host-maintenance")]
     public string? HostMaintenance { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("inspector2", "update-encryption-key")]
+[CliCommand("inspector2", "update-encryption-key")]
 public record AwsInspector2UpdateEncryptionKeyOptions(
-[property: CommandSwitch("--kms-key-id")] string KmsKeyId,
-[property: CommandSwitch("--resource-type")] string ResourceType,
-[property: CommandSwitch("--scan-type")] string ScanType
+[property: CliOption("--kms-key-id")] string KmsKeyId,
+[property: CliOption("--resource-type")] string ResourceType,
+[property: CliOption("--scan-type")] string ScanType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

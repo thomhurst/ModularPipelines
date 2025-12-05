@@ -5,57 +5,57 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "bare-metal", "admin-clusters", "update")]
+[CliCommand("container", "bare-metal", "admin-clusters", "update")]
 public record GcloudContainerBareMetalAdminClustersUpdateOptions(
-[property: PositionalArgument] string AdminCluster,
-[property: PositionalArgument] string Location
+[property: CliArgument] string AdminCluster,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--binauthz-evaluation-mode")]
+    [CliOption("--binauthz-evaluation-mode")]
     public string? BinauthzEvaluationMode { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--enable-application-logs")]
+    [CliFlag("--enable-application-logs")]
     public bool? EnableApplicationLogs { get; set; }
 
-    [CommandSwitch("--island-mode-service-address-cidr-blocks")]
+    [CliOption("--island-mode-service-address-cidr-blocks")]
     public string[]? IslandModeServiceAddressCidrBlocks { get; set; }
 
-    [CommandSwitch("--login-user")]
+    [CliOption("--login-user")]
     public string? LoginUser { get; set; }
 
-    [CommandSwitch("--maintenance-address-cidr-blocks")]
+    [CliOption("--maintenance-address-cidr-blocks")]
     public string[]? MaintenanceAddressCidrBlocks { get; set; }
 
-    [CommandSwitch("--max-pods-per-node")]
+    [CliOption("--max-pods-per-node")]
     public string? MaxPodsPerNode { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string? Version { get; set; }
 
-    [CommandSwitch("--api-server-args")]
+    [CliOption("--api-server-args")]
     public IEnumerable<KeyValue>? ApiServerArgs { get; set; }
 
-    [CommandSwitch("--control-plane-node-configs")]
+    [CliOption("--control-plane-node-configs")]
     public string[]? ControlPlaneNodeConfigs { get; set; }
 
-    [CommandSwitch("--control-plane-node-labels")]
+    [CliOption("--control-plane-node-labels")]
     public IEnumerable<KeyValue>? ControlPlaneNodeLabels { get; set; }
 
-    [CommandSwitch("--control-plane-node-taints")]
+    [CliOption("--control-plane-node-taints")]
     public IEnumerable<KeyValue>? ControlPlaneNodeTaints { get; set; }
 
-    [CommandSwitch("--no-proxy")]
+    [CliOption("--no-proxy")]
     public string[]? NoProxy { get; set; }
 
-    [CommandSwitch("--uri")]
+    [CliOption("--uri")]
     public string? Uri { get; set; }
 }

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "probe", "create")]
+[CliSubCommand("network", "front-door", "probe", "create")]
 public record AzNetworkFrontDoorProbeCreateOptions(
-[property: CommandSwitch("--front-door-name")] string FrontDoorName,
-[property: CommandSwitch("--interval")] int Interval,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--path")] string Path,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--front-door-name")] string FrontDoorName,
+[property: CliOption("--interval")] int Interval,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--path")] string Path,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--enabled")]
+    [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
 
-    [CommandSwitch("--probeMethod")]
+    [CliOption("--probeMethod")]
     public string? ProbeMethod { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 }

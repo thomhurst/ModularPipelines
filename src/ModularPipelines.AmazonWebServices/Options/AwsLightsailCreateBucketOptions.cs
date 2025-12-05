@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "create-bucket")]
+[CliCommand("lightsail", "create-bucket")]
 public record AwsLightsailCreateBucketOptions(
-[property: CommandSwitch("--bucket-name")] string BucketName,
-[property: CommandSwitch("--bundle-id")] string BundleId
+[property: CliOption("--bucket-name")] string BucketName,
+[property: CliOption("--bundle-id")] string BundleId
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datamigration", "sql-managed-instance", "show")]
+[CliSubCommand("datamigration", "sql-managed-instance", "show")]
 public record AzDatamigrationSqlManagedInstanceShowOptions : AzOptions
 {
-    [CommandSwitch("--expand")]
+    [CliOption("--expand")]
     public string? Expand { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--managed-instance-name")]
+    [CliOption("--managed-instance-name")]
     public string? ManagedInstanceName { get; set; }
 
-    [CommandSwitch("--migration-operation-id")]
+    [CliOption("--migration-operation-id")]
     public string? MigrationOperationId { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--target-db-name")]
+    [CliOption("--target-db-name")]
     public string? TargetDbName { get; set; }
 }

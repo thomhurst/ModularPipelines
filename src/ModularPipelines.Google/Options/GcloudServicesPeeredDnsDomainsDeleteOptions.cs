@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("services", "peered-dns-domains", "delete")]
+[CliCommand("services", "peered-dns-domains", "delete")]
 public record GcloudServicesPeeredDnsDomainsDeleteOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--network")] string Network
+[property: CliArgument] string Name,
+[property: CliOption("--network")] string Network
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 }

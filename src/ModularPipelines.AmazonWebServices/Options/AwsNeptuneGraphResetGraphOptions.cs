@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptune-graph", "reset-graph")]
+[CliCommand("neptune-graph", "reset-graph")]
 public record AwsNeptuneGraphResetGraphOptions(
-[property: CommandSwitch("--graph-identifier")] string GraphIdentifier
+[property: CliOption("--graph-identifier")] string GraphIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

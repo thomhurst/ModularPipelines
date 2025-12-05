@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cache", "origins", "describe")]
+[CliCommand("edge-cache", "origins", "describe")]
 public record GcloudEdgeCacheOriginsDescribeOptions(
-[property: PositionalArgument] string Origin,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Origin,
+[property: CliArgument] string Location
 ) : GcloudOptions;

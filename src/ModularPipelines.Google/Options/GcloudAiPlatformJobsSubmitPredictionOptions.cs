@@ -5,32 +5,32 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai-platform", "jobs", "submit", "prediction")]
+[CliCommand("ai-platform", "jobs", "submit", "prediction")]
 public record GcloudAiPlatformJobsSubmitPredictionOptions(
-[property: PositionalArgument] string Job,
-[property: CommandSwitch("--data-format")] string DataFormat,
-[property: CommandSwitch("--input-paths")] string[] InputPaths,
-[property: CommandSwitch("--output-path")] string OutputPath,
-[property: CommandSwitch("--region")] string Region,
-[property: CommandSwitch("--model")] string Model,
-[property: CommandSwitch("--model-dir")] string ModelDir
+[property: CliArgument] string Job,
+[property: CliOption("--data-format")] string DataFormat,
+[property: CliOption("--input-paths")] string[] InputPaths,
+[property: CliOption("--output-path")] string OutputPath,
+[property: CliOption("--region")] string Region,
+[property: CliOption("--model")] string Model,
+[property: CliOption("--model-dir")] string ModelDir
 ) : GcloudOptions
 {
-    [CommandSwitch("--batch-size")]
+    [CliOption("--batch-size")]
     public string? BatchSize { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--max-worker-count")]
+    [CliOption("--max-worker-count")]
     public string? MaxWorkerCount { get; set; }
 
-    [CommandSwitch("--runtime-version")]
+    [CliOption("--runtime-version")]
     public string? RuntimeVersion { get; set; }
 
-    [CommandSwitch("--signature-name")]
+    [CliOption("--signature-name")]
     public string? SignatureName { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string? Version { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediastore", "get-lifecycle-policy")]
+[CliCommand("mediastore", "get-lifecycle-policy")]
 public record AwsMediastoreGetLifecyclePolicyOptions(
-[property: CommandSwitch("--container-name")] string ContainerName
+[property: CliOption("--container-name")] string ContainerName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "aws", "node-pools", "list")]
+[CliCommand("container", "aws", "node-pools", "list")]
 public record GcloudContainerAwsNodePoolsListOptions(
-[property: CommandSwitch("--cluster")] string Cluster,
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--cluster")] string Cluster,
+[property: CliOption("--location")] string Location
 ) : GcloudOptions;

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datastore", "indexes", "cleanup")]
+[CliCommand("datastore", "indexes", "cleanup")]
 public record GcloudDatastoreIndexesCleanupOptions(
-[property: PositionalArgument] string IndexFile
+[property: CliArgument] string IndexFile
 ) : GcloudOptions;

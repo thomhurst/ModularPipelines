@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amp")]
+[CliCommand("amp")]
 public class AwsAmpWait
 {
     public AwsAmpWait(

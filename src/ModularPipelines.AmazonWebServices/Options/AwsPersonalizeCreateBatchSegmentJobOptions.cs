@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("personalize", "create-batch-segment-job")]
+[CliCommand("personalize", "create-batch-segment-job")]
 public record AwsPersonalizeCreateBatchSegmentJobOptions(
-[property: CommandSwitch("--job-name")] string JobName,
-[property: CommandSwitch("--solution-version-arn")] string SolutionVersionArn,
-[property: CommandSwitch("--job-input")] string JobInput,
-[property: CommandSwitch("--job-output")] string JobOutput,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--job-name")] string JobName,
+[property: CliOption("--solution-version-arn")] string SolutionVersionArn,
+[property: CliOption("--job-input")] string JobInput,
+[property: CliOption("--job-output")] string JobOutput,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--filter-arn")]
+    [CliOption("--filter-arn")]
     public string? FilterArn { get; set; }
 
-    [CommandSwitch("--num-results")]
+    [CliOption("--num-results")]
     public int? NumResults { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "reset-distribution-cache")]
+[CliCommand("lightsail", "reset-distribution-cache")]
 public record AwsLightsailResetDistributionCacheOptions : AwsOptions
 {
-    [CommandSwitch("--distribution-name")]
+    [CliOption("--distribution-name")]
     public string? DistributionName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

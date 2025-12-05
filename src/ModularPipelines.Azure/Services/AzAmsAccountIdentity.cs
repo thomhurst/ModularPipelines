@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ams", "account")]
+[CliCommand("ams", "account")]
 public class AzAmsAccountIdentity
 {
     public AzAmsAccountIdentity(

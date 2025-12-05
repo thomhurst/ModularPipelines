@@ -4,120 +4,120 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "jobs", "create")]
+[CliCommand("transfer", "jobs", "create")]
 public record GcloudTransferJobsCreateOptions(
-[property: PositionalArgument] string Source,
-[property: PositionalArgument] string Destination
+[property: CliArgument] string Source,
+[property: CliArgument] string Destination
 ) : GcloudOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--source-creds-file")]
+    [CliOption("--source-creds-file")]
     public string? SourceCredsFile { get; set; }
 
-    [CommandSwitch("--source-agent-pool")]
+    [CliOption("--source-agent-pool")]
     public string? SourceAgentPool { get; set; }
 
-    [CommandSwitch("--destination-agent-pool")]
+    [CliOption("--destination-agent-pool")]
     public string? DestinationAgentPool { get; set; }
 
-    [CommandSwitch("--intermediate-storage-path")]
+    [CliOption("--intermediate-storage-path")]
     public string? IntermediateStoragePath { get; set; }
 
-    [CommandSwitch("--manifest-file")]
+    [CliOption("--manifest-file")]
     public string? ManifestFile { get; set; }
 
-    [CommandSwitch("--event-stream-name")]
+    [CliOption("--event-stream-name")]
     public string? EventStreamName { get; set; }
 
-    [CommandSwitch("--event-stream-starts")]
+    [CliOption("--event-stream-starts")]
     public string? EventStreamStarts { get; set; }
 
-    [CommandSwitch("--event-stream-expires")]
+    [CliOption("--event-stream-expires")]
     public string? EventStreamExpires { get; set; }
 
-    [BooleanCommandSwitch("--do-not-run")]
+    [CliFlag("--do-not-run")]
     public bool? DoNotRun { get; set; }
 
-    [CommandSwitch("--schedule-starts")]
+    [CliOption("--schedule-starts")]
     public string? ScheduleStarts { get; set; }
 
-    [CommandSwitch("--schedule-repeats-every")]
+    [CliOption("--schedule-repeats-every")]
     public string? ScheduleRepeatsEvery { get; set; }
 
-    [CommandSwitch("--schedule-repeats-until")]
+    [CliOption("--schedule-repeats-until")]
     public string? ScheduleRepeatsUntil { get; set; }
 
-    [CommandSwitch("--include-prefixes")]
+    [CliOption("--include-prefixes")]
     public string[]? IncludePrefixes { get; set; }
 
-    [CommandSwitch("--exclude-prefixes")]
+    [CliOption("--exclude-prefixes")]
     public string[]? ExcludePrefixes { get; set; }
 
-    [CommandSwitch("--include-modified-before-absolute")]
+    [CliOption("--include-modified-before-absolute")]
     public string? IncludeModifiedBeforeAbsolute { get; set; }
 
-    [CommandSwitch("--include-modified-after-absolute")]
+    [CliOption("--include-modified-after-absolute")]
     public string? IncludeModifiedAfterAbsolute { get; set; }
 
-    [CommandSwitch("--include-modified-before-relative")]
+    [CliOption("--include-modified-before-relative")]
     public string? IncludeModifiedBeforeRelative { get; set; }
 
-    [CommandSwitch("--include-modified-after-relative")]
+    [CliOption("--include-modified-after-relative")]
     public string? IncludeModifiedAfterRelative { get; set; }
 
-    [CommandSwitch("--overwrite-when")]
+    [CliOption("--overwrite-when")]
     public string? OverwriteWhen { get; set; }
 
-    [CommandSwitch("--delete-from")]
+    [CliOption("--delete-from")]
     public string? DeleteFrom { get; set; }
 
-    [CommandSwitch("--preserve-metadata")]
+    [CliOption("--preserve-metadata")]
     public string[]? PreserveMetadata { get; set; }
 
-    [CommandSwitch("--custom-storage-class")]
+    [CliOption("--custom-storage-class")]
     public string? CustomStorageClass { get; set; }
 
-    [CommandSwitch("--notification-pubsub-topic")]
+    [CliOption("--notification-pubsub-topic")]
     public string? NotificationPubsubTopic { get; set; }
 
-    [CommandSwitch("--notification-event-types")]
+    [CliOption("--notification-event-types")]
     public string[]? NotificationEventTypes { get; set; }
 
-    [CommandSwitch("--notification-payload-format")]
+    [CliOption("--notification-payload-format")]
     public string? NotificationPayloadFormat { get; set; }
 
-    [CommandSwitch("--[no-]enable-posix-transfer-logs")]
+    [CliOption("--[no-]enable-posix-transfer-logs")]
     public string[]? NoEnablePosixTransferLogs { get; set; }
 
-    [CommandSwitch("--log-actions")]
+    [CliOption("--log-actions")]
     public string[]? LogActions { get; set; }
 
-    [CommandSwitch("--log-action-states")]
+    [CliOption("--log-action-states")]
     public string[]? LogActionStates { get; set; }
 
-    [CommandSwitch("--source-endpoint")]
+    [CliOption("--source-endpoint")]
     public string? SourceEndpoint { get; set; }
 
-    [CommandSwitch("--source-signing-region")]
+    [CliOption("--source-signing-region")]
     public string? SourceSigningRegion { get; set; }
 
-    [CommandSwitch("--source-auth-method")]
+    [CliOption("--source-auth-method")]
     public string? SourceAuthMethod { get; set; }
 
-    [CommandSwitch("--source-list-api")]
+    [CliOption("--source-list-api")]
     public string? SourceListApi { get; set; }
 
-    [CommandSwitch("--source-network-protocol")]
+    [CliOption("--source-network-protocol")]
     public string? SourceNetworkProtocol { get; set; }
 
-    [CommandSwitch("--source-request-model")]
+    [CliOption("--source-request-model")]
     public string? SourceRequestModel { get; set; }
 
-    [BooleanCommandSwitch("--no-async")]
+    [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }
 }

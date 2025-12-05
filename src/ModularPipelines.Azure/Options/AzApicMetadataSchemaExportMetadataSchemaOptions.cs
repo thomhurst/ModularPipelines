@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apic", "metadata-schema", "export-metadata-schema")]
+[CliSubCommand("apic", "metadata-schema", "export-metadata-schema")]
 public record AzApicMetadataSchemaExportMetadataSchemaOptions(
-[property: CommandSwitch("--file-name")] string FileName
+[property: CliOption("--file-name")] string FileName
 ) : AzOptions
 {
-    [CommandSwitch("--assigned-to")]
+    [CliOption("--assigned-to")]
     public string? AssignedTo { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

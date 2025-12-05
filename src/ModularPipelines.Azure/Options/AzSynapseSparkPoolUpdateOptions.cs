@@ -4,72 +4,72 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "spark", "pool", "update")]
+[CliSubCommand("synapse", "spark", "pool", "update")]
 public record AzSynapseSparkPoolUpdateOptions : AzOptions
 {
-    [CommandSwitch("--delay")]
+    [CliOption("--delay")]
     public string? Delay { get; set; }
 
-    [BooleanCommandSwitch("--enable-auto-pause")]
+    [CliFlag("--enable-auto-pause")]
     public bool? EnableAutoPause { get; set; }
 
-    [BooleanCommandSwitch("--enable-auto-scale")]
+    [CliFlag("--enable-auto-scale")]
     public bool? EnableAutoScale { get; set; }
 
-    [BooleanCommandSwitch("--enable-dynamic-exec")]
+    [CliFlag("--enable-dynamic-exec")]
     public bool? EnableDynamicExec { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--library-requirements")]
+    [CliOption("--library-requirements")]
     public string? LibraryRequirements { get; set; }
 
-    [CommandSwitch("--max-executors")]
+    [CliOption("--max-executors")]
     public string? MaxExecutors { get; set; }
 
-    [CommandSwitch("--max-node-count")]
+    [CliOption("--max-node-count")]
     public int? MaxNodeCount { get; set; }
 
-    [CommandSwitch("--min-executors")]
+    [CliOption("--min-executors")]
     public string? MinExecutors { get; set; }
 
-    [CommandSwitch("--min-node-count")]
+    [CliOption("--min-node-count")]
     public int? MinNodeCount { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--node-count")]
+    [CliOption("--node-count")]
     public int? NodeCount { get; set; }
 
-    [CommandSwitch("--node-size")]
+    [CliOption("--node-size")]
     public string? NodeSize { get; set; }
 
-    [CommandSwitch("--package")]
+    [CliOption("--package")]
     public string? Package { get; set; }
 
-    [CommandSwitch("--package-action")]
+    [CliOption("--package-action")]
     public string? PackageAction { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--spark-config-file-path")]
+    [CliOption("--spark-config-file-path")]
     public string? SparkConfigFilePath { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

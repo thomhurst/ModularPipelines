@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access-context-manager", "perimeters", "delete")]
+[CliCommand("access-context-manager", "perimeters", "delete")]
 public record GcloudAccessContextManagerPerimetersDeleteOptions(
-[property: PositionalArgument] string Perimeter,
-[property: PositionalArgument] string Policy
+[property: CliArgument] string Perimeter,
+[property: CliArgument] string Policy
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

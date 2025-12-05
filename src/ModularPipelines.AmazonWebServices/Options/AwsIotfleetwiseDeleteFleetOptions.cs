@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotfleetwise", "delete-fleet")]
+[CliCommand("iotfleetwise", "delete-fleet")]
 public record AwsIotfleetwiseDeleteFleetOptions(
-[property: CommandSwitch("--fleet-id")] string FleetId
+[property: CliOption("--fleet-id")] string FleetId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

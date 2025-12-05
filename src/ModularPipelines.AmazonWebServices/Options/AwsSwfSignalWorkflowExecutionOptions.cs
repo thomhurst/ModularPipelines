@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("swf", "signal-workflow-execution")]
+[CliCommand("swf", "signal-workflow-execution")]
 public record AwsSwfSignalWorkflowExecutionOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--workflow-id")] string WorkflowId,
-[property: CommandSwitch("--signal-name")] string SignalName
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--workflow-id")] string WorkflowId,
+[property: CliOption("--signal-name")] string SignalName
 ) : AwsOptions
 {
-    [CommandSwitch("--run-id")]
+    [CliOption("--run-id")]
     public string? RunId { get; set; }
 
-    [CommandSwitch("--input")]
+    [CliOption("--input")]
     public string? Input { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

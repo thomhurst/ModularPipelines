@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codebuild", "list-builds-for-project")]
+[CliCommand("codebuild", "list-builds-for-project")]
 public record AwsCodebuildListBuildsForProjectOptions(
-[property: CommandSwitch("--project-name")] string ProjectName
+[property: CliOption("--project-name")] string ProjectName
 ) : AwsOptions
 {
-    [CommandSwitch("--sort-order")]
+    [CliOption("--sort-order")]
     public string? SortOrder { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("clouddirectory", "list-object-parents")]
+[CliCommand("clouddirectory", "list-object-parents")]
 public record AwsClouddirectoryListObjectParentsOptions(
-[property: CommandSwitch("--directory-arn")] string DirectoryArn,
-[property: CommandSwitch("--object-reference")] string ObjectReference
+[property: CliOption("--directory-arn")] string DirectoryArn,
+[property: CliOption("--object-reference")] string ObjectReference
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--consistency-level")]
+    [CliOption("--consistency-level")]
     public string? ConsistencyLevel { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

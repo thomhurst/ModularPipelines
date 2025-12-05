@@ -5,12 +5,12 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "tag-resource")]
+[CliCommand("glue", "tag-resource")]
 public record AwsGlueTagResourceOptions(
-[property: CommandSwitch("--resource-arn")] string ResourceArn,
-[property: CommandSwitch("--tags-to-add")] IEnumerable<KeyValue> TagsToAdd
+[property: CliOption("--resource-arn")] string ResourceArn,
+[property: CliOption("--tags-to-add")] IEnumerable<KeyValue> TagsToAdd
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("config", "set")]
+[CliCommand("config", "set")]
 public record GcloudConfigSetOptions(
-[property: PositionalArgument] string Section,
-[property: PositionalArgument] string Value
+[property: CliArgument] string Section,
+[property: CliArgument] string Value
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--installation")]
+    [CliFlag("--installation")]
     public bool? Installation { get; set; }
 }

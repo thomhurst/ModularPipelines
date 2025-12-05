@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sig")]
+[CliCommand("sig")]
 public class AzSigShowCommunity
 {
     public AzSigShowCommunity(

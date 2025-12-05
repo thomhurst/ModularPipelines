@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "central", "file-upload-config", "create")]
+[CliSubCommand("iot", "central", "file-upload-config", "create")]
 public record AzIotCentralFileUploadConfigCreateOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--connection-string")] string ConnectionString,
-[property: CommandSwitch("--container")] string Container
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--connection-string")] string ConnectionString,
+[property: CliOption("--container")] string Container
 ) : AzOptions
 {
-    [CommandSwitch("--account")]
+    [CliOption("--account")]
     public int? Account { get; set; }
 
-    [CommandSwitch("--central-api-uri")]
+    [CliOption("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 
-    [CommandSwitch("--sas-ttl")]
+    [CliOption("--sas-ttl")]
     public string? SasTtl { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 }

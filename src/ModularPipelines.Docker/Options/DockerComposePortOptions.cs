@@ -18,15 +18,15 @@ public record DockerComposePortOptions : DockerOptions
         PrivatePort = privatePort;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Service { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Service { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? PrivatePort { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? PrivatePort { get; set; }
 
-    [CommandSwitch("--index")]
+    [CliOption("--index")]
     public virtual string? Index { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public virtual string? Protocol { get; set; }
 }

@@ -15,9 +15,9 @@ public record DockerNodeRmOptions : DockerOptions
         Node = node;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public IEnumerable<string>? Node { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual IEnumerable<string>? Node { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm-sap", "get-component")]
+[CliCommand("ssm-sap", "get-component")]
 public record AwsSsmSapGetComponentOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--component-id")] string ComponentId
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--component-id")] string ComponentId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

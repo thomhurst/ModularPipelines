@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "describe-document-permission")]
+[CliCommand("ssm", "describe-document-permission")]
 public record AwsSsmDescribeDocumentPermissionOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--permission-type")] string PermissionType
+[property: CliOption("--name")] string Name,
+[property: CliOption("--permission-type")] string PermissionType
 ) : AwsOptions
 {
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

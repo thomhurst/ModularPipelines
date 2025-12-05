@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "interconnects", "attachments", "partner", "create")]
+[CliCommand("compute", "interconnects", "attachments", "partner", "create")]
 public record GcloudComputeInterconnectsAttachmentsPartnerCreateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--edge-availability-domain")] string EdgeAvailabilityDomain,
-[property: CommandSwitch("--router")] string Router
+[property: CliArgument] string Name,
+[property: CliOption("--edge-availability-domain")] string EdgeAvailabilityDomain,
+[property: CliOption("--router")] string Router
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--enable-admin")]
+    [CliFlag("--enable-admin")]
     public bool? EnableAdmin { get; set; }
 
-    [CommandSwitch("--encryption")]
+    [CliOption("--encryption")]
     public string? Encryption { get; set; }
 
-    [CommandSwitch("--ipsec-internal-addresses")]
+    [CliOption("--ipsec-internal-addresses")]
     public string[]? IpsecInternalAddresses { get; set; }
 
-    [CommandSwitch("--mtu")]
+    [CliOption("--mtu")]
     public string? Mtu { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

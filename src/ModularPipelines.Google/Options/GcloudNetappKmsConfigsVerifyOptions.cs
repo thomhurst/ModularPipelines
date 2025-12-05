@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netapp", "kms-configs", "verify")]
+[CliCommand("netapp", "kms-configs", "verify")]
 public record GcloudNetappKmsConfigsVerifyOptions(
-[property: PositionalArgument] string KmsConfig,
-[property: PositionalArgument] string Location
+[property: CliArgument] string KmsConfig,
+[property: CliArgument] string Location
 ) : GcloudOptions;

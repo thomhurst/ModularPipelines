@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("domains", "verify")]
+[CliCommand("domains", "verify")]
 public record GcloudDomainsVerifyOptions(
-[property: PositionalArgument] string Domain
+[property: CliArgument] string Domain
 ) : GcloudOptions;

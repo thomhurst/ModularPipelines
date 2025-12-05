@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataplex", "tasks", "add-iam-policy-binding")]
+[CliCommand("dataplex", "tasks", "add-iam-policy-binding")]
 public record GcloudDataplexTasksAddIamPolicyBindingOptions(
-[property: PositionalArgument] string Task,
-[property: PositionalArgument] string Lake,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--member")] string Member,
-[property: CommandSwitch("--role")] string Role
+[property: CliArgument] string Task,
+[property: CliArgument] string Lake,
+[property: CliArgument] string Location,
+[property: CliOption("--member")] string Member,
+[property: CliOption("--role")] string Role
 ) : GcloudOptions;

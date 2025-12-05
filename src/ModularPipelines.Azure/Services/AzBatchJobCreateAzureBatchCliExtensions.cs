@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "job", "create")]
+[CliCommand("batch", "job", "create")]
 public class AzBatchJobCreateAzureBatchCliExtensions
 {
     public AzBatchJobCreateAzureBatchCliExtensions(

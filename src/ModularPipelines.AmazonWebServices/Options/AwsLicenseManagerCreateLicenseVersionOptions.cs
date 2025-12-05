@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("license-manager", "create-license-version")]
+[CliCommand("license-manager", "create-license-version")]
 public record AwsLicenseManagerCreateLicenseVersionOptions(
-[property: CommandSwitch("--license-arn")] string LicenseArn,
-[property: CommandSwitch("--license-name")] string LicenseName,
-[property: CommandSwitch("--product-name")] string ProductName,
-[property: CommandSwitch("--issuer")] string Issuer,
-[property: CommandSwitch("--home-region")] string HomeRegion,
-[property: CommandSwitch("--validity")] string Validity,
-[property: CommandSwitch("--entitlements")] string[] Entitlements,
-[property: CommandSwitch("--consumption-configuration")] string ConsumptionConfiguration,
-[property: CommandSwitch("--status")] string Status,
-[property: CommandSwitch("--client-token")] string ClientToken
+[property: CliOption("--license-arn")] string LicenseArn,
+[property: CliOption("--license-name")] string LicenseName,
+[property: CliOption("--product-name")] string ProductName,
+[property: CliOption("--issuer")] string Issuer,
+[property: CliOption("--home-region")] string HomeRegion,
+[property: CliOption("--validity")] string Validity,
+[property: CliOption("--entitlements")] string[] Entitlements,
+[property: CliOption("--consumption-configuration")] string ConsumptionConfiguration,
+[property: CliOption("--status")] string Status,
+[property: CliOption("--client-token")] string ClientToken
 ) : AwsOptions
 {
-    [CommandSwitch("--license-metadata")]
+    [CliOption("--license-metadata")]
     public string[]? LicenseMetadata { get; set; }
 
-    [CommandSwitch("--source-version")]
+    [CliOption("--source-version")]
     public string? SourceVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

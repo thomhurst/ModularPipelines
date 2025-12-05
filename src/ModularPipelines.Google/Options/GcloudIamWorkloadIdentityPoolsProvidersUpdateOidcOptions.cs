@@ -5,34 +5,34 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "workload-identity-pools", "providers", "update-oidc")]
+[CliCommand("iam", "workload-identity-pools", "providers", "update-oidc")]
 public record GcloudIamWorkloadIdentityPoolsProvidersUpdateOidcOptions(
-[property: PositionalArgument] string Provider,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string WorkloadIdentityPool
+[property: CliArgument] string Provider,
+[property: CliArgument] string Location,
+[property: CliArgument] string WorkloadIdentityPool
 ) : GcloudOptions
 {
-    [CommandSwitch("--allowed-audiences")]
+    [CliOption("--allowed-audiences")]
     public string[]? AllowedAudiences { get; set; }
 
-    [CommandSwitch("--attribute-condition")]
+    [CliOption("--attribute-condition")]
     public string? AttributeCondition { get; set; }
 
-    [CommandSwitch("--attribute-mapping")]
+    [CliOption("--attribute-mapping")]
     public IEnumerable<KeyValue>? AttributeMapping { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--issuer-uri")]
+    [CliOption("--issuer-uri")]
     public string? IssuerUri { get; set; }
 
-    [CommandSwitch("--jwk-json-path")]
+    [CliOption("--jwk-json-path")]
     public string? JwkJsonPath { get; set; }
 }

@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("verifiedpermissions", "is-authorized")]
+[CliCommand("verifiedpermissions", "is-authorized")]
 public record AwsVerifiedpermissionsIsAuthorizedOptions(
-[property: CommandSwitch("--policy-store-id")] string PolicyStoreId
+[property: CliOption("--policy-store-id")] string PolicyStoreId
 ) : AwsOptions
 {
-    [CommandSwitch("--principal")]
+    [CliOption("--principal")]
     public string? Principal { get; set; }
 
-    [CommandSwitch("--action")]
+    [CliOption("--action")]
     public string? Action { get; set; }
 
-    [CommandSwitch("--resource")]
+    [CliOption("--resource")]
     public string? Resource { get; set; }
 
-    [CommandSwitch("--context")]
+    [CliOption("--context")]
     public string? Context { get; set; }
 
-    [CommandSwitch("--entities")]
+    [CliOption("--entities")]
     public string? Entities { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

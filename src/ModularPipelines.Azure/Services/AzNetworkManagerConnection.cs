@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "manager")]
+[CliCommand("network", "manager")]
 public class AzNetworkManagerConnection
 {
     public AzNetworkManagerConnection(

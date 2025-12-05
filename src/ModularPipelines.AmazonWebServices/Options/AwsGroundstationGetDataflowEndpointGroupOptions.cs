@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("groundstation", "get-dataflow-endpoint-group")]
+[CliCommand("groundstation", "get-dataflow-endpoint-group")]
 public record AwsGroundstationGetDataflowEndpointGroupOptions(
-[property: CommandSwitch("--dataflow-endpoint-group-id")] string DataflowEndpointGroupId
+[property: CliOption("--dataflow-endpoint-group-id")] string DataflowEndpointGroupId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

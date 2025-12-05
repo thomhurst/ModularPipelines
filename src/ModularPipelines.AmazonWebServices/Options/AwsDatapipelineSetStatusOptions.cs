@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datapipeline", "set-status")]
+[CliCommand("datapipeline", "set-status")]
 public record AwsDatapipelineSetStatusOptions(
-[property: CommandSwitch("--pipeline-id")] string PipelineId,
-[property: CommandSwitch("--object-ids")] string[] ObjectIds,
-[property: CommandSwitch("--status")] string Status
+[property: CliOption("--pipeline-id")] string PipelineId,
+[property: CliOption("--object-ids")] string[] ObjectIds,
+[property: CliOption("--status")] string Status
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

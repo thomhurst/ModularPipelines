@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataplex", "tasks", "describe")]
+[CliCommand("dataplex", "tasks", "describe")]
 public record GcloudDataplexTasksDescribeOptions(
-[property: PositionalArgument] string Task,
-[property: PositionalArgument] string Lake,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Task,
+[property: CliArgument] string Lake,
+[property: CliArgument] string Location
 ) : GcloudOptions;

@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codestar", "create-user-profile")]
+[CliCommand("codestar", "create-user-profile")]
 public record AwsCodestarCreateUserProfileOptions(
-[property: CommandSwitch("--user-arn")] string UserArn,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--email-address")] string EmailAddress
+[property: CliOption("--user-arn")] string UserArn,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--email-address")] string EmailAddress
 ) : AwsOptions
 {
-    [CommandSwitch("--ssh-public-key")]
+    [CliOption("--ssh-public-key")]
     public string? SshPublicKey { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

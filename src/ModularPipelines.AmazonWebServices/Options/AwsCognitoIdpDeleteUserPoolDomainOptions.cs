@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "delete-user-pool-domain")]
+[CliCommand("cognito-idp", "delete-user-pool-domain")]
 public record AwsCognitoIdpDeleteUserPoolDomainOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--user-pool-id")] string UserPoolId
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--user-pool-id")] string UserPoolId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

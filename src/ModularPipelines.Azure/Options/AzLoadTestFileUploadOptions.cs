@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("load", "test", "file", "upload")]
+[CliSubCommand("load", "test", "file", "upload")]
 public record AzLoadTestFileUploadOptions(
-[property: CommandSwitch("--load-test-resource")] string LoadTestResource,
-[property: CommandSwitch("--path")] string Path,
-[property: CommandSwitch("--test-id")] string TestId
+[property: CliOption("--load-test-resource")] string LoadTestResource,
+[property: CliOption("--path")] string Path,
+[property: CliOption("--test-id")] string TestId
 ) : AzOptions
 {
-    [CommandSwitch("--file-type")]
+    [CliOption("--file-type")]
     public string? FileType { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

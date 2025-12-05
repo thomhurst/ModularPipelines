@@ -5,99 +5,99 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai", "models", "upload")]
+[CliCommand("ai", "models", "upload")]
 public record GcloudAiModelsUploadOptions(
-[property: CommandSwitch("--container-image-uri")] string ContainerImageUri,
-[property: CommandSwitch("--display-name")] string DisplayName
+[property: CliOption("--container-image-uri")] string ContainerImageUri,
+[property: CliOption("--display-name")] string DisplayName
 ) : GcloudOptions
 {
-    [CommandSwitch("--artifact-uri")]
+    [CliOption("--artifact-uri")]
     public string? ArtifactUri { get; set; }
 
-    [CommandSwitch("--container-args")]
+    [CliOption("--container-args")]
     public string[]? ContainerArgs { get; set; }
 
-    [CommandSwitch("--container-command")]
+    [CliOption("--container-command")]
     public string[]? ContainerCommand { get; set; }
 
-    [CommandSwitch("--container-deployment-timeout-seconds")]
+    [CliOption("--container-deployment-timeout-seconds")]
     public string? ContainerDeploymentTimeoutSeconds { get; set; }
 
-    [CommandSwitch("--container-env-vars")]
+    [CliOption("--container-env-vars")]
     public IEnumerable<KeyValue>? ContainerEnvVars { get; set; }
 
-    [CommandSwitch("--container-grpc-ports")]
+    [CliOption("--container-grpc-ports")]
     public string[]? ContainerGrpcPorts { get; set; }
 
-    [CommandSwitch("--container-health-probe-exec")]
+    [CliOption("--container-health-probe-exec")]
     public string[]? ContainerHealthProbeExec { get; set; }
 
-    [CommandSwitch("--container-health-probe-period-seconds")]
+    [CliOption("--container-health-probe-period-seconds")]
     public string? ContainerHealthProbePeriodSeconds { get; set; }
 
-    [CommandSwitch("--container-health-probe-timeout-seconds")]
+    [CliOption("--container-health-probe-timeout-seconds")]
     public string? ContainerHealthProbeTimeoutSeconds { get; set; }
 
-    [CommandSwitch("--container-health-route")]
+    [CliOption("--container-health-route")]
     public string? ContainerHealthRoute { get; set; }
 
-    [CommandSwitch("--container-ports")]
+    [CliOption("--container-ports")]
     public string[]? ContainerPorts { get; set; }
 
-    [CommandSwitch("--container-predict-route")]
+    [CliOption("--container-predict-route")]
     public string? ContainerPredictRoute { get; set; }
 
-    [CommandSwitch("--container-shared-memory-size-mb")]
+    [CliOption("--container-shared-memory-size-mb")]
     public string? ContainerSharedMemorySizeMb { get; set; }
 
-    [CommandSwitch("--container-startup-probe-exec")]
+    [CliOption("--container-startup-probe-exec")]
     public string[]? ContainerStartupProbeExec { get; set; }
 
-    [CommandSwitch("--container-startup-probe-period-seconds")]
+    [CliOption("--container-startup-probe-period-seconds")]
     public string? ContainerStartupProbePeriodSeconds { get; set; }
 
-    [CommandSwitch("--container-startup-probe-timeout-seconds")]
+    [CliOption("--container-startup-probe-timeout-seconds")]
     public string? ContainerStartupProbeTimeoutSeconds { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--explanation-metadata-file")]
+    [CliOption("--explanation-metadata-file")]
     public string? ExplanationMetadataFile { get; set; }
 
-    [CommandSwitch("--explanation-method")]
+    [CliOption("--explanation-method")]
     public string? ExplanationMethod { get; set; }
 
-    [CommandSwitch("--explanation-path-count")]
+    [CliOption("--explanation-path-count")]
     public string? ExplanationPathCount { get; set; }
 
-    [CommandSwitch("--explanation-step-count")]
+    [CliOption("--explanation-step-count")]
     public string? ExplanationStepCount { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--model-id")]
+    [CliOption("--model-id")]
     public string? ModelId { get; set; }
 
-    [CommandSwitch("--parent-model")]
+    [CliOption("--parent-model")]
     public string? ParentModel { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--smooth-grad-noise-sigma")]
+    [CliOption("--smooth-grad-noise-sigma")]
     public string? SmoothGradNoiseSigma { get; set; }
 
-    [CommandSwitch("--smooth-grad-noise-sigma-by-feature")]
+    [CliOption("--smooth-grad-noise-sigma-by-feature")]
     public IEnumerable<KeyValue>? SmoothGradNoiseSigmaByFeature { get; set; }
 
-    [CommandSwitch("--smooth-grad-noisy-sample-count")]
+    [CliOption("--smooth-grad-noisy-sample-count")]
     public string? SmoothGradNoisySampleCount { get; set; }
 
-    [CommandSwitch("--version-aliases")]
+    [CliOption("--version-aliases")]
     public string[]? VersionAliases { get; set; }
 
-    [CommandSwitch("--version-description")]
+    [CliOption("--version-description")]
     public string? VersionDescription { get; set; }
 }

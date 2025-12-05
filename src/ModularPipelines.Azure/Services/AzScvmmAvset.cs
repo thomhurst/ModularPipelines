@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scvmm")]
+[CliCommand("scvmm")]
 public class AzScvmmAvset
 {
     public AzScvmmAvset(

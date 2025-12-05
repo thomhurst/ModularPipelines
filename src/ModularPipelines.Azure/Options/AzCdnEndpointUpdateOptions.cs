@@ -4,63 +4,63 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cdn", "endpoint", "update")]
+[CliSubCommand("cdn", "endpoint", "update")]
 public record AzCdnEndpointUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--content-types-to-compress")]
+    [CliOption("--content-types-to-compress")]
     public string? ContentTypesToCompress { get; set; }
 
-    [CommandSwitch("--default-origin-group")]
+    [CliOption("--default-origin-group")]
     public string? DefaultOriginGroup { get; set; }
 
-    [BooleanCommandSwitch("--enable-compression")]
+    [CliFlag("--enable-compression")]
     public bool? EnableCompression { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-http")]
+    [CliFlag("--no-http")]
     public bool? NoHttp { get; set; }
 
-    [BooleanCommandSwitch("--no-https")]
+    [CliFlag("--no-https")]
     public bool? NoHttps { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--origin-host-header")]
+    [CliOption("--origin-host-header")]
     public string? OriginHostHeader { get; set; }
 
-    [CommandSwitch("--origin-path")]
+    [CliOption("--origin-path")]
     public string? OriginPath { get; set; }
 
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 
-    [CommandSwitch("--query-string-caching")]
+    [CliOption("--query-string-caching")]
     public string? QueryStringCaching { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

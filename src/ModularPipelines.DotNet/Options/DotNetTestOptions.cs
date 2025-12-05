@@ -20,87 +20,87 @@ public record DotNetTestOptions : DotNetOptions
         CommandParts = ["test", "[<PROJECT> | <SOLUTION> | <DIRECTORY> | <DLL> | <EXE>]"];
     }
 
-    [PositionalArgument(PlaceholderName = "[<PROJECT> | <SOLUTION> | <DIRECTORY> | <DLL> | <EXE>]")]
-    public string? ProjectSolutionDirectoryDllExe { get; set; }
+    [CliArgument(Name = "[<PROJECT> | <SOLUTION> | <DIRECTORY> | <DLL> | <EXE>]")]
+    public virtual string? ProjectSolutionDirectoryDllExe { get; set; }
 
-    [CommandSwitch("--test-adapter-path")]
+    [CliOption("--test-adapter-path")]
     public virtual string? TestAdapterPath { get; set; }
 
-    [CommandSwitch("--arch")]
+    [CliOption("--arch")]
     public virtual string? Architecture { get; set; }
 
-    [BooleanCommandSwitch("--blame")]
+    [CliFlag("--blame")]
     public virtual bool? Blame { get; set; }
 
-    [BooleanCommandSwitch("--blame-crash")]
+    [CliFlag("--blame-crash")]
     public virtual bool? BlameCrash { get; set; }
 
-    [CommandSwitch("--blame-crash-dump-type")]
+    [CliOption("--blame-crash-dump-type")]
     public virtual string? BlameCrashDumpType { get; set; }
 
-    [BooleanCommandSwitch("--blame-crash-collect-always")]
+    [CliFlag("--blame-crash-collect-always")]
     public virtual bool? BlameCrashCollectAlways { get; set; }
 
-    [BooleanCommandSwitch("--blame-hang")]
+    [CliFlag("--blame-hang")]
     public virtual bool? BlameHang { get; set; }
 
-    [CommandSwitch("--blame-hang-dump-type")]
+    [CliOption("--blame-hang-dump-type")]
     public virtual string? BlameHangDumpType { get; set; }
 
-    [CommandSwitch("--blame-hang-timeout")]
+    [CliOption("--blame-hang-timeout")]
     public virtual string? BlameHangTimeout { get; set; }
 
-    [CommandSwitch("--configuration")]
+    [CliOption("--configuration")]
     public virtual string? Configuration { get; set; }
 
-    [CommandSwitch("--collect")]
+    [CliOption("--collect")]
     public virtual string? Collect { get; set; }
 
-    [CommandSwitch("--diag")]
+    [CliOption("--diag")]
     public virtual string? Diag { get; set; }
 
-    [CommandSwitch("--framework")]
+    [CliOption("--framework")]
     public virtual string? Framework { get; set; }
 
-    [CommandSwitch("--environment")]
+    [CliOption("--environment")]
     public virtual IEnumerable<string>? Environment { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public virtual string? Filter { get; set; }
 
-    [BooleanCommandSwitch("--interactive")]
+    [CliFlag("--interactive")]
     public virtual bool? Interactive { get; set; }
 
-    [CommandSwitch("--logger")]
+    [CliOption("--logger")]
     public virtual IEnumerable<string>? Logger { get; set; }
 
-    [BooleanCommandSwitch("--no-build")]
+    [CliFlag("--no-build")]
     public virtual bool? NoBuild { get; set; }
 
-    [BooleanCommandSwitch("--nologo")]
+    [CliFlag("--nologo")]
     public virtual bool? Nologo { get; set; }
 
-    [BooleanCommandSwitch("--no-restore")]
+    [CliFlag("--no-restore")]
     public virtual bool? NoRestore { get; set; }
 
-    [CommandSwitch("--output")]
+    [CliOption("--output")]
     public virtual string? OutputDirectory { get; set; }
 
-    [CommandSwitch("--os")]
+    [CliOption("--os")]
     public virtual string? Os { get; set; }
 
-    [CommandSwitch("--results-directory")]
+    [CliOption("--results-directory")]
     public virtual string? ResultsDirectory { get; set; }
 
-    [CommandSwitch("--runtime")]
+    [CliOption("--runtime")]
     public virtual string? RuntimeIdentifier { get; set; }
 
-    [CommandSwitch("--settings")]
+    [CliOption("--settings")]
     public virtual string? SettingsFile { get; set; }
 
-    [BooleanCommandSwitch("--list-tests")]
+    [CliFlag("--list-tests")]
     public virtual bool? ListTests { get; set; }
 
-    [CommandSwitch("--verbosity")]
+    [CliOption("--verbosity")]
     public virtual string? Verbosity { get; set; }
 }

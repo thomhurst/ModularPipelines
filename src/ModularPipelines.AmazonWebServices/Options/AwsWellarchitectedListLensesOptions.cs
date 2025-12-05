@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "list-lenses")]
+[CliCommand("wellarchitected", "list-lenses")]
 public record AwsWellarchitectedListLensesOptions : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--lens-type")]
+    [CliOption("--lens-type")]
     public string? LensType { get; set; }
 
-    [CommandSwitch("--lens-status")]
+    [CliOption("--lens-status")]
     public string? LensStatus { get; set; }
 
-    [CommandSwitch("--lens-name")]
+    [CliOption("--lens-name")]
     public string? LensName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

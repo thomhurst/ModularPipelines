@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "delete-db-proxy-endpoint")]
+[CliCommand("rds", "delete-db-proxy-endpoint")]
 public record AwsRdsDeleteDbProxyEndpointOptions(
-[property: CommandSwitch("--db-proxy-endpoint-name")] string DbProxyEndpointName
+[property: CliOption("--db-proxy-endpoint-name")] string DbProxyEndpointName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

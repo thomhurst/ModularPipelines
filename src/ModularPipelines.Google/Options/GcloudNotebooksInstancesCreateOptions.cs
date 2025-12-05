@@ -5,109 +5,109 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("notebooks", "instances", "create")]
+[CliCommand("notebooks", "instances", "create")]
 public record GcloudNotebooksInstancesCreateOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--container-repository")] string ContainerRepository,
-[property: CommandSwitch("--container-tag")] string ContainerTag,
-[property: CommandSwitch("--environment")] string Environment,
-[property: CommandSwitch("--environment-location")] string EnvironmentLocation,
-[property: CommandSwitch("--vm-image-project")] string VmImageProject,
-[property: CommandSwitch("--vm-image-family")] string VmImageFamily,
-[property: CommandSwitch("--vm-image-name")] string VmImageName
+[property: CliArgument] string Instance,
+[property: CliArgument] string Location,
+[property: CliOption("--container-repository")] string ContainerRepository,
+[property: CliOption("--container-tag")] string ContainerTag,
+[property: CliOption("--environment")] string Environment,
+[property: CliOption("--environment-location")] string EnvironmentLocation,
+[property: CliOption("--vm-image-project")] string VmImageProject,
+[property: CliOption("--vm-image-family")] string VmImageFamily,
+[property: CliOption("--vm-image-name")] string VmImageName
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--instance-owners")]
+    [CliOption("--instance-owners")]
     public string? InstanceOwners { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--machine-type")]
+    [CliOption("--machine-type")]
     public string? MachineType { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public IEnumerable<KeyValue>? Metadata { get; set; }
 
-    [CommandSwitch("--post-startup-script")]
+    [CliOption("--post-startup-script")]
     public string? PostStartupScript { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 
-    [BooleanCommandSwitch("--shielded-integrity-monitoring")]
+    [CliFlag("--shielded-integrity-monitoring")]
     public bool? ShieldedIntegrityMonitoring { get; set; }
 
-    [BooleanCommandSwitch("--shielded-secure-boot")]
+    [CliFlag("--shielded-secure-boot")]
     public bool? ShieldedSecureBoot { get; set; }
 
-    [BooleanCommandSwitch("--shielded-vtpm")]
+    [CliFlag("--shielded-vtpm")]
     public bool? ShieldedVtpm { get; set; }
 
-    [CommandSwitch("--accelerator-core-count")]
+    [CliOption("--accelerator-core-count")]
     public string? AcceleratorCoreCount { get; set; }
 
-    [CommandSwitch("--accelerator-type")]
+    [CliOption("--accelerator-type")]
     public string? AcceleratorType { get; set; }
 
-    [CommandSwitch("--boot-disk-size")]
+    [CliOption("--boot-disk-size")]
     public string? BootDiskSize { get; set; }
 
-    [CommandSwitch("--boot-disk-type")]
+    [CliOption("--boot-disk-type")]
     public string? BootDiskType { get; set; }
 
-    [CommandSwitch("--custom-gpu-driver-path")]
+    [CliOption("--custom-gpu-driver-path")]
     public string? CustomGpuDriverPath { get; set; }
 
-    [BooleanCommandSwitch("--install-gpu-driver")]
+    [CliFlag("--install-gpu-driver")]
     public bool? InstallGpuDriver { get; set; }
 
-    [CommandSwitch("--data-disk-size")]
+    [CliOption("--data-disk-size")]
     public string? DataDiskSize { get; set; }
 
-    [CommandSwitch("--data-disk-type")]
+    [CliOption("--data-disk-type")]
     public string? DataDiskType { get; set; }
 
-    [BooleanCommandSwitch("--no-remove-data-disk")]
+    [CliFlag("--no-remove-data-disk")]
     public bool? NoRemoveDataDisk { get; set; }
 
-    [CommandSwitch("--disk-encryption")]
+    [CliOption("--disk-encryption")]
     public string? DiskEncryption { get; set; }
 
-    [CommandSwitch("--kms-key")]
+    [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [CommandSwitch("--kms-keyring")]
+    [CliOption("--kms-keyring")]
     public string? KmsKeyring { get; set; }
 
-    [CommandSwitch("--kms-location")]
+    [CliOption("--kms-location")]
     public string? KmsLocation { get; set; }
 
-    [CommandSwitch("--kms-project")]
+    [CliOption("--kms-project")]
     public string? KmsProject { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [BooleanCommandSwitch("--no-proxy-access")]
+    [CliFlag("--no-proxy-access")]
     public bool? NoProxyAccess { get; set; }
 
-    [BooleanCommandSwitch("--no-public-ip")]
+    [CliFlag("--no-public-ip")]
     public bool? NoPublicIp { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--subnet-region")]
+    [CliOption("--subnet-region")]
     public string? SubnetRegion { get; set; }
 
-    [CommandSwitch("--reservation")]
+    [CliOption("--reservation")]
     public string? Reservation { get; set; }
 
-    [CommandSwitch("--reservation-affinity")]
+    [CliOption("--reservation-affinity")]
     public string? ReservationAffinity { get; set; }
 }

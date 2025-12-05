@@ -4,52 +4,52 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appservice", "ase", "create")]
+[CliSubCommand("appservice", "ase", "create")]
 public record AzAppserviceAseCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--subnet")] string Subnet
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--subnet")] string Subnet
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--force-network-security-group")]
+    [CliFlag("--force-network-security-group")]
     public bool? ForceNetworkSecurityGroup { get; set; }
 
-    [BooleanCommandSwitch("--force-route-table")]
+    [CliFlag("--force-route-table")]
     public bool? ForceRouteTable { get; set; }
 
-    [CommandSwitch("--front-end-scale-factor")]
+    [CliOption("--front-end-scale-factor")]
     public string? FrontEndScaleFactor { get; set; }
 
-    [CommandSwitch("--front-end-sku")]
+    [CliOption("--front-end-sku")]
     public string? FrontEndSku { get; set; }
 
-    [BooleanCommandSwitch("--ignore-network-security-group")]
+    [CliFlag("--ignore-network-security-group")]
     public bool? IgnoreNetworkSecurityGroup { get; set; }
 
-    [BooleanCommandSwitch("--ignore-route-table")]
+    [CliFlag("--ignore-route-table")]
     public bool? IgnoreRouteTable { get; set; }
 
-    [BooleanCommandSwitch("--ignore-subnet-size-validation")]
+    [CliFlag("--ignore-subnet-size-validation")]
     public bool? IgnoreSubnetSizeValidation { get; set; }
 
-    [CommandSwitch("--kind")]
+    [CliOption("--kind")]
     public string? Kind { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--os-preference")]
+    [CliOption("--os-preference")]
     public string? OsPreference { get; set; }
 
-    [CommandSwitch("--virtual-ip-type")]
+    [CliOption("--virtual-ip-type")]
     public string? VirtualIpType { get; set; }
 
-    [CommandSwitch("--vnet-name")]
+    [CliOption("--vnet-name")]
     public string? VnetName { get; set; }
 
-    [BooleanCommandSwitch("--zone-redundant")]
+    [CliFlag("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 }

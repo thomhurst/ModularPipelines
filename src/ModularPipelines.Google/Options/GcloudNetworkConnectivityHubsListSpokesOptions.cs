@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-connectivity", "hubs", "list-spokes")]
+[CliCommand("network-connectivity", "hubs", "list-spokes")]
 public record GcloudNetworkConnectivityHubsListSpokesOptions(
-[property: PositionalArgument] string Hub
+[property: CliArgument] string Hub
 ) : GcloudOptions
 {
-    [CommandSwitch("--spoke-locations")]
+    [CliOption("--spoke-locations")]
     public string[]? SpokeLocations { get; set; }
 
-    [CommandSwitch("--view")]
+    [CliOption("--view")]
     public string? View { get; set; }
 }

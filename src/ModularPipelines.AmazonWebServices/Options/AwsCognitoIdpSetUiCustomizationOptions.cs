@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "set-ui-customization")]
+[CliCommand("cognito-idp", "set-ui-customization")]
 public record AwsCognitoIdpSetUiCustomizationOptions(
-[property: CommandSwitch("--user-pool-id")] string UserPoolId
+[property: CliOption("--user-pool-id")] string UserPoolId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-id")]
+    [CliOption("--client-id")]
     public string? ClientId { get; set; }
 
-    [CommandSwitch("--css")]
+    [CliOption("--css")]
     public string? Css { get; set; }
 
-    [CommandSwitch("--image-file")]
+    [CliOption("--image-file")]
     public string? ImageFile { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

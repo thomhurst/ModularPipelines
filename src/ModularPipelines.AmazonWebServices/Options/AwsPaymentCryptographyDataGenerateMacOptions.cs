@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("payment-cryptography-data", "generate-mac")]
+[CliCommand("payment-cryptography-data", "generate-mac")]
 public record AwsPaymentCryptographyDataGenerateMacOptions(
-[property: CommandSwitch("--generation-attributes")] string GenerationAttributes,
-[property: CommandSwitch("--key-identifier")] string KeyIdentifier,
-[property: CommandSwitch("--message-data")] string MessageData
+[property: CliOption("--generation-attributes")] string GenerationAttributes,
+[property: CliOption("--key-identifier")] string KeyIdentifier,
+[property: CliOption("--message-data")] string MessageData
 ) : AwsOptions
 {
-    [CommandSwitch("--mac-length")]
+    [CliOption("--mac-length")]
     public int? MacLength { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

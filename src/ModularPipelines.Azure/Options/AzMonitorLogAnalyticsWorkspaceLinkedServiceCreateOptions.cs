@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "log-analytics", "workspace", "linked-service", "create")]
+[CliSubCommand("monitor", "log-analytics", "workspace", "linked-service", "create")]
 public record AzMonitorLogAnalyticsWorkspaceLinkedServiceCreateOptions(
-[property: CommandSwitch("--linked-service-name")] string LinkedServiceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--linked-service-name")] string LinkedServiceName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-id")]
+    [CliOption("--resource-id")]
     public string? ResourceId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--write-access-resource-id")]
+    [CliOption("--write-access-resource-id")]
     public string? WriteAccessResourceId { get; set; }
 }

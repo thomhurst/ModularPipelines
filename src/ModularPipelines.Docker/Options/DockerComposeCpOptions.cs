@@ -27,33 +27,33 @@ public record DockerComposeCpOptions : DockerOptions
         SrcPath = srcPath;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Service { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Service { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? DestPath { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? DestPath { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Compose { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Compose { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Cp { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Cp { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Options { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Options { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? SrcPath { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? SrcPath { get; set; }
 
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [CommandSwitch("--archive")]
+    [CliOption("--archive")]
     public virtual string? Archive { get; set; }
 
-    [CommandSwitch("--follow-link")]
+    [CliOption("--follow-link")]
     public virtual string? FollowLink { get; set; }
 
-    [CommandSwitch("--index")]
+    [CliOption("--index")]
     public virtual string? Index { get; set; }
 }

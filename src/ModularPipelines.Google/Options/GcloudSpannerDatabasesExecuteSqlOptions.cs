@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spanner", "databases", "execute-sql")]
+[CliCommand("spanner", "databases", "execute-sql")]
 public record GcloudSpannerDatabasesExecuteSqlOptions(
-[property: PositionalArgument] string Database,
-[property: PositionalArgument] string Instance,
-[property: CommandSwitch("--sql")] string Sql
+[property: CliArgument] string Database,
+[property: CliArgument] string Instance,
+[property: CliOption("--sql")] string Sql
 ) : GcloudOptions
 {
-    [CommandSwitch("--database-role")]
+    [CliOption("--database-role")]
     public string? DatabaseRole { get; set; }
 
-    [BooleanCommandSwitch("--enable-partitioned-dml")]
+    [CliFlag("--enable-partitioned-dml")]
     public bool? EnablePartitionedDml { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--query-mode")]
+    [CliOption("--query-mode")]
     public string? QueryMode { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--read-timestamp")]
+    [CliOption("--read-timestamp")]
     public string? ReadTimestamp { get; set; }
 
-    [BooleanCommandSwitch("--strong")]
+    [CliFlag("--strong")]
     public bool? Strong { get; set; }
 }

@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cdn", "custom-domain", "enable-https")]
+[CliSubCommand("cdn", "custom-domain", "enable-https")]
 public record AzCdnCustomDomainEnableHttpsOptions(
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--endpoint-name")] string EndpointName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--min-tls-version")]
+    [CliOption("--min-tls-version")]
     public string? MinTlsVersion { get; set; }
 
-    [CommandSwitch("--user-cert-group-name")]
+    [CliOption("--user-cert-group-name")]
     public string? UserCertGroupName { get; set; }
 
-    [CommandSwitch("--user-cert-protocol-type")]
+    [CliOption("--user-cert-protocol-type")]
     public string? UserCertProtocolType { get; set; }
 
-    [CommandSwitch("--user-cert-secret-name")]
+    [CliOption("--user-cert-secret-name")]
     public string? UserCertSecretName { get; set; }
 
-    [CommandSwitch("--user-cert-secret-version")]
+    [CliOption("--user-cert-secret-version")]
     public string? UserCertSecretVersion { get; set; }
 
-    [CommandSwitch("--user-cert-subscription-id")]
+    [CliOption("--user-cert-subscription-id")]
     public string? UserCertSubscriptionId { get; set; }
 
-    [CommandSwitch("--user-cert-vault-name")]
+    [CliOption("--user-cert-vault-name")]
     public string? UserCertVaultName { get; set; }
 }

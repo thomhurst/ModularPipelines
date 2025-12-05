@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("metastore", "services", "backups", "add-iam-policy-binding")]
+[CliCommand("metastore", "services", "backups", "add-iam-policy-binding")]
 public record GcloudMetastoreServicesBackupsAddIamPolicyBindingOptions(
-[property: PositionalArgument] string Backup,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Service,
-[property: CommandSwitch("--member")] string Member,
-[property: CommandSwitch("--role")] string Role
+[property: CliArgument] string Backup,
+[property: CliArgument] string Location,
+[property: CliArgument] string Service,
+[property: CliOption("--member")] string Member,
+[property: CliOption("--role")] string Role
 ) : GcloudOptions;

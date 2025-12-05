@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("translate", "import-terminology")]
+[CliCommand("translate", "import-terminology")]
 public record AwsTranslateImportTerminologyOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--merge-strategy")] string MergeStrategy,
-[property: CommandSwitch("--data-file")] string DataFile
+[property: CliOption("--name")] string Name,
+[property: CliOption("--merge-strategy")] string MergeStrategy,
+[property: CliOption("--data-file")] string DataFile
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--terminology-data")]
+    [CliOption("--terminology-data")]
     public string? TerminologyData { get; set; }
 
-    [CommandSwitch("--encryption-key")]
+    [CliOption("--encryption-key")]
     public string? EncryptionKey { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

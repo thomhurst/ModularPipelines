@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("macie2", "enable-organization-admin-account")]
+[CliCommand("macie2", "enable-organization-admin-account")]
 public record AwsMacie2EnableOrganizationAdminAccountOptions(
-[property: CommandSwitch("--admin-account-id")] string AdminAccountId
+[property: CliOption("--admin-account-id")] string AdminAccountId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

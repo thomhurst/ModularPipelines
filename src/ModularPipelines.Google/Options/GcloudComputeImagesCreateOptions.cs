@@ -5,76 +5,76 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "images", "create")]
+[CliCommand("compute", "images", "create")]
 public record GcloudComputeImagesCreateOptions(
-[property: PositionalArgument] string ImageName,
-[property: CommandSwitch("--source-disk")] string SourceDisk,
-[property: CommandSwitch("--source-image")] string SourceImage,
-[property: CommandSwitch("--source-image-family")] string SourceImageFamily,
-[property: CommandSwitch("--source-snapshot")] string SourceSnapshot,
-[property: CommandSwitch("--source-uri")] string SourceUri
+[property: CliArgument] string ImageName,
+[property: CliOption("--source-disk")] string SourceDisk,
+[property: CliOption("--source-image")] string SourceImage,
+[property: CliOption("--source-image-family")] string SourceImageFamily,
+[property: CliOption("--source-snapshot")] string SourceSnapshot,
+[property: CliOption("--source-uri")] string SourceUri
 ) : GcloudOptions
 {
-    [CommandSwitch("--architecture")]
+    [CliOption("--architecture")]
     public string? Architecture { get; set; }
 
-    [CommandSwitch("--csek-key-file")]
+    [CliOption("--csek-key-file")]
     public string? CsekKeyFile { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--family")]
+    [CliOption("--family")]
     public string? Family { get; set; }
 
-    [CommandSwitch("--forbidden-database-file")]
+    [CliOption("--forbidden-database-file")]
     public string[]? ForbiddenDatabaseFile { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 
-    [CommandSwitch("--guest-os-features")]
+    [CliOption("--guest-os-features")]
     public string[]? GuestOsFeatures { get; set; }
 
-    [CommandSwitch("--key-exchange-key-file")]
+    [CliOption("--key-exchange-key-file")]
     public string[]? KeyExchangeKeyFile { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--licenses")]
+    [CliOption("--licenses")]
     public string[]? Licenses { get; set; }
 
-    [CommandSwitch("--platform-key-file")]
+    [CliOption("--platform-key-file")]
     public string? PlatformKeyFile { get; set; }
 
-    [BooleanCommandSwitch("--require-csek-key-create")]
+    [CliFlag("--require-csek-key-create")]
     public bool? RequireCsekKeyCreate { get; set; }
 
-    [CommandSwitch("--signature-database-file")]
+    [CliOption("--signature-database-file")]
     public string[]? SignatureDatabaseFile { get; set; }
 
-    [CommandSwitch("--source-disk-project")]
+    [CliOption("--source-disk-project")]
     public string? SourceDiskProject { get; set; }
 
-    [CommandSwitch("--source-disk-zone")]
+    [CliOption("--source-disk-zone")]
     public string? SourceDiskZone { get; set; }
 
-    [CommandSwitch("--source-image-project")]
+    [CliOption("--source-image-project")]
     public string? SourceImageProject { get; set; }
 
-    [CommandSwitch("--storage-location")]
+    [CliOption("--storage-location")]
     public string? StorageLocation { get; set; }
 
-    [CommandSwitch("--kms-key")]
+    [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [CommandSwitch("--kms-keyring")]
+    [CliOption("--kms-keyring")]
     public string? KmsKeyring { get; set; }
 
-    [CommandSwitch("--kms-location")]
+    [CliOption("--kms-location")]
     public string? KmsLocation { get; set; }
 
-    [CommandSwitch("--kms-project")]
+    [CliOption("--kms-project")]
     public string? KmsProject { get; set; }
 }

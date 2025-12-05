@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("greengrass", "create-group-version")]
+[CliCommand("greengrass", "create-group-version")]
 public record AwsGreengrassCreateGroupVersionOptions(
-[property: CommandSwitch("--group-id")] string GroupId
+[property: CliOption("--group-id")] string GroupId
 ) : AwsOptions
 {
-    [CommandSwitch("--amzn-client-token")]
+    [CliOption("--amzn-client-token")]
     public string? AmznClientToken { get; set; }
 
-    [CommandSwitch("--connector-definition-version-arn")]
+    [CliOption("--connector-definition-version-arn")]
     public string? ConnectorDefinitionVersionArn { get; set; }
 
-    [CommandSwitch("--core-definition-version-arn")]
+    [CliOption("--core-definition-version-arn")]
     public string? CoreDefinitionVersionArn { get; set; }
 
-    [CommandSwitch("--device-definition-version-arn")]
+    [CliOption("--device-definition-version-arn")]
     public string? DeviceDefinitionVersionArn { get; set; }
 
-    [CommandSwitch("--function-definition-version-arn")]
+    [CliOption("--function-definition-version-arn")]
     public string? FunctionDefinitionVersionArn { get; set; }
 
-    [CommandSwitch("--logger-definition-version-arn")]
+    [CliOption("--logger-definition-version-arn")]
     public string? LoggerDefinitionVersionArn { get; set; }
 
-    [CommandSwitch("--resource-definition-version-arn")]
+    [CliOption("--resource-definition-version-arn")]
     public string? ResourceDefinitionVersionArn { get; set; }
 
-    [CommandSwitch("--subscription-definition-version-arn")]
+    [CliOption("--subscription-definition-version-arn")]
     public string? SubscriptionDefinitionVersionArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

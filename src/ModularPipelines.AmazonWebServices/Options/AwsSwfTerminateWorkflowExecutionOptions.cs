@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("swf", "terminate-workflow-execution")]
+[CliCommand("swf", "terminate-workflow-execution")]
 public record AwsSwfTerminateWorkflowExecutionOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--workflow-id")] string WorkflowId
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--workflow-id")] string WorkflowId
 ) : AwsOptions
 {
-    [CommandSwitch("--run-id")]
+    [CliOption("--run-id")]
     public string? RunId { get; set; }
 
-    [CommandSwitch("--reason")]
+    [CliOption("--reason")]
     public string? Reason { get; set; }
 
-    [CommandSwitch("--details")]
+    [CliOption("--details")]
     public string? Details { get; set; }
 
-    [CommandSwitch("--child-policy")]
+    [CliOption("--child-policy")]
     public string? ChildPolicy { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

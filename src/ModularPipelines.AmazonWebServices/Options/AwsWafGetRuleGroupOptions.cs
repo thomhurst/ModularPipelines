@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("waf", "get-rule-group")]
+[CliCommand("waf", "get-rule-group")]
 public record AwsWafGetRuleGroupOptions(
-[property: CommandSwitch("--rule-group-id")] string RuleGroupId
+[property: CliOption("--rule-group-id")] string RuleGroupId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

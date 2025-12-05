@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "create-dynamic-thing-group")]
+[CliCommand("iot", "create-dynamic-thing-group")]
 public record AwsIotCreateDynamicThingGroupOptions(
-[property: CommandSwitch("--thing-group-name")] string ThingGroupName,
-[property: CommandSwitch("--query-string")] string QueryString
+[property: CliOption("--thing-group-name")] string ThingGroupName,
+[property: CliOption("--query-string")] string QueryString
 ) : AwsOptions
 {
-    [CommandSwitch("--thing-group-properties")]
+    [CliOption("--thing-group-properties")]
     public string? ThingGroupProperties { get; set; }
 
-    [CommandSwitch("--index-name")]
+    [CliOption("--index-name")]
     public string? IndexName { get; set; }
 
-    [CommandSwitch("--query-version")]
+    [CliOption("--query-version")]
     public string? QueryVersion { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

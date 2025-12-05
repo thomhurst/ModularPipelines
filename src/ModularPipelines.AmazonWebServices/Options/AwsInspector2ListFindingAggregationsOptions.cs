@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("inspector2", "list-finding-aggregations")]
+[CliCommand("inspector2", "list-finding-aggregations")]
 public record AwsInspector2ListFindingAggregationsOptions(
-[property: CommandSwitch("--aggregation-type")] string AggregationType
+[property: CliOption("--aggregation-type")] string AggregationType
 ) : AwsOptions
 {
-    [CommandSwitch("--account-ids")]
+    [CliOption("--account-ids")]
     public string[]? AccountIds { get; set; }
 
-    [CommandSwitch("--aggregation-request")]
+    [CliOption("--aggregation-request")]
     public string? AggregationRequest { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("composer", "operations", "list")]
+[CliCommand("composer", "operations", "list")]
 public record GcloudComposerOperationsListOptions : GcloudOptions
 {
-    [CommandSwitch("--locations")]
+    [CliOption("--locations")]
     public string[]? Locations { get; set; }
 }

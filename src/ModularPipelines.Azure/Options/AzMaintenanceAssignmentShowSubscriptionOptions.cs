@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("maintenance", "assignment", "show-subscription")]
+[CliSubCommand("maintenance", "assignment", "show-subscription")]
 public record AzMaintenanceAssignmentShowSubscriptionOptions : AzOptions
 {
-    [CommandSwitch("--configuration-assignment-name")]
+    [CliOption("--configuration-assignment-name")]
     public string? ConfigurationAssignmentName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -4,72 +4,72 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "mv")]
+[CliCommand("storage", "mv")]
 public record GcloudStorageMvOptions(
-[property: PositionalArgument] string Source,
-[property: PositionalArgument] string Destination
+[property: CliArgument] string Source,
+[property: CliArgument] string Destination
 ) : GcloudOptions
 {
-    [CommandSwitch("--additional-headers")]
+    [CliOption("--additional-headers")]
     public string? AdditionalHeaders { get; set; }
 
-    [BooleanCommandSwitch("--all-versions")]
+    [CliFlag("--all-versions")]
     public bool? AllVersions { get; set; }
 
-    [BooleanCommandSwitch("--no-clobber")]
+    [CliFlag("--no-clobber")]
     public bool? NoClobber { get; set; }
 
-    [CommandSwitch("--content-md5")]
+    [CliOption("--content-md5")]
     public string? ContentMd5 { get; set; }
 
-    [BooleanCommandSwitch("--continue-on-error")]
+    [CliFlag("--continue-on-error")]
     public bool? ContinueOnError { get; set; }
 
-    [BooleanCommandSwitch("--daisy-chain")]
+    [CliFlag("--daisy-chain")]
     public bool? DaisyChain { get; set; }
 
-    [BooleanCommandSwitch("--do-not-decompress")]
+    [CliFlag("--do-not-decompress")]
     public bool? DoNotDecompress { get; set; }
 
-    [CommandSwitch("--manifest-path")]
+    [CliOption("--manifest-path")]
     public string? ManifestPath { get; set; }
 
-    [BooleanCommandSwitch("--preserve-posix")]
+    [CliFlag("--preserve-posix")]
     public bool? PreservePosix { get; set; }
 
-    [BooleanCommandSwitch("--print-created-message")]
+    [CliFlag("--print-created-message")]
     public bool? PrintCreatedMessage { get; set; }
 
-    [BooleanCommandSwitch("--read-paths-from-stdin")]
+    [CliFlag("--read-paths-from-stdin")]
     public bool? ReadPathsFromStdin { get; set; }
 
-    [BooleanCommandSwitch("--skip-unsupported")]
+    [CliFlag("--skip-unsupported")]
     public bool? SkipUnsupported { get; set; }
 
-    [CommandSwitch("--storage-class")]
+    [CliOption("--storage-class")]
     public string? StorageClass { get; set; }
 
-    [CommandSwitch("--canned-acl")]
+    [CliOption("--canned-acl")]
     public string? CannedAcl { get; set; }
 
-    [CommandSwitch("--[no-]preserve-acl")]
+    [CliOption("--[no-]preserve-acl")]
     public string[]? NoPreserveAcl { get; set; }
 
-    [CommandSwitch("--gzip-in-flight")]
+    [CliOption("--gzip-in-flight")]
     public string[]? GzipInFlight { get; set; }
 
-    [BooleanCommandSwitch("--gzip-in-flight-all")]
+    [CliFlag("--gzip-in-flight-all")]
     public bool? GzipInFlightAll { get; set; }
 
-    [CommandSwitch("--gzip-local")]
+    [CliOption("--gzip-local")]
     public string[]? GzipLocal { get; set; }
 
-    [BooleanCommandSwitch("--gzip-local-all")]
+    [CliFlag("--gzip-local-all")]
     public bool? GzipLocalAll { get; set; }
 
-    [BooleanCommandSwitch("--ignore-symlinks")]
+    [CliFlag("--ignore-symlinks")]
     public bool? IgnoreSymlinks { get; set; }
 
-    [BooleanCommandSwitch("--preserve-symlinks")]
+    [CliFlag("--preserve-symlinks")]
     public bool? PreserveSymlinks { get; set; }
 }

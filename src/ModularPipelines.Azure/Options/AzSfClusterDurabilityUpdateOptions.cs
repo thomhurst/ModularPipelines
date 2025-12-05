@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "cluster", "durability", "update")]
+[CliSubCommand("sf", "cluster", "durability", "update")]
 public record AzSfClusterDurabilityUpdateOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--durability-level")] string DurabilityLevel,
-[property: CommandSwitch("--node-type")] string NodeType,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--durability-level")] string DurabilityLevel,
+[property: CliOption("--node-type")] string NodeType,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

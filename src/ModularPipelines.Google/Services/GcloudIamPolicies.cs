@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam")]
+[CliCommand("iam")]
 public class GcloudIamPolicies
 {
     public GcloudIamPolicies(

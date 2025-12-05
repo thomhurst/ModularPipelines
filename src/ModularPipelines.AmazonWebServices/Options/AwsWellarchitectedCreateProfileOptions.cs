@@ -5,19 +5,19 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "create-profile")]
+[CliCommand("wellarchitected", "create-profile")]
 public record AwsWellarchitectedCreateProfileOptions(
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--profile-description")] string ProfileDescription,
-[property: CommandSwitch("--profile-questions")] string[] ProfileQuestions
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--profile-description")] string ProfileDescription,
+[property: CliOption("--profile-questions")] string[] ProfileQuestions
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,35 +5,35 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resiliencehub", "update-app-version-resource")]
+[CliCommand("resiliencehub", "update-app-version-resource")]
 public record AwsResiliencehubUpdateAppVersionResourceOptions(
-[property: CommandSwitch("--app-arn")] string AppArn
+[property: CliOption("--app-arn")] string AppArn
 ) : AwsOptions
 {
-    [CommandSwitch("--additional-info")]
+    [CliOption("--additional-info")]
     public IEnumerable<KeyValue>? AdditionalInfo { get; set; }
 
-    [CommandSwitch("--app-components")]
+    [CliOption("--app-components")]
     public string[]? AppComponents { get; set; }
 
-    [CommandSwitch("--aws-account-id")]
+    [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; set; }
 
-    [CommandSwitch("--aws-region")]
+    [CliOption("--aws-region")]
     public string? AwsRegion { get; set; }
 
-    [CommandSwitch("--logical-resource-id")]
+    [CliOption("--logical-resource-id")]
     public string? LogicalResourceId { get; set; }
 
-    [CommandSwitch("--physical-resource-id")]
+    [CliOption("--physical-resource-id")]
     public string? PhysicalResourceId { get; set; }
 
-    [CommandSwitch("--resource-name")]
+    [CliOption("--resource-name")]
     public string? ResourceName { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "job")]
+[CliCommand("batch", "job")]
 public class AzBatchJobTaskCounts
 {
     public AzBatchJobTaskCounts(

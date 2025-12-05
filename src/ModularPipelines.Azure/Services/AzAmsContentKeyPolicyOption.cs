@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ams", "content-key-policy")]
+[CliCommand("ams", "content-key-policy")]
 public class AzAmsContentKeyPolicyOption
 {
     public AzAmsContentKeyPolicyOption(

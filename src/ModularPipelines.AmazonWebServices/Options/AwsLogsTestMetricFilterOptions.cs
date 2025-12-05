@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logs", "test-metric-filter")]
+[CliCommand("logs", "test-metric-filter")]
 public record AwsLogsTestMetricFilterOptions(
-[property: CommandSwitch("--filter-pattern")] string FilterPattern,
-[property: CommandSwitch("--log-event-messages")] string[] LogEventMessages
+[property: CliOption("--filter-pattern")] string FilterPattern,
+[property: CliOption("--log-event-messages")] string[] LogEventMessages
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

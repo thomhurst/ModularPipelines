@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("verify")]
+[CliCommand("verify")]
 [ExcludeFromCodeCoverage]
 public record HelmVerifyOptions : HelmOptions
 {
-    [CommandEqualsSeparatorSwitch("--keyring", SwitchValueSeparator = " ")]
-    public string? Keyring { get; set; }
+    [CliOption("--keyring")]
+    public virtual string? Keyring { get; set; }
 }

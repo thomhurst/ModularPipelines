@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesis", "describe-stream-consumer")]
+[CliCommand("kinesis", "describe-stream-consumer")]
 public record AwsKinesisDescribeStreamConsumerOptions : AwsOptions
 {
-    [CommandSwitch("--stream-arn")]
+    [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
-    [CommandSwitch("--consumer-name")]
+    [CliOption("--consumer-name")]
     public string? ConsumerName { get; set; }
 
-    [CommandSwitch("--consumer-arn")]
+    [CliOption("--consumer-arn")]
     public string? ConsumerArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

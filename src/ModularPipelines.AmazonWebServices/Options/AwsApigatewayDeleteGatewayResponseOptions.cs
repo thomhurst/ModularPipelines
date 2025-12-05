@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "delete-gateway-response")]
+[CliCommand("apigateway", "delete-gateway-response")]
 public record AwsApigatewayDeleteGatewayResponseOptions(
-[property: CommandSwitch("--rest-api-id")] string RestApiId,
-[property: CommandSwitch("--response-type")] string ResponseType
+[property: CliOption("--rest-api-id")] string RestApiId,
+[property: CliOption("--response-type")] string ResponseType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

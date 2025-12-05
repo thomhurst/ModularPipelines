@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appconfig", "get-extension")]
+[CliCommand("appconfig", "get-extension")]
 public record AwsAppconfigGetExtensionOptions(
-[property: CommandSwitch("--extension-identifier")] string ExtensionIdentifier
+[property: CliOption("--extension-identifier")] string ExtensionIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--version-number")]
+    [CliOption("--version-number")]
     public int? VersionNumber { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

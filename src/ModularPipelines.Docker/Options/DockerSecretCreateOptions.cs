@@ -15,18 +15,18 @@ public record DockerSecretCreateOptions : DockerOptions
         Secret = secret;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Secret { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Secret { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? File { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? File { get; set; }
 
-    [CommandSwitch("--driver")]
+    [CliOption("--driver")]
     public virtual string? Driver { get; set; }
 
-    [CommandSwitch("--label")]
+    [CliOption("--label")]
     public virtual string? Label { get; set; }
 
-    [CommandSwitch("--template-driver")]
+    [CliOption("--template-driver")]
     public virtual string? TemplateDriver { get; set; }
 }

@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub", "schemas", "commit")]
+[CliCommand("pubsub", "schemas", "commit")]
 public record GcloudPubsubSchemasCommitOptions(
-[property: PositionalArgument] string Schema,
-[property: CommandSwitch("--type")] string Type,
-[property: CommandSwitch("--definition")] string Definition,
-[property: CommandSwitch("--definition-file")] string DefinitionFile
+[property: CliArgument] string Schema,
+[property: CliOption("--type")] string Type,
+[property: CliOption("--definition")] string Definition,
+[property: CliOption("--definition-file")] string DefinitionFile
 ) : GcloudOptions;

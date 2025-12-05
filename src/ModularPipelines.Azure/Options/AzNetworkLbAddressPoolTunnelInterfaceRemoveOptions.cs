@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "lb", "address-pool", "tunnel-interface", "remove")]
+[CliSubCommand("network", "lb", "address-pool", "tunnel-interface", "remove")]
 public record AzNetworkLbAddressPoolTunnelInterfaceRemoveOptions(
-[property: CommandSwitch("--address-pool")] string AddressPool,
-[property: CommandSwitch("--index")] string Index,
-[property: CommandSwitch("--lb-name")] string LbName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--address-pool")] string AddressPool,
+[property: CliOption("--index")] string Index,
+[property: CliOption("--lb-name")] string LbName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

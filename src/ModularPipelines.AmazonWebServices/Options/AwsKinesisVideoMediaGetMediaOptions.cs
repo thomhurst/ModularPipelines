@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesis-video-media", "get-media")]
+[CliCommand("kinesis-video-media", "get-media")]
 public record AwsKinesisVideoMediaGetMediaOptions(
-[property: CommandSwitch("--start-selector")] string StartSelector
+[property: CliOption("--start-selector")] string StartSelector
 ) : AwsOptions
 {
-    [CommandSwitch("--stream-name")]
+    [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
-    [CommandSwitch("--stream-arn")]
+    [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 }

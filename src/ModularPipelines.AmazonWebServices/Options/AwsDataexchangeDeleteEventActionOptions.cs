@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataexchange", "delete-event-action")]
+[CliCommand("dataexchange", "delete-event-action")]
 public record AwsDataexchangeDeleteEventActionOptions(
-[property: CommandSwitch("--event-action-id")] string EventActionId
+[property: CliOption("--event-action-id")] string EventActionId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

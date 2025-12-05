@@ -5,112 +5,112 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datastream", "connection-profiles", "update")]
+[CliCommand("datastream", "connection-profiles", "update")]
 public record GcloudDatastreamConnectionProfilesUpdateOptions(
-[property: PositionalArgument] string ConnectionProfile,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--type")] string Type
+[property: CliArgument] string ConnectionProfile,
+[property: CliArgument] string Location,
+[property: CliOption("--type")] string Type
 ) : GcloudOptions
 {
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [CommandSwitch("--bucket")]
+    [CliOption("--bucket")]
     public string? Bucket { get; set; }
 
-    [CommandSwitch("--root-path")]
+    [CliOption("--root-path")]
     public string? RootPath { get; set; }
 
-    [CommandSwitch("--database-service")]
+    [CliOption("--database-service")]
     public string? DatabaseService { get; set; }
 
-    [CommandSwitch("--oracle-hostname")]
+    [CliOption("--oracle-hostname")]
     public string? OracleHostname { get; set; }
 
-    [CommandSwitch("--oracle-port")]
+    [CliOption("--oracle-port")]
     public string? OraclePort { get; set; }
 
-    [CommandSwitch("--oracle-username")]
+    [CliOption("--oracle-username")]
     public string? OracleUsername { get; set; }
 
-    [CommandSwitch("--oracle-password")]
+    [CliOption("--oracle-password")]
     public string? OraclePassword { get; set; }
 
-    [BooleanCommandSwitch("--oracle-prompt-for-password")]
+    [CliFlag("--oracle-prompt-for-password")]
     public bool? OraclePromptForPassword { get; set; }
 
-    [CommandSwitch("--mysql-hostname")]
+    [CliOption("--mysql-hostname")]
     public string? MysqlHostname { get; set; }
 
-    [CommandSwitch("--mysql-port")]
+    [CliOption("--mysql-port")]
     public string? MysqlPort { get; set; }
 
-    [CommandSwitch("--mysql-username")]
+    [CliOption("--mysql-username")]
     public string? MysqlUsername { get; set; }
 
-    [CommandSwitch("--ca-certificate")]
+    [CliOption("--ca-certificate")]
     public string? CaCertificate { get; set; }
 
-    [CommandSwitch("--client-certificate")]
+    [CliOption("--client-certificate")]
     public string? ClientCertificate { get; set; }
 
-    [CommandSwitch("--client-key")]
+    [CliOption("--client-key")]
     public string? ClientKey { get; set; }
 
-    [CommandSwitch("--mysql-password")]
+    [CliOption("--mysql-password")]
     public string? MysqlPassword { get; set; }
 
-    [BooleanCommandSwitch("--mysql-prompt-for-password")]
+    [CliFlag("--mysql-prompt-for-password")]
     public bool? MysqlPromptForPassword { get; set; }
 
-    [CommandSwitch("--postgresql-database")]
+    [CliOption("--postgresql-database")]
     public string? PostgresqlDatabase { get; set; }
 
-    [CommandSwitch("--postgresql-hostname")]
+    [CliOption("--postgresql-hostname")]
     public string? PostgresqlHostname { get; set; }
 
-    [CommandSwitch("--postgresql-port")]
+    [CliOption("--postgresql-port")]
     public string? PostgresqlPort { get; set; }
 
-    [CommandSwitch("--postgresql-username")]
+    [CliOption("--postgresql-username")]
     public string? PostgresqlUsername { get; set; }
 
-    [CommandSwitch("--postgresql-password")]
+    [CliOption("--postgresql-password")]
     public string? PostgresqlPassword { get; set; }
 
-    [BooleanCommandSwitch("--postgresql-prompt-for-password")]
+    [CliFlag("--postgresql-prompt-for-password")]
     public bool? PostgresqlPromptForPassword { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 
-    [CommandSwitch("--private-connection")]
+    [CliOption("--private-connection")]
     public string? PrivateConnection { get; set; }
 
-    [BooleanCommandSwitch("--static-ip-connectivity")]
+    [CliFlag("--static-ip-connectivity")]
     public bool? StaticIpConnectivity { get; set; }
 
-    [CommandSwitch("--forward-ssh-hostname")]
+    [CliOption("--forward-ssh-hostname")]
     public string? ForwardSshHostname { get; set; }
 
-    [CommandSwitch("--forward-ssh-port")]
+    [CliOption("--forward-ssh-port")]
     public string? ForwardSshPort { get; set; }
 
-    [CommandSwitch("--forward-ssh-username")]
+    [CliOption("--forward-ssh-username")]
     public string? ForwardSshUsername { get; set; }
 
-    [CommandSwitch("--forward-ssh-password")]
+    [CliOption("--forward-ssh-password")]
     public string? ForwardSshPassword { get; set; }
 
-    [CommandSwitch("--forward-ssh-private-key")]
+    [CliOption("--forward-ssh-private-key")]
     public string? ForwardSshPrivateKey { get; set; }
 }

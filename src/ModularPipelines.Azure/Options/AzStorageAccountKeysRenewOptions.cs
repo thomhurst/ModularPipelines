@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "account", "keys", "renew")]
+[CliSubCommand("storage", "account", "keys", "renew")]
 public record AzStorageAccountKeysRenewOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--key")] string Key
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--key")] string Key
 ) : AzOptions
 {
-    [CommandSwitch("--key-type")]
+    [CliOption("--key-type")]
     public string? KeyType { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

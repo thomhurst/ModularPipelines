@@ -5,30 +5,30 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr-serverless", "start-job-run")]
+[CliCommand("emr-serverless", "start-job-run")]
 public record AwsEmrServerlessStartJobRunOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--execution-role-arn")] string ExecutionRoleArn
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--execution-role-arn")] string ExecutionRoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--job-driver")]
+    [CliOption("--job-driver")]
     public string? JobDriver { get; set; }
 
-    [CommandSwitch("--configuration-overrides")]
+    [CliOption("--configuration-overrides")]
     public string? ConfigurationOverrides { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--execution-timeout-minutes")]
+    [CliOption("--execution-timeout-minutes")]
     public long? ExecutionTimeoutMinutes { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

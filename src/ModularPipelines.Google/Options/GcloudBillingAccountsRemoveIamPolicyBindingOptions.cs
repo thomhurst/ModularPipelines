@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "accounts", "remove-iam-policy-binding")]
+[CliCommand("billing", "accounts", "remove-iam-policy-binding")]
 public record GcloudBillingAccountsRemoveIamPolicyBindingOptions : GcloudOptions
 {
     public GcloudBillingAccountsRemoveIamPolicyBindingOptions(
@@ -18,12 +18,12 @@ public record GcloudBillingAccountsRemoveIamPolicyBindingOptions : GcloudOptions
         Role = role;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string GcloudBillingAccountsRemoveIamPolicyBindingOptionsAccount { get; set; }
 
-    [CommandSwitch("--member")]
+    [CliOption("--member")]
     public string Member { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string Role { get; set; }
 }

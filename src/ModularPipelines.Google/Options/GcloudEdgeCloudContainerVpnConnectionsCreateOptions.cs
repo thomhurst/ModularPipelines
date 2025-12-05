@@ -5,31 +5,31 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cloud", "container", "vpn-connections", "create")]
+[CliCommand("edge-cloud", "container", "vpn-connections", "create")]
 public record GcloudEdgeCloudContainerVpnConnectionsCreateOptions(
-[property: PositionalArgument] string VpnConnection,
-[property: CommandSwitch("--cluster")] string Cluster,
-[property: CommandSwitch("--vpc-network")] string VpcNetwork
+[property: CliArgument] string VpnConnection,
+[property: CliOption("--cluster")] string Cluster,
+[property: CliOption("--vpc-network")] string VpcNetwork
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--high-availability")]
+    [CliFlag("--high-availability")]
     public bool? HighAvailability { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--nat-gateway-ip")]
+    [CliOption("--nat-gateway-ip")]
     public string? NatGatewayIp { get; set; }
 
-    [CommandSwitch("--router")]
+    [CliOption("--router")]
     public string? Router { get; set; }
 
-    [CommandSwitch("--vpc-project")]
+    [CliOption("--vpc-project")]
     public string? VpcProject { get; set; }
 }

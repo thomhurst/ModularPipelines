@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("grafana", "restore")]
+[CliSubCommand("grafana", "restore")]
 public record AzGrafanaRestoreOptions(
-[property: CommandSwitch("--archive-file")] string ArchiveFile,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--archive-file")] string ArchiveFile,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--components")]
+    [CliOption("--components")]
     public string? Components { get; set; }
 
-    [BooleanCommandSwitch("--remap-data-sources")]
+    [CliFlag("--remap-data-sources")]
     public bool? RemapDataSources { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

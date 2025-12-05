@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutequipment", "import-dataset")]
+[CliCommand("lookoutequipment", "import-dataset")]
 public record AwsLookoutequipmentImportDatasetOptions(
-[property: CommandSwitch("--source-dataset-arn")] string SourceDatasetArn
+[property: CliOption("--source-dataset-arn")] string SourceDatasetArn
 ) : AwsOptions
 {
-    [CommandSwitch("--dataset-name")]
+    [CliOption("--dataset-name")]
     public string? DatasetName { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--server-side-kms-key-id")]
+    [CliOption("--server-side-kms-key-id")]
     public string? ServerSideKmsKeyId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access-context-manager")]
+[CliCommand("access-context-manager")]
 public class GcloudAccessContextManagerPerimeters
 {
     public GcloudAccessContextManagerPerimeters(

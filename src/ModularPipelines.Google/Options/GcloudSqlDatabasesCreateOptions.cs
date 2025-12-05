@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "databases", "create")]
+[CliCommand("sql", "databases", "create")]
 public record GcloudSqlDatabasesCreateOptions(
-[property: PositionalArgument] string Database,
-[property: CommandSwitch("--instance")] string Instance
+[property: CliArgument] string Database,
+[property: CliOption("--instance")] string Instance
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--charset")]
+    [CliOption("--charset")]
     public string? Charset { get; set; }
 
-    [CommandSwitch("--collation")]
+    [CliOption("--collation")]
     public string? Collation { get; set; }
 }

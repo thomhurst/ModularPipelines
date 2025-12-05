@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spanner", "databases", "sessions", "list")]
+[CliCommand("spanner", "databases", "sessions", "list")]
 public record GcloudSpannerDatabasesSessionsListOptions(
-[property: CommandSwitch("--database")] string Database,
-[property: CommandSwitch("--instance")] string Instance
+[property: CliOption("--database")] string Database,
+[property: CliOption("--instance")] string Instance
 ) : GcloudOptions
 {
-    [CommandSwitch("--server-filter")]
+    [CliOption("--server-filter")]
     public string? ServerFilter { get; set; }
 }

@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecommit", "credential-helper")]
+[CliCommand("codecommit", "credential-helper")]
 public record AwsCodecommitCredentialHelperOptions : AwsOptions;

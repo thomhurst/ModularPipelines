@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("license-manager", "create-license")]
+[CliCommand("license-manager", "create-license")]
 public record AwsLicenseManagerCreateLicenseOptions(
-[property: CommandSwitch("--license-name")] string LicenseName,
-[property: CommandSwitch("--product-name")] string ProductName,
-[property: CommandSwitch("--product-sku")] string ProductSku,
-[property: CommandSwitch("--issuer")] string Issuer,
-[property: CommandSwitch("--home-region")] string HomeRegion,
-[property: CommandSwitch("--validity")] string Validity,
-[property: CommandSwitch("--entitlements")] string[] Entitlements,
-[property: CommandSwitch("--beneficiary")] string Beneficiary,
-[property: CommandSwitch("--consumption-configuration")] string ConsumptionConfiguration,
-[property: CommandSwitch("--client-token")] string ClientToken
+[property: CliOption("--license-name")] string LicenseName,
+[property: CliOption("--product-name")] string ProductName,
+[property: CliOption("--product-sku")] string ProductSku,
+[property: CliOption("--issuer")] string Issuer,
+[property: CliOption("--home-region")] string HomeRegion,
+[property: CliOption("--validity")] string Validity,
+[property: CliOption("--entitlements")] string[] Entitlements,
+[property: CliOption("--beneficiary")] string Beneficiary,
+[property: CliOption("--consumption-configuration")] string ConsumptionConfiguration,
+[property: CliOption("--client-token")] string ClientToken
 ) : AwsOptions
 {
-    [CommandSwitch("--license-metadata")]
+    [CliOption("--license-metadata")]
     public string[]? LicenseMetadata { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

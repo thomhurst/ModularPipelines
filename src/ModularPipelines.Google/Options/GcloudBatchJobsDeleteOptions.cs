@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "jobs", "delete")]
+[CliCommand("batch", "jobs", "delete")]
 public record GcloudBatchJobsDeleteOptions(
-[property: PositionalArgument] string Job,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Job,
+[property: CliArgument] string Location
 ) : GcloudOptions;

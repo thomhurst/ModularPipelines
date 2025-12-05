@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "list-audit-suppressions")]
+[CliCommand("iot", "list-audit-suppressions")]
 public record AwsIotListAuditSuppressionsOptions : AwsOptions
 {
-    [CommandSwitch("--check-name")]
+    [CliOption("--check-name")]
     public string? CheckName { get; set; }
 
-    [CommandSwitch("--resource-identifier")]
+    [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

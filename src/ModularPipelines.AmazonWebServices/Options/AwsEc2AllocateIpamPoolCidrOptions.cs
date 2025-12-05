@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "allocate-ipam-pool-cidr")]
+[CliCommand("ec2", "allocate-ipam-pool-cidr")]
 public record AwsEc2AllocateIpamPoolCidrOptions(
-[property: CommandSwitch("--ipam-pool-id")] string IpamPoolId
+[property: CliOption("--ipam-pool-id")] string IpamPoolId
 ) : AwsOptions
 {
-    [CommandSwitch("--cidr")]
+    [CliOption("--cidr")]
     public string? Cidr { get; set; }
 
-    [CommandSwitch("--netmask-length")]
+    [CliOption("--netmask-length")]
     public int? NetmaskLength { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--allowed-cidrs")]
+    [CliOption("--allowed-cidrs")]
     public string[]? AllowedCidrs { get; set; }
 
-    [CommandSwitch("--disallowed-cidrs")]
+    [CliOption("--disallowed-cidrs")]
     public string[]? DisallowedCidrs { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

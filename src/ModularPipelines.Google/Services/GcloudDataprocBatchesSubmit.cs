@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "batches")]
+[CliCommand("dataproc", "batches")]
 public class GcloudDataprocBatchesSubmit
 {
     public GcloudDataprocBatchesSubmit(

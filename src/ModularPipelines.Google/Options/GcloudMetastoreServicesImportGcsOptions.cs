@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("metastore", "services", "import", "gcs")]
+[CliCommand("metastore", "services", "import", "gcs")]
 public record GcloudMetastoreServicesImportGcsOptions(
-[property: PositionalArgument] string Service,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--database-dump")] string DatabaseDump,
-[property: CommandSwitch("--import-id")] string ImportId
+[property: CliArgument] string Service,
+[property: CliArgument] string Location,
+[property: CliOption("--database-dump")] string DatabaseDump,
+[property: CliOption("--import-id")] string ImportId
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--dump-type")]
+    [CliOption("--dump-type")]
     public string? DumpType { get; set; }
 }

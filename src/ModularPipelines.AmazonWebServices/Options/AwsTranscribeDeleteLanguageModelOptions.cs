@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transcribe", "delete-language-model")]
+[CliCommand("transcribe", "delete-language-model")]
 public record AwsTranscribeDeleteLanguageModelOptions(
-[property: CommandSwitch("--model-name")] string ModelName
+[property: CliOption("--model-name")] string ModelName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

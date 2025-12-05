@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access", "list", "collaborators")]
+[CliCommand("access", "list", "collaborators")]
 public record NpmAccessListCollaboratorsOptions : NpmOptions
 {
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 
-    [CommandSwitch("--otp")]
+    [CliOption("--otp")]
     public virtual string? Otp { get; set; }
 
-    [CommandSwitch("--registry")]
+    [CliOption("--registry")]
     public virtual Uri? Registry { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
-    public string? Package { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    public virtual string? Package { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
-    public string? User { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    public virtual string? User { get; set; }
 }

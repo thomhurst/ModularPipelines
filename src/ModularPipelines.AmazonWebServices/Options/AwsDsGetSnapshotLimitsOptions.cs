@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ds", "get-snapshot-limits")]
+[CliCommand("ds", "get-snapshot-limits")]
 public record AwsDsGetSnapshotLimitsOptions(
-[property: CommandSwitch("--directory-id")] string DirectoryId
+[property: CliOption("--directory-id")] string DirectoryId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-services", "http-routes", "delete")]
+[CliCommand("network-services", "http-routes", "delete")]
 public record GcloudNetworkServicesHttpRoutesDeleteOptions(
-[property: PositionalArgument] string HttpRoute,
-[property: PositionalArgument] string Location
+[property: CliArgument] string HttpRoute,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

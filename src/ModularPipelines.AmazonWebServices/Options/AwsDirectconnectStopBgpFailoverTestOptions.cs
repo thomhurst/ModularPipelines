@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("directconnect", "stop-bgp-failover-test")]
+[CliCommand("directconnect", "stop-bgp-failover-test")]
 public record AwsDirectconnectStopBgpFailoverTestOptions(
-[property: CommandSwitch("--virtual-interface-id")] string VirtualInterfaceId
+[property: CliOption("--virtual-interface-id")] string VirtualInterfaceId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

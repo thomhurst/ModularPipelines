@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "tpus", "delete")]
+[CliCommand("compute", "tpus", "delete")]
 public record GcloudComputeTpusDeleteOptions(
-[property: PositionalArgument] string Tpu,
-[property: PositionalArgument] string Zone
+[property: CliArgument] string Tpu,
+[property: CliArgument] string Zone
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

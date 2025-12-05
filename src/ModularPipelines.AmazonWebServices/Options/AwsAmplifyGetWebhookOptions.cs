@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amplify", "get-webhook")]
+[CliCommand("amplify", "get-webhook")]
 public record AwsAmplifyGetWebhookOptions(
-[property: CommandSwitch("--webhook-id")] string WebhookId
+[property: CliOption("--webhook-id")] string WebhookId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

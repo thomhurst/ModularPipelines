@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "jobs", "list")]
+[CliCommand("transfer", "jobs", "list")]
 public record GcloudTransferJobsListOptions : GcloudOptions
 {
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public string? Limit { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public string? PageSize { get; set; }
 
-    [CommandSwitch("--job-names")]
+    [CliOption("--job-names")]
     public string[]? JobNames { get; set; }
 
-    [CommandSwitch("--job-statuses")]
+    [CliOption("--job-statuses")]
     public string[]? JobStatuses { get; set; }
 
-    [BooleanCommandSwitch("--expand-table")]
+    [CliFlag("--expand-table")]
     public bool? ExpandTable { get; set; }
 }

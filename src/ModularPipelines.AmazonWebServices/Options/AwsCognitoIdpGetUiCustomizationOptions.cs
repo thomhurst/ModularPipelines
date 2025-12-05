@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "get-ui-customization")]
+[CliCommand("cognito-idp", "get-ui-customization")]
 public record AwsCognitoIdpGetUiCustomizationOptions(
-[property: CommandSwitch("--user-pool-id")] string UserPoolId
+[property: CliOption("--user-pool-id")] string UserPoolId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-id")]
+    [CliOption("--client-id")]
     public string? ClientId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

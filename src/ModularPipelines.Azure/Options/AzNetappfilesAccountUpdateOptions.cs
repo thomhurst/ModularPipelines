@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "account", "update")]
+[CliSubCommand("netappfiles", "account", "update")]
 public record AzNetappfilesAccountUpdateOptions : AzOptions
 {
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--identity-type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--key-name")]
+    [CliOption("--key-name")]
     public string? KeyName { get; set; }
 
-    [CommandSwitch("--key-source")]
+    [CliOption("--key-source")]
     public string? KeySource { get; set; }
 
-    [CommandSwitch("--key-vault-uri")]
+    [CliOption("--key-vault-uri")]
     public string? KeyVaultUri { get; set; }
 
-    [CommandSwitch("--keyvault-resource-id")]
+    [CliOption("--keyvault-resource-id")]
     public string? KeyvaultResourceId { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--user-assigned-identity")]
+    [CliOption("--user-assigned-identity")]
     public string? UserAssignedIdentity { get; set; }
 }

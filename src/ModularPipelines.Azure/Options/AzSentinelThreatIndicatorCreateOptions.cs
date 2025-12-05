@@ -4,93 +4,93 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "threat-indicator", "create")]
+[CliSubCommand("sentinel", "threat-indicator", "create")]
 public record AzSentinelThreatIndicatorCreateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--confidence")]
+    [CliOption("--confidence")]
     public string? Confidence { get; set; }
 
-    [CommandSwitch("--created")]
+    [CliOption("--created")]
     public string? Created { get; set; }
 
-    [CommandSwitch("--created-by-ref")]
+    [CliOption("--created-by-ref")]
     public string? CreatedByRef { get; set; }
 
-    [BooleanCommandSwitch("--defanged")]
+    [CliFlag("--defanged")]
     public bool? Defanged { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [CommandSwitch("--external-id")]
+    [CliOption("--external-id")]
     public string? ExternalId { get; set; }
 
-    [CommandSwitch("--external-references")]
+    [CliOption("--external-references")]
     public string? ExternalReferences { get; set; }
 
-    [CommandSwitch("--external-updated-time")]
+    [CliOption("--external-updated-time")]
     public string? ExternalUpdatedTime { get; set; }
 
-    [CommandSwitch("--granular-markings")]
+    [CliOption("--granular-markings")]
     public string? GranularMarkings { get; set; }
 
-    [CommandSwitch("--indicator-types")]
+    [CliOption("--indicator-types")]
     public string? IndicatorTypes { get; set; }
 
-    [CommandSwitch("--kill-chain-phases")]
+    [CliOption("--kill-chain-phases")]
     public string? KillChainPhases { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 
-    [CommandSwitch("--language")]
+    [CliOption("--language")]
     public string? Language { get; set; }
 
-    [CommandSwitch("--last-updated-time")]
+    [CliOption("--last-updated-time")]
     public string? LastUpdatedTime { get; set; }
 
-    [CommandSwitch("--modified")]
+    [CliOption("--modified")]
     public string? Modified { get; set; }
 
-    [CommandSwitch("--object-marking-refs")]
+    [CliOption("--object-marking-refs")]
     public string? ObjectMarkingRefs { get; set; }
 
-    [CommandSwitch("--parsed-pattern")]
+    [CliOption("--parsed-pattern")]
     public string? ParsedPattern { get; set; }
 
-    [CommandSwitch("--pattern")]
+    [CliOption("--pattern")]
     public string? Pattern { get; set; }
 
-    [CommandSwitch("--pattern-type")]
+    [CliOption("--pattern-type")]
     public string? PatternType { get; set; }
 
-    [CommandSwitch("--pattern-version")]
+    [CliOption("--pattern-version")]
     public string? PatternVersion { get; set; }
 
-    [BooleanCommandSwitch("--revoked")]
+    [CliFlag("--revoked")]
     public bool? Revoked { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CommandSwitch("--threat-tags")]
+    [CliOption("--threat-tags")]
     public string? ThreatTags { get; set; }
 
-    [CommandSwitch("--threat-types")]
+    [CliOption("--threat-types")]
     public string? ThreatTypes { get; set; }
 
-    [CommandSwitch("--valid-from")]
+    [CliOption("--valid-from")]
     public string? ValidFrom { get; set; }
 
-    [CommandSwitch("--valid-until")]
+    [CliOption("--valid-until")]
     public string? ValidUntil { get; set; }
 }

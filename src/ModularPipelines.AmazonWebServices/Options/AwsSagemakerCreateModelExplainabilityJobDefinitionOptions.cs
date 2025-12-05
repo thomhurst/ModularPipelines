@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-model-explainability-job-definition")]
+[CliCommand("sagemaker", "create-model-explainability-job-definition")]
 public record AwsSagemakerCreateModelExplainabilityJobDefinitionOptions(
-[property: CommandSwitch("--job-definition-name")] string JobDefinitionName,
-[property: CommandSwitch("--model-explainability-app-specification")] string ModelExplainabilityAppSpecification,
-[property: CommandSwitch("--model-explainability-job-input")] string ModelExplainabilityJobInput,
-[property: CommandSwitch("--model-explainability-job-output-config")] string ModelExplainabilityJobOutputConfig,
-[property: CommandSwitch("--job-resources")] string JobResources,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--job-definition-name")] string JobDefinitionName,
+[property: CliOption("--model-explainability-app-specification")] string ModelExplainabilityAppSpecification,
+[property: CliOption("--model-explainability-job-input")] string ModelExplainabilityJobInput,
+[property: CliOption("--model-explainability-job-output-config")] string ModelExplainabilityJobOutputConfig,
+[property: CliOption("--job-resources")] string JobResources,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--model-explainability-baseline-config")]
+    [CliOption("--model-explainability-baseline-config")]
     public string? ModelExplainabilityBaselineConfig { get; set; }
 
-    [CommandSwitch("--network-config")]
+    [CliOption("--network-config")]
     public string? NetworkConfig { get; set; }
 
-    [CommandSwitch("--stopping-condition")]
+    [CliOption("--stopping-condition")]
     public string? StoppingCondition { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

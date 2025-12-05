@@ -15,18 +15,18 @@ public record DockerSearchOptions : DockerOptions
         Term = term;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Term { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Term { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public virtual string? Filter { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public virtual string? Limit { get; set; }
 
-    [BooleanCommandSwitch("--no-trunc")]
+    [CliFlag("--no-trunc")]
     public virtual bool? NoTrunc { get; set; }
 }

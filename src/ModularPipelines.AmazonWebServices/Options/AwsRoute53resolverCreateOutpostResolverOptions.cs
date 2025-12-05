@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53resolver", "create-outpost-resolver")]
+[CliCommand("route53resolver", "create-outpost-resolver")]
 public record AwsRoute53resolverCreateOutpostResolverOptions(
-[property: CommandSwitch("--creator-request-id")] string CreatorRequestId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--preferred-instance-type")] string PreferredInstanceType,
-[property: CommandSwitch("--outpost-arn")] string OutpostArn
+[property: CliOption("--creator-request-id")] string CreatorRequestId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--preferred-instance-type")] string PreferredInstanceType,
+[property: CliOption("--outpost-arn")] string OutpostArn
 ) : AwsOptions
 {
-    [CommandSwitch("--instance-count")]
+    [CliOption("--instance-count")]
     public int? InstanceCount { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

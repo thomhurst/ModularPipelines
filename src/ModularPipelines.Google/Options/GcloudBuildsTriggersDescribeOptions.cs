@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("builds", "triggers", "describe")]
+[CliCommand("builds", "triggers", "describe")]
 public record GcloudBuildsTriggersDescribeOptions(
-[property: PositionalArgument] string Trigger,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Trigger,
+[property: CliArgument] string Region
 ) : GcloudOptions;

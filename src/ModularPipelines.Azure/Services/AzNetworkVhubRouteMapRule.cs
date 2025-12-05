@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vhub", "route-map")]
+[CliCommand("network", "vhub", "route-map")]
 public class AzNetworkVhubRouteMapRule
 {
     public AzNetworkVhubRouteMapRule(

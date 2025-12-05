@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "describe-fpga-images")]
+[CliCommand("ec2", "describe-fpga-images")]
 public record AwsEc2DescribeFpgaImagesOptions : AwsOptions
 {
-    [CommandSwitch("--fpga-image-ids")]
+    [CliOption("--fpga-image-ids")]
     public string[]? FpgaImageIds { get; set; }
 
-    [CommandSwitch("--owners")]
+    [CliOption("--owners")]
     public string[]? Owners { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

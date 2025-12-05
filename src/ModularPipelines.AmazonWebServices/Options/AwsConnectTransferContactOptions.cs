@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "transfer-contact")]
+[CliCommand("connect", "transfer-contact")]
 public record AwsConnectTransferContactOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--contact-id")] string ContactId,
-[property: CommandSwitch("--contact-flow-id")] string ContactFlowId
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--contact-id")] string ContactId,
+[property: CliOption("--contact-flow-id")] string ContactFlowId
 ) : AwsOptions
 {
-    [CommandSwitch("--queue-id")]
+    [CliOption("--queue-id")]
     public string? QueueId { get; set; }
 
-    [CommandSwitch("--user-id")]
+    [CliOption("--user-id")]
     public string? UserId { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

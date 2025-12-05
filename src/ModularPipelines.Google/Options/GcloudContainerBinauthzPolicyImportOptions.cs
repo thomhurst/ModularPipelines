@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "binauthz", "policy", "import")]
+[CliCommand("container", "binauthz", "policy", "import")]
 public record GcloudContainerBinauthzPolicyImportOptions(
-[property: PositionalArgument] string PolicyFile
+[property: CliArgument] string PolicyFile
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--strict-validation")]
+    [CliFlag("--strict-validation")]
     public bool? StrictValidation { get; set; }
 }

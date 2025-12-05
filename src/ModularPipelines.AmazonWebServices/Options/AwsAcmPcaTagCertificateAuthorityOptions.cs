@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acm-pca", "tag-certificate-authority")]
+[CliCommand("acm-pca", "tag-certificate-authority")]
 public record AwsAcmPcaTagCertificateAuthorityOptions(
-[property: CommandSwitch("--certificate-authority-arn")] string CertificateAuthorityArn,
-[property: CommandSwitch("--tags")] string[] Tags
+[property: CliOption("--certificate-authority-arn")] string CertificateAuthorityArn,
+[property: CliOption("--tags")] string[] Tags
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

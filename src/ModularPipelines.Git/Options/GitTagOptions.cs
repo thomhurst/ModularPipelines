@@ -3,82 +3,82 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("tag")]
+[CliSubCommand("tag")]
 [ExcludeFromCodeCoverage]
 public record GitTagOptions : GitOptions
 {
-    [BooleanCommandSwitch("--annotate")]
+    [CliFlag("--annotate")]
     public virtual bool? Annotate { get; set; }
 
-    [BooleanCommandSwitch("--sign")]
+    [CliFlag("--sign")]
     public virtual bool? Sign { get; set; }
 
-    [BooleanCommandSwitch("--no-sign")]
+    [CliFlag("--no-sign")]
     public virtual bool? NoSign { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--local-user")]
-    public string? LocalUser { get; set; }
+    [CliOption("--local-user", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? LocalUser { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--delete")]
+    [CliFlag("--delete")]
     public virtual bool? Delete { get; set; }
 
-    [BooleanCommandSwitch("--verify")]
+    [CliFlag("--verify")]
     public virtual bool? Verify { get; set; }
 
-    [BooleanCommandSwitch("--list")]
+    [CliFlag("--list")]
     public virtual bool? List { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--sort")]
-    public string? Sort { get; set; }
+    [CliOption("--sort", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Sort { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--color")]
-    public string? Color { get; set; }
+    [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Color { get; set; }
 
-    [BooleanCommandSwitch("--ignore-case")]
+    [CliFlag("--ignore-case")]
     public virtual bool? IgnoreCase { get; set; }
 
-    [BooleanCommandSwitch("--omit-empty")]
+    [CliFlag("--omit-empty")]
     public virtual bool? OmitEmpty { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--column")]
-    public string? Column { get; set; }
+    [CliOption("--column", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Column { get; set; }
 
-    [BooleanCommandSwitch("--no-column")]
+    [CliFlag("--no-column")]
     public virtual bool? NoColumn { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--contains")]
-    public string? Contains { get; set; }
+    [CliOption("--contains", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Contains { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--no-contains")]
-    public string? NoContains { get; set; }
+    [CliOption("--no-contains", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? NoContains { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--merged")]
-    public string? Merged { get; set; }
+    [CliOption("--merged", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Merged { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--no-merged")]
-    public string? NoMerged { get; set; }
+    [CliOption("--no-merged", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? NoMerged { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--points-at")]
-    public string? PointsAt { get; set; }
+    [CliOption("--points-at", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? PointsAt { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--message")]
-    public string? Message { get; set; }
+    [CliOption("--message", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Message { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--file")]
-    public string? File { get; set; }
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? File { get; set; }
 
-    [BooleanCommandSwitch("--edit")]
+    [CliFlag("--edit")]
     public virtual bool? Edit { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cleanup")]
-    public string? Cleanup { get; set; }
+    [CliOption("--cleanup", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Cleanup { get; set; }
 
-    [BooleanCommandSwitch("--create-reflog")]
+    [CliFlag("--create-reflog")]
     public virtual bool? CreateReflog { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--format")]
-    public string? Format { get; set; }
+    [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Format { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netapp", "volumes", "snapshots", "list")]
+[CliCommand("netapp", "volumes", "snapshots", "list")]
 public record GcloudNetappVolumesSnapshotsListOptions : GcloudOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--volume")]
+    [CliOption("--volume")]
     public string? Volume { get; set; }
 }

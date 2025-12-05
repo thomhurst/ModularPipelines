@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns", "response-policies", "rules", "delete")]
+[CliCommand("dns", "response-policies", "rules", "delete")]
 public record GcloudDnsResponsePoliciesRulesDeleteOptions(
-[property: PositionalArgument] string ResponsePolicyRule,
-[property: PositionalArgument] string ResponsePolicy
+[property: CliArgument] string ResponsePolicyRule,
+[property: CliArgument] string ResponsePolicy
 ) : GcloudOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

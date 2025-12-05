@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "test-invoke-authorizer")]
+[CliCommand("iot", "test-invoke-authorizer")]
 public record AwsIotTestInvokeAuthorizerOptions(
-[property: CommandSwitch("--authorizer-name")] string AuthorizerName
+[property: CliOption("--authorizer-name")] string AuthorizerName
 ) : AwsOptions
 {
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 
-    [CommandSwitch("--token-signature")]
+    [CliOption("--token-signature")]
     public string? TokenSignature { get; set; }
 
-    [CommandSwitch("--http-context")]
+    [CliOption("--http-context")]
     public string? HttpContext { get; set; }
 
-    [CommandSwitch("--mqtt-context")]
+    [CliOption("--mqtt-context")]
     public string? MqttContext { get; set; }
 
-    [CommandSwitch("--tls-context")]
+    [CliOption("--tls-context")]
     public string? TlsContext { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

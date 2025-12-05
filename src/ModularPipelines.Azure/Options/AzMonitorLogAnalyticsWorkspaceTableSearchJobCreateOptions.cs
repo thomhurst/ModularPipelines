@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "log-analytics", "workspace", "table", "search-job", "create")]
+[CliSubCommand("monitor", "log-analytics", "workspace", "table", "search-job", "create")]
 public record AzMonitorLogAnalyticsWorkspaceTableSearchJobCreateOptions(
-[property: CommandSwitch("--end-search-time")] string EndSearchTime,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--search-query")] string SearchQuery,
-[property: CommandSwitch("--start-search-time")] string StartSearchTime,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--end-search-time")] string EndSearchTime,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--search-query")] string SearchQuery,
+[property: CliOption("--start-search-time")] string StartSearchTime,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public string? Limit { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--retention-time")]
+    [CliOption("--retention-time")]
     public string? RetentionTime { get; set; }
 
-    [CommandSwitch("--total-retention-time")]
+    [CliOption("--total-retention-time")]
     public string? TotalRetentionTime { get; set; }
 }

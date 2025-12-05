@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("finspace", "get-kx-cluster")]
+[CliCommand("finspace", "get-kx-cluster")]
 public record AwsFinspaceGetKxClusterOptions(
-[property: CommandSwitch("--environment-id")] string EnvironmentId,
-[property: CommandSwitch("--cluster-name")] string ClusterName
+[property: CliOption("--environment-id")] string EnvironmentId,
+[property: CliOption("--cluster-name")] string ClusterName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

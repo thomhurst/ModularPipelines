@@ -4,106 +4,106 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "aws", "node-pools", "update")]
+[CliCommand("container", "aws", "node-pools", "update")]
 public record GcloudContainerAwsNodePoolsUpdateOptions(
-[property: PositionalArgument] string NodePool,
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Location
+[property: CliArgument] string NodePool,
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--config-encryption-kms-key-arn")]
+    [CliOption("--config-encryption-kms-key-arn")]
     public string? ConfigEncryptionKmsKeyArn { get; set; }
 
-    [BooleanCommandSwitch("--enable-autorepair")]
+    [CliFlag("--enable-autorepair")]
     public bool? EnableAutorepair { get; set; }
 
-    [CommandSwitch("--iam-instance-profile")]
+    [CliOption("--iam-instance-profile")]
     public string? IamInstanceProfile { get; set; }
 
-    [CommandSwitch("--instance-type")]
+    [CliOption("--instance-type")]
     public string? InstanceType { get; set; }
 
-    [CommandSwitch("--max-surge-update")]
+    [CliOption("--max-surge-update")]
     public string? MaxSurgeUpdate { get; set; }
 
-    [CommandSwitch("--max-unavailable-update")]
+    [CliOption("--max-unavailable-update")]
     public string? MaxUnavailableUpdate { get; set; }
 
-    [CommandSwitch("--node-version")]
+    [CliOption("--node-version")]
     public string? NodeVersion { get; set; }
 
-    [CommandSwitch("--root-volume-iops")]
+    [CliOption("--root-volume-iops")]
     public string? RootVolumeIops { get; set; }
 
-    [CommandSwitch("--root-volume-kms-key-arn")]
+    [CliOption("--root-volume-kms-key-arn")]
     public string? RootVolumeKmsKeyArn { get; set; }
 
-    [CommandSwitch("--root-volume-size")]
+    [CliOption("--root-volume-size")]
     public string? RootVolumeSize { get; set; }
 
-    [CommandSwitch("--root-volume-throughput")]
+    [CliOption("--root-volume-throughput")]
     public string? RootVolumeThroughput { get; set; }
 
-    [CommandSwitch("--root-volume-type")]
+    [CliOption("--root-volume-type")]
     public string? RootVolumeType { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
-    [CommandSwitch("--annotations")]
+    [CliOption("--annotations")]
     public string[]? Annotations { get; set; }
 
-    [BooleanCommandSwitch("--clear-annotations")]
+    [CliFlag("--clear-annotations")]
     public bool? ClearAnnotations { get; set; }
 
-    [BooleanCommandSwitch("--clear-autoscaling-metrics")]
+    [CliFlag("--clear-autoscaling-metrics")]
     public bool? ClearAutoscalingMetrics { get; set; }
 
-    [CommandSwitch("--autoscaling-metrics")]
+    [CliOption("--autoscaling-metrics")]
     public string[]? AutoscalingMetrics { get; set; }
 
-    [CommandSwitch("--autoscaling-metrics-granularity")]
+    [CliOption("--autoscaling-metrics-granularity")]
     public string? AutoscalingMetricsGranularity { get; set; }
 
-    [BooleanCommandSwitch("--clear-node-labels")]
+    [CliFlag("--clear-node-labels")]
     public bool? ClearNodeLabels { get; set; }
 
-    [CommandSwitch("--node-labels")]
+    [CliOption("--node-labels")]
     public string[]? NodeLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-proxy-config")]
+    [CliFlag("--clear-proxy-config")]
     public bool? ClearProxyConfig { get; set; }
 
-    [CommandSwitch("--proxy-secret-arn")]
+    [CliOption("--proxy-secret-arn")]
     public string? ProxySecretArn { get; set; }
 
-    [CommandSwitch("--proxy-secret-version-id")]
+    [CliOption("--proxy-secret-version-id")]
     public string? ProxySecretVersionId { get; set; }
 
-    [BooleanCommandSwitch("--clear-security-group-ids")]
+    [CliFlag("--clear-security-group-ids")]
     public bool? ClearSecurityGroupIds { get; set; }
 
-    [CommandSwitch("--security-group-ids")]
+    [CliOption("--security-group-ids")]
     public string[]? SecurityGroupIds { get; set; }
 
-    [BooleanCommandSwitch("--clear-ssh-ec2-key-pair")]
+    [CliFlag("--clear-ssh-ec2-key-pair")]
     public bool? ClearSshEc2KeyPair { get; set; }
 
-    [CommandSwitch("--ssh-ec2-key-pair")]
+    [CliOption("--ssh-ec2-key-pair")]
     public string? SshEc2KeyPair { get; set; }
 
-    [BooleanCommandSwitch("--clear-tags")]
+    [CliFlag("--clear-tags")]
     public bool? ClearTags { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--max-nodes")]
+    [CliOption("--max-nodes")]
     public string? MaxNodes { get; set; }
 
-    [CommandSwitch("--min-nodes")]
+    [CliOption("--min-nodes")]
     public string? MinNodes { get; set; }
 }

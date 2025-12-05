@@ -4,47 +4,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "objects", "update")]
+[CliCommand("storage", "objects", "update")]
 public record GcloudStorageObjectsUpdateOptions(
-[property: PositionalArgument] string Url
+[property: CliArgument] string Url
 ) : GcloudOptions
 {
-    [CommandSwitch("--additional-headers")]
+    [CliOption("--additional-headers")]
     public string? AdditionalHeaders { get; set; }
 
-    [BooleanCommandSwitch("--all-versions")]
+    [CliFlag("--all-versions")]
     public bool? AllVersions { get; set; }
 
-    [BooleanCommandSwitch("--continue-on-error")]
+    [CliFlag("--continue-on-error")]
     public bool? ContinueOnError { get; set; }
 
-    [CommandSwitch("--[no-]event-based-hold")]
+    [CliOption("--[no-]event-based-hold")]
     public string[]? NoEventBasedHold { get; set; }
 
-    [BooleanCommandSwitch("--read-paths-from-stdin")]
+    [CliFlag("--read-paths-from-stdin")]
     public bool? ReadPathsFromStdin { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public bool? Recursive { get; set; }
 
-    [CommandSwitch("--storage-class")]
+    [CliOption("--storage-class")]
     public string? StorageClass { get; set; }
 
-    [CommandSwitch("--[no-]temporary-hold")]
+    [CliOption("--[no-]temporary-hold")]
     public string[]? NoTemporaryHold { get; set; }
 
-    [CommandSwitch("--acl-file")]
+    [CliOption("--acl-file")]
     public string? AclFile { get; set; }
 
-    [CommandSwitch("--add-acl-grant")]
+    [CliOption("--add-acl-grant")]
     public string[]? AddAclGrant { get; set; }
 
-    [CommandSwitch("--canned-acl")]
+    [CliOption("--canned-acl")]
     public string? CannedAcl { get; set; }
 
-    [CommandSwitch("--[no-]preserve-acl")]
+    [CliOption("--[no-]preserve-acl")]
     public string[]? NoPreserveAcl { get; set; }
 
-    [CommandSwitch("--remove-acl-grant")]
+    [CliOption("--remove-acl-grant")]
     public string? RemoveAclGrant { get; set; }
 }

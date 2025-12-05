@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mesh", "secretvalue", "show")]
+[CliSubCommand("mesh", "secretvalue", "show")]
 public record AzMeshSecretvalueShowOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--secret-name")] string SecretName,
-[property: CommandSwitch("--version")] string Version
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--secret-name")] string SecretName,
+[property: CliOption("--version")] string Version
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--show-value")]
+    [CliFlag("--show-value")]
     public bool? ShowValue { get; set; }
 }

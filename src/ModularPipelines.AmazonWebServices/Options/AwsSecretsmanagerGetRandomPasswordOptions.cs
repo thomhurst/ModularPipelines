@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("secretsmanager", "get-random-password")]
+[CliCommand("secretsmanager", "get-random-password")]
 public record AwsSecretsmanagerGetRandomPasswordOptions : AwsOptions
 {
-    [CommandSwitch("--password-length")]
+    [CliOption("--password-length")]
     public long? PasswordLength { get; set; }
 
-    [CommandSwitch("--exclude-characters")]
+    [CliOption("--exclude-characters")]
     public string? ExcludeCharacters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

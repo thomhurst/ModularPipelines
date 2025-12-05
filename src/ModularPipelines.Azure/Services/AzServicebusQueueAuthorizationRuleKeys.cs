@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicebus", "queue", "authorization-rule")]
+[CliCommand("servicebus", "queue", "authorization-rule")]
 public class AzServicebusQueueAuthorizationRuleKeys
 {
     public AzServicebusQueueAuthorizationRuleKeys(

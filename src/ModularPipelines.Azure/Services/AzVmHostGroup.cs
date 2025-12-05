@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "host")]
+[CliCommand("vm", "host")]
 public class AzVmHostGroup
 {
     public AzVmHostGroup(

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3api", "put-bucket-lifecycle-configuration")]
+[CliCommand("s3api", "put-bucket-lifecycle-configuration")]
 public record AwsS3apiPutBucketLifecycleConfigurationOptions(
-[property: CommandSwitch("--bucket")] string Bucket
+[property: CliOption("--bucket")] string Bucket
 ) : AwsOptions
 {
-    [CommandSwitch("--checksum-algorithm")]
+    [CliOption("--checksum-algorithm")]
     public string? ChecksumAlgorithm { get; set; }
 
-    [CommandSwitch("--lifecycle-configuration")]
+    [CliOption("--lifecycle-configuration")]
     public string? LifecycleConfiguration { get; set; }
 
-    [CommandSwitch("--expected-bucket-owner")]
+    [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

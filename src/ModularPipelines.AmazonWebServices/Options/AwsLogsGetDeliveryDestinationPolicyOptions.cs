@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logs", "get-delivery-destination-policy")]
+[CliCommand("logs", "get-delivery-destination-policy")]
 public record AwsLogsGetDeliveryDestinationPolicyOptions(
-[property: CommandSwitch("--delivery-destination-name")] string DeliveryDestinationName
+[property: CliOption("--delivery-destination-name")] string DeliveryDestinationName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

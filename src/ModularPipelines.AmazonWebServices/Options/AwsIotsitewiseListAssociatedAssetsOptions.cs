@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotsitewise", "list-associated-assets")]
+[CliCommand("iotsitewise", "list-associated-assets")]
 public record AwsIotsitewiseListAssociatedAssetsOptions(
-[property: CommandSwitch("--asset-id")] string AssetId
+[property: CliOption("--asset-id")] string AssetId
 ) : AwsOptions
 {
-    [CommandSwitch("--hierarchy-id")]
+    [CliOption("--hierarchy-id")]
     public string? HierarchyId { get; set; }
 
-    [CommandSwitch("--traversal-direction")]
+    [CliOption("--traversal-direction")]
     public string? TraversalDirection { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,7 +5,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("asset", "saved-queries", "create")]
+[CliCommand("asset", "saved-queries", "create")]
 public record GcloudAssetSavedQueriesCreateOptions : GcloudOptions
 {
     public GcloudAssetSavedQueriesCreateOptions(
@@ -23,21 +23,21 @@ public record GcloudAssetSavedQueriesCreateOptions : GcloudOptions
         Project = project;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string QueryId { get; set; }
 
-    [CommandSwitch("--query-file-path")]
+    [CliOption("--query-file-path")]
     public string QueryFilePath { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 }

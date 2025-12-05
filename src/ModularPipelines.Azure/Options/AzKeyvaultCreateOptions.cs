@@ -4,71 +4,71 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "create")]
+[CliSubCommand("keyvault", "create")]
 public record AzKeyvaultCreateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--administrators")]
+    [CliOption("--administrators")]
     public string? Administrators { get; set; }
 
-    [CommandSwitch("--bypass")]
+    [CliOption("--bypass")]
     public string? Bypass { get; set; }
 
-    [CommandSwitch("--default-action")]
+    [CliOption("--default-action")]
     public string? DefaultAction { get; set; }
 
-    [BooleanCommandSwitch("--enable-purge-protection")]
+    [CliFlag("--enable-purge-protection")]
     public bool? EnablePurgeProtection { get; set; }
 
-    [BooleanCommandSwitch("--enable-rbac-authorization")]
+    [CliFlag("--enable-rbac-authorization")]
     public bool? EnableRbacAuthorization { get; set; }
 
-    [BooleanCommandSwitch("--enabled-for-deployment")]
+    [CliFlag("--enabled-for-deployment")]
     public bool? EnabledForDeployment { get; set; }
 
-    [BooleanCommandSwitch("--enabled-for-disk-encryption")]
+    [CliFlag("--enabled-for-disk-encryption")]
     public bool? EnabledForDiskEncryption { get; set; }
 
-    [BooleanCommandSwitch("--enabled-for-template-deployment")]
+    [CliFlag("--enabled-for-template-deployment")]
     public bool? EnabledForTemplateDeployment { get; set; }
 
-    [CommandSwitch("--hsm-name")]
+    [CliOption("--hsm-name")]
     public string? HsmName { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--mi-user-assigned")]
+    [CliOption("--mi-user-assigned")]
     public string? MiUserAssigned { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--network-acls")]
+    [CliOption("--network-acls")]
     public string? NetworkAcls { get; set; }
 
-    [CommandSwitch("--network-acls-ips")]
+    [CliOption("--network-acls-ips")]
     public string? NetworkAclsIps { get; set; }
 
-    [CommandSwitch("--network-acls-vnets")]
+    [CliOption("--network-acls-vnets")]
     public string? NetworkAclsVnets { get; set; }
 
-    [BooleanCommandSwitch("--no-self-perms")]
+    [CliFlag("--no-self-perms")]
     public bool? NoSelfPerms { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--public-network-access")]
+    [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
 
-    [CommandSwitch("--retention-days")]
+    [CliOption("--retention-days")]
     public string? RetentionDays { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

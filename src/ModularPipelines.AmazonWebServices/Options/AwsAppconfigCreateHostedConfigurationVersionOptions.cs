@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appconfig", "create-hosted-configuration-version")]
+[CliCommand("appconfig", "create-hosted-configuration-version")]
 public record AwsAppconfigCreateHostedConfigurationVersionOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--configuration-profile-id")] string ConfigurationProfileId,
-[property: CommandSwitch("--content")] string Content,
-[property: CommandSwitch("--content-type")] string ContentType
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--configuration-profile-id")] string ConfigurationProfileId,
+[property: CliOption("--content")] string Content,
+[property: CliOption("--content-type")] string ContentType
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--latest-version-number")]
+    [CliOption("--latest-version-number")]
     public int? LatestVersionNumber { get; set; }
 
-    [CommandSwitch("--version-label")]
+    [CliOption("--version-label")]
     public string? VersionLabel { get; set; }
 }

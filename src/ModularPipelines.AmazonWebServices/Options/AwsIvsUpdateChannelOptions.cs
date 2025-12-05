@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ivs", "update-channel")]
+[CliCommand("ivs", "update-channel")]
 public record AwsIvsUpdateChannelOptions(
-[property: CommandSwitch("--arn")] string Arn
+[property: CliOption("--arn")] string Arn
 ) : AwsOptions
 {
-    [CommandSwitch("--latency-mode")]
+    [CliOption("--latency-mode")]
     public string? LatencyMode { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--preset")]
+    [CliOption("--preset")]
     public string? Preset { get; set; }
 
-    [CommandSwitch("--recording-configuration-arn")]
+    [CliOption("--recording-configuration-arn")]
     public string? RecordingConfigurationArn { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

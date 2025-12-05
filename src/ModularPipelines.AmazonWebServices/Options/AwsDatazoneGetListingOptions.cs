@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datazone", "get-listing")]
+[CliCommand("datazone", "get-listing")]
 public record AwsDatazoneGetListingOptions(
-[property: CommandSwitch("--domain-identifier")] string DomainIdentifier,
-[property: CommandSwitch("--identifier")] string Identifier
+[property: CliOption("--domain-identifier")] string DomainIdentifier,
+[property: CliOption("--identifier")] string Identifier
 ) : AwsOptions
 {
-    [CommandSwitch("--listing-revision")]
+    [CliOption("--listing-revision")]
     public string? ListingRevision { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

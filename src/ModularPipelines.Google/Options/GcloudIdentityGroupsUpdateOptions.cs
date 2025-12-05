@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("identity", "groups", "update")]
+[CliCommand("identity", "groups", "update")]
 public record GcloudIdentityGroupsUpdateOptions(
-[property: PositionalArgument] string Email
+[property: CliArgument] string Email
 ) : GcloudOptions
 {
-    [CommandSwitch("--dynamic-user-query")]
+    [CliOption("--dynamic-user-query")]
     public string? DynamicUserQuery { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 
-    [BooleanCommandSwitch("--clear-description")]
+    [CliFlag("--clear-description")]
     public bool? ClearDescription { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--clear-display-name")]
+    [CliFlag("--clear-display-name")]
     public bool? ClearDisplayName { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 }

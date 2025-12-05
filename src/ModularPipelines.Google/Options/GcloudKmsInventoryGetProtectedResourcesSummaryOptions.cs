@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "inventory", "get-protected-resources-summary")]
+[CliCommand("kms", "inventory", "get-protected-resources-summary")]
 public record GcloudKmsInventoryGetProtectedResourcesSummaryOptions(
-[property: CommandSwitch("--keyname")] string Keyname,
-[property: CommandSwitch("--keyring")] string Keyring,
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--keyname")] string Keyname,
+[property: CliOption("--keyring")] string Keyring,
+[property: CliOption("--location")] string Location
 ) : GcloudOptions;

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vpc-lattice", "get-target-group")]
+[CliCommand("vpc-lattice", "get-target-group")]
 public record AwsVpcLatticeGetTargetGroupOptions(
-[property: CommandSwitch("--target-group-identifier")] string TargetGroupIdentifier
+[property: CliOption("--target-group-identifier")] string TargetGroupIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

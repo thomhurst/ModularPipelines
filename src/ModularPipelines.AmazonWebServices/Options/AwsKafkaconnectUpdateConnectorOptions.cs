@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kafkaconnect", "update-connector")]
+[CliCommand("kafkaconnect", "update-connector")]
 public record AwsKafkaconnectUpdateConnectorOptions(
-[property: CommandSwitch("--capacity")] string Capacity,
-[property: CommandSwitch("--connector-arn")] string ConnectorArn,
-[property: CommandSwitch("--current-version")] string CurrentVersion
+[property: CliOption("--capacity")] string Capacity,
+[property: CliOption("--connector-arn")] string ConnectorArn,
+[property: CliOption("--current-version")] string CurrentVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

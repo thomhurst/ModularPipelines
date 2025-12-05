@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "create-tape-with-barcode")]
+[CliCommand("storagegateway", "create-tape-with-barcode")]
 public record AwsStoragegatewayCreateTapeWithBarcodeOptions(
-[property: CommandSwitch("--gateway-arn")] string GatewayArn,
-[property: CommandSwitch("--tape-size-in-bytes")] long TapeSizeInBytes,
-[property: CommandSwitch("--tape-barcode")] string TapeBarcode
+[property: CliOption("--gateway-arn")] string GatewayArn,
+[property: CliOption("--tape-size-in-bytes")] long TapeSizeInBytes,
+[property: CliOption("--tape-barcode")] string TapeBarcode
 ) : AwsOptions
 {
-    [CommandSwitch("--kms-key")]
+    [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [CommandSwitch("--pool-id")]
+    [CliOption("--pool-id")]
     public string? PoolId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

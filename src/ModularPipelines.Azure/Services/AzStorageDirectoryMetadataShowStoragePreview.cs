@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "directory", "metadata", "show")]
+[CliCommand("storage", "directory", "metadata", "show")]
 public class AzStorageDirectoryMetadataShowStoragePreview
 {
     public AzStorageDirectoryMetadataShowStoragePreview(

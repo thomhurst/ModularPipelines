@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ds", "enable-ldaps")]
+[CliCommand("ds", "enable-ldaps")]
 public record AwsDsEnableLdapsOptions(
-[property: CommandSwitch("--directory-id")] string DirectoryId,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--directory-id")] string DirectoryId,
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

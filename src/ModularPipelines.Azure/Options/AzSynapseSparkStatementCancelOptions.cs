@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "spark", "statement", "cancel")]
+[CliSubCommand("synapse", "spark", "statement", "cancel")]
 public record AzSynapseSparkStatementCancelOptions(
-[property: CommandSwitch("--livy-id")] string LivyId,
-[property: CommandSwitch("--session-id")] string SessionId,
-[property: CommandSwitch("--spark-pool-name")] string SparkPoolName,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--livy-id")] string LivyId,
+[property: CliOption("--session-id")] string SessionId,
+[property: CliOption("--spark-pool-name")] string SparkPoolName,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

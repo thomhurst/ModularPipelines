@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("trustedadvisor", "update-recommendation-lifecycle")]
+[CliCommand("trustedadvisor", "update-recommendation-lifecycle")]
 public record AwsTrustedadvisorUpdateRecommendationLifecycleOptions(
-[property: CommandSwitch("--lifecycle-stage")] string LifecycleStage,
-[property: CommandSwitch("--recommendation-identifier")] string RecommendationIdentifier
+[property: CliOption("--lifecycle-stage")] string LifecycleStage,
+[property: CliOption("--recommendation-identifier")] string RecommendationIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--update-reason")]
+    [CliOption("--update-reason")]
     public string? UpdateReason { get; set; }
 
-    [CommandSwitch("--update-reason-code")]
+    [CliOption("--update-reason-code")]
     public string? UpdateReasonCode { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,72 +4,72 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "workspace", "update")]
+[CliSubCommand("synapse", "workspace", "update")]
 public record AzSynapseWorkspaceUpdateOptions : AzOptions
 {
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [BooleanCommandSwitch("--allowed-tenant-ids")]
+    [CliFlag("--allowed-tenant-ids")]
     public bool? AllowedTenantIds { get; set; }
 
-    [CommandSwitch("--collaboration-branch")]
+    [CliOption("--collaboration-branch")]
     public string? CollaborationBranch { get; set; }
 
-    [CommandSwitch("--host-name")]
+    [CliOption("--host-name")]
     public string? HostName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--key-name")]
+    [CliOption("--key-name")]
     public string? KeyName { get; set; }
 
-    [CommandSwitch("--last-commit-id")]
+    [CliOption("--last-commit-id")]
     public string? LastCommitId { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--project-name")]
+    [CliOption("--project-name")]
     public string? ProjectName { get; set; }
 
-    [CommandSwitch("--repository-name")]
+    [CliOption("--repository-name")]
     public string? RepositoryName { get; set; }
 
-    [CommandSwitch("--repository-type")]
+    [CliOption("--repository-type")]
     public string? RepositoryType { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--root-folder")]
+    [CliOption("--root-folder")]
     public string? RootFolder { get; set; }
 
-    [CommandSwitch("--sql-admin-login-password")]
+    [CliOption("--sql-admin-login-password")]
     public string? SqlAdminLoginPassword { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--tenant-id")]
+    [CliOption("--tenant-id")]
     public string? TenantId { get; set; }
 
-    [CommandSwitch("--uami-action")]
+    [CliOption("--uami-action")]
     public string? UamiAction { get; set; }
 
-    [CommandSwitch("--uami-id")]
+    [CliOption("--uami-id")]
     public string? UamiId { get; set; }
 
-    [CommandSwitch("--uami-id-in-encrypt")]
+    [CliOption("--uami-id-in-encrypt")]
     public string? UamiIdInEncrypt { get; set; }
 
-    [BooleanCommandSwitch("--use-sami-in-encrypt")]
+    [CliFlag("--use-sami-in-encrypt")]
     public bool? UseSamiInEncrypt { get; set; }
 }

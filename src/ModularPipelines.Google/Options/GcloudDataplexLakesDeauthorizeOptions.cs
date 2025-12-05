@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataplex", "lakes", "deauthorize")]
+[CliCommand("dataplex", "lakes", "deauthorize")]
 public record GcloudDataplexLakesDeauthorizeOptions(
-[property: CommandSwitch("--project-resource")] string ProjectResource,
-[property: CommandSwitch("--storage-bucket-resource")] string StorageBucketResource,
-[property: CommandSwitch("--bigquery-dataset-resource")] string BigqueryDatasetResource,
-[property: CommandSwitch("--secondary-project")] string SecondaryProject
+[property: CliOption("--project-resource")] string ProjectResource,
+[property: CliOption("--storage-bucket-resource")] string StorageBucketResource,
+[property: CliOption("--bigquery-dataset-resource")] string BigqueryDatasetResource,
+[property: CliOption("--secondary-project")] string SecondaryProject
 ) : GcloudOptions;

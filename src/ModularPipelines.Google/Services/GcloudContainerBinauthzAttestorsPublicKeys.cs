@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "binauthz", "attestors")]
+[CliCommand("container", "binauthz", "attestors")]
 public class GcloudContainerBinauthzAttestorsPublicKeys
 {
     public GcloudContainerBinauthzAttestorsPublicKeys(

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configservice", "describe-conformance-pack-compliance")]
+[CliCommand("configservice", "describe-conformance-pack-compliance")]
 public record AwsConfigserviceDescribeConformancePackComplianceOptions(
-[property: CommandSwitch("--conformance-pack-name")] string ConformancePackName
+[property: CliOption("--conformance-pack-name")] string ConformancePackName
 ) : AwsOptions
 {
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string? Filters { get; set; }
 
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public int? Limit { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

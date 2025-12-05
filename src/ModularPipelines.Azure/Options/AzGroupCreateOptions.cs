@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("group", "create")]
+[CliSubCommand("group", "create")]
 public record AzGroupCreateOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--location")] string Location,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--managed-by")]
+    [CliOption("--managed-by")]
     public string? ManagedBy { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

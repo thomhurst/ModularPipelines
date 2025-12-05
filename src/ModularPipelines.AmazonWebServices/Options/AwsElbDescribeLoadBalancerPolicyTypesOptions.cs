@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elb", "describe-load-balancer-policy-types")]
+[CliCommand("elb", "describe-load-balancer-policy-types")]
 public record AwsElbDescribeLoadBalancerPolicyTypesOptions : AwsOptions
 {
-    [CommandSwitch("--policy-type-names")]
+    [CliOption("--policy-type-names")]
     public string[]? PolicyTypeNames { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

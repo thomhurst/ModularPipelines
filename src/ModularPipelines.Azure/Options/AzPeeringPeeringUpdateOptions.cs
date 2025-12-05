@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("peering", "peering", "update")]
+[CliSubCommand("peering", "peering", "update")]
 public record AzPeeringPeeringUpdateOptions(
-[property: CommandSwitch("--peering-name")] string PeeringName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--peering-name")] string PeeringName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

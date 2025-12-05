@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("disk-pool", "create")]
+[CliSubCommand("disk-pool", "create")]
 public record AzDiskPoolCreateOptions(
-[property: CommandSwitch("--disk-pool-name")] string DiskPoolName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sku")] string Sku,
-[property: CommandSwitch("--subnet-id")] string SubnetId
+[property: CliOption("--disk-pool-name")] string DiskPoolName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sku")] string Sku,
+[property: CliOption("--subnet-id")] string SubnetId
 ) : AzOptions
 {
-    [CommandSwitch("--additional-capabilities")]
+    [CliOption("--additional-capabilities")]
     public string? AdditionalCapabilities { get; set; }
 
-    [CommandSwitch("--availability-zones")]
+    [CliOption("--availability-zones")]
     public string? AvailabilityZones { get; set; }
 
-    [CommandSwitch("--disks")]
+    [CliOption("--disks")]
     public string? Disks { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--managed-by")]
+    [CliOption("--managed-by")]
     public string? ManagedBy { get; set; }
 
-    [CommandSwitch("--managed-by-extended")]
+    [CliOption("--managed-by-extended")]
     public string? ManagedByExtended { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

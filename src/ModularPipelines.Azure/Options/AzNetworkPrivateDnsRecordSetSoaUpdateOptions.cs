@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "private-dns", "record-set", "soa", "update")]
+[CliSubCommand("network", "private-dns", "record-set", "soa", "update")]
 public record AzNetworkPrivateDnsRecordSetSoaUpdateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--zone-name")] string ZoneName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--zone-name")] string ZoneName
 ) : AzOptions
 {
-    [CommandSwitch("--email")]
+    [CliOption("--email")]
     public string? Email { get; set; }
 
-    [CommandSwitch("--expire-time")]
+    [CliOption("--expire-time")]
     public string? ExpireTime { get; set; }
 
-    [CommandSwitch("--host")]
+    [CliOption("--host")]
     public string? Host { get; set; }
 
-    [CommandSwitch("--minimum-ttl")]
+    [CliOption("--minimum-ttl")]
     public string? MinimumTtl { get; set; }
 
-    [CommandSwitch("--refresh-time")]
+    [CliOption("--refresh-time")]
     public string? RefreshTime { get; set; }
 
-    [CommandSwitch("--retry-time")]
+    [CliOption("--retry-time")]
     public string? RetryTime { get; set; }
 
-    [CommandSwitch("--serial-number")]
+    [CliOption("--serial-number")]
     public string? SerialNumber { get; set; }
 }

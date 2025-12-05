@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "identity", "remove")]
+[CliSubCommand("acr", "identity", "remove")]
 public record AzAcrIdentityRemoveOptions(
-[property: CommandSwitch("--identities")] string Identities,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--identities")] string Identities,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

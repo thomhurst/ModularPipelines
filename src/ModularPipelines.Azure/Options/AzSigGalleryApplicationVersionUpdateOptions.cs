@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sig", "gallery-application", "version", "update")]
+[CliSubCommand("sig", "gallery-application", "version", "update")]
 public record AzSigGalleryApplicationVersionUpdateOptions(
-[property: CommandSwitch("--application-name")] string ApplicationName,
-[property: CommandSwitch("--gallery-name")] string GalleryName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--package-file-link")] string PackageFileLink,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--application-name")] string ApplicationName,
+[property: CliOption("--gallery-name")] string GalleryName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--package-file-link")] string PackageFileLink,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--default-file-link")]
+    [CliOption("--default-file-link")]
     public string? DefaultFileLink { get; set; }
 
-    [CommandSwitch("--end-of-life-date")]
+    [CliOption("--end-of-life-date")]
     public string? EndOfLifeDate { get; set; }
 
-    [BooleanCommandSwitch("--exclude-from")]
+    [CliFlag("--exclude-from")]
     public bool? ExcludeFrom { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--target-regions")]
+    [CliOption("--target-regions")]
     public string? TargetRegions { get; set; }
 }

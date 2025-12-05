@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing")]
+[CliCommand("billing")]
 public class GcloudBillingProjects
 {
     public GcloudBillingProjects(

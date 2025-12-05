@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("b2bi", "test-parsing")]
+[CliCommand("b2bi", "test-parsing")]
 public record AwsB2biTestParsingOptions(
-[property: CommandSwitch("--input-file")] string InputFile,
-[property: CommandSwitch("--file-format")] string FileFormat,
-[property: CommandSwitch("--edi-type")] string EdiType
+[property: CliOption("--input-file")] string InputFile,
+[property: CliOption("--file-format")] string FileFormat,
+[property: CliOption("--edi-type")] string EdiType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

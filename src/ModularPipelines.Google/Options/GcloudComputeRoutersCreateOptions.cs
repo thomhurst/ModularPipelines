@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "routers", "create")]
+[CliCommand("compute", "routers", "create")]
 public record GcloudComputeRoutersCreateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--network")] string Network
+[property: CliArgument] string Name,
+[property: CliOption("--network")] string Network
 ) : GcloudOptions
 {
-    [CommandSwitch("--advertisement-mode")]
+    [CliOption("--advertisement-mode")]
     public string? AdvertisementMode { get; set; }
 
-    [CommandSwitch("--asn")]
+    [CliOption("--asn")]
     public string? Asn { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--encrypted-interconnect-router")]
+    [CliFlag("--encrypted-interconnect-router")]
     public bool? EncryptedInterconnectRouter { get; set; }
 
-    [CommandSwitch("--keepalive-interval")]
+    [CliOption("--keepalive-interval")]
     public string? KeepaliveInterval { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--set-advertisement-groups")]
+    [CliOption("--set-advertisement-groups")]
     public string[]? SetAdvertisementGroups { get; set; }
 
-    [CommandSwitch("--set-advertisement-ranges")]
+    [CliOption("--set-advertisement-ranges")]
     public string[]? SetAdvertisementRanges { get; set; }
 }

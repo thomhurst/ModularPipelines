@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security")]
+[CliCommand("security")]
 public class AzSecuritySecuritySolutions
 {
     public AzSecuritySecuritySolutions(

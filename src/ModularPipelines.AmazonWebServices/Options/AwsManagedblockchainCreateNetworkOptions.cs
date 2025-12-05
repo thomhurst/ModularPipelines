@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managedblockchain", "create-network")]
+[CliCommand("managedblockchain", "create-network")]
 public record AwsManagedblockchainCreateNetworkOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--framework")] string Framework,
-[property: CommandSwitch("--framework-version")] string FrameworkVersion,
-[property: CommandSwitch("--voting-policy")] string VotingPolicy,
-[property: CommandSwitch("--member-configuration")] string MemberConfiguration
+[property: CliOption("--name")] string Name,
+[property: CliOption("--framework")] string Framework,
+[property: CliOption("--framework-version")] string FrameworkVersion,
+[property: CliOption("--voting-policy")] string VotingPolicy,
+[property: CliOption("--member-configuration")] string MemberConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--framework-configuration")]
+    [CliOption("--framework-configuration")]
     public string? FrameworkConfiguration { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

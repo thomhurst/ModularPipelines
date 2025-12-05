@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "cluster")]
+[CliCommand("sf", "cluster")]
 public class AzSfClusterUpgradeType
 {
     public AzSfClusterUpgradeType(

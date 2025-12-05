@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "delete-blue-green-deployment")]
+[CliCommand("rds", "delete-blue-green-deployment")]
 public record AwsRdsDeleteBlueGreenDeploymentOptions(
-[property: CommandSwitch("--blue-green-deployment-identifier")] string BlueGreenDeploymentIdentifier
+[property: CliOption("--blue-green-deployment-identifier")] string BlueGreenDeploymentIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

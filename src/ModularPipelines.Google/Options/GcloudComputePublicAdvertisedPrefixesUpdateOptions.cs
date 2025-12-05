@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "public-advertised-prefixes", "update")]
+[CliCommand("compute", "public-advertised-prefixes", "update")]
 public record GcloudComputePublicAdvertisedPrefixesUpdateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--status")] string Status
+[property: CliArgument] string Name,
+[property: CliOption("--status")] string Status
 ) : GcloudOptions;

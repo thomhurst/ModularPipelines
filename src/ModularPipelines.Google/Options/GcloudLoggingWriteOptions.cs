@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logging", "write")]
+[CliCommand("logging", "write")]
 public record GcloudLoggingWriteOptions(
-[property: PositionalArgument] string LogName,
-[property: PositionalArgument] string Message
+[property: CliArgument] string LogName,
+[property: CliArgument] string Message
 ) : GcloudOptions
 {
-    [CommandSwitch("--payload-type")]
+    [CliOption("--payload-type")]
     public string? PayloadType { get; set; }
 
-    [CommandSwitch("--severity")]
+    [CliOption("--severity")]
     public string? Severity { get; set; }
 
-    [CommandSwitch("--billing-account")]
+    [CliOption("--billing-account")]
     public string? BillingAccount { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string? Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string? Organization { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public new string? Project { get; set; }
 }

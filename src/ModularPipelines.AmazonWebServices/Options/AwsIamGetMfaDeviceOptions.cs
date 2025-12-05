@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "get-mfa-device")]
+[CliCommand("iam", "get-mfa-device")]
 public record AwsIamGetMfaDeviceOptions(
-[property: CommandSwitch("--serial-number")] string SerialNumber
+[property: CliOption("--serial-number")] string SerialNumber
 ) : AwsOptions
 {
-    [CommandSwitch("--user-name")]
+    [CliOption("--user-name")]
     public string? UserName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

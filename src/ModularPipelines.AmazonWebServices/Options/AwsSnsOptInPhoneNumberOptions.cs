@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sns", "opt-in-phone-number")]
+[CliCommand("sns", "opt-in-phone-number")]
 public record AwsSnsOptInPhoneNumberOptions(
-[property: CommandSwitch("--phone-number")] string PhoneNumber
+[property: CliOption("--phone-number")] string PhoneNumber
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

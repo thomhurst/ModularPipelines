@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ivschat", "delete-message")]
+[CliCommand("ivschat", "delete-message")]
 public record AwsIvschatDeleteMessageOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--room-identifier")] string RoomIdentifier
+[property: CliOption("--id")] string Id,
+[property: CliOption("--room-identifier")] string RoomIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--reason")]
+    [CliOption("--reason")]
     public string? Reason { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

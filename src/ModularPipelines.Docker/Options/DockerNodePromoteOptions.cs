@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("node", "promote")]
+[CliCommand("node", "promote")]
 [ExcludeFromCodeCoverage]
 public record DockerNodePromoteOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public IEnumerable<string>? Node { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual IEnumerable<string>? Node { get; set; }
 }

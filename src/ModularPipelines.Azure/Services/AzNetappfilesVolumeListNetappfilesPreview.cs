@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "volume", "list")]
+[CliCommand("netappfiles", "volume", "list")]
 public class AzNetappfilesVolumeListNetappfilesPreview
 {
     public AzNetappfilesVolumeListNetappfilesPreview(

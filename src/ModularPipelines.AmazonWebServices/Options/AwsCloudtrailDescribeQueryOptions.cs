@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudtrail", "describe-query")]
+[CliCommand("cloudtrail", "describe-query")]
 public record AwsCloudtrailDescribeQueryOptions : AwsOptions
 {
-    [CommandSwitch("--event-data-store")]
+    [CliOption("--event-data-store")]
     public string? EventDataStore { get; set; }
 
-    [CommandSwitch("--query-id")]
+    [CliOption("--query-id")]
     public string? QueryId { get; set; }
 
-    [CommandSwitch("--query-alias")]
+    [CliOption("--query-alias")]
     public string? QueryAlias { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

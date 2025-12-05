@@ -5,47 +5,47 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "create-domain-name")]
+[CliCommand("apigateway", "create-domain-name")]
 public record AwsApigatewayCreateDomainNameOptions(
-[property: CommandSwitch("--domain-name")] string DomainName
+[property: CliOption("--domain-name")] string DomainName
 ) : AwsOptions
 {
-    [CommandSwitch("--certificate-name")]
+    [CliOption("--certificate-name")]
     public string? CertificateName { get; set; }
 
-    [CommandSwitch("--certificate-body")]
+    [CliOption("--certificate-body")]
     public string? CertificateBody { get; set; }
 
-    [CommandSwitch("--certificate-private-key")]
+    [CliOption("--certificate-private-key")]
     public string? CertificatePrivateKey { get; set; }
 
-    [CommandSwitch("--certificate-chain")]
+    [CliOption("--certificate-chain")]
     public string? CertificateChain { get; set; }
 
-    [CommandSwitch("--certificate-arn")]
+    [CliOption("--certificate-arn")]
     public string? CertificateArn { get; set; }
 
-    [CommandSwitch("--regional-certificate-name")]
+    [CliOption("--regional-certificate-name")]
     public string? RegionalCertificateName { get; set; }
 
-    [CommandSwitch("--regional-certificate-arn")]
+    [CliOption("--regional-certificate-arn")]
     public string? RegionalCertificateArn { get; set; }
 
-    [CommandSwitch("--endpoint-configuration")]
+    [CliOption("--endpoint-configuration")]
     public string? EndpointConfiguration { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--security-policy")]
+    [CliOption("--security-policy")]
     public string? SecurityPolicy { get; set; }
 
-    [CommandSwitch("--mutual-tls-authentication")]
+    [CliOption("--mutual-tls-authentication")]
     public string? MutualTlsAuthentication { get; set; }
 
-    [CommandSwitch("--ownership-verification-certificate-arn")]
+    [CliOption("--ownership-verification-certificate-arn")]
     public string? OwnershipVerificationCertificateArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

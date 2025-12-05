@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "vm")]
+[CliCommand("sql", "vm")]
 public class AzSqlVmGroup
 {
     public AzSqlVmGroup(

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configure")]
+[CliSubCommand("configure")]
 public record AzConfigureOptions : AzOptions
 {
-    [CommandSwitch("--defaults")]
+    [CliOption("--defaults")]
     public string? Defaults { get; set; }
 
-    [BooleanCommandSwitch("--list-defaults")]
+    [CliFlag("--list-defaults")]
     public bool? ListDefaults { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 }

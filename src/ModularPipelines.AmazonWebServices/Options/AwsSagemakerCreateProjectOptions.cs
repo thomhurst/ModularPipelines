@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-project")]
+[CliCommand("sagemaker", "create-project")]
 public record AwsSagemakerCreateProjectOptions(
-[property: CommandSwitch("--project-name")] string ProjectName,
-[property: CommandSwitch("--service-catalog-provisioning-details")] string ServiceCatalogProvisioningDetails
+[property: CliOption("--project-name")] string ProjectName,
+[property: CliOption("--service-catalog-provisioning-details")] string ServiceCatalogProvisioningDetails
 ) : AwsOptions
 {
-    [CommandSwitch("--project-description")]
+    [CliOption("--project-description")]
     public string? ProjectDescription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

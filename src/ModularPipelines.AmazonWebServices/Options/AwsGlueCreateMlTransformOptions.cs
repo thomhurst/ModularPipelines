@@ -5,41 +5,41 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "create-ml-transform")]
+[CliCommand("glue", "create-ml-transform")]
 public record AwsGlueCreateMlTransformOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--input-record-tables")] string[] InputRecordTables,
-[property: CommandSwitch("--parameters")] string Parameters,
-[property: CommandSwitch("--role")] string Role
+[property: CliOption("--name")] string Name,
+[property: CliOption("--input-record-tables")] string[] InputRecordTables,
+[property: CliOption("--parameters")] string Parameters,
+[property: CliOption("--role")] string Role
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--glue-version")]
+    [CliOption("--glue-version")]
     public string? GlueVersion { get; set; }
 
-    [CommandSwitch("--max-capacity")]
+    [CliOption("--max-capacity")]
     public double? MaxCapacity { get; set; }
 
-    [CommandSwitch("--worker-type")]
+    [CliOption("--worker-type")]
     public string? WorkerType { get; set; }
 
-    [CommandSwitch("--number-of-workers")]
+    [CliOption("--number-of-workers")]
     public int? NumberOfWorkers { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public int? Timeout { get; set; }
 
-    [CommandSwitch("--max-retries")]
+    [CliOption("--max-retries")]
     public int? MaxRetries { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--transform-encryption")]
+    [CliOption("--transform-encryption")]
     public string? TransformEncryption { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

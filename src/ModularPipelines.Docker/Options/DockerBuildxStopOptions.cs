@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("buildx", "stop")]
+[CliCommand("buildx", "stop")]
 [ExcludeFromCodeCoverage]
 public record DockerBuildxStopOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Name { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Name { get; set; }
 }

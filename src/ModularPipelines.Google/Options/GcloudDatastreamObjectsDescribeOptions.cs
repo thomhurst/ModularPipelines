@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datastream", "objects", "describe")]
+[CliCommand("datastream", "objects", "describe")]
 public record GcloudDatastreamObjectsDescribeOptions(
-[property: PositionalArgument] string Object,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Stream
+[property: CliArgument] string Object,
+[property: CliArgument] string Location,
+[property: CliArgument] string Stream
 ) : GcloudOptions;

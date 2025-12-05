@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("database-migration", "migration-jobs", "list")]
+[CliCommand("database-migration", "migration-jobs", "list")]
 public record GcloudDatabaseMigrationMigrationJobsListOptions(
-[property: CommandSwitch("--region")] string Region
+[property: CliOption("--region")] string Region
 ) : GcloudOptions;

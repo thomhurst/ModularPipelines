@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mobile-network", "data-network", "create")]
+[CliSubCommand("mobile-network", "data-network", "create")]
 public record AzMobileNetworkDataNetworkCreateOptions(
-[property: CommandSwitch("--data-network-name")] string DataNetworkName,
-[property: CommandSwitch("--mobile-network-name")] string MobileNetworkName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--data-network-name")] string DataNetworkName,
+[property: CliOption("--mobile-network-name")] string MobileNetworkName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53domains", "get-domain-suggestions")]
+[CliCommand("route53domains", "get-domain-suggestions")]
 public record AwsRoute53domainsGetDomainSuggestionsOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--suggestion-count")] int SuggestionCount
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--suggestion-count")] int SuggestionCount
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

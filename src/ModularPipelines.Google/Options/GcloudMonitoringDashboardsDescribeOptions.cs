@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitoring", "dashboards", "describe")]
+[CliCommand("monitoring", "dashboards", "describe")]
 public record GcloudMonitoringDashboardsDescribeOptions(
-[property: PositionalArgument] string Dashboard
+[property: CliArgument] string Dashboard
 ) : GcloudOptions;

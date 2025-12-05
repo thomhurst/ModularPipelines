@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logic", "integration-account", "map", "create")]
+[CliSubCommand("logic", "integration-account", "map", "create")]
 public record AzLogicIntegrationAccountMapCreateOptions(
-[property: CommandSwitch("--integration-account")] int IntegrationAccount,
-[property: CommandSwitch("--map-name")] string MapName,
-[property: CommandSwitch("--map-type")] string MapType,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--integration-account")] int IntegrationAccount,
+[property: CliOption("--map-name")] string MapName,
+[property: CliOption("--map-type")] string MapType,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--map-content")]
+    [CliOption("--map-content")]
     public string? MapContent { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

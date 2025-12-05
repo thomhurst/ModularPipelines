@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("composer", "environments", "run")]
+[CliCommand("composer", "environments", "run")]
 public record GcloudComposerEnvironmentsRunOptions(
-[property: PositionalArgument] string Environment,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Subcommand,
-[property: PositionalArgument] string SubcommandNested,
-[property: PositionalArgument] string CmdArgs
+[property: CliArgument] string Environment,
+[property: CliArgument] string Location,
+[property: CliArgument] string Subcommand,
+[property: CliArgument] string SubcommandNested,
+[property: CliArgument] string CmdArgs
 ) : GcloudOptions;

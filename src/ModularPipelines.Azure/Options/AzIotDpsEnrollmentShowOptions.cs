@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "dps", "enrollment", "show")]
+[CliSubCommand("iot", "dps", "enrollment", "show")]
 public record AzIotDpsEnrollmentShowOptions(
-[property: CommandSwitch("--eid")] string Eid
+[property: CliOption("--eid")] string Eid
 ) : AzOptions
 {
-    [CommandSwitch("--auth-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [CommandSwitch("--dps-name")]
+    [CliOption("--dps-name")]
     public string? DpsName { get; set; }
 
-    [BooleanCommandSwitch("--keys")]
+    [CliFlag("--keys")]
     public bool? Keys { get; set; }
 
-    [CommandSwitch("--login")]
+    [CliOption("--login")]
     public string? Login { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

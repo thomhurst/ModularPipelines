@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datapipeline", "set-task-status")]
+[CliCommand("datapipeline", "set-task-status")]
 public record AwsDatapipelineSetTaskStatusOptions(
-[property: CommandSwitch("--task-id")] string TaskId,
-[property: CommandSwitch("--task-status")] string TaskStatus
+[property: CliOption("--task-id")] string TaskId,
+[property: CliOption("--task-status")] string TaskStatus
 ) : AwsOptions
 {
-    [CommandSwitch("--error-id")]
+    [CliOption("--error-id")]
     public string? ErrorId { get; set; }
 
-    [CommandSwitch("--error-message")]
+    [CliOption("--error-message")]
     public string? ErrorMessage { get; set; }
 
-    [CommandSwitch("--error-stack-trace")]
+    [CliOption("--error-stack-trace")]
     public string? ErrorStackTrace { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

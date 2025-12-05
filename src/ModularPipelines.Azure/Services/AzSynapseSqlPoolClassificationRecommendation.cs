@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "sql", "pool", "classification")]
+[CliCommand("synapse", "sql", "pool", "classification")]
 public class AzSynapseSqlPoolClassificationRecommendation
 {
     public AzSynapseSqlPoolClassificationRecommendation(

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "describe-working-storage")]
+[CliCommand("storagegateway", "describe-working-storage")]
 public record AwsStoragegatewayDescribeWorkingStorageOptions(
-[property: CommandSwitch("--gateway-arn")] string GatewayArn
+[property: CliOption("--gateway-arn")] string GatewayArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

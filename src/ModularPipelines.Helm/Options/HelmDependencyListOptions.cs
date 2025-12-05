@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("dependency", "list")]
+[CliCommand("dependency", "list")]
 [ExcludeFromCodeCoverage]
 public record HelmDependencyListOptions : HelmOptions
 {
-    [CommandEqualsSeparatorSwitch("--max-col-width", SwitchValueSeparator = " ")]
-    public string? MaxColWidth { get; set; }
+    [CliOption("--max-col-width")]
+    public virtual string? MaxColWidth { get; set; }
 }

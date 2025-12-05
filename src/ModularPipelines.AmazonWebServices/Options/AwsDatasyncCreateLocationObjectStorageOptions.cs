@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datasync", "create-location-object-storage")]
+[CliCommand("datasync", "create-location-object-storage")]
 public record AwsDatasyncCreateLocationObjectStorageOptions(
-[property: CommandSwitch("--server-hostname")] string ServerHostname,
-[property: CommandSwitch("--bucket-name")] string BucketName,
-[property: CommandSwitch("--agent-arns")] string[] AgentArns
+[property: CliOption("--server-hostname")] string ServerHostname,
+[property: CliOption("--bucket-name")] string BucketName,
+[property: CliOption("--agent-arns")] string[] AgentArns
 ) : AwsOptions
 {
-    [CommandSwitch("--server-port")]
+    [CliOption("--server-port")]
     public int? ServerPort { get; set; }
 
-    [CommandSwitch("--server-protocol")]
+    [CliOption("--server-protocol")]
     public string? ServerProtocol { get; set; }
 
-    [CommandSwitch("--subdirectory")]
+    [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
 
-    [CommandSwitch("--access-key")]
+    [CliOption("--access-key")]
     public string? AccessKey { get; set; }
 
-    [CommandSwitch("--secret-key")]
+    [CliOption("--secret-key")]
     public string? SecretKey { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--server-certificate")]
+    [CliOption("--server-certificate")]
     public string? ServerCertificate { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

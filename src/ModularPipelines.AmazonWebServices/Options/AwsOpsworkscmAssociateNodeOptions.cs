@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworkscm", "associate-node")]
+[CliCommand("opsworkscm", "associate-node")]
 public record AwsOpsworkscmAssociateNodeOptions(
-[property: CommandSwitch("--server-name")] string ServerName,
-[property: CommandSwitch("--node-name")] string NodeName,
-[property: CommandSwitch("--engine-attributes")] string[] EngineAttributes
+[property: CliOption("--server-name")] string ServerName,
+[property: CliOption("--node-name")] string NodeName,
+[property: CliOption("--engine-attributes")] string[] EngineAttributes
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

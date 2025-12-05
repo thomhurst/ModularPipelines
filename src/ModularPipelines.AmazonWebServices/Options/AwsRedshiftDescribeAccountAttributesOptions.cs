@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "describe-account-attributes")]
+[CliCommand("redshift", "describe-account-attributes")]
 public record AwsRedshiftDescribeAccountAttributesOptions : AwsOptions
 {
-    [CommandSwitch("--attribute-names")]
+    [CliOption("--attribute-names")]
     public string[]? AttributeNames { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

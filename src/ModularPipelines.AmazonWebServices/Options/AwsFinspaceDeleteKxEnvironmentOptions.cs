@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("finspace", "delete-kx-environment")]
+[CliCommand("finspace", "delete-kx-environment")]
 public record AwsFinspaceDeleteKxEnvironmentOptions(
-[property: CommandSwitch("--environment-id")] string EnvironmentId
+[property: CliOption("--environment-id")] string EnvironmentId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

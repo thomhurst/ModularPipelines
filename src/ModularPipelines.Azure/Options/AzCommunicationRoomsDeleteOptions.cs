@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("communication", "rooms", "delete")]
+[CliSubCommand("communication", "rooms", "delete")]
 public record AzCommunicationRoomsDeleteOptions(
-[property: CommandSwitch("--room")] string Room
+[property: CliOption("--room")] string Room
 ) : AzOptions
 {
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

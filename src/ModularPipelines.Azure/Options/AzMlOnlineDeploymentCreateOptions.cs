@@ -4,43 +4,43 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "online-deployment", "create")]
+[CliSubCommand("ml", "online-deployment", "create")]
 public record AzMlOnlineDeploymentCreateOptions(
-[property: CommandSwitch("--file")] string File,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--file")] string File,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--all-traffic")]
+    [CliFlag("--all-traffic")]
     public bool? AllTraffic { get; set; }
 
-    [CommandSwitch("--endpoint-name")]
+    [CliOption("--endpoint-name")]
     public string? EndpointName { get; set; }
 
-    [BooleanCommandSwitch("--local")]
+    [CliFlag("--local")]
     public bool? Local { get; set; }
 
-    [BooleanCommandSwitch("--local-enable-gpu")]
+    [CliFlag("--local-enable-gpu")]
     public bool? LocalEnableGpu { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--package-model")]
+    [CliFlag("--package-model")]
     public bool? PackageModel { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [BooleanCommandSwitch("--skip-script-validation")]
+    [CliFlag("--skip-script-validation")]
     public bool? SkipScriptValidation { get; set; }
 
-    [BooleanCommandSwitch("--vscode-debug")]
+    [CliFlag("--vscode-debug")]
     public bool? VscodeDebug { get; set; }
 
-    [BooleanCommandSwitch("--web")]
+    [CliFlag("--web")]
     public bool? Web { get; set; }
 }

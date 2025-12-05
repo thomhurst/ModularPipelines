@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tnb", "update-sol-network-instance")]
+[CliCommand("tnb", "update-sol-network-instance")]
 public record AwsTnbUpdateSolNetworkInstanceOptions(
-[property: CommandSwitch("--ns-instance-id")] string NsInstanceId,
-[property: CommandSwitch("--update-type")] string UpdateType
+[property: CliOption("--ns-instance-id")] string NsInstanceId,
+[property: CliOption("--update-type")] string UpdateType
 ) : AwsOptions
 {
-    [CommandSwitch("--modify-vnf-info-data")]
+    [CliOption("--modify-vnf-info-data")]
     public string? ModifyVnfInfoData { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

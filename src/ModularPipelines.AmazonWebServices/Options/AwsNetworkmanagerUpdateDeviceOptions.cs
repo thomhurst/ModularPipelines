@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkmanager", "update-device")]
+[CliCommand("networkmanager", "update-device")]
 public record AwsNetworkmanagerUpdateDeviceOptions(
-[property: CommandSwitch("--global-network-id")] string GlobalNetworkId,
-[property: CommandSwitch("--device-id")] string DeviceId
+[property: CliOption("--global-network-id")] string GlobalNetworkId,
+[property: CliOption("--device-id")] string DeviceId
 ) : AwsOptions
 {
-    [CommandSwitch("--aws-location")]
+    [CliOption("--aws-location")]
     public string? AwsLocation { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--vendor")]
+    [CliOption("--vendor")]
     public string? Vendor { get; set; }
 
-    [CommandSwitch("--model")]
+    [CliOption("--model")]
     public string? Model { get; set; }
 
-    [CommandSwitch("--serial-number")]
+    [CliOption("--serial-number")]
     public string? SerialNumber { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--site-id")]
+    [CliOption("--site-id")]
     public string? SiteId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("consumption")]
+[CliCommand("consumption")]
 public class AzConsumptionBudget
 {
     public AzConsumptionBudget(

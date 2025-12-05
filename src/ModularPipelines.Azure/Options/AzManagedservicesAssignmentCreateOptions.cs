@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managedservices", "assignment", "create")]
+[CliSubCommand("managedservices", "assignment", "create")]
 public record AzManagedservicesAssignmentCreateOptions(
-[property: CommandSwitch("--definition")] string Definition
+[property: CliOption("--definition")] string Definition
 ) : AzOptions
 {
-    [CommandSwitch("--assignment-id")]
+    [CliOption("--assignment-id")]
     public string? AssignmentId { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

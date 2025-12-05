@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "db", "classification", "recommendation", "enable")]
+[CliSubCommand("sql", "db", "classification", "recommendation", "enable")]
 public record AzSqlDbClassificationRecommendationEnableOptions(
-[property: CommandSwitch("--column")] string Column,
-[property: CommandSwitch("--schema")] string Schema,
-[property: CommandSwitch("--table")] string Table
+[property: CliOption("--column")] string Column,
+[property: CliOption("--schema")] string Schema,
+[property: CliOption("--table")] string Table
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--server")]
+    [CliOption("--server")]
     public string? Server { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

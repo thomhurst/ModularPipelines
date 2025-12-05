@@ -5,14 +5,14 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("launch-wizard", "create-deployment")]
+[CliCommand("launch-wizard", "create-deployment")]
 public record AwsLaunchWizardCreateDeploymentOptions(
-[property: CommandSwitch("--deployment-pattern-name")] string DeploymentPatternName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--specifications")] IEnumerable<KeyValue> Specifications,
-[property: CommandSwitch("--workload-name")] string WorkloadName
+[property: CliOption("--deployment-pattern-name")] string DeploymentPatternName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--specifications")] IEnumerable<KeyValue> Specifications,
+[property: CliOption("--workload-name")] string WorkloadName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

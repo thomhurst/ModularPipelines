@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scvmm", "vm", "extension", "update")]
+[CliSubCommand("scvmm", "vm", "extension", "update")]
 public record AzScvmmVmExtensionUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vm-name")] string VmName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vm-name")] string VmName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--auto-upgrade-minor")]
+    [CliFlag("--auto-upgrade-minor")]
     public bool? AutoUpgradeMinor { get; set; }
 
-    [BooleanCommandSwitch("--enable-auto-upgrade")]
+    [CliFlag("--enable-auto-upgrade")]
     public bool? EnableAutoUpgrade { get; set; }
 
-    [BooleanCommandSwitch("--force-update-tag")]
+    [CliFlag("--force-update-tag")]
     public bool? ForceUpdateTag { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--protected-settings")]
+    [CliOption("--protected-settings")]
     public string? ProtectedSettings { get; set; }
 
-    [CommandSwitch("--publisher")]
+    [CliOption("--publisher")]
     public string? Publisher { get; set; }
 
-    [CommandSwitch("--settings")]
+    [CliOption("--settings")]
     public string? Settings { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--type-handler-version")]
+    [CliOption("--type-handler-version")]
     public string? TypeHandlerVersion { get; set; }
 }

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "describe-services")]
+[CliCommand("ecs", "describe-services")]
 public record AwsEcsDescribeServicesOptions(
-[property: CommandSwitch("--services")] string[] Services
+[property: CliOption("--services")] string[] Services
 ) : AwsOptions
 {
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--include")]
+    [CliOption("--include")]
     public string[]? Include { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

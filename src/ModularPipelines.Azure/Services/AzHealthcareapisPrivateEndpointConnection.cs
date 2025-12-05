@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcareapis")]
+[CliCommand("healthcareapis")]
 public class AzHealthcareapisPrivateEndpointConnection
 {
     public AzHealthcareapisPrivateEndpointConnection(

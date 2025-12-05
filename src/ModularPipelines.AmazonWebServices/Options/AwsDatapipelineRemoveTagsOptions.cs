@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datapipeline", "remove-tags")]
+[CliCommand("datapipeline", "remove-tags")]
 public record AwsDatapipelineRemoveTagsOptions(
-[property: CommandSwitch("--pipeline-id")] string PipelineId,
-[property: CommandSwitch("--tag-keys")] string[] TagKeys
+[property: CliOption("--pipeline-id")] string PipelineId,
+[property: CliOption("--tag-keys")] string[] TagKeys
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

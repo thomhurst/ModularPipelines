@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("robomaker", "create-robot-application")]
+[CliCommand("robomaker", "create-robot-application")]
 public record AwsRobomakerCreateRobotApplicationOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--robot-software-suite")] string RobotSoftwareSuite
+[property: CliOption("--name")] string Name,
+[property: CliOption("--robot-software-suite")] string RobotSoftwareSuite
 ) : AwsOptions
 {
-    [CommandSwitch("--sources")]
+    [CliOption("--sources")]
     public string[]? Sources { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--environment")]
+    [CliOption("--environment")]
     public string? Environment { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,34 +5,34 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "sole-tenancy", "node-templates", "create")]
+[CliCommand("compute", "sole-tenancy", "node-templates", "create")]
 public record GcloudComputeSoleTenancyNodeTemplatesCreateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--node-requirements")] string[] NodeRequirements,
-[property: BooleanCommandSwitch("vCPU")] bool Vcpu,
-[property: BooleanCommandSwitch("memory")] bool Memory,
-[property: BooleanCommandSwitch("localSSD")] bool LocalSSD,
-[property: CommandSwitch("--node-type")] string NodeType
+[property: CliArgument] string Name,
+[property: CliOption("--node-requirements")] string[] NodeRequirements,
+[property: CliFlag("vCPU")] bool Vcpu,
+[property: CliFlag("memory")] bool Memory,
+[property: CliFlag("localSSD")] bool LocalSSD,
+[property: CliOption("--node-type")] string NodeType
 ) : GcloudOptions
 {
-    [CommandSwitch("--accelerator")]
+    [CliOption("--accelerator")]
     public string[]? Accelerator { get; set; }
 
-    [CommandSwitch("--cpu-overcommit-type")]
+    [CliOption("--cpu-overcommit-type")]
     public string? CpuOvercommitType { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--disk")]
+    [CliOption("--disk")]
     public string[]? Disk { get; set; }
 
-    [CommandSwitch("--node-affinity-labels")]
+    [CliOption("--node-affinity-labels")]
     public IEnumerable<KeyValue>? NodeAffinityLabels { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--server-binding")]
+    [CliOption("--server-binding")]
     public string? ServerBinding { get; set; }
 }

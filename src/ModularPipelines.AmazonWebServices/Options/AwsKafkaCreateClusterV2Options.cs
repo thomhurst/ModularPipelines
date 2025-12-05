@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kafka", "create-cluster-v2")]
+[CliCommand("kafka", "create-cluster-v2")]
 public record AwsKafkaCreateClusterV2Options(
-[property: CommandSwitch("--cluster-name")] string ClusterName
+[property: CliOption("--cluster-name")] string ClusterName
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--provisioned")]
+    [CliOption("--provisioned")]
     public string? Provisioned { get; set; }
 
-    [CommandSwitch("--serverless")]
+    [CliOption("--serverless")]
     public string? Serverless { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

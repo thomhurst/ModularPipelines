@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicecatalog", "disassociate-budget-from-resource")]
+[CliCommand("servicecatalog", "disassociate-budget-from-resource")]
 public record AwsServicecatalogDisassociateBudgetFromResourceOptions(
-[property: CommandSwitch("--budget-name")] string BudgetName,
-[property: CommandSwitch("--resource-id")] string ResourceId
+[property: CliOption("--budget-name")] string BudgetName,
+[property: CliOption("--resource-id")] string ResourceId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,57 +4,57 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "register-task-definition")]
+[CliCommand("ecs", "register-task-definition")]
 public record AwsEcsRegisterTaskDefinitionOptions(
-[property: CommandSwitch("--family")] string Family,
-[property: CommandSwitch("--container-definitions")] string[] ContainerDefinitions
+[property: CliOption("--family")] string Family,
+[property: CliOption("--container-definitions")] string[] ContainerDefinitions
 ) : AwsOptions
 {
-    [CommandSwitch("--task-role-arn")]
+    [CliOption("--task-role-arn")]
     public string? TaskRoleArn { get; set; }
 
-    [CommandSwitch("--execution-role-arn")]
+    [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
 
-    [CommandSwitch("--network-mode")]
+    [CliOption("--network-mode")]
     public string? NetworkMode { get; set; }
 
-    [CommandSwitch("--volumes")]
+    [CliOption("--volumes")]
     public string[]? Volumes { get; set; }
 
-    [CommandSwitch("--placement-constraints")]
+    [CliOption("--placement-constraints")]
     public string[]? PlacementConstraints { get; set; }
 
-    [CommandSwitch("--requires-compatibilities")]
+    [CliOption("--requires-compatibilities")]
     public string[]? RequiresCompatibilities { get; set; }
 
-    [CommandSwitch("--cpu")]
+    [CliOption("--cpu")]
     public string? Cpu { get; set; }
 
-    [CommandSwitch("--memory")]
+    [CliOption("--memory")]
     public string? Memory { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--pid-mode")]
+    [CliOption("--pid-mode")]
     public string? PidMode { get; set; }
 
-    [CommandSwitch("--ipc-mode")]
+    [CliOption("--ipc-mode")]
     public string? IpcMode { get; set; }
 
-    [CommandSwitch("--proxy-configuration")]
+    [CliOption("--proxy-configuration")]
     public string? ProxyConfiguration { get; set; }
 
-    [CommandSwitch("--inference-accelerators")]
+    [CliOption("--inference-accelerators")]
     public string[]? InferenceAccelerators { get; set; }
 
-    [CommandSwitch("--ephemeral-storage")]
+    [CliOption("--ephemeral-storage")]
     public string? EphemeralStorage { get; set; }
 
-    [CommandSwitch("--runtime-platform")]
+    [CliOption("--runtime-platform")]
     public string? RuntimePlatform { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

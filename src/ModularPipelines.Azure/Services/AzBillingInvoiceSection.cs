@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "invoice")]
+[CliCommand("billing", "invoice")]
 public class AzBillingInvoiceSection
 {
     public AzBillingInvoiceSection(

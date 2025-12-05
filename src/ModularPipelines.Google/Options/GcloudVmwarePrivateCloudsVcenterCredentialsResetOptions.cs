@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "private-clouds", "vcenter", "credentials", "reset")]
+[CliCommand("vmware", "private-clouds", "vcenter", "credentials", "reset")]
 public record GcloudVmwarePrivateCloudsVcenterCredentialsResetOptions(
-[property: CommandSwitch("--private-cloud")] string PrivateCloud,
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--private-cloud")] string PrivateCloud,
+[property: CliOption("--location")] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

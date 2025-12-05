@@ -5,12 +5,12 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-sync", "set-cognito-events")]
+[CliCommand("cognito-sync", "set-cognito-events")]
 public record AwsCognitoSyncSetCognitoEventsOptions(
-[property: CommandSwitch("--identity-pool-id")] string IdentityPoolId,
-[property: CommandSwitch("--events")] IEnumerable<KeyValue> Events
+[property: CliOption("--identity-pool-id")] string IdentityPoolId,
+[property: CliOption("--events")] IEnumerable<KeyValue> Events
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

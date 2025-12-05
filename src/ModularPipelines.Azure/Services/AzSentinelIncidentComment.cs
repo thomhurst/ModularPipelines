@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "incident")]
+[CliCommand("sentinel", "incident")]
 public class AzSentinelIncidentComment
 {
     public AzSentinelIncidentComment(

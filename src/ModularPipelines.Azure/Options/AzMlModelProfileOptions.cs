@@ -4,68 +4,68 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "model", "profile")]
+[CliSubCommand("ml", "model", "profile")]
 public record AzMlModelProfileOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--base-image")]
+    [CliOption("--base-image")]
     public string? BaseImage { get; set; }
 
-    [CommandSwitch("--base-image-registry")]
+    [CliOption("--base-image-registry")]
     public string? BaseImageRegistry { get; set; }
 
-    [CommandSwitch("--cc")]
+    [CliOption("--cc")]
     public string? Cc { get; set; }
 
-    [CommandSwitch("--cf")]
+    [CliOption("--cf")]
     public string? Cf { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--ed")]
+    [CliOption("--ed")]
     public string? Ed { get; set; }
 
-    [CommandSwitch("--entry-script")]
+    [CliOption("--entry-script")]
     public string? EntryScript { get; set; }
 
-    [CommandSwitch("--environment-name")]
+    [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 
-    [CommandSwitch("--environment-version")]
+    [CliOption("--environment-version")]
     public string? EnvironmentVersion { get; set; }
 
-    [CommandSwitch("--gb")]
+    [CliOption("--gb")]
     public string? Gb { get; set; }
 
-    [CommandSwitch("--ic")]
+    [CliOption("--ic")]
     public string? Ic { get; set; }
 
-    [CommandSwitch("--idi")]
+    [CliOption("--idi")]
     public string? Idi { get; set; }
 
-    [CommandSwitch("--model")]
+    [CliOption("--model")]
     public string? Model { get; set; }
 
-    [CommandSwitch("--model-metadata-file")]
+    [CliOption("--model-metadata-file")]
     public string? ModelMetadataFile { get; set; }
 
-    [CommandSwitch("--output-metadata-file")]
+    [CliOption("--output-metadata-file")]
     public string? OutputMetadataFile { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--sd")]
+    [CliOption("--sd")]
     public string? Sd { get; set; }
 
-    [CommandSwitch("--subscription-id")]
+    [CliOption("--subscription-id")]
     public string? SubscriptionId { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 
-    [CommandSwitch("-v")]
+    [CliOption("-v")]
     public string? V { get; set; }
 }

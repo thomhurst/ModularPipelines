@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "public-delegated-prefixes")]
+[CliCommand("compute", "public-delegated-prefixes")]
 public class GcloudComputePublicDelegatedPrefixesDelegatedSubPrefixes
 {
     public GcloudComputePublicDelegatedPrefixesDelegatedSubPrefixes(

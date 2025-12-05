@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "du", "account", "private-endpoint-connection", "set")]
+[CliSubCommand("iot", "du", "account", "private-endpoint-connection", "set")]
 public record AzIotDuAccountPrivateEndpointConnectionSetOptions(
-[property: CommandSwitch("--account")] int Account,
-[property: CommandSwitch("--cn")] string Cn,
-[property: CommandSwitch("--status")] string Status
+[property: CliOption("--account")] int Account,
+[property: CliOption("--cn")] string Cn,
+[property: CliOption("--status")] string Status
 ) : AzOptions
 {
-    [CommandSwitch("--desc")]
+    [CliOption("--desc")]
     public string? Desc { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

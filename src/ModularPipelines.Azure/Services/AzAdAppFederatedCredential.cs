@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ad", "app")]
+[CliCommand("ad", "app")]
 public class AzAdAppFederatedCredential
 {
     public AzAdAppFederatedCredential(

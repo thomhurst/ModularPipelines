@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "images", "get-iam-policy")]
+[CliCommand("compute", "images", "get-iam-policy")]
 public record GcloudComputeImagesGetIamPolicyOptions(
-[property: PositionalArgument] string Image
+[property: CliArgument] string Image
 ) : GcloudOptions;

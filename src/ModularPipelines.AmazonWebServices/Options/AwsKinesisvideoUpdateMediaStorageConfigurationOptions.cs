@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesisvideo", "update-media-storage-configuration")]
+[CliCommand("kinesisvideo", "update-media-storage-configuration")]
 public record AwsKinesisvideoUpdateMediaStorageConfigurationOptions(
-[property: CommandSwitch("--channel-arn")] string ChannelArn,
-[property: CommandSwitch("--media-storage-configuration")] string MediaStorageConfiguration
+[property: CliOption("--channel-arn")] string ChannelArn,
+[property: CliOption("--media-storage-configuration")] string MediaStorageConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

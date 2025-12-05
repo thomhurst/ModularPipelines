@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("auth", "enterprise-certificate-config", "create", "linux")]
+[CliCommand("auth", "enterprise-certificate-config", "create", "linux")]
 public record GcloudAuthEnterpriseCertificateConfigCreateLinuxOptions(
-[property: CommandSwitch("--label")] string Label,
-[property: CommandSwitch("--module")] string Module,
-[property: CommandSwitch("--slot")] string Slot
+[property: CliOption("--label")] string Label,
+[property: CliOption("--module")] string Module,
+[property: CliOption("--slot")] string Slot
 ) : GcloudOptions
 {
-    [CommandSwitch("--ecp")]
+    [CliOption("--ecp")]
     public string? Ecp { get; set; }
 
-    [CommandSwitch("--ecp-client")]
+    [CliOption("--ecp-client")]
     public string? EcpClient { get; set; }
 
-    [CommandSwitch("--output-file")]
+    [CliOption("--output-file")]
     public string? OutputFile { get; set; }
 
-    [CommandSwitch("--tls-offload")]
+    [CliOption("--tls-offload")]
     public string? TlsOffload { get; set; }
 
-    [CommandSwitch("--user-pin")]
+    [CliOption("--user-pin")]
     public string? UserPin { get; set; }
 }

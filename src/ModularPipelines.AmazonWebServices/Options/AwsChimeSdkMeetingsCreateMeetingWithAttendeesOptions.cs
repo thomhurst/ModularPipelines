@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-meetings", "create-meeting-with-attendees")]
+[CliCommand("chime-sdk-meetings", "create-meeting-with-attendees")]
 public record AwsChimeSdkMeetingsCreateMeetingWithAttendeesOptions(
-[property: CommandSwitch("--media-region")] string MediaRegion,
-[property: CommandSwitch("--external-meeting-id")] string ExternalMeetingId,
-[property: CommandSwitch("--attendees")] string[] Attendees
+[property: CliOption("--media-region")] string MediaRegion,
+[property: CliOption("--external-meeting-id")] string ExternalMeetingId,
+[property: CliOption("--attendees")] string[] Attendees
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--meeting-host-id")]
+    [CliOption("--meeting-host-id")]
     public string? MeetingHostId { get; set; }
 
-    [CommandSwitch("--meeting-features")]
+    [CliOption("--meeting-features")]
     public string? MeetingFeatures { get; set; }
 
-    [CommandSwitch("--notifications-configuration")]
+    [CliOption("--notifications-configuration")]
     public string? NotificationsConfiguration { get; set; }
 
-    [CommandSwitch("--primary-meeting-id")]
+    [CliOption("--primary-meeting-id")]
     public string? PrimaryMeetingId { get; set; }
 
-    [CommandSwitch("--tenant-ids")]
+    [CliOption("--tenant-ids")]
     public string[]? TenantIds { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

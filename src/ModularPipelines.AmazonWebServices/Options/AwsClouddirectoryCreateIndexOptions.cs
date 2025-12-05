@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("clouddirectory", "create-index")]
+[CliCommand("clouddirectory", "create-index")]
 public record AwsClouddirectoryCreateIndexOptions(
-[property: CommandSwitch("--directory-arn")] string DirectoryArn,
-[property: CommandSwitch("--ordered-indexed-attribute-list")] string[] OrderedIndexedAttributeList
+[property: CliOption("--directory-arn")] string DirectoryArn,
+[property: CliOption("--ordered-indexed-attribute-list")] string[] OrderedIndexedAttributeList
 ) : AwsOptions
 {
-    [CommandSwitch("--parent-reference")]
+    [CliOption("--parent-reference")]
     public string? ParentReference { get; set; }
 
-    [CommandSwitch("--link-name")]
+    [CliOption("--link-name")]
     public string? LinkName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

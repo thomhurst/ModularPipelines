@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "buckets", "describe")]
+[CliCommand("storage", "buckets", "describe")]
 public record GcloudStorageBucketsDescribeOptions(
-[property: PositionalArgument] string Url
+[property: CliArgument] string Url
 ) : GcloudOptions
 {
-    [CommandSwitch("--additional-headers")]
+    [CliOption("--additional-headers")]
     public string? AdditionalHeaders { get; set; }
 
-    [BooleanCommandSwitch("--raw")]
+    [CliFlag("--raw")]
     public bool? Raw { get; set; }
 }

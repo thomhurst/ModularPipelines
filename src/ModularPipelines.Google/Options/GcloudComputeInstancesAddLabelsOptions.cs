@@ -5,12 +5,12 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instances", "add-labels")]
+[CliCommand("compute", "instances", "add-labels")]
 public record GcloudComputeInstancesAddLabelsOptions(
-[property: PositionalArgument] string InstanceName,
-[property: CommandSwitch("--labels")] IEnumerable<KeyValue> Labels
+[property: CliArgument] string InstanceName,
+[property: CliOption("--labels")] IEnumerable<KeyValue> Labels
 ) : GcloudOptions
 {
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

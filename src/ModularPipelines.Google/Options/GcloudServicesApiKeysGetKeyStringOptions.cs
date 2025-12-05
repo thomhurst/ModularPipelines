@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("services", "api-keys", "get-key-string")]
+[CliCommand("services", "api-keys", "get-key-string")]
 public record GcloudServicesApiKeysGetKeyStringOptions(
-[property: PositionalArgument] string Key,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Key,
+[property: CliArgument] string Location
 ) : GcloudOptions;

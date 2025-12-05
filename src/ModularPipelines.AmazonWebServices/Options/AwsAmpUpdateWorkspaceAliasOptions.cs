@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amp", "update-workspace-alias")]
+[CliCommand("amp", "update-workspace-alias")]
 public record AwsAmpUpdateWorkspaceAliasOptions(
-[property: CommandSwitch("--workspace-id")] string WorkspaceId
+[property: CliOption("--workspace-id")] string WorkspaceId
 ) : AwsOptions
 {
-    [CommandSwitch("--alias")]
+    [CliOption("--alias")]
     public string? Alias { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

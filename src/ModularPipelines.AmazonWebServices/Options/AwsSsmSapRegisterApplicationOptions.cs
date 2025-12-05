@@ -5,28 +5,28 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm-sap", "register-application")]
+[CliCommand("ssm-sap", "register-application")]
 public record AwsSsmSapRegisterApplicationOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--application-type")] string ApplicationType,
-[property: CommandSwitch("--instances")] string[] Instances
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--application-type")] string ApplicationType,
+[property: CliOption("--instances")] string[] Instances
 ) : AwsOptions
 {
-    [CommandSwitch("--sap-instance-number")]
+    [CliOption("--sap-instance-number")]
     public string? SapInstanceNumber { get; set; }
 
-    [CommandSwitch("--sid")]
+    [CliOption("--sid")]
     public string? Sid { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--credentials")]
+    [CliOption("--credentials")]
     public string[]? Credentials { get; set; }
 
-    [CommandSwitch("--database-arn")]
+    [CliOption("--database-arn")]
     public string? DatabaseArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

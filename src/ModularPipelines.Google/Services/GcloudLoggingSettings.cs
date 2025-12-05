@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logging")]
+[CliCommand("logging")]
 public class GcloudLoggingSettings
 {
     public GcloudLoggingSettings(

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-explorer-2", "update-index-type")]
+[CliCommand("resource-explorer-2", "update-index-type")]
 public record AwsResourceExplorer2UpdateIndexTypeOptions(
-[property: CommandSwitch("--arn")] string Arn,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--arn")] string Arn,
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

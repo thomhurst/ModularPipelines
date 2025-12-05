@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "workforce-pools", "create")]
+[CliCommand("iam", "workforce-pools", "create")]
 public record GcloudIamWorkforcePoolsCreateOptions(
-[property: PositionalArgument] string WorkforcePool,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--organization")] string Organization
+[property: CliArgument] string WorkforcePool,
+[property: CliArgument] string Location,
+[property: CliOption("--organization")] string Organization
 ) : GcloudOptions
 {
-    [CommandSwitch("--allowed-services")]
+    [CliOption("--allowed-services")]
     public string[]? AllowedServices { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--disable-programmatic-signin")]
+    [CliFlag("--disable-programmatic-signin")]
     public bool? DisableProgrammaticSignin { get; set; }
 
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--session-duration")]
+    [CliOption("--session-duration")]
     public string? SessionDuration { get; set; }
 }

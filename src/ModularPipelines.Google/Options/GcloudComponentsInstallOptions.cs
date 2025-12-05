@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("components", "install")]
+[CliCommand("components", "install")]
 public record GcloudComponentsInstallOptions(
-[property: PositionalArgument] string ComponentIds
+[property: CliArgument] string ComponentIds
 ) : GcloudOptions;

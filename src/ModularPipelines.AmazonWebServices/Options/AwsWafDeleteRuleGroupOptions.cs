@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("waf", "delete-rule-group")]
+[CliCommand("waf", "delete-rule-group")]
 public record AwsWafDeleteRuleGroupOptions(
-[property: CommandSwitch("--rule-group-id")] string RuleGroupId,
-[property: CommandSwitch("--change-token")] string ChangeToken
+[property: CliOption("--rule-group-id")] string RuleGroupId,
+[property: CliOption("--change-token")] string ChangeToken
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,15 +5,15 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-identity", "set-identity-pool-roles")]
+[CliCommand("cognito-identity", "set-identity-pool-roles")]
 public record AwsCognitoIdentitySetIdentityPoolRolesOptions(
-[property: CommandSwitch("--identity-pool-id")] string IdentityPoolId,
-[property: CommandSwitch("--roles")] IEnumerable<KeyValue> Roles
+[property: CliOption("--identity-pool-id")] string IdentityPoolId,
+[property: CliOption("--roles")] IEnumerable<KeyValue> Roles
 ) : AwsOptions
 {
-    [CommandSwitch("--role-mappings")]
+    [CliOption("--role-mappings")]
     public IEnumerable<KeyValue>? RoleMappings { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

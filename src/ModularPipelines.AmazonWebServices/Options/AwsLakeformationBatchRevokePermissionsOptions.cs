@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lakeformation", "batch-revoke-permissions")]
+[CliCommand("lakeformation", "batch-revoke-permissions")]
 public record AwsLakeformationBatchRevokePermissionsOptions(
-[property: CommandSwitch("--entries")] string[] Entries
+[property: CliOption("--entries")] string[] Entries
 ) : AwsOptions
 {
-    [CommandSwitch("--catalog-id")]
+    [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

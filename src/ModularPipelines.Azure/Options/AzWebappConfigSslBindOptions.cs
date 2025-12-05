@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "config", "ssl", "bind")]
+[CliSubCommand("webapp", "config", "ssl", "bind")]
 public record AzWebappConfigSslBindOptions(
-[property: CommandSwitch("--certificate-thumbprint")] string CertificateThumbprint,
-[property: CommandSwitch("--ssl-type")] string SslType
+[property: CliOption("--certificate-thumbprint")] string CertificateThumbprint,
+[property: CliOption("--ssl-type")] string SslType
 ) : AzOptions
 {
-    [CommandSwitch("--hostname")]
+    [CliOption("--hostname")]
     public string? Hostname { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

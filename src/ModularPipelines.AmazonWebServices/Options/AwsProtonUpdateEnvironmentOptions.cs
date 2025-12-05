@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("proton", "update-environment")]
+[CliCommand("proton", "update-environment")]
 public record AwsProtonUpdateEnvironmentOptions(
-[property: CommandSwitch("--deployment-type")] string DeploymentType,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--deployment-type")] string DeploymentType,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--codebuild-role-arn")]
+    [CliOption("--codebuild-role-arn")]
     public string? CodebuildRoleArn { get; set; }
 
-    [CommandSwitch("--component-role-arn")]
+    [CliOption("--component-role-arn")]
     public string? ComponentRoleArn { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--environment-account-connection-id")]
+    [CliOption("--environment-account-connection-id")]
     public string? EnvironmentAccountConnectionId { get; set; }
 
-    [CommandSwitch("--proton-service-role-arn")]
+    [CliOption("--proton-service-role-arn")]
     public string? ProtonServiceRoleArn { get; set; }
 
-    [CommandSwitch("--provisioning-repository")]
+    [CliOption("--provisioning-repository")]
     public string? ProvisioningRepository { get; set; }
 
-    [CommandSwitch("--spec")]
+    [CliOption("--spec")]
     public string? Spec { get; set; }
 
-    [CommandSwitch("--template-major-version")]
+    [CliOption("--template-major-version")]
     public string? TemplateMajorVersion { get; set; }
 
-    [CommandSwitch("--template-minor-version")]
+    [CliOption("--template-minor-version")]
     public string? TemplateMinorVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

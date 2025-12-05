@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicecatalog", "generate")]
+[CliCommand("servicecatalog", "generate")]
 public record AwsServicecatalogGenerateOptions : AwsOptions;

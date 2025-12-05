@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "delete-view-version")]
+[CliCommand("connect", "delete-view-version")]
 public record AwsConnectDeleteViewVersionOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--view-id")] string ViewId,
-[property: CommandSwitch("--view-version")] int ViewVersion
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--view-id")] string ViewId,
+[property: CliOption("--view-version")] int ViewVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

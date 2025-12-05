@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("filestore", "instances", "snapshots", "create")]
+[CliCommand("filestore", "instances", "snapshots", "create")]
 public record GcloudFilestoreInstancesSnapshotsCreateOptions(
-[property: PositionalArgument] string Snapshot,
-[property: CommandSwitch("--instance")] string Instance,
-[property: CommandSwitch("--instance-location")] string InstanceLocation,
-[property: CommandSwitch("--instance-region")] string InstanceRegion
+[property: CliArgument] string Snapshot,
+[property: CliOption("--instance")] string Instance,
+[property: CliOption("--instance-location")] string InstanceLocation,
+[property: CliOption("--instance-region")] string InstanceRegion
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 }

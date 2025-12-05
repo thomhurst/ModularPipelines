@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "update-request-validator")]
+[CliCommand("apigateway", "update-request-validator")]
 public record AwsApigatewayUpdateRequestValidatorOptions(
-[property: CommandSwitch("--rest-api-id")] string RestApiId,
-[property: CommandSwitch("--request-validator-id")] string RequestValidatorId
+[property: CliOption("--rest-api-id")] string RestApiId,
+[property: CliOption("--request-validator-id")] string RequestValidatorId
 ) : AwsOptions
 {
-    [CommandSwitch("--patch-operations")]
+    [CliOption("--patch-operations")]
     public string[]? PatchOperations { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

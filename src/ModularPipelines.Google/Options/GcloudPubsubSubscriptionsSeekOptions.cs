@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub", "subscriptions", "seek")]
+[CliCommand("pubsub", "subscriptions", "seek")]
 public record GcloudPubsubSubscriptionsSeekOptions(
-[property: PositionalArgument] string Subscription,
-[property: CommandSwitch("--snapshot")] string Snapshot,
-[property: CommandSwitch("--time")] string Time
+[property: CliArgument] string Subscription,
+[property: CliOption("--snapshot")] string Snapshot,
+[property: CliOption("--time")] string Time
 ) : GcloudOptions
 {
-    [CommandSwitch("--snapshot-project")]
+    [CliOption("--snapshot-project")]
     public string? SnapshotProject { get; set; }
 }

@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift-serverless", "create-namespace")]
+[CliCommand("redshift-serverless", "create-namespace")]
 public record AwsRedshiftServerlessCreateNamespaceOptions(
-[property: CommandSwitch("--namespace-name")] string NamespaceName
+[property: CliOption("--namespace-name")] string NamespaceName
 ) : AwsOptions
 {
-    [CommandSwitch("--admin-password-secret-kms-key-id")]
+    [CliOption("--admin-password-secret-kms-key-id")]
     public string? AdminPasswordSecretKmsKeyId { get; set; }
 
-    [CommandSwitch("--admin-user-password")]
+    [CliOption("--admin-user-password")]
     public string? AdminUserPassword { get; set; }
 
-    [CommandSwitch("--admin-username")]
+    [CliOption("--admin-username")]
     public string? AdminUsername { get; set; }
 
-    [CommandSwitch("--db-name")]
+    [CliOption("--db-name")]
     public string? DbName { get; set; }
 
-    [CommandSwitch("--default-iam-role-arn")]
+    [CliOption("--default-iam-role-arn")]
     public string? DefaultIamRoleArn { get; set; }
 
-    [CommandSwitch("--iam-roles")]
+    [CliOption("--iam-roles")]
     public string[]? IamRoles { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--log-exports")]
+    [CliOption("--log-exports")]
     public string[]? LogExports { get; set; }
 
-    [CommandSwitch("--redshift-idc-application-arn")]
+    [CliOption("--redshift-idc-application-arn")]
     public string? RedshiftIdcApplicationArn { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

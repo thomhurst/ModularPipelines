@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pipelines", "agent", "list")]
+[CliSubCommand("pipelines", "agent", "list")]
 public record AzPipelinesAgentListOptions(
-[property: CommandSwitch("--pool-id")] string PoolId
+[property: CliOption("--pool-id")] string PoolId
 ) : AzOptions
 {
-    [CommandSwitch("--agent-name")]
+    [CliOption("--agent-name")]
     public string? AgentName { get; set; }
 
-    [CommandSwitch("--demands")]
+    [CliOption("--demands")]
     public string? Demands { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [BooleanCommandSwitch("--include-assigned-request")]
+    [CliFlag("--include-assigned-request")]
     public bool? IncludeAssignedRequest { get; set; }
 
-    [BooleanCommandSwitch("--include-capabilities")]
+    [CliFlag("--include-capabilities")]
     public bool? IncludeCapabilities { get; set; }
 
-    [BooleanCommandSwitch("--include-last-completed-request")]
+    [CliFlag("--include-last-completed-request")]
     public bool? IncludeLastCompletedRequest { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 }

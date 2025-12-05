@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-voice", "update-proxy-session")]
+[CliCommand("chime-sdk-voice", "update-proxy-session")]
 public record AwsChimeSdkVoiceUpdateProxySessionOptions(
-[property: CommandSwitch("--voice-connector-id")] string VoiceConnectorId,
-[property: CommandSwitch("--proxy-session-id")] string ProxySessionId,
-[property: CommandSwitch("--capabilities")] string[] Capabilities
+[property: CliOption("--voice-connector-id")] string VoiceConnectorId,
+[property: CliOption("--proxy-session-id")] string ProxySessionId,
+[property: CliOption("--capabilities")] string[] Capabilities
 ) : AwsOptions
 {
-    [CommandSwitch("--expiry-minutes")]
+    [CliOption("--expiry-minutes")]
     public int? ExpiryMinutes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

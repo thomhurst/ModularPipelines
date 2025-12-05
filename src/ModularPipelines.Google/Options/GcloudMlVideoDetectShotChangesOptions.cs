@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "video", "detect-shot-changes")]
+[CliCommand("ml", "video", "detect-shot-changes")]
 public record GcloudMlVideoDetectShotChangesOptions(
-[property: PositionalArgument] string InputPath
+[property: CliArgument] string InputPath
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--output-uri")]
+    [CliOption("--output-uri")]
     public string? OutputUri { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--segments")]
+    [CliOption("--segments")]
     public string[]? Segments { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation")]
+[CliCommand("cloudformation")]
 public class AwsCloudformationWait
 {
     public AwsCloudformationWait(

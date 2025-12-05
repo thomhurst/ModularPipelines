@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("filestore", "instances")]
+[CliCommand("filestore", "instances")]
 public class GcloudFilestoreInstancesSnapshots
 {
     public GcloudFilestoreInstancesSnapshots(

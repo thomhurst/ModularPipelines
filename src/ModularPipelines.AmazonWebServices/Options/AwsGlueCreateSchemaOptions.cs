@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "create-schema")]
+[CliCommand("glue", "create-schema")]
 public record AwsGlueCreateSchemaOptions(
-[property: CommandSwitch("--schema-name")] string SchemaName,
-[property: CommandSwitch("--data-format")] string DataFormat
+[property: CliOption("--schema-name")] string SchemaName,
+[property: CliOption("--data-format")] string DataFormat
 ) : AwsOptions
 {
-    [CommandSwitch("--registry-id")]
+    [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
-    [CommandSwitch("--compatibility")]
+    [CliOption("--compatibility")]
     public string? Compatibility { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--schema-definition")]
+    [CliOption("--schema-definition")]
     public string? SchemaDefinition { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

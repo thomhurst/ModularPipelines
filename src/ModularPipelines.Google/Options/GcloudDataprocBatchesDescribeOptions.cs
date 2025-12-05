@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "batches", "describe")]
+[CliCommand("dataproc", "batches", "describe")]
 public record GcloudDataprocBatchesDescribeOptions(
-[property: PositionalArgument] string Batch,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Batch,
+[property: CliArgument] string Region
 ) : GcloudOptions;

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint", "create-import-job")]
+[CliCommand("pinpoint", "create-import-job")]
 public record AwsPinpointCreateImportJobOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--import-job-request")] string ImportJobRequest
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--import-job-request")] string ImportJobRequest
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

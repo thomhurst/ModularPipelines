@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "file", "download")]
+[CliSubCommand("batch", "file", "download")]
 public record AzBatchFileDownloadOptions(
-[property: CommandSwitch("--file-group")] string FileGroup,
-[property: CommandSwitch("--local-path")] string LocalPath
+[property: CliOption("--file-group")] string FileGroup,
+[property: CliOption("--local-path")] string LocalPath
 ) : AzOptions
 {
-    [CommandSwitch("--account-endpoint")]
+    [CliOption("--account-endpoint")]
     public int? AccountEndpoint { get; set; }
 
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [BooleanCommandSwitch("--overwrite")]
+    [CliFlag("--overwrite")]
     public bool? Overwrite { get; set; }
 
-    [CommandSwitch("--remote-path")]
+    [CliOption("--remote-path")]
     public string? RemotePath { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

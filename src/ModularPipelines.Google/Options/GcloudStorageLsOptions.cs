@@ -4,53 +4,53 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "ls")]
+[CliCommand("storage", "ls")]
 public record GcloudStorageLsOptions(
-[property: PositionalArgument] string Path
+[property: CliArgument] string Path
 ) : GcloudOptions
 {
-    [CommandSwitch("--additional-headers")]
+    [CliOption("--additional-headers")]
     public string? AdditionalHeaders { get; set; }
 
-    [BooleanCommandSwitch("--all-versions")]
+    [CliFlag("--all-versions")]
     public bool? AllVersions { get; set; }
 
-    [BooleanCommandSwitch("--buckets")]
+    [CliFlag("--buckets")]
     public bool? Buckets { get; set; }
 
-    [BooleanCommandSwitch("--etag")]
+    [CliFlag("--etag")]
     public bool? Etag { get; set; }
 
-    [BooleanCommandSwitch("--exhaustive")]
+    [CliFlag("--exhaustive")]
     public bool? Exhaustive { get; set; }
 
-    [BooleanCommandSwitch("--fetch-encrypted-object-hashes")]
+    [CliFlag("--fetch-encrypted-object-hashes")]
     public bool? FetchEncryptedObjectHashes { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public new string? Format { get; set; }
 
-    [CommandSwitch("--next-page-token")]
+    [CliOption("--next-page-token")]
     public string? NextPageToken { get; set; }
 
-    [BooleanCommandSwitch("--read-paths-from-stdin")]
+    [CliFlag("--read-paths-from-stdin")]
     public bool? ReadPathsFromStdin { get; set; }
 
-    [BooleanCommandSwitch("--readable-sizes")]
+    [CliFlag("--readable-sizes")]
     public bool? ReadableSizes { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public bool? Recursive { get; set; }
 
-    [BooleanCommandSwitch("--soft-deleted")]
+    [CliFlag("--soft-deleted")]
     public bool? SoftDeleted { get; set; }
 
-    [BooleanCommandSwitch("--full")]
+    [CliFlag("--full")]
     public bool? Full { get; set; }
 
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public bool? Json { get; set; }
 
-    [BooleanCommandSwitch("--long")]
+    [CliFlag("--long")]
     public bool? Long { get; set; }
 }

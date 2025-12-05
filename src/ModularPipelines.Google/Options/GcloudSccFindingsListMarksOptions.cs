@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scc", "findings", "list-marks")]
+[CliCommand("scc", "findings", "list-marks")]
 public record GcloudSccFindingsListMarksOptions(
-[property: PositionalArgument] string Finding,
-[property: PositionalArgument] string Organization,
-[property: PositionalArgument] string Source
+[property: CliArgument] string Finding,
+[property: CliArgument] string Organization,
+[property: CliArgument] string Source
 ) : GcloudOptions
 {
-    [CommandSwitch("--page-token")]
+    [CliOption("--page-token")]
     public string? PageToken { get; set; }
 
-    [CommandSwitch("--read-time")]
+    [CliOption("--read-time")]
     public string? ReadTime { get; set; }
 }

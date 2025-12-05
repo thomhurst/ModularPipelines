@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "create-milestone")]
+[CliCommand("wellarchitected", "create-milestone")]
 public record AwsWellarchitectedCreateMilestoneOptions(
-[property: CommandSwitch("--workload-id")] string WorkloadId,
-[property: CommandSwitch("--milestone-name")] string MilestoneName
+[property: CliOption("--workload-id")] string WorkloadId,
+[property: CliOption("--milestone-name")] string MilestoneName
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

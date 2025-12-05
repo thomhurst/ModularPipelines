@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3control", "create-access-point")]
+[CliCommand("s3control", "create-access-point")]
 public record AwsS3controlCreateAccessPointOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--bucket")] string Bucket
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--bucket")] string Bucket
 ) : AwsOptions
 {
-    [CommandSwitch("--vpc-configuration")]
+    [CliOption("--vpc-configuration")]
     public string? VpcConfiguration { get; set; }
 
-    [CommandSwitch("--public-access-block-configuration")]
+    [CliOption("--public-access-block-configuration")]
     public string? PublicAccessBlockConfiguration { get; set; }
 
-    [CommandSwitch("--bucket-account-id")]
+    [CliOption("--bucket-account-id")]
     public string? BucketAccountId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

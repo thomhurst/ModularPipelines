@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "nodepool")]
+[CliCommand("aks", "nodepool")]
 public class AzAksNodepoolAdd
 {
     public AzAksNodepoolAdd(

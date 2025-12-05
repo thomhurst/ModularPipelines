@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("directconnect", "list-virtual-interface-test-history")]
+[CliCommand("directconnect", "list-virtual-interface-test-history")]
 public record AwsDirectconnectListVirtualInterfaceTestHistoryOptions : AwsOptions
 {
-    [CommandSwitch("--test-id")]
+    [CliOption("--test-id")]
     public string? TestId { get; set; }
 
-    [CommandSwitch("--virtual-interface-id")]
+    [CliOption("--virtual-interface-id")]
     public string? VirtualInterfaceId { get; set; }
 
-    [CommandSwitch("--bgp-peers")]
+    [CliOption("--bgp-peers")]
     public string[]? BgpPeers { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

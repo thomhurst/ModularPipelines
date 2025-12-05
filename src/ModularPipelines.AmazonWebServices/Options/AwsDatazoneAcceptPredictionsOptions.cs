@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datazone", "accept-predictions")]
+[CliCommand("datazone", "accept-predictions")]
 public record AwsDatazoneAcceptPredictionsOptions(
-[property: CommandSwitch("--domain-identifier")] string DomainIdentifier,
-[property: CommandSwitch("--identifier")] string Identifier
+[property: CliOption("--domain-identifier")] string DomainIdentifier,
+[property: CliOption("--identifier")] string Identifier
 ) : AwsOptions
 {
-    [CommandSwitch("--accept-choices")]
+    [CliOption("--accept-choices")]
     public string[]? AcceptChoices { get; set; }
 
-    [CommandSwitch("--accept-rule")]
+    [CliOption("--accept-rule")]
     public string? AcceptRule { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--revision")]
+    [CliOption("--revision")]
     public string? Revision { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

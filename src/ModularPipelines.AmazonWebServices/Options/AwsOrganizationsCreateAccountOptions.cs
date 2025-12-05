@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("organizations", "create-account")]
+[CliCommand("organizations", "create-account")]
 public record AwsOrganizationsCreateAccountOptions(
-[property: CommandSwitch("--email")] string Email,
-[property: CommandSwitch("--account-name")] string AccountName
+[property: CliOption("--email")] string Email,
+[property: CliOption("--account-name")] string AccountName
 ) : AwsOptions
 {
-    [CommandSwitch("--role-name")]
+    [CliOption("--role-name")]
     public string? RoleName { get; set; }
 
-    [CommandSwitch("--iam-user-access-to-billing")]
+    [CliOption("--iam-user-access-to-billing")]
     public string? IamUserAccessToBilling { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

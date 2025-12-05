@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticbeanstalk", "describe-events")]
+[CliCommand("elasticbeanstalk", "describe-events")]
 public record AwsElasticbeanstalkDescribeEventsOptions : AwsOptions
 {
-    [CommandSwitch("--application-name")]
+    [CliOption("--application-name")]
     public string? ApplicationName { get; set; }
 
-    [CommandSwitch("--version-label")]
+    [CliOption("--version-label")]
     public string? VersionLabel { get; set; }
 
-    [CommandSwitch("--template-name")]
+    [CliOption("--template-name")]
     public string? TemplateName { get; set; }
 
-    [CommandSwitch("--environment-id")]
+    [CliOption("--environment-id")]
     public string? EnvironmentId { get; set; }
 
-    [CommandSwitch("--environment-name")]
+    [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 
-    [CommandSwitch("--platform-arn")]
+    [CliOption("--platform-arn")]
     public string? PlatformArn { get; set; }
 
-    [CommandSwitch("--request-id")]
+    [CliOption("--request-id")]
     public string? RequestId { get; set; }
 
-    [CommandSwitch("--severity")]
+    [CliOption("--severity")]
     public string? Severity { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public long? StartTime { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public long? EndTime { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "list-table-optimizer-runs")]
+[CliCommand("glue", "list-table-optimizer-runs")]
 public record AwsGlueListTableOptimizerRunsOptions(
-[property: CommandSwitch("--catalog-id")] string CatalogId,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--table-name")] string TableName,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--catalog-id")] string CatalogId,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--table-name")] string TableName,
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("autoscaling", "put-lifecycle-hook")]
+[CliCommand("autoscaling", "put-lifecycle-hook")]
 public record AwsAutoscalingPutLifecycleHookOptions(
-[property: CommandSwitch("--lifecycle-hook-name")] string LifecycleHookName,
-[property: CommandSwitch("--auto-scaling-group-name")] string AutoScalingGroupName
+[property: CliOption("--lifecycle-hook-name")] string LifecycleHookName,
+[property: CliOption("--auto-scaling-group-name")] string AutoScalingGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--lifecycle-transition")]
+    [CliOption("--lifecycle-transition")]
     public string? LifecycleTransition { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--notification-target-arn")]
+    [CliOption("--notification-target-arn")]
     public string? NotificationTargetArn { get; set; }
 
-    [CommandSwitch("--notification-metadata")]
+    [CliOption("--notification-metadata")]
     public string? NotificationMetadata { get; set; }
 
-    [CommandSwitch("--heartbeat-timeout")]
+    [CliOption("--heartbeat-timeout")]
     public int? HeartbeatTimeout { get; set; }
 
-    [CommandSwitch("--default-result")]
+    [CliOption("--default-result")]
     public string? DefaultResult { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

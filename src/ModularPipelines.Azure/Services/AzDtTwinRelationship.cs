@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "twin")]
+[CliCommand("dt", "twin")]
 public class AzDtTwinRelationship
 {
     public AzDtTwinRelationship(

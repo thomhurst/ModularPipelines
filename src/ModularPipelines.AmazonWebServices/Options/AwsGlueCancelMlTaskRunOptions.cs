@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "cancel-ml-task-run")]
+[CliCommand("glue", "cancel-ml-task-run")]
 public record AwsGlueCancelMlTaskRunOptions(
-[property: CommandSwitch("--transform-id")] string TransformId,
-[property: CommandSwitch("--task-run-id")] string TaskRunId
+[property: CliOption("--transform-id")] string TransformId,
+[property: CliOption("--task-run-id")] string TaskRunId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

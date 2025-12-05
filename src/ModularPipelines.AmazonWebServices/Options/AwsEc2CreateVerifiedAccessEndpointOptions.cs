@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-verified-access-endpoint")]
+[CliCommand("ec2", "create-verified-access-endpoint")]
 public record AwsEc2CreateVerifiedAccessEndpointOptions(
-[property: CommandSwitch("--verified-access-group-id")] string VerifiedAccessGroupId,
-[property: CommandSwitch("--endpoint-type")] string EndpointType,
-[property: CommandSwitch("--attachment-type")] string AttachmentType,
-[property: CommandSwitch("--domain-certificate-arn")] string DomainCertificateArn,
-[property: CommandSwitch("--application-domain")] string ApplicationDomain,
-[property: CommandSwitch("--endpoint-domain-prefix")] string EndpointDomainPrefix
+[property: CliOption("--verified-access-group-id")] string VerifiedAccessGroupId,
+[property: CliOption("--endpoint-type")] string EndpointType,
+[property: CliOption("--attachment-type")] string AttachmentType,
+[property: CliOption("--domain-certificate-arn")] string DomainCertificateArn,
+[property: CliOption("--application-domain")] string ApplicationDomain,
+[property: CliOption("--endpoint-domain-prefix")] string EndpointDomainPrefix
 ) : AwsOptions
 {
-    [CommandSwitch("--security-group-ids")]
+    [CliOption("--security-group-ids")]
     public string[]? SecurityGroupIds { get; set; }
 
-    [CommandSwitch("--load-balancer-options")]
+    [CliOption("--load-balancer-options")]
     public string? LoadBalancerOptions { get; set; }
 
-    [CommandSwitch("--network-interface-options")]
+    [CliOption("--network-interface-options")]
     public string? NetworkInterfaceOptions { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--policy-document")]
+    [CliOption("--policy-document")]
     public string? PolicyDocument { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--sse-specification")]
+    [CliOption("--sse-specification")]
     public string? SseSpecification { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

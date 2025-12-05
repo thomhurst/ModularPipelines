@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "service-accounts", "sign-jwt")]
+[CliCommand("iam", "service-accounts", "sign-jwt")]
 public record GcloudIamServiceAccountsSignJwtOptions(
-[property: PositionalArgument] string InputFile,
-[property: PositionalArgument] string OutputFile,
-[property: CommandSwitch("--iam-account")] string IamAccount
+[property: CliArgument] string InputFile,
+[property: CliArgument] string OutputFile,
+[property: CliOption("--iam-account")] string IamAccount
 ) : GcloudOptions;

@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("privateca", "pools", "create")]
+[CliCommand("privateca", "pools", "create")]
 public record GcloudPrivatecaPoolsCreateOptions(
-[property: PositionalArgument] string CaPool,
-[property: PositionalArgument] string Location
+[property: CliArgument] string CaPool,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--issuance-policy")]
+    [CliOption("--issuance-policy")]
     public string? IssuancePolicy { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [BooleanCommandSwitch("--publish-ca-cert")]
+    [CliFlag("--publish-ca-cert")]
     public bool? PublishCaCert { get; set; }
 
-    [BooleanCommandSwitch("--publish-crl")]
+    [CliFlag("--publish-crl")]
     public bool? PublishCrl { get; set; }
 
-    [CommandSwitch("--publishing-encoding-format")]
+    [CliOption("--publishing-encoding-format")]
     public string? PublishingEncodingFormat { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 }

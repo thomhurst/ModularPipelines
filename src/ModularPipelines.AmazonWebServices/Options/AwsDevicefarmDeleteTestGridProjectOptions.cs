@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devicefarm", "delete-test-grid-project")]
+[CliCommand("devicefarm", "delete-test-grid-project")]
 public record AwsDevicefarmDeleteTestGridProjectOptions(
-[property: CommandSwitch("--project-arn")] string ProjectArn
+[property: CliOption("--project-arn")] string ProjectArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

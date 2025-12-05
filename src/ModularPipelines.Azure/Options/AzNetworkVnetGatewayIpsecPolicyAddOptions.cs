@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vnet-gateway", "ipsec-policy", "add")]
+[CliSubCommand("network", "vnet-gateway", "ipsec-policy", "add")]
 public record AzNetworkVnetGatewayIpsecPolicyAddOptions(
-[property: CommandSwitch("--dh-group")] string DhGroup,
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--ike-encryption")] string IkeEncryption,
-[property: CommandSwitch("--ike-integrity")] string IkeIntegrity,
-[property: CommandSwitch("--ipsec-encryption")] string IpsecEncryption,
-[property: CommandSwitch("--ipsec-integrity")] string IpsecIntegrity,
-[property: CommandSwitch("--pfs-group")] string PfsGroup,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sa-lifetime")] string SaLifetime,
-[property: CommandSwitch("--sa-max-size")] string SaMaxSize
+[property: CliOption("--dh-group")] string DhGroup,
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--ike-encryption")] string IkeEncryption,
+[property: CliOption("--ike-integrity")] string IkeIntegrity,
+[property: CliOption("--ipsec-encryption")] string IpsecEncryption,
+[property: CliOption("--ipsec-integrity")] string IpsecIntegrity,
+[property: CliOption("--pfs-group")] string PfsGroup,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sa-lifetime")] string SaLifetime,
+[property: CliOption("--sa-max-size")] string SaMaxSize
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

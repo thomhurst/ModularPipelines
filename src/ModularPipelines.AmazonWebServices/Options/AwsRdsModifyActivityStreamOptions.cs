@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "modify-activity-stream")]
+[CliCommand("rds", "modify-activity-stream")]
 public record AwsRdsModifyActivityStreamOptions : AwsOptions
 {
-    [CommandSwitch("--resource-arn")]
+    [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
-    [CommandSwitch("--audit-policy-state")]
+    [CliOption("--audit-policy-state")]
     public string? AuditPolicyState { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

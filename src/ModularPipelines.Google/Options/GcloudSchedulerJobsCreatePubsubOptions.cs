@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scheduler", "jobs", "create", "pubsub")]
+[CliCommand("scheduler", "jobs", "create", "pubsub")]
 public record GcloudSchedulerJobsCreatePubsubOptions(
-[property: PositionalArgument] string Job,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--schedule")] string Schedule,
-[property: CommandSwitch("--topic")] string Topic,
-[property: CommandSwitch("--attributes")] string Attributes,
-[property: CommandSwitch("--message-body")] string MessageBody,
-[property: CommandSwitch("--message-body-from-file")] string MessageBodyFromFile
+[property: CliArgument] string Job,
+[property: CliArgument] string Location,
+[property: CliOption("--schedule")] string Schedule,
+[property: CliOption("--topic")] string Topic,
+[property: CliOption("--attributes")] string Attributes,
+[property: CliOption("--message-body")] string MessageBody,
+[property: CliOption("--message-body-from-file")] string MessageBodyFromFile
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--max-backoff")]
+    [CliOption("--max-backoff")]
     public string? MaxBackoff { get; set; }
 
-    [CommandSwitch("--max-doublings")]
+    [CliOption("--max-doublings")]
     public string? MaxDoublings { get; set; }
 
-    [CommandSwitch("--max-retry-attempts")]
+    [CliOption("--max-retry-attempts")]
     public string? MaxRetryAttempts { get; set; }
 
-    [CommandSwitch("--max-retry-duration")]
+    [CliOption("--max-retry-duration")]
     public string? MaxRetryDuration { get; set; }
 
-    [CommandSwitch("--min-backoff")]
+    [CliOption("--min-backoff")]
     public string? MinBackoff { get; set; }
 
-    [CommandSwitch("--time-zone")]
+    [CliOption("--time-zone")]
     public string? TimeZone { get; set; }
 }

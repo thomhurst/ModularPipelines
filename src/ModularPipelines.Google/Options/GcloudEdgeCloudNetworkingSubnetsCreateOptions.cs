@@ -5,29 +5,29 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cloud", "networking", "subnets", "create")]
+[CliCommand("edge-cloud", "networking", "subnets", "create")]
 public record GcloudEdgeCloudNetworkingSubnetsCreateOptions(
-[property: PositionalArgument] string Subnet,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Zone,
-[property: CommandSwitch("--network")] string Network
+[property: CliArgument] string Subnet,
+[property: CliArgument] string Location,
+[property: CliArgument] string Zone,
+[property: CliOption("--network")] string Network
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--ipv4-range")]
+    [CliOption("--ipv4-range")]
     public string[]? Ipv4Range { get; set; }
 
-    [CommandSwitch("--ipv6-range")]
+    [CliOption("--ipv6-range")]
     public string[]? Ipv6Range { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--vlan-id")]
+    [CliOption("--vlan-id")]
     public string? VlanId { get; set; }
 }

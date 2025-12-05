@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "get-backup-plan")]
+[CliCommand("backup", "get-backup-plan")]
 public record AwsBackupGetBackupPlanOptions(
-[property: CommandSwitch("--backup-plan-id")] string BackupPlanId
+[property: CliOption("--backup-plan-id")] string BackupPlanId
 ) : AwsOptions
 {
-    [CommandSwitch("--version-id")]
+    [CliOption("--version-id")]
     public string? VersionId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "delete-security-profile")]
+[CliCommand("iot", "delete-security-profile")]
 public record AwsIotDeleteSecurityProfileOptions(
-[property: CommandSwitch("--security-profile-name")] string SecurityProfileName
+[property: CliOption("--security-profile-name")] string SecurityProfileName
 ) : AwsOptions
 {
-    [CommandSwitch("--expected-version")]
+    [CliOption("--expected-version")]
     public long? ExpectedVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

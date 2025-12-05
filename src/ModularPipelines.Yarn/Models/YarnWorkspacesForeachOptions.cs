@@ -4,53 +4,53 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces", "foreach")]
+[CliCommand("workspaces", "foreach")]
 public record YarnWorkspacesForeachOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string CommandName
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string CommandName
 ) : YarnOptions
 {
-    [CommandSwitch("--from")]
+    [CliOption("--from")]
     public virtual string? From { get; set; }
 
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [BooleanCommandSwitch("--worktree")]
+    [CliFlag("--worktree")]
     public virtual bool? Worktree { get; set; }
 
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("--parallel")]
+    [CliFlag("--parallel")]
     public virtual bool? Parallel { get; set; }
 
-    [BooleanCommandSwitch("--interlaced")]
+    [CliFlag("--interlaced")]
     public virtual bool? Interlaced { get; set; }
 
-    [CommandSwitch("--jobs")]
+    [CliOption("--jobs")]
     public virtual string? Jobs { get; set; }
 
-    [BooleanCommandSwitch("--topological")]
+    [CliFlag("--topological")]
     public virtual bool? Topological { get; set; }
 
-    [BooleanCommandSwitch("--topological-dev")]
+    [CliFlag("--topological-dev")]
     public virtual bool? TopologicalDev { get; set; }
 
-    [CommandSwitch("--include")]
+    [CliOption("--include")]
     public virtual string? Include { get; set; }
 
-    [CommandSwitch("--exclude")]
+    [CliOption("--exclude")]
     public virtual string? Exclude { get; set; }
 
-    [BooleanCommandSwitch("--no-private")]
+    [CliFlag("--no-private")]
     public virtual bool? NoPrivate { get; set; }
 
-    [BooleanCommandSwitch("--since")]
+    [CliFlag("--since")]
     public virtual bool? Since { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 }

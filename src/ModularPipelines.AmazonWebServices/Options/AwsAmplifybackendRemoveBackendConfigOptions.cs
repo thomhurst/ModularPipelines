@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amplifybackend", "remove-backend-config")]
+[CliCommand("amplifybackend", "remove-backend-config")]
 public record AwsAmplifybackendRemoveBackendConfigOptions(
-[property: CommandSwitch("--app-id")] string AppId
+[property: CliOption("--app-id")] string AppId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("communication", "user-identity", "user", "create")]
+[CliSubCommand("communication", "user-identity", "user", "create")]
 public record AzCommunicationUserIdentityUserCreateOptions : AzOptions
 {
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 }

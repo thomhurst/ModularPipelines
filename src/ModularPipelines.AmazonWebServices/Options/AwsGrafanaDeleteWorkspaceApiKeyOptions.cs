@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("grafana", "delete-workspace-api-key")]
+[CliCommand("grafana", "delete-workspace-api-key")]
 public record AwsGrafanaDeleteWorkspaceApiKeyOptions(
-[property: CommandSwitch("--key-name")] string KeyName,
-[property: CommandSwitch("--workspace-id")] string WorkspaceId
+[property: CliOption("--key-name")] string KeyName,
+[property: CliOption("--workspace-id")] string WorkspaceId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

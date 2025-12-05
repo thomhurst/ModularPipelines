@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-function", "traffic-collector")]
+[CliCommand("network-function", "traffic-collector")]
 public class AzNetworkFunctionTrafficCollectorCollectorPolicy
 {
     public AzNetworkFunctionTrafficCollectorCollectorPolicy(

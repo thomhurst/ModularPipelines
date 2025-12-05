@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("get", "all")]
+[CliCommand("get", "all")]
 [ExcludeFromCodeCoverage]
 public record HelmGetAllOptions : HelmOptions
 {
-    [CommandEqualsSeparatorSwitch("--revision", SwitchValueSeparator = " ")]
-    public int? Revision { get; set; }
+    [CliOption("--revision")]
+    public virtual int? Revision { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
-    public string? Template { get; set; }
+    [CliOption("--template")]
+    public virtual string? Template { get; set; }
 }

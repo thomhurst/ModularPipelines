@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "search-transit-gateway-multicast-groups")]
+[CliCommand("ec2", "search-transit-gateway-multicast-groups")]
 public record AwsEc2SearchTransitGatewayMulticastGroupsOptions(
-[property: CommandSwitch("--transit-gateway-multicast-domain-id")] string TransitGatewayMulticastDomainId
+[property: CliOption("--transit-gateway-multicast-domain-id")] string TransitGatewayMulticastDomainId
 ) : AwsOptions
 {
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

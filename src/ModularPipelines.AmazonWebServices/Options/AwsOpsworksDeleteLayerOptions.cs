@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworks", "delete-layer")]
+[CliCommand("opsworks", "delete-layer")]
 public record AwsOpsworksDeleteLayerOptions(
-[property: CommandSwitch("--layer-id")] string LayerId
+[property: CliOption("--layer-id")] string LayerId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

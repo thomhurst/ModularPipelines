@@ -5,12 +5,12 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "tag-resource")]
+[CliCommand("wellarchitected", "tag-resource")]
 public record AwsWellarchitectedTagResourceOptions(
-[property: CommandSwitch("--workload-arn")] string WorkloadArn,
-[property: CommandSwitch("--tags")] IEnumerable<KeyValue> Tags
+[property: CliOption("--workload-arn")] string WorkloadArn,
+[property: CliOption("--tags")] IEnumerable<KeyValue> Tags
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

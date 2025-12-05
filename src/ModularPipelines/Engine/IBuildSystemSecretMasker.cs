@@ -15,7 +15,7 @@ internal interface IBuildSystemSecretMasker
     /// - GitHub Actions: Uses ::add-mask::
     /// - Azure Pipelines: Uses ##vso[task.setvariable] with issecret=true
     /// - TeamCity: Uses ##teamcity[setParameter] with system.password prefix
-    /// - Other systems: May not support runtime masking
+    /// - Other systems: May not support runtime masking.
     /// </remarks>
     void MaskSecrets(IEnumerable<string> secrets);
 }

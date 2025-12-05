@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecr", "delete-repository-policy")]
+[CliCommand("ecr", "delete-repository-policy")]
 public record AwsEcrDeleteRepositoryPolicyOptions(
-[property: CommandSwitch("--repository-name")] string RepositoryName
+[property: CliOption("--repository-name")] string RepositoryName
 ) : AwsOptions
 {
-    [CommandSwitch("--registry-id")]
+    [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

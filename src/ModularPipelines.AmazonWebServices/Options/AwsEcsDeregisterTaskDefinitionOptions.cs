@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "deregister-task-definition")]
+[CliCommand("ecs", "deregister-task-definition")]
 public record AwsEcsDeregisterTaskDefinitionOptions(
-[property: CommandSwitch("--task-definition")] string TaskDefinition
+[property: CliOption("--task-definition")] string TaskDefinition
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

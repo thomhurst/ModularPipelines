@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "waf-policy", "create")]
+[CliSubCommand("network", "front-door", "waf-policy", "create")]
 public record AzNetworkFrontDoorWafPolicyCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--custom-block-response-body")]
+    [CliOption("--custom-block-response-body")]
     public string? CustomBlockResponseBody { get; set; }
 
-    [CommandSwitch("--custom-block-response-status-code")]
+    [CliOption("--custom-block-response-status-code")]
     public string? CustomBlockResponseStatusCode { get; set; }
 
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CommandSwitch("--mode")]
+    [CliOption("--mode")]
     public string? Mode { get; set; }
 
-    [CommandSwitch("--redirect-url")]
+    [CliOption("--redirect-url")]
     public string? RedirectUrl { get; set; }
 
-    [CommandSwitch("--request-body-check")]
+    [CliOption("--request-body-check")]
     public string? RequestBodyCheck { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

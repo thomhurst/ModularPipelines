@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "ingress", "access-restriction", "set")]
+[CliSubCommand("containerapp", "ingress", "access-restriction", "set")]
 public record AzContainerappIngressAccessRestrictionSetOptions(
-[property: CommandSwitch("--action")] string Action,
-[property: CommandSwitch("--ip-address")] string IpAddress,
-[property: CommandSwitch("--rule-name")] string RuleName
+[property: CliOption("--action")] string Action,
+[property: CliOption("--ip-address")] string IpAddress,
+[property: CliOption("--rule-name")] string RuleName
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

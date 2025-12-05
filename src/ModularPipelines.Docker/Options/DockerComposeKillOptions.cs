@@ -3,16 +3,16 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose", "kill")]
+[CliCommand("compose", "kill")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeKillOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public IEnumerable<string>? Service { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual IEnumerable<string>? Service { get; set; }
 
-    [BooleanCommandSwitch("--remove-orphans")]
+    [CliFlag("--remove-orphans")]
     public virtual bool? RemoveOrphans { get; set; }
 
-    [CommandSwitch("--signal")]
+    [CliOption("--signal")]
     public virtual string? Signal { get; set; }
 }

@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ce", "get-anomalies")]
+[CliCommand("ce", "get-anomalies")]
 public record AwsCeGetAnomaliesOptions(
-[property: CommandSwitch("--date-interval")] string DateInterval
+[property: CliOption("--date-interval")] string DateInterval
 ) : AwsOptions
 {
-    [CommandSwitch("--monitor-arn")]
+    [CliOption("--monitor-arn")]
     public string? MonitorArn { get; set; }
 
-    [CommandSwitch("--feedback")]
+    [CliOption("--feedback")]
     public string? Feedback { get; set; }
 
-    [CommandSwitch("--total-impact")]
+    [CliOption("--total-impact")]
     public string? TotalImpact { get; set; }
 
-    [CommandSwitch("--next-page-token")]
+    [CliOption("--next-page-token")]
     public string? NextPageToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

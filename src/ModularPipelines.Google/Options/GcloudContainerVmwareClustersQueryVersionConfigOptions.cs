@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "vmware", "clusters", "query-version-config")]
+[CliCommand("container", "vmware", "clusters", "query-version-config")]
 public record GcloudContainerVmwareClustersQueryVersionConfigOptions : GcloudOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--admin-cluster-membership")]
+    [CliOption("--admin-cluster-membership")]
     public string? AdminClusterMembership { get; set; }
 
-    [CommandSwitch("--admin-cluster-membership-location")]
+    [CliOption("--admin-cluster-membership-location")]
     public string? AdminClusterMembershipLocation { get; set; }
 
-    [CommandSwitch("--admin-cluster-membership-project")]
+    [CliOption("--admin-cluster-membership-project")]
     public string? AdminClusterMembershipProject { get; set; }
 }

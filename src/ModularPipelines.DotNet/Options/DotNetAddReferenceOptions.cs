@@ -27,15 +27,15 @@ public record DotNetAddReferenceOptions : DotNetOptions
         ProjectReferences = projectReferences;
     }
 
-    [PositionalArgument(PlaceholderName = "[<PROJECT>]")]
-    public string? Project { get; set; }
+    [CliArgument(Name = "[<PROJECT>]")]
+    public virtual string? Project { get; set; }
 
-    [CommandSwitch("--framework")]
+    [CliOption("--framework")]
     public virtual string? Framework { get; set; }
 
-    [BooleanCommandSwitch("--interactive")]
+    [CliFlag("--interactive")]
     public virtual bool? Interactive { get; set; }
 
-    [PositionalArgument(PlaceholderName = "<PROJECT_REFERENCES>")]
-    public string? ProjectReferences { get; set; }
+    [CliArgument(Name = "<PROJECT_REFERENCES>")]
+    public virtual string? ProjectReferences { get; set; }
 }

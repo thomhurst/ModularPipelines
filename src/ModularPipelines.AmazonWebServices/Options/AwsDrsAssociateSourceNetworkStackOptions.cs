@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("drs", "associate-source-network-stack")]
+[CliCommand("drs", "associate-source-network-stack")]
 public record AwsDrsAssociateSourceNetworkStackOptions(
-[property: CommandSwitch("--cfn-stack-name")] string CfnStackName,
-[property: CommandSwitch("--source-network-id")] string SourceNetworkId
+[property: CliOption("--cfn-stack-name")] string CfnStackName,
+[property: CliOption("--source-network-id")] string SourceNetworkId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,45 +5,45 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dynamodb", "update-item")]
+[CliCommand("dynamodb", "update-item")]
 public record AwsDynamodbUpdateItemOptions(
-[property: CommandSwitch("--table-name")] string TableName,
-[property: CommandSwitch("--key")] IEnumerable<KeyValue> Key
+[property: CliOption("--table-name")] string TableName,
+[property: CliOption("--key")] IEnumerable<KeyValue> Key
 ) : AwsOptions
 {
-    [CommandSwitch("--attribute-updates")]
+    [CliOption("--attribute-updates")]
     public IEnumerable<KeyValue>? AttributeUpdates { get; set; }
 
-    [CommandSwitch("--expected")]
+    [CliOption("--expected")]
     public IEnumerable<KeyValue>? Expected { get; set; }
 
-    [CommandSwitch("--conditional-operator")]
+    [CliOption("--conditional-operator")]
     public string? ConditionalOperator { get; set; }
 
-    [CommandSwitch("--return-values")]
+    [CliOption("--return-values")]
     public string? ReturnValues { get; set; }
 
-    [CommandSwitch("--return-consumed-capacity")]
+    [CliOption("--return-consumed-capacity")]
     public string? ReturnConsumedCapacity { get; set; }
 
-    [CommandSwitch("--return-item-collection-metrics")]
+    [CliOption("--return-item-collection-metrics")]
     public string? ReturnItemCollectionMetrics { get; set; }
 
-    [CommandSwitch("--update-expression")]
+    [CliOption("--update-expression")]
     public string? UpdateExpression { get; set; }
 
-    [CommandSwitch("--condition-expression")]
+    [CliOption("--condition-expression")]
     public string? ConditionExpression { get; set; }
 
-    [CommandSwitch("--expression-attribute-names")]
+    [CliOption("--expression-attribute-names")]
     public IEnumerable<KeyValue>? ExpressionAttributeNames { get; set; }
 
-    [CommandSwitch("--expression-attribute-values")]
+    [CliOption("--expression-attribute-values")]
     public IEnumerable<KeyValue>? ExpressionAttributeValues { get; set; }
 
-    [CommandSwitch("--return-values-on-condition-check-failure")]
+    [CliOption("--return-values-on-condition-check-failure")]
     public string? ReturnValuesOnConditionCheckFailure { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "get-document")]
+[CliCommand("ssm", "get-document")]
 public record AwsSsmGetDocumentOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--version-name")]
+    [CliOption("--version-name")]
     public string? VersionName { get; set; }
 
-    [CommandSwitch("--document-version")]
+    [CliOption("--document-version")]
     public string? DocumentVersion { get; set; }
 
-    [CommandSwitch("--document-format")]
+    [CliOption("--document-format")]
     public string? DocumentFormat { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

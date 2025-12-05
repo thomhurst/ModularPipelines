@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datasync", "create-location-fsx-windows")]
+[CliCommand("datasync", "create-location-fsx-windows")]
 public record AwsDatasyncCreateLocationFsxWindowsOptions(
-[property: CommandSwitch("--fsx-filesystem-arn")] string FsxFilesystemArn,
-[property: CommandSwitch("--security-group-arns")] string[] SecurityGroupArns,
-[property: CommandSwitch("--user")] string User,
-[property: CommandSwitch("--password")] string Password
+[property: CliOption("--fsx-filesystem-arn")] string FsxFilesystemArn,
+[property: CliOption("--security-group-arns")] string[] SecurityGroupArns,
+[property: CliOption("--user")] string User,
+[property: CliOption("--password")] string Password
 ) : AwsOptions
 {
-    [CommandSwitch("--subdirectory")]
+    [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--domain")]
+    [CliOption("--domain")]
     public string? Domain { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

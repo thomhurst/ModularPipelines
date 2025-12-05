@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose", "wait")]
+[CliCommand("compose", "wait")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeWaitOptions : DockerOptions
 {
-    [CommandSwitch("--down-project")]
+    [CliOption("--down-project")]
     public virtual string? DownProject { get; set; }
 }

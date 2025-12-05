@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "central", "device", "list")]
+[CliSubCommand("iot", "central", "device", "list")]
 public record AzIotCentralDeviceListOptions(
-[property: CommandSwitch("--app-id")] string AppId
+[property: CliOption("--app-id")] string AppId
 ) : AzOptions
 {
-    [CommandSwitch("--central-api-uri")]
+    [CliOption("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 
-    [BooleanCommandSwitch("--edge-only")]
+    [CliFlag("--edge-only")]
     public bool? EdgeOnly { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 }

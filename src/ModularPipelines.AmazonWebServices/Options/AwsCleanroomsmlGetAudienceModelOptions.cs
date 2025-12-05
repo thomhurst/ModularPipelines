@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cleanroomsml", "get-audience-model")]
+[CliCommand("cleanroomsml", "get-audience-model")]
 public record AwsCleanroomsmlGetAudienceModelOptions(
-[property: CommandSwitch("--audience-model-arn")] string AudienceModelArn
+[property: CliOption("--audience-model-arn")] string AudienceModelArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

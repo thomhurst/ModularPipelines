@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "env", "dapr-component", "resiliency", "create")]
+[CliSubCommand("containerapp", "env", "dapr-component", "resiliency", "create")]
 public record AzContainerappEnvDaprComponentResiliencyCreateOptions(
-[property: CommandSwitch("--dapr-component-name")] string DaprComponentName,
-[property: CommandSwitch("--environment")] string Environment,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--dapr-component-name")] string DaprComponentName,
+[property: CliOption("--environment")] string Environment,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--in-http-delay")]
+    [CliOption("--in-http-delay")]
     public string? InHttpDelay { get; set; }
 
-    [CommandSwitch("--in-http-interval")]
+    [CliOption("--in-http-interval")]
     public string? InHttpInterval { get; set; }
 
-    [CommandSwitch("--in-http-retries")]
+    [CliOption("--in-http-retries")]
     public string? InHttpRetries { get; set; }
 
-    [CommandSwitch("--in-timeout")]
+    [CliOption("--in-timeout")]
     public string? InTimeout { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--out-http-delay")]
+    [CliOption("--out-http-delay")]
     public string? OutHttpDelay { get; set; }
 
-    [CommandSwitch("--out-http-interval")]
+    [CliOption("--out-http-interval")]
     public string? OutHttpInterval { get; set; }
 
-    [CommandSwitch("--out-http-retries")]
+    [CliOption("--out-http-retries")]
     public string? OutHttpRetries { get; set; }
 
-    [CommandSwitch("--out-timeout")]
+    [CliOption("--out-timeout")]
     public string? OutTimeout { get; set; }
 
-    [CommandSwitch("--yaml")]
+    [CliOption("--yaml")]
     public string? Yaml { get; set; }
 }

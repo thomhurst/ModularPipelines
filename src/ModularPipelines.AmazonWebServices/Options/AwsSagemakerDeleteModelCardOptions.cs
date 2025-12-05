@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "delete-model-card")]
+[CliCommand("sagemaker", "delete-model-card")]
 public record AwsSagemakerDeleteModelCardOptions(
-[property: CommandSwitch("--model-card-name")] string ModelCardName
+[property: CliOption("--model-card-name")] string ModelCardName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

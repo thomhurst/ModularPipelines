@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devicefarm", "create-test-grid-url")]
+[CliCommand("devicefarm", "create-test-grid-url")]
 public record AwsDevicefarmCreateTestGridUrlOptions(
-[property: CommandSwitch("--project-arn")] string ProjectArn,
-[property: CommandSwitch("--expires-in-seconds")] int ExpiresInSeconds
+[property: CliOption("--project-arn")] string ProjectArn,
+[property: CliOption("--expires-in-seconds")] int ExpiresInSeconds
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

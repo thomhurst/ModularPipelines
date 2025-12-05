@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("site-recovery", "vmware-site")]
+[CliCommand("site-recovery", "vmware-site")]
 public class AzSiteRecoveryVmwareSiteMachine
 {
     public AzSiteRecoveryVmwareSiteMachine(

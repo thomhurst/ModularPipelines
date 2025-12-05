@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("reservations", "reservation", "show")]
+[CliSubCommand("reservations", "reservation", "show")]
 public record AzReservationsReservationShowOptions(
-[property: CommandSwitch("--reservation-id")] string ReservationId,
-[property: CommandSwitch("--reservation-order-id")] string ReservationOrderId
+[property: CliOption("--reservation-id")] string ReservationId,
+[property: CliOption("--reservation-order-id")] string ReservationOrderId
 ) : AzOptions
 {
-    [CommandSwitch("--expand")]
+    [CliOption("--expand")]
     public string? Expand { get; set; }
 }

@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("translate", "start-text-translation-job")]
+[CliCommand("translate", "start-text-translation-job")]
 public record AwsTranslateStartTextTranslationJobOptions(
-[property: CommandSwitch("--input-data-config")] string InputDataConfig,
-[property: CommandSwitch("--output-data-config")] string OutputDataConfig,
-[property: CommandSwitch("--data-access-role-arn")] string DataAccessRoleArn,
-[property: CommandSwitch("--source-language-code")] string SourceLanguageCode,
-[property: CommandSwitch("--target-language-codes")] string[] TargetLanguageCodes
+[property: CliOption("--input-data-config")] string InputDataConfig,
+[property: CliOption("--output-data-config")] string OutputDataConfig,
+[property: CliOption("--data-access-role-arn")] string DataAccessRoleArn,
+[property: CliOption("--source-language-code")] string SourceLanguageCode,
+[property: CliOption("--target-language-codes")] string[] TargetLanguageCodes
 ) : AwsOptions
 {
-    [CommandSwitch("--job-name")]
+    [CliOption("--job-name")]
     public string? JobName { get; set; }
 
-    [CommandSwitch("--terminology-names")]
+    [CliOption("--terminology-names")]
     public string[]? TerminologyNames { get; set; }
 
-    [CommandSwitch("--parallel-data-names")]
+    [CliOption("--parallel-data-names")]
     public string[]? ParallelDataNames { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--settings")]
+    [CliOption("--settings")]
     public string? Settings { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

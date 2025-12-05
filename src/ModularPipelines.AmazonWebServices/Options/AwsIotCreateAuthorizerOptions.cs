@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "create-authorizer")]
+[CliCommand("iot", "create-authorizer")]
 public record AwsIotCreateAuthorizerOptions(
-[property: CommandSwitch("--authorizer-name")] string AuthorizerName,
-[property: CommandSwitch("--authorizer-function-arn")] string AuthorizerFunctionArn
+[property: CliOption("--authorizer-name")] string AuthorizerName,
+[property: CliOption("--authorizer-function-arn")] string AuthorizerFunctionArn
 ) : AwsOptions
 {
-    [CommandSwitch("--token-key-name")]
+    [CliOption("--token-key-name")]
     public string? TokenKeyName { get; set; }
 
-    [CommandSwitch("--token-signing-public-keys")]
+    [CliOption("--token-signing-public-keys")]
     public IEnumerable<KeyValue>? TokenSigningPublicKeys { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

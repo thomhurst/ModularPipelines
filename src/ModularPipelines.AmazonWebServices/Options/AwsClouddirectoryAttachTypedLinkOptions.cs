@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("clouddirectory", "attach-typed-link")]
+[CliCommand("clouddirectory", "attach-typed-link")]
 public record AwsClouddirectoryAttachTypedLinkOptions(
-[property: CommandSwitch("--directory-arn")] string DirectoryArn,
-[property: CommandSwitch("--source-object-reference")] string SourceObjectReference,
-[property: CommandSwitch("--target-object-reference")] string TargetObjectReference,
-[property: CommandSwitch("--typed-link-facet")] string TypedLinkFacet,
-[property: CommandSwitch("--attributes")] string[] Attributes
+[property: CliOption("--directory-arn")] string DirectoryArn,
+[property: CliOption("--source-object-reference")] string SourceObjectReference,
+[property: CliOption("--target-object-reference")] string TargetObjectReference,
+[property: CliOption("--typed-link-facet")] string TypedLinkFacet,
+[property: CliOption("--attributes")] string[] Attributes
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

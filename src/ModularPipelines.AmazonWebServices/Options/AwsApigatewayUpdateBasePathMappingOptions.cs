@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "update-base-path-mapping")]
+[CliCommand("apigateway", "update-base-path-mapping")]
 public record AwsApigatewayUpdateBasePathMappingOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--base-path")] string BasePath
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--base-path")] string BasePath
 ) : AwsOptions
 {
-    [CommandSwitch("--patch-operations")]
+    [CliOption("--patch-operations")]
     public string[]? PatchOperations { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

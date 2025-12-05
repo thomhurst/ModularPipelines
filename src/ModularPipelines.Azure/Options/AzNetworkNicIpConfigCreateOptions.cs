@@ -4,49 +4,49 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "nic", "ip-config", "create")]
+[CliSubCommand("network", "nic", "ip-config", "create")]
 public record AzNetworkNicIpConfigCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--nic-name")] string NicName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--nic-name")] string NicName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--ag-address-pools")]
+    [CliOption("--ag-address-pools")]
     public string? AgAddressPools { get; set; }
 
-    [CommandSwitch("--application-security-groups")]
+    [CliOption("--application-security-groups")]
     public string? ApplicationSecurityGroups { get; set; }
 
-    [CommandSwitch("--gateway-name")]
+    [CliOption("--gateway-name")]
     public string? GatewayName { get; set; }
 
-    [CommandSwitch("--lb-address-pools")]
+    [CliOption("--lb-address-pools")]
     public string? LbAddressPools { get; set; }
 
-    [CommandSwitch("--lb-inbound-nat-rules")]
+    [CliOption("--lb-inbound-nat-rules")]
     public string? LbInboundNatRules { get; set; }
 
-    [CommandSwitch("--lb-name")]
+    [CliOption("--lb-name")]
     public string? LbName { get; set; }
 
-    [BooleanCommandSwitch("--make-primary")]
+    [CliFlag("--make-primary")]
     public bool? MakePrimary { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--private-ip-address")]
+    [CliOption("--private-ip-address")]
     public string? PrivateIpAddress { get; set; }
 
-    [CommandSwitch("--private-ip-address-version")]
+    [CliOption("--private-ip-address-version")]
     public string? PrivateIpAddressVersion { get; set; }
 
-    [CommandSwitch("--public-ip-address")]
+    [CliOption("--public-ip-address")]
     public string? PublicIpAddress { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--vnet-name")]
+    [CliOption("--vnet-name")]
     public string? VnetName { get; set; }
 }

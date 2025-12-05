@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "targets", "delete")]
+[CliCommand("deploy", "targets", "delete")]
 public record GcloudDeployTargetsDeleteOptions(
-[property: PositionalArgument] string Target,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Target,
+[property: CliArgument] string Region
 ) : GcloudOptions;

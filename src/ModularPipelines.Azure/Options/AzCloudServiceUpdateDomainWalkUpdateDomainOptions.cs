@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloud-service", "update-domain", "walk-update-domain")]
+[CliSubCommand("cloud-service", "update-domain", "walk-update-domain")]
 public record AzCloudServiceUpdateDomainWalkUpdateDomainOptions : AzOptions
 {
-    [CommandSwitch("--cloud-service-name")]
+    [CliOption("--cloud-service-name")]
     public string? CloudServiceName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--update-domain")]
+    [CliOption("--update-domain")]
     public string? UpdateDomain { get; set; }
 }

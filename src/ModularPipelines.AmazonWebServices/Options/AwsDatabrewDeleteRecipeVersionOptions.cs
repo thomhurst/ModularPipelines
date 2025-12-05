@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databrew", "delete-recipe-version")]
+[CliCommand("databrew", "delete-recipe-version")]
 public record AwsDatabrewDeleteRecipeVersionOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--recipe-version")] string RecipeVersion
+[property: CliOption("--name")] string Name,
+[property: CliOption("--recipe-version")] string RecipeVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

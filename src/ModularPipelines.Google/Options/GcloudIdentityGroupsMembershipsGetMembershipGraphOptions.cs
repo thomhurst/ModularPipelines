@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("identity", "groups", "memberships", "get-membership-graph")]
+[CliCommand("identity", "groups", "memberships", "get-membership-graph")]
 public record GcloudIdentityGroupsMembershipsGetMembershipGraphOptions(
-[property: CommandSwitch("--labels")] string Labels,
-[property: CommandSwitch("--member-email")] string MemberEmail
+[property: CliOption("--labels")] string Labels,
+[property: CliOption("--member-email")] string MemberEmail
 ) : GcloudOptions
 {
-    [CommandSwitch("--group-email")]
+    [CliOption("--group-email")]
     public string? GroupEmail { get; set; }
 }

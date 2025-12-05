@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mariadb", "server", "firewall-rule", "create")]
+[CliSubCommand("mariadb", "server", "firewall-rule", "create")]
 public record AzMariadbServerFirewallRuleCreateOptions(
-[property: CommandSwitch("--end-ip-address")] string EndIpAddress,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--server-name")] string ServerName,
-[property: CommandSwitch("--start-ip-address")] string StartIpAddress
+[property: CliOption("--end-ip-address")] string EndIpAddress,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--server-name")] string ServerName,
+[property: CliOption("--start-ip-address")] string StartIpAddress
 ) : AzOptions;

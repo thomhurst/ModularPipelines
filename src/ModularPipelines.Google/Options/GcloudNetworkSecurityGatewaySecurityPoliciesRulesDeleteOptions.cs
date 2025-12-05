@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-security", "gateway-security-policies", "rules", "delete")]
+[CliCommand("network-security", "gateway-security-policies", "rules", "delete")]
 public record GcloudNetworkSecurityGatewaySecurityPoliciesRulesDeleteOptions(
-[property: PositionalArgument] string GatewaySecurityPolicyRule,
-[property: PositionalArgument] string GatewaySecurityPolicy,
-[property: PositionalArgument] string Location
+[property: CliArgument] string GatewaySecurityPolicyRule,
+[property: CliArgument] string GatewaySecurityPolicy,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

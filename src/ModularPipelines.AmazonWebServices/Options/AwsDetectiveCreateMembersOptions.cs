@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("detective", "create-members")]
+[CliCommand("detective", "create-members")]
 public record AwsDetectiveCreateMembersOptions(
-[property: CommandSwitch("--graph-arn")] string GraphArn,
-[property: CommandSwitch("--accounts")] string[] Accounts
+[property: CliOption("--graph-arn")] string GraphArn,
+[property: CliOption("--accounts")] string[] Accounts
 ) : AwsOptions
 {
-    [CommandSwitch("--message")]
+    [CliOption("--message")]
     public string? Message { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datadog", "terms", "create")]
+[CliSubCommand("datadog", "terms", "create")]
 public record AzDatadogTermsCreateOptions : AzOptions
 {
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public string? Properties { get; set; }
 }

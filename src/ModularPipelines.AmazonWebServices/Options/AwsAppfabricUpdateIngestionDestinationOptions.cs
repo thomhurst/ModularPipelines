@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appfabric", "update-ingestion-destination")]
+[CliCommand("appfabric", "update-ingestion-destination")]
 public record AwsAppfabricUpdateIngestionDestinationOptions(
-[property: CommandSwitch("--app-bundle-identifier")] string AppBundleIdentifier,
-[property: CommandSwitch("--ingestion-identifier")] string IngestionIdentifier,
-[property: CommandSwitch("--ingestion-destination-identifier")] string IngestionDestinationIdentifier,
-[property: CommandSwitch("--destination-configuration")] string DestinationConfiguration
+[property: CliOption("--app-bundle-identifier")] string AppBundleIdentifier,
+[property: CliOption("--ingestion-identifier")] string IngestionIdentifier,
+[property: CliOption("--ingestion-destination-identifier")] string IngestionDestinationIdentifier,
+[property: CliOption("--destination-configuration")] string DestinationConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

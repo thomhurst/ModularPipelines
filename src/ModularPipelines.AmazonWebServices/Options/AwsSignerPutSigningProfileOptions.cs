@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("signer", "put-signing-profile")]
+[CliCommand("signer", "put-signing-profile")]
 public record AwsSignerPutSigningProfileOptions(
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--platform-id")] string PlatformId
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--platform-id")] string PlatformId
 ) : AwsOptions
 {
-    [CommandSwitch("--signing-material")]
+    [CliOption("--signing-material")]
     public string? SigningMaterial { get; set; }
 
-    [CommandSwitch("--signature-validity-period")]
+    [CliOption("--signature-validity-period")]
     public string? SignatureValidityPeriod { get; set; }
 
-    [CommandSwitch("--overrides")]
+    [CliOption("--overrides")]
     public string? Overrides { get; set; }
 
-    [CommandSwitch("--signing-parameters")]
+    [CliOption("--signing-parameters")]
     public IEnumerable<KeyValue>? SigningParameters { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

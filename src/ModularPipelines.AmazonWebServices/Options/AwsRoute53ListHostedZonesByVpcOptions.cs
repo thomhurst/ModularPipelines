@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53", "list-hosted-zones-by-vpc")]
+[CliCommand("route53", "list-hosted-zones-by-vpc")]
 public record AwsRoute53ListHostedZonesByVpcOptions(
-[property: CommandSwitch("--vpc-id")] string VpcId,
-[property: CommandSwitch("--vpc-region")] string VpcRegion
+[property: CliOption("--vpc-id")] string VpcId,
+[property: CliOption("--vpc-region")] string VpcRegion
 ) : AwsOptions
 {
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

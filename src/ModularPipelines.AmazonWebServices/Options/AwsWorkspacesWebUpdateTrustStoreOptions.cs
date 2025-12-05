@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces-web", "update-trust-store")]
+[CliCommand("workspaces-web", "update-trust-store")]
 public record AwsWorkspacesWebUpdateTrustStoreOptions(
-[property: CommandSwitch("--trust-store-arn")] string TrustStoreArn
+[property: CliOption("--trust-store-arn")] string TrustStoreArn
 ) : AwsOptions
 {
-    [CommandSwitch("--certificates-to-add")]
+    [CliOption("--certificates-to-add")]
     public string[]? CertificatesToAdd { get; set; }
 
-    [CommandSwitch("--certificates-to-delete")]
+    [CliOption("--certificates-to-delete")]
     public string[]? CertificatesToDelete { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

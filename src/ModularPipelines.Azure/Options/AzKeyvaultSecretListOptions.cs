@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "secret", "list")]
+[CliSubCommand("keyvault", "secret", "list")]
 public record AzKeyvaultSecretListOptions : AzOptions
 {
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [BooleanCommandSwitch("--include-managed")]
+    [CliFlag("--include-managed")]
     public bool? IncludeManaged { get; set; }
 
-    [CommandSwitch("--maxresults")]
+    [CliOption("--maxresults")]
     public string? Maxresults { get; set; }
 
-    [CommandSwitch("--vault-name")]
+    [CliOption("--vault-name")]
     public string? VaultName { get; set; }
 }

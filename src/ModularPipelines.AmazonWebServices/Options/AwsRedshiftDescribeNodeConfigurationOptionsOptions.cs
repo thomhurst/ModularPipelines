@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "describe-node-configuration-options")]
+[CliCommand("redshift", "describe-node-configuration-options")]
 public record AwsRedshiftDescribeNodeConfigurationOptionsOptions(
-[property: CommandSwitch("--action-type")] string ActionType
+[property: CliOption("--action-type")] string ActionType
 ) : AwsOptions
 {
-    [CommandSwitch("--cluster-identifier")]
+    [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
 
-    [CommandSwitch("--snapshot-identifier")]
+    [CliOption("--snapshot-identifier")]
     public string? SnapshotIdentifier { get; set; }
 
-    [CommandSwitch("--snapshot-arn")]
+    [CliOption("--snapshot-arn")]
     public string? SnapshotArn { get; set; }
 
-    [CommandSwitch("--owner-account")]
+    [CliOption("--owner-account")]
     public string? OwnerAccount { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

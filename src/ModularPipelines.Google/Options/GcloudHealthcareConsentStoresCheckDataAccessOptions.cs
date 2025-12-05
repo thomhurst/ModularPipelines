@@ -5,14 +5,14 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcare", "consent-stores", "check-data-access")]
+[CliCommand("healthcare", "consent-stores", "check-data-access")]
 public record GcloudHealthcareConsentStoresCheckDataAccessOptions(
-[property: PositionalArgument] string ConsentStore,
-[property: PositionalArgument] string Dataset,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--data-id")] string DataId
+[property: CliArgument] string ConsentStore,
+[property: CliArgument] string Dataset,
+[property: CliArgument] string Location,
+[property: CliOption("--data-id")] string DataId
 ) : GcloudOptions
 {
-    [CommandSwitch("--request-attributes")]
+    [CliOption("--request-attributes")]
     public IEnumerable<KeyValue>? RequestAttributes { get; set; }
 }

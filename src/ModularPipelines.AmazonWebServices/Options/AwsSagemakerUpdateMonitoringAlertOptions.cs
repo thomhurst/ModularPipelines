@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "update-monitoring-alert")]
+[CliCommand("sagemaker", "update-monitoring-alert")]
 public record AwsSagemakerUpdateMonitoringAlertOptions(
-[property: CommandSwitch("--monitoring-schedule-name")] string MonitoringScheduleName,
-[property: CommandSwitch("--monitoring-alert-name")] string MonitoringAlertName,
-[property: CommandSwitch("--datapoints-to-alert")] int DatapointsToAlert,
-[property: CommandSwitch("--evaluation-period")] int EvaluationPeriod
+[property: CliOption("--monitoring-schedule-name")] string MonitoringScheduleName,
+[property: CliOption("--monitoring-alert-name")] string MonitoringAlertName,
+[property: CliOption("--datapoints-to-alert")] int DatapointsToAlert,
+[property: CliOption("--evaluation-period")] int EvaluationPeriod
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("frauddetector", "create-rule")]
+[CliCommand("frauddetector", "create-rule")]
 public record AwsFrauddetectorCreateRuleOptions(
-[property: CommandSwitch("--rule-id")] string RuleId,
-[property: CommandSwitch("--detector-id")] string DetectorId,
-[property: CommandSwitch("--expression")] string Expression,
-[property: CommandSwitch("--language")] string Language,
-[property: CommandSwitch("--outcomes")] string[] Outcomes
+[property: CliOption("--rule-id")] string RuleId,
+[property: CliOption("--detector-id")] string DetectorId,
+[property: CliOption("--expression")] string Expression,
+[property: CliOption("--language")] string Language,
+[property: CliOption("--outcomes")] string[] Outcomes
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

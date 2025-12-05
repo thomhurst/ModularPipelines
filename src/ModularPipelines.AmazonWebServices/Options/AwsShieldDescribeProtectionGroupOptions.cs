@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("shield", "describe-protection-group")]
+[CliCommand("shield", "describe-protection-group")]
 public record AwsShieldDescribeProtectionGroupOptions(
-[property: CommandSwitch("--protection-group-id")] string ProtectionGroupId
+[property: CliOption("--protection-group-id")] string ProtectionGroupId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

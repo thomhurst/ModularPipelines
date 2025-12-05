@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "create-base-path-mapping")]
+[CliCommand("apigateway", "create-base-path-mapping")]
 public record AwsApigatewayCreateBasePathMappingOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--rest-api-id")] string RestApiId
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--rest-api-id")] string RestApiId
 ) : AwsOptions
 {
-    [CommandSwitch("--base-path")]
+    [CliOption("--base-path")]
     public string? BasePath { get; set; }
 
-    [CommandSwitch("--stage")]
+    [CliOption("--stage")]
     public string? Stage { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

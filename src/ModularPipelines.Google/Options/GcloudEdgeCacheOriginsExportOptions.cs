@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cache", "origins", "export")]
+[CliCommand("edge-cache", "origins", "export")]
 public record GcloudEdgeCacheOriginsExportOptions(
-[property: PositionalArgument] string Origin,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Origin,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--destination")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 }

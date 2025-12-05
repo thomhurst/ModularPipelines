@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cache", "keysets", "update")]
+[CliCommand("edge-cache", "keysets", "update")]
 public record GcloudEdgeCacheKeysetsUpdateOptions(
-[property: PositionalArgument] string Keyset,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Keyset,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--public-key")]
+    [CliOption("--public-key")]
     public string[]? PublicKey { get; set; }
 
-    [CommandSwitch("--validation-shared-key")]
+    [CliOption("--validation-shared-key")]
     public string[]? ValidationSharedKey { get; set; }
 }

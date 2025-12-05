@@ -5,59 +5,59 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scheduler", "jobs", "create", "http")]
+[CliCommand("scheduler", "jobs", "create", "http")]
 public record GcloudSchedulerJobsCreateHttpOptions(
-[property: PositionalArgument] string Job,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--schedule")] string Schedule,
-[property: CommandSwitch("--uri")] string Uri
+[property: CliArgument] string Job,
+[property: CliArgument] string Location,
+[property: CliOption("--schedule")] string Schedule,
+[property: CliOption("--uri")] string Uri
 ) : GcloudOptions
 {
-    [CommandSwitch("--attempt-deadline")]
+    [CliOption("--attempt-deadline")]
     public string? AttemptDeadline { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--headers")]
+    [CliOption("--headers")]
     public IEnumerable<KeyValue>? Headers { get; set; }
 
-    [CommandSwitch("--http-method")]
+    [CliOption("--http-method")]
     public string? HttpMethod { get; set; }
 
-    [CommandSwitch("--max-backoff")]
+    [CliOption("--max-backoff")]
     public string? MaxBackoff { get; set; }
 
-    [CommandSwitch("--max-doublings")]
+    [CliOption("--max-doublings")]
     public string? MaxDoublings { get; set; }
 
-    [CommandSwitch("--max-retry-attempts")]
+    [CliOption("--max-retry-attempts")]
     public string? MaxRetryAttempts { get; set; }
 
-    [CommandSwitch("--max-retry-duration")]
+    [CliOption("--max-retry-duration")]
     public string? MaxRetryDuration { get; set; }
 
-    [CommandSwitch("--min-backoff")]
+    [CliOption("--min-backoff")]
     public string? MinBackoff { get; set; }
 
-    [CommandSwitch("--time-zone")]
+    [CliOption("--time-zone")]
     public string? TimeZone { get; set; }
 
-    [CommandSwitch("--message-body")]
+    [CliOption("--message-body")]
     public string? MessageBody { get; set; }
 
-    [CommandSwitch("--message-body-from-file")]
+    [CliOption("--message-body-from-file")]
     public string? MessageBodyFromFile { get; set; }
 
-    [CommandSwitch("--oauth-service-account-email")]
+    [CliOption("--oauth-service-account-email")]
     public string? OauthServiceAccountEmail { get; set; }
 
-    [CommandSwitch("--oauth-token-scope")]
+    [CliOption("--oauth-token-scope")]
     public string? OauthTokenScope { get; set; }
 
-    [CommandSwitch("--oidc-service-account-email")]
+    [CliOption("--oidc-service-account-email")]
     public string? OidcServiceAccountEmail { get; set; }
 
-    [CommandSwitch("--oidc-token-audience")]
+    [CliOption("--oidc-token-audience")]
     public string? OidcTokenAudience { get; set; }
 }

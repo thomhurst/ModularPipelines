@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("personalize", "describe-event-tracker")]
+[CliCommand("personalize", "describe-event-tracker")]
 public record AwsPersonalizeDescribeEventTrackerOptions(
-[property: CommandSwitch("--event-tracker-arn")] string EventTrackerArn
+[property: CliOption("--event-tracker-arn")] string EventTrackerArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

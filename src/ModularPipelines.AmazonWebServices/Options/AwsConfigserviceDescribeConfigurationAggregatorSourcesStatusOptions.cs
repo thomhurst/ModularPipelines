@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configservice", "describe-configuration-aggregator-sources-status")]
+[CliCommand("configservice", "describe-configuration-aggregator-sources-status")]
 public record AwsConfigserviceDescribeConfigurationAggregatorSourcesStatusOptions(
-[property: CommandSwitch("--configuration-aggregator-name")] string ConfigurationAggregatorName
+[property: CliOption("--configuration-aggregator-name")] string ConfigurationAggregatorName
 ) : AwsOptions
 {
-    [CommandSwitch("--update-status")]
+    [CliOption("--update-status")]
     public string[]? UpdateStatus { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

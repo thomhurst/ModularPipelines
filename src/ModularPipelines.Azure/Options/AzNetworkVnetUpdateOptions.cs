@@ -4,60 +4,60 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vnet", "update")]
+[CliSubCommand("network", "vnet", "update")]
 public record AzNetworkVnetUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--address-prefixes")]
+    [CliOption("--address-prefixes")]
     public string? AddressPrefixes { get; set; }
 
-    [CommandSwitch("--bgp-community")]
+    [CliOption("--bgp-community")]
     public string? BgpCommunity { get; set; }
 
-    [BooleanCommandSwitch("--ddos-protection")]
+    [CliFlag("--ddos-protection")]
     public bool? DdosProtection { get; set; }
 
-    [CommandSwitch("--ddos-protection-plan")]
+    [CliOption("--ddos-protection-plan")]
     public string? DdosProtectionPlan { get; set; }
 
-    [CommandSwitch("--dns-servers")]
+    [CliOption("--dns-servers")]
     public string? DnsServers { get; set; }
 
-    [BooleanCommandSwitch("--enable-encryption")]
+    [CliFlag("--enable-encryption")]
     public bool? EnableEncryption { get; set; }
 
-    [CommandSwitch("--encryption-enforcement-policy")]
+    [CliOption("--encryption-enforcement-policy")]
     public string? EncryptionEnforcementPolicy { get; set; }
 
-    [CommandSwitch("--flowtimeout")]
+    [CliOption("--flowtimeout")]
     public string? Flowtimeout { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--vm-protection")]
+    [CliFlag("--vm-protection")]
     public bool? VmProtection { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotevents-data", "batch-update-detector")]
+[CliCommand("iotevents-data", "batch-update-detector")]
 public record AwsIoteventsDataBatchUpdateDetectorOptions(
-[property: CommandSwitch("--detectors")] string[] Detectors
+[property: CliOption("--detectors")] string[] Detectors
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

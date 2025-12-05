@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("customer-profiles", "create-integration-workflow")]
+[CliCommand("customer-profiles", "create-integration-workflow")]
 public record AwsCustomerProfilesCreateIntegrationWorkflowOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--workflow-type")] string WorkflowType,
-[property: CommandSwitch("--integration-config")] string IntegrationConfig,
-[property: CommandSwitch("--object-type-name")] string ObjectTypeName,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--workflow-type")] string WorkflowType,
+[property: CliOption("--integration-config")] string IntegrationConfig,
+[property: CliOption("--object-type-name")] string ObjectTypeName,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

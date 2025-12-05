@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("guardduty", "get-remaining-free-trial-days")]
+[CliCommand("guardduty", "get-remaining-free-trial-days")]
 public record AwsGuarddutyGetRemainingFreeTrialDaysOptions(
-[property: CommandSwitch("--detector-id")] string DetectorId
+[property: CliOption("--detector-id")] string DetectorId
 ) : AwsOptions
 {
-    [CommandSwitch("--account-ids")]
+    [CliOption("--account-ids")]
     public string[]? AccountIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

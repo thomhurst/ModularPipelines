@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ds", "describe-regions")]
+[CliCommand("ds", "describe-regions")]
 public record AwsDsDescribeRegionsOptions(
-[property: CommandSwitch("--directory-id")] string DirectoryId
+[property: CliOption("--directory-id")] string DirectoryId
 ) : AwsOptions
 {
-    [CommandSwitch("--region-name")]
+    [CliOption("--region-name")]
     public string? RegionName { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

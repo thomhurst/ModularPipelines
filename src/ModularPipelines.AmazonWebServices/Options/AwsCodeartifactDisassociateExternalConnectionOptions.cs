@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeartifact", "disassociate-external-connection")]
+[CliCommand("codeartifact", "disassociate-external-connection")]
 public record AwsCodeartifactDisassociateExternalConnectionOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--repository")] string Repository,
-[property: CommandSwitch("--external-connection")] string ExternalConnection
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--repository")] string Repository,
+[property: CliOption("--external-connection")] string ExternalConnection
 ) : AwsOptions
 {
-    [CommandSwitch("--domain-owner")]
+    [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "list-apps")]
+[CliCommand("sagemaker", "list-apps")]
 public record AwsSagemakerListAppsOptions : AwsOptions
 {
-    [CommandSwitch("--sort-order")]
+    [CliOption("--sort-order")]
     public string? SortOrder { get; set; }
 
-    [CommandSwitch("--sort-by")]
+    [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
-    [CommandSwitch("--domain-id-equals")]
+    [CliOption("--domain-id-equals")]
     public string? DomainIdEquals { get; set; }
 
-    [CommandSwitch("--user-profile-name-equals")]
+    [CliOption("--user-profile-name-equals")]
     public string? UserProfileNameEquals { get; set; }
 
-    [CommandSwitch("--space-name-equals")]
+    [CliOption("--space-name-equals")]
     public string? SpaceNameEquals { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

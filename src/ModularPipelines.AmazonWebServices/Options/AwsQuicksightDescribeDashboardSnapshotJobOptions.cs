@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "describe-dashboard-snapshot-job")]
+[CliCommand("quicksight", "describe-dashboard-snapshot-job")]
 public record AwsQuicksightDescribeDashboardSnapshotJobOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--dashboard-id")] string DashboardId,
-[property: CommandSwitch("--snapshot-job-id")] string SnapshotJobId
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--dashboard-id")] string DashboardId,
+[property: CliOption("--snapshot-job-id")] string SnapshotJobId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudtrail", "put-insight-selectors")]
+[CliCommand("cloudtrail", "put-insight-selectors")]
 public record AwsCloudtrailPutInsightSelectorsOptions(
-[property: CommandSwitch("--insight-selectors")] string[] InsightSelectors
+[property: CliOption("--insight-selectors")] string[] InsightSelectors
 ) : AwsOptions
 {
-    [CommandSwitch("--trail-name")]
+    [CliOption("--trail-name")]
     public string? TrailName { get; set; }
 
-    [CommandSwitch("--event-data-store")]
+    [CliOption("--event-data-store")]
     public string? EventDataStore { get; set; }
 
-    [CommandSwitch("--insights-destination")]
+    [CliOption("--insights-destination")]
     public string? InsightsDestination { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

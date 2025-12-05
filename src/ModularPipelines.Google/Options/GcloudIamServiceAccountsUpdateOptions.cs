@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "service-accounts", "update")]
+[CliCommand("iam", "service-accounts", "update")]
 public record GcloudIamServiceAccountsUpdateOptions(
-[property: PositionalArgument] string ServiceAccount
+[property: CliArgument] string ServiceAccount
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 }

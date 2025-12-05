@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "create-traffic-distribution-group")]
+[CliCommand("connect", "create-traffic-distribution-group")]
 public record AwsConnectCreateTrafficDistributionGroupOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--instance-id")] string InstanceId
+[property: CliOption("--name")] string Name,
+[property: CliOption("--instance-id")] string InstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

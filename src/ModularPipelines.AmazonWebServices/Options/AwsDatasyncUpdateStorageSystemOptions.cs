@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datasync", "update-storage-system")]
+[CliCommand("datasync", "update-storage-system")]
 public record AwsDatasyncUpdateStorageSystemOptions(
-[property: CommandSwitch("--storage-system-arn")] string StorageSystemArn
+[property: CliOption("--storage-system-arn")] string StorageSystemArn
 ) : AwsOptions
 {
-    [CommandSwitch("--server-configuration")]
+    [CliOption("--server-configuration")]
     public string? ServerConfiguration { get; set; }
 
-    [CommandSwitch("--agent-arns")]
+    [CliOption("--agent-arns")]
     public string[]? AgentArns { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--cloud-watch-log-group-arn")]
+    [CliOption("--cloud-watch-log-group-arn")]
     public string? CloudWatchLogGroupArn { get; set; }
 
-    [CommandSwitch("--credentials")]
+    [CliOption("--credentials")]
     public string? Credentials { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

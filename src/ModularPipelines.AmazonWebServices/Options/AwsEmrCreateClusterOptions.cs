@@ -4,97 +4,97 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr", "create-cluster")]
+[CliCommand("emr", "create-cluster")]
 public record AwsEmrCreateClusterOptions(
-[property: CommandSwitch("--release-label")] string ReleaseLabel,
-[property: CommandSwitch("--ami-version")] string AmiVersion,
-[property: CommandSwitch("--instance-groups")] string[] InstanceGroups,
-[property: CommandSwitch("--instance-type")] string InstanceType,
-[property: CommandSwitch("--instance-count")] string InstanceCount,
-[property: CommandSwitch("--instance-fleets")] string[] InstanceFleets
+[property: CliOption("--release-label")] string ReleaseLabel,
+[property: CliOption("--ami-version")] string AmiVersion,
+[property: CliOption("--instance-groups")] string[] InstanceGroups,
+[property: CliOption("--instance-type")] string InstanceType,
+[property: CliOption("--instance-count")] string InstanceCount,
+[property: CliOption("--instance-fleets")] string[] InstanceFleets
 ) : AwsOptions
 {
-    [CommandSwitch("--os-release-label")]
+    [CliOption("--os-release-label")]
     public string? OsReleaseLabel { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--log-uri")]
+    [CliOption("--log-uri")]
     public string? LogUri { get; set; }
 
-    [CommandSwitch("--log-encryption-kms-key-id")]
+    [CliOption("--log-encryption-kms-key-id")]
     public string? LogEncryptionKmsKeyId { get; set; }
 
-    [CommandSwitch("--service-role")]
+    [CliOption("--service-role")]
     public string? ServiceRole { get; set; }
 
-    [CommandSwitch("--auto-scaling-role")]
+    [CliOption("--auto-scaling-role")]
     public string? AutoScalingRole { get; set; }
 
-    [BooleanCommandSwitch("--use-default-roles")]
+    [CliFlag("--use-default-roles")]
     public bool? UseDefaultRoles { get; set; }
 
-    [CommandSwitch("--configurations")]
+    [CliOption("--configurations")]
     public string? Configurations { get; set; }
 
-    [CommandSwitch("--ec2-attributes")]
+    [CliOption("--ec2-attributes")]
     public string? Ec2Attributes { get; set; }
 
-    [CommandSwitch("--scale-down-behavior")]
+    [CliOption("--scale-down-behavior")]
     public string? ScaleDownBehavior { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--bootstrap-actions")]
+    [CliOption("--bootstrap-actions")]
     public string[]? BootstrapActions { get; set; }
 
-    [CommandSwitch("--applications")]
+    [CliOption("--applications")]
     public string[]? Applications { get; set; }
 
-    [CommandSwitch("--emrfs")]
+    [CliOption("--emrfs")]
     public string? Emrfs { get; set; }
 
-    [CommandSwitch("--steps")]
+    [CliOption("--steps")]
     public string[]? Steps { get; set; }
 
-    [CommandSwitch("--additional-info")]
+    [CliOption("--additional-info")]
     public string? AdditionalInfo { get; set; }
 
-    [CommandSwitch("--restore-from-hbase-backup")]
+    [CliOption("--restore-from-hbase-backup")]
     public string? RestoreFromHbaseBackup { get; set; }
 
-    [CommandSwitch("--security-configuration")]
+    [CliOption("--security-configuration")]
     public string? SecurityConfiguration { get; set; }
 
-    [CommandSwitch("--custom-ami-id")]
+    [CliOption("--custom-ami-id")]
     public string? CustomAmiId { get; set; }
 
-    [CommandSwitch("--ebs-root-volume-size")]
+    [CliOption("--ebs-root-volume-size")]
     public string? EbsRootVolumeSize { get; set; }
 
-    [CommandSwitch("--ebs-root-volume-iops")]
+    [CliOption("--ebs-root-volume-iops")]
     public string? EbsRootVolumeIops { get; set; }
 
-    [CommandSwitch("--ebs-root-volume-throughput")]
+    [CliOption("--ebs-root-volume-throughput")]
     public string? EbsRootVolumeThroughput { get; set; }
 
-    [CommandSwitch("--repo-upgrade-on-boot")]
+    [CliOption("--repo-upgrade-on-boot")]
     public string? RepoUpgradeOnBoot { get; set; }
 
-    [CommandSwitch("--kerberos-attributes")]
+    [CliOption("--kerberos-attributes")]
     public string? KerberosAttributes { get; set; }
 
-    [CommandSwitch("--step-concurrency-level")]
+    [CliOption("--step-concurrency-level")]
     public int? StepConcurrencyLevel { get; set; }
 
-    [CommandSwitch("--managed-scaling-policy")]
+    [CliOption("--managed-scaling-policy")]
     public string? ManagedScalingPolicy { get; set; }
 
-    [CommandSwitch("--placement-group-configs")]
+    [CliOption("--placement-group-configs")]
     public string[]? PlacementGroupConfigs { get; set; }
 
-    [CommandSwitch("--auto-termination-policy")]
+    [CliOption("--auto-termination-policy")]
     public string? AutoTerminationPolicy { get; set; }
 }

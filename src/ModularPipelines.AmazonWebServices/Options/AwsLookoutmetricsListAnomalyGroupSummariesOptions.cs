@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutmetrics", "list-anomaly-group-summaries")]
+[CliCommand("lookoutmetrics", "list-anomaly-group-summaries")]
 public record AwsLookoutmetricsListAnomalyGroupSummariesOptions(
-[property: CommandSwitch("--anomaly-detector-arn")] string AnomalyDetectorArn,
-[property: CommandSwitch("--sensitivity-threshold")] int SensitivityThreshold
+[property: CliOption("--anomaly-detector-arn")] string AnomalyDetectorArn,
+[property: CliOption("--sensitivity-threshold")] int SensitivityThreshold
 ) : AwsOptions
 {
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dla", "catalog")]
+[CliCommand("dla", "catalog")]
 public class AzDlaCatalogProcedure
 {
     public AzDlaCatalogProcedure(

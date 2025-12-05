@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vpn-connection", "list")]
+[CliSubCommand("network", "vpn-connection", "list")]
 public record AzNetworkVpnConnectionListOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--vnet-gateway")]
+    [CliOption("--vnet-gateway")]
     public string? VnetGateway { get; set; }
 }

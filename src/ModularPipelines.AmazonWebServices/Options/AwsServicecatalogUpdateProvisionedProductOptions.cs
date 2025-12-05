@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicecatalog", "update-provisioned-product")]
+[CliCommand("servicecatalog", "update-provisioned-product")]
 public record AwsServicecatalogUpdateProvisionedProductOptions : AwsOptions
 {
-    [CommandSwitch("--accept-language")]
+    [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
-    [CommandSwitch("--provisioned-product-name")]
+    [CliOption("--provisioned-product-name")]
     public string? ProvisionedProductName { get; set; }
 
-    [CommandSwitch("--provisioned-product-id")]
+    [CliOption("--provisioned-product-id")]
     public string? ProvisionedProductId { get; set; }
 
-    [CommandSwitch("--product-id")]
+    [CliOption("--product-id")]
     public string? ProductId { get; set; }
 
-    [CommandSwitch("--product-name")]
+    [CliOption("--product-name")]
     public string? ProductName { get; set; }
 
-    [CommandSwitch("--provisioning-artifact-id")]
+    [CliOption("--provisioning-artifact-id")]
     public string? ProvisioningArtifactId { get; set; }
 
-    [CommandSwitch("--provisioning-artifact-name")]
+    [CliOption("--provisioning-artifact-name")]
     public string? ProvisioningArtifactName { get; set; }
 
-    [CommandSwitch("--path-id")]
+    [CliOption("--path-id")]
     public string? PathId { get; set; }
 
-    [CommandSwitch("--path-name")]
+    [CliOption("--path-name")]
     public string? PathName { get; set; }
 
-    [CommandSwitch("--provisioning-parameters")]
+    [CliOption("--provisioning-parameters")]
     public string[]? ProvisioningParameters { get; set; }
 
-    [CommandSwitch("--provisioning-preferences")]
+    [CliOption("--provisioning-preferences")]
     public string? ProvisioningPreferences { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--update-token")]
+    [CliOption("--update-token")]
     public string? UpdateToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

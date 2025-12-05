@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "list-policies-granting-service-access")]
+[CliCommand("iam", "list-policies-granting-service-access")]
 public record AwsIamListPoliciesGrantingServiceAccessOptions(
-[property: CommandSwitch("--arn")] string Arn,
-[property: CommandSwitch("--service-namespaces")] string[] ServiceNamespaces
+[property: CliOption("--arn")] string Arn,
+[property: CliOption("--service-namespaces")] string[] ServiceNamespaces
 ) : AwsOptions
 {
-    [CommandSwitch("--marker")]
+    [CliOption("--marker")]
     public string? Marker { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workflows", "executions", "list")]
+[CliCommand("workflows", "executions", "list")]
 public record GcloudWorkflowsExecutionsListOptions(
-[property: PositionalArgument] string Workflow,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Workflow,
+[property: CliArgument] string Location
 ) : GcloudOptions;

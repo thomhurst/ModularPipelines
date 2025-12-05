@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "update-ssh-public-key")]
+[CliCommand("iam", "update-ssh-public-key")]
 public record AwsIamUpdateSshPublicKeyOptions(
-[property: CommandSwitch("--user-name")] string UserName,
-[property: CommandSwitch("--ssh-public-key-id")] string SshPublicKeyId,
-[property: CommandSwitch("--status")] string Status
+[property: CliOption("--user-name")] string UserName,
+[property: CliOption("--ssh-public-key-id")] string SshPublicKeyId,
+[property: CliOption("--status")] string Status
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

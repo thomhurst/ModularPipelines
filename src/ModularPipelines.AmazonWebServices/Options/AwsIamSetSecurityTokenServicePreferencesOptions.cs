@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "set-security-token-service-preferences")]
+[CliCommand("iam", "set-security-token-service-preferences")]
 public record AwsIamSetSecurityTokenServicePreferencesOptions(
-[property: CommandSwitch("--global-endpoint-token-version")] string GlobalEndpointTokenVersion
+[property: CliOption("--global-endpoint-token-version")] string GlobalEndpointTokenVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

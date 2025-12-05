@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotdeviceadvisor", "get-suite-run")]
+[CliCommand("iotdeviceadvisor", "get-suite-run")]
 public record AwsIotdeviceadvisorGetSuiteRunOptions(
-[property: CommandSwitch("--suite-definition-id")] string SuiteDefinitionId,
-[property: CommandSwitch("--suite-run-id")] string SuiteRunId
+[property: CliOption("--suite-definition-id")] string SuiteDefinitionId,
+[property: CliOption("--suite-run-id")] string SuiteRunId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("certificate-manager", "issuance-configs", "describe")]
+[CliCommand("certificate-manager", "issuance-configs", "describe")]
 public record GcloudCertificateManagerIssuanceConfigsDescribeOptions(
-[property: PositionalArgument] string CertificateIssuanceConfig,
-[property: PositionalArgument] string Location
+[property: CliArgument] string CertificateIssuanceConfig,
+[property: CliArgument] string Location
 ) : GcloudOptions;

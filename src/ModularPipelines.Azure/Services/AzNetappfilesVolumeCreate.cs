@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "volume")]
+[CliCommand("netappfiles", "volume")]
 public class AzNetappfilesVolumeCreate
 {
     public AzNetappfilesVolumeCreate(

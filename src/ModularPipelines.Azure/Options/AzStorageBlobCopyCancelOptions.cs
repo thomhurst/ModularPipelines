@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "blob", "copy", "cancel")]
+[CliSubCommand("storage", "blob", "copy", "cancel")]
 public record AzStorageBlobCopyCancelOptions(
-[property: CommandSwitch("--copy-id")] string CopyId,
-[property: CommandSwitch("--destination-blob")] string DestinationBlob,
-[property: CommandSwitch("--destination-container")] string DestinationContainer
+[property: CliOption("--copy-id")] string CopyId,
+[property: CliOption("--destination-blob")] string DestinationBlob,
+[property: CliOption("--destination-container")] string DestinationContainer
 ) : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--blob-endpoint")]
+    [CliOption("--blob-endpoint")]
     public string? BlobEndpoint { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--lease-id")]
+    [CliOption("--lease-id")]
     public string? LeaseId { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

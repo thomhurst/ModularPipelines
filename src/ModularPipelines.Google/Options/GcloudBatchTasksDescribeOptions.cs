@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "tasks", "describe")]
+[CliCommand("batch", "tasks", "describe")]
 public record GcloudBatchTasksDescribeOptions(
-[property: PositionalArgument] string Task,
-[property: PositionalArgument] string Job,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string TaskGroup
+[property: CliArgument] string Task,
+[property: CliArgument] string Job,
+[property: CliArgument] string Location,
+[property: CliArgument] string TaskGroup
 ) : GcloudOptions;

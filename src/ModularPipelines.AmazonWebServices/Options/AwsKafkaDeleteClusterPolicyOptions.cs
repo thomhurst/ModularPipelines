@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kafka", "delete-cluster-policy")]
+[CliCommand("kafka", "delete-cluster-policy")]
 public record AwsKafkaDeleteClusterPolicyOptions(
-[property: CommandSwitch("--cluster-arn")] string ClusterArn
+[property: CliOption("--cluster-arn")] string ClusterArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

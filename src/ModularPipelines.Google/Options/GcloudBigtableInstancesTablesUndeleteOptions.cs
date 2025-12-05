@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bigtable", "instances", "tables", "undelete")]
+[CliCommand("bigtable", "instances", "tables", "undelete")]
 public record GcloudBigtableInstancesTablesUndeleteOptions(
-[property: PositionalArgument] string Table,
-[property: PositionalArgument] string Instance
+[property: CliArgument] string Table,
+[property: CliArgument] string Instance
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

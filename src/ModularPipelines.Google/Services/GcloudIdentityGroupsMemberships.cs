@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("identity", "groups")]
+[CliCommand("identity", "groups")]
 public class GcloudIdentityGroupsMemberships
 {
     public GcloudIdentityGroupsMemberships(

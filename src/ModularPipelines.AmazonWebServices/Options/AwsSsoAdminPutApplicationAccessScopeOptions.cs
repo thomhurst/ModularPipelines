@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sso-admin", "put-application-access-scope")]
+[CliCommand("sso-admin", "put-application-access-scope")]
 public record AwsSsoAdminPutApplicationAccessScopeOptions(
-[property: CommandSwitch("--application-arn")] string ApplicationArn,
-[property: CommandSwitch("--scope")] string Scope
+[property: CliOption("--application-arn")] string ApplicationArn,
+[property: CliOption("--scope")] string Scope
 ) : AwsOptions
 {
-    [CommandSwitch("--authorized-targets")]
+    [CliOption("--authorized-targets")]
     public string[]? AuthorizedTargets { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("auditmanager", "update-assessment-framework-share")]
+[CliCommand("auditmanager", "update-assessment-framework-share")]
 public record AwsAuditmanagerUpdateAssessmentFrameworkShareOptions(
-[property: CommandSwitch("--request-id")] string RequestId,
-[property: CommandSwitch("--request-type")] string RequestType,
-[property: CommandSwitch("--action")] string Action
+[property: CliOption("--request-id")] string RequestId,
+[property: CliOption("--request-type")] string RequestType,
+[property: CliOption("--action")] string Action
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

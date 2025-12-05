@@ -5,33 +5,33 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instance-groups", "managed", "instance-configs", "create")]
+[CliCommand("compute", "instance-groups", "managed", "instance-configs", "create")]
 public record GcloudComputeInstanceGroupsManagedInstanceConfigsCreateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--instance")] string Instance
+[property: CliArgument] string Name,
+[property: CliOption("--instance")] string Instance
 ) : GcloudOptions
 {
-    [CommandSwitch("--instance-update-minimal-action")]
+    [CliOption("--instance-update-minimal-action")]
     public string? InstanceUpdateMinimalAction { get; set; }
 
-    [CommandSwitch("--stateful-disk")]
+    [CliOption("--stateful-disk")]
     public string[]? StatefulDisk { get; set; }
 
-    [CommandSwitch("--stateful-external-ip")]
+    [CliOption("--stateful-external-ip")]
     public string[]? StatefulExternalIp { get; set; }
 
-    [CommandSwitch("--stateful-internal-ip")]
+    [CliOption("--stateful-internal-ip")]
     public string[]? StatefulInternalIp { get; set; }
 
-    [CommandSwitch("--stateful-metadata")]
+    [CliOption("--stateful-metadata")]
     public IEnumerable<KeyValue>? StatefulMetadata { get; set; }
 
-    [BooleanCommandSwitch("--update-instance")]
+    [CliFlag("--update-instance")]
     public bool? UpdateInstance { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

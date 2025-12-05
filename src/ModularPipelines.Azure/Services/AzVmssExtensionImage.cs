@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmss", "extension")]
+[CliCommand("vmss", "extension")]
 public class AzVmssExtensionImage
 {
     public AzVmssExtensionImage(

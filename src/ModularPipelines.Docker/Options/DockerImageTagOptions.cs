@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("image", "tag")]
+[CliCommand("image", "tag")]
 [ExcludeFromCodeCoverage]
 public record DockerImageTagOptions : DockerOptions
 {

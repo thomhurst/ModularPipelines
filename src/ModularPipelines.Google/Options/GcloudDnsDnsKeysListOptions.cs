@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns", "dns-keys", "list")]
+[CliCommand("dns", "dns-keys", "list")]
 public record GcloudDnsDnsKeysListOptions(
-[property: CommandSwitch("--zone")] string Zone
+[property: CliOption("--zone")] string Zone
 ) : GcloudOptions;

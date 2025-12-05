@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptunedata", "create-ml-endpoint")]
+[CliCommand("neptunedata", "create-ml-endpoint")]
 public record AwsNeptunedataCreateMlEndpointOptions : AwsOptions
 {
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CommandSwitch("--ml-model-training-job-id")]
+    [CliOption("--ml-model-training-job-id")]
     public string? MlModelTrainingJobId { get; set; }
 
-    [CommandSwitch("--ml-model-transform-job-id")]
+    [CliOption("--ml-model-transform-job-id")]
     public string? MlModelTransformJobId { get; set; }
 
-    [CommandSwitch("--neptune-iam-role-arn")]
+    [CliOption("--neptune-iam-role-arn")]
     public string? NeptuneIamRoleArn { get; set; }
 
-    [CommandSwitch("--model-name")]
+    [CliOption("--model-name")]
     public string? ModelName { get; set; }
 
-    [CommandSwitch("--instance-type")]
+    [CliOption("--instance-type")]
     public string? InstanceType { get; set; }
 
-    [CommandSwitch("--instance-count")]
+    [CliOption("--instance-count")]
     public int? InstanceCount { get; set; }
 
-    [CommandSwitch("--volume-encryption-kms-key")]
+    [CliOption("--volume-encryption-kms-key")]
     public string? VolumeEncryptionKmsKey { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

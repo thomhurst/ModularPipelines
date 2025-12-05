@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opensearch", "describe-instance-type-limits")]
+[CliCommand("opensearch", "describe-instance-type-limits")]
 public record AwsOpensearchDescribeInstanceTypeLimitsOptions(
-[property: CommandSwitch("--instance-type")] string InstanceType,
-[property: CommandSwitch("--engine-version")] string EngineVersion
+[property: CliOption("--instance-type")] string InstanceType,
+[property: CliOption("--engine-version")] string EngineVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--domain-name")]
+    [CliOption("--domain-name")]
     public string? DomainName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

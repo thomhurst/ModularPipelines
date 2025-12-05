@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sesv2", "put-configuration-set-reputation-options")]
+[CliCommand("sesv2", "put-configuration-set-reputation-options")]
 public record AwsSesv2PutConfigurationSetReputationOptionsOptions(
-[property: CommandSwitch("--configuration-set-name")] string ConfigurationSetName
+[property: CliOption("--configuration-set-name")] string ConfigurationSetName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

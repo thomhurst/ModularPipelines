@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codestar-notifications", "subscribe")]
+[CliCommand("codestar-notifications", "subscribe")]
 public record AwsCodestarNotificationsSubscribeOptions(
-[property: CommandSwitch("--arn")] string Arn,
-[property: CommandSwitch("--target")] string Target
+[property: CliOption("--arn")] string Arn,
+[property: CliOption("--target")] string Target
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

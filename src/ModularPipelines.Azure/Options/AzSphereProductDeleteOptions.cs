@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sphere", "product", "delete")]
+[CliSubCommand("sphere", "product", "delete")]
 public record AzSphereProductDeleteOptions(
-[property: CommandSwitch("--catalog")] string Catalog,
-[property: CommandSwitch("--product")] string Product,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--catalog")] string Catalog,
+[property: CliOption("--product")] string Product,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "pipeline-run", "cancel")]
+[CliSubCommand("synapse", "pipeline-run", "cancel")]
 public record AzSynapsePipelineRunCancelOptions(
-[property: CommandSwitch("--run-id")] string RunId,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--run-id")] string RunId,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--is-recursive")]
+    [CliFlag("--is-recursive")]
     public bool? IsRecursive { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "start-server")]
+[CliCommand("transfer", "start-server")]
 public record AwsTransferStartServerOptions(
-[property: CommandSwitch("--server-id")] string ServerId
+[property: CliOption("--server-id")] string ServerId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

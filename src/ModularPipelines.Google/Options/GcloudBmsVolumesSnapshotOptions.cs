@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bms", "volumes", "snapshot")]
+[CliCommand("bms", "volumes", "snapshot")]
 public record GcloudBmsVolumesSnapshotOptions(
-[property: PositionalArgument] string Volume,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--snapshot-name")] string SnapshotName
+[property: CliArgument] string Volume,
+[property: CliArgument] string Region,
+[property: CliOption("--description")] string Description,
+[property: CliOption("--snapshot-name")] string SnapshotName
 ) : GcloudOptions;

@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "create-build")]
+[CliCommand("gamelift", "create-build")]
 public record AwsGameliftCreateBuildOptions : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--storage-location")]
+    [CliOption("--storage-location")]
     public string? StorageLocation { get; set; }
 
-    [CommandSwitch("--operating-system")]
+    [CliOption("--operating-system")]
     public string? OperatingSystem { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--server-sdk-version")]
+    [CliOption("--server-sdk-version")]
     public string? ServerSdkVersion { get; set; }
 
-    [CommandSwitch("--build-version")]
+    [CliOption("--build-version")]
     public string? BuildVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "mesh")]
+[CliCommand("aks", "mesh")]
 public class AzAksMeshUpgrade
 {
     public AzAksMeshUpgrade(

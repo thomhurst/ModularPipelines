@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "restorable-database-account")]
+[CliCommand("cosmosdb", "restorable-database-account")]
 public class AzCosmosdbRestorableDatabaseAccountShow
 {
     public AzCosmosdbRestorableDatabaseAccountShow(

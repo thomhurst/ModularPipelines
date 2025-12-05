@@ -4,63 +4,63 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "connection", "create", "postgres-flexible", "(serviceconnector-passwordless", "extension)")]
+[CliSubCommand("webapp", "connection", "create", "postgres-flexible", "(serviceconnector-passwordless", "extension)")]
 public record AzWebappConnectionCreatePostgresFlexibleServiceconnectorPasswordlessExtensionOptions : AzOptions
 {
-    [CommandSwitch("--client-type")]
+    [CliOption("--client-type")]
     public string? ClientType { get; set; }
 
-    [BooleanCommandSwitch("--config-connstr")]
+    [CliFlag("--config-connstr")]
     public bool? ConfigConnstr { get; set; }
 
-    [CommandSwitch("--connection")]
+    [CliOption("--connection")]
     public string? Connection { get; set; }
 
-    [CommandSwitch("--customized-keys")]
+    [CliOption("--customized-keys")]
     public string? CustomizedKeys { get; set; }
 
-    [CommandSwitch("--database")]
+    [CliOption("--database")]
     public string? Database { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--secret")]
+    [CliOption("--secret")]
     public string? Secret { get; set; }
 
-    [CommandSwitch("--server")]
+    [CliOption("--server")]
     public string? Server { get; set; }
 
-    [CommandSwitch("--service-principal")]
+    [CliOption("--service-principal")]
     public string? ServicePrincipal { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 
-    [CommandSwitch("--source-id")]
+    [CliOption("--source-id")]
     public string? SourceId { get; set; }
 
-    [CommandSwitch("--system-identity")]
+    [CliOption("--system-identity")]
     public string? SystemIdentity { get; set; }
 
-    [CommandSwitch("--target-id")]
+    [CliOption("--target-id")]
     public string? TargetId { get; set; }
 
-    [CommandSwitch("--target-resource-group")]
+    [CliOption("--target-resource-group")]
     public string? TargetResourceGroup { get; set; }
 
-    [CommandSwitch("--user-identity")]
+    [CliOption("--user-identity")]
     public string? UserIdentity { get; set; }
 
-    [CommandSwitch("--vault-id")]
+    [CliOption("--vault-id")]
     public string? VaultId { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

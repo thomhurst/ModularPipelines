@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup-gateway", "import-hypervisor-configuration")]
+[CliCommand("backup-gateway", "import-hypervisor-configuration")]
 public record AwsBackupGatewayImportHypervisorConfigurationOptions(
-[property: CommandSwitch("--host")] string Host,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--host")] string Host,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--kms-key-arn")]
+    [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

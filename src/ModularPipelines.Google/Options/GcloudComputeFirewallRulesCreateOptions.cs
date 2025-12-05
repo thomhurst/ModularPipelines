@@ -4,52 +4,52 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "firewall-rules", "create")]
+[CliCommand("compute", "firewall-rules", "create")]
 public record GcloudComputeFirewallRulesCreateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--action")] string Action,
-[property: CommandSwitch("--allow")] string[] Allow
+[property: CliArgument] string Name,
+[property: CliOption("--action")] string Action,
+[property: CliOption("--allow")] string[] Allow
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--destination-ranges")]
+    [CliOption("--destination-ranges")]
     public string[]? DestinationRanges { get; set; }
 
-    [CommandSwitch("--direction")]
+    [CliOption("--direction")]
     public string? Direction { get; set; }
 
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CommandSwitch("--[no-]enable-logging")]
+    [CliOption("--[no-]enable-logging")]
     public string[]? NoEnableLogging { get; set; }
 
-    [CommandSwitch("--logging-metadata")]
+    [CliOption("--logging-metadata")]
     public string? LoggingMetadata { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--rules")]
+    [CliOption("--rules")]
     public string[]? Rules { get; set; }
 
-    [CommandSwitch("--source-ranges")]
+    [CliOption("--source-ranges")]
     public string[]? SourceRanges { get; set; }
 
-    [CommandSwitch("--source-service-accounts")]
+    [CliOption("--source-service-accounts")]
     public string[]? SourceServiceAccounts { get; set; }
 
-    [CommandSwitch("--source-tags")]
+    [CliOption("--source-tags")]
     public string[]? SourceTags { get; set; }
 
-    [CommandSwitch("--target-service-accounts")]
+    [CliOption("--target-service-accounts")]
     public string[]? TargetServiceAccounts { get; set; }
 
-    [CommandSwitch("--target-tags")]
+    [CliOption("--target-tags")]
     public string[]? TargetTags { get; set; }
 }

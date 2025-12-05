@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scc", "bqexports", "update")]
+[CliCommand("scc", "bqexports", "update")]
 public record GcloudSccBqexportsUpdateOptions(
-[property: PositionalArgument] string BigQueryExport
+[property: CliArgument] string BigQueryExport
 ) : GcloudOptions
 {
-    [CommandSwitch("--dataset")]
+    [CliOption("--dataset")]
     public string? Dataset { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--update-mask")]
+    [CliOption("--update-mask")]
     public string? UpdateMask { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string? Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string? Organization { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public new string? Project { get; set; }
 }

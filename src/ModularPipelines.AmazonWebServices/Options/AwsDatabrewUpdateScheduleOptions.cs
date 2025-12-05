@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databrew", "update-schedule")]
+[CliCommand("databrew", "update-schedule")]
 public record AwsDatabrewUpdateScheduleOptions(
-[property: CommandSwitch("--cron-expression")] string CronExpression,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--cron-expression")] string CronExpression,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--job-names")]
+    [CliOption("--job-names")]
     public string[]? JobNames { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

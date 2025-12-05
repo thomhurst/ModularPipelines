@@ -5,22 +5,22 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("privateca", "subordinates", "update")]
+[CliCommand("privateca", "subordinates", "update")]
 public record GcloudPrivatecaSubordinatesUpdateOptions(
-[property: PositionalArgument] string CertificateAuthority,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Pool
+[property: CliArgument] string CertificateAuthority,
+[property: CliArgument] string Location,
+[property: CliArgument] string Pool
 ) : GcloudOptions
 {
-    [CommandSwitch("--pem-chain")]
+    [CliOption("--pem-chain")]
     public string? PemChain { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 }

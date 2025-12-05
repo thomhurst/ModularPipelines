@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "delete-network-insights-path")]
+[CliCommand("ec2", "delete-network-insights-path")]
 public record AwsEc2DeleteNetworkInsightsPathOptions(
-[property: CommandSwitch("--network-insights-path-id")] string NetworkInsightsPathId
+[property: CliOption("--network-insights-path-id")] string NetworkInsightsPathId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr", "disable-hbase-backups")]
+[CliCommand("emr", "disable-hbase-backups")]
 public record AwsEmrDisableHbaseBackupsOptions(
-[property: CommandSwitch("--cluster-id")] string ClusterId
+[property: CliOption("--cluster-id")] string ClusterId
 ) : AwsOptions
 {
-    [BooleanCommandSwitch("--full")]
+    [CliFlag("--full")]
     public bool? Full { get; set; }
 
-    [BooleanCommandSwitch("--incremental")]
+    [CliFlag("--incremental")]
     public bool? Incremental { get; set; }
 }

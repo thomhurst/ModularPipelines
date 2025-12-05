@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arcappliance")]
+[CliCommand("arcappliance")]
 public class AzArcapplianceTroubleshoot
 {
     public AzArcapplianceTroubleshoot(

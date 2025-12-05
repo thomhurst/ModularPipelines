@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeartifact", "copy-package-versions")]
+[CliCommand("codeartifact", "copy-package-versions")]
 public record AwsCodeartifactCopyPackageVersionsOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--source-repository")] string SourceRepository,
-[property: CommandSwitch("--destination-repository")] string DestinationRepository,
-[property: CommandSwitch("--format")] string Format,
-[property: CommandSwitch("--package")] string Package
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--source-repository")] string SourceRepository,
+[property: CliOption("--destination-repository")] string DestinationRepository,
+[property: CliOption("--format")] string Format,
+[property: CliOption("--package")] string Package
 ) : AwsOptions
 {
-    [CommandSwitch("--domain-owner")]
+    [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CommandSwitch("--versions")]
+    [CliOption("--versions")]
     public string[]? Versions { get; set; }
 
-    [CommandSwitch("--version-revisions")]
+    [CliOption("--version-revisions")]
     public IEnumerable<KeyValue>? VersionRevisions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

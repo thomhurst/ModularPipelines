@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift-serverless", "update-snapshot-copy-configuration")]
+[CliCommand("redshift-serverless", "update-snapshot-copy-configuration")]
 public record AwsRedshiftServerlessUpdateSnapshotCopyConfigurationOptions(
-[property: CommandSwitch("--snapshot-copy-configuration-id")] string SnapshotCopyConfigurationId
+[property: CliOption("--snapshot-copy-configuration-id")] string SnapshotCopyConfigurationId
 ) : AwsOptions
 {
-    [CommandSwitch("--snapshot-retention-period")]
+    [CliOption("--snapshot-retention-period")]
     public int? SnapshotRetentionPeriod { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

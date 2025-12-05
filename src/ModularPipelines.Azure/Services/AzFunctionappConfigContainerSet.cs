@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "config", "container")]
+[CliCommand("functionapp", "config", "container")]
 public class AzFunctionappConfigContainerSet
 {
     public AzFunctionappConfigContainerSet(

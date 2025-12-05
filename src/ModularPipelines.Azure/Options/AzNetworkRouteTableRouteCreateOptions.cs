@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "route-table", "route", "create")]
+[CliSubCommand("network", "route-table", "route", "create")]
 public record AzNetworkRouteTableRouteCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--route-table-name")] string RouteTableName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--route-table-name")] string RouteTableName
 ) : AzOptions
 {
-    [CommandSwitch("--address-prefix")]
+    [CliOption("--address-prefix")]
     public string? AddressPrefix { get; set; }
 
-    [CommandSwitch("--next-hop-ip-address")]
+    [CliOption("--next-hop-ip-address")]
     public string? NextHopIpAddress { get; set; }
 
-    [CommandSwitch("--next-hop-type")]
+    [CliOption("--next-hop-type")]
     public string? NextHopType { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

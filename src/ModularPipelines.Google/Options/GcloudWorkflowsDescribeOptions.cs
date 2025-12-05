@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workflows", "describe")]
+[CliCommand("workflows", "describe")]
 public record GcloudWorkflowsDescribeOptions(
-[property: PositionalArgument] string Workflow,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Workflow,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--revision-id")]
+    [CliOption("--revision-id")]
     public string? RevisionId { get; set; }
 }

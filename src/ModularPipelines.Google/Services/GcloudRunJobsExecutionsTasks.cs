@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("run", "jobs", "executions")]
+[CliCommand("run", "jobs", "executions")]
 public class GcloudRunJobsExecutionsTasks
 {
     public GcloudRunJobsExecutionsTasks(

@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scc", "custom-modules", "sha", "create")]
+[CliCommand("scc", "custom-modules", "sha", "create")]
 public record GcloudSccCustomModulesShaCreateOptions(
-[property: CommandSwitch("--custom-config-from-file")] string CustomConfigFromFile,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--enablement-state")] string EnablementState
+[property: CliOption("--custom-config-from-file")] string CustomConfigFromFile,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--enablement-state")] string EnablementState
 ) : GcloudOptions
 {
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string? Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string? Organization { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public new string? Project { get; set; }
 }

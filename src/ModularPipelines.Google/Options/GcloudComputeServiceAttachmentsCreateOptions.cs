@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "service-attachments", "create")]
+[CliCommand("compute", "service-attachments", "create")]
 public record GcloudComputeServiceAttachmentsCreateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--nat-subnets")] string[] NatSubnets,
-[property: CommandSwitch("--producer-forwarding-rule")] string ProducerForwardingRule
+[property: CliArgument] string Name,
+[property: CliOption("--nat-subnets")] string[] NatSubnets,
+[property: CliOption("--producer-forwarding-rule")] string ProducerForwardingRule
 ) : GcloudOptions
 {
-    [CommandSwitch("--connection-preference")]
+    [CliOption("--connection-preference")]
     public string? ConnectionPreference { get; set; }
 
-    [CommandSwitch("--consumer-accept-list")]
+    [CliOption("--consumer-accept-list")]
     public string[]? ConsumerAcceptList { get; set; }
 
-    [CommandSwitch("--consumer-reject-list")]
+    [CliOption("--consumer-reject-list")]
     public string[]? ConsumerRejectList { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--domain-names")]
+    [CliOption("--domain-names")]
     public string[]? DomainNames { get; set; }
 
-    [BooleanCommandSwitch("--enable-proxy-protocol")]
+    [CliFlag("--enable-proxy-protocol")]
     public bool? EnableProxyProtocol { get; set; }
 
-    [CommandSwitch("--nat-subnets-region")]
+    [CliOption("--nat-subnets-region")]
     public string? NatSubnetsRegion { get; set; }
 
-    [CommandSwitch("--producer-forwarding-rule-region")]
+    [CliOption("--producer-forwarding-rule-region")]
     public string? ProducerForwardingRuleRegion { get; set; }
 
-    [BooleanCommandSwitch("--reconcile-connections")]
+    [CliFlag("--reconcile-connections")]
     public bool? ReconcileConnections { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

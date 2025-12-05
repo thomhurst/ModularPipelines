@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vpc-lattice", "get-service-network-service-association")]
+[CliCommand("vpc-lattice", "get-service-network-service-association")]
 public record AwsVpcLatticeGetServiceNetworkServiceAssociationOptions(
-[property: CommandSwitch("--service-network-service-association-identifier")] string ServiceNetworkServiceAssociationIdentifier
+[property: CliOption("--service-network-service-association-identifier")] string ServiceNetworkServiceAssociationIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

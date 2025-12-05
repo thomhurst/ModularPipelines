@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "update-association-status")]
+[CliCommand("ssm", "update-association-status")]
 public record AwsSsmUpdateAssociationStatusOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--association-status")] string AssociationStatus
+[property: CliOption("--name")] string Name,
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--association-status")] string AssociationStatus
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

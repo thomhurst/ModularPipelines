@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "deregister-transit-gateway-multicast-group-members")]
+[CliCommand("ec2", "deregister-transit-gateway-multicast-group-members")]
 public record AwsEc2DeregisterTransitGatewayMulticastGroupMembersOptions : AwsOptions
 {
-    [CommandSwitch("--transit-gateway-multicast-domain-id")]
+    [CliOption("--transit-gateway-multicast-domain-id")]
     public string? TransitGatewayMulticastDomainId { get; set; }
 
-    [CommandSwitch("--group-ip-address")]
+    [CliOption("--group-ip-address")]
     public string? GroupIpAddress { get; set; }
 
-    [CommandSwitch("--network-interface-ids")]
+    [CliOption("--network-interface-ids")]
     public string[]? NetworkInterfaceIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

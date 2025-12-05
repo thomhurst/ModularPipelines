@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3control", "put-access-grants-instance-resource-policy")]
+[CliCommand("s3control", "put-access-grants-instance-resource-policy")]
 public record AwsS3controlPutAccessGrantsInstanceResourcePolicyOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--policy")] string Policy
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--policy")] string Policy
 ) : AwsOptions
 {
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string? Organization { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

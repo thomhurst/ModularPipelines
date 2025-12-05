@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesisvideo", "untag-resource")]
+[CliCommand("kinesisvideo", "untag-resource")]
 public record AwsKinesisvideoUntagResourceOptions(
-[property: CommandSwitch("--resource-arn")] string ResourceArn,
-[property: CommandSwitch("--tag-key-list")] string[] TagKeyList
+[property: CliOption("--resource-arn")] string ResourceArn,
+[property: CliOption("--tag-key-list")] string[] TagKeyList
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

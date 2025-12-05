@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "import", "csv")]
+[CliCommand("sql", "import", "csv")]
 public record GcloudSqlImportCsvOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Uri,
-[property: CommandSwitch("--database")] string Database,
-[property: CommandSwitch("--table")] string Table
+[property: CliArgument] string Instance,
+[property: CliArgument] string Uri,
+[property: CliOption("--database")] string Database,
+[property: CliOption("--table")] string Table
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--columns")]
+    [CliOption("--columns")]
     public string[]? Columns { get; set; }
 
-    [CommandSwitch("--escape")]
+    [CliOption("--escape")]
     public string? Escape { get; set; }
 
-    [CommandSwitch("--fields-terminated-by")]
+    [CliOption("--fields-terminated-by")]
     public string? FieldsTerminatedBy { get; set; }
 
-    [CommandSwitch("--lines-terminated-by")]
+    [CliOption("--lines-terminated-by")]
     public string? LinesTerminatedBy { get; set; }
 
-    [CommandSwitch("--quote")]
+    [CliOption("--quote")]
     public string? Quote { get; set; }
 
-    [CommandSwitch("--user")]
+    [CliOption("--user")]
     public string? User { get; set; }
 }

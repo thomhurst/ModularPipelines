@@ -4,51 +4,51 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("looker", "instances", "update")]
+[CliCommand("looker", "instances", "update")]
 public record GcloudLookerInstancesUpdateOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Instance,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [CommandSwitch("--allowed-email-domains")]
+    [CliOption("--allowed-email-domains")]
     public string[]? AllowedEmailDomains { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--custom-domain")]
+    [CliOption("--custom-domain")]
     public string? CustomDomain { get; set; }
 
-    [BooleanCommandSwitch("--public-ip-enabled")]
+    [CliFlag("--public-ip-enabled")]
     public bool? PublicIpEnabled { get; set; }
 
-    [CommandSwitch("--add-developer-users")]
+    [CliOption("--add-developer-users")]
     public string? AddDeveloperUsers { get; set; }
 
-    [CommandSwitch("--add-standard-users")]
+    [CliOption("--add-standard-users")]
     public string? AddStandardUsers { get; set; }
 
-    [CommandSwitch("--add-viewer-users")]
+    [CliOption("--add-viewer-users")]
     public string? AddViewerUsers { get; set; }
 
-    [CommandSwitch("--deny-maintenance-period-end-date")]
+    [CliOption("--deny-maintenance-period-end-date")]
     public string? DenyMaintenancePeriodEndDate { get; set; }
 
-    [CommandSwitch("--deny-maintenance-period-start-date")]
+    [CliOption("--deny-maintenance-period-start-date")]
     public string? DenyMaintenancePeriodStartDate { get; set; }
 
-    [CommandSwitch("--deny-maintenance-period-time")]
+    [CliOption("--deny-maintenance-period-time")]
     public string? DenyMaintenancePeriodTime { get; set; }
 
-    [CommandSwitch("--maintenance-window-day")]
+    [CliOption("--maintenance-window-day")]
     public string? MaintenanceWindowDay { get; set; }
 
-    [CommandSwitch("--maintenance-window-time")]
+    [CliOption("--maintenance-window-time")]
     public string? MaintenanceWindowTime { get; set; }
 
-    [CommandSwitch("--oauth-client-id")]
+    [CliOption("--oauth-client-id")]
     public string? OauthClientId { get; set; }
 
-    [CommandSwitch("--oauth-client-secret")]
+    [CliOption("--oauth-client-secret")]
     public string? OauthClientSecret { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("comprehend", "list-flywheel-iteration-history")]
+[CliCommand("comprehend", "list-flywheel-iteration-history")]
 public record AwsComprehendListFlywheelIterationHistoryOptions(
-[property: CommandSwitch("--flywheel-arn")] string FlywheelArn
+[property: CliOption("--flywheel-arn")] string FlywheelArn
 ) : AwsOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudfront", "update-function")]
+[CliCommand("cloudfront", "update-function")]
 public record AwsCloudfrontUpdateFunctionOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--if-match")] string IfMatch,
-[property: CommandSwitch("--function-config")] string FunctionConfig,
-[property: CommandSwitch("--function-code")] string FunctionCode
+[property: CliOption("--name")] string Name,
+[property: CliOption("--if-match")] string IfMatch,
+[property: CliOption("--function-config")] string FunctionConfig,
+[property: CliOption("--function-code")] string FunctionCode
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

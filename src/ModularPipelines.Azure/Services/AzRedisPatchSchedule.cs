@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redis")]
+[CliCommand("redis")]
 public class AzRedisPatchSchedule
 {
     public AzRedisPatchSchedule(

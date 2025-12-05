@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "automation-rule", "create")]
+[CliSubCommand("sentinel", "automation-rule", "create")]
 public record AzSentinelAutomationRuleCreateOptions(
-[property: CommandSwitch("--automation-rule-name")] string AutomationRuleName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--automation-rule-name")] string AutomationRuleName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--actions")]
+    [CliOption("--actions")]
     public string? Actions { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [CommandSwitch("--order")]
+    [CliOption("--order")]
     public string? Order { get; set; }
 
-    [CommandSwitch("--triggering-logic")]
+    [CliOption("--triggering-logic")]
     public string? TriggeringLogic { get; set; }
 }

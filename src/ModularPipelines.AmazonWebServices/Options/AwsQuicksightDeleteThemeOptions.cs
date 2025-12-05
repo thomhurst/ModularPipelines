@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "delete-theme")]
+[CliCommand("quicksight", "delete-theme")]
 public record AwsQuicksightDeleteThemeOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--theme-id")] string ThemeId
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--theme-id")] string ThemeId
 ) : AwsOptions
 {
-    [CommandSwitch("--version-number")]
+    [CliOption("--version-number")]
     public long? VersionNumber { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

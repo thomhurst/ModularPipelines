@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "create-blue-green-deployment")]
+[CliCommand("rds", "create-blue-green-deployment")]
 public record AwsRdsCreateBlueGreenDeploymentOptions(
-[property: CommandSwitch("--blue-green-deployment-name")] string BlueGreenDeploymentName,
-[property: CommandSwitch("--source")] string Source
+[property: CliOption("--blue-green-deployment-name")] string BlueGreenDeploymentName,
+[property: CliOption("--source")] string Source
 ) : AwsOptions
 {
-    [CommandSwitch("--target-engine-version")]
+    [CliOption("--target-engine-version")]
     public string? TargetEngineVersion { get; set; }
 
-    [CommandSwitch("--target-db-parameter-group-name")]
+    [CliOption("--target-db-parameter-group-name")]
     public string? TargetDbParameterGroupName { get; set; }
 
-    [CommandSwitch("--target-db-cluster-parameter-group-name")]
+    [CliOption("--target-db-cluster-parameter-group-name")]
     public string? TargetDbClusterParameterGroupName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--target-db-instance-class")]
+    [CliOption("--target-db-instance-class")]
     public string? TargetDbInstanceClass { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

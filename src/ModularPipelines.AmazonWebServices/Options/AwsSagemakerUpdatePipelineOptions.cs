@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "update-pipeline")]
+[CliCommand("sagemaker", "update-pipeline")]
 public record AwsSagemakerUpdatePipelineOptions(
-[property: CommandSwitch("--pipeline-name")] string PipelineName
+[property: CliOption("--pipeline-name")] string PipelineName
 ) : AwsOptions
 {
-    [CommandSwitch("--pipeline-display-name")]
+    [CliOption("--pipeline-display-name")]
     public string? PipelineDisplayName { get; set; }
 
-    [CommandSwitch("--pipeline-definition")]
+    [CliOption("--pipeline-definition")]
     public string? PipelineDefinition { get; set; }
 
-    [CommandSwitch("--pipeline-definition-s3-location")]
+    [CliOption("--pipeline-definition-s3-location")]
     public string? PipelineDefinitionS3Location { get; set; }
 
-    [CommandSwitch("--pipeline-description")]
+    [CliOption("--pipeline-description")]
     public string? PipelineDescription { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--parallelism-configuration")]
+    [CliOption("--parallelism-configuration")]
     public string? ParallelismConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

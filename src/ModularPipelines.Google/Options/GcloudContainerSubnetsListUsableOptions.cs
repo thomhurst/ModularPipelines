@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "subnets", "list-usable")]
+[CliCommand("container", "subnets", "list-usable")]
 public record GcloudContainerSubnetsListUsableOptions : GcloudOptions
 {
-    [CommandSwitch("--network-project")]
+    [CliOption("--network-project")]
     public string? NetworkProject { get; set; }
 }

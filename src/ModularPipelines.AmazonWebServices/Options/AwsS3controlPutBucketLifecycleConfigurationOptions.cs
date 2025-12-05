@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3control", "put-bucket-lifecycle-configuration")]
+[CliCommand("s3control", "put-bucket-lifecycle-configuration")]
 public record AwsS3controlPutBucketLifecycleConfigurationOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--bucket")] string Bucket
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--bucket")] string Bucket
 ) : AwsOptions
 {
-    [CommandSwitch("--lifecycle-configuration")]
+    [CliOption("--lifecycle-configuration")]
     public string? LifecycleConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

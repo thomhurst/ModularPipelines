@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "remove")]
+[CliSubCommand("storage", "remove")]
 public record AzStorageRemoveOptions : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--container-name")]
+    [CliOption("--container-name")]
     public string? ContainerName { get; set; }
 
-    [CommandSwitch("--exclude-path")]
+    [CliOption("--exclude-path")]
     public string? ExcludePath { get; set; }
 
-    [CommandSwitch("--exclude-pattern")]
+    [CliOption("--exclude-pattern")]
     public string? ExcludePattern { get; set; }
 
-    [CommandSwitch("--include-path")]
+    [CliOption("--include-path")]
     public string? IncludePath { get; set; }
 
-    [CommandSwitch("--include-pattern")]
+    [CliOption("--include-pattern")]
     public string? IncludePattern { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--recursive")]
+    [CliOption("--recursive")]
     public string? Recursive { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--share-name")]
+    [CliOption("--share-name")]
     public string? ShareName { get; set; }
 }

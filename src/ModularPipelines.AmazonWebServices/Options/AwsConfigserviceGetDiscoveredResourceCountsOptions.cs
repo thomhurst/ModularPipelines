@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configservice", "get-discovered-resource-counts")]
+[CliCommand("configservice", "get-discovered-resource-counts")]
 public record AwsConfigserviceGetDiscoveredResourceCountsOptions : AwsOptions
 {
-    [CommandSwitch("--resource-types")]
+    [CliOption("--resource-types")]
     public string[]? ResourceTypes { get; set; }
 
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public int? Limit { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

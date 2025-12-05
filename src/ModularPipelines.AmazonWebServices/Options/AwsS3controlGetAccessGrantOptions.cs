@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3control", "get-access-grant")]
+[CliCommand("s3control", "get-access-grant")]
 public record AwsS3controlGetAccessGrantOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--access-grant-id")] string AccessGrantId
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--access-grant-id")] string AccessGrantId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

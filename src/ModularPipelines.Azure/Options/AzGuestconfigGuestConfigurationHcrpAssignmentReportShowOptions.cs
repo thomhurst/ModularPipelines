@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("guestconfig", "guest-configuration-hcrp-assignment-report", "show")]
+[CliSubCommand("guestconfig", "guest-configuration-hcrp-assignment-report", "show")]
 public record AzGuestconfigGuestConfigurationHcrpAssignmentReportShowOptions : AzOptions
 {
-    [CommandSwitch("--guest-configuration-assignment-name")]
+    [CliOption("--guest-configuration-assignment-name")]
     public string? GuestConfigurationAssignmentName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--machine-name")]
+    [CliOption("--machine-name")]
     public string? MachineName { get; set; }
 
-    [CommandSwitch("--report-id")]
+    [CliOption("--report-id")]
     public string? ReportId { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

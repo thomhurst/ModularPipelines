@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appsync", "update-data-source")]
+[CliCommand("appsync", "update-data-source")]
 public record AwsAppsyncUpdateDataSourceOptions(
-[property: CommandSwitch("--api-id")] string ApiId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--api-id")] string ApiId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--service-role-arn")]
+    [CliOption("--service-role-arn")]
     public string? ServiceRoleArn { get; set; }
 
-    [CommandSwitch("--dynamodb-config")]
+    [CliOption("--dynamodb-config")]
     public string? DynamodbConfig { get; set; }
 
-    [CommandSwitch("--lambda-config")]
+    [CliOption("--lambda-config")]
     public string? LambdaConfig { get; set; }
 
-    [CommandSwitch("--elasticsearch-config")]
+    [CliOption("--elasticsearch-config")]
     public string? ElasticsearchConfig { get; set; }
 
-    [CommandSwitch("--open-search-service-config")]
+    [CliOption("--open-search-service-config")]
     public string? OpenSearchServiceConfig { get; set; }
 
-    [CommandSwitch("--http-config")]
+    [CliOption("--http-config")]
     public string? HttpConfig { get; set; }
 
-    [CommandSwitch("--relational-database-config")]
+    [CliOption("--relational-database-config")]
     public string? RelationalDatabaseConfig { get; set; }
 
-    [CommandSwitch("--event-bridge-config")]
+    [CliOption("--event-bridge-config")]
     public string? EventBridgeConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

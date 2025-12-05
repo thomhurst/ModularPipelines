@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vpc-lattice", "delete-service-network")]
+[CliCommand("vpc-lattice", "delete-service-network")]
 public record AwsVpcLatticeDeleteServiceNetworkOptions(
-[property: CommandSwitch("--service-network-identifier")] string ServiceNetworkIdentifier
+[property: CliOption("--service-network-identifier")] string ServiceNetworkIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

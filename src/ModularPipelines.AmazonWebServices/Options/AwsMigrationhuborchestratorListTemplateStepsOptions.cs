@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("migrationhuborchestrator", "list-template-steps")]
+[CliCommand("migrationhuborchestrator", "list-template-steps")]
 public record AwsMigrationhuborchestratorListTemplateStepsOptions(
-[property: CommandSwitch("--template-id")] string TemplateId,
-[property: CommandSwitch("--step-group-id")] string StepGroupId
+[property: CliOption("--template-id")] string TemplateId,
+[property: CliOption("--step-group-id")] string StepGroupId
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

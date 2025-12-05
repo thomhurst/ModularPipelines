@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "update-workforce")]
+[CliCommand("sagemaker", "update-workforce")]
 public record AwsSagemakerUpdateWorkforceOptions(
-[property: CommandSwitch("--workforce-name")] string WorkforceName
+[property: CliOption("--workforce-name")] string WorkforceName
 ) : AwsOptions
 {
-    [CommandSwitch("--source-ip-config")]
+    [CliOption("--source-ip-config")]
     public string? SourceIpConfig { get; set; }
 
-    [CommandSwitch("--oidc-config")]
+    [CliOption("--oidc-config")]
     public string? OidcConfig { get; set; }
 
-    [CommandSwitch("--workforce-vpc-config")]
+    [CliOption("--workforce-vpc-config")]
     public string? WorkforceVpcConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

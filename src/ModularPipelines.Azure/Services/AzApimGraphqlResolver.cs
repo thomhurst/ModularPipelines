@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apim", "graphql")]
+[CliCommand("apim", "graphql")]
 public class AzApimGraphqlResolver
 {
     public AzApimGraphqlResolver(

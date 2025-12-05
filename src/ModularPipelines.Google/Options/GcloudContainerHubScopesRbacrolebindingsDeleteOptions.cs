@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "hub", "scopes", "rbacrolebindings", "delete")]
+[CliCommand("container", "hub", "scopes", "rbacrolebindings", "delete")]
 public record GcloudContainerHubScopesRbacrolebindingsDeleteOptions(
-[property: PositionalArgument] string Name,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Scope
+[property: CliArgument] string Name,
+[property: CliArgument] string Location,
+[property: CliArgument] string Scope
 ) : GcloudOptions;

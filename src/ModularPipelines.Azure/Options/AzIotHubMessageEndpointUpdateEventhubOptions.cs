@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "message-endpoint", "update", "eventhub")]
+[CliSubCommand("iot", "hub", "message-endpoint", "update", "eventhub")]
 public record AzIotHubMessageEndpointUpdateEventhubOptions(
-[property: CommandSwitch("--en")] string En,
-[property: CommandSwitch("--hub-name")] string HubName
+[property: CliOption("--en")] string En,
+[property: CliOption("--hub-name")] string HubName
 ) : AzOptions
 {
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--endpoint-resource-group")]
+    [CliOption("--endpoint-resource-group")]
     public string? EndpointResourceGroup { get; set; }
 
-    [CommandSwitch("--endpoint-subscription-id")]
+    [CliOption("--endpoint-subscription-id")]
     public string? EndpointSubscriptionId { get; set; }
 
-    [CommandSwitch("--endpoint-uri")]
+    [CliOption("--endpoint-uri")]
     public string? EndpointUri { get; set; }
 
-    [CommandSwitch("--entity-path")]
+    [CliOption("--entity-path")]
     public string? EntityPath { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

@@ -5,32 +5,32 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai", "endpoints", "create")]
+[CliCommand("ai", "endpoints", "create")]
 public record GcloudAiEndpointsCreateOptions(
-[property: CommandSwitch("--display-name")] string DisplayName
+[property: CliOption("--display-name")] string DisplayName
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--encryption-kms-key-name")]
+    [CliOption("--encryption-kms-key-name")]
     public string? EncryptionKmsKeyName { get; set; }
 
-    [CommandSwitch("--endpoint-id")]
+    [CliOption("--endpoint-id")]
     public string? EndpointId { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--request-response-logging-rate")]
+    [CliOption("--request-response-logging-rate")]
     public string? RequestResponseLoggingRate { get; set; }
 
-    [CommandSwitch("--request-response-logging-table")]
+    [CliOption("--request-response-logging-table")]
     public string? RequestResponseLoggingTable { get; set; }
 }

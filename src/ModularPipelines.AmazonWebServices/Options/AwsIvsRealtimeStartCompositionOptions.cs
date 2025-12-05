@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ivs-realtime", "start-composition")]
+[CliCommand("ivs-realtime", "start-composition")]
 public record AwsIvsRealtimeStartCompositionOptions(
-[property: CommandSwitch("--destinations")] string[] Destinations,
-[property: CommandSwitch("--stage-arn")] string StageArn
+[property: CliOption("--destinations")] string[] Destinations,
+[property: CliOption("--stage-arn")] string StageArn
 ) : AwsOptions
 {
-    [CommandSwitch("--idempotency-token")]
+    [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
-    [CommandSwitch("--layout")]
+    [CliOption("--layout")]
     public string? Layout { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

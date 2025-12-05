@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "get-percentiles")]
+[CliCommand("iot", "get-percentiles")]
 public record AwsIotGetPercentilesOptions(
-[property: CommandSwitch("--query-string")] string QueryString
+[property: CliOption("--query-string")] string QueryString
 ) : AwsOptions
 {
-    [CommandSwitch("--index-name")]
+    [CliOption("--index-name")]
     public string? IndexName { get; set; }
 
-    [CommandSwitch("--aggregation-field")]
+    [CliOption("--aggregation-field")]
     public string? AggregationField { get; set; }
 
-    [CommandSwitch("--query-version")]
+    [CliOption("--query-version")]
     public string? QueryVersion { get; set; }
 
-    [CommandSwitch("--percents")]
+    [CliOption("--percents")]
     public string[]? Percents { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

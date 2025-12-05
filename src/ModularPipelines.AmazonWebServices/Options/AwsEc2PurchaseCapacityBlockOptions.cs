@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "purchase-capacity-block")]
+[CliCommand("ec2", "purchase-capacity-block")]
 public record AwsEc2PurchaseCapacityBlockOptions(
-[property: CommandSwitch("--capacity-block-offering-id")] string CapacityBlockOfferingId,
-[property: CommandSwitch("--instance-platform")] string InstancePlatform
+[property: CliOption("--capacity-block-offering-id")] string CapacityBlockOfferingId,
+[property: CliOption("--instance-platform")] string InstancePlatform
 ) : AwsOptions
 {
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

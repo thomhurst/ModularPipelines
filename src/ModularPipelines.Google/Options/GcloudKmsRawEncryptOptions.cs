@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "raw-encrypt")]
+[CliCommand("kms", "raw-encrypt")]
 public record GcloudKmsRawEncryptOptions : GcloudOptions
 {
     public GcloudKmsRawEncryptOptions(
@@ -18,30 +18,30 @@ public record GcloudKmsRawEncryptOptions : GcloudOptions
         Version = version;
     }
 
-    [CommandSwitch("--ciphertext-file")]
+    [CliOption("--ciphertext-file")]
     public string CiphertextFile { get; set; }
 
-    [CommandSwitch("--plaintext-file")]
+    [CliOption("--plaintext-file")]
     public string PlaintextFile { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string Version { get; set; }
 
-    [CommandSwitch("--additional-authenticated-data-file")]
+    [CliOption("--additional-authenticated-data-file")]
     public string? AdditionalAuthenticatedDataFile { get; set; }
 
-    [CommandSwitch("--initialization-vector-file")]
+    [CliOption("--initialization-vector-file")]
     public string? InitializationVectorFile { get; set; }
 
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 
-    [CommandSwitch("--keyring")]
+    [CliOption("--keyring")]
     public string? Keyring { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--skip-integrity-verification")]
+    [CliFlag("--skip-integrity-verification")]
     public bool? SkipIntegrityVerification { get; set; }
 }

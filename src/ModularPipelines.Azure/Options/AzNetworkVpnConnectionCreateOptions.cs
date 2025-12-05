@@ -4,52 +4,52 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vpn-connection", "create")]
+[CliSubCommand("network", "vpn-connection", "create")]
 public record AzNetworkVpnConnectionCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vnet-gateway1")] string VnetGateway1
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vnet-gateway1")] string VnetGateway1
 ) : AzOptions
 {
-    [CommandSwitch("--authorization-key")]
+    [CliOption("--authorization-key")]
     public string? AuthorizationKey { get; set; }
 
-    [CommandSwitch("--egress-nat-rule")]
+    [CliOption("--egress-nat-rule")]
     public string? EgressNatRule { get; set; }
 
-    [BooleanCommandSwitch("--enable-bgp")]
+    [CliFlag("--enable-bgp")]
     public bool? EnableBgp { get; set; }
 
-    [CommandSwitch("--express-route-circuit2")]
+    [CliOption("--express-route-circuit2")]
     public string? ExpressRouteCircuit2 { get; set; }
 
-    [BooleanCommandSwitch("--express-route-gateway-bypass")]
+    [CliFlag("--express-route-gateway-bypass")]
     public bool? ExpressRouteGatewayBypass { get; set; }
 
-    [CommandSwitch("--ingress-nat-rule")]
+    [CliOption("--ingress-nat-rule")]
     public string? IngressNatRule { get; set; }
 
-    [CommandSwitch("--local-gateway2")]
+    [CliOption("--local-gateway2")]
     public string? LocalGateway2 { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--routing-weight")]
+    [CliOption("--routing-weight")]
     public string? RoutingWeight { get; set; }
 
-    [CommandSwitch("--shared-key")]
+    [CliOption("--shared-key")]
     public string? SharedKey { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [BooleanCommandSwitch("--use-policy-based-traffic-selectors")]
+    [CliFlag("--use-policy-based-traffic-selectors")]
     public bool? UsePolicyBasedTrafficSelectors { get; set; }
 
-    [BooleanCommandSwitch("--validate")]
+    [CliFlag("--validate")]
     public bool? Validate { get; set; }
 
-    [CommandSwitch("--vnet-gateway2")]
+    [CliOption("--vnet-gateway2")]
     public string? VnetGateway2 { get; set; }
 }

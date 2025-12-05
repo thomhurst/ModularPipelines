@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "project", "task", "cutover")]
+[CliSubCommand("dms", "project", "task", "cutover")]
 public record AzDmsProjectTaskCutoverOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--object-name")] string ObjectName,
-[property: CommandSwitch("--project-name")] string ProjectName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--object-name")] string ObjectName,
+[property: CliOption("--project-name")] string ProjectName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service-name")] string ServiceName
 ) : AzOptions;

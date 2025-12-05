@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr", "modify-cluster")]
+[CliCommand("emr", "modify-cluster")]
 public record AwsEmrModifyClusterOptions(
-[property: CommandSwitch("--cluster-id")] string ClusterId
+[property: CliOption("--cluster-id")] string ClusterId
 ) : AwsOptions
 {
-    [CommandSwitch("--step-concurrency-level")]
+    [CliOption("--step-concurrency-level")]
     public int? StepConcurrencyLevel { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

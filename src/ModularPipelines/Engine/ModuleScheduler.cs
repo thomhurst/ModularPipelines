@@ -13,7 +13,7 @@ using ModularPipelines.Options;
 namespace ModularPipelines.Engine;
 
 /// <summary>
-/// Manages eager parallel scheduling of modules using channels
+/// Manages eager parallel scheduling of modules using channels.
 /// </summary>
 internal class ModuleScheduler : IModuleScheduler
 {
@@ -47,24 +47,24 @@ internal class ModuleScheduler : IModuleScheduler
         _constraints = new IModuleConstraint[]
         {
             new SequentialExecutionConstraint(),
-            new LockKeyConstraint()
+            new LockKeyConstraint(),
         };
         _readyChannel = Channel.CreateUnbounded<ModuleState>(new UnboundedChannelOptions
         {
             SingleWriter = true,  // Only scheduler writes
-            SingleReader = false  // Multiple workers read
+            SingleReader = false, // Multiple workers read
         });
         _schedulerNotification = new SemaphoreSlim(0);
         _disposalCancellationTokenSource = new CancellationTokenSource();
     }
 
     /// <summary>
-    /// Gets the channel reader for consuming ready modules
+    /// Gets the channel reader for consuming ready modules.
     /// </summary>
     public ChannelReader<ModuleState> ReadyModules => _readyChannel.Reader;
 
     /// <summary>
-    /// Initializes module states for a collection of modules
+    /// Initializes module states for a collection of modules.
     /// </summary>
     public void InitializeModules(IEnumerable<IModule> modules)
     {
@@ -133,7 +133,7 @@ internal class ModuleScheduler : IModuleScheduler
     }
 
     /// <summary>
-    /// Adds a new module dynamically (e.g., SubModule discovered during execution)
+    /// Adds a new module dynamically (e.g., SubModule discovered during execution).
     /// </summary>
     public void AddModule(IModule module)
     {
@@ -175,7 +175,7 @@ internal class ModuleScheduler : IModuleScheduler
     }
 
     /// <summary>
-    /// Starts the scheduler loop that continuously queues ready modules
+    /// Starts the scheduler loop that continuously queues ready modules.
     /// </summary>
     public Task RunSchedulerAsync(CancellationToken cancellationToken)
     {
@@ -301,6 +301,7 @@ internal class ModuleScheduler : IModuleScheduler
             {
                 _schedulerCompleted = true;
             }
+
             throw;
         }
     }
@@ -319,9 +320,9 @@ internal class ModuleScheduler : IModuleScheduler
     }
 
     /// <summary>
-    /// Marks a module as started execution
+    /// Marks a module as started execution.
     /// </summary>
-    /// <returns>True if the module can proceed with execution, false if constraints prevent execution</returns>
+    /// <returns>True if the module can proceed with execution, false if constraints prevent execution.</returns>
     public bool MarkModuleStarted(Type moduleType)
     {
         lock (_stateLock)
@@ -409,7 +410,7 @@ internal class ModuleScheduler : IModuleScheduler
     }
 
     /// <summary>
-    /// Marks a module as completed and notifies dependents
+    /// Marks a module as completed and notifies dependents.
     /// </summary>
     public void MarkModuleCompleted(Type moduleType, bool success, Exception? exception = null)
     {
@@ -465,7 +466,7 @@ internal class ModuleScheduler : IModuleScheduler
     }
 
     /// <summary>
-    /// Gets the completion task for a specific module
+    /// Gets the completion task for a specific module.
     /// </summary>
     public Task<IModule>? GetModuleCompletionTask(Type moduleType)
     {
@@ -475,7 +476,7 @@ internal class ModuleScheduler : IModuleScheduler
     }
 
     /// <summary>
-    /// Gets the state for a specific module
+    /// Gets the state for a specific module.
     /// </summary>
     public ModuleState? GetModuleState(Type moduleType)
     {
@@ -483,7 +484,7 @@ internal class ModuleScheduler : IModuleScheduler
     }
 
     /// <summary>
-    /// Gets statistics about the current scheduler state
+    /// Gets statistics about the current scheduler state.
     /// </summary>
     public (int Total, int Queued, int Executing, int Completed, int Pending) GetStatistics()
     {
@@ -497,7 +498,7 @@ internal class ModuleScheduler : IModuleScheduler
     /// <summary>
     /// Cancels all modules that are queued or pending (not yet executing)
     /// This is used when the pipeline is cancelled to ensure TaskCompletionSources are properly completed
-    /// Note: AlwaysRun modules are not cancelled as they should be allowed to complete
+    /// Note: AlwaysRun modules are not cancelled as they should be allowed to complete.
     /// </summary>
     public void CancelPendingModules()
     {
@@ -539,9 +540,9 @@ internal class ModuleScheduler : IModuleScheduler
     }
 
     /// <summary>
-    /// Finds modules ready to execute and queues them to the channel
+    /// Finds modules ready to execute and queues them to the channel.
     /// </summary>
-    /// <returns>The number of modules queued</returns>
+    /// <returns>The number of modules queued.</returns>
     private async Task<int> FindAndQueueReadyModulesAsync(CancellationToken cancellationToken)
     {
         var modulesToQueue = FindReadyModules();
@@ -661,7 +662,7 @@ internal class ModuleScheduler : IModuleScheduler
 
     /// <summary>
     /// Notifies dependent modules that a dependency has completed
-    /// MUST be called while holding _stateLock
+    /// MUST be called while holding _stateLock.
     /// </summary>
     private void NotifyDependentModules(ModuleState state, Type moduleType)
     {

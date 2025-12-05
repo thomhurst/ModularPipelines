@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("panorama", "describe-node")]
+[CliCommand("panorama", "describe-node")]
 public record AwsPanoramaDescribeNodeOptions(
-[property: CommandSwitch("--node-id")] string NodeId
+[property: CliOption("--node-id")] string NodeId
 ) : AwsOptions
 {
-    [CommandSwitch("--owner-account")]
+    [CliOption("--owner-account")]
     public string? OwnerAccount { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

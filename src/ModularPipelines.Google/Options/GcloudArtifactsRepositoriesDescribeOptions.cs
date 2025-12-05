@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts", "repositories", "describe")]
+[CliCommand("artifacts", "repositories", "describe")]
 public record GcloudArtifactsRepositoriesDescribeOptions(
-[property: PositionalArgument] string Repository,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Repository,
+[property: CliArgument] string Location
 ) : GcloudOptions;

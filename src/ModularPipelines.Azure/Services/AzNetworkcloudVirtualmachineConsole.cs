@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "virtualmachine")]
+[CliCommand("networkcloud", "virtualmachine")]
 public class AzNetworkcloudVirtualmachineConsole
 {
     public AzNetworkcloudVirtualmachineConsole(

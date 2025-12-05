@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "images", "remove-labels")]
+[CliCommand("compute", "images", "remove-labels")]
 public record GcloudComputeImagesRemoveLabelsOptions(
-[property: PositionalArgument] string ImageName,
-[property: BooleanCommandSwitch("--all")] bool All,
-[property: CommandSwitch("--labels")] string[] Labels
+[property: CliArgument] string ImageName,
+[property: CliFlag("--all")] bool All,
+[property: CliOption("--labels")] string[] Labels
 ) : GcloudOptions;

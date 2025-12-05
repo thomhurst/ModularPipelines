@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("scout")]
+[CliCommand("scout")]
 [ExcludeFromCodeCoverage]
 public record DockerScoutOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Command { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Command { get; set; }
 
-    [CommandSwitch("--verbose-debug")]
+    [CliOption("--verbose-debug")]
     public virtual string? VerboseDebug { get; set; }
 }

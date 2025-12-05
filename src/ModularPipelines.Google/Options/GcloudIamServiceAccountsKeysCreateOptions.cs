@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "service-accounts", "keys", "create")]
+[CliCommand("iam", "service-accounts", "keys", "create")]
 public record GcloudIamServiceAccountsKeysCreateOptions(
-[property: PositionalArgument] string OutputFile,
-[property: CommandSwitch("--iam-account")] string IamAccount
+[property: CliArgument] string OutputFile,
+[property: CliOption("--iam-account")] string IamAccount
 ) : GcloudOptions
 {
-    [CommandSwitch("--key-file-type")]
+    [CliOption("--key-file-type")]
     public string? KeyFileType { get; set; }
 }

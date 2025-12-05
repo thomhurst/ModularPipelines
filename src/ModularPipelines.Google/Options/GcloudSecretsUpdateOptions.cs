@@ -5,71 +5,71 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("secrets", "update")]
+[CliCommand("secrets", "update")]
 public record GcloudSecretsUpdateOptions(
-[property: PositionalArgument] string Secret
+[property: CliArgument] string Secret
 ) : GcloudOptions
 {
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [CommandSwitch("--add-topics")]
+    [CliOption("--add-topics")]
     public string[]? AddTopics { get; set; }
 
-    [BooleanCommandSwitch("--clear-topics")]
+    [CliFlag("--clear-topics")]
     public bool? ClearTopics { get; set; }
 
-    [CommandSwitch("--remove-topics")]
+    [CliOption("--remove-topics")]
     public string[]? RemoveTopics { get; set; }
 
-    [BooleanCommandSwitch("--clear-annotations")]
+    [CliFlag("--clear-annotations")]
     public bool? ClearAnnotations { get; set; }
 
-    [CommandSwitch("--remove-annotations")]
+    [CliOption("--remove-annotations")]
     public string[]? RemoveAnnotations { get; set; }
 
-    [CommandSwitch("--update-annotations")]
+    [CliOption("--update-annotations")]
     public IEnumerable<KeyValue>? UpdateAnnotations { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-version-aliases")]
+    [CliFlag("--clear-version-aliases")]
     public bool? ClearVersionAliases { get; set; }
 
-    [CommandSwitch("--remove-version-aliases")]
+    [CliOption("--remove-version-aliases")]
     public string[]? RemoveVersionAliases { get; set; }
 
-    [CommandSwitch("--update-version-aliases")]
+    [CliOption("--update-version-aliases")]
     public IEnumerable<KeyValue>? UpdateVersionAliases { get; set; }
 
-    [CommandSwitch("--expire-time")]
+    [CliOption("--expire-time")]
     public string? ExpireTime { get; set; }
 
-    [BooleanCommandSwitch("--remove-expiration")]
+    [CliFlag("--remove-expiration")]
     public bool? RemoveExpiration { get; set; }
 
-    [CommandSwitch("--ttl")]
+    [CliOption("--ttl")]
     public string? Ttl { get; set; }
 
-    [CommandSwitch("--next-rotation-time")]
+    [CliOption("--next-rotation-time")]
     public string? NextRotationTime { get; set; }
 
-    [BooleanCommandSwitch("--remove-next-rotation-time")]
+    [CliFlag("--remove-next-rotation-time")]
     public bool? RemoveNextRotationTime { get; set; }
 
-    [BooleanCommandSwitch("--remove-rotation-period")]
+    [CliFlag("--remove-rotation-period")]
     public bool? RemoveRotationPeriod { get; set; }
 
-    [BooleanCommandSwitch("--remove-rotation-schedule")]
+    [CliFlag("--remove-rotation-schedule")]
     public bool? RemoveRotationSchedule { get; set; }
 
-    [CommandSwitch("--rotation-period")]
+    [CliOption("--rotation-period")]
     public string? RotationPeriod { get; set; }
 }

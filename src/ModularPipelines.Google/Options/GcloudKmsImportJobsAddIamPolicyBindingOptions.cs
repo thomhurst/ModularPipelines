@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "import-jobs", "add-iam-policy-binding")]
+[CliCommand("kms", "import-jobs", "add-iam-policy-binding")]
 public record GcloudKmsImportJobsAddIamPolicyBindingOptions(
-[property: PositionalArgument] string ImportJob,
-[property: PositionalArgument] string Keyring,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--member")] string Member,
-[property: CommandSwitch("--role")] string Role
+[property: CliArgument] string ImportJob,
+[property: CliArgument] string Keyring,
+[property: CliArgument] string Location,
+[property: CliOption("--member")] string Member,
+[property: CliOption("--role")] string Role
 ) : GcloudOptions;

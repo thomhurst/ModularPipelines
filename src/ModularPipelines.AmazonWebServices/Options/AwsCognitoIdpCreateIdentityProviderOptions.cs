@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "create-identity-provider")]
+[CliCommand("cognito-idp", "create-identity-provider")]
 public record AwsCognitoIdpCreateIdentityProviderOptions(
-[property: CommandSwitch("--user-pool-id")] string UserPoolId,
-[property: CommandSwitch("--provider-name")] string ProviderName,
-[property: CommandSwitch("--provider-type")] string ProviderType,
-[property: CommandSwitch("--provider-details")] IEnumerable<KeyValue> ProviderDetails
+[property: CliOption("--user-pool-id")] string UserPoolId,
+[property: CliOption("--provider-name")] string ProviderName,
+[property: CliOption("--provider-type")] string ProviderType,
+[property: CliOption("--provider-details")] IEnumerable<KeyValue> ProviderDetails
 ) : AwsOptions
 {
-    [CommandSwitch("--attribute-mapping")]
+    [CliOption("--attribute-mapping")]
     public IEnumerable<KeyValue>? AttributeMapping { get; set; }
 
-    [CommandSwitch("--idp-identifiers")]
+    [CliOption("--idp-identifiers")]
     public string[]? IdpIdentifiers { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

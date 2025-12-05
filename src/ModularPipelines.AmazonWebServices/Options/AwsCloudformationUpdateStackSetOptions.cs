@@ -4,62 +4,62 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation", "update-stack-set")]
+[CliCommand("cloudformation", "update-stack-set")]
 public record AwsCloudformationUpdateStackSetOptions(
-[property: CommandSwitch("--stack-set-name")] string StackSetName
+[property: CliOption("--stack-set-name")] string StackSetName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--template-body")]
+    [CliOption("--template-body")]
     public string? TemplateBody { get; set; }
 
-    [CommandSwitch("--template-url")]
+    [CliOption("--template-url")]
     public string? TemplateUrl { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--capabilities")]
+    [CliOption("--capabilities")]
     public string[]? Capabilities { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--operation-preferences")]
+    [CliOption("--operation-preferences")]
     public string? OperationPreferences { get; set; }
 
-    [CommandSwitch("--administration-role-arn")]
+    [CliOption("--administration-role-arn")]
     public string? AdministrationRoleArn { get; set; }
 
-    [CommandSwitch("--execution-role-name")]
+    [CliOption("--execution-role-name")]
     public string? ExecutionRoleName { get; set; }
 
-    [CommandSwitch("--deployment-targets")]
+    [CliOption("--deployment-targets")]
     public string? DeploymentTargets { get; set; }
 
-    [CommandSwitch("--permission-model")]
+    [CliOption("--permission-model")]
     public string? PermissionModel { get; set; }
 
-    [CommandSwitch("--auto-deployment")]
+    [CliOption("--auto-deployment")]
     public string? AutoDeployment { get; set; }
 
-    [CommandSwitch("--operation-id")]
+    [CliOption("--operation-id")]
     public string? OperationId { get; set; }
 
-    [CommandSwitch("--accounts")]
+    [CliOption("--accounts")]
     public string[]? Accounts { get; set; }
 
-    [CommandSwitch("--regions")]
+    [CliOption("--regions")]
     public string[]? Regions { get; set; }
 
-    [CommandSwitch("--call-as")]
+    [CliOption("--call-as")]
     public string? CallAs { get; set; }
 
-    [CommandSwitch("--managed-execution")]
+    [CliOption("--managed-execution")]
     public string? ManagedExecution { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

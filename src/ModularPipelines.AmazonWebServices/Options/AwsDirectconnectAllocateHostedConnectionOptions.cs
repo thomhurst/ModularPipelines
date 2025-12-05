@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("directconnect", "allocate-hosted-connection")]
+[CliCommand("directconnect", "allocate-hosted-connection")]
 public record AwsDirectconnectAllocateHostedConnectionOptions(
-[property: CommandSwitch("--connection-id")] string ConnectionId,
-[property: CommandSwitch("--owner-account")] string OwnerAccount,
-[property: CommandSwitch("--bandwidth")] string Bandwidth,
-[property: CommandSwitch("--connection-name")] string ConnectionName,
-[property: CommandSwitch("--vlan")] int Vlan
+[property: CliOption("--connection-id")] string ConnectionId,
+[property: CliOption("--owner-account")] string OwnerAccount,
+[property: CliOption("--bandwidth")] string Bandwidth,
+[property: CliOption("--connection-name")] string ConnectionName,
+[property: CliOption("--vlan")] int Vlan
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

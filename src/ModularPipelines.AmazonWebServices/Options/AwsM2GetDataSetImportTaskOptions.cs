@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("m2", "get-data-set-import-task")]
+[CliCommand("m2", "get-data-set-import-task")]
 public record AwsM2GetDataSetImportTaskOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--task-id")] string TaskId
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--task-id")] string TaskId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

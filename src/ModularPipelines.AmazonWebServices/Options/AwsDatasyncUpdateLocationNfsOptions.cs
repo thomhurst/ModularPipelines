@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datasync", "update-location-nfs")]
+[CliCommand("datasync", "update-location-nfs")]
 public record AwsDatasyncUpdateLocationNfsOptions(
-[property: CommandSwitch("--location-arn")] string LocationArn
+[property: CliOption("--location-arn")] string LocationArn
 ) : AwsOptions
 {
-    [CommandSwitch("--subdirectory")]
+    [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
 
-    [CommandSwitch("--on-prem-config")]
+    [CliOption("--on-prem-config")]
     public string? OnPremConfig { get; set; }
 
-    [CommandSwitch("--mount-options")]
+    [CliOption("--mount-options")]
     public string? MountOptions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

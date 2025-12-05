@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configservice", "put-configuration-recorder")]
+[CliCommand("configservice", "put-configuration-recorder")]
 public record AwsConfigservicePutConfigurationRecorderOptions(
-[property: CommandSwitch("--configuration-recorder")] string ConfigurationRecorder
+[property: CliOption("--configuration-recorder")] string ConfigurationRecorder
 ) : AwsOptions
 {
-    [CommandSwitch("--recording-group")]
+    [CliOption("--recording-group")]
     public string? RecordingGroup { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("signer", "get-signing-profile")]
+[CliCommand("signer", "get-signing-profile")]
 public record AwsSignerGetSigningProfileOptions(
-[property: CommandSwitch("--profile-name")] string ProfileName
+[property: CliOption("--profile-name")] string ProfileName
 ) : AwsOptions
 {
-    [CommandSwitch("--profile-owner")]
+    [CliOption("--profile-owner")]
     public string? ProfileOwner { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

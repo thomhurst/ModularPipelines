@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "directory", "exists")]
+[CliCommand("storage", "directory", "exists")]
 public class AzStorageDirectoryExistsStoragePreview
 {
     public AzStorageDirectoryExistsStoragePreview(

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datastream", "objects", "lookup")]
+[CliCommand("datastream", "objects", "lookup")]
 public record GcloudDatastreamObjectsLookupOptions(
-[property: CommandSwitch("--mysql-database")] string MysqlDatabase,
-[property: CommandSwitch("--mysql-table")] string MysqlTable,
-[property: CommandSwitch("--oracle-schema")] string OracleSchema,
-[property: CommandSwitch("--oracle-table")] string OracleTable,
-[property: CommandSwitch("--postgresql-schema")] string PostgresqlSchema,
-[property: CommandSwitch("--postgresql-table")] string PostgresqlTable,
-[property: CommandSwitch("--stream")] string Stream,
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--mysql-database")] string MysqlDatabase,
+[property: CliOption("--mysql-table")] string MysqlTable,
+[property: CliOption("--oracle-schema")] string OracleSchema,
+[property: CliOption("--oracle-table")] string OracleTable,
+[property: CliOption("--postgresql-schema")] string PostgresqlSchema,
+[property: CliOption("--postgresql-table")] string PostgresqlTable,
+[property: CliOption("--stream")] string Stream,
+[property: CliOption("--location")] string Location
 ) : GcloudOptions;

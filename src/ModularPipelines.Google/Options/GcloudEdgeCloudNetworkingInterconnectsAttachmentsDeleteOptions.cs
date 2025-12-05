@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cloud", "networking", "interconnects", "attachments", "delete")]
+[CliCommand("edge-cloud", "networking", "interconnects", "attachments", "delete")]
 public record GcloudEdgeCloudNetworkingInterconnectsAttachmentsDeleteOptions(
-[property: PositionalArgument] string InterconnectAttachment,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Zone
+[property: CliArgument] string InterconnectAttachment,
+[property: CliArgument] string Location,
+[property: CliArgument] string Zone
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

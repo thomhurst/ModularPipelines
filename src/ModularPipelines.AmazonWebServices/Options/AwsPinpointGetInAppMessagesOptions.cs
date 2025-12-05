@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint", "get-in-app-messages")]
+[CliCommand("pinpoint", "get-in-app-messages")]
 public record AwsPinpointGetInAppMessagesOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--endpoint-id")] string EndpointId
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--endpoint-id")] string EndpointId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

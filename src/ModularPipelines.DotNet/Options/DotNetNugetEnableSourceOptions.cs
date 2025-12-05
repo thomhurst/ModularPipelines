@@ -15,9 +15,9 @@ public record DotNetNugetEnableSourceOptions : DotNetOptions
         Name = name;
     }
 
-    [PositionalArgument(PlaceholderName = "<NAME>")]
-    public string? Name { get; set; }
+    [CliArgument(Name = "<NAME>")]
+    public virtual string? Name { get; set; }
 
-    [CommandSwitch("--configfile")]
+    [CliOption("--configfile")]
     public virtual string? Configfile { get; set; }
 }

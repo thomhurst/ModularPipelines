@@ -3,109 +3,109 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("push")]
+[CliSubCommand("push")]
 [ExcludeFromCodeCoverage]
 public record GitPushOptions : GitOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [BooleanCommandSwitch("--branches")]
+    [CliFlag("--branches")]
     public virtual bool? Branches { get; set; }
 
-    [BooleanCommandSwitch("--prune")]
+    [CliFlag("--prune")]
     public virtual bool? Prune { get; set; }
 
-    [BooleanCommandSwitch("--mirror")]
+    [CliFlag("--mirror")]
     public virtual bool? Mirror { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("--porcelain")]
+    [CliFlag("--porcelain")]
     public virtual bool? Porcelain { get; set; }
 
-    [BooleanCommandSwitch("--delete")]
+    [CliFlag("--delete")]
     public virtual bool? Delete { get; set; }
 
-    [BooleanCommandSwitch("--tags")]
+    [CliFlag("--tags")]
     public virtual bool? Tags { get; set; }
 
-    [BooleanCommandSwitch("--follow-tags")]
+    [CliFlag("--follow-tags")]
     public virtual bool? FollowTags { get; set; }
 
-    [BooleanCommandSwitch("--no-signed")]
+    [CliFlag("--no-signed")]
     public virtual bool? NoSigned { get; set; }
 
-    [BooleanCommandSwitch("--signed")]
+    [CliFlag("--signed")]
     public virtual bool? Signed { get; set; }
 
-    [BooleanCommandSwitch("--no-atomic")]
+    [CliFlag("--no-atomic")]
     public virtual bool? NoAtomic { get; set; }
 
-    [BooleanCommandSwitch("--atomic")]
+    [CliFlag("--atomic")]
     public virtual bool? Atomic { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--push-option")]
-    public string? PushOption { get; set; }
+    [CliOption("--push-option", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? PushOption { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--receive-pack")]
-    public string? ReceivePack { get; set; }
+    [CliOption("--receive-pack", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ReceivePack { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--exec")]
-    public string? Exec { get; set; }
+    [CliOption("--exec", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Exec { get; set; }
 
-    [BooleanCommandSwitch("--no-force-with-lease")]
+    [CliFlag("--no-force-with-lease")]
     public virtual bool? NoForceWithLease { get; set; }
 
-    [BooleanCommandSwitch("--force-with-lease")]
+    [CliFlag("--force-with-lease")]
     public virtual bool? ForceWithLease { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--no-force-if-includes")]
+    [CliFlag("--no-force-if-includes")]
     public virtual bool? NoForceIfIncludes { get; set; }
 
-    [BooleanCommandSwitch("--force-if-includes")]
+    [CliFlag("--force-if-includes")]
     public virtual bool? ForceIfIncludes { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--repo")]
-    public string? Repo { get; set; }
+    [CliOption("--repo", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Repo { get; set; }
 
-    [BooleanCommandSwitch("--set-upstream")]
+    [CliFlag("--set-upstream")]
     public virtual bool? SetUpstream { get; set; }
 
-    [BooleanCommandSwitch("--no-thin")]
+    [CliFlag("--no-thin")]
     public virtual bool? NoThin { get; set; }
 
-    [BooleanCommandSwitch("--thin")]
+    [CliFlag("--thin")]
     public virtual bool? Thin { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("--progress")]
+    [CliFlag("--progress")]
     public virtual bool? Progress { get; set; }
 
-    [BooleanCommandSwitch("--no-recurse-submodules")]
+    [CliFlag("--no-recurse-submodules")]
     public virtual bool? NoRecurseSubmodules { get; set; }
 
-    [BooleanCommandSwitch("--recurse-submodules")]
+    [CliFlag("--recurse-submodules")]
     public virtual bool? RecurseSubmodules { get; set; }
 
-    [BooleanCommandSwitch("--no-verify")]
+    [CliFlag("--no-verify")]
     public virtual bool? NoVerify { get; set; }
 
-    [BooleanCommandSwitch("--verify")]
+    [CliFlag("--verify")]
     public virtual bool? Verify { get; set; }
 
-    [BooleanCommandSwitch("--ipv4")]
+    [CliFlag("--ipv4")]
     public virtual bool? Ipv4 { get; set; }
 
-    [BooleanCommandSwitch("--ipv6")]
+    [CliFlag("--ipv6")]
     public virtual bool? Ipv6 { get; set; }
 }

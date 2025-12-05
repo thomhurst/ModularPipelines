@@ -4,51 +4,51 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventarc", "triggers", "update")]
+[CliCommand("eventarc", "triggers", "update")]
 public record GcloudEventarcTriggersUpdateOptions(
-[property: PositionalArgument] string Trigger,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Trigger,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--event-data-content-type")]
+    [CliOption("--event-data-content-type")]
     public string? EventDataContentType { get; set; }
 
-    [CommandSwitch("--event-filters")]
+    [CliOption("--event-filters")]
     public string[]? EventFilters { get; set; }
 
-    [CommandSwitch("--event-filters-path-pattern")]
+    [CliOption("--event-filters-path-pattern")]
     public string[]? EventFiltersPathPattern { get; set; }
 
-    [BooleanCommandSwitch("--clear-service-account")]
+    [CliFlag("--clear-service-account")]
     public bool? ClearServiceAccount { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 
-    [CommandSwitch("--destination-gke-namespace")]
+    [CliOption("--destination-gke-namespace")]
     public string? DestinationGkeNamespace { get; set; }
 
-    [CommandSwitch("--destination-gke-service")]
+    [CliOption("--destination-gke-service")]
     public string? DestinationGkeService { get; set; }
 
-    [BooleanCommandSwitch("--clear-destination-gke-path")]
+    [CliFlag("--clear-destination-gke-path")]
     public bool? ClearDestinationGkePath { get; set; }
 
-    [CommandSwitch("--destination-gke-path")]
+    [CliOption("--destination-gke-path")]
     public string? DestinationGkePath { get; set; }
 
-    [CommandSwitch("--destination-run-region")]
+    [CliOption("--destination-run-region")]
     public string? DestinationRunRegion { get; set; }
 
-    [CommandSwitch("--destination-run-service")]
+    [CliOption("--destination-run-service")]
     public string? DestinationRunService { get; set; }
 
-    [BooleanCommandSwitch("--clear-destination-run-path")]
+    [CliFlag("--clear-destination-run-path")]
     public bool? ClearDestinationRunPath { get; set; }
 
-    [CommandSwitch("--destination-run-path")]
+    [CliOption("--destination-run-path")]
     public string? DestinationRunPath { get; set; }
 }

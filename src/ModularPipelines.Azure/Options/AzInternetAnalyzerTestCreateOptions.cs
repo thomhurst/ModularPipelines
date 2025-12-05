@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("internet-analyzer", "test", "create")]
+[CliSubCommand("internet-analyzer", "test", "create")]
 public record AzInternetAnalyzerTestCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--enabled-state")]
+    [CliFlag("--enabled-state")]
     public bool? EnabledState { get; set; }
 
-    [CommandSwitch("--endpoint-a-endpoint")]
+    [CliOption("--endpoint-a-endpoint")]
     public string? EndpointAEndpoint { get; set; }
 
-    [CommandSwitch("--endpoint-a-name")]
+    [CliOption("--endpoint-a-name")]
     public string? EndpointAName { get; set; }
 
-    [CommandSwitch("--endpoint-b-endpoint")]
+    [CliOption("--endpoint-b-endpoint")]
     public string? EndpointBEndpoint { get; set; }
 
-    [CommandSwitch("--endpoint-b-name")]
+    [CliOption("--endpoint-b-name")]
     public string? EndpointBName { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

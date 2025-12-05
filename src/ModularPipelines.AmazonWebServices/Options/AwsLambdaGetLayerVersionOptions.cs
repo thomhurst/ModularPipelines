@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "get-layer-version")]
+[CliCommand("lambda", "get-layer-version")]
 public record AwsLambdaGetLayerVersionOptions(
-[property: CommandSwitch("--layer-name")] string LayerName,
-[property: CommandSwitch("--version-number")] long VersionNumber
+[property: CliOption("--layer-name")] string LayerName,
+[property: CliOption("--version-number")] long VersionNumber
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

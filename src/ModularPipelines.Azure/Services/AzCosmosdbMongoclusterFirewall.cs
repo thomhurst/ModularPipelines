@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "mongocluster")]
+[CliCommand("cosmosdb", "mongocluster")]
 public class AzCosmosdbMongoclusterFirewall
 {
     public AzCosmosdbMongoclusterFirewall(

@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arcdata", "dc", "export")]
+[CliSubCommand("arcdata", "dc", "export")]
 public record AzArcdataDcExportOptions(
-[property: CommandSwitch("--k8s-namespace")] string K8sNamespace,
-[property: CommandSwitch("--path")] string Path,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--k8s-namespace")] string K8sNamespace,
+[property: CliOption("--path")] string Path,
+[property: CliOption("--type")] string Type
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--use-k8s")]
+    [CliFlag("--use-k8s")]
     public bool? UseK8s { get; set; }
 }

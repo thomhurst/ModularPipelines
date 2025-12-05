@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mariadb")]
+[CliCommand("mariadb")]
 public class AzMariadbDb
 {
     public AzMariadbDb(

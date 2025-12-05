@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "update-access-key")]
+[CliCommand("iam", "update-access-key")]
 public record AwsIamUpdateAccessKeyOptions(
-[property: CommandSwitch("--access-key-id")] string AccessKeyId,
-[property: CommandSwitch("--status")] string Status
+[property: CliOption("--access-key-id")] string AccessKeyId,
+[property: CliOption("--status")] string Status
 ) : AwsOptions
 {
-    [CommandSwitch("--user-name")]
+    [CliOption("--user-name")]
     public string? UserName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

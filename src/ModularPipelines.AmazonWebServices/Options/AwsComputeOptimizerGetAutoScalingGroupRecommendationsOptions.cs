@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute-optimizer", "get-auto-scaling-group-recommendations")]
+[CliCommand("compute-optimizer", "get-auto-scaling-group-recommendations")]
 public record AwsComputeOptimizerGetAutoScalingGroupRecommendationsOptions : AwsOptions
 {
-    [CommandSwitch("--account-ids")]
+    [CliOption("--account-ids")]
     public string[]? AccountIds { get; set; }
 
-    [CommandSwitch("--auto-scaling-group-arns")]
+    [CliOption("--auto-scaling-group-arns")]
     public string[]? AutoScalingGroupArns { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--recommendation-preferences")]
+    [CliOption("--recommendation-preferences")]
     public string? RecommendationPreferences { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

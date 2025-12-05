@@ -4,52 +4,52 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mysql", "flexible-server", "replica", "create")]
+[CliSubCommand("mysql", "flexible-server", "replica", "create")]
 public record AzMysqlFlexibleServerReplicaCreateOptions(
-[property: CommandSwitch("--replica-name")] string ReplicaName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--source-server")] string SourceServer
+[property: CliOption("--replica-name")] string ReplicaName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--source-server")] string SourceServer
 ) : AzOptions
 {
-    [CommandSwitch("--backup-retention")]
+    [CliOption("--backup-retention")]
     public string? BackupRetention { get; set; }
 
-    [CommandSwitch("--geo-redundant-backup")]
+    [CliOption("--geo-redundant-backup")]
     public string? GeoRedundantBackup { get; set; }
 
-    [CommandSwitch("--iops")]
+    [CliOption("--iops")]
     public string? Iops { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--private-dns-zone")]
+    [CliOption("--private-dns-zone")]
     public string? PrivateDnsZone { get; set; }
 
-    [CommandSwitch("--public-access")]
+    [CliOption("--public-access")]
     public string? PublicAccess { get; set; }
 
-    [CommandSwitch("--sku-name")]
+    [CliOption("--sku-name")]
     public string? SkuName { get; set; }
 
-    [CommandSwitch("--storage-size")]
+    [CliOption("--storage-size")]
     public string? StorageSize { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 
-    [CommandSwitch("--vnet")]
+    [CliOption("--vnet")]
     public string? Vnet { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

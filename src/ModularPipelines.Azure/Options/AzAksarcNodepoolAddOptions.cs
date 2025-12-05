@@ -4,37 +4,37 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aksarc", "nodepool", "add")]
+[CliSubCommand("aksarc", "nodepool", "add")]
 public record AzAksarcNodepoolAddOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 
-    [CommandSwitch("--max-pods")]
+    [CliOption("--max-pods")]
     public string? MaxPods { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--node-count")]
+    [CliOption("--node-count")]
     public int? NodeCount { get; set; }
 
-    [CommandSwitch("--node-taints")]
+    [CliOption("--node-taints")]
     public string? NodeTaints { get; set; }
 
-    [CommandSwitch("--node-vm-size")]
+    [CliOption("--node-vm-size")]
     public string? NodeVmSize { get; set; }
 
-    [CommandSwitch("--os-sku")]
+    [CliOption("--os-sku")]
     public string? OsSku { get; set; }
 
-    [CommandSwitch("--os-type")]
+    [CliOption("--os-type")]
     public string? OsType { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

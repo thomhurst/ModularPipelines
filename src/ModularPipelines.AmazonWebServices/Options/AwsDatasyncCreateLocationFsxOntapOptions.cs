@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datasync", "create-location-fsx-ontap")]
+[CliCommand("datasync", "create-location-fsx-ontap")]
 public record AwsDatasyncCreateLocationFsxOntapOptions(
-[property: CommandSwitch("--protocol")] string Protocol,
-[property: CommandSwitch("--security-group-arns")] string[] SecurityGroupArns,
-[property: CommandSwitch("--storage-virtual-machine-arn")] string StorageVirtualMachineArn
+[property: CliOption("--protocol")] string Protocol,
+[property: CliOption("--security-group-arns")] string[] SecurityGroupArns,
+[property: CliOption("--storage-virtual-machine-arn")] string StorageVirtualMachineArn
 ) : AwsOptions
 {
-    [CommandSwitch("--subdirectory")]
+    [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

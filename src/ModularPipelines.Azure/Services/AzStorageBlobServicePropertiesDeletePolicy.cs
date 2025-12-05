@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "blob", "service-properties")]
+[CliCommand("storage", "blob", "service-properties")]
 public class AzStorageBlobServicePropertiesDeletePolicy
 {
     public AzStorageBlobServicePropertiesDeletePolicy(

@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "list-candidates-for-auto-ml-job")]
+[CliCommand("sagemaker", "list-candidates-for-auto-ml-job")]
 public record AwsSagemakerListCandidatesForAutoMlJobOptions(
-[property: CommandSwitch("--auto-ml-job-name")] string AutoMlJobName
+[property: CliOption("--auto-ml-job-name")] string AutoMlJobName
 ) : AwsOptions
 {
-    [CommandSwitch("--status-equals")]
+    [CliOption("--status-equals")]
     public string? StatusEquals { get; set; }
 
-    [CommandSwitch("--candidate-name-equals")]
+    [CliOption("--candidate-name-equals")]
     public string? CandidateNameEquals { get; set; }
 
-    [CommandSwitch("--sort-order")]
+    [CliOption("--sort-order")]
     public string? SortOrder { get; set; }
 
-    [CommandSwitch("--sort-by")]
+    [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

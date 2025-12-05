@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloud9", "create-environment-ec2")]
+[CliCommand("cloud9", "create-environment-ec2")]
 public record AwsCloud9CreateEnvironmentEc2Options(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--instance-type")] string InstanceType,
-[property: CommandSwitch("--image-id")] string ImageId
+[property: CliOption("--name")] string Name,
+[property: CliOption("--instance-type")] string InstanceType,
+[property: CliOption("--image-id")] string ImageId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--subnet-id")]
+    [CliOption("--subnet-id")]
     public string? SubnetId { get; set; }
 
-    [CommandSwitch("--automatic-stop-time-minutes")]
+    [CliOption("--automatic-stop-time-minutes")]
     public int? AutomaticStopTimeMinutes { get; set; }
 
-    [CommandSwitch("--owner-arn")]
+    [CliOption("--owner-arn")]
     public string? OwnerArn { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--connection-type")]
+    [CliOption("--connection-type")]
     public string? ConnectionType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

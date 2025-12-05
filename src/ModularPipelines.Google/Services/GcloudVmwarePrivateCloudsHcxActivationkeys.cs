@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "private-clouds", "hcx")]
+[CliCommand("vmware", "private-clouds", "hcx")]
 public class GcloudVmwarePrivateCloudsHcxActivationkeys
 {
     public GcloudVmwarePrivateCloudsHcxActivationkeys(

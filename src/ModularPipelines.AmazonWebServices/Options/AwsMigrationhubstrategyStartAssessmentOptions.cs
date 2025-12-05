@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("migrationhubstrategy", "start-assessment")]
+[CliCommand("migrationhubstrategy", "start-assessment")]
 public record AwsMigrationhubstrategyStartAssessmentOptions : AwsOptions
 {
-    [CommandSwitch("--assessment-data-source-type")]
+    [CliOption("--assessment-data-source-type")]
     public string? AssessmentDataSourceType { get; set; }
 
-    [CommandSwitch("--assessment-targets")]
+    [CliOption("--assessment-targets")]
     public string[]? AssessmentTargets { get; set; }
 
-    [CommandSwitch("--s3bucket-for-analysis-data")]
+    [CliOption("--s3bucket-for-analysis-data")]
     public string? S3bucketForAnalysisData { get; set; }
 
-    [CommandSwitch("--s3bucket-for-report-data")]
+    [CliOption("--s3bucket-for-report-data")]
     public string? S3bucketForReportData { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

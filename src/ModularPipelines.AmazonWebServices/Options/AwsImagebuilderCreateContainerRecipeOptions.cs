@@ -5,46 +5,46 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("imagebuilder", "create-container-recipe")]
+[CliCommand("imagebuilder", "create-container-recipe")]
 public record AwsImagebuilderCreateContainerRecipeOptions(
-[property: CommandSwitch("--container-type")] string ContainerType,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--semantic-version")] string SemanticVersion,
-[property: CommandSwitch("--components")] string[] Components,
-[property: CommandSwitch("--parent-image")] string ParentImage,
-[property: CommandSwitch("--target-repository")] string TargetRepository
+[property: CliOption("--container-type")] string ContainerType,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--semantic-version")] string SemanticVersion,
+[property: CliOption("--components")] string[] Components,
+[property: CliOption("--parent-image")] string ParentImage,
+[property: CliOption("--target-repository")] string TargetRepository
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--instance-configuration")]
+    [CliOption("--instance-configuration")]
     public string? InstanceConfiguration { get; set; }
 
-    [CommandSwitch("--dockerfile-template-data")]
+    [CliOption("--dockerfile-template-data")]
     public string? DockerfileTemplateData { get; set; }
 
-    [CommandSwitch("--dockerfile-template-uri")]
+    [CliOption("--dockerfile-template-uri")]
     public string? DockerfileTemplateUri { get; set; }
 
-    [CommandSwitch("--platform-override")]
+    [CliOption("--platform-override")]
     public string? PlatformOverride { get; set; }
 
-    [CommandSwitch("--image-os-version-override")]
+    [CliOption("--image-os-version-override")]
     public string? ImageOsVersionOverride { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--working-directory")]
+    [CliOption("--working-directory")]
     public string? AwsImagWorkingDirectory { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

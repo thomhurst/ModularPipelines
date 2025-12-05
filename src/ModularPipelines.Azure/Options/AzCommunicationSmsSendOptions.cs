@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("communication", "sms", "send")]
+[CliSubCommand("communication", "sms", "send")]
 public record AzCommunicationSmsSendOptions(
-[property: CommandSwitch("--message")] string Message,
-[property: CommandSwitch("--recipient")] string Recipient,
-[property: CommandSwitch("--sender")] string Sender
+[property: CliOption("--message")] string Message,
+[property: CliOption("--recipient")] string Recipient,
+[property: CliOption("--sender")] string Sender
 ) : AzOptions
 {
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 }

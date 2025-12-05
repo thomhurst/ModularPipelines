@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devicefarm", "get-test-grid-session")]
+[CliCommand("devicefarm", "get-test-grid-session")]
 public record AwsDevicefarmGetTestGridSessionOptions : AwsOptions
 {
-    [CommandSwitch("--project-arn")]
+    [CliOption("--project-arn")]
     public string? ProjectArn { get; set; }
 
-    [CommandSwitch("--session-id")]
+    [CliOption("--session-id")]
     public string? SessionId { get; set; }
 
-    [CommandSwitch("--session-arn")]
+    [CliOption("--session-arn")]
     public string? SessionArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

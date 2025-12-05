@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "deregister-devices")]
+[CliCommand("sagemaker", "deregister-devices")]
 public record AwsSagemakerDeregisterDevicesOptions(
-[property: CommandSwitch("--device-fleet-name")] string DeviceFleetName,
-[property: CommandSwitch("--device-names")] string[] DeviceNames
+[property: CliOption("--device-fleet-name")] string DeviceFleetName,
+[property: CliOption("--device-names")] string[] DeviceNames
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

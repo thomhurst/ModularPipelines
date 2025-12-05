@@ -1,0 +1,105 @@
+{
+  "$schema": "./schema.json",
+  "global": {
+    "--help": {
+      "type": "bool",
+      "reason": "Standard help flag"
+    },
+    "--verbose": {
+      "type": "bool",
+      "reason": "Increase logging verbosity"
+    },
+    "--debug": {
+      "type": "bool",
+      "reason": "Debug logging"
+    },
+    "--only-show-errors": {
+      "type": "bool",
+      "reason": "Only show errors"
+    },
+    "--yes": {
+      "type": "bool",
+      "reason": "Skip confirmation prompts"
+    }
+  },
+  "commands": {
+    "storage.blob.upload": {
+      "--overwrite": {
+        "type": "bool",
+        "reason": "Overwrite existing blob"
+      },
+      "--validate-content": {
+        "type": "bool",
+        "reason": "Validate MD5 hash"
+      }
+    },
+    "storage.blob.download": {
+      "--overwrite": {
+        "type": "bool",
+        "reason": "Overwrite existing file"
+      },
+      "--validate-content": {
+        "type": "bool",
+        "reason": "Validate MD5 hash"
+      }
+    },
+    "aks.create": {
+      "--enable-managed-identity": {
+        "type": "bool",
+        "reason": "Enable managed identity"
+      },
+      "--enable-rbac": {
+        "type": "bool",
+        "reason": "Enable Kubernetes RBAC"
+      },
+      "--enable-private-cluster": {
+        "type": "bool",
+        "reason": "Enable private cluster"
+      },
+      "--generate-ssh-keys": {
+        "type": "bool",
+        "reason": "Generate SSH key files"
+      },
+      "--no-ssh-key": {
+        "type": "bool",
+        "reason": "Don't use SSH key"
+      },
+      "--no-wait": {
+        "type": "bool",
+        "reason": "Don't wait for operation"
+      },
+      "--yes": {
+        "type": "bool",
+        "reason": "Skip confirmation"
+      },
+      "--node-count": {
+        "type": "int",
+        "reason": "Number of nodes"
+      }
+    },
+    "webapp.create": {
+      "--assign-identity": {
+        "type": "bool",
+        "reason": "Assign managed identity"
+      },
+      "--https-only": {
+        "type": "bool",
+        "reason": "Redirect HTTP to HTTPS"
+      }
+    },
+    "acr.build": {
+      "--no-logs": {
+        "type": "bool",
+        "reason": "Don't show logs"
+      },
+      "--no-push": {
+        "type": "bool",
+        "reason": "Don't push the image"
+      },
+      "--no-wait": {
+        "type": "bool",
+        "reason": "Don't wait for completion"
+      }
+    }
+  }
+}

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "cancel-command")]
+[CliCommand("ssm", "cancel-command")]
 public record AwsSsmCancelCommandOptions(
-[property: CommandSwitch("--command-id")] string CommandId
+[property: CliOption("--command-id")] string CommandId
 ) : AwsOptions
 {
-    [CommandSwitch("--instance-ids")]
+    [CliOption("--instance-ids")]
     public string[]? InstanceIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

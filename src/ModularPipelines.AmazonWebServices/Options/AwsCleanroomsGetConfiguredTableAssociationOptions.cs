@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cleanrooms", "get-configured-table-association")]
+[CliCommand("cleanrooms", "get-configured-table-association")]
 public record AwsCleanroomsGetConfiguredTableAssociationOptions(
-[property: CommandSwitch("--configured-table-association-identifier")] string ConfiguredTableAssociationIdentifier,
-[property: CommandSwitch("--membership-identifier")] string MembershipIdentifier
+[property: CliOption("--configured-table-association-identifier")] string ConfiguredTableAssociationIdentifier,
+[property: CliOption("--membership-identifier")] string MembershipIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "update-security-profile")]
+[CliCommand("connect", "update-security-profile")]
 public record AwsConnectUpdateSecurityProfileOptions(
-[property: CommandSwitch("--security-profile-id")] string SecurityProfileId,
-[property: CommandSwitch("--instance-id")] string InstanceId
+[property: CliOption("--security-profile-id")] string SecurityProfileId,
+[property: CliOption("--instance-id")] string InstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--permissions")]
+    [CliOption("--permissions")]
     public string[]? Permissions { get; set; }
 
-    [CommandSwitch("--allowed-access-control-tags")]
+    [CliOption("--allowed-access-control-tags")]
     public IEnumerable<KeyValue>? AllowedAccessControlTags { get; set; }
 
-    [CommandSwitch("--tag-restricted-resources")]
+    [CliOption("--tag-restricted-resources")]
     public string[]? TagRestrictedResources { get; set; }
 
-    [CommandSwitch("--applications")]
+    [CliOption("--applications")]
     public string[]? Applications { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

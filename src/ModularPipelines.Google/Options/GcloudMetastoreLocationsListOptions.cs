@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("metastore", "locations", "list")]
+[CliCommand("metastore", "locations", "list")]
 public record GcloudMetastoreLocationsListOptions : GcloudOptions;

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datasync", "generate-recommendations")]
+[CliCommand("datasync", "generate-recommendations")]
 public record AwsDatasyncGenerateRecommendationsOptions(
-[property: CommandSwitch("--discovery-job-arn")] string DiscoveryJobArn,
-[property: CommandSwitch("--resource-ids")] string[] ResourceIds,
-[property: CommandSwitch("--resource-type")] string ResourceType
+[property: CliOption("--discovery-job-arn")] string DiscoveryJobArn,
+[property: CliOption("--resource-ids")] string[] ResourceIds,
+[property: CliOption("--resource-type")] string ResourceType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

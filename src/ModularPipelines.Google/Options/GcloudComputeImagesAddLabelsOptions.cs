@@ -5,8 +5,8 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "images", "add-labels")]
+[CliCommand("compute", "images", "add-labels")]
 public record GcloudComputeImagesAddLabelsOptions(
-[property: PositionalArgument] string ImageName,
-[property: CommandSwitch("--labels")] IEnumerable<KeyValue> Labels
+[property: CliArgument] string ImageName,
+[property: CliOption("--labels")] IEnumerable<KeyValue> Labels
 ) : GcloudOptions;

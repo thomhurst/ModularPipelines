@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "hub")]
+[CliCommand("container", "hub")]
 public class GcloudContainerHubDataplaneV2Encryption
 {
     public GcloudContainerHubDataplaneV2Encryption(

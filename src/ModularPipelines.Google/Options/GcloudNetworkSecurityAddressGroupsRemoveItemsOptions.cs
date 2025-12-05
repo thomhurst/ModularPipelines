@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-security", "address-groups", "remove-items")]
+[CliCommand("network-security", "address-groups", "remove-items")]
 public record GcloudNetworkSecurityAddressGroupsRemoveItemsOptions(
-[property: PositionalArgument] string AddressGroup,
-[property: PositionalArgument] string Location
+[property: CliArgument] string AddressGroup,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--items")]
+    [CliOption("--items")]
     public string[]? Items { get; set; }
 }

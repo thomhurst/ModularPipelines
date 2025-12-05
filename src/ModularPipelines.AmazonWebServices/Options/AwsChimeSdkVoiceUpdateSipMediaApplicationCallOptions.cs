@@ -5,13 +5,13 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-voice", "update-sip-media-application-call")]
+[CliCommand("chime-sdk-voice", "update-sip-media-application-call")]
 public record AwsChimeSdkVoiceUpdateSipMediaApplicationCallOptions(
-[property: CommandSwitch("--sip-media-application-id")] string SipMediaApplicationId,
-[property: CommandSwitch("--transaction-id")] string TransactionId,
-[property: CommandSwitch("--arguments")] IEnumerable<KeyValue> AwsChimArguments
+[property: CliOption("--sip-media-application-id")] string SipMediaApplicationId,
+[property: CliOption("--transaction-id")] string TransactionId,
+[property: CliOption("--arguments")] IEnumerable<KeyValue> AwsChimArguments
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

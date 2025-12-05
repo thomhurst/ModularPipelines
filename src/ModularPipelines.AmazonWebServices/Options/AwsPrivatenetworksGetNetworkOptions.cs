@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("privatenetworks", "get-network")]
+[CliCommand("privatenetworks", "get-network")]
 public record AwsPrivatenetworksGetNetworkOptions(
-[property: CommandSwitch("--network-arn")] string NetworkArn
+[property: CliOption("--network-arn")] string NetworkArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "get-unfiltered-partition-metadata")]
+[CliCommand("glue", "get-unfiltered-partition-metadata")]
 public record AwsGlueGetUnfilteredPartitionMetadataOptions(
-[property: CommandSwitch("--catalog-id")] string CatalogId,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--table-name")] string TableName,
-[property: CommandSwitch("--partition-values")] string[] PartitionValues,
-[property: CommandSwitch("--supported-permission-types")] string[] SupportedPermissionTypes
+[property: CliOption("--catalog-id")] string CatalogId,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--table-name")] string TableName,
+[property: CliOption("--partition-values")] string[] PartitionValues,
+[property: CliOption("--supported-permission-types")] string[] SupportedPermissionTypes
 ) : AwsOptions
 {
-    [CommandSwitch("--audit-context")]
+    [CliOption("--audit-context")]
     public string? AuditContext { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

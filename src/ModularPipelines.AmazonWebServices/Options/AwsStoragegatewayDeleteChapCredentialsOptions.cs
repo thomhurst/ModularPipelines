@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "delete-chap-credentials")]
+[CliCommand("storagegateway", "delete-chap-credentials")]
 public record AwsStoragegatewayDeleteChapCredentialsOptions(
-[property: CommandSwitch("--target-arn")] string TargetArn,
-[property: CommandSwitch("--initiator-name")] string InitiatorName
+[property: CliOption("--target-arn")] string TargetArn,
+[property: CliOption("--initiator-name")] string InitiatorName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

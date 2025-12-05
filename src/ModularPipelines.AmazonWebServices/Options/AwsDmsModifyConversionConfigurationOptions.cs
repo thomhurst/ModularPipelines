@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "modify-conversion-configuration")]
+[CliCommand("dms", "modify-conversion-configuration")]
 public record AwsDmsModifyConversionConfigurationOptions(
-[property: CommandSwitch("--migration-project-identifier")] string MigrationProjectIdentifier,
-[property: CommandSwitch("--conversion-configuration")] string ConversionConfiguration
+[property: CliOption("--migration-project-identifier")] string MigrationProjectIdentifier,
+[property: CliOption("--conversion-configuration")] string ConversionConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

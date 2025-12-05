@@ -5,56 +5,56 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("es", "create-elasticsearch-domain")]
+[CliCommand("es", "create-elasticsearch-domain")]
 public record AwsEsCreateElasticsearchDomainOptions(
-[property: CommandSwitch("--domain-name")] string DomainName
+[property: CliOption("--domain-name")] string DomainName
 ) : AwsOptions
 {
-    [CommandSwitch("--elasticsearch-version")]
+    [CliOption("--elasticsearch-version")]
     public string? ElasticsearchVersion { get; set; }
 
-    [CommandSwitch("--elasticsearch-cluster-config")]
+    [CliOption("--elasticsearch-cluster-config")]
     public string? ElasticsearchClusterConfig { get; set; }
 
-    [CommandSwitch("--ebs-options")]
+    [CliOption("--ebs-options")]
     public string? EbsOptions { get; set; }
 
-    [CommandSwitch("--access-policies")]
+    [CliOption("--access-policies")]
     public string? AccessPolicies { get; set; }
 
-    [CommandSwitch("--snapshot-options")]
+    [CliOption("--snapshot-options")]
     public string? SnapshotOptions { get; set; }
 
-    [CommandSwitch("--vpc-options")]
+    [CliOption("--vpc-options")]
     public string? VpcOptions { get; set; }
 
-    [CommandSwitch("--cognito-options")]
+    [CliOption("--cognito-options")]
     public string? CognitoOptions { get; set; }
 
-    [CommandSwitch("--encryption-at-rest-options")]
+    [CliOption("--encryption-at-rest-options")]
     public string? EncryptionAtRestOptions { get; set; }
 
-    [CommandSwitch("--node-to-node-encryption-options")]
+    [CliOption("--node-to-node-encryption-options")]
     public string? NodeToNodeEncryptionOptions { get; set; }
 
-    [CommandSwitch("--advanced-options")]
+    [CliOption("--advanced-options")]
     public IEnumerable<KeyValue>? AdvancedOptions { get; set; }
 
-    [CommandSwitch("--log-publishing-options")]
+    [CliOption("--log-publishing-options")]
     public IEnumerable<KeyValue>? LogPublishingOptions { get; set; }
 
-    [CommandSwitch("--domain-endpoint-options")]
+    [CliOption("--domain-endpoint-options")]
     public string? DomainEndpointOptions { get; set; }
 
-    [CommandSwitch("--advanced-security-options")]
+    [CliOption("--advanced-security-options")]
     public string? AdvancedSecurityOptions { get; set; }
 
-    [CommandSwitch("--auto-tune-options")]
+    [CliOption("--auto-tune-options")]
     public string? AutoTuneOptions { get; set; }
 
-    [CommandSwitch("--tag-list")]
+    [CliOption("--tag-list")]
     public string[]? TagList { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

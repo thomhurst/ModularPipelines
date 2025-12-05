@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift-serverless", "update-workgroup")]
+[CliCommand("redshift-serverless", "update-workgroup")]
 public record AwsRedshiftServerlessUpdateWorkgroupOptions(
-[property: CommandSwitch("--workgroup-name")] string WorkgroupName
+[property: CliOption("--workgroup-name")] string WorkgroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--base-capacity")]
+    [CliOption("--base-capacity")]
     public int? BaseCapacity { get; set; }
 
-    [CommandSwitch("--config-parameters")]
+    [CliOption("--config-parameters")]
     public string[]? ConfigParameters { get; set; }
 
-    [CommandSwitch("--max-capacity")]
+    [CliOption("--max-capacity")]
     public int? MaxCapacity { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--security-group-ids")]
+    [CliOption("--security-group-ids")]
     public string[]? SecurityGroupIds { get; set; }
 
-    [CommandSwitch("--subnet-ids")]
+    [CliOption("--subnet-ids")]
     public string[]? SubnetIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

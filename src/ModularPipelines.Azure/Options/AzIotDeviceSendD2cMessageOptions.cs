@@ -4,44 +4,44 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "device", "send-d2c-message")]
+[CliSubCommand("iot", "device", "send-d2c-message")]
 public record AzIotDeviceSendD2cMessageOptions(
-[property: CommandSwitch("--device-id")] string DeviceId
+[property: CliOption("--device-id")] string DeviceId
 ) : AzOptions
 {
-    [CommandSwitch("--certificate-file-path")]
+    [CliOption("--certificate-file-path")]
     public string? CertificateFilePath { get; set; }
 
-    [CommandSwitch("--da")]
+    [CliOption("--da")]
     public string? Da { get; set; }
 
-    [CommandSwitch("--data-file-path")]
+    [CliOption("--data-file-path")]
     public string? DataFilePath { get; set; }
 
-    [CommandSwitch("--dtmi")]
+    [CliOption("--dtmi")]
     public string? Dtmi { get; set; }
 
-    [CommandSwitch("--hub-name")]
+    [CliOption("--hub-name")]
     public string? HubName { get; set; }
 
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 
-    [CommandSwitch("--key-file-path")]
+    [CliOption("--key-file-path")]
     public string? KeyFilePath { get; set; }
 
-    [CommandSwitch("--login")]
+    [CliOption("--login")]
     public string? Login { get; set; }
 
-    [CommandSwitch("--mc")]
+    [CliOption("--mc")]
     public string? Mc { get; set; }
 
-    [CommandSwitch("--pass")]
+    [CliOption("--pass")]
     public string? Pass { get; set; }
 
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public string? Properties { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

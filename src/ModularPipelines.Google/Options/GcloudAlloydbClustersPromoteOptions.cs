@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("alloydb", "clusters", "promote")]
+[CliCommand("alloydb", "clusters", "promote")]
 public record GcloudAlloydbClustersPromoteOptions(
-[property: PositionalArgument] string Cluster,
-[property: CommandSwitch("--region")] string Region
+[property: CliArgument] string Cluster,
+[property: CliOption("--region")] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

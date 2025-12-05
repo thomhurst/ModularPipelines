@@ -4,49 +4,49 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "rule", "update")]
+[CliSubCommand("network", "application-gateway", "rule", "update")]
 public record AzNetworkApplicationGatewayRuleUpdateOptions(
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--address-pool")]
+    [CliOption("--address-pool")]
     public string? AddressPool { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--http-listener")]
+    [CliOption("--http-listener")]
     public string? HttpListener { get; set; }
 
-    [CommandSwitch("--http-settings")]
+    [CliOption("--http-settings")]
     public string? HttpSettings { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--redirect-config")]
+    [CliOption("--redirect-config")]
     public string? RedirectConfig { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--rewrite-rule-set")]
+    [CliOption("--rewrite-rule-set")]
     public string? RewriteRuleSet { get; set; }
 
-    [CommandSwitch("--rule-type")]
+    [CliOption("--rule-type")]
     public string? RuleType { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--url-path-map")]
+    [CliOption("--url-path-map")]
     public string? UrlPathMap { get; set; }
 }

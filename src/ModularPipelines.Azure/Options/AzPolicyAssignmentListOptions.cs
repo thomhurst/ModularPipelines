@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("policy", "assignment", "list")]
+[CliSubCommand("policy", "assignment", "list")]
 public record AzPolicyAssignmentListOptions : AzOptions
 {
-    [BooleanCommandSwitch("--disable-scope-strict-match")]
+    [CliFlag("--disable-scope-strict-match")]
     public bool? DisableScopeStrictMatch { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 }

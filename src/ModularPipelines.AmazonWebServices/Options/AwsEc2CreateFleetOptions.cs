@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-fleet")]
+[CliCommand("ec2", "create-fleet")]
 public record AwsEc2CreateFleetOptions(
-[property: CommandSwitch("--launch-template-configs")] string[] LaunchTemplateConfigs,
-[property: CommandSwitch("--target-capacity-specification")] string TargetCapacitySpecification
+[property: CliOption("--launch-template-configs")] string[] LaunchTemplateConfigs,
+[property: CliOption("--target-capacity-specification")] string TargetCapacitySpecification
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--spot-options")]
+    [CliOption("--spot-options")]
     public string? SpotOptions { get; set; }
 
-    [CommandSwitch("--on-demand-options")]
+    [CliOption("--on-demand-options")]
     public string? OnDemandOptions { get; set; }
 
-    [CommandSwitch("--excess-capacity-termination-policy")]
+    [CliOption("--excess-capacity-termination-policy")]
     public string? ExcessCapacityTerminationPolicy { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--valid-from")]
+    [CliOption("--valid-from")]
     public long? ValidFrom { get; set; }
 
-    [CommandSwitch("--valid-until")]
+    [CliOption("--valid-until")]
     public long? ValidUntil { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--context")]
+    [CliOption("--context")]
     public string? Context { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

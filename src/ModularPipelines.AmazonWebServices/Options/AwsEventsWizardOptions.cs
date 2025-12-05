@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("events", "wizard")]
+[CliCommand("events", "wizard")]
 public record AwsEventsWizardOptions : AwsOptions;

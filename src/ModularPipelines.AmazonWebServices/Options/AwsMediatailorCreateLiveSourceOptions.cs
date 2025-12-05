@@ -5,16 +5,16 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediatailor", "create-live-source")]
+[CliCommand("mediatailor", "create-live-source")]
 public record AwsMediatailorCreateLiveSourceOptions(
-[property: CommandSwitch("--http-package-configurations")] string[] HttpPackageConfigurations,
-[property: CommandSwitch("--live-source-name")] string LiveSourceName,
-[property: CommandSwitch("--source-location-name")] string SourceLocationName
+[property: CliOption("--http-package-configurations")] string[] HttpPackageConfigurations,
+[property: CliOption("--live-source-name")] string LiveSourceName,
+[property: CliOption("--source-location-name")] string SourceLocationName
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

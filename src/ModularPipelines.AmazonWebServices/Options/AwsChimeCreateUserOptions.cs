@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime", "create-user")]
+[CliCommand("chime", "create-user")]
 public record AwsChimeCreateUserOptions(
-[property: CommandSwitch("--account-id")] string AccountId
+[property: CliOption("--account-id")] string AccountId
 ) : AwsOptions
 {
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 
-    [CommandSwitch("--email")]
+    [CliOption("--email")]
     public string? Email { get; set; }
 
-    [CommandSwitch("--user-type")]
+    [CliOption("--user-type")]
     public string? UserType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

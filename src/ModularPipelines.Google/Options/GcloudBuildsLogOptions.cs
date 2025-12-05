@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("builds", "log")]
+[CliCommand("builds", "log")]
 public record GcloudBuildsLogOptions(
-[property: PositionalArgument] string Build
+[property: CliArgument] string Build
 ) : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [BooleanCommandSwitch("--stream")]
+    [CliFlag("--stream")]
     public bool? Stream { get; set; }
 }

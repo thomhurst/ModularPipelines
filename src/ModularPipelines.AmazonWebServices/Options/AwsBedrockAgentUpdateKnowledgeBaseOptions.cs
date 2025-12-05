@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bedrock-agent", "update-knowledge-base")]
+[CliCommand("bedrock-agent", "update-knowledge-base")]
 public record AwsBedrockAgentUpdateKnowledgeBaseOptions(
-[property: CommandSwitch("--knowledge-base-id")] string KnowledgeBaseId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--role-arn")] string RoleArn,
-[property: CommandSwitch("--knowledge-base-configuration")] string KnowledgeBaseConfiguration,
-[property: CommandSwitch("--storage-configuration")] string StorageConfiguration
+[property: CliOption("--knowledge-base-id")] string KnowledgeBaseId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--role-arn")] string RoleArn,
+[property: CliOption("--knowledge-base-configuration")] string KnowledgeBaseConfiguration,
+[property: CliOption("--storage-configuration")] string StorageConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

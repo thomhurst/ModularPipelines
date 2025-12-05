@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stack-hci-vm", "network")]
+[CliCommand("stack-hci-vm", "network")]
 public class AzStackHciVmNetworkLnet
 {
     public AzStackHciVmNetworkLnet(

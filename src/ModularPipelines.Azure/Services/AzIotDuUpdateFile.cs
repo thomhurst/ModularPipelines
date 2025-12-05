@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "du", "update")]
+[CliCommand("iot", "du", "update")]
 public class AzIotDuUpdateFile
 {
     public AzIotDuUpdateFile(

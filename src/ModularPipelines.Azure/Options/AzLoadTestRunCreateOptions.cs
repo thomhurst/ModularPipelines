@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("load", "test-run", "create")]
+[CliSubCommand("load", "test-run", "create")]
 public record AzLoadTestRunCreateOptions(
-[property: CommandSwitch("--load-test-resource")] string LoadTestResource,
-[property: CommandSwitch("--test-id")] string TestId,
-[property: CommandSwitch("--test-run-id")] string TestRunId
+[property: CliOption("--load-test-resource")] string LoadTestResource,
+[property: CliOption("--test-id")] string TestId,
+[property: CliOption("--test-run-id")] string TestRunId
 ) : AzOptions
 {
-    [CommandSwitch("--certificate")]
+    [CliOption("--certificate")]
     public string? Certificate { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--env")]
+    [CliOption("--env")]
     public string? Env { get; set; }
 
-    [CommandSwitch("--existing-test-run-id")]
+    [CliOption("--existing-test-run-id")]
     public string? ExistingTestRunId { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--secret")]
+    [CliOption("--secret")]
     public string? Secret { get; set; }
 }

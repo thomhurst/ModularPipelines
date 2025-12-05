@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("looker", "operations", "describe")]
+[CliCommand("looker", "operations", "describe")]
 public record GcloudLookerOperationsDescribeOptions(
-[property: PositionalArgument] string Operation,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Operation,
+[property: CliArgument] string Region
 ) : GcloudOptions;

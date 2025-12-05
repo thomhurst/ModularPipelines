@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dax", "delete-subnet-group")]
+[CliCommand("dax", "delete-subnet-group")]
 public record AwsDaxDeleteSubnetGroupOptions(
-[property: CommandSwitch("--subnet-group-name")] string SubnetGroupName
+[property: CliOption("--subnet-group-name")] string SubnetGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

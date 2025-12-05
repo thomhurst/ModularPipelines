@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotsitewise", "update-asset-property")]
+[CliCommand("iotsitewise", "update-asset-property")]
 public record AwsIotsitewiseUpdateAssetPropertyOptions(
-[property: CommandSwitch("--asset-id")] string AssetId,
-[property: CommandSwitch("--property-id")] string PropertyId
+[property: CliOption("--asset-id")] string AssetId,
+[property: CliOption("--property-id")] string PropertyId
 ) : AwsOptions
 {
-    [CommandSwitch("--property-alias")]
+    [CliOption("--property-alias")]
     public string? PropertyAlias { get; set; }
 
-    [CommandSwitch("--property-notification-state")]
+    [CliOption("--property-notification-state")]
     public string? PropertyNotificationState { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--property-unit")]
+    [CliOption("--property-unit")]
     public string? PropertyUnit { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

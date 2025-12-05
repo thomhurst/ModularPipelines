@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sts", "get-federation-token")]
+[CliCommand("sts", "get-federation-token")]
 public record AwsStsGetFederationTokenOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--policy")]
+    [CliOption("--policy")]
     public string? Policy { get; set; }
 
-    [CommandSwitch("--policy-arns")]
+    [CliOption("--policy-arns")]
     public string[]? PolicyArns { get; set; }
 
-    [CommandSwitch("--duration-seconds")]
+    [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

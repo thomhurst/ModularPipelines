@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dls", "fs", "set-expiry")]
+[CliSubCommand("dls", "fs", "set-expiry")]
 public record AzDlsFsSetExpiryOptions(
-[property: CommandSwitch("--expiration-time")] string ExpirationTime,
-[property: CommandSwitch("--path")] string Path
+[property: CliOption("--expiration-time")] string ExpirationTime,
+[property: CliOption("--path")] string Path
 ) : AzOptions
 {
-    [CommandSwitch("--account")]
+    [CliOption("--account")]
     public int? Account { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

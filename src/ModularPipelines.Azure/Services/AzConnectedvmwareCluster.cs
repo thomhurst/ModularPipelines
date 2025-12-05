@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectedvmware")]
+[CliCommand("connectedvmware")]
 public class AzConnectedvmwareCluster
 {
     public AzConnectedvmwareCluster(

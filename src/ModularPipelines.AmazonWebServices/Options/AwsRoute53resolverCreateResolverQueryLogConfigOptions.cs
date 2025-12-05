@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53resolver", "create-resolver-query-log-config")]
+[CliCommand("route53resolver", "create-resolver-query-log-config")]
 public record AwsRoute53resolverCreateResolverQueryLogConfigOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--destination-arn")] string DestinationArn
+[property: CliOption("--name")] string Name,
+[property: CliOption("--destination-arn")] string DestinationArn
 ) : AwsOptions
 {
-    [CommandSwitch("--creator-request-id")]
+    [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

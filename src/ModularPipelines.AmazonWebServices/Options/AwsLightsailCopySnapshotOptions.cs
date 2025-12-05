@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "copy-snapshot")]
+[CliCommand("lightsail", "copy-snapshot")]
 public record AwsLightsailCopySnapshotOptions(
-[property: CommandSwitch("--target-snapshot-name")] string TargetSnapshotName,
-[property: CommandSwitch("--source-region")] string SourceRegion
+[property: CliOption("--target-snapshot-name")] string TargetSnapshotName,
+[property: CliOption("--source-region")] string SourceRegion
 ) : AwsOptions
 {
-    [CommandSwitch("--source-snapshot-name")]
+    [CliOption("--source-snapshot-name")]
     public string? SourceSnapshotName { get; set; }
 
-    [CommandSwitch("--source-resource-name")]
+    [CliOption("--source-resource-name")]
     public string? SourceResourceName { get; set; }
 
-    [CommandSwitch("--restore-date")]
+    [CliOption("--restore-date")]
     public string? RestoreDate { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

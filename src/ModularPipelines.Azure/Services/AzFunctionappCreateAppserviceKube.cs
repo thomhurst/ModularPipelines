@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "create")]
+[CliCommand("functionapp", "create")]
 public class AzFunctionappCreateAppserviceKube
 {
     public AzFunctionappCreateAppserviceKube(

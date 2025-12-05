@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudfront", "sign")]
+[CliCommand("cloudfront", "sign")]
 public record AwsCloudfrontSignOptions(
-[property: CommandSwitch("--url")] string Url,
-[property: CommandSwitch("--key-pair-id")] string KeyPairId,
-[property: CommandSwitch("--private-key")] string PrivateKey,
-[property: CommandSwitch("--date-less-than")] string DateLessThan
+[property: CliOption("--url")] string Url,
+[property: CliOption("--key-pair-id")] string KeyPairId,
+[property: CliOption("--private-key")] string PrivateKey,
+[property: CliOption("--date-less-than")] string DateLessThan
 ) : AwsOptions
 {
-    [CommandSwitch("--date-greater-than")]
+    [CliOption("--date-greater-than")]
     public string? DateGreaterThan { get; set; }
 
-    [CommandSwitch("--ip-address")]
+    [CliOption("--ip-address")]
     public string? IpAddress { get; set; }
 }

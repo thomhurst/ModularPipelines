@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "resync-mfa-device")]
+[CliCommand("iam", "resync-mfa-device")]
 public record AwsIamResyncMfaDeviceOptions(
-[property: CommandSwitch("--user-name")] string UserName,
-[property: CommandSwitch("--serial-number")] string SerialNumber,
-[property: CommandSwitch("--authentication-code1")] string AuthenticationCode1,
-[property: CommandSwitch("--authentication-code2")] string AuthenticationCode2
+[property: CliOption("--user-name")] string UserName,
+[property: CliOption("--serial-number")] string SerialNumber,
+[property: CliOption("--authentication-code1")] string AuthenticationCode1,
+[property: CliOption("--authentication-code2")] string AuthenticationCode2
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

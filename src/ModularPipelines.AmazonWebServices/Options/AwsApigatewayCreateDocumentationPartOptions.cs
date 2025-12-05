@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "create-documentation-part")]
+[CliCommand("apigateway", "create-documentation-part")]
 public record AwsApigatewayCreateDocumentationPartOptions(
-[property: CommandSwitch("--rest-api-id")] string RestApiId,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--properties")] string Properties
+[property: CliOption("--rest-api-id")] string RestApiId,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--properties")] string Properties
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

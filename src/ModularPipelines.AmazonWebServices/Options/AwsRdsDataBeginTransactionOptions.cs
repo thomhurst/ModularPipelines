@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds-data", "begin-transaction")]
+[CliCommand("rds-data", "begin-transaction")]
 public record AwsRdsDataBeginTransactionOptions(
-[property: CommandSwitch("--resource-arn")] string ResourceArn,
-[property: CommandSwitch("--secret-arn")] string SecretArn
+[property: CliOption("--resource-arn")] string ResourceArn,
+[property: CliOption("--secret-arn")] string SecretArn
 ) : AwsOptions
 {
-    [CommandSwitch("--database")]
+    [CliOption("--database")]
     public string? Database { get; set; }
 
-    [CommandSwitch("--schema")]
+    [CliOption("--schema")]
     public string? Schema { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

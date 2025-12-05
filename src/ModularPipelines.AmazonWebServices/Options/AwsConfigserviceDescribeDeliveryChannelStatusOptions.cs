@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configservice", "describe-delivery-channel-status")]
+[CliCommand("configservice", "describe-delivery-channel-status")]
 public record AwsConfigserviceDescribeDeliveryChannelStatusOptions : AwsOptions
 {
-    [CommandSwitch("--delivery-channel-names")]
+    [CliOption("--delivery-channel-names")]
     public string[]? DeliveryChannelNames { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

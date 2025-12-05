@@ -5,7 +5,7 @@ using ModularPipelines.Logging;
 namespace ModularPipelines.Engine.Constraints;
 
 /// <summary>
-/// Enforces lock key constraints (NotInParallel attribute with specific keys)
+/// Enforces lock key constraints (NotInParallel attribute with specific keys).
 /// </summary>
 internal class LockKeyConstraint : IModuleConstraint
 {

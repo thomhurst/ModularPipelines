@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("confcom", "katapolicygen")]
+[CliSubCommand("confcom", "katapolicygen")]
 public record AzConfcomKatapolicygenOptions(
-[property: CommandSwitch("--yaml")] string Yaml
+[property: CliOption("--yaml")] string Yaml
 ) : AzOptions
 {
-    [CommandSwitch("--config-map-file")]
+    [CliOption("--config-map-file")]
     public string? ConfigMapFile { get; set; }
 
-    [BooleanCommandSwitch("--outraw")]
+    [CliFlag("--outraw")]
     public bool? Outraw { get; set; }
 
-    [BooleanCommandSwitch("--print-policy")]
+    [CliFlag("--print-policy")]
     public bool? PrintPolicy { get; set; }
 
-    [CommandSwitch("--settings-file-name")]
+    [CliOption("--settings-file-name")]
     public string? SettingsFileName { get; set; }
 
-    [BooleanCommandSwitch("--use-cached-files")]
+    [CliFlag("--use-cached-files")]
     public bool? UseCachedFiles { get; set; }
 }

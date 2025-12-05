@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automation", "runbook", "replace-content")]
+[CliSubCommand("automation", "runbook", "replace-content")]
 public record AzAutomationRunbookReplaceContentOptions(
-[property: CommandSwitch("--content")] string Content
+[property: CliOption("--content")] string Content
 ) : AzOptions
 {
-    [CommandSwitch("--automation-account-name")]
+    [CliOption("--automation-account-name")]
     public int? AutomationAccountName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

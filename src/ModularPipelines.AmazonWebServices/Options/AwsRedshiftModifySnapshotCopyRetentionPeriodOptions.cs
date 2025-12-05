@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "modify-snapshot-copy-retention-period")]
+[CliCommand("redshift", "modify-snapshot-copy-retention-period")]
 public record AwsRedshiftModifySnapshotCopyRetentionPeriodOptions(
-[property: CommandSwitch("--cluster-identifier")] string ClusterIdentifier,
-[property: CommandSwitch("--retention-period")] int RetentionPeriod
+[property: CliOption("--cluster-identifier")] string ClusterIdentifier,
+[property: CliOption("--retention-period")] int RetentionPeriod
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

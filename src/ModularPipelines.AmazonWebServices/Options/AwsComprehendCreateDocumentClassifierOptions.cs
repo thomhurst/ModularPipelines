@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("comprehend", "create-document-classifier")]
+[CliCommand("comprehend", "create-document-classifier")]
 public record AwsComprehendCreateDocumentClassifierOptions(
-[property: CommandSwitch("--document-classifier-name")] string DocumentClassifierName,
-[property: CommandSwitch("--data-access-role-arn")] string DataAccessRoleArn,
-[property: CommandSwitch("--input-data-config")] string InputDataConfig,
-[property: CommandSwitch("--language-code")] string LanguageCode
+[property: CliOption("--document-classifier-name")] string DocumentClassifierName,
+[property: CliOption("--data-access-role-arn")] string DataAccessRoleArn,
+[property: CliOption("--input-data-config")] string InputDataConfig,
+[property: CliOption("--language-code")] string LanguageCode
 ) : AwsOptions
 {
-    [CommandSwitch("--version-name")]
+    [CliOption("--version-name")]
     public string? VersionName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--output-data-config")]
+    [CliOption("--output-data-config")]
     public string? OutputDataConfig { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--volume-kms-key-id")]
+    [CliOption("--volume-kms-key-id")]
     public string? VolumeKmsKeyId { get; set; }
 
-    [CommandSwitch("--vpc-config")]
+    [CliOption("--vpc-config")]
     public string? VpcConfig { get; set; }
 
-    [CommandSwitch("--mode")]
+    [CliOption("--mode")]
     public string? Mode { get; set; }
 
-    [CommandSwitch("--model-kms-key-id")]
+    [CliOption("--model-kms-key-id")]
     public string? ModelKmsKeyId { get; set; }
 
-    [CommandSwitch("--model-policy")]
+    [CliOption("--model-policy")]
     public string? ModelPolicy { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

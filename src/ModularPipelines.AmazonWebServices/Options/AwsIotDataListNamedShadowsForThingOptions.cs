@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot-data", "list-named-shadows-for-thing")]
+[CliCommand("iot-data", "list-named-shadows-for-thing")]
 public record AwsIotDataListNamedShadowsForThingOptions(
-[property: CommandSwitch("--thing-name")] string ThingName
+[property: CliOption("--thing-name")] string ThingName
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

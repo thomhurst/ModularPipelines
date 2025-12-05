@@ -5,33 +5,33 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("services", "api-keys", "create")]
+[CliCommand("services", "api-keys", "create")]
 public record GcloudServicesApiKeysCreateOptions : GcloudOptions
 {
-    [CommandSwitch("--annotations")]
+    [CliOption("--annotations")]
     public IEnumerable<KeyValue>? Annotations { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--key-id")]
+    [CliOption("--key-id")]
     public string? KeyId { get; set; }
 
-    [CommandSwitch("--api-target")]
+    [CliOption("--api-target")]
     public string[]? ApiTarget { get; set; }
 
-    [CommandSwitch("--allowed-application")]
+    [CliOption("--allowed-application")]
     public string[]? AllowedApplication { get; set; }
 
-    [CommandSwitch("--allowed-bundle-ids")]
+    [CliOption("--allowed-bundle-ids")]
     public string[]? AllowedBundleIds { get; set; }
 
-    [CommandSwitch("--allowed-ips")]
+    [CliOption("--allowed-ips")]
     public string[]? AllowedIps { get; set; }
 
-    [CommandSwitch("--allowed-referrers")]
+    [CliOption("--allowed-referrers")]
     public string[]? AllowedReferrers { get; set; }
 }

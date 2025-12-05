@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "put-key-policy")]
+[CliCommand("kms", "put-key-policy")]
 public record AwsKmsPutKeyPolicyOptions(
-[property: CommandSwitch("--key-id")] string KeyId,
-[property: CommandSwitch("--policy-name")] string PolicyName,
-[property: CommandSwitch("--policy")] string Policy
+[property: CliOption("--key-id")] string KeyId,
+[property: CliOption("--policy-name")] string PolicyName,
+[property: CliOption("--policy")] string Policy
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

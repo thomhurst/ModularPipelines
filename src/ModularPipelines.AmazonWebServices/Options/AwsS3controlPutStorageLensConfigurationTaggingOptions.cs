@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3control", "put-storage-lens-configuration-tagging")]
+[CliCommand("s3control", "put-storage-lens-configuration-tagging")]
 public record AwsS3controlPutStorageLensConfigurationTaggingOptions(
-[property: CommandSwitch("--config-id")] string ConfigId,
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--tags")] string[] Tags
+[property: CliOption("--config-id")] string ConfigId,
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--tags")] string[] Tags
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

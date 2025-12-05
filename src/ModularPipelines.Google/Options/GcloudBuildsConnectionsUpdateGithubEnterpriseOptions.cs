@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("builds", "connections", "update", "github-enterprise")]
+[CliCommand("builds", "connections", "update", "github-enterprise")]
 public record GcloudBuildsConnectionsUpdateGithubEnterpriseOptions(
-[property: PositionalArgument] string Connection,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Connection,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [CommandSwitch("--app-id")]
+    [CliOption("--app-id")]
     public string? AppId { get; set; }
 
-    [CommandSwitch("--app-installation-id")]
+    [CliOption("--app-installation-id")]
     public string? AppInstallationId { get; set; }
 
-    [CommandSwitch("--app-slug")]
+    [CliOption("--app-slug")]
     public string? AppSlug { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--host-uri")]
+    [CliOption("--host-uri")]
     public string? HostUri { get; set; }
 
-    [CommandSwitch("--private-key-secret-version")]
+    [CliOption("--private-key-secret-version")]
     public string? PrivateKeySecretVersion { get; set; }
 
-    [CommandSwitch("--service-directory-service")]
+    [CliOption("--service-directory-service")]
     public string? ServiceDirectoryService { get; set; }
 
-    [CommandSwitch("--ssl-ca-file")]
+    [CliOption("--ssl-ca-file")]
     public string? SslCaFile { get; set; }
 
-    [CommandSwitch("--webhook-secret-secret-version")]
+    [CliOption("--webhook-secret-secret-version")]
     public string? WebhookSecretSecretVersion { get; set; }
 }

@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("grafana", "service-account", "token", "create")]
+[CliSubCommand("grafana", "service-account", "token", "create")]
 public record AzGrafanaServiceAccountTokenCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--service-account")] int ServiceAccount,
-[property: CommandSwitch("--token")] string Token
+[property: CliOption("--name")] string Name,
+[property: CliOption("--service-account")] int ServiceAccount,
+[property: CliOption("--token")] string Token
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--time-to-live")]
+    [CliOption("--time-to-live")]
     public string? TimeToLive { get; set; }
 }

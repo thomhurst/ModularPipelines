@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai-platform", "local", "predict")]
+[CliCommand("ai-platform", "local", "predict")]
 public record GcloudAiPlatformLocalPredictOptions(
-[property: CommandSwitch("--model-dir")] string ModelDir,
-[property: CommandSwitch("--json-instances")] string JsonInstances,
-[property: CommandSwitch("--json-request")] string JsonRequest,
-[property: CommandSwitch("--text-instances")] string TextInstances
+[property: CliOption("--model-dir")] string ModelDir,
+[property: CliOption("--json-instances")] string JsonInstances,
+[property: CliOption("--json-request")] string JsonRequest,
+[property: CliOption("--text-instances")] string TextInstances
 ) : GcloudOptions
 {
-    [CommandSwitch("--framework")]
+    [CliOption("--framework")]
     public string? Framework { get; set; }
 
-    [CommandSwitch("--signature-name")]
+    [CliOption("--signature-name")]
     public string? SignatureName { get; set; }
 }

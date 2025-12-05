@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("firebase", "test", "android")]
+[CliCommand("firebase", "test", "android")]
 public class GcloudFirebaseTestAndroidLocales
 {
     public GcloudFirebaseTestAndroidLocales(

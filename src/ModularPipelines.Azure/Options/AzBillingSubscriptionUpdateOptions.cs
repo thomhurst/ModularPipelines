@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "subscription", "update")]
+[CliSubCommand("billing", "subscription", "update")]
 public record AzBillingSubscriptionUpdateOptions(
-[property: CommandSwitch("--account-name")] int AccountName
+[property: CliOption("--account-name")] int AccountName
 ) : AzOptions
 {
-    [CommandSwitch("--cost-center")]
+    [CliOption("--cost-center")]
     public string? CostCenter { get; set; }
 
-    [CommandSwitch("--sku-id")]
+    [CliOption("--sku-id")]
     public string? SkuId { get; set; }
 
-    [CommandSwitch("--subscription-billing-status")]
+    [CliOption("--subscription-billing-status")]
     public string? SubscriptionBillingStatus { get; set; }
 }

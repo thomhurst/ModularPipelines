@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sns", "publish-batch")]
+[CliCommand("sns", "publish-batch")]
 public record AwsSnsPublishBatchOptions(
-[property: CommandSwitch("--topic-arn")] string TopicArn,
-[property: CommandSwitch("--publish-batch-request-entries")] string[] PublishBatchRequestEntries
+[property: CliOption("--topic-arn")] string TopicArn,
+[property: CliOption("--publish-batch-request-entries")] string[] PublishBatchRequestEntries
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

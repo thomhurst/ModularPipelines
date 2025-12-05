@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "list-event-source-mappings")]
+[CliCommand("lambda", "list-event-source-mappings")]
 public record AwsLambdaListEventSourceMappingsOptions : AwsOptions
 {
-    [CommandSwitch("--event-source-arn")]
+    [CliOption("--event-source-arn")]
     public string? EventSourceArn { get; set; }
 
-    [CommandSwitch("--function-name")]
+    [CliOption("--function-name")]
     public string? FunctionName { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

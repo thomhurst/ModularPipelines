@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "managed-application", "create")]
+[CliSubCommand("sf", "managed-application", "create")]
 public record AzSfManagedApplicationCreateOptions(
-[property: CommandSwitch("--application-name")] string ApplicationName,
-[property: CommandSwitch("--application-type-name")] string ApplicationTypeName,
-[property: CommandSwitch("--application-type-version")] string ApplicationTypeVersion,
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--application-name")] string ApplicationName,
+[property: CliOption("--application-type-name")] string ApplicationTypeName,
+[property: CliOption("--application-type-version")] string ApplicationTypeVersion,
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--application-parameters")]
+    [CliOption("--application-parameters")]
     public string? ApplicationParameters { get; set; }
 
-    [CommandSwitch("--package-url")]
+    [CliOption("--package-url")]
     public string? PackageUrl { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

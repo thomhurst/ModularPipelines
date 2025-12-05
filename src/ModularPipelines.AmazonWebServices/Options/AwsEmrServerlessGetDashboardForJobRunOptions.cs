@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr-serverless", "get-dashboard-for-job-run")]
+[CliCommand("emr-serverless", "get-dashboard-for-job-run")]
 public record AwsEmrServerlessGetDashboardForJobRunOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--job-run-id")] string JobRunId
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--job-run-id")] string JobRunId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

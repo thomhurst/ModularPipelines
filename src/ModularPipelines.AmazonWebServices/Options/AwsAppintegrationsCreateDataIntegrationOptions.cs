@@ -5,31 +5,31 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appintegrations", "create-data-integration")]
+[CliCommand("appintegrations", "create-data-integration")]
 public record AwsAppintegrationsCreateDataIntegrationOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--kms-key")] string KmsKey,
-[property: CommandSwitch("--source-uri")] string SourceUri
+[property: CliOption("--name")] string Name,
+[property: CliOption("--kms-key")] string KmsKey,
+[property: CliOption("--source-uri")] string SourceUri
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--schedule-config")]
+    [CliOption("--schedule-config")]
     public string? ScheduleConfig { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--file-configuration")]
+    [CliOption("--file-configuration")]
     public string? FileConfiguration { get; set; }
 
-    [CommandSwitch("--object-configuration")]
+    [CliOption("--object-configuration")]
     public IEnumerable<KeyValue>? ObjectConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

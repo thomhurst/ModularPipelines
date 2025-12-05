@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("comprehend", "start-flywheel-iteration")]
+[CliCommand("comprehend", "start-flywheel-iteration")]
 public record AwsComprehendStartFlywheelIterationOptions(
-[property: CommandSwitch("--flywheel-arn")] string FlywheelArn
+[property: CliOption("--flywheel-arn")] string FlywheelArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

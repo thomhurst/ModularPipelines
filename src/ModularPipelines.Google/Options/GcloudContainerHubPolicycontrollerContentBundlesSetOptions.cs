@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "hub", "policycontroller", "content", "bundles", "set")]
+[CliCommand("container", "hub", "policycontroller", "content", "bundles", "set")]
 public record GcloudContainerHubPolicycontrollerContentBundlesSetOptions(
-[property: PositionalArgument] string BundleName
+[property: CliArgument] string BundleName
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--all-memberships")]
+    [CliFlag("--all-memberships")]
     public bool? AllMemberships { get; set; }
 
-    [CommandSwitch("--memberships")]
+    [CliOption("--memberships")]
     public string[]? Memberships { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--exempted-namespaces")]
+    [CliOption("--exempted-namespaces")]
     public string? ExemptedNamespaces { get; set; }
 
-    [BooleanCommandSwitch("--no-exempted-namespaces")]
+    [CliFlag("--no-exempted-namespaces")]
     public bool? NoExemptedNamespaces { get; set; }
 }

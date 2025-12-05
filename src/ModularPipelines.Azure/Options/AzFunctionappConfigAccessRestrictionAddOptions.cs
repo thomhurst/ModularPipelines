@@ -4,56 +4,56 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "config", "access-restriction", "add")]
+[CliSubCommand("functionapp", "config", "access-restriction", "add")]
 public record AzFunctionappConfigAccessRestrictionAddOptions(
-[property: CommandSwitch("--priority")] string Priority
+[property: CliOption("--priority")] string Priority
 ) : AzOptions
 {
-    [CommandSwitch("--action")]
+    [CliOption("--action")]
     public string? Action { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--http-headers")]
+    [CliOption("--http-headers")]
     public string? HttpHeaders { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--ignore-missing-endpoint")]
+    [CliFlag("--ignore-missing-endpoint")]
     public bool? IgnoreMissingEndpoint { get; set; }
 
-    [CommandSwitch("--ip-address")]
+    [CliOption("--ip-address")]
     public string? IpAddress { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--rule-name")]
+    [CliOption("--rule-name")]
     public string? RuleName { get; set; }
 
-    [BooleanCommandSwitch("--scm-site")]
+    [CliFlag("--scm-site")]
     public bool? ScmSite { get; set; }
 
-    [CommandSwitch("--service-tag")]
+    [CliOption("--service-tag")]
     public string? ServiceTag { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--vnet-name")]
+    [CliOption("--vnet-name")]
     public string? VnetName { get; set; }
 
-    [CommandSwitch("--vnet-resource-group")]
+    [CliOption("--vnet-resource-group")]
     public string? VnetResourceGroup { get; set; }
 }

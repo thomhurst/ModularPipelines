@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automanage", "configuration-profile-assignment", "vm")]
+[CliCommand("automanage", "configuration-profile-assignment", "vm")]
 public class AzAutomanageConfigurationProfileAssignmentVmReport
 {
     public AzAutomanageConfigurationProfileAssignmentVmReport(

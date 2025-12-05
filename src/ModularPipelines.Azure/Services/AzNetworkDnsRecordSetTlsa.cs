@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "dns", "record-set")]
+[CliCommand("network", "dns", "record-set")]
 public class AzNetworkDnsRecordSetTlsa
 {
     public AzNetworkDnsRecordSetTlsa(

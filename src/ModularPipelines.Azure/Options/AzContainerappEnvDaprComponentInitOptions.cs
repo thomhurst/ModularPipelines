@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "env", "dapr-component", "init")]
+[CliSubCommand("containerapp", "env", "dapr-component", "init")]
 public record AzContainerappEnvDaprComponentInitOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--pubsub")]
+    [CliOption("--pubsub")]
     public string? Pubsub { get; set; }
 
-    [CommandSwitch("--statestore")]
+    [CliOption("--statestore")]
     public string? Statestore { get; set; }
 }

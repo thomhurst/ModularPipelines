@@ -5,17 +5,17 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "create-backup-plan")]
+[CliCommand("backup", "create-backup-plan")]
 public record AwsBackupCreateBackupPlanOptions(
-[property: CommandSwitch("--backup-plan")] string BackupPlan
+[property: CliOption("--backup-plan")] string BackupPlan
 ) : AwsOptions
 {
-    [CommandSwitch("--backup-plan-tags")]
+    [CliOption("--backup-plan-tags")]
     public IEnumerable<KeyValue>? BackupPlanTags { get; set; }
 
-    [CommandSwitch("--creator-request-id")]
+    [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "instances", "ssh")]
+[CliCommand("app", "instances", "ssh")]
 public record GcloudAppInstancesSshOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Command
+[property: CliArgument] string Instance,
+[property: CliArgument] string Command
 ) : GcloudOptions
 {
-    [CommandSwitch("--container")]
+    [CliOption("--container")]
     public string? Container { get; set; }
 
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 
-    [BooleanCommandSwitch("--tunnel-through-iap")]
+    [CliFlag("--tunnel-through-iap")]
     public bool? TunnelThroughIap { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string? Version { get; set; }
 }

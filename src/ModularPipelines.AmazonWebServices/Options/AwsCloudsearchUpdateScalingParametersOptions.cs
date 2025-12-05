@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudsearch", "update-scaling-parameters")]
+[CliCommand("cloudsearch", "update-scaling-parameters")]
 public record AwsCloudsearchUpdateScalingParametersOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--scaling-parameters")] string ScalingParameters
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--scaling-parameters")] string ScalingParameters
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tasks", "describe")]
+[CliCommand("tasks", "describe")]
 public record GcloudTasksDescribeOptions(
-[property: PositionalArgument] string Task
+[property: CliArgument] string Task
 ) : GcloudOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--queue")]
+    [CliOption("--queue")]
     public string? Queue { get; set; }
 
-    [CommandSwitch("--response-view")]
+    [CliOption("--response-view")]
     public string? ResponseView { get; set; }
 }

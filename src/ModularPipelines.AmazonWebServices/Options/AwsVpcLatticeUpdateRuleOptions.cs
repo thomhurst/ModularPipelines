@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vpc-lattice", "update-rule")]
+[CliCommand("vpc-lattice", "update-rule")]
 public record AwsVpcLatticeUpdateRuleOptions(
-[property: CommandSwitch("--listener-identifier")] string ListenerIdentifier,
-[property: CommandSwitch("--rule-identifier")] string RuleIdentifier,
-[property: CommandSwitch("--service-identifier")] string ServiceIdentifier
+[property: CliOption("--listener-identifier")] string ListenerIdentifier,
+[property: CliOption("--rule-identifier")] string RuleIdentifier,
+[property: CliOption("--service-identifier")] string ServiceIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--action")]
+    [CliOption("--action")]
     public string? Action { get; set; }
 
-    [CommandSwitch("--match")]
+    [CliOption("--match")]
     public string? Match { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public int? Priority { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

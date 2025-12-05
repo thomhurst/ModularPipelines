@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "managed-cluster", "client-certificate", "add")]
+[CliSubCommand("sf", "managed-cluster", "client-certificate", "add")]
 public record AzSfManagedClusterClientCertificateAddOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--common-name")]
+    [CliOption("--common-name")]
     public string? CommonName { get; set; }
 
-    [BooleanCommandSwitch("--is-admin")]
+    [CliFlag("--is-admin")]
     public bool? IsAdmin { get; set; }
 
-    [CommandSwitch("--issuer-thumbprint")]
+    [CliOption("--issuer-thumbprint")]
     public string? IssuerThumbprint { get; set; }
 
-    [CommandSwitch("--thumbprint")]
+    [CliOption("--thumbprint")]
     public string? Thumbprint { get; set; }
 }

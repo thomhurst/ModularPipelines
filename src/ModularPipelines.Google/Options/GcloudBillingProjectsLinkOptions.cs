@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "projects", "link")]
+[CliCommand("billing", "projects", "link")]
 public record GcloudBillingProjectsLinkOptions(
-[property: PositionalArgument] string ProjectId,
-[property: CommandSwitch("--billing-account")] string BillingAccount
+[property: CliArgument] string ProjectId,
+[property: CliOption("--billing-account")] string BillingAccount
 ) : GcloudOptions;

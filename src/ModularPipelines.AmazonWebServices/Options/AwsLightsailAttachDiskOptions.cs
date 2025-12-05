@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "attach-disk")]
+[CliCommand("lightsail", "attach-disk")]
 public record AwsLightsailAttachDiskOptions(
-[property: CommandSwitch("--disk-name")] string DiskName,
-[property: CommandSwitch("--instance-name")] string InstanceName,
-[property: CommandSwitch("--disk-path")] string DiskPath
+[property: CliOption("--disk-name")] string DiskName,
+[property: CliOption("--instance-name")] string InstanceName,
+[property: CliOption("--disk-path")] string DiskPath
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

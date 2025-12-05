@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datasync", "create-location-azure-blob")]
+[CliCommand("datasync", "create-location-azure-blob")]
 public record AwsDatasyncCreateLocationAzureBlobOptions(
-[property: CommandSwitch("--container-url")] string ContainerUrl,
-[property: CommandSwitch("--authentication-type")] string AuthenticationType,
-[property: CommandSwitch("--agent-arns")] string[] AgentArns
+[property: CliOption("--container-url")] string ContainerUrl,
+[property: CliOption("--authentication-type")] string AuthenticationType,
+[property: CliOption("--agent-arns")] string[] AgentArns
 ) : AwsOptions
 {
-    [CommandSwitch("--sas-configuration")]
+    [CliOption("--sas-configuration")]
     public string? SasConfiguration { get; set; }
 
-    [CommandSwitch("--blob-type")]
+    [CliOption("--blob-type")]
     public string? BlobType { get; set; }
 
-    [CommandSwitch("--access-tier")]
+    [CliOption("--access-tier")]
     public string? AccessTier { get; set; }
 
-    [CommandSwitch("--subdirectory")]
+    [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

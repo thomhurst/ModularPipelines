@@ -5,28 +5,28 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("application-autoscaling", "register-scalable-target")]
+[CliCommand("application-autoscaling", "register-scalable-target")]
 public record AwsApplicationAutoscalingRegisterScalableTargetOptions(
-[property: CommandSwitch("--service-namespace")] string ServiceNamespace,
-[property: CommandSwitch("--resource-id")] string ResourceId,
-[property: CommandSwitch("--scalable-dimension")] string ScalableDimension
+[property: CliOption("--service-namespace")] string ServiceNamespace,
+[property: CliOption("--resource-id")] string ResourceId,
+[property: CliOption("--scalable-dimension")] string ScalableDimension
 ) : AwsOptions
 {
-    [CommandSwitch("--min-capacity")]
+    [CliOption("--min-capacity")]
     public int? MinCapacity { get; set; }
 
-    [CommandSwitch("--max-capacity")]
+    [CliOption("--max-capacity")]
     public int? MaxCapacity { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--suspended-state")]
+    [CliOption("--suspended-state")]
     public string? SuspendedState { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

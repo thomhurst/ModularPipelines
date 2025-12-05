@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instance-groups", "managed")]
+[CliCommand("compute", "instance-groups", "managed")]
 public class GcloudComputeInstanceGroupsManagedRollingAction
 {
     public GcloudComputeInstanceGroupsManagedRollingAction(

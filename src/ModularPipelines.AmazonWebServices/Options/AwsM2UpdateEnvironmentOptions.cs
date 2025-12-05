@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("m2", "update-environment")]
+[CliCommand("m2", "update-environment")]
 public record AwsM2UpdateEnvironmentOptions(
-[property: CommandSwitch("--environment-id")] string EnvironmentId
+[property: CliOption("--environment-id")] string EnvironmentId
 ) : AwsOptions
 {
-    [CommandSwitch("--desired-capacity")]
+    [CliOption("--desired-capacity")]
     public int? DesiredCapacity { get; set; }
 
-    [CommandSwitch("--engine-version")]
+    [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CommandSwitch("--instance-type")]
+    [CliOption("--instance-type")]
     public string? InstanceType { get; set; }
 
-    [CommandSwitch("--preferred-maintenance-window")]
+    [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

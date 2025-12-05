@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("boards", "work-item")]
+[CliCommand("boards", "work-item")]
 public class AzBoardsWorkItemRelation
 {
     public AzBoardsWorkItemRelation(

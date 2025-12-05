@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("identity", "groups", "memberships", "modify-membership-roles")]
+[CliCommand("identity", "groups", "memberships", "modify-membership-roles")]
 public record GcloudIdentityGroupsMembershipsModifyMembershipRolesOptions(
-[property: CommandSwitch("--group-email")] string GroupEmail,
-[property: CommandSwitch("--member-email")] string MemberEmail
+[property: CliOption("--group-email")] string GroupEmail,
+[property: CliOption("--member-email")] string MemberEmail
 ) : GcloudOptions
 {
-    [CommandSwitch("--update-roles-params")]
+    [CliOption("--update-roles-params")]
     public string? UpdateRolesParams { get; set; }
 
-    [CommandSwitch("--add-roles")]
+    [CliOption("--add-roles")]
     public string? AddRoles { get; set; }
 
-    [CommandSwitch("--remove-roles")]
+    [CliOption("--remove-roles")]
     public string[]? RemoveRoles { get; set; }
 }

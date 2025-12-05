@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns-resolver", "inbound-endpoint", "create")]
+[CliSubCommand("dns-resolver", "inbound-endpoint", "create")]
 public record AzDnsResolverInboundEndpointCreateOptions(
-[property: CommandSwitch("--dns-resolver-name")] string DnsResolverName,
-[property: CommandSwitch("--inbound-endpoint-name")] string InboundEndpointName,
-[property: CommandSwitch("--ip-configurations")] string IpConfigurations,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--dns-resolver-name")] string DnsResolverName,
+[property: CliOption("--inbound-endpoint-name")] string InboundEndpointName,
+[property: CliOption("--ip-configurations")] string IpConfigurations,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--if-none-match")]
+    [CliOption("--if-none-match")]
     public string? IfNoneMatch { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

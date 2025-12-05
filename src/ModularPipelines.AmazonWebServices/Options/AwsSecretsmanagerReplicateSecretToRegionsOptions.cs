@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("secretsmanager", "replicate-secret-to-regions")]
+[CliCommand("secretsmanager", "replicate-secret-to-regions")]
 public record AwsSecretsmanagerReplicateSecretToRegionsOptions(
-[property: CommandSwitch("--secret-id")] string SecretId,
-[property: CommandSwitch("--add-replica-regions")] string[] AddReplicaRegions
+[property: CliOption("--secret-id")] string SecretId,
+[property: CliOption("--add-replica-regions")] string[] AddReplicaRegions
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

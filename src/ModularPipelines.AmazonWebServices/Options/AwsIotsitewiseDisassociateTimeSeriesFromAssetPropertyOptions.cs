@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotsitewise", "disassociate-time-series-from-asset-property")]
+[CliCommand("iotsitewise", "disassociate-time-series-from-asset-property")]
 public record AwsIotsitewiseDisassociateTimeSeriesFromAssetPropertyOptions(
-[property: CommandSwitch("--alias")] string Alias,
-[property: CommandSwitch("--asset-id")] string AssetId,
-[property: CommandSwitch("--property-id")] string PropertyId
+[property: CliOption("--alias")] string Alias,
+[property: CliOption("--asset-id")] string AssetId,
+[property: CliOption("--property-id")] string PropertyId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

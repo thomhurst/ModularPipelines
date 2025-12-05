@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "config", "soft-delete", "show")]
+[CliSubCommand("acr", "config", "soft-delete", "show")]
 public record AzAcrConfigSoftDeleteShowOptions(
-[property: CommandSwitch("--registry")] string Registry
+[property: CliOption("--registry")] string Registry
 ) : AzOptions;

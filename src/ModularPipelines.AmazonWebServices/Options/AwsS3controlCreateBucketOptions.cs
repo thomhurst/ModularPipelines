@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3control", "create-bucket")]
+[CliCommand("s3control", "create-bucket")]
 public record AwsS3controlCreateBucketOptions(
-[property: CommandSwitch("--bucket")] string Bucket
+[property: CliOption("--bucket")] string Bucket
 ) : AwsOptions
 {
-    [CommandSwitch("--acl")]
+    [CliOption("--acl")]
     public string? Acl { get; set; }
 
-    [CommandSwitch("--create-bucket-configuration")]
+    [CliOption("--create-bucket-configuration")]
     public string? CreateBucketConfiguration { get; set; }
 
-    [CommandSwitch("--grant-full-control")]
+    [CliOption("--grant-full-control")]
     public string? GrantFullControl { get; set; }
 
-    [CommandSwitch("--grant-read")]
+    [CliOption("--grant-read")]
     public string? GrantRead { get; set; }
 
-    [CommandSwitch("--grant-read-acp")]
+    [CliOption("--grant-read-acp")]
     public string? GrantReadAcp { get; set; }
 
-    [CommandSwitch("--grant-write")]
+    [CliOption("--grant-write")]
     public string? GrantWrite { get; set; }
 
-    [CommandSwitch("--grant-write-acp")]
+    [CliOption("--grant-write-acp")]
     public string? GrantWriteAcp { get; set; }
 
-    [CommandSwitch("--outpost-id")]
+    [CliOption("--outpost-id")]
     public string? OutpostId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

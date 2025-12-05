@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "cassandra", "table", "update")]
+[CliSubCommand("cosmosdb", "cassandra", "table", "update")]
 public record AzCosmosdbCassandraTableUpdateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--keyspace-name")] string KeyspaceName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--keyspace-name")] string KeyspaceName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--analytical-storage-ttl")]
+    [CliOption("--analytical-storage-ttl")]
     public string? AnalyticalStorageTtl { get; set; }
 
-    [CommandSwitch("--schema")]
+    [CliOption("--schema")]
     public string? Schema { get; set; }
 
-    [CommandSwitch("--ttl")]
+    [CliOption("--ttl")]
     public string? Ttl { get; set; }
 }

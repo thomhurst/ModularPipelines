@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "routers", "add-interface")]
+[CliCommand("compute", "routers", "add-interface")]
 public record GcloudComputeRoutersAddInterfaceOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--interface-name")] string InterfaceName,
-[property: CommandSwitch("--interconnect-attachment")] string InterconnectAttachment,
-[property: CommandSwitch("--interconnect-attachment-region")] string InterconnectAttachmentRegion,
-[property: CommandSwitch("--subnetwork")] string Subnetwork,
-[property: CommandSwitch("--subnetwork-region")] string SubnetworkRegion,
-[property: CommandSwitch("--vpn-tunnel")] string VpnTunnel,
-[property: CommandSwitch("--vpn-tunnel-region")] string VpnTunnelRegion
+[property: CliArgument] string Name,
+[property: CliOption("--interface-name")] string InterfaceName,
+[property: CliOption("--interconnect-attachment")] string InterconnectAttachment,
+[property: CliOption("--interconnect-attachment-region")] string InterconnectAttachmentRegion,
+[property: CliOption("--subnetwork")] string Subnetwork,
+[property: CliOption("--subnetwork-region")] string SubnetworkRegion,
+[property: CliOption("--vpn-tunnel")] string VpnTunnel,
+[property: CliOption("--vpn-tunnel-region")] string VpnTunnelRegion
 ) : GcloudOptions
 {
-    [CommandSwitch("--ip-address")]
+    [CliOption("--ip-address")]
     public string? IpAddress { get; set; }
 
-    [CommandSwitch("--mask-length")]
+    [CliOption("--mask-length")]
     public string? MaskLength { get; set; }
 
-    [CommandSwitch("--redundant-interface")]
+    [CliOption("--redundant-interface")]
     public string? RedundantInterface { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

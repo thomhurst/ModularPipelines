@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "browse")]
+[CliCommand("aks", "browse")]
 public class AzAksBrowseAksPreview
 {
     public AzAksBrowseAksPreview(

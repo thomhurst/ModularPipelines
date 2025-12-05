@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "fleet", "scopes", "namespaces", "get-credentials")]
+[CliCommand("container", "fleet", "scopes", "namespaces", "get-credentials")]
 public record GcloudContainerFleetScopesNamespacesGetCredentialsOptions(
-[property: PositionalArgument] string Namespace
+[property: CliArgument] string Namespace
 ) : GcloudOptions
 {
-    [CommandSwitch("--membership")]
+    [CliOption("--membership")]
     public string? Membership { get; set; }
 
-    [CommandSwitch("--membership-location")]
+    [CliOption("--membership-location")]
     public string? MembershipLocation { get; set; }
 
-    [CommandSwitch("--set-namespace-in-config")]
+    [CliOption("--set-namespace-in-config")]
     public string? SetNamespaceInConfig { get; set; }
 }

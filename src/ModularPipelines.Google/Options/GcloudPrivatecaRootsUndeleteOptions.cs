@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("privateca", "roots", "undelete")]
+[CliCommand("privateca", "roots", "undelete")]
 public record GcloudPrivatecaRootsUndeleteOptions(
-[property: PositionalArgument] string CertificateAuthority,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Pool
+[property: CliArgument] string CertificateAuthority,
+[property: CliArgument] string Location,
+[property: CliArgument] string Pool
 ) : GcloudOptions;

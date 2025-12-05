@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configservice", "put-conformance-pack")]
+[CliCommand("configservice", "put-conformance-pack")]
 public record AwsConfigservicePutConformancePackOptions(
-[property: CommandSwitch("--conformance-pack-name")] string ConformancePackName
+[property: CliOption("--conformance-pack-name")] string ConformancePackName
 ) : AwsOptions
 {
-    [CommandSwitch("--template-s3-uri")]
+    [CliOption("--template-s3-uri")]
     public string? TemplateS3Uri { get; set; }
 
-    [CommandSwitch("--template-body")]
+    [CliOption("--template-body")]
     public string? TemplateBody { get; set; }
 
-    [CommandSwitch("--delivery-s3-bucket")]
+    [CliOption("--delivery-s3-bucket")]
     public string? DeliveryS3Bucket { get; set; }
 
-    [CommandSwitch("--delivery-s3-key-prefix")]
+    [CliOption("--delivery-s3-key-prefix")]
     public string? DeliveryS3KeyPrefix { get; set; }
 
-    [CommandSwitch("--conformance-pack-input-parameters")]
+    [CliOption("--conformance-pack-input-parameters")]
     public string[]? ConformancePackInputParameters { get; set; }
 
-    [CommandSwitch("--template-ssm-document-details")]
+    [CliOption("--template-ssm-document-details")]
     public string? TemplateSsmDocumentDetails { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("image")]
+[CliCommand("image")]
 public class AzImageBuilder
 {
     public AzImageBuilder(

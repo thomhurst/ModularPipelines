@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("stack")]
+[CliCommand("stack")]
 [ExcludeFromCodeCoverage]
 public record DockerStackOptions : DockerOptions
 {
-    [CommandSwitch("--orchestrator")]
+    [CliOption("--orchestrator")]
     public virtual string? Orchestrator { get; set; }
 }

@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeartifact", "login")]
+[CliCommand("codeartifact", "login")]
 public record AwsCodeartifactLoginOptions(
-[property: CommandSwitch("--tool")] string AwsCodeTool,
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--repository")] string Repository
+[property: CliOption("--tool")] string AwsCodeTool,
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--repository")] string Repository
 ) : AwsOptions
 {
-    [CommandSwitch("--domain-owner")]
+    [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CommandSwitch("--duration-seconds")]
+    [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 }

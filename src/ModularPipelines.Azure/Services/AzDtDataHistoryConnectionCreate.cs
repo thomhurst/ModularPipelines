@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "data-history", "connection")]
+[CliCommand("dt", "data-history", "connection")]
 public class AzDtDataHistoryConnectionCreate
 {
     public AzDtDataHistoryConnectionCreate(

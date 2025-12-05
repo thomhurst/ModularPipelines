@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "share")]
+[CliCommand("storage", "share")]
 public class AzStorageShareMetadata
 {
     public AzStorageShareMetadata(

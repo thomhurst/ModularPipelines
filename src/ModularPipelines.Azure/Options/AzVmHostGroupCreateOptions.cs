@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "host", "group", "create")]
+[CliSubCommand("vm", "host", "group", "create")]
 public record AzVmHostGroupCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--platform-fault-domain-count")] int PlatformFaultDomainCount,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--platform-fault-domain-count")] int PlatformFaultDomainCount,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--automatic-placement")]
+    [CliFlag("--automatic-placement")]
     public bool? AutomaticPlacement { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [BooleanCommandSwitch("--ultra-ssd-enabled")]
+    [CliFlag("--ultra-ssd-enabled")]
     public bool? UltraSsdEnabled { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

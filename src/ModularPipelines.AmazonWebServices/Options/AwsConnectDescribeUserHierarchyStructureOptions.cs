@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "describe-user-hierarchy-structure")]
+[CliCommand("connect", "describe-user-hierarchy-structure")]
 public record AwsConnectDescribeUserHierarchyStructureOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId
+[property: CliOption("--instance-id")] string InstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

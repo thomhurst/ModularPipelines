@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pipes", "list-pipes")]
+[CliCommand("pipes", "list-pipes")]
 public record AwsPipesListPipesOptions : AwsOptions
 {
-    [CommandSwitch("--current-state")]
+    [CliOption("--current-state")]
     public string? CurrentState { get; set; }
 
-    [CommandSwitch("--desired-state")]
+    [CliOption("--desired-state")]
     public string? DesiredState { get; set; }
 
-    [CommandSwitch("--name-prefix")]
+    [CliOption("--name-prefix")]
     public string? NamePrefix { get; set; }
 
-    [CommandSwitch("--source-prefix")]
+    [CliOption("--source-prefix")]
     public string? SourcePrefix { get; set; }
 
-    [CommandSwitch("--target-prefix")]
+    [CliOption("--target-prefix")]
     public string? TargetPrefix { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

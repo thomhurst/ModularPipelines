@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "task", "file", "show")]
+[CliSubCommand("batch", "task", "file", "show")]
 public record AzBatchTaskFileShowOptions(
-[property: CommandSwitch("--file-path")] string FilePath,
-[property: CommandSwitch("--job-id")] string JobId,
-[property: CommandSwitch("--task-id")] string TaskId
+[property: CliOption("--file-path")] string FilePath,
+[property: CliOption("--job-id")] string JobId,
+[property: CliOption("--task-id")] string TaskId
 ) : AzOptions
 {
-    [CommandSwitch("--account-endpoint")]
+    [CliOption("--account-endpoint")]
     public int? AccountEndpoint { get; set; }
 
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--if-modified-since")]
+    [CliOption("--if-modified-since")]
     public string? IfModifiedSince { get; set; }
 
-    [CommandSwitch("--if-unmodified-since")]
+    [CliOption("--if-unmodified-since")]
     public string? IfUnmodifiedSince { get; set; }
 }

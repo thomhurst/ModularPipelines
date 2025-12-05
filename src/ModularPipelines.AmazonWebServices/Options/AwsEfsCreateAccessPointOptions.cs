@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("efs", "create-access-point")]
+[CliCommand("efs", "create-access-point")]
 public record AwsEfsCreateAccessPointOptions(
-[property: CommandSwitch("--file-system-id")] string FileSystemId
+[property: CliOption("--file-system-id")] string FileSystemId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--posix-user")]
+    [CliOption("--posix-user")]
     public string? PosixUser { get; set; }
 
-    [CommandSwitch("--root-directory")]
+    [CliOption("--root-directory")]
     public string? RootDirectory { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

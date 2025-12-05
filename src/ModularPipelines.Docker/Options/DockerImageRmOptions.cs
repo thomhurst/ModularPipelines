@@ -15,12 +15,12 @@ public record DockerImageRmOptions : DockerOptions
         Image = image;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public IEnumerable<string>? Image { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual IEnumerable<string>? Image { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--no-prune")]
+    [CliFlag("--no-prune")]
     public virtual bool? NoPrune { get; set; }
 }

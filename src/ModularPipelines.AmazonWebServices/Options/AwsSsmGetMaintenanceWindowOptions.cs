@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "get-maintenance-window")]
+[CliCommand("ssm", "get-maintenance-window")]
 public record AwsSsmGetMaintenanceWindowOptions(
-[property: CommandSwitch("--window-id")] string WindowId
+[property: CliOption("--window-id")] string WindowId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

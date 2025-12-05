@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resiliencehub", "describe-app")]
+[CliCommand("resiliencehub", "describe-app")]
 public record AwsResiliencehubDescribeAppOptions(
-[property: CommandSwitch("--app-arn")] string AppArn
+[property: CliOption("--app-arn")] string AppArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

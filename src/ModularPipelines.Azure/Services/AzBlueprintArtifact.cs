@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("blueprint")]
+[CliCommand("blueprint")]
 public class AzBlueprintArtifact
 {
     public AzBlueprintArtifact(

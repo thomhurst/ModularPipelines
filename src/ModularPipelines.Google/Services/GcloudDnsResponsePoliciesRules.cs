@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns", "response-policies")]
+[CliCommand("dns", "response-policies")]
 public class GcloudDnsResponsePoliciesRules
 {
     public GcloudDnsResponsePoliciesRules(

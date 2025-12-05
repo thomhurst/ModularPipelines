@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "report-instance-status")]
+[CliCommand("ec2", "report-instance-status")]
 public record AwsEc2ReportInstanceStatusOptions(
-[property: CommandSwitch("--instances")] string[] Instances,
-[property: CommandSwitch("--reason-codes")] string[] ReasonCodes,
-[property: CommandSwitch("--status")] string Status
+[property: CliOption("--instances")] string[] Instances,
+[property: CliOption("--reason-codes")] string[] ReasonCodes,
+[property: CliOption("--status")] string Status
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public long? EndTime { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public long? StartTime { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

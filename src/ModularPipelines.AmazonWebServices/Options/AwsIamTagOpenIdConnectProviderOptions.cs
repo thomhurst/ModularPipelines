@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "tag-open-id-connect-provider")]
+[CliCommand("iam", "tag-open-id-connect-provider")]
 public record AwsIamTagOpenIdConnectProviderOptions(
-[property: CommandSwitch("--open-id-connect-provider-arn")] string OpenIdConnectProviderArn,
-[property: CommandSwitch("--tags")] string[] Tags
+[property: CliOption("--open-id-connect-provider-arn")] string OpenIdConnectProviderArn,
+[property: CliOption("--tags")] string[] Tags
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

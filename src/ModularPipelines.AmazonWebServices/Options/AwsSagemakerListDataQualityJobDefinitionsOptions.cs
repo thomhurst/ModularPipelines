@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "list-data-quality-job-definitions")]
+[CliCommand("sagemaker", "list-data-quality-job-definitions")]
 public record AwsSagemakerListDataQualityJobDefinitionsOptions : AwsOptions
 {
-    [CommandSwitch("--endpoint-name")]
+    [CliOption("--endpoint-name")]
     public string? EndpointName { get; set; }
 
-    [CommandSwitch("--sort-by")]
+    [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
-    [CommandSwitch("--sort-order")]
+    [CliOption("--sort-order")]
     public string? SortOrder { get; set; }
 
-    [CommandSwitch("--name-contains")]
+    [CliOption("--name-contains")]
     public string? NameContains { get; set; }
 
-    [CommandSwitch("--creation-time-before")]
+    [CliOption("--creation-time-before")]
     public long? CreationTimeBefore { get; set; }
 
-    [CommandSwitch("--creation-time-after")]
+    [CliOption("--creation-time-after")]
     public long? CreationTimeAfter { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

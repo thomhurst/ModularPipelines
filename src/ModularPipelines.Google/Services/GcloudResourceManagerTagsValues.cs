@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-manager", "tags")]
+[CliCommand("resource-manager", "tags")]
 public class GcloudResourceManagerTagsValues
 {
     public GcloudResourceManagerTagsValues(

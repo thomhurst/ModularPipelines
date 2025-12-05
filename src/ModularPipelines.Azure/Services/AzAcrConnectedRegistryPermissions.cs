@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "connected-registry")]
+[CliCommand("acr", "connected-registry")]
 public class AzAcrConnectedRegistryPermissions
 {
     public AzAcrConnectedRegistryPermissions(

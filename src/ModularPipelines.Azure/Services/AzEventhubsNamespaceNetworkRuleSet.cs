@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventhubs", "namespace")]
+[CliCommand("eventhubs", "namespace")]
 public class AzEventhubsNamespaceNetworkRuleSet
 {
     public AzEventhubsNamespaceNetworkRuleSet(

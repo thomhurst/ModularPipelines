@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecatalyst", "create-dev-environment")]
+[CliCommand("codecatalyst", "create-dev-environment")]
 public record AwsCodecatalystCreateDevEnvironmentOptions(
-[property: CommandSwitch("--space-name")] string SpaceName,
-[property: CommandSwitch("--project-name")] string ProjectName,
-[property: CommandSwitch("--instance-type")] string InstanceType,
-[property: CommandSwitch("--persistent-storage")] string PersistentStorage
+[property: CliOption("--space-name")] string SpaceName,
+[property: CliOption("--project-name")] string ProjectName,
+[property: CliOption("--instance-type")] string InstanceType,
+[property: CliOption("--persistent-storage")] string PersistentStorage
 ) : AwsOptions
 {
-    [CommandSwitch("--repositories")]
+    [CliOption("--repositories")]
     public string[]? Repositories { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--alias")]
+    [CliOption("--alias")]
     public string? Alias { get; set; }
 
-    [CommandSwitch("--ides")]
+    [CliOption("--ides")]
     public string[]? Ides { get; set; }
 
-    [CommandSwitch("--inactivity-timeout-minutes")]
+    [CliOption("--inactivity-timeout-minutes")]
     public int? InactivityTimeoutMinutes { get; set; }
 
-    [CommandSwitch("--vpc-connection-name")]
+    [CliOption("--vpc-connection-name")]
     public string? VpcConnectionName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

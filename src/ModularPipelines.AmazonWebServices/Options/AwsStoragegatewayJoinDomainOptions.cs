@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "join-domain")]
+[CliCommand("storagegateway", "join-domain")]
 public record AwsStoragegatewayJoinDomainOptions(
-[property: CommandSwitch("--gateway-arn")] string GatewayArn,
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--user-name")] string UserName,
-[property: CommandSwitch("--password")] string Password
+[property: CliOption("--gateway-arn")] string GatewayArn,
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--user-name")] string UserName,
+[property: CliOption("--password")] string Password
 ) : AwsOptions
 {
-    [CommandSwitch("--organizational-unit")]
+    [CliOption("--organizational-unit")]
     public string? OrganizationalUnit { get; set; }
 
-    [CommandSwitch("--domain-controllers")]
+    [CliOption("--domain-controllers")]
     public string[]? DomainControllers { get; set; }
 
-    [CommandSwitch("--timeout-in-seconds")]
+    [CliOption("--timeout-in-seconds")]
     public int? TimeoutInSeconds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

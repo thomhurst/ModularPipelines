@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qconnect", "notify-recommendations-received")]
+[CliCommand("qconnect", "notify-recommendations-received")]
 public record AwsQconnectNotifyRecommendationsReceivedOptions(
-[property: CommandSwitch("--assistant-id")] string AssistantId,
-[property: CommandSwitch("--recommendation-ids")] string[] RecommendationIds,
-[property: CommandSwitch("--session-id")] string SessionId
+[property: CliOption("--assistant-id")] string AssistantId,
+[property: CliOption("--recommendation-ids")] string[] RecommendationIds,
+[property: CliOption("--session-id")] string SessionId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

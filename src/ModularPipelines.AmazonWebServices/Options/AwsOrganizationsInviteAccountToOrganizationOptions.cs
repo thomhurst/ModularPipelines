@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("organizations", "invite-account-to-organization")]
+[CliCommand("organizations", "invite-account-to-organization")]
 public record AwsOrganizationsInviteAccountToOrganizationOptions(
-[property: CommandSwitch("--target")] string Target
+[property: CliOption("--target")] string Target
 ) : AwsOptions
 {
-    [CommandSwitch("--notes")]
+    [CliOption("--notes")]
     public string? Notes { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

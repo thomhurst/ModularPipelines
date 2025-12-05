@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "cluster", "baremetalmachinekeyset", "show")]
+[CliSubCommand("networkcloud", "cluster", "baremetalmachinekeyset", "show")]
 public record AzNetworkcloudClusterBaremetalmachinekeysetShowOptions : AzOptions
 {
-    [CommandSwitch("--bare-metal-machine-key-set-name")]
+    [CliOption("--bare-metal-machine-key-set-name")]
     public string? BareMetalMachineKeySetName { get; set; }
 
-    [CommandSwitch("--cluster-name")]
+    [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

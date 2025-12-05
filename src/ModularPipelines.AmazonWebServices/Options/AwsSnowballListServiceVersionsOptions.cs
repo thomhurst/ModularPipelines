@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("snowball", "list-service-versions")]
+[CliCommand("snowball", "list-service-versions")]
 public record AwsSnowballListServiceVersionsOptions(
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--service-name")] string ServiceName
 ) : AwsOptions
 {
-    [CommandSwitch("--dependent-services")]
+    [CliOption("--dependent-services")]
     public string[]? DependentServices { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

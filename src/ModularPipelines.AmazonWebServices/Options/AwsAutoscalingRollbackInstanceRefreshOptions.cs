@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("autoscaling", "rollback-instance-refresh")]
+[CliCommand("autoscaling", "rollback-instance-refresh")]
 public record AwsAutoscalingRollbackInstanceRefreshOptions(
-[property: CommandSwitch("--auto-scaling-group-name")] string AutoScalingGroupName
+[property: CliOption("--auto-scaling-group-name")] string AutoScalingGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

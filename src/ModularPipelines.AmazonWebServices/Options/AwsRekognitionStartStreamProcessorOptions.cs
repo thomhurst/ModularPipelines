@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "start-stream-processor")]
+[CliCommand("rekognition", "start-stream-processor")]
 public record AwsRekognitionStartStreamProcessorOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--start-selector")]
+    [CliOption("--start-selector")]
     public string? StartSelector { get; set; }
 
-    [CommandSwitch("--stop-selector")]
+    [CliOption("--stop-selector")]
     public string? StopSelector { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

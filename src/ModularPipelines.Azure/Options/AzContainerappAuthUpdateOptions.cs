@@ -4,63 +4,63 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "auth", "update")]
+[CliSubCommand("containerapp", "auth", "update")]
 public record AzContainerappAuthUpdateOptions : AzOptions
 {
-    [CommandSwitch("--action")]
+    [CliOption("--action")]
     public string? Action { get; set; }
 
-    [CommandSwitch("--config-file-path")]
+    [CliOption("--config-file-path")]
     public string? ConfigFilePath { get; set; }
 
-    [CommandSwitch("--custom-host-header")]
+    [CliOption("--custom-host-header")]
     public string? CustomHostHeader { get; set; }
 
-    [CommandSwitch("--custom-proto-header")]
+    [CliOption("--custom-proto-header")]
     public string? CustomProtoHeader { get; set; }
 
-    [BooleanCommandSwitch("--enabled")]
+    [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
 
-    [CommandSwitch("--excluded-paths")]
+    [CliOption("--excluded-paths")]
     public string? ExcludedPaths { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--proxy-convention")]
+    [CliOption("--proxy-convention")]
     public string? ProxyConvention { get; set; }
 
-    [CommandSwitch("--redirect-provider")]
+    [CliOption("--redirect-provider")]
     public string? RedirectProvider { get; set; }
 
-    [BooleanCommandSwitch("--require-https")]
+    [CliFlag("--require-https")]
     public bool? RequireHttps { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--runtime-version")]
+    [CliOption("--runtime-version")]
     public string? RuntimeVersion { get; set; }
 
-    [CommandSwitch("--sas-url-secret")]
+    [CliOption("--sas-url-secret")]
     public string? SasUrlSecret { get; set; }
 
-    [CommandSwitch("--sas-url-secret-name")]
+    [CliOption("--sas-url-secret-name")]
     public string? SasUrlSecretName { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--token-store")]
+    [CliFlag("--token-store")]
     public bool? TokenStore { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

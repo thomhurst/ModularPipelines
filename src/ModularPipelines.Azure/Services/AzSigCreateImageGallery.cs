@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sig", "create")]
+[CliCommand("sig", "create")]
 public class AzSigCreateImageGallery
 {
     public AzSigCreateImageGallery(

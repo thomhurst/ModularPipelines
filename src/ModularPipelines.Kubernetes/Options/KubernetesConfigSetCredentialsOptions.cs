@@ -3,28 +3,28 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("config", "set-credentials")]
+[CliCommand("config", "set-credentials")]
 [ExcludeFromCodeCoverage]
-public record KubernetesConfigSetCredentialsOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesConfigSetCredentialsOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [CommandEqualsSeparatorSwitch("--auth-provider", SwitchValueSeparator = " ")]
-    public string? AuthProvider { get; set; }
+    [CliOption("--auth-provider")]
+    public virtual string? AuthProvider { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--auth-provider-arg", SwitchValueSeparator = " ")]
-    public string[]? AuthProviderArg { get; set; }
+    [CliOption("--auth-provider-arg")]
+    public virtual string[]? AuthProviderArg { get; set; }
 
-    [BooleanCommandSwitch("--embed-certs")]
+    [CliFlag("--embed-certs")]
     public virtual bool? EmbedCerts { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--exec-api-version", SwitchValueSeparator = " ")]
-    public string? ExecApiVersion { get; set; }
+    [CliOption("--exec-api-version")]
+    public virtual string? ExecApiVersion { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--exec-arg", SwitchValueSeparator = " ")]
-    public string[]? ExecArg { get; set; }
+    [CliOption("--exec-arg")]
+    public virtual string[]? ExecArg { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--exec-command", SwitchValueSeparator = " ")]
-    public string? ExecCommand { get; set; }
+    [CliOption("--exec-command")]
+    public virtual string? ExecCommand { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--exec-env", SwitchValueSeparator = " ")]
-    public string[]? ExecEnv { get; set; }
+    [CliOption("--exec-env")]
+    public virtual string[]? ExecEnv { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hdinsight", "autoscale")]
+[CliCommand("hdinsight", "autoscale")]
 public class AzHdinsightAutoscaleCondition
 {
     public AzHdinsightAutoscaleCondition(

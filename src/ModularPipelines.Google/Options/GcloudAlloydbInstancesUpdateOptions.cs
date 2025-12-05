@@ -4,43 +4,43 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("alloydb", "instances", "update")]
+[CliCommand("alloydb", "instances", "update")]
 public record GcloudAlloydbInstancesUpdateOptions(
-[property: PositionalArgument] string Instance,
-[property: CommandSwitch("--cluster")] string Cluster,
-[property: CommandSwitch("--region")] string Region
+[property: CliArgument] string Instance,
+[property: CliOption("--cluster")] string Cluster,
+[property: CliOption("--region")] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--availability-type")]
+    [CliOption("--availability-type")]
     public string? AvailabilityType { get; set; }
 
-    [CommandSwitch("--cpu-count")]
+    [CliOption("--cpu-count")]
     public string? CpuCount { get; set; }
 
-    [CommandSwitch("--database-flags")]
+    [CliOption("--database-flags")]
     public string[]? DatabaseFlags { get; set; }
 
-    [CommandSwitch("--insights-config-query-plans-per-minute")]
+    [CliOption("--insights-config-query-plans-per-minute")]
     public string? InsightsConfigQueryPlansPerMinute { get; set; }
 
-    [CommandSwitch("--insights-config-query-string-length")]
+    [CliOption("--insights-config-query-string-length")]
     public string? InsightsConfigQueryStringLength { get; set; }
 
-    [CommandSwitch("--[no-]insights-config-record-application-tags")]
+    [CliOption("--[no-]insights-config-record-application-tags")]
     public string[]? NoInsightsConfigRecordApplicationTags { get; set; }
 
-    [CommandSwitch("--[no-]insights-config-record-client-address")]
+    [CliOption("--[no-]insights-config-record-client-address")]
     public string[]? NoInsightsConfigRecordClientAddress { get; set; }
 
-    [CommandSwitch("--read-pool-node-count")]
+    [CliOption("--read-pool-node-count")]
     public string? ReadPoolNodeCount { get; set; }
 
-    [CommandSwitch("--[no-]require-connectors")]
+    [CliOption("--[no-]require-connectors")]
     public string[]? NoRequireConnectors { get; set; }
 
-    [CommandSwitch("--ssl-mode")]
+    [CliOption("--ssl-mode")]
     public string? SslMode { get; set; }
 }

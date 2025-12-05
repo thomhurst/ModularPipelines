@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-explorer-2", "batch-get-view")]
+[CliCommand("resource-explorer-2", "batch-get-view")]
 public record AwsResourceExplorer2BatchGetViewOptions : AwsOptions
 {
-    [CommandSwitch("--view-arns")]
+    [CliOption("--view-arns")]
     public string[]? ViewArns { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

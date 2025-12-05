@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-voice", "create-sip-rule")]
+[CliCommand("chime-sdk-voice", "create-sip-rule")]
 public record AwsChimeSdkVoiceCreateSipRuleOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--trigger-type")] string TriggerType,
-[property: CommandSwitch("--trigger-value")] string TriggerValue
+[property: CliOption("--name")] string Name,
+[property: CliOption("--trigger-type")] string TriggerType,
+[property: CliOption("--trigger-value")] string TriggerValue
 ) : AwsOptions
 {
-    [CommandSwitch("--target-applications")]
+    [CliOption("--target-applications")]
     public string[]? TargetApplications { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

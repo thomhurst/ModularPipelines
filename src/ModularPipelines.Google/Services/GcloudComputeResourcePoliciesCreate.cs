@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "resource-policies")]
+[CliCommand("compute", "resource-policies")]
 public class GcloudComputeResourcePoliciesCreate
 {
     public GcloudComputeResourcePoliciesCreate(

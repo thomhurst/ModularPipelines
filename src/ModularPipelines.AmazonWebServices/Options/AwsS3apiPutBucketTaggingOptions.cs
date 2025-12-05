@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3api", "put-bucket-tagging")]
+[CliCommand("s3api", "put-bucket-tagging")]
 public record AwsS3apiPutBucketTaggingOptions(
-[property: CommandSwitch("--bucket")] string Bucket,
-[property: CommandSwitch("--tagging")] string Tagging
+[property: CliOption("--bucket")] string Bucket,
+[property: CliOption("--tagging")] string Tagging
 ) : AwsOptions
 {
-    [CommandSwitch("--content-md5")]
+    [CliOption("--content-md5")]
     public string? ContentMd5 { get; set; }
 
-    [CommandSwitch("--checksum-algorithm")]
+    [CliOption("--checksum-algorithm")]
     public string? ChecksumAlgorithm { get; set; }
 
-    [CommandSwitch("--expected-bucket-owner")]
+    [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

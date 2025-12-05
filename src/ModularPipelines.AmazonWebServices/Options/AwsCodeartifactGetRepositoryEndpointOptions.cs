@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeartifact", "get-repository-endpoint")]
+[CliCommand("codeartifact", "get-repository-endpoint")]
 public record AwsCodeartifactGetRepositoryEndpointOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--repository")] string Repository,
-[property: CommandSwitch("--format")] string Format
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--repository")] string Repository,
+[property: CliOption("--format")] string Format
 ) : AwsOptions
 {
-    [CommandSwitch("--domain-owner")]
+    [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

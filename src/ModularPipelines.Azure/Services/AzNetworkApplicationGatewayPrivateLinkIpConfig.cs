@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "private-link")]
+[CliCommand("network", "application-gateway", "private-link")]
 public class AzNetworkApplicationGatewayPrivateLinkIpConfig
 {
     public AzNetworkApplicationGatewayPrivateLinkIpConfig(

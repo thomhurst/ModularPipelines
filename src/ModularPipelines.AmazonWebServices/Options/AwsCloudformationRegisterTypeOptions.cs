@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation", "register-type")]
+[CliCommand("cloudformation", "register-type")]
 public record AwsCloudformationRegisterTypeOptions(
-[property: CommandSwitch("--type-name")] string TypeName,
-[property: CommandSwitch("--schema-handler-package")] string SchemaHandlerPackage
+[property: CliOption("--type-name")] string TypeName,
+[property: CliOption("--schema-handler-package")] string SchemaHandlerPackage
 ) : AwsOptions
 {
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--logging-config")]
+    [CliOption("--logging-config")]
     public string? LoggingConfig { get; set; }
 
-    [CommandSwitch("--execution-role-arn")]
+    [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

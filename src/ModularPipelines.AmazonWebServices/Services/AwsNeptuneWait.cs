@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptune")]
+[CliCommand("neptune")]
 public class AwsNeptuneWait
 {
     public AwsNeptuneWait(

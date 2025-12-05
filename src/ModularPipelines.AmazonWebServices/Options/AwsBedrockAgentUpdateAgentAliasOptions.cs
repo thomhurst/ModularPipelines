@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bedrock-agent", "update-agent-alias")]
+[CliCommand("bedrock-agent", "update-agent-alias")]
 public record AwsBedrockAgentUpdateAgentAliasOptions(
-[property: CommandSwitch("--agent-id")] string AgentId,
-[property: CommandSwitch("--agent-alias-id")] string AgentAliasId,
-[property: CommandSwitch("--agent-alias-name")] string AgentAliasName
+[property: CliOption("--agent-id")] string AgentId,
+[property: CliOption("--agent-alias-id")] string AgentAliasId,
+[property: CliOption("--agent-alias-name")] string AgentAliasName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--routing-configuration")]
+    [CliOption("--routing-configuration")]
     public string[]? RoutingConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

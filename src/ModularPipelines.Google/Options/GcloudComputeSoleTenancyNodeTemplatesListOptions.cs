@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "sole-tenancy", "node-templates", "list")]
+[CliCommand("compute", "sole-tenancy", "node-templates", "list")]
 public record GcloudComputeSoleTenancyNodeTemplatesListOptions : GcloudOptions;

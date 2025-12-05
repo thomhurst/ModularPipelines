@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "snapshot", "list")]
+[CliSubCommand("netappfiles", "snapshot", "list")]
 public record AzNetappfilesSnapshotListOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--pool-name")] string PoolName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--volume-name")] string VolumeName
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--pool-name")] string PoolName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--volume-name")] string VolumeName
 ) : AzOptions;

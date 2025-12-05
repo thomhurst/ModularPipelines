@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mturk", "delete-worker-block")]
+[CliCommand("mturk", "delete-worker-block")]
 public record AwsMturkDeleteWorkerBlockOptions(
-[property: CommandSwitch("--worker-id")] string WorkerId
+[property: CliOption("--worker-id")] string WorkerId
 ) : AwsOptions
 {
-    [CommandSwitch("--reason")]
+    [CliOption("--reason")]
     public string? Reason { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

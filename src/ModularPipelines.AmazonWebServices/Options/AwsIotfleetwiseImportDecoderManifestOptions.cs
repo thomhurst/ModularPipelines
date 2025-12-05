@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotfleetwise", "import-decoder-manifest")]
+[CliCommand("iotfleetwise", "import-decoder-manifest")]
 public record AwsIotfleetwiseImportDecoderManifestOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--network-file-definitions")] string[] NetworkFileDefinitions
+[property: CliOption("--name")] string Name,
+[property: CliOption("--network-file-definitions")] string[] NetworkFileDefinitions
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

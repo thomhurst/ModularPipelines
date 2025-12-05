@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "describe-patch-properties")]
+[CliCommand("ssm", "describe-patch-properties")]
 public record AwsSsmDescribePatchPropertiesOptions(
-[property: CommandSwitch("--operating-system")] string OperatingSystem,
-[property: CommandSwitch("--property")] string Property
+[property: CliOption("--operating-system")] string OperatingSystem,
+[property: CliOption("--property")] string Property
 ) : AwsOptions
 {
-    [CommandSwitch("--patch-set")]
+    [CliOption("--patch-set")]
     public string? PatchSet { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

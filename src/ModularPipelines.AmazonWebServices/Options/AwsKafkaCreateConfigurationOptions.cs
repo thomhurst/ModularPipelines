@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kafka", "create-configuration")]
+[CliCommand("kafka", "create-configuration")]
 public record AwsKafkaCreateConfigurationOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--server-properties")] string ServerProperties
+[property: CliOption("--name")] string Name,
+[property: CliOption("--server-properties")] string ServerProperties
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--kafka-versions")]
+    [CliOption("--kafka-versions")]
     public string[]? KafkaVersions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

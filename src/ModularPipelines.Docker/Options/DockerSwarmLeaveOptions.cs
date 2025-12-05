@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("swarm", "leave")]
+[CliCommand("swarm", "leave")]
 [ExcludeFromCodeCoverage]
 public record DockerSwarmLeaveOptions : DockerOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 }

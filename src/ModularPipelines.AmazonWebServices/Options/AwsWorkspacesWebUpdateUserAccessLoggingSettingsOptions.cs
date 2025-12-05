@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces-web", "update-user-access-logging-settings")]
+[CliCommand("workspaces-web", "update-user-access-logging-settings")]
 public record AwsWorkspacesWebUpdateUserAccessLoggingSettingsOptions(
-[property: CommandSwitch("--user-access-logging-settings-arn")] string UserAccessLoggingSettingsArn
+[property: CliOption("--user-access-logging-settings-arn")] string UserAccessLoggingSettingsArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--kinesis-stream-arn")]
+    [CliOption("--kinesis-stream-arn")]
     public string? KinesisStreamArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

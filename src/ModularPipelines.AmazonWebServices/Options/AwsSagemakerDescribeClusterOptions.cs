@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "describe-cluster")]
+[CliCommand("sagemaker", "describe-cluster")]
 public record AwsSagemakerDescribeClusterOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName
+[property: CliOption("--cluster-name")] string ClusterName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

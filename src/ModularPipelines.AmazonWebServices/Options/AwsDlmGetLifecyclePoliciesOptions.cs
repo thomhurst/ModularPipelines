@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dlm", "get-lifecycle-policies")]
+[CliCommand("dlm", "get-lifecycle-policies")]
 public record AwsDlmGetLifecyclePoliciesOptions : AwsOptions
 {
-    [CommandSwitch("--policy-ids")]
+    [CliOption("--policy-ids")]
     public string[]? PolicyIds { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [CommandSwitch("--resource-types")]
+    [CliOption("--resource-types")]
     public string[]? ResourceTypes { get; set; }
 
-    [CommandSwitch("--target-tags")]
+    [CliOption("--target-tags")]
     public string[]? TargetTags { get; set; }
 
-    [CommandSwitch("--tags-to-add")]
+    [CliOption("--tags-to-add")]
     public string[]? TagsToAdd { get; set; }
 
-    [CommandSwitch("--default-policy-type")]
+    [CliOption("--default-policy-type")]
     public string? DefaultPolicyType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

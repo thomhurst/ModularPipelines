@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventhubs", "namespace", "authorization-rule", "show")]
+[CliSubCommand("eventhubs", "namespace", "authorization-rule", "show")]
 public record AzEventhubsNamespaceAuthorizationRuleShowOptions : AzOptions
 {
-    [CommandSwitch("--authorization-rule-name")]
+    [CliOption("--authorization-rule-name")]
     public string? AuthorizationRuleName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--namespace-name")]
+    [CliOption("--namespace-name")]
     public string? NamespaceName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

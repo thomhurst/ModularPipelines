@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "private-cloud")]
+[CliCommand("vmware", "private-cloud")]
 public class AzVmwarePrivateCloudIdentitySource
 {
     public AzVmwarePrivateCloudIdentitySource(

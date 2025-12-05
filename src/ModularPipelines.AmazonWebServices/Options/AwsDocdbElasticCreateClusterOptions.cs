@@ -5,34 +5,34 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("docdb-elastic", "create-cluster")]
+[CliCommand("docdb-elastic", "create-cluster")]
 public record AwsDocdbElasticCreateClusterOptions(
-[property: CommandSwitch("--admin-user-name")] string AdminUserName,
-[property: CommandSwitch("--admin-user-password")] string AdminUserPassword,
-[property: CommandSwitch("--auth-type")] string AuthType,
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--shard-capacity")] int ShardCapacity,
-[property: CommandSwitch("--shard-count")] int ShardCount
+[property: CliOption("--admin-user-name")] string AdminUserName,
+[property: CliOption("--admin-user-password")] string AdminUserPassword,
+[property: CliOption("--auth-type")] string AuthType,
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--shard-capacity")] int ShardCapacity,
+[property: CliOption("--shard-count")] int ShardCount
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--preferred-maintenance-window")]
+    [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
-    [CommandSwitch("--subnet-ids")]
+    [CliOption("--subnet-ids")]
     public string[]? SubnetIds { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids")]
     public string[]? VpcSecurityGroupIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

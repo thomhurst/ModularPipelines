@@ -5,14 +5,14 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("drs", "start-recovery")]
+[CliCommand("drs", "start-recovery")]
 public record AwsDrsStartRecoveryOptions(
-[property: CommandSwitch("--source-servers")] string[] SourceServers
+[property: CliOption("--source-servers")] string[] SourceServers
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,57 +4,57 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigee", "products", "create")]
+[CliCommand("apigee", "products", "create")]
 public record GcloudApigeeProductsCreateOptions(
-[property: PositionalArgument] string InternalName,
-[property: PositionalArgument] string Organization
+[property: CliArgument] string InternalName,
+[property: CliArgument] string Organization
 ) : GcloudOptions
 {
-    [CommandSwitch("--attributes")]
+    [CliOption("--attributes")]
     public string[]? Attributes { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [BooleanCommandSwitch("--manual-approval")]
+    [CliFlag("--manual-approval")]
     public bool? ManualApproval { get; set; }
 
-    [CommandSwitch("--oauth-scopes")]
+    [CliOption("--oauth-scopes")]
     public string[]? OauthScopes { get; set; }
 
-    [BooleanCommandSwitch("--all-environments")]
+    [CliFlag("--all-environments")]
     public bool? AllEnvironments { get; set; }
 
-    [CommandSwitch("--environments")]
+    [CliOption("--environments")]
     public string[]? Environments { get; set; }
 
-    [BooleanCommandSwitch("--all-proxies")]
+    [CliFlag("--all-proxies")]
     public bool? AllProxies { get; set; }
 
-    [CommandSwitch("--apis")]
+    [CliOption("--apis")]
     public string[]? Apis { get; set; }
 
-    [CommandSwitch("--resources")]
+    [CliOption("--resources")]
     public string[]? Resources { get; set; }
 
-    [BooleanCommandSwitch("--internal-access")]
+    [CliFlag("--internal-access")]
     public bool? InternalAccess { get; set; }
 
-    [BooleanCommandSwitch("--private-access")]
+    [CliFlag("--private-access")]
     public bool? PrivateAccess { get; set; }
 
-    [BooleanCommandSwitch("--public-access")]
+    [CliFlag("--public-access")]
     public bool? PublicAccess { get; set; }
 
-    [CommandSwitch("--quota")]
+    [CliOption("--quota")]
     public string? Quota { get; set; }
 
-    [CommandSwitch("--quota-interval")]
+    [CliOption("--quota-interval")]
     public string? QuotaInterval { get; set; }
 
-    [CommandSwitch("--quota-unit")]
+    [CliOption("--quota-unit")]
     public string? QuotaUnit { get; set; }
 }

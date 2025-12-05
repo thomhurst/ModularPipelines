@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai", "custom-jobs", "cancel")]
+[CliCommand("ai", "custom-jobs", "cancel")]
 public record GcloudAiCustomJobsCancelOptions(
-[property: PositionalArgument] string CustomJob,
-[property: PositionalArgument] string Region
+[property: CliArgument] string CustomJob,
+[property: CliArgument] string Region
 ) : GcloudOptions;

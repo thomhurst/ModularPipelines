@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codepipeline", "put-webhook")]
+[CliCommand("codepipeline", "put-webhook")]
 public record AwsCodepipelinePutWebhookOptions(
-[property: CommandSwitch("--webhook")] string Webhook
+[property: CliOption("--webhook")] string Webhook
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

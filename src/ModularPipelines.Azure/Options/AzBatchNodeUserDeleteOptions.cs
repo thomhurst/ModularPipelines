@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "node", "user", "delete")]
+[CliSubCommand("batch", "node", "user", "delete")]
 public record AzBatchNodeUserDeleteOptions(
-[property: CommandSwitch("--node-id")] string NodeId,
-[property: CommandSwitch("--pool-id")] string PoolId,
-[property: CommandSwitch("--user-name")] string UserName
+[property: CliOption("--node-id")] string NodeId,
+[property: CliOption("--pool-id")] string PoolId,
+[property: CliOption("--user-name")] string UserName
 ) : AzOptions
 {
-    [CommandSwitch("--account-endpoint")]
+    [CliOption("--account-endpoint")]
     public int? AccountEndpoint { get; set; }
 
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

@@ -4,120 +4,120 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "run-instances")]
+[CliCommand("ec2", "run-instances")]
 public record AwsEc2RunInstancesOptions : AwsOptions
 {
-    [CommandSwitch("--block-device-mappings")]
+    [CliOption("--block-device-mappings")]
     public string[]? BlockDeviceMappings { get; set; }
 
-    [CommandSwitch("--image-id")]
+    [CliOption("--image-id")]
     public string? ImageId { get; set; }
 
-    [CommandSwitch("--instance-type")]
+    [CliOption("--instance-type")]
     public string? InstanceType { get; set; }
 
-    [CommandSwitch("--ipv6-address-count")]
+    [CliOption("--ipv6-address-count")]
     public int? Ipv6AddressCount { get; set; }
 
-    [CommandSwitch("--ipv6-addresses")]
+    [CliOption("--ipv6-addresses")]
     public string[]? Ipv6Addresses { get; set; }
 
-    [CommandSwitch("--kernel-id")]
+    [CliOption("--kernel-id")]
     public string? KernelId { get; set; }
 
-    [CommandSwitch("--key-name")]
+    [CliOption("--key-name")]
     public string? KeyName { get; set; }
 
-    [CommandSwitch("--monitoring")]
+    [CliOption("--monitoring")]
     public string? Monitoring { get; set; }
 
-    [CommandSwitch("--placement")]
+    [CliOption("--placement")]
     public string? Placement { get; set; }
 
-    [CommandSwitch("--ramdisk-id")]
+    [CliOption("--ramdisk-id")]
     public string? RamdiskId { get; set; }
 
-    [CommandSwitch("--security-group-ids")]
+    [CliOption("--security-group-ids")]
     public string[]? SecurityGroupIds { get; set; }
 
-    [CommandSwitch("--security-groups")]
+    [CliOption("--security-groups")]
     public string[]? SecurityGroups { get; set; }
 
-    [CommandSwitch("--subnet-id")]
+    [CliOption("--subnet-id")]
     public string? SubnetId { get; set; }
 
-    [CommandSwitch("--user-data")]
+    [CliOption("--user-data")]
     public string? UserData { get; set; }
 
-    [CommandSwitch("--additional-info")]
+    [CliOption("--additional-info")]
     public string? AdditionalInfo { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--iam-instance-profile")]
+    [CliOption("--iam-instance-profile")]
     public string? IamInstanceProfile { get; set; }
 
-    [CommandSwitch("--instance-initiated-shutdown-behavior")]
+    [CliOption("--instance-initiated-shutdown-behavior")]
     public string? InstanceInitiatedShutdownBehavior { get; set; }
 
-    [CommandSwitch("--network-interfaces")]
+    [CliOption("--network-interfaces")]
     public string[]? NetworkInterfaces { get; set; }
 
-    [CommandSwitch("--private-ip-address")]
+    [CliOption("--private-ip-address")]
     public string? PrivateIpAddress { get; set; }
 
-    [CommandSwitch("--elastic-gpu-specification")]
+    [CliOption("--elastic-gpu-specification")]
     public string[]? ElasticGpuSpecification { get; set; }
 
-    [CommandSwitch("--elastic-inference-accelerators")]
+    [CliOption("--elastic-inference-accelerators")]
     public string[]? ElasticInferenceAccelerators { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--launch-template")]
+    [CliOption("--launch-template")]
     public string? LaunchTemplate { get; set; }
 
-    [CommandSwitch("--instance-market-options")]
+    [CliOption("--instance-market-options")]
     public string? InstanceMarketOptions { get; set; }
 
-    [CommandSwitch("--credit-specification")]
+    [CliOption("--credit-specification")]
     public string? CreditSpecification { get; set; }
 
-    [CommandSwitch("--cpu-options")]
+    [CliOption("--cpu-options")]
     public string? CpuOptions { get; set; }
 
-    [CommandSwitch("--capacity-reservation-specification")]
+    [CliOption("--capacity-reservation-specification")]
     public string? CapacityReservationSpecification { get; set; }
 
-    [CommandSwitch("--hibernation-options")]
+    [CliOption("--hibernation-options")]
     public string? HibernationOptions { get; set; }
 
-    [CommandSwitch("--license-specifications")]
+    [CliOption("--license-specifications")]
     public string[]? LicenseSpecifications { get; set; }
 
-    [CommandSwitch("--metadata-options")]
+    [CliOption("--metadata-options")]
     public string? MetadataOptions { get; set; }
 
-    [CommandSwitch("--enclave-options")]
+    [CliOption("--enclave-options")]
     public string? EnclaveOptions { get; set; }
 
-    [CommandSwitch("--private-dns-name-options")]
+    [CliOption("--private-dns-name-options")]
     public string? PrivateDnsNameOptions { get; set; }
 
-    [CommandSwitch("--maintenance-options")]
+    [CliOption("--maintenance-options")]
     public string? MaintenanceOptions { get; set; }
 
-    [CommandSwitch("--count")]
+    [CliOption("--count")]
     public string? Count { get; set; }
 
-    [CommandSwitch("--secondary-private-ip-addresses")]
+    [CliOption("--secondary-private-ip-addresses")]
     public string? SecondaryPrivateIpAddresses { get; set; }
 
-    [CommandSwitch("--secondary-private-ip-address-count")]
+    [CliOption("--secondary-private-ip-address-count")]
     public string? SecondaryPrivateIpAddressCount { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

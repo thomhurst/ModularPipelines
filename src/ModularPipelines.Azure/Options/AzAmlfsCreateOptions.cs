@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amlfs", "create")]
+[CliSubCommand("amlfs", "create")]
 public record AzAmlfsCreateOptions(
-[property: CommandSwitch("--aml-filesystem-name")] string AmlFilesystemName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--aml-filesystem-name")] string AmlFilesystemName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--encryption-setting")]
+    [CliOption("--encryption-setting")]
     public string? EncryptionSetting { get; set; }
 
-    [CommandSwitch("--filesystem-subnet")]
+    [CliOption("--filesystem-subnet")]
     public string? FilesystemSubnet { get; set; }
 
-    [CommandSwitch("--hsm-settings")]
+    [CliOption("--hsm-settings")]
     public string? HsmSettings { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--maintenance-window")]
+    [CliOption("--maintenance-window")]
     public string? MaintenanceWindow { get; set; }
 
-    [CommandSwitch("--mi-user-assigned")]
+    [CliOption("--mi-user-assigned")]
     public string? MiUserAssigned { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--storage-capacity")]
+    [CliOption("--storage-capacity")]
     public string? StorageCapacity { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--zones")]
+    [CliOption("--zones")]
     public string? Zones { get; set; }
 }

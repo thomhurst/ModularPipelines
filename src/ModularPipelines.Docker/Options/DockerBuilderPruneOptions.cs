@@ -3,19 +3,19 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("builder", "prune")]
+[CliCommand("builder", "prune")]
 [ExcludeFromCodeCoverage]
 public record DockerBuilderPruneOptions : DockerOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public virtual string? Filter { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [CommandSwitch("--keep-storage")]
+    [CliOption("--keep-storage")]
     public virtual string? KeepStorage { get; set; }
 }

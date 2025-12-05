@@ -4,54 +4,54 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kusto", "data-connection", "iot-hub", "data-connection-validation")]
+[CliSubCommand("kusto", "data-connection", "iot-hub", "data-connection-validation")]
 public record AzKustoDataConnectionIotHubDataConnectionValidationOptions : AzOptions
 {
-    [CommandSwitch("--cluster-name")]
+    [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
-    [CommandSwitch("--consumer-group")]
+    [CliOption("--consumer-group")]
     public string? ConsumerGroup { get; set; }
 
-    [CommandSwitch("--data-connection-name")]
+    [CliOption("--data-connection-name")]
     public string? DataConnectionName { get; set; }
 
-    [CommandSwitch("--data-format")]
+    [CliOption("--data-format")]
     public string? DataFormat { get; set; }
 
-    [CommandSwitch("--database-name")]
+    [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [CommandSwitch("--database-routing")]
+    [CliOption("--database-routing")]
     public string? DatabaseRouting { get; set; }
 
-    [CommandSwitch("--event-system-properties")]
+    [CliOption("--event-system-properties")]
     public string? EventSystemProperties { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--iot-hub-resource-id")]
+    [CliOption("--iot-hub-resource-id")]
     public string? IotHubResourceId { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--mapping-rule-name")]
+    [CliOption("--mapping-rule-name")]
     public string? MappingRuleName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--shared-access-policy-name")]
+    [CliOption("--shared-access-policy-name")]
     public string? SharedAccessPolicyName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--table-name")]
+    [CliOption("--table-name")]
     public string? TableName { get; set; }
 }

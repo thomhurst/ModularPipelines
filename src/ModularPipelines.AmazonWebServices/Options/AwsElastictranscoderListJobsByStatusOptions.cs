@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elastictranscoder", "list-jobs-by-status")]
+[CliCommand("elastictranscoder", "list-jobs-by-status")]
 public record AwsElastictranscoderListJobsByStatusOptions(
-[property: CommandSwitch("--status")] string Status
+[property: CliOption("--status")] string Status
 ) : AwsOptions
 {
-    [CommandSwitch("--ascending")]
+    [CliOption("--ascending")]
     public string? Ascending { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

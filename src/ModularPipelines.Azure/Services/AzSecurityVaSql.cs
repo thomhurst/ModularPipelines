@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "va")]
+[CliCommand("security", "va")]
 public class AzSecurityVaSql
 {
     public AzSecurityVaSql(

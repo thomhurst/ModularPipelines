@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "keys", "versions", "destroy")]
+[CliCommand("kms", "keys", "versions", "destroy")]
 public record GcloudKmsKeysVersionsDestroyOptions : GcloudOptions
 {
     public GcloudKmsKeysVersionsDestroyOptions(
@@ -14,15 +14,15 @@ public record GcloudKmsKeysVersionsDestroyOptions : GcloudOptions
         GcloudKmsKeysVersionsDestroyOptionsVersion = version;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string GcloudKmsKeysVersionsDestroyOptionsVersion { get; set; }
 
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 
-    [CommandSwitch("--keyring")]
+    [CliOption("--keyring")]
     public string? Keyring { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

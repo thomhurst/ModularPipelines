@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "node", "file", "list")]
+[CliSubCommand("batch", "node", "file", "list")]
 public record AzBatchNodeFileListOptions(
-[property: CommandSwitch("--node-id")] string NodeId,
-[property: CommandSwitch("--pool-id")] string PoolId
+[property: CliOption("--node-id")] string NodeId,
+[property: CliOption("--pool-id")] string PoolId
 ) : AzOptions
 {
-    [CommandSwitch("--account-endpoint")]
+    [CliOption("--account-endpoint")]
     public int? AccountEndpoint { get; set; }
 
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--recursive")]
+    [CliOption("--recursive")]
     public string? Recursive { get; set; }
 }

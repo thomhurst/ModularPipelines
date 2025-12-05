@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("globalaccelerator", "describe-custom-routing-accelerator-attributes")]
+[CliCommand("globalaccelerator", "describe-custom-routing-accelerator-attributes")]
 public record AwsGlobalacceleratorDescribeCustomRoutingAcceleratorAttributesOptions(
-[property: CommandSwitch("--accelerator-arn")] string AcceleratorArn
+[property: CliOption("--accelerator-arn")] string AcceleratorArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

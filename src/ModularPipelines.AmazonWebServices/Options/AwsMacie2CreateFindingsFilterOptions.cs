@@ -5,25 +5,25 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("macie2", "create-findings-filter")]
+[CliCommand("macie2", "create-findings-filter")]
 public record AwsMacie2CreateFindingsFilterOptions(
-[property: CommandSwitch("--action")] string Action,
-[property: CommandSwitch("--finding-criteria")] string FindingCriteria,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--action")] string Action,
+[property: CliOption("--finding-criteria")] string FindingCriteria,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--position")]
+    [CliOption("--position")]
     public int? Position { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transcribe", "update-medical-vocabulary")]
+[CliCommand("transcribe", "update-medical-vocabulary")]
 public record AwsTranscribeUpdateMedicalVocabularyOptions(
-[property: CommandSwitch("--vocabulary-name")] string VocabularyName,
-[property: CommandSwitch("--language-code")] string LanguageCode,
-[property: CommandSwitch("--vocabulary-file-uri")] string VocabularyFileUri
+[property: CliOption("--vocabulary-name")] string VocabularyName,
+[property: CliOption("--language-code")] string LanguageCode,
+[property: CliOption("--vocabulary-file-uri")] string VocabularyFileUri
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

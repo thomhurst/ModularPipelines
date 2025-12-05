@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("npm", "tag", "list")]
+[CliCommand("npm", "tag", "list")]
 public record YarnNpmTagListOptions : YarnOptions
 {
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
-    public string? Package { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    public virtual string? Package { get; set; }
 }

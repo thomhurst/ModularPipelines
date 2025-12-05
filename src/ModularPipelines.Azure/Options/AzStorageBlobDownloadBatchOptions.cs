@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "blob", "download-batch")]
+[CliSubCommand("storage", "blob", "download-batch")]
 public record AzStorageBlobDownloadBatchOptions(
-[property: CommandSwitch("--destination")] string Destination,
-[property: CommandSwitch("--source")] string Source
+[property: CliOption("--destination")] string Destination,
+[property: CliOption("--source")] string Source
 ) : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--blob-endpoint")]
+    [CliOption("--blob-endpoint")]
     public string? BlobEndpoint { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [BooleanCommandSwitch("--dryrun")]
+    [CliFlag("--dryrun")]
     public bool? Dryrun { get; set; }
 
-    [CommandSwitch("--max-connections")]
+    [CliOption("--max-connections")]
     public string? MaxConnections { get; set; }
 
-    [BooleanCommandSwitch("--no-progress")]
+    [CliFlag("--no-progress")]
     public bool? NoProgress { get; set; }
 
-    [BooleanCommandSwitch("--overwrite")]
+    [CliFlag("--overwrite")]
     public bool? Overwrite { get; set; }
 
-    [CommandSwitch("--pattern")]
+    [CliOption("--pattern")]
     public string? Pattern { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 }

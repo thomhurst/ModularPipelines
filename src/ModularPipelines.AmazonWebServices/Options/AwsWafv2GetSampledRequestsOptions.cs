@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wafv2", "get-sampled-requests")]
+[CliCommand("wafv2", "get-sampled-requests")]
 public record AwsWafv2GetSampledRequestsOptions(
-[property: CommandSwitch("--web-acl-arn")] string WebAclArn,
-[property: CommandSwitch("--rule-metric-name")] string RuleMetricName,
-[property: CommandSwitch("--scope")] string Scope,
-[property: CommandSwitch("--time-window")] string TimeWindow,
-[property: CommandSwitch("--max-items")] long MaxItems
+[property: CliOption("--web-acl-arn")] string WebAclArn,
+[property: CliOption("--rule-metric-name")] string RuleMetricName,
+[property: CliOption("--scope")] string Scope,
+[property: CliOption("--time-window")] string TimeWindow,
+[property: CliOption("--max-items")] long MaxItems
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

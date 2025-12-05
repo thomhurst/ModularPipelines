@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databrew", "update-project")]
+[CliCommand("databrew", "update-project")]
 public record AwsDatabrewUpdateProjectOptions(
-[property: CommandSwitch("--role-arn")] string RoleArn,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--role-arn")] string RoleArn,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--sample")]
+    [CliOption("--sample")]
     public string? Sample { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

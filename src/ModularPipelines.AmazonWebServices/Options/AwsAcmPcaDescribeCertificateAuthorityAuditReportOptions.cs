@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acm-pca", "describe-certificate-authority-audit-report")]
+[CliCommand("acm-pca", "describe-certificate-authority-audit-report")]
 public record AwsAcmPcaDescribeCertificateAuthorityAuditReportOptions(
-[property: CommandSwitch("--certificate-authority-arn")] string CertificateAuthorityArn,
-[property: CommandSwitch("--audit-report-id")] string AuditReportId
+[property: CliOption("--certificate-authority-arn")] string CertificateAuthorityArn,
+[property: CliOption("--audit-report-id")] string AuditReportId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

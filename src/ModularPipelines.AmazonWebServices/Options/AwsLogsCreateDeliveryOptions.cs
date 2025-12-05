@@ -5,15 +5,15 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logs", "create-delivery")]
+[CliCommand("logs", "create-delivery")]
 public record AwsLogsCreateDeliveryOptions(
-[property: CommandSwitch("--delivery-source-name")] string DeliverySourceName,
-[property: CommandSwitch("--delivery-destination-arn")] string DeliveryDestinationArn
+[property: CliOption("--delivery-source-name")] string DeliverySourceName,
+[property: CliOption("--delivery-destination-arn")] string DeliveryDestinationArn
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

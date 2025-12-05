@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dynamodb", "get-item")]
+[CliCommand("dynamodb", "get-item")]
 public record AwsDynamodbGetItemOptions(
-[property: CommandSwitch("--table-name")] string TableName,
-[property: CommandSwitch("--key")] IEnumerable<KeyValue> Key
+[property: CliOption("--table-name")] string TableName,
+[property: CliOption("--key")] IEnumerable<KeyValue> Key
 ) : AwsOptions
 {
-    [CommandSwitch("--attributes-to-get")]
+    [CliOption("--attributes-to-get")]
     public string[]? AttributesToGet { get; set; }
 
-    [CommandSwitch("--return-consumed-capacity")]
+    [CliOption("--return-consumed-capacity")]
     public string? ReturnConsumedCapacity { get; set; }
 
-    [CommandSwitch("--projection-expression")]
+    [CliOption("--projection-expression")]
     public string? ProjectionExpression { get; set; }
 
-    [CommandSwitch("--expression-attribute-names")]
+    [CliOption("--expression-attribute-names")]
     public IEnumerable<KeyValue>? ExpressionAttributeNames { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

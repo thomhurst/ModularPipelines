@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime", "redact-conversation-message")]
+[CliCommand("chime", "redact-conversation-message")]
 public record AwsChimeRedactConversationMessageOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--conversation-id")] string ConversationId,
-[property: CommandSwitch("--message-id")] string MessageId
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--conversation-id")] string ConversationId,
+[property: CliOption("--message-id")] string MessageId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

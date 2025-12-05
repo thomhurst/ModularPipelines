@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute-optimizer", "get-ecs-service-recommendation-projected-metrics")]
+[CliCommand("compute-optimizer", "get-ecs-service-recommendation-projected-metrics")]
 public record AwsComputeOptimizerGetEcsServiceRecommendationProjectedMetricsOptions(
-[property: CommandSwitch("--service-arn")] string ServiceArn,
-[property: CommandSwitch("--stat")] string Stat,
-[property: CommandSwitch("--period")] int Period,
-[property: CommandSwitch("--start-time")] long StartTime,
-[property: CommandSwitch("--end-time")] long EndTime
+[property: CliOption("--service-arn")] string ServiceArn,
+[property: CliOption("--stat")] string Stat,
+[property: CliOption("--period")] int Period,
+[property: CliOption("--start-time")] long StartTime,
+[property: CliOption("--end-time")] long EndTime
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

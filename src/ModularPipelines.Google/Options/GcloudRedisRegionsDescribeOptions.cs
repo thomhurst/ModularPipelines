@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redis", "regions", "describe")]
+[CliCommand("redis", "regions", "describe")]
 public record GcloudRedisRegionsDescribeOptions(
-[property: PositionalArgument] string Region
+[property: CliArgument] string Region
 ) : GcloudOptions;

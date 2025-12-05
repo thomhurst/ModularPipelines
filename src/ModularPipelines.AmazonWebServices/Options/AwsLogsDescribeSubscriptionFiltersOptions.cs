@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logs", "describe-subscription-filters")]
+[CliCommand("logs", "describe-subscription-filters")]
 public record AwsLogsDescribeSubscriptionFiltersOptions(
-[property: CommandSwitch("--log-group-name")] string LogGroupName
+[property: CliOption("--log-group-name")] string LogGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--filter-name-prefix")]
+    [CliOption("--filter-name-prefix")]
     public string? FilterNamePrefix { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

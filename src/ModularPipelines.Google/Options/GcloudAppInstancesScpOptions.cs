@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "instances", "scp")]
+[CliCommand("app", "instances", "scp")]
 public record GcloudAppInstancesScpOptions(
-[property: PositionalArgument] string Instance
+[property: CliArgument] string Instance
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--compress")]
+    [CliFlag("--compress")]
     public bool? Compress { get; set; }
 
-    [BooleanCommandSwitch("--recurse")]
+    [CliFlag("--recurse")]
     public bool? Recurse { get; set; }
 
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 
-    [BooleanCommandSwitch("--tunnel-through-iap")]
+    [CliFlag("--tunnel-through-iap")]
     public bool? TunnelThroughIap { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string? Version { get; set; }
 }

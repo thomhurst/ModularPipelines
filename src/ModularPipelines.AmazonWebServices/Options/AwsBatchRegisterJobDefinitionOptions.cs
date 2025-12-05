@@ -5,39 +5,39 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "register-job-definition")]
+[CliCommand("batch", "register-job-definition")]
 public record AwsBatchRegisterJobDefinitionOptions(
-[property: CommandSwitch("--job-definition-name")] string JobDefinitionName,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--job-definition-name")] string JobDefinitionName,
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public IEnumerable<KeyValue>? Parameters { get; set; }
 
-    [CommandSwitch("--scheduling-priority")]
+    [CliOption("--scheduling-priority")]
     public int? SchedulingPriority { get; set; }
 
-    [CommandSwitch("--container-properties")]
+    [CliOption("--container-properties")]
     public string? ContainerProperties { get; set; }
 
-    [CommandSwitch("--node-properties")]
+    [CliOption("--node-properties")]
     public string? NodeProperties { get; set; }
 
-    [CommandSwitch("--retry-strategy")]
+    [CliOption("--retry-strategy")]
     public string? RetryStrategy { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--platform-capabilities")]
+    [CliOption("--platform-capabilities")]
     public string[]? PlatformCapabilities { get; set; }
 
-    [CommandSwitch("--eks-properties")]
+    [CliOption("--eks-properties")]
     public string? EksProperties { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

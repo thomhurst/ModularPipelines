@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "get-runtime-management-config")]
+[CliCommand("lambda", "get-runtime-management-config")]
 public record AwsLambdaGetRuntimeManagementConfigOptions(
-[property: CommandSwitch("--function-name")] string FunctionName
+[property: CliOption("--function-name")] string FunctionName
 ) : AwsOptions
 {
-    [CommandSwitch("--qualifier")]
+    [CliOption("--qualifier")]
     public string? Qualifier { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

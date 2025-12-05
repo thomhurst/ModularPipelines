@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pipes", "update-pipe")]
+[CliCommand("pipes", "update-pipe")]
 public record AwsPipesUpdatePipeOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--name")] string Name,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--desired-state")]
+    [CliOption("--desired-state")]
     public string? DesiredState { get; set; }
 
-    [CommandSwitch("--enrichment")]
+    [CliOption("--enrichment")]
     public string? Enrichment { get; set; }
 
-    [CommandSwitch("--enrichment-parameters")]
+    [CliOption("--enrichment-parameters")]
     public string? EnrichmentParameters { get; set; }
 
-    [CommandSwitch("--log-configuration")]
+    [CliOption("--log-configuration")]
     public string? LogConfiguration { get; set; }
 
-    [CommandSwitch("--source-parameters")]
+    [CliOption("--source-parameters")]
     public string? SourceParameters { get; set; }
 
-    [CommandSwitch("--target")]
+    [CliOption("--target")]
     public string? Target { get; set; }
 
-    [CommandSwitch("--target-parameters")]
+    [CliOption("--target-parameters")]
     public string? TargetParameters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("restore-point")]
+[CliCommand("restore-point")]
 public class AzRestorePointCollection
 {
     public AzRestorePointCollection(

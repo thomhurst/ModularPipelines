@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "get-schema-versions-diff")]
+[CliCommand("glue", "get-schema-versions-diff")]
 public record AwsGlueGetSchemaVersionsDiffOptions(
-[property: CommandSwitch("--schema-id")] string SchemaId,
-[property: CommandSwitch("--first-schema-version-number")] string FirstSchemaVersionNumber,
-[property: CommandSwitch("--second-schema-version-number")] string SecondSchemaVersionNumber,
-[property: CommandSwitch("--schema-diff-type")] string SchemaDiffType
+[property: CliOption("--schema-id")] string SchemaId,
+[property: CliOption("--first-schema-version-number")] string FirstSchemaVersionNumber,
+[property: CliOption("--second-schema-version-number")] string SecondSchemaVersionNumber,
+[property: CliOption("--schema-diff-type")] string SchemaDiffType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

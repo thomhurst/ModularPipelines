@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("imagebuilder", "delete-workflow")]
+[CliCommand("imagebuilder", "delete-workflow")]
 public record AwsImagebuilderDeleteWorkflowOptions(
-[property: CommandSwitch("--workflow-build-version-arn")] string WorkflowBuildVersionArn
+[property: CliOption("--workflow-build-version-arn")] string WorkflowBuildVersionArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

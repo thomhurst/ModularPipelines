@@ -5,60 +5,60 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("filestore", "instances", "update")]
+[CliCommand("filestore", "instances", "update")]
 public record GcloudFilestoreInstancesUpdateOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Zone
+[property: CliArgument] string Instance,
+[property: CliArgument] string Zone
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 
-    [CommandSwitch("--file-share")]
+    [CliOption("--file-share")]
     public string[]? FileShare { get; set; }
 
-    [BooleanCommandSwitch("capacity")]
+    [CliFlag("capacity")]
     public bool? Capacity { get; set; }
 
-    [BooleanCommandSwitch("name")]
+    [CliFlag("name")]
     public bool? Name { get; set; }
 
-    [BooleanCommandSwitch("nfs-export-options")]
+    [CliFlag("nfs-export-options")]
     public bool? NfsExportOptions { get; set; }
 
-    [BooleanCommandSwitch("ip-ranges")]
+    [CliFlag("ip-ranges")]
     public bool? IpRanges { get; set; }
 
-    [BooleanCommandSwitch("access-mode")]
+    [CliFlag("access-mode")]
     public bool? AccessMode { get; set; }
 
-    [BooleanCommandSwitch("squash-mode")]
+    [CliFlag("squash-mode")]
     public bool? SquashMode { get; set; }
 
-    [BooleanCommandSwitch("anon_uid")]
+    [CliFlag("anon_uid")]
     public bool? AnonUid { get; set; }
 
-    [BooleanCommandSwitch("anon_gid")]
+    [CliFlag("anon_gid")]
     public bool? AnonGid { get; set; }
 
-    [BooleanCommandSwitch("--clear-nfs-export-options")]
+    [CliFlag("--clear-nfs-export-options")]
     public bool? ClearNfsExportOptions { get; set; }
 }

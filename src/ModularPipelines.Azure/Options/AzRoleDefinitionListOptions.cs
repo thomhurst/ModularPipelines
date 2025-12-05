@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("role", "definition", "list")]
+[CliSubCommand("role", "definition", "list")]
 public record AzRoleDefinitionListOptions : AzOptions
 {
-    [BooleanCommandSwitch("--custom-role-only")]
+    [CliFlag("--custom-role-only")]
     public bool? CustomRoleOnly { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 }

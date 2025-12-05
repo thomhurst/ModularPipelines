@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "update")]
+[CliCommand("cosmosdb", "update")]
 public class AzCosmosdbUpdateCosmosdbPreview
 {
     public AzCosmosdbUpdateCosmosdbPreview(

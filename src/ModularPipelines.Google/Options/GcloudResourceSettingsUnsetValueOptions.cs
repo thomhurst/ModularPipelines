@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-settings", "unset-value")]
+[CliCommand("resource-settings", "unset-value")]
 public record GcloudResourceSettingsUnsetValueOptions : GcloudOptions
 {
     public GcloudResourceSettingsUnsetValueOptions(
@@ -20,12 +20,12 @@ public record GcloudResourceSettingsUnsetValueOptions : GcloudOptions
         Project = project;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string SettingName { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 }

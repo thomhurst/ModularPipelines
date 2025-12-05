@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai-platform", "jobs")]
+[CliCommand("ai-platform", "jobs")]
 public class GcloudAiPlatformJobsSubmit
 {
     public GcloudAiPlatformJobsSubmit(

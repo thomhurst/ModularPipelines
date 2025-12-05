@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectparticipant", "send-event")]
+[CliCommand("connectparticipant", "send-event")]
 public record AwsConnectparticipantSendEventOptions(
-[property: CommandSwitch("--content-type")] string ContentType,
-[property: CommandSwitch("--content")] string Content,
-[property: CommandSwitch("--connection-token")] string ConnectionToken
+[property: CliOption("--content-type")] string ContentType,
+[property: CliOption("--content")] string Content,
+[property: CliOption("--connection-token")] string ConnectionToken
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

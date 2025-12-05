@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "update-gateway-information")]
+[CliCommand("storagegateway", "update-gateway-information")]
 public record AwsStoragegatewayUpdateGatewayInformationOptions(
-[property: CommandSwitch("--gateway-arn")] string GatewayArn
+[property: CliOption("--gateway-arn")] string GatewayArn
 ) : AwsOptions
 {
-    [CommandSwitch("--gateway-name")]
+    [CliOption("--gateway-name")]
     public string? GatewayName { get; set; }
 
-    [CommandSwitch("--gateway-timezone")]
+    [CliOption("--gateway-timezone")]
     public string? GatewayTimezone { get; set; }
 
-    [CommandSwitch("--cloud-watch-log-group-arn")]
+    [CliOption("--cloud-watch-log-group-arn")]
     public string? CloudWatchLogGroupArn { get; set; }
 
-    [CommandSwitch("--gateway-capacity")]
+    [CliOption("--gateway-capacity")]
     public string? GatewayCapacity { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

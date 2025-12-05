@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-firewall", "create-tls-inspection-configuration")]
+[CliCommand("network-firewall", "create-tls-inspection-configuration")]
 public record AwsNetworkFirewallCreateTlsInspectionConfigurationOptions(
-[property: CommandSwitch("--tls-inspection-configuration-name")] string TlsInspectionConfigurationName,
-[property: CommandSwitch("--tls-inspection-configuration")] string TlsInspectionConfiguration
+[property: CliOption("--tls-inspection-configuration-name")] string TlsInspectionConfigurationName,
+[property: CliOption("--tls-inspection-configuration")] string TlsInspectionConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--encryption-configuration")]
+    [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

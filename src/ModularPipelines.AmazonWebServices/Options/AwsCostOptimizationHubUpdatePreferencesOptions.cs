@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cost-optimization-hub", "update-preferences")]
+[CliCommand("cost-optimization-hub", "update-preferences")]
 public record AwsCostOptimizationHubUpdatePreferencesOptions : AwsOptions
 {
-    [CommandSwitch("--member-account-discount-visibility")]
+    [CliOption("--member-account-discount-visibility")]
     public string? MemberAccountDiscountVisibility { get; set; }
 
-    [CommandSwitch("--savings-estimation-mode")]
+    [CliOption("--savings-estimation-mode")]
     public string? SavingsEstimationMode { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

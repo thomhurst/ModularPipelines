@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("panorama", "create-package-import-job")]
+[CliCommand("panorama", "create-package-import-job")]
 public record AwsPanoramaCreatePackageImportJobOptions(
-[property: CommandSwitch("--client-token")] string ClientToken,
-[property: CommandSwitch("--input-config")] string InputConfig,
-[property: CommandSwitch("--job-type")] string JobType,
-[property: CommandSwitch("--output-config")] string OutputConfig
+[property: CliOption("--client-token")] string ClientToken,
+[property: CliOption("--input-config")] string InputConfig,
+[property: CliOption("--job-type")] string JobType,
+[property: CliOption("--output-config")] string OutputConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--job-tags")]
+    [CliOption("--job-tags")]
     public string[]? JobTags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

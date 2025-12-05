@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeguru-security", "list-findings-metrics")]
+[CliCommand("codeguru-security", "list-findings-metrics")]
 public record AwsCodeguruSecurityListFindingsMetricsOptions(
-[property: CommandSwitch("--end-date")] long EndDate,
-[property: CommandSwitch("--start-date")] long StartDate
+[property: CliOption("--end-date")] long EndDate,
+[property: CliOption("--start-date")] long StartDate
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

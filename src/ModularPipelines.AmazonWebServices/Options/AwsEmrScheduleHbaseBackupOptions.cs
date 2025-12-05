@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr", "schedule-hbase-backup")]
+[CliCommand("emr", "schedule-hbase-backup")]
 public record AwsEmrScheduleHbaseBackupOptions(
-[property: CommandSwitch("--cluster-id")] string ClusterId,
-[property: CommandSwitch("--type")] string Type,
-[property: CommandSwitch("--dir")] string Dir,
-[property: CommandSwitch("--interval")] string Interval,
-[property: CommandSwitch("--unit")] string Unit
+[property: CliOption("--cluster-id")] string ClusterId,
+[property: CliOption("--type")] string Type,
+[property: CliOption("--dir")] string Dir,
+[property: CliOption("--interval")] string Interval,
+[property: CliOption("--unit")] string Unit
 ) : AwsOptions
 {
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public string? StartTime { get; set; }
 
-    [BooleanCommandSwitch("--consistent")]
+    [CliFlag("--consistent")]
     public bool? Consistent { get; set; }
 }

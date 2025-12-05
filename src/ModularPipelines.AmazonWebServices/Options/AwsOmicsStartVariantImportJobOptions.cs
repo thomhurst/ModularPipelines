@@ -5,16 +5,16 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("omics", "start-variant-import-job")]
+[CliCommand("omics", "start-variant-import-job")]
 public record AwsOmicsStartVariantImportJobOptions(
-[property: CommandSwitch("--destination-name")] string DestinationName,
-[property: CommandSwitch("--role-arn")] string RoleArn,
-[property: CommandSwitch("--items")] string[] Items
+[property: CliOption("--destination-name")] string DestinationName,
+[property: CliOption("--role-arn")] string RoleArn,
+[property: CliOption("--items")] string[] Items
 ) : AwsOptions
 {
-    [CommandSwitch("--annotation-fields")]
+    [CliOption("--annotation-fields")]
     public IEnumerable<KeyValue>? AnnotationFields { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

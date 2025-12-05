@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "central", "export", "destination", "create")]
+[CliSubCommand("iot", "central", "export", "destination", "create")]
 public record AzIotCentralExportDestinationCreateOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--dest-id")] string DestId,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--dest-id")] string DestId,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--type")] string Type
 ) : AzOptions
 {
-    [CommandSwitch("--au")]
+    [CliOption("--au")]
     public string? Au { get; set; }
 
-    [CommandSwitch("--central-api-uri")]
+    [CliOption("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 
-    [CommandSwitch("--cluster-url")]
+    [CliOption("--cluster-url")]
     public string? ClusterUrl { get; set; }
 
-    [CommandSwitch("--database")]
+    [CliOption("--database")]
     public string? Database { get; set; }
 
-    [CommandSwitch("--header")]
+    [CliOption("--header")]
     public string? Header { get; set; }
 
-    [CommandSwitch("--table")]
+    [CliOption("--table")]
     public string? Table { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 
-    [CommandSwitch("--url")]
+    [CliOption("--url")]
     public string? Url { get; set; }
 }

@@ -5,64 +5,64 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns", "managed-zones", "create")]
+[CliCommand("dns", "managed-zones", "create")]
 public record GcloudDnsManagedZonesCreateOptions(
-[property: PositionalArgument] string ZoneName,
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--dns-name")] string DnsName
+[property: CliArgument] string ZoneName,
+[property: CliOption("--description")] string Description,
+[property: CliOption("--dns-name")] string DnsName
 ) : GcloudOptions
 {
-    [CommandSwitch("--denial-of-existence")]
+    [CliOption("--denial-of-existence")]
     public string? DenialOfExistence { get; set; }
 
-    [CommandSwitch("--dnssec-state")]
+    [CliOption("--dnssec-state")]
     public string? DnssecState { get; set; }
 
-    [CommandSwitch("--forwarding-targets")]
+    [CliOption("--forwarding-targets")]
     public string[]? ForwardingTargets { get; set; }
 
-    [CommandSwitch("--gkeclusters")]
+    [CliOption("--gkeclusters")]
     public string[]? Gkeclusters { get; set; }
 
-    [CommandSwitch("--ksk-algorithm")]
+    [CliOption("--ksk-algorithm")]
     public string? KskAlgorithm { get; set; }
 
-    [CommandSwitch("--ksk-key-length")]
+    [CliOption("--ksk-key-length")]
     public string? KskKeyLength { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--[no-]log-dns-queries")]
+    [CliOption("--[no-]log-dns-queries")]
     public string[]? NoLogDnsQueries { get; set; }
 
-    [BooleanCommandSwitch("--managed-reverse-lookup")]
+    [CliFlag("--managed-reverse-lookup")]
     public bool? ManagedReverseLookup { get; set; }
 
-    [CommandSwitch("--networks")]
+    [CliOption("--networks")]
     public string[]? Networks { get; set; }
 
-    [CommandSwitch("--private-forwarding-targets")]
+    [CliOption("--private-forwarding-targets")]
     public string[]? PrivateForwardingTargets { get; set; }
 
-    [CommandSwitch("--service-directory-namespace")]
+    [CliOption("--service-directory-namespace")]
     public string? ServiceDirectoryNamespace { get; set; }
 
-    [CommandSwitch("--visibility")]
+    [CliOption("--visibility")]
     public string? Visibility { get; set; }
 
-    [CommandSwitch("--zsk-algorithm")]
+    [CliOption("--zsk-algorithm")]
     public string? ZskAlgorithm { get; set; }
 
-    [CommandSwitch("--zsk-key-length")]
+    [CliOption("--zsk-key-length")]
     public string? ZskKeyLength { get; set; }
 
-    [CommandSwitch("--target-network")]
+    [CliOption("--target-network")]
     public string? TargetNetwork { get; set; }
 
-    [CommandSwitch("--target-project")]
+    [CliOption("--target-project")]
     public string? TargetProject { get; set; }
 }

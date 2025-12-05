@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("frauddetector", "get-event")]
+[CliCommand("frauddetector", "get-event")]
 public record AwsFrauddetectorGetEventOptions(
-[property: CommandSwitch("--event-id")] string EventId,
-[property: CommandSwitch("--event-type-name")] string EventTypeName
+[property: CliOption("--event-id")] string EventId,
+[property: CliOption("--event-type-name")] string EventTypeName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

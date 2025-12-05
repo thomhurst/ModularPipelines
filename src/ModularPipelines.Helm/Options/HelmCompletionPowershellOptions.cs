@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("completion", "powershell")]
+[CliCommand("completion", "powershell")]
 [ExcludeFromCodeCoverage]
 public record HelmCompletionPowershellOptions : HelmOptions
 {
-    [BooleanCommandSwitch("--no-descriptions")]
+    [CliFlag("--no-descriptions")]
     public virtual bool? NoDescriptions { get; set; }
 }

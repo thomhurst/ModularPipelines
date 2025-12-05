@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticbeanstalk", "update-tags-for-resource")]
+[CliCommand("elasticbeanstalk", "update-tags-for-resource")]
 public record AwsElasticbeanstalkUpdateTagsForResourceOptions(
-[property: CommandSwitch("--resource-arn")] string ResourceArn
+[property: CliOption("--resource-arn")] string ResourceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--tags-to-add")]
+    [CliOption("--tags-to-add")]
     public string[]? TagsToAdd { get; set; }
 
-    [CommandSwitch("--tags-to-remove")]
+    [CliOption("--tags-to-remove")]
     public string[]? TagsToRemove { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

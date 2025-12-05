@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudtrail-data", "put-audit-events")]
+[CliCommand("cloudtrail-data", "put-audit-events")]
 public record AwsCloudtrailDataPutAuditEventsOptions(
-[property: CommandSwitch("--audit-events")] string[] AuditEvents,
-[property: CommandSwitch("--channel-arn")] string ChannelArn
+[property: CliOption("--audit-events")] string[] AuditEvents,
+[property: CliOption("--channel-arn")] string ChannelArn
 ) : AwsOptions
 {
-    [CommandSwitch("--external-id")]
+    [CliOption("--external-id")]
     public string? ExternalId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

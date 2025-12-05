@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-voice", "update-sip-media-application")]
+[CliCommand("chime-sdk-voice", "update-sip-media-application")]
 public record AwsChimeSdkVoiceUpdateSipMediaApplicationOptions(
-[property: CommandSwitch("--sip-media-application-id")] string SipMediaApplicationId
+[property: CliOption("--sip-media-application-id")] string SipMediaApplicationId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--endpoints")]
+    [CliOption("--endpoints")]
     public string[]? Endpoints { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

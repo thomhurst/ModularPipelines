@@ -4,66 +4,66 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3api", "get-object")]
+[CliCommand("s3api", "get-object")]
 public record AwsS3apiGetObjectOptions(
-[property: CommandSwitch("--bucket")] string Bucket,
-[property: CommandSwitch("--key")] string Key
+[property: CliOption("--bucket")] string Bucket,
+[property: CliOption("--key")] string Key
 ) : AwsOptions
 {
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--if-modified-since")]
+    [CliOption("--if-modified-since")]
     public long? IfModifiedSince { get; set; }
 
-    [CommandSwitch("--if-none-match")]
+    [CliOption("--if-none-match")]
     public string? IfNoneMatch { get; set; }
 
-    [CommandSwitch("--if-unmodified-since")]
+    [CliOption("--if-unmodified-since")]
     public long? IfUnmodifiedSince { get; set; }
 
-    [CommandSwitch("--range")]
+    [CliOption("--range")]
     public string? Range { get; set; }
 
-    [CommandSwitch("--response-cache-control")]
+    [CliOption("--response-cache-control")]
     public string? ResponseCacheControl { get; set; }
 
-    [CommandSwitch("--response-content-disposition")]
+    [CliOption("--response-content-disposition")]
     public string? ResponseContentDisposition { get; set; }
 
-    [CommandSwitch("--response-content-encoding")]
+    [CliOption("--response-content-encoding")]
     public string? ResponseContentEncoding { get; set; }
 
-    [CommandSwitch("--response-content-language")]
+    [CliOption("--response-content-language")]
     public string? ResponseContentLanguage { get; set; }
 
-    [CommandSwitch("--response-content-type")]
+    [CliOption("--response-content-type")]
     public string? ResponseContentType { get; set; }
 
-    [CommandSwitch("--response-expires")]
+    [CliOption("--response-expires")]
     public long? ResponseExpires { get; set; }
 
-    [CommandSwitch("--version-id")]
+    [CliOption("--version-id")]
     public string? VersionId { get; set; }
 
-    [CommandSwitch("--sse-customer-algorithm")]
+    [CliOption("--sse-customer-algorithm")]
     public string? SseCustomerAlgorithm { get; set; }
 
-    [CommandSwitch("--sse-customer-key")]
+    [CliOption("--sse-customer-key")]
     public string? SseCustomerKey { get; set; }
 
-    [CommandSwitch("--sse-customer-key-md5")]
+    [CliOption("--sse-customer-key-md5")]
     public string? SseCustomerKeyMd5 { get; set; }
 
-    [CommandSwitch("--request-payer")]
+    [CliOption("--request-payer")]
     public string? RequestPayer { get; set; }
 
-    [CommandSwitch("--part-number")]
+    [CliOption("--part-number")]
     public int? PartNumber { get; set; }
 
-    [CommandSwitch("--expected-bucket-owner")]
+    [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
-    [CommandSwitch("--checksum-mode")]
+    [CliOption("--checksum-mode")]
     public string? ChecksumMode { get; set; }
 }

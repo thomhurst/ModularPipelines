@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "admin-set-user-settings")]
+[CliCommand("cognito-idp", "admin-set-user-settings")]
 public record AwsCognitoIdpAdminSetUserSettingsOptions(
-[property: CommandSwitch("--user-pool-id")] string UserPoolId,
-[property: CommandSwitch("--username")] string Username,
-[property: CommandSwitch("--mfa-options")] string[] MfaOptions
+[property: CliOption("--user-pool-id")] string UserPoolId,
+[property: CliOption("--username")] string Username,
+[property: CliOption("--mfa-options")] string[] MfaOptions
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

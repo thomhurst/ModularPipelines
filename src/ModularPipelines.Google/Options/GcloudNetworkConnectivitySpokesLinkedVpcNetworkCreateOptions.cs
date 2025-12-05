@@ -5,25 +5,25 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-connectivity", "spokes", "linked-vpc-network", "create")]
+[CliCommand("network-connectivity", "spokes", "linked-vpc-network", "create")]
 public record GcloudNetworkConnectivitySpokesLinkedVpcNetworkCreateOptions(
-[property: PositionalArgument] string Spoke,
-[property: CommandSwitch("--hub")] string Hub,
-[property: CommandSwitch("--vpc-network")] string VpcNetwork
+[property: CliArgument] string Spoke,
+[property: CliOption("--hub")] string Hub,
+[property: CliOption("--vpc-network")] string VpcNetwork
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--exclude-export-ranges")]
+    [CliOption("--exclude-export-ranges")]
     public string[]? ExcludeExportRanges { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 }

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "certificate", "delete")]
+[CliSubCommand("iot", "hub", "certificate", "delete")]
 public record AzIotHubCertificateDeleteOptions(
-[property: CommandSwitch("--etag")] string Etag,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--etag")] string Etag,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--hub-name")]
+    [CliOption("--hub-name")]
     public string? HubName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

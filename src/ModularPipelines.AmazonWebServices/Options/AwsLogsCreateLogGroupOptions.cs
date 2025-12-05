@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logs", "create-log-group")]
+[CliCommand("logs", "create-log-group")]
 public record AwsLogsCreateLogGroupOptions(
-[property: CommandSwitch("--log-group-name")] string LogGroupName
+[property: CliOption("--log-group-name")] string LogGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--log-group-class")]
+    [CliOption("--log-group-class")]
     public string? LogGroupClass { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

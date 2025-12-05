@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "sql", "container")]
+[CliCommand("cosmosdb", "sql", "container")]
 public class AzCosmosdbSqlContainerUpdate
 {
     public AzCosmosdbSqlContainerUpdate(

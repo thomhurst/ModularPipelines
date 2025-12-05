@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datastore", "export")]
+[CliCommand("datastore", "export")]
 public record GcloudDatastoreExportOptions(
-[property: PositionalArgument] string OutputUrlPrefix
+[property: CliArgument] string OutputUrlPrefix
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--kinds")]
+    [CliOption("--kinds")]
     public string[]? Kinds { get; set; }
 
-    [CommandSwitch("--namespaces")]
+    [CliOption("--namespaces")]
     public string[]? Namespaces { get; set; }
 
-    [CommandSwitch("--operation-labels")]
+    [CliOption("--operation-labels")]
     public string[]? OperationLabels { get; set; }
 }

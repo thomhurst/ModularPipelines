@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp")]
+[CliCommand("containerapp")]
 public class AzContainerappIdentity
 {
     public AzContainerappIdentity(

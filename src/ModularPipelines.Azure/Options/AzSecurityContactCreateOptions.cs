@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "contact", "create")]
+[CliSubCommand("security", "contact", "create")]
 public record AzSecurityContactCreateOptions(
-[property: CommandSwitch("--email")] string Email,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--email")] string Email,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--alert-notifications")]
+    [CliOption("--alert-notifications")]
     public string? AlertNotifications { get; set; }
 
-    [CommandSwitch("--alerts-admins")]
+    [CliOption("--alerts-admins")]
     public string? AlertsAdmins { get; set; }
 
-    [CommandSwitch("--phone")]
+    [CliOption("--phone")]
     public string? Phone { get; set; }
 }

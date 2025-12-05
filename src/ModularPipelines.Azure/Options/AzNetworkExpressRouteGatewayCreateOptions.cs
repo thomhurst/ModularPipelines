@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "express-route", "gateway", "create")]
+[CliSubCommand("network", "express-route", "gateway", "create")]
 public record AzNetworkExpressRouteGatewayCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--max-val")]
+    [CliOption("--max-val")]
     public string? MaxVal { get; set; }
 
-    [CommandSwitch("--min-val")]
+    [CliOption("--min-val")]
     public string? MinVal { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--virtual-hub")]
+    [CliOption("--virtual-hub")]
     public string? VirtualHub { get; set; }
 }

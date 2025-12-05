@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("orbital", "spacecraft")]
+[CliCommand("orbital", "spacecraft")]
 public class AzOrbitalSpacecraftContact
 {
     public AzOrbitalSpacecraftContact(

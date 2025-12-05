@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "network-policies", "external-access-rules", "create")]
+[CliCommand("vmware", "network-policies", "external-access-rules", "create")]
 public record GcloudVmwareNetworkPoliciesExternalAccessRulesCreateOptions(
-[property: PositionalArgument] string ExternalAccessRule,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string NetworkPolicy,
-[property: CommandSwitch("--destination-ranges")] string[] DestinationRanges,
-[property: CommandSwitch("--ip-protocol")] string IpProtocol,
-[property: CommandSwitch("--priority")] string Priority,
-[property: CommandSwitch("--source-ranges")] string[] SourceRanges
+[property: CliArgument] string ExternalAccessRule,
+[property: CliArgument] string Location,
+[property: CliArgument] string NetworkPolicy,
+[property: CliOption("--destination-ranges")] string[] DestinationRanges,
+[property: CliOption("--ip-protocol")] string IpProtocol,
+[property: CliOption("--priority")] string Priority,
+[property: CliOption("--source-ranges")] string[] SourceRanges
 ) : GcloudOptions
 {
-    [CommandSwitch("--action")]
+    [CliOption("--action")]
     public string? Action { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--destination-ports")]
+    [CliOption("--destination-ports")]
     public string[]? DestinationPorts { get; set; }
 
-    [CommandSwitch("--source-ports")]
+    [CliOption("--source-ports")]
     public string[]? SourcePorts { get; set; }
 }

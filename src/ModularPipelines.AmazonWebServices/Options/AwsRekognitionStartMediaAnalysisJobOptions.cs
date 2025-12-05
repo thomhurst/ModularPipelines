@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "start-media-analysis-job")]
+[CliCommand("rekognition", "start-media-analysis-job")]
 public record AwsRekognitionStartMediaAnalysisJobOptions(
-[property: CommandSwitch("--operations-config")] string OperationsConfig,
-[property: CommandSwitch("--input")] string Input,
-[property: CommandSwitch("--output-config")] string OutputConfig
+[property: CliOption("--operations-config")] string OperationsConfig,
+[property: CliOption("--input")] string Input,
+[property: CliOption("--output-config")] string OutputConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--job-name")]
+    [CliOption("--job-name")]
     public string? JobName { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

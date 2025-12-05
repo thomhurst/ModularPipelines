@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("site-recovery", "vault")]
+[CliCommand("site-recovery", "vault")]
 public class AzSiteRecoveryVaultHealth
 {
     public AzSiteRecoveryVaultHealth(

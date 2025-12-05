@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "modify-certificates")]
+[CliCommand("rds", "modify-certificates")]
 public record AwsRdsModifyCertificatesOptions : AwsOptions
 {
-    [CommandSwitch("--certificate-identifier")]
+    [CliOption("--certificate-identifier")]
     public string? CertificateIdentifier { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

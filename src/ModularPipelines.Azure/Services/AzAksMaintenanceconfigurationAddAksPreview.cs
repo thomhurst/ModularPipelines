@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "maintenanceconfiguration", "add")]
+[CliCommand("aks", "maintenanceconfiguration", "add")]
 public class AzAksMaintenanceconfigurationAddAksPreview
 {
     public AzAksMaintenanceconfigurationAddAksPreview(

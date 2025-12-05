@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ce", "delete-anomaly-monitor")]
+[CliCommand("ce", "delete-anomaly-monitor")]
 public record AwsCeDeleteAnomalyMonitorOptions(
-[property: CommandSwitch("--monitor-arn")] string MonitorArn
+[property: CliOption("--monitor-arn")] string MonitorArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ds", "update-trust")]
+[CliCommand("ds", "update-trust")]
 public record AwsDsUpdateTrustOptions(
-[property: CommandSwitch("--trust-id")] string TrustId
+[property: CliOption("--trust-id")] string TrustId
 ) : AwsOptions
 {
-    [CommandSwitch("--selective-auth")]
+    [CliOption("--selective-auth")]
     public string? SelectiveAuth { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("groundstation", "get-config")]
+[CliCommand("groundstation", "get-config")]
 public record AwsGroundstationGetConfigOptions(
-[property: CommandSwitch("--config-id")] string ConfigId,
-[property: CommandSwitch("--config-type")] string ConfigType
+[property: CliOption("--config-id")] string ConfigId,
+[property: CliOption("--config-type")] string ConfigType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

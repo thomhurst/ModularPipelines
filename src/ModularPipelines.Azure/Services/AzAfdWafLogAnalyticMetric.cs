@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("afd", "waf-log-analytic")]
+[CliCommand("afd", "waf-log-analytic")]
 public class AzAfdWafLogAnalyticMetric
 {
     public AzAfdWafLogAnalyticMetric(

@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotsitewise", "execute-action")]
+[CliCommand("iotsitewise", "execute-action")]
 public record AwsIotsitewiseExecuteActionOptions(
-[property: CommandSwitch("--target-resource")] string TargetResource,
-[property: CommandSwitch("--action-definition-id")] string ActionDefinitionId,
-[property: CommandSwitch("--action-payload")] string ActionPayload
+[property: CliOption("--target-resource")] string TargetResource,
+[property: CliOption("--action-definition-id")] string ActionDefinitionId,
+[property: CliOption("--action-payload")] string ActionPayload
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bedrock-agent-runtime", "retrieve")]
+[CliCommand("bedrock-agent-runtime", "retrieve")]
 public record AwsBedrockAgentRuntimeRetrieveOptions(
-[property: CommandSwitch("--knowledge-base-id")] string KnowledgeBaseId,
-[property: CommandSwitch("--retrieval-query")] string RetrievalQuery
+[property: CliOption("--knowledge-base-id")] string KnowledgeBaseId,
+[property: CliOption("--retrieval-query")] string RetrievalQuery
 ) : AwsOptions
 {
-    [CommandSwitch("--retrieval-configuration")]
+    [CliOption("--retrieval-configuration")]
     public string? RetrievalConfiguration { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "metrics", "list-definitions")]
+[CliSubCommand("monitor", "metrics", "list-definitions")]
 public record AzMonitorMetricsListDefinitionsOptions(
-[property: CommandSwitch("--resource")] string Resource
+[property: CliOption("--resource")] string Resource
 ) : AzOptions
 {
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-namespace")]
+    [CliOption("--resource-namespace")]
     public string? ResourceNamespace { get; set; }
 
-    [CommandSwitch("--resource-parent")]
+    [CliOption("--resource-parent")]
     public string? ResourceParent { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 }

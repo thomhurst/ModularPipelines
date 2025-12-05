@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fms", "put-apps-list")]
+[CliCommand("fms", "put-apps-list")]
 public record AwsFmsPutAppsListOptions(
-[property: CommandSwitch("--apps-list")] string AppsList
+[property: CliOption("--apps-list")] string AppsList
 ) : AwsOptions
 {
-    [CommandSwitch("--tag-list")]
+    [CliOption("--tag-list")]
     public string[]? TagList { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

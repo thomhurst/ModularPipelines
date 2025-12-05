@@ -4,68 +4,68 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "recoveryconfig", "show")]
+[CliSubCommand("backup", "recoveryconfig", "show")]
 public record AzBackupRecoveryconfigShowOptions(
-[property: CommandSwitch("--restore-mode")] string RestoreMode
+[property: CliOption("--restore-mode")] string RestoreMode
 ) : AzOptions
 {
-    [CommandSwitch("--backup-management-type")]
+    [CliOption("--backup-management-type")]
     public string? BackupManagementType { get; set; }
 
-    [CommandSwitch("--container-name")]
+    [CliOption("--container-name")]
     public string? ContainerName { get; set; }
 
-    [CommandSwitch("--filepath")]
+    [CliOption("--filepath")]
     public string? Filepath { get; set; }
 
-    [CommandSwitch("--from-full-rp-name")]
+    [CliOption("--from-full-rp-name")]
     public string? FromFullRpName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--item-name")]
+    [CliOption("--item-name")]
     public string? ItemName { get; set; }
 
-    [CommandSwitch("--log-point-in-time")]
+    [CliOption("--log-point-in-time")]
     public string? LogPointInTime { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--rp-name")]
+    [CliOption("--rp-name")]
     public string? RpName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--target-container-name")]
+    [CliOption("--target-container-name")]
     public string? TargetContainerName { get; set; }
 
-    [CommandSwitch("--target-instance-name")]
+    [CliOption("--target-instance-name")]
     public string? TargetInstanceName { get; set; }
 
-    [CommandSwitch("--target-item-name")]
+    [CliOption("--target-item-name")]
     public string? TargetItemName { get; set; }
 
-    [CommandSwitch("--target-resource-group")]
+    [CliOption("--target-resource-group")]
     public string? TargetResourceGroup { get; set; }
 
-    [CommandSwitch("--target-server-name")]
+    [CliOption("--target-server-name")]
     public string? TargetServerName { get; set; }
 
-    [CommandSwitch("--target-server-type")]
+    [CliOption("--target-server-type")]
     public string? TargetServerType { get; set; }
 
-    [CommandSwitch("--target-subscription-id")]
+    [CliOption("--target-subscription-id")]
     public string? TargetSubscriptionId { get; set; }
 
-    [CommandSwitch("--target-vault-name")]
+    [CliOption("--target-vault-name")]
     public string? TargetVaultName { get; set; }
 
-    [CommandSwitch("--vault-name")]
+    [CliOption("--vault-name")]
     public string? VaultName { get; set; }
 
-    [CommandSwitch("--workload-type")]
+    [CliOption("--workload-type")]
     public string? WorkloadType { get; set; }
 }

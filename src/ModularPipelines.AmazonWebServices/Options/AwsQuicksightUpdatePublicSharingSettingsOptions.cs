@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "update-public-sharing-settings")]
+[CliCommand("quicksight", "update-public-sharing-settings")]
 public record AwsQuicksightUpdatePublicSharingSettingsOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId
+[property: CliOption("--aws-account-id")] string AwsAccountId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

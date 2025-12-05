@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hpc-cache", "usage-model", "list")]
+[CliSubCommand("hpc-cache", "usage-model", "list")]
 public record AzHpcCacheUsageModelListOptions : AzOptions;

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "delete-group")]
+[CliCommand("cognito-idp", "delete-group")]
 public record AwsCognitoIdpDeleteGroupOptions(
-[property: CommandSwitch("--group-name")] string GroupName,
-[property: CommandSwitch("--user-pool-id")] string UserPoolId
+[property: CliOption("--group-name")] string GroupName,
+[property: CliOption("--user-pool-id")] string UserPoolId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "message-route", "update")]
+[CliSubCommand("iot", "hub", "message-route", "update")]
 public record AzIotHubMessageRouteUpdateOptions(
-[property: CommandSwitch("--hub-name")] string HubName,
-[property: CommandSwitch("--rn")] string Rn
+[property: CliOption("--hub-name")] string HubName,
+[property: CliOption("--rn")] string Rn
 ) : AzOptions
 {
-    [CommandSwitch("--condition")]
+    [CliOption("--condition")]
     public string? Condition { get; set; }
 
-    [CommandSwitch("--en")]
+    [CliOption("--en")]
     public string? En { get; set; }
 
-    [BooleanCommandSwitch("--enabled")]
+    [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--source-type")]
+    [CliOption("--source-type")]
     public string? SourceType { get; set; }
 }

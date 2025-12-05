@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation", "update-termination-protection")]
+[CliCommand("cloudformation", "update-termination-protection")]
 public record AwsCloudformationUpdateTerminationProtectionOptions(
-[property: CommandSwitch("--stack-name")] string StackName
+[property: CliOption("--stack-name")] string StackName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

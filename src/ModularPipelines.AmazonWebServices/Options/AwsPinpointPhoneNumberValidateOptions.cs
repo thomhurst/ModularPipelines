@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint", "phone-number-validate")]
+[CliCommand("pinpoint", "phone-number-validate")]
 public record AwsPinpointPhoneNumberValidateOptions(
-[property: CommandSwitch("--number-validate-request")] string NumberValidateRequest
+[property: CliOption("--number-validate-request")] string NumberValidateRequest
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

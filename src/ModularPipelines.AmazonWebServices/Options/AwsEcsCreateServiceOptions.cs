@@ -4,71 +4,71 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "create-service")]
+[CliCommand("ecs", "create-service")]
 public record AwsEcsCreateServiceOptions(
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--service-name")] string ServiceName
 ) : AwsOptions
 {
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--task-definition")]
+    [CliOption("--task-definition")]
     public string? TaskDefinition { get; set; }
 
-    [CommandSwitch("--load-balancers")]
+    [CliOption("--load-balancers")]
     public string[]? LoadBalancers { get; set; }
 
-    [CommandSwitch("--service-registries")]
+    [CliOption("--service-registries")]
     public string[]? ServiceRegistries { get; set; }
 
-    [CommandSwitch("--desired-count")]
+    [CliOption("--desired-count")]
     public int? DesiredCount { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--launch-type")]
+    [CliOption("--launch-type")]
     public string? LaunchType { get; set; }
 
-    [CommandSwitch("--capacity-provider-strategy")]
+    [CliOption("--capacity-provider-strategy")]
     public string[]? CapacityProviderStrategy { get; set; }
 
-    [CommandSwitch("--platform-version")]
+    [CliOption("--platform-version")]
     public string? PlatformVersion { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--deployment-configuration")]
+    [CliOption("--deployment-configuration")]
     public string? DeploymentConfiguration { get; set; }
 
-    [CommandSwitch("--placement-constraints")]
+    [CliOption("--placement-constraints")]
     public string[]? PlacementConstraints { get; set; }
 
-    [CommandSwitch("--placement-strategy")]
+    [CliOption("--placement-strategy")]
     public string[]? PlacementStrategy { get; set; }
 
-    [CommandSwitch("--network-configuration")]
+    [CliOption("--network-configuration")]
     public string? NetworkConfiguration { get; set; }
 
-    [CommandSwitch("--health-check-grace-period-seconds")]
+    [CliOption("--health-check-grace-period-seconds")]
     public int? HealthCheckGracePeriodSeconds { get; set; }
 
-    [CommandSwitch("--scheduling-strategy")]
+    [CliOption("--scheduling-strategy")]
     public string? SchedulingStrategy { get; set; }
 
-    [CommandSwitch("--deployment-controller")]
+    [CliOption("--deployment-controller")]
     public string? DeploymentController { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--propagate-tags")]
+    [CliOption("--propagate-tags")]
     public string? PropagateTags { get; set; }
 
-    [CommandSwitch("--service-connect-configuration")]
+    [CliOption("--service-connect-configuration")]
     public string? ServiceConnectConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

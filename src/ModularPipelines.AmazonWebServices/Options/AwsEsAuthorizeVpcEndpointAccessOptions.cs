@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("es", "authorize-vpc-endpoint-access")]
+[CliCommand("es", "authorize-vpc-endpoint-access")]
 public record AwsEsAuthorizeVpcEndpointAccessOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--account")] string Account
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--account")] string Account
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

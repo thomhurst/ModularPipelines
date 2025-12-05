@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rum", "update-app-monitor")]
+[CliCommand("rum", "update-app-monitor")]
 public record AwsRumUpdateAppMonitorOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--app-monitor-configuration")]
+    [CliOption("--app-monitor-configuration")]
     public string? AppMonitorConfiguration { get; set; }
 
-    [CommandSwitch("--custom-events")]
+    [CliOption("--custom-events")]
     public string? CustomEvents { get; set; }
 
-    [CommandSwitch("--domain")]
+    [CliOption("--domain")]
     public string? Domain { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

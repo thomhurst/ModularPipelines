@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "update-model")]
+[CliCommand("apigateway", "update-model")]
 public record AwsApigatewayUpdateModelOptions(
-[property: CommandSwitch("--rest-api-id")] string RestApiId,
-[property: CommandSwitch("--model-name")] string ModelName
+[property: CliOption("--rest-api-id")] string RestApiId,
+[property: CliOption("--model-name")] string ModelName
 ) : AwsOptions
 {
-    [CommandSwitch("--patch-operations")]
+    [CliOption("--patch-operations")]
     public string[]? PatchOperations { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

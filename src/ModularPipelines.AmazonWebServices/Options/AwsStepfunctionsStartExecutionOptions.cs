@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stepfunctions", "start-execution")]
+[CliCommand("stepfunctions", "start-execution")]
 public record AwsStepfunctionsStartExecutionOptions(
-[property: CommandSwitch("--state-machine-arn")] string StateMachineArn
+[property: CliOption("--state-machine-arn")] string StateMachineArn
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--input")]
+    [CliOption("--input")]
     public string? Input { get; set; }
 
-    [CommandSwitch("--trace-header")]
+    [CliOption("--trace-header")]
     public string? TraceHeader { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("signalr", "custom-certificate", "list")]
+[CliSubCommand("signalr", "custom-certificate", "list")]
 public record AzSignalrCustomCertificateListOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--signalr-name")] string SignalrName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--signalr-name")] string SignalrName
 ) : AzOptions;

@@ -5,23 +5,23 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeguruprofiler", "create-profiling-group")]
+[CliCommand("codeguruprofiler", "create-profiling-group")]
 public record AwsCodeguruprofilerCreateProfilingGroupOptions(
-[property: CommandSwitch("--profiling-group-name")] string ProfilingGroupName
+[property: CliOption("--profiling-group-name")] string ProfilingGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--agent-orchestration-config")]
+    [CliOption("--agent-orchestration-config")]
     public string? AgentOrchestrationConfig { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--compute-platform")]
+    [CliOption("--compute-platform")]
     public string? ComputePlatform { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

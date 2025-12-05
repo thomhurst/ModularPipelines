@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("guardduty", "create-detector")]
+[CliCommand("guardduty", "create-detector")]
 public record AwsGuarddutyCreateDetectorOptions : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--finding-publishing-frequency")]
+    [CliOption("--finding-publishing-frequency")]
     public string? FindingPublishingFrequency { get; set; }
 
-    [CommandSwitch("--data-sources")]
+    [CliOption("--data-sources")]
     public string? DataSources { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--features")]
+    [CliOption("--features")]
     public string[]? Features { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

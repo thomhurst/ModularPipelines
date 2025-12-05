@@ -5,19 +5,19 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resiliencehub", "start-app-assessment")]
+[CliCommand("resiliencehub", "start-app-assessment")]
 public record AwsResiliencehubStartAppAssessmentOptions(
-[property: CommandSwitch("--app-arn")] string AppArn,
-[property: CommandSwitch("--app-version")] string AppVersion,
-[property: CommandSwitch("--assessment-name")] string AssessmentName
+[property: CliOption("--app-arn")] string AppArn,
+[property: CliOption("--app-version")] string AppVersion,
+[property: CliOption("--assessment-name")] string AssessmentName
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

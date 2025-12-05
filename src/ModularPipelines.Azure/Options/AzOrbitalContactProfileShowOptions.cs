@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("orbital", "contact-profile", "show")]
+[CliSubCommand("orbital", "contact-profile", "show")]
 public record AzOrbitalContactProfileShowOptions : AzOptions
 {
-    [CommandSwitch("--contact-profile-name")]
+    [CliOption("--contact-profile-name")]
     public string? ContactProfileName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

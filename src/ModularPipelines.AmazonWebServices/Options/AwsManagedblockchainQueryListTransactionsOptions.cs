@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managedblockchain-query", "list-transactions")]
+[CliCommand("managedblockchain-query", "list-transactions")]
 public record AwsManagedblockchainQueryListTransactionsOptions(
-[property: CommandSwitch("--address")] string Address,
-[property: CommandSwitch("--network")] string Network
+[property: CliOption("--address")] string Address,
+[property: CliOption("--network")] string Network
 ) : AwsOptions
 {
-    [CommandSwitch("--from-blockchain-instant")]
+    [CliOption("--from-blockchain-instant")]
     public string? FromBlockchainInstant { get; set; }
 
-    [CommandSwitch("--to-blockchain-instant")]
+    [CliOption("--to-blockchain-instant")]
     public string? ToBlockchainInstant { get; set; }
 
-    [CommandSwitch("--sort")]
+    [CliOption("--sort")]
     public string? Sort { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

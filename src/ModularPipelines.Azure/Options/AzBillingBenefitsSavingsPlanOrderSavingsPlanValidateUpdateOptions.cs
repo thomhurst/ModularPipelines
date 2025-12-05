@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing-benefits", "savings-plan-order", "savings-plan", "validate-update")]
+[CliSubCommand("billing-benefits", "savings-plan-order", "savings-plan", "validate-update")]
 public record AzBillingBenefitsSavingsPlanOrderSavingsPlanValidateUpdateOptions(
-[property: CommandSwitch("--savings-plan-id")] string SavingsPlanId,
-[property: CommandSwitch("--savings-plan-order-id")] string SavingsPlanOrderId
+[property: CliOption("--savings-plan-id")] string SavingsPlanId,
+[property: CliOption("--savings-plan-order-id")] string SavingsPlanOrderId
 ) : AzOptions
 {
-    [CommandSwitch("--benefits")]
+    [CliOption("--benefits")]
     public string? Benefits { get; set; }
 }

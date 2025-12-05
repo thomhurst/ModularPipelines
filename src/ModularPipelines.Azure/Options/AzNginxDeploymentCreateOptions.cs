@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("nginx", "deployment", "create")]
+[CliSubCommand("nginx", "deployment", "create")]
 public record AzNginxDeploymentCreateOptions(
-[property: CommandSwitch("--deployment-name")] string DeploymentName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--deployment-name")] string DeploymentName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--enable-diagnostics")]
+    [CliFlag("--enable-diagnostics")]
     public bool? EnableDiagnostics { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--logging")]
+    [CliOption("--logging")]
     public string? Logging { get; set; }
 
-    [CommandSwitch("--managed-resource-group")]
+    [CliOption("--managed-resource-group")]
     public string? ManagedResourceGroup { get; set; }
 
-    [CommandSwitch("--network-profile")]
+    [CliOption("--network-profile")]
     public string? NetworkProfile { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--provisioning-state")]
+    [CliOption("--provisioning-state")]
     public string? ProvisioningState { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

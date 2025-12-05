@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticache")]
+[CliCommand("elasticache")]
 public class AwsElasticacheWait
 {
     public AwsElasticacheWait(

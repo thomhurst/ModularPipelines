@@ -4,285 +4,285 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "update")]
+[CliSubCommand("aks", "update")]
 public record AzAksUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--aad-admin-group-object-ids")]
+    [CliOption("--aad-admin-group-object-ids")]
     public string? AadAdminGroupObjectIds { get; set; }
 
-    [CommandSwitch("--aad-tenant-id")]
+    [CliOption("--aad-tenant-id")]
     public string? AadTenantId { get; set; }
 
-    [CommandSwitch("--aks-custom-headers")]
+    [CliOption("--aks-custom-headers")]
     public string? AksCustomHeaders { get; set; }
 
-    [CommandSwitch("--api-server-authorized-ip-ranges")]
+    [CliOption("--api-server-authorized-ip-ranges")]
     public string? ApiServerAuthorizedIpRanges { get; set; }
 
-    [CommandSwitch("--assign-identity")]
+    [CliOption("--assign-identity")]
     public string? AssignIdentity { get; set; }
 
-    [CommandSwitch("--assign-kubelet-identity")]
+    [CliOption("--assign-kubelet-identity")]
     public string? AssignKubeletIdentity { get; set; }
 
-    [BooleanCommandSwitch("--attach-acr")]
+    [CliFlag("--attach-acr")]
     public bool? AttachAcr { get; set; }
 
-    [CommandSwitch("--auto-upgrade-channel")]
+    [CliOption("--auto-upgrade-channel")]
     public string? AutoUpgradeChannel { get; set; }
 
-    [CommandSwitch("--azure-keyvault-kms-key-id")]
+    [CliOption("--azure-keyvault-kms-key-id")]
     public string? AzureKeyvaultKmsKeyId { get; set; }
 
-    [CommandSwitch("--azure-keyvault-kms-key-vault-network-access")]
+    [CliOption("--azure-keyvault-kms-key-vault-network-access")]
     public string? AzureKeyvaultKmsKeyVaultNetworkAccess { get; set; }
 
-    [CommandSwitch("--azure-keyvault-kms-key-vault-resource-id")]
+    [CliOption("--azure-keyvault-kms-key-vault-resource-id")]
     public string? AzureKeyvaultKmsKeyVaultResourceId { get; set; }
 
-    [CommandSwitch("--azure-monitor-workspace-resource-id")]
+    [CliOption("--azure-monitor-workspace-resource-id")]
     public string? AzureMonitorWorkspaceResourceId { get; set; }
 
-    [CommandSwitch("--ca-profile")]
+    [CliOption("--ca-profile")]
     public string? CaProfile { get; set; }
 
-    [CommandSwitch("--defender-config")]
+    [CliOption("--defender-config")]
     public string? DefenderConfig { get; set; }
 
-    [CommandSwitch("--detach-acr")]
+    [CliOption("--detach-acr")]
     public string? DetachAcr { get; set; }
 
-    [BooleanCommandSwitch("--disable-ahub")]
+    [CliFlag("--disable-ahub")]
     public bool? DisableAhub { get; set; }
 
-    [BooleanCommandSwitch("--disable-azure-keyvault-kms")]
+    [CliFlag("--disable-azure-keyvault-kms")]
     public bool? DisableAzureKeyvaultKms { get; set; }
 
-    [BooleanCommandSwitch("--disable-azure-monitor-metrics")]
+    [CliFlag("--disable-azure-monitor-metrics")]
     public bool? DisableAzureMonitorMetrics { get; set; }
 
-    [BooleanCommandSwitch("--disable-azure-rbac")]
+    [CliFlag("--disable-azure-rbac")]
     public bool? DisableAzureRbac { get; set; }
 
-    [BooleanCommandSwitch("--disable-blob-driver")]
+    [CliFlag("--disable-blob-driver")]
     public bool? DisableBlobDriver { get; set; }
 
-    [BooleanCommandSwitch("--disable-cluster-autoscaler")]
+    [CliFlag("--disable-cluster-autoscaler")]
     public bool? DisableClusterAutoscaler { get; set; }
 
-    [BooleanCommandSwitch("--disable-defender")]
+    [CliFlag("--disable-defender")]
     public bool? DisableDefender { get; set; }
 
-    [BooleanCommandSwitch("--disable-disk-driver")]
+    [CliFlag("--disable-disk-driver")]
     public bool? DisableDiskDriver { get; set; }
 
-    [BooleanCommandSwitch("--disable-file-driver")]
+    [CliFlag("--disable-file-driver")]
     public bool? DisableFileDriver { get; set; }
 
-    [BooleanCommandSwitch("--disable-force-upgrade")]
+    [CliFlag("--disable-force-upgrade")]
     public bool? DisableForceUpgrade { get; set; }
 
-    [BooleanCommandSwitch("--disable-image-cleaner")]
+    [CliFlag("--disable-image-cleaner")]
     public bool? DisableImageCleaner { get; set; }
 
-    [BooleanCommandSwitch("--disable-keda")]
+    [CliFlag("--disable-keda")]
     public bool? DisableKeda { get; set; }
 
-    [BooleanCommandSwitch("--disable-local-accounts")]
+    [CliFlag("--disable-local-accounts")]
     public bool? DisableLocalAccounts { get; set; }
 
-    [BooleanCommandSwitch("--disable-public-fqdn")]
+    [CliFlag("--disable-public-fqdn")]
     public bool? DisablePublicFqdn { get; set; }
 
-    [BooleanCommandSwitch("--disable-secret-rotation")]
+    [CliFlag("--disable-secret-rotation")]
     public bool? DisableSecretRotation { get; set; }
 
-    [BooleanCommandSwitch("--disable-snapshot-controller")]
+    [CliFlag("--disable-snapshot-controller")]
     public bool? DisableSnapshotController { get; set; }
 
-    [BooleanCommandSwitch("--disable-vpa")]
+    [CliFlag("--disable-vpa")]
     public bool? DisableVpa { get; set; }
 
-    [BooleanCommandSwitch("--disable-windows-gmsa")]
+    [CliFlag("--disable-windows-gmsa")]
     public bool? DisableWindowsGmsa { get; set; }
 
-    [BooleanCommandSwitch("--disable-workload-identity")]
+    [CliFlag("--disable-workload-identity")]
     public bool? DisableWorkloadIdentity { get; set; }
 
-    [BooleanCommandSwitch("--enable-aad")]
+    [CliFlag("--enable-aad")]
     public bool? EnableAad { get; set; }
 
-    [BooleanCommandSwitch("--enable-ahub")]
+    [CliFlag("--enable-ahub")]
     public bool? EnableAhub { get; set; }
 
-    [BooleanCommandSwitch("--enable-azure-keyvault-kms")]
+    [CliFlag("--enable-azure-keyvault-kms")]
     public bool? EnableAzureKeyvaultKms { get; set; }
 
-    [BooleanCommandSwitch("--enable-azure-monitor-metrics")]
+    [CliFlag("--enable-azure-monitor-metrics")]
     public bool? EnableAzureMonitorMetrics { get; set; }
 
-    [BooleanCommandSwitch("--enable-azure-rbac")]
+    [CliFlag("--enable-azure-rbac")]
     public bool? EnableAzureRbac { get; set; }
 
-    [BooleanCommandSwitch("--enable-blob-driver")]
+    [CliFlag("--enable-blob-driver")]
     public bool? EnableBlobDriver { get; set; }
 
-    [BooleanCommandSwitch("--enable-cluster-autoscaler")]
+    [CliFlag("--enable-cluster-autoscaler")]
     public bool? EnableClusterAutoscaler { get; set; }
 
-    [BooleanCommandSwitch("--enable-defender")]
+    [CliFlag("--enable-defender")]
     public bool? EnableDefender { get; set; }
 
-    [BooleanCommandSwitch("--enable-disk-driver")]
+    [CliFlag("--enable-disk-driver")]
     public bool? EnableDiskDriver { get; set; }
 
-    [BooleanCommandSwitch("--enable-file-driver")]
+    [CliFlag("--enable-file-driver")]
     public bool? EnableFileDriver { get; set; }
 
-    [BooleanCommandSwitch("--enable-force-upgrade")]
+    [CliFlag("--enable-force-upgrade")]
     public bool? EnableForceUpgrade { get; set; }
 
-    [BooleanCommandSwitch("--enable-image-cleaner")]
+    [CliFlag("--enable-image-cleaner")]
     public bool? EnableImageCleaner { get; set; }
 
-    [BooleanCommandSwitch("--enable-keda")]
+    [CliFlag("--enable-keda")]
     public bool? EnableKeda { get; set; }
 
-    [BooleanCommandSwitch("--enable-local-accounts")]
+    [CliFlag("--enable-local-accounts")]
     public bool? EnableLocalAccounts { get; set; }
 
-    [BooleanCommandSwitch("--enable-managed-identity")]
+    [CliFlag("--enable-managed-identity")]
     public bool? EnableManagedIdentity { get; set; }
 
-    [BooleanCommandSwitch("--enable-oidc-issuer")]
+    [CliFlag("--enable-oidc-issuer")]
     public bool? EnableOidcIssuer { get; set; }
 
-    [BooleanCommandSwitch("--enable-public-fqdn")]
+    [CliFlag("--enable-public-fqdn")]
     public bool? EnablePublicFqdn { get; set; }
 
-    [BooleanCommandSwitch("--enable-secret-rotation")]
+    [CliFlag("--enable-secret-rotation")]
     public bool? EnableSecretRotation { get; set; }
 
-    [BooleanCommandSwitch("--enable-snapshot-controller")]
+    [CliFlag("--enable-snapshot-controller")]
     public bool? EnableSnapshotController { get; set; }
 
-    [BooleanCommandSwitch("--enable-vpa")]
+    [CliFlag("--enable-vpa")]
     public bool? EnableVpa { get; set; }
 
-    [BooleanCommandSwitch("--enable-windows-gmsa")]
+    [CliFlag("--enable-windows-gmsa")]
     public bool? EnableWindowsGmsa { get; set; }
 
-    [BooleanCommandSwitch("--enable-windows-recording-rules")]
+    [CliFlag("--enable-windows-recording-rules")]
     public bool? EnableWindowsRecordingRules { get; set; }
 
-    [BooleanCommandSwitch("--enable-workload-identity")]
+    [CliFlag("--enable-workload-identity")]
     public bool? EnableWorkloadIdentity { get; set; }
 
-    [CommandSwitch("--gmsa-dns-server")]
+    [CliOption("--gmsa-dns-server")]
     public string? GmsaDnsServer { get; set; }
 
-    [CommandSwitch("--gmsa-root-domain-name")]
+    [CliOption("--gmsa-root-domain-name")]
     public string? GmsaRootDomainName { get; set; }
 
-    [CommandSwitch("--grafana-resource-id")]
+    [CliOption("--grafana-resource-id")]
     public string? GrafanaResourceId { get; set; }
 
-    [CommandSwitch("--http-proxy-config")]
+    [CliOption("--http-proxy-config")]
     public string? HttpProxyConfig { get; set; }
 
-    [CommandSwitch("--image-cleaner-interval-hours")]
+    [CliOption("--image-cleaner-interval-hours")]
     public string? ImageCleanerIntervalHours { get; set; }
 
-    [CommandSwitch("--k8s-support-plan")]
+    [CliOption("--k8s-support-plan")]
     public string? K8sSupportPlan { get; set; }
 
-    [CommandSwitch("--ksm-metric-annotations-allow-list")]
+    [CliOption("--ksm-metric-annotations-allow-list")]
     public string? KsmMetricAnnotationsAllowList { get; set; }
 
-    [CommandSwitch("--ksm-metric-labels-allow-list")]
+    [CliOption("--ksm-metric-labels-allow-list")]
     public string? KsmMetricLabelsAllowList { get; set; }
 
-    [CommandSwitch("--load-balancer-idle-timeout")]
+    [CliOption("--load-balancer-idle-timeout")]
     public string? LoadBalancerIdleTimeout { get; set; }
 
-    [CommandSwitch("--load-balancer-managed-outbound-ip-count")]
+    [CliOption("--load-balancer-managed-outbound-ip-count")]
     public int? LoadBalancerManagedOutboundIpCount { get; set; }
 
-    [CommandSwitch("--load-balancer-managed-outbound-ipv6-count")]
+    [CliOption("--load-balancer-managed-outbound-ipv6-count")]
     public int? LoadBalancerManagedOutboundIpv6Count { get; set; }
 
-    [CommandSwitch("--load-balancer-outbound-ip-prefixes")]
+    [CliOption("--load-balancer-outbound-ip-prefixes")]
     public string? LoadBalancerOutboundIpPrefixes { get; set; }
 
-    [CommandSwitch("--load-balancer-outbound-ips")]
+    [CliOption("--load-balancer-outbound-ips")]
     public string? LoadBalancerOutboundIps { get; set; }
 
-    [CommandSwitch("--load-balancer-outbound-ports")]
+    [CliOption("--load-balancer-outbound-ports")]
     public string? LoadBalancerOutboundPorts { get; set; }
 
-    [CommandSwitch("--max-count")]
+    [CliOption("--max-count")]
     public int? MaxCount { get; set; }
 
-    [CommandSwitch("--min-count")]
+    [CliOption("--min-count")]
     public int? MinCount { get; set; }
 
-    [CommandSwitch("--nat-gateway-idle-timeout")]
+    [CliOption("--nat-gateway-idle-timeout")]
     public string? NatGatewayIdleTimeout { get; set; }
 
-    [CommandSwitch("--nat-gateway-managed-outbound-ip-count")]
+    [CliOption("--nat-gateway-managed-outbound-ip-count")]
     public int? NatGatewayManagedOutboundIpCount { get; set; }
 
-    [CommandSwitch("--network-dataplane")]
+    [CliOption("--network-dataplane")]
     public string? NetworkDataplane { get; set; }
 
-    [CommandSwitch("--network-plugin-mode")]
+    [CliOption("--network-plugin-mode")]
     public string? NetworkPluginMode { get; set; }
 
-    [CommandSwitch("--network-policy")]
+    [CliOption("--network-policy")]
     public string? NetworkPolicy { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--node-os-upgrade-channel")]
+    [CliOption("--node-os-upgrade-channel")]
     public string? NodeOsUpgradeChannel { get; set; }
 
-    [CommandSwitch("--nodepool-labels")]
+    [CliOption("--nodepool-labels")]
     public string? NodepoolLabels { get; set; }
 
-    [CommandSwitch("--nodepool-taints")]
+    [CliOption("--nodepool-taints")]
     public string? NodepoolTaints { get; set; }
 
-    [CommandSwitch("--outbound-type")]
+    [CliOption("--outbound-type")]
     public string? OutboundType { get; set; }
 
-    [CommandSwitch("--pod-cidr")]
+    [CliOption("--pod-cidr")]
     public string? PodCidr { get; set; }
 
-    [CommandSwitch("--private-dns-zone")]
+    [CliOption("--private-dns-zone")]
     public string? PrivateDnsZone { get; set; }
 
-    [CommandSwitch("--rotation-poll-interval")]
+    [CliOption("--rotation-poll-interval")]
     public string? RotationPollInterval { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 
-    [BooleanCommandSwitch("--update-cluster-autoscaler")]
+    [CliFlag("--update-cluster-autoscaler")]
     public bool? UpdateClusterAutoscaler { get; set; }
 
-    [CommandSwitch("--upgrade-override-until")]
+    [CliOption("--upgrade-override-until")]
     public string? UpgradeOverrideUntil { get; set; }
 
-    [CommandSwitch("--windows-admin-password")]
+    [CliOption("--windows-admin-password")]
     public string? WindowsAdminPassword { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

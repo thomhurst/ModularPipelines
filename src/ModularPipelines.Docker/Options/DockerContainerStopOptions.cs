@@ -15,12 +15,12 @@ public record DockerContainerStopOptions : DockerOptions
         Container = container;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public IEnumerable<string>? Container { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual IEnumerable<string>? Container { get; set; }
 
-    [CommandSwitch("--signal")]
+    [CliOption("--signal")]
     public virtual string? Signal { get; set; }
 
-    [CommandSwitch("--time")]
+    [CliOption("--time")]
     public virtual string? Time { get; set; }
 }

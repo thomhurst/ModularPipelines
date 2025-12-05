@@ -4,53 +4,53 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "health-checks", "update", "https")]
+[CliCommand("compute", "health-checks", "update", "https")]
 public record GcloudComputeHealthChecksUpdateHttpsOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--check-interval")]
+    [CliOption("--check-interval")]
     public string? CheckInterval { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--enable-logging")]
+    [CliFlag("--enable-logging")]
     public bool? EnableLogging { get; set; }
 
-    [CommandSwitch("--healthy-threshold")]
+    [CliOption("--healthy-threshold")]
     public string? HealthyThreshold { get; set; }
 
-    [CommandSwitch("--host")]
+    [CliOption("--host")]
     public string? Host { get; set; }
 
-    [CommandSwitch("--proxy-header")]
+    [CliOption("--proxy-header")]
     public string? ProxyHeader { get; set; }
 
-    [CommandSwitch("--request-path")]
+    [CliOption("--request-path")]
     public string? RequestPath { get; set; }
 
-    [CommandSwitch("--response")]
+    [CliOption("--response")]
     public string? Response { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--unhealthy-threshold")]
+    [CliOption("--unhealthy-threshold")]
     public string? UnhealthyThreshold { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public string? Port { get; set; }
 
-    [CommandSwitch("--port-name")]
+    [CliOption("--port-name")]
     public string? PortName { get; set; }
 
-    [BooleanCommandSwitch("--use-serving-port")]
+    [CliFlag("--use-serving-port")]
     public bool? UseServingPort { get; set; }
 }

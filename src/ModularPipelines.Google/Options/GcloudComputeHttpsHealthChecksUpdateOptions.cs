@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "https-health-checks", "update")]
+[CliCommand("compute", "https-health-checks", "update")]
 public record GcloudComputeHttpsHealthChecksUpdateOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--check-interval")]
+    [CliOption("--check-interval")]
     public string? CheckInterval { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--healthy-threshold")]
+    [CliOption("--healthy-threshold")]
     public string? HealthyThreshold { get; set; }
 
-    [CommandSwitch("--host")]
+    [CliOption("--host")]
     public string? Host { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public string? Port { get; set; }
 
-    [CommandSwitch("--request-path")]
+    [CliOption("--request-path")]
     public string? RequestPath { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--unhealthy-threshold")]
+    [CliOption("--unhealthy-threshold")]
     public string? UnhealthyThreshold { get; set; }
 }

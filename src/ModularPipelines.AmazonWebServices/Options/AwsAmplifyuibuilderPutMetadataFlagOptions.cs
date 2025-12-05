@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amplifyuibuilder", "put-metadata-flag")]
+[CliCommand("amplifyuibuilder", "put-metadata-flag")]
 public record AwsAmplifyuibuilderPutMetadataFlagOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--environment-name")] string EnvironmentName,
-[property: CommandSwitch("--feature-name")] string FeatureName,
-[property: CommandSwitch("--body")] string Body
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--environment-name")] string EnvironmentName,
+[property: CliOption("--feature-name")] string FeatureName,
+[property: CliOption("--body")] string Body
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

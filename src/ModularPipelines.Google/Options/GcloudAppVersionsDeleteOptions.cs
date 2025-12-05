@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "versions", "delete")]
+[CliCommand("app", "versions", "delete")]
 public record GcloudAppVersionsDeleteOptions(
-[property: PositionalArgument] string Versions
+[property: CliArgument] string Versions
 ) : GcloudOptions
 {
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 }

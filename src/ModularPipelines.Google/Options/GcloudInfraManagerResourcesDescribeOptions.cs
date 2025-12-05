@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("infra-manager", "resources", "describe")]
+[CliCommand("infra-manager", "resources", "describe")]
 public record GcloudInfraManagerResourcesDescribeOptions(
-[property: PositionalArgument] string Resource,
-[property: PositionalArgument] string Deployment,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Revision
+[property: CliArgument] string Resource,
+[property: CliArgument] string Deployment,
+[property: CliArgument] string Location,
+[property: CliArgument] string Revision
 ) : GcloudOptions;

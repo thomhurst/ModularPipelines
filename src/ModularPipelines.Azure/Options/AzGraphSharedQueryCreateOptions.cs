@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("graph", "shared-query", "create")]
+[CliSubCommand("graph", "shared-query", "create")]
 public record AzGraphSharedQueryCreateOptions(
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--graph-query")] string GraphQuery,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--description")] string Description,
+[property: CliOption("--graph-query")] string GraphQuery,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

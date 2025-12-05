@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kafka", "update-monitoring")]
+[CliCommand("kafka", "update-monitoring")]
 public record AwsKafkaUpdateMonitoringOptions(
-[property: CommandSwitch("--cluster-arn")] string ClusterArn,
-[property: CommandSwitch("--current-version")] string CurrentVersion
+[property: CliOption("--cluster-arn")] string ClusterArn,
+[property: CliOption("--current-version")] string CurrentVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--enhanced-monitoring")]
+    [CliOption("--enhanced-monitoring")]
     public string? EnhancedMonitoring { get; set; }
 
-    [CommandSwitch("--open-monitoring")]
+    [CliOption("--open-monitoring")]
     public string? OpenMonitoring { get; set; }
 
-    [CommandSwitch("--logging-info")]
+    [CliOption("--logging-info")]
     public string? LoggingInfo { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

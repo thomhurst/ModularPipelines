@@ -4,51 +4,51 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "import-image")]
+[CliCommand("ec2", "import-image")]
 public record AwsEc2ImportImageOptions : AwsOptions
 {
-    [CommandSwitch("--architecture")]
+    [CliOption("--architecture")]
     public string? Architecture { get; set; }
 
-    [CommandSwitch("--client-data")]
+    [CliOption("--client-data")]
     public string? ClientData { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--disk-containers")]
+    [CliOption("--disk-containers")]
     public string[]? DiskContainers { get; set; }
 
-    [CommandSwitch("--hypervisor")]
+    [CliOption("--hypervisor")]
     public string? Hypervisor { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--license-type")]
+    [CliOption("--license-type")]
     public string? LicenseType { get; set; }
 
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public string? Platform { get; set; }
 
-    [CommandSwitch("--role-name")]
+    [CliOption("--role-name")]
     public string? RoleName { get; set; }
 
-    [CommandSwitch("--license-specifications")]
+    [CliOption("--license-specifications")]
     public string[]? LicenseSpecifications { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--usage-operation")]
+    [CliOption("--usage-operation")]
     public string? UsageOperation { get; set; }
 
-    [CommandSwitch("--boot-mode")]
+    [CliOption("--boot-mode")]
     public string? BootMode { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

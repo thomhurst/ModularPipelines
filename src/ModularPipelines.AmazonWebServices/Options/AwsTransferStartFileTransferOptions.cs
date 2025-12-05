@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "start-file-transfer")]
+[CliCommand("transfer", "start-file-transfer")]
 public record AwsTransferStartFileTransferOptions(
-[property: CommandSwitch("--connector-id")] string ConnectorId
+[property: CliOption("--connector-id")] string ConnectorId
 ) : AwsOptions
 {
-    [CommandSwitch("--send-file-paths")]
+    [CliOption("--send-file-paths")]
     public string[]? SendFilePaths { get; set; }
 
-    [CommandSwitch("--retrieve-file-paths")]
+    [CliOption("--retrieve-file-paths")]
     public string[]? RetrieveFilePaths { get; set; }
 
-    [CommandSwitch("--local-directory-path")]
+    [CliOption("--local-directory-path")]
     public string? LocalDirectoryPath { get; set; }
 
-    [CommandSwitch("--remote-directory-path")]
+    [CliOption("--remote-directory-path")]
     public string? RemoteDirectoryPath { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

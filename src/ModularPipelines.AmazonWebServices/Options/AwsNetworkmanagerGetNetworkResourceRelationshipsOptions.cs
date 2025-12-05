@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkmanager", "get-network-resource-relationships")]
+[CliCommand("networkmanager", "get-network-resource-relationships")]
 public record AwsNetworkmanagerGetNetworkResourceRelationshipsOptions(
-[property: CommandSwitch("--global-network-id")] string GlobalNetworkId
+[property: CliOption("--global-network-id")] string GlobalNetworkId
 ) : AwsOptions
 {
-    [CommandSwitch("--core-network-id")]
+    [CliOption("--core-network-id")]
     public string? CoreNetworkId { get; set; }
 
-    [CommandSwitch("--registered-gateway-arn")]
+    [CliOption("--registered-gateway-arn")]
     public string? RegisteredGatewayArn { get; set; }
 
-    [CommandSwitch("--aws-region")]
+    [CliOption("--aws-region")]
     public string? AwsRegion { get; set; }
 
-    [CommandSwitch("--account-id")]
+    [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--resource-arn")]
+    [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

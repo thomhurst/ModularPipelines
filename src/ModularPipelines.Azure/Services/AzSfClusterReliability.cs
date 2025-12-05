@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "cluster")]
+[CliCommand("sf", "cluster")]
 public class AzSfClusterReliability
 {
     public AzSfClusterReliability(

@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53domains", "transfer-domain")]
+[CliCommand("route53domains", "transfer-domain")]
 public record AwsRoute53domainsTransferDomainOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--duration-in-years")] int DurationInYears,
-[property: CommandSwitch("--admin-contact")] string AdminContact,
-[property: CommandSwitch("--registrant-contact")] string RegistrantContact,
-[property: CommandSwitch("--tech-contact")] string TechContact
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--duration-in-years")] int DurationInYears,
+[property: CliOption("--admin-contact")] string AdminContact,
+[property: CliOption("--registrant-contact")] string RegistrantContact,
+[property: CliOption("--tech-contact")] string TechContact
 ) : AwsOptions
 {
-    [CommandSwitch("--idn-lang-code")]
+    [CliOption("--idn-lang-code")]
     public string? IdnLangCode { get; set; }
 
-    [CommandSwitch("--nameservers")]
+    [CliOption("--nameservers")]
     public string[]? Nameservers { get; set; }
 
-    [CommandSwitch("--auth-code")]
+    [CliOption("--auth-code")]
     public string? AuthCode { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bigtable", "instances", "list")]
+[CliCommand("bigtable", "instances", "list")]
 public record GcloudBigtableInstancesListOptions : GcloudOptions;

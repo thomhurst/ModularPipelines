@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "create-maintenance-window")]
+[CliCommand("ssm", "create-maintenance-window")]
 public record AwsSsmCreateMaintenanceWindowOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--schedule")] string Schedule,
-[property: CommandSwitch("--duration")] int Duration,
-[property: CommandSwitch("--cutoff")] int Cutoff
+[property: CliOption("--name")] string Name,
+[property: CliOption("--schedule")] string Schedule,
+[property: CliOption("--duration")] int Duration,
+[property: CliOption("--cutoff")] int Cutoff
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--start-date")]
+    [CliOption("--start-date")]
     public string? StartDate { get; set; }
 
-    [CommandSwitch("--end-date")]
+    [CliOption("--end-date")]
     public string? EndDate { get; set; }
 
-    [CommandSwitch("--schedule-timezone")]
+    [CliOption("--schedule-timezone")]
     public string? ScheduleTimezone { get; set; }
 
-    [CommandSwitch("--schedule-offset")]
+    [CliOption("--schedule-offset")]
     public int? ScheduleOffset { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

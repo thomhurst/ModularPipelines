@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml-engine", "jobs", "cancel")]
+[CliCommand("ml-engine", "jobs", "cancel")]
 public record GcloudMlEngineJobsCancelOptions(
-[property: PositionalArgument] string Job
+[property: CliArgument] string Job
 ) : GcloudOptions;

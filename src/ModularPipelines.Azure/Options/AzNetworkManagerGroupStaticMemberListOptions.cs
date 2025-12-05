@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "manager", "group", "static-member", "list")]
+[CliSubCommand("network", "manager", "group", "static-member", "list")]
 public record AzNetworkManagerGroupStaticMemberListOptions(
-[property: CommandSwitch("--network-group")] string NetworkGroup,
-[property: CommandSwitch("--network-manager")] string NetworkManager,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--network-group")] string NetworkGroup,
+[property: CliOption("--network-manager")] string NetworkManager,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--skip-token")]
+    [CliOption("--skip-token")]
     public string? SkipToken { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 }

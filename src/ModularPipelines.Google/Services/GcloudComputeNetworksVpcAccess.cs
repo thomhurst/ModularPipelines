@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "networks")]
+[CliCommand("compute", "networks")]
 public class GcloudComputeNetworksVpcAccess
 {
     public GcloudComputeNetworksVpcAccess(

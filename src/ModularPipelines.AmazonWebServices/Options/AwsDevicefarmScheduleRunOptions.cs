@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devicefarm", "schedule-run")]
+[CliCommand("devicefarm", "schedule-run")]
 public record AwsDevicefarmScheduleRunOptions(
-[property: CommandSwitch("--project-arn")] string ProjectArn,
-[property: CommandSwitch("--test")] string Test
+[property: CliOption("--project-arn")] string ProjectArn,
+[property: CliOption("--test")] string Test
 ) : AwsOptions
 {
-    [CommandSwitch("--app-arn")]
+    [CliOption("--app-arn")]
     public string? AppArn { get; set; }
 
-    [CommandSwitch("--device-pool-arn")]
+    [CliOption("--device-pool-arn")]
     public string? DevicePoolArn { get; set; }
 
-    [CommandSwitch("--device-selection-configuration")]
+    [CliOption("--device-selection-configuration")]
     public string? DeviceSelectionConfiguration { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--configuration")]
+    [CliOption("--configuration")]
     public string? Configuration { get; set; }
 
-    [CommandSwitch("--execution-configuration")]
+    [CliOption("--execution-configuration")]
     public string? ExecutionConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

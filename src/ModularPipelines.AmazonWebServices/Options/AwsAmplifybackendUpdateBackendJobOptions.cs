@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amplifybackend", "update-backend-job")]
+[CliCommand("amplifybackend", "update-backend-job")]
 public record AwsAmplifybackendUpdateBackendJobOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--backend-environment-name")] string BackendEnvironmentName,
-[property: CommandSwitch("--job-id")] string JobId
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--backend-environment-name")] string BackendEnvironmentName,
+[property: CliOption("--job-id")] string JobId
 ) : AwsOptions
 {
-    [CommandSwitch("--operation")]
+    [CliOption("--operation")]
     public string? Operation { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

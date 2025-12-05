@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "log-analytics", "cluster", "create")]
+[CliSubCommand("monitor", "log-analytics", "cluster", "create")]
 public record AzMonitorLogAnalyticsClusterCreateOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--billing-type")]
+    [CliOption("--billing-type")]
     public string? BillingType { get; set; }
 
-    [CommandSwitch("--identity-type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
-    [CommandSwitch("--key-name")]
+    [CliOption("--key-name")]
     public string? KeyName { get; set; }
 
-    [CommandSwitch("--key-rsa-size")]
+    [CliOption("--key-rsa-size")]
     public string? KeyRsaSize { get; set; }
 
-    [CommandSwitch("--key-vault-uri")]
+    [CliOption("--key-vault-uri")]
     public string? KeyVaultUri { get; set; }
 
-    [CommandSwitch("--key-version")]
+    [CliOption("--key-version")]
     public string? KeyVersion { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--sku-capacity")]
+    [CliOption("--sku-capacity")]
     public string? SkuCapacity { get; set; }
 
-    [CommandSwitch("--sku-name")]
+    [CliOption("--sku-name")]
     public string? SkuName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--user-assigned")]
+    [CliOption("--user-assigned")]
     public string? UserAssigned { get; set; }
 }

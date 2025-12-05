@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("serial-console", "disable")]
+[CliSubCommand("serial-console", "disable")]
 public record AzSerialConsoleDisableOptions : AzOptions;

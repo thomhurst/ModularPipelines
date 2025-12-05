@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr", "terminate-clusters")]
+[CliCommand("emr", "terminate-clusters")]
 public record AwsEmrTerminateClustersOptions(
-[property: CommandSwitch("--cluster-ids")] string[] ClusterIds
+[property: CliOption("--cluster-ids")] string[] ClusterIds
 ) : AwsOptions;

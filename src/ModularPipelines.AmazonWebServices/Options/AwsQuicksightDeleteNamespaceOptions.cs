@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "delete-namespace")]
+[CliCommand("quicksight", "delete-namespace")]
 public record AwsQuicksightDeleteNamespaceOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--namespace")] string Namespace
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--namespace")] string Namespace
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

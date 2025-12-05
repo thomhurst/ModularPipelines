@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops", "security", "permission", "update")]
+[CliSubCommand("devops", "security", "permission", "update")]
 public record AzDevopsSecurityPermissionUpdateOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--subject")] string Subject,
-[property: CommandSwitch("--token")] string Token
+[property: CliOption("--id")] string Id,
+[property: CliOption("--subject")] string Subject,
+[property: CliOption("--token")] string Token
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--allow-bit")]
+    [CliFlag("--allow-bit")]
     public bool? AllowBit { get; set; }
 
-    [CommandSwitch("--deny-bit")]
+    [CliOption("--deny-bit")]
     public string? DenyBit { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [BooleanCommandSwitch("--merge")]
+    [CliFlag("--merge")]
     public bool? Merge { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 }

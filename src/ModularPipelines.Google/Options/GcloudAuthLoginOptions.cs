@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("auth", "login")]
+[CliCommand("auth", "login")]
 public record GcloudAuthLoginOptions : GcloudOptions
 {
     public GcloudAuthLoginOptions(
@@ -14,33 +14,33 @@ public record GcloudAuthLoginOptions : GcloudOptions
         GcloudAuthLoginOptionsAccount = account;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string GcloudAuthLoginOptionsAccount { get; set; }
 
-    [BooleanCommandSwitch("--activate")]
+    [CliFlag("--activate")]
     public bool? Activate { get; set; }
 
-    [BooleanCommandSwitch("--brief")]
+    [CliFlag("--brief")]
     public bool? Brief { get; set; }
 
-    [BooleanCommandSwitch("--no-browser")]
+    [CliFlag("--no-browser")]
     public bool? NoBrowser { get; set; }
 
-    [CommandSwitch("--cred-file")]
+    [CliOption("--cred-file")]
     public string? CredFile { get; set; }
 
-    [BooleanCommandSwitch("--enable-gdrive-access")]
+    [CliFlag("--enable-gdrive-access")]
     public bool? EnableGdriveAccess { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--launch-browser")]
+    [CliFlag("--launch-browser")]
     public bool? LaunchBrowser { get; set; }
 
-    [CommandSwitch("--login-config")]
+    [CliOption("--login-config")]
     public string? LoginConfig { get; set; }
 
-    [BooleanCommandSwitch("--update-adc")]
+    [CliFlag("--update-adc")]
     public bool? UpdateAdc { get; set; }
 }

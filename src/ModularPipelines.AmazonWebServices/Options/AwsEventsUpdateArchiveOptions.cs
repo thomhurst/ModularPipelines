@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("events", "update-archive")]
+[CliCommand("events", "update-archive")]
 public record AwsEventsUpdateArchiveOptions(
-[property: CommandSwitch("--archive-name")] string ArchiveName
+[property: CliOption("--archive-name")] string ArchiveName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--event-pattern")]
+    [CliOption("--event-pattern")]
     public string? EventPattern { get; set; }
 
-    [CommandSwitch("--retention-days")]
+    [CliOption("--retention-days")]
     public int? RetentionDays { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

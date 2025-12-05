@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "update-task-template")]
+[CliCommand("connect", "update-task-template")]
 public record AwsConnectUpdateTaskTemplateOptions(
-[property: CommandSwitch("--task-template-id")] string TaskTemplateId,
-[property: CommandSwitch("--instance-id")] string InstanceId
+[property: CliOption("--task-template-id")] string TaskTemplateId,
+[property: CliOption("--instance-id")] string InstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--contact-flow-id")]
+    [CliOption("--contact-flow-id")]
     public string? ContactFlowId { get; set; }
 
-    [CommandSwitch("--constraints")]
+    [CliOption("--constraints")]
     public string? Constraints { get; set; }
 
-    [CommandSwitch("--defaults")]
+    [CliOption("--defaults")]
     public string? Defaults { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--fields")]
+    [CliOption("--fields")]
     public string[]? Fields { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

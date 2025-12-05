@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("grafana", "notification-channel", "update")]
+[CliSubCommand("grafana", "notification-channel", "update")]
 public record AzGrafanaNotificationChannelUpdateOptions(
-[property: CommandSwitch("--definition")] string Definition,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--notification-channel")] string NotificationChannel
+[property: CliOption("--definition")] string Definition,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--notification-channel")] string NotificationChannel
 ) : AzOptions
 {
-    [CommandSwitch("--api-key")]
+    [CliOption("--api-key")]
     public string? ApiKey { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

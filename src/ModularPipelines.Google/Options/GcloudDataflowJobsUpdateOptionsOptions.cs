@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataflow", "jobs", "update-options")]
+[CliCommand("dataflow", "jobs", "update-options")]
 public record GcloudDataflowJobsUpdateOptionsOptions(
-[property: PositionalArgument] string JobId
+[property: CliArgument] string JobId
 ) : GcloudOptions
 {
-    [CommandSwitch("--max-num-workers")]
+    [CliOption("--max-num-workers")]
     public string? MaxNumWorkers { get; set; }
 
-    [CommandSwitch("--min-num-workers")]
+    [CliOption("--min-num-workers")]
     public string? MinNumWorkers { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

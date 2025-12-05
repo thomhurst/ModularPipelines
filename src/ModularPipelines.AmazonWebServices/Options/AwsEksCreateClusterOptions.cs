@@ -5,37 +5,37 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eks", "create-cluster")]
+[CliCommand("eks", "create-cluster")]
 public record AwsEksCreateClusterOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--role-arn")] string RoleArn,
-[property: CommandSwitch("--resources-vpc-config")] string ResourcesVpcConfig
+[property: CliOption("--name")] string Name,
+[property: CliOption("--role-arn")] string RoleArn,
+[property: CliOption("--resources-vpc-config")] string ResourcesVpcConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--kubernetes-network-config")]
+    [CliOption("--kubernetes-network-config")]
     public string? KubernetesNetworkConfig { get; set; }
 
-    [CommandSwitch("--logging")]
+    [CliOption("--logging")]
     public string? Logging { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--encryption-config")]
+    [CliOption("--encryption-config")]
     public string[]? EncryptionConfig { get; set; }
 
-    [CommandSwitch("--outpost-config")]
+    [CliOption("--outpost-config")]
     public string? OutpostConfig { get; set; }
 
-    [CommandSwitch("--access-config")]
+    [CliOption("--access-config")]
     public string? AccessConfig { get; set; }
 
-    [CommandSwitch("--kubernetes-version")]
+    [CliOption("--kubernetes-version")]
     public string? KubernetesVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

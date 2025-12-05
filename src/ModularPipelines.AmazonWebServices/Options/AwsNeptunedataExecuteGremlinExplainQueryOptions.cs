@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptunedata", "execute-gremlin-explain-query")]
+[CliCommand("neptunedata", "execute-gremlin-explain-query")]
 public record AwsNeptunedataExecuteGremlinExplainQueryOptions(
-[property: CommandSwitch("--gremlin-query")] string GremlinQuery
+[property: CliOption("--gremlin-query")] string GremlinQuery
 ) : AwsOptions;

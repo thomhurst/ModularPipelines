@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("entityresolution", "create-schema-mapping")]
+[CliCommand("entityresolution", "create-schema-mapping")]
 public record AwsEntityresolutionCreateSchemaMappingOptions(
-[property: CommandSwitch("--mapped-input-fields")] string[] MappedInputFields,
-[property: CommandSwitch("--schema-name")] string SchemaName
+[property: CliOption("--mapped-input-fields")] string[] MappedInputFields,
+[property: CliOption("--schema-name")] string SchemaName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

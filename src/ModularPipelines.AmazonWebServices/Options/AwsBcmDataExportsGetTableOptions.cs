@@ -5,14 +5,14 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bcm-data-exports", "get-table")]
+[CliCommand("bcm-data-exports", "get-table")]
 public record AwsBcmDataExportsGetTableOptions(
-[property: CommandSwitch("--table-name")] string TableName
+[property: CliOption("--table-name")] string TableName
 ) : AwsOptions
 {
-    [CommandSwitch("--table-properties")]
+    [CliOption("--table-properties")]
     public IEnumerable<KeyValue>? TableProperties { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

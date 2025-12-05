@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "central", "scheduled-job", "update")]
+[CliSubCommand("iot", "central", "scheduled-job", "update")]
 public record AzIotCentralScheduledJobUpdateOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--id")] string Id
 ) : AzOptions
 {
-    [CommandSwitch("--batch")]
+    [CliOption("--batch")]
     public string? Batch { get; set; }
 
-    [CommandSwitch("--batch-type")]
+    [CliOption("--batch-type")]
     public string? BatchType { get; set; }
 
-    [CommandSwitch("--cancellation-threshold")]
+    [CliOption("--cancellation-threshold")]
     public string? CancellationThreshold { get; set; }
 
-    [CommandSwitch("--cancellation-threshold-batch")]
+    [CliOption("--cancellation-threshold-batch")]
     public string? CancellationThresholdBatch { get; set; }
 
-    [CommandSwitch("--cancellation-threshold-type")]
+    [CliOption("--cancellation-threshold-type")]
     public string? CancellationThresholdType { get; set; }
 
-    [CommandSwitch("--central-api-uri")]
+    [CliOption("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 
-    [CommandSwitch("--content")]
+    [CliOption("--content")]
     public string? Content { get; set; }
 
-    [CommandSwitch("--desc")]
+    [CliOption("--desc")]
     public string? Desc { get; set; }
 
-    [CommandSwitch("--group-id")]
+    [CliOption("--group-id")]
     public string? GroupId { get; set; }
 
-    [CommandSwitch("--job-name")]
+    [CliOption("--job-name")]
     public string? JobName { get; set; }
 
-    [CommandSwitch("--schedule")]
+    [CliOption("--schedule")]
     public string? Schedule { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 }

@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cache", "remove")]
+[CliCommand("cache", "remove")]
 public record CacheRemoveOptions : ChocoOptions
 {
-    [BooleanCommandSwitch("--expired")]
+    [CliFlag("--expired")]
     public virtual bool? Expired { get; set; }
 }

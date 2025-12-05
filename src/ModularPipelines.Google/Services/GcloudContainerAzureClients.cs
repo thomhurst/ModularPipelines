@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "azure")]
+[CliCommand("container", "azure")]
 public class GcloudContainerAzureClients
 {
     public GcloudContainerAzureClients(

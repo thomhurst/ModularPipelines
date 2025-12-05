@@ -5,51 +5,51 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appsync", "create-graphql-api")]
+[CliCommand("appsync", "create-graphql-api")]
 public record AwsAppsyncCreateGraphqlApiOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--authentication-type")] string AuthenticationType
+[property: CliOption("--name")] string Name,
+[property: CliOption("--authentication-type")] string AuthenticationType
 ) : AwsOptions
 {
-    [CommandSwitch("--log-config")]
+    [CliOption("--log-config")]
     public string? LogConfig { get; set; }
 
-    [CommandSwitch("--user-pool-config")]
+    [CliOption("--user-pool-config")]
     public string? UserPoolConfig { get; set; }
 
-    [CommandSwitch("--open-id-connect-config")]
+    [CliOption("--open-id-connect-config")]
     public string? OpenIdConnectConfig { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--additional-authentication-providers")]
+    [CliOption("--additional-authentication-providers")]
     public string[]? AdditionalAuthenticationProviders { get; set; }
 
-    [CommandSwitch("--lambda-authorizer-config")]
+    [CliOption("--lambda-authorizer-config")]
     public string? LambdaAuthorizerConfig { get; set; }
 
-    [CommandSwitch("--visibility")]
+    [CliOption("--visibility")]
     public string? Visibility { get; set; }
 
-    [CommandSwitch("--api-type")]
+    [CliOption("--api-type")]
     public string? ApiType { get; set; }
 
-    [CommandSwitch("--merged-api-execution-role-arn")]
+    [CliOption("--merged-api-execution-role-arn")]
     public string? MergedApiExecutionRoleArn { get; set; }
 
-    [CommandSwitch("--owner-contact")]
+    [CliOption("--owner-contact")]
     public string? OwnerContact { get; set; }
 
-    [CommandSwitch("--introspection-config")]
+    [CliOption("--introspection-config")]
     public string? IntrospectionConfig { get; set; }
 
-    [CommandSwitch("--query-depth-limit")]
+    [CliOption("--query-depth-limit")]
     public int? QueryDepthLimit { get; set; }
 
-    [CommandSwitch("--resolver-count-limit")]
+    [CliOption("--resolver-count-limit")]
     public int? ResolverCountLimit { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

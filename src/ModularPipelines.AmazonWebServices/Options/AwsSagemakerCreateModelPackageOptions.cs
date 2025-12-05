@@ -5,63 +5,63 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-model-package")]
+[CliCommand("sagemaker", "create-model-package")]
 public record AwsSagemakerCreateModelPackageOptions : AwsOptions
 {
-    [CommandSwitch("--model-package-name")]
+    [CliOption("--model-package-name")]
     public string? ModelPackageName { get; set; }
 
-    [CommandSwitch("--model-package-group-name")]
+    [CliOption("--model-package-group-name")]
     public string? ModelPackageGroupName { get; set; }
 
-    [CommandSwitch("--model-package-description")]
+    [CliOption("--model-package-description")]
     public string? ModelPackageDescription { get; set; }
 
-    [CommandSwitch("--inference-specification")]
+    [CliOption("--inference-specification")]
     public string? InferenceSpecification { get; set; }
 
-    [CommandSwitch("--validation-specification")]
+    [CliOption("--validation-specification")]
     public string? ValidationSpecification { get; set; }
 
-    [CommandSwitch("--source-algorithm-specification")]
+    [CliOption("--source-algorithm-specification")]
     public string? SourceAlgorithmSpecification { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--model-approval-status")]
+    [CliOption("--model-approval-status")]
     public string? ModelApprovalStatus { get; set; }
 
-    [CommandSwitch("--metadata-properties")]
+    [CliOption("--metadata-properties")]
     public string? MetadataProperties { get; set; }
 
-    [CommandSwitch("--model-metrics")]
+    [CliOption("--model-metrics")]
     public string? ModelMetrics { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--domain")]
+    [CliOption("--domain")]
     public string? Domain { get; set; }
 
-    [CommandSwitch("--task")]
+    [CliOption("--task")]
     public string? Task { get; set; }
 
-    [CommandSwitch("--sample-payload-url")]
+    [CliOption("--sample-payload-url")]
     public string? SamplePayloadUrl { get; set; }
 
-    [CommandSwitch("--customer-metadata-properties")]
+    [CliOption("--customer-metadata-properties")]
     public IEnumerable<KeyValue>? CustomerMetadataProperties { get; set; }
 
-    [CommandSwitch("--drift-check-baselines")]
+    [CliOption("--drift-check-baselines")]
     public string? DriftCheckBaselines { get; set; }
 
-    [CommandSwitch("--additional-inference-specifications")]
+    [CliOption("--additional-inference-specifications")]
     public string[]? AdditionalInferenceSpecifications { get; set; }
 
-    [CommandSwitch("--skip-model-validation")]
+    [CliOption("--skip-model-validation")]
     public string? SkipModelValidation { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

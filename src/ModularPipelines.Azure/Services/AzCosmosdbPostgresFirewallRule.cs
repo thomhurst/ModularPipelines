@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "postgres")]
+[CliCommand("cosmosdb", "postgres")]
 public class AzCosmosdbPostgresFirewallRule
 {
     public AzCosmosdbPostgresFirewallRule(

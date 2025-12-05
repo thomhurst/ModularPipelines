@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("xray", "get-insight-summaries")]
+[CliCommand("xray", "get-insight-summaries")]
 public record AwsXrayGetInsightSummariesOptions(
-[property: CommandSwitch("--start-time")] long StartTime,
-[property: CommandSwitch("--end-time")] long EndTime
+[property: CliOption("--start-time")] long StartTime,
+[property: CliOption("--end-time")] long EndTime
 ) : AwsOptions
 {
-    [CommandSwitch("--states")]
+    [CliOption("--states")]
     public string[]? States { get; set; }
 
-    [CommandSwitch("--group-arn")]
+    [CliOption("--group-arn")]
     public string? GroupArn { get; set; }
 
-    [CommandSwitch("--group-name")]
+    [CliOption("--group-name")]
     public string? GroupName { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

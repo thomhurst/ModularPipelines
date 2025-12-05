@@ -4,56 +4,56 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managed-cassandra", "cluster", "create", "(cosmosdb-preview", "extension)")]
+[CliSubCommand("managed-cassandra", "cluster", "create", "(cosmosdb-preview", "extension)")]
 public record AzManagedCassandraClusterCreateCosmosdbPreviewExtensionOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--delegated-management-subnet-id")] string DelegatedManagementSubnetId,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--delegated-management-subnet-id")] string DelegatedManagementSubnetId,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--authentication-method")]
+    [CliOption("--authentication-method")]
     public string? AuthenticationMethod { get; set; }
 
-    [CommandSwitch("--cassandra-version")]
+    [CliOption("--cassandra-version")]
     public string? CassandraVersion { get; set; }
 
-    [CommandSwitch("--client-certificates")]
+    [CliOption("--client-certificates")]
     public string? ClientCertificates { get; set; }
 
-    [CommandSwitch("--cluster-name-override")]
+    [CliOption("--cluster-name-override")]
     public string? ClusterNameOverride { get; set; }
 
-    [CommandSwitch("--cluster-type")]
+    [CliOption("--cluster-type")]
     public string? ClusterType { get; set; }
 
-    [CommandSwitch("--extensions")]
+    [CliOption("--extensions")]
     public string? Extensions { get; set; }
 
-    [CommandSwitch("--external-gossip-certificates")]
+    [CliOption("--external-gossip-certificates")]
     public string? ExternalGossipCertificates { get; set; }
 
-    [CommandSwitch("--external-seed-nodes")]
+    [CliOption("--external-seed-nodes")]
     public string? ExternalSeedNodes { get; set; }
 
-    [CommandSwitch("--hours-between-backups")]
+    [CliOption("--hours-between-backups")]
     public string? HoursBetweenBackups { get; set; }
 
-    [CommandSwitch("--identity-type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
-    [CommandSwitch("--initial-cassandra-admin-password")]
+    [CliOption("--initial-cassandra-admin-password")]
     public string? InitialCassandraAdminPassword { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--repair-enabled")]
+    [CliFlag("--repair-enabled")]
     public bool? RepairEnabled { get; set; }
 
-    [CommandSwitch("--restore-from-backup-id")]
+    [CliOption("--restore-from-backup-id")]
     public string? RestoreFromBackupId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

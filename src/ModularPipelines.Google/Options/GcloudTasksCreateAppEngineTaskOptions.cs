@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tasks", "create-app-engine-task")]
+[CliCommand("tasks", "create-app-engine-task")]
 public record GcloudTasksCreateAppEngineTaskOptions(
-[property: PositionalArgument] string TaskId,
-[property: CommandSwitch("--queue")] string Queue
+[property: CliArgument] string TaskId,
+[property: CliOption("--queue")] string Queue
 ) : GcloudOptions
 {
-    [CommandSwitch("--header")]
+    [CliOption("--header")]
     public string? Header { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--method")]
+    [CliOption("--method")]
     public string? Method { get; set; }
 
-    [CommandSwitch("--relative-uri")]
+    [CliOption("--relative-uri")]
     public string? RelativeUri { get; set; }
 
-    [CommandSwitch("--routing")]
+    [CliOption("--routing")]
     public string[]? Routing { get; set; }
 
-    [CommandSwitch("--schedule-time")]
+    [CliOption("--schedule-time")]
     public string? ScheduleTime { get; set; }
 
-    [CommandSwitch("--body-content")]
+    [CliOption("--body-content")]
     public string? BodyContent { get; set; }
 
-    [CommandSwitch("--body-file")]
+    [CliOption("--body-file")]
     public string? BodyFile { get; set; }
 }

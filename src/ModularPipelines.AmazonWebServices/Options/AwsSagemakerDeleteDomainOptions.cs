@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "delete-domain")]
+[CliCommand("sagemaker", "delete-domain")]
 public record AwsSagemakerDeleteDomainOptions(
-[property: CommandSwitch("--domain-id")] string DomainId
+[property: CliOption("--domain-id")] string DomainId
 ) : AwsOptions
 {
-    [CommandSwitch("--retention-policy")]
+    [CliOption("--retention-policy")]
     public string? RetentionPolicy { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

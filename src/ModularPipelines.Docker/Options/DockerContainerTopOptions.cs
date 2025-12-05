@@ -15,9 +15,9 @@ public record DockerContainerTopOptions : DockerOptions
         Options = options;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Ps { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Ps { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Options { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Options { get; set; }
 }

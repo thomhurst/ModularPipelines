@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr", "update-studio-session-mapping")]
+[CliCommand("emr", "update-studio-session-mapping")]
 public record AwsEmrUpdateStudioSessionMappingOptions(
-[property: CommandSwitch("--studio-id")] string StudioId,
-[property: CommandSwitch("--identity-type")] string IdentityType,
-[property: CommandSwitch("--session-policy-arn")] string SessionPolicyArn
+[property: CliOption("--studio-id")] string StudioId,
+[property: CliOption("--identity-type")] string IdentityType,
+[property: CliOption("--session-policy-arn")] string SessionPolicyArn
 ) : AwsOptions
 {
-    [CommandSwitch("--identity-id")]
+    [CliOption("--identity-id")]
     public string? IdentityId { get; set; }
 
-    [CommandSwitch("--identity-name")]
+    [CliOption("--identity-name")]
     public string? IdentityName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

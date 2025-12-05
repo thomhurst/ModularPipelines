@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mturk", "create-hit-with-hit-type")]
+[CliCommand("mturk", "create-hit-with-hit-type")]
 public record AwsMturkCreateHitWithHitTypeOptions(
-[property: CommandSwitch("--hit-type-id")] string HitTypeId,
-[property: CommandSwitch("--lifetime-in-seconds")] long LifetimeInSeconds
+[property: CliOption("--hit-type-id")] string HitTypeId,
+[property: CliOption("--lifetime-in-seconds")] long LifetimeInSeconds
 ) : AwsOptions
 {
-    [CommandSwitch("--max-assignments")]
+    [CliOption("--max-assignments")]
     public int? MaxAssignments { get; set; }
 
-    [CommandSwitch("--question")]
+    [CliOption("--question")]
     public string? Question { get; set; }
 
-    [CommandSwitch("--requester-annotation")]
+    [CliOption("--requester-annotation")]
     public string? RequesterAnnotation { get; set; }
 
-    [CommandSwitch("--unique-request-token")]
+    [CliOption("--unique-request-token")]
     public string? UniqueRequestToken { get; set; }
 
-    [CommandSwitch("--assignment-review-policy")]
+    [CliOption("--assignment-review-policy")]
     public string? AssignmentReviewPolicy { get; set; }
 
-    [CommandSwitch("--hit-review-policy")]
+    [CliOption("--hit-review-policy")]
     public string? HitReviewPolicy { get; set; }
 
-    [CommandSwitch("--hit-layout-id")]
+    [CliOption("--hit-layout-id")]
     public string? HitLayoutId { get; set; }
 
-    [CommandSwitch("--hit-layout-parameters")]
+    [CliOption("--hit-layout-parameters")]
     public string[]? HitLayoutParameters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

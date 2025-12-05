@@ -5,16 +5,16 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("assured", "workloads", "update")]
+[CliCommand("assured", "workloads", "update")]
 public record GcloudAssuredWorkloadsUpdateOptions(
-[property: PositionalArgument] string Workload,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Organization,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--labels")] IEnumerable<KeyValue> Labels,
-[property: CommandSwitch("--violation-notifications-enabled")] string ViolationNotificationsEnabled
+[property: CliArgument] string Workload,
+[property: CliArgument] string Location,
+[property: CliArgument] string Organization,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--labels")] IEnumerable<KeyValue> Labels,
+[property: CliOption("--violation-notifications-enabled")] string ViolationNotificationsEnabled
 ) : GcloudOptions
 {
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 }

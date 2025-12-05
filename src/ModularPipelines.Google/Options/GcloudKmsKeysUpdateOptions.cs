@@ -5,34 +5,34 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "keys", "update")]
+[CliCommand("kms", "keys", "update")]
 public record GcloudKmsKeysUpdateOptions(
-[property: PositionalArgument] string Key,
-[property: PositionalArgument] string Keyring,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Key,
+[property: CliArgument] string Keyring,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--default-algorithm")]
+    [CliOption("--default-algorithm")]
     public string? DefaultAlgorithm { get; set; }
 
-    [CommandSwitch("--next-rotation-time")]
+    [CliOption("--next-rotation-time")]
     public string? NextRotationTime { get; set; }
 
-    [CommandSwitch("--primary-version")]
+    [CliOption("--primary-version")]
     public string? PrimaryVersion { get; set; }
 
-    [BooleanCommandSwitch("--remove-rotation-schedule")]
+    [CliFlag("--remove-rotation-schedule")]
     public bool? RemoveRotationSchedule { get; set; }
 
-    [CommandSwitch("--rotation-period")]
+    [CliOption("--rotation-period")]
     public string? RotationPeriod { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 }

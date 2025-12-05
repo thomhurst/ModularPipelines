@@ -4,75 +4,75 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "scheduled-query", "update")]
+[CliSubCommand("monitor", "scheduled-query", "update")]
 public record AzMonitorScheduledQueryUpdateOptions : AzOptions
 {
-    [CommandSwitch("--action-groups")]
+    [CliOption("--action-groups")]
     public string? ActionGroups { get; set; }
 
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--auto-mitigate")]
+    [CliFlag("--auto-mitigate")]
     public bool? AutoMitigate { get; set; }
 
-    [BooleanCommandSwitch("--check-ws-alerts-storage")]
+    [CliFlag("--check-ws-alerts-storage")]
     public bool? CheckWsAlertsStorage { get; set; }
 
-    [CommandSwitch("--condition")]
+    [CliOption("--condition")]
     public string? Condition { get; set; }
 
-    [CommandSwitch("--condition-query")]
+    [CliOption("--condition-query")]
     public string? ConditionQuery { get; set; }
 
-    [CommandSwitch("--custom-properties")]
+    [CliOption("--custom-properties")]
     public string? CustomProperties { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CommandSwitch("--evaluation-frequency")]
+    [CliOption("--evaluation-frequency")]
     public string? EvaluationFrequency { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--mad")]
+    [CliOption("--mad")]
     public string? Mad { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--severity")]
+    [CliOption("--severity")]
     public string? Severity { get; set; }
 
-    [BooleanCommandSwitch("--skip-query-validation")]
+    [CliFlag("--skip-query-validation")]
     public bool? SkipQueryValidation { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--target-resource-type")]
+    [CliOption("--target-resource-type")]
     public string? TargetResourceType { get; set; }
 
-    [CommandSwitch("--window-size")]
+    [CliOption("--window-size")]
     public string? WindowSize { get; set; }
 }

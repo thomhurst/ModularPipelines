@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediaconnect", "add-bridge-sources")]
+[CliCommand("mediaconnect", "add-bridge-sources")]
 public record AwsMediaconnectAddBridgeSourcesOptions(
-[property: CommandSwitch("--bridge-arn")] string BridgeArn,
-[property: CommandSwitch("--sources")] string[] Sources
+[property: CliOption("--bridge-arn")] string BridgeArn,
+[property: CliOption("--sources")] string[] Sources
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

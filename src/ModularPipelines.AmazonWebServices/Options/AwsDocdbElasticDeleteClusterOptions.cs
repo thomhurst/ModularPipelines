@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("docdb-elastic", "delete-cluster")]
+[CliCommand("docdb-elastic", "delete-cluster")]
 public record AwsDocdbElasticDeleteClusterOptions(
-[property: CommandSwitch("--cluster-arn")] string ClusterArn
+[property: CliOption("--cluster-arn")] string ClusterArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

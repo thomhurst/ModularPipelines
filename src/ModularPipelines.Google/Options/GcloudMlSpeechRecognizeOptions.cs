@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "speech", "recognize")]
+[CliCommand("ml", "speech", "recognize")]
 public record GcloudMlSpeechRecognizeOptions(
-[property: PositionalArgument] string Audio,
-[property: CommandSwitch("--language-code")] string LanguageCode
+[property: CliArgument] string Audio,
+[property: CliOption("--language-code")] string LanguageCode
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--enable-automatic-punctuation")]
+    [CliFlag("--enable-automatic-punctuation")]
     public bool? EnableAutomaticPunctuation { get; set; }
 
-    [CommandSwitch("--encoding")]
+    [CliOption("--encoding")]
     public string? Encoding { get; set; }
 
-    [BooleanCommandSwitch("--filter-profanity")]
+    [CliFlag("--filter-profanity")]
     public bool? FilterProfanity { get; set; }
 
-    [CommandSwitch("--hints")]
+    [CliOption("--hints")]
     public string[]? Hints { get; set; }
 
-    [BooleanCommandSwitch("--include-word-time-offsets")]
+    [CliFlag("--include-word-time-offsets")]
     public bool? IncludeWordTimeOffsets { get; set; }
 
-    [CommandSwitch("--max-alternatives")]
+    [CliOption("--max-alternatives")]
     public string? MaxAlternatives { get; set; }
 
-    [CommandSwitch("--model")]
+    [CliOption("--model")]
     public string? Model { get; set; }
 
-    [CommandSwitch("--sample-rate")]
+    [CliOption("--sample-rate")]
     public string? SampleRate { get; set; }
 
-    [CommandSwitch("--audio-channel-count")]
+    [CliOption("--audio-channel-count")]
     public string? AudioChannelCount { get; set; }
 
-    [BooleanCommandSwitch("--separate-channel-recognition")]
+    [CliFlag("--separate-channel-recognition")]
     public bool? SeparateChannelRecognition { get; set; }
 }

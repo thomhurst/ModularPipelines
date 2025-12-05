@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecommit", "delete-file")]
+[CliCommand("codecommit", "delete-file")]
 public record AwsCodecommitDeleteFileOptions(
-[property: CommandSwitch("--repository-name")] string RepositoryName,
-[property: CommandSwitch("--branch-name")] string BranchName,
-[property: CommandSwitch("--file-path")] string FilePath,
-[property: CommandSwitch("--parent-commit-id")] string ParentCommitId
+[property: CliOption("--repository-name")] string RepositoryName,
+[property: CliOption("--branch-name")] string BranchName,
+[property: CliOption("--file-path")] string FilePath,
+[property: CliOption("--parent-commit-id")] string ParentCommitId
 ) : AwsOptions
 {
-    [CommandSwitch("--commit-message")]
+    [CliOption("--commit-message")]
     public string? CommitMessage { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--email")]
+    [CliOption("--email")]
     public string? Email { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

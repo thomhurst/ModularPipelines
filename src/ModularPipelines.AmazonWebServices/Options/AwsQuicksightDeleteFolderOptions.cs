@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "delete-folder")]
+[CliCommand("quicksight", "delete-folder")]
 public record AwsQuicksightDeleteFolderOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--folder-id")] string FolderId
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--folder-id")] string FolderId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

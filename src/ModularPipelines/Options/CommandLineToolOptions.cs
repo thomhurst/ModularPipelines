@@ -27,7 +27,7 @@ public record CommandLineToolOptions : CommandLineOptions
     public IEnumerable<string>? Arguments { get; init; }
 
     /// <summary>
-    /// Gets if you have an object that has Properties with attributes such as PositionalArgument or CommandSwitch
+    /// Gets if you have an object that has Properties with attributes such as CliArgument or CliOption
     /// Then by setting it here, the values will automatically be extrapolated when running the command.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]

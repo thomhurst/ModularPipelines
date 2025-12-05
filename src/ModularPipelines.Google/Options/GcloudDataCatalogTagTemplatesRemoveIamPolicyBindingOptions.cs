@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("data-catalog", "tag-templates", "remove-iam-policy-binding")]
+[CliCommand("data-catalog", "tag-templates", "remove-iam-policy-binding")]
 public record GcloudDataCatalogTagTemplatesRemoveIamPolicyBindingOptions(
-[property: PositionalArgument] string TagTemplate,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--member")] string Member,
-[property: CommandSwitch("--role")] string Role
+[property: CliArgument] string TagTemplate,
+[property: CliArgument] string Location,
+[property: CliOption("--member")] string Member,
+[property: CliOption("--role")] string Role
 ) : GcloudOptions;

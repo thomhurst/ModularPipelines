@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("builds", "triggers")]
+[CliCommand("builds", "triggers")]
 public class GcloudBuildsTriggersUpdate
 {
     public GcloudBuildsTriggersUpdate(

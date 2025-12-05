@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sbom")]
+[CliCommand("sbom")]
 public record NpmSbomOptions : NpmOptions
 {
-    [CommandSwitch("--omit")]
+    [CliOption("--omit")]
     public virtual string? Omit { get; set; }
 
-    [BooleanCommandSwitch("--package-lock-only")]
+    [CliFlag("--package-lock-only")]
     public virtual bool? PackageLockOnly { get; set; }
 
-    [CommandSwitch("--sbom-format")]
+    [CliOption("--sbom-format")]
     public virtual string? SbomFormat { get; set; }
 
-    [CommandSwitch("--sbom-type")]
+    [CliOption("--sbom-type")]
     public virtual string? SbomType { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public virtual string[]? Workspace { get; set; }
 
-    [BooleanCommandSwitch("--workspaces")]
+    [CliFlag("--workspaces")]
     public virtual bool? Workspaces { get; set; }
 }

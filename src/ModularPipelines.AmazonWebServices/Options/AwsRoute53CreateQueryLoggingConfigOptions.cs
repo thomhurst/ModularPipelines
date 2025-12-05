@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53", "create-query-logging-config")]
+[CliCommand("route53", "create-query-logging-config")]
 public record AwsRoute53CreateQueryLoggingConfigOptions(
-[property: CommandSwitch("--hosted-zone-id")] string HostedZoneId,
-[property: CommandSwitch("--cloud-watch-logs-log-group-arn")] string CloudWatchLogsLogGroupArn
+[property: CliOption("--hosted-zone-id")] string HostedZoneId,
+[property: CliOption("--cloud-watch-logs-log-group-arn")] string CloudWatchLogsLogGroupArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

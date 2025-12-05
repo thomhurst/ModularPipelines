@@ -15,12 +15,12 @@ public record DockerBuildxImagetoolsInspectOptions : DockerOptions
         Name = name;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Name { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Name { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 
-    [BooleanCommandSwitch("--raw")]
+    [CliFlag("--raw")]
     public virtual bool? Raw { get; set; }
 }

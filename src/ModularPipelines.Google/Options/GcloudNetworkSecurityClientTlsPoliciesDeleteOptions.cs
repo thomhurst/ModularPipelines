@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-security", "client-tls-policies", "delete")]
+[CliCommand("network-security", "client-tls-policies", "delete")]
 public record GcloudNetworkSecurityClientTlsPoliciesDeleteOptions(
-[property: PositionalArgument] string ClientTlsPolicy,
-[property: PositionalArgument] string Location
+[property: CliArgument] string ClientTlsPolicy,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

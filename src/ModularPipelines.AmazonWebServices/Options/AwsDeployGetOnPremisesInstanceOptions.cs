@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "get-on-premises-instance")]
+[CliCommand("deploy", "get-on-premises-instance")]
 public record AwsDeployGetOnPremisesInstanceOptions(
-[property: CommandSwitch("--instance-name")] string InstanceName
+[property: CliOption("--instance-name")] string InstanceName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

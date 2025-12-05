@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "modify-db-proxy")]
+[CliCommand("rds", "modify-db-proxy")]
 public record AwsRdsModifyDbProxyOptions(
-[property: CommandSwitch("--db-proxy-name")] string DbProxyName
+[property: CliOption("--db-proxy-name")] string DbProxyName
 ) : AwsOptions
 {
-    [CommandSwitch("--new-db-proxy-name")]
+    [CliOption("--new-db-proxy-name")]
     public string? NewDbProxyName { get; set; }
 
-    [CommandSwitch("--auth")]
+    [CliOption("--auth")]
     public string[]? Auth { get; set; }
 
-    [CommandSwitch("--idle-client-timeout")]
+    [CliOption("--idle-client-timeout")]
     public int? IdleClientTimeout { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--security-groups")]
+    [CliOption("--security-groups")]
     public string[]? SecurityGroups { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

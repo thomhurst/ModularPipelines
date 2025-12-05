@@ -4,44 +4,44 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "sole-tenancy", "node-groups", "update")]
+[CliCommand("compute", "sole-tenancy", "node-groups", "update")]
 public record GcloudComputeSoleTenancyNodeGroupsUpdateOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--node-template")]
+    [CliOption("--node-template")]
     public string? NodeTemplate { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [CommandSwitch("--add-nodes")]
+    [CliOption("--add-nodes")]
     public string? AddNodes { get; set; }
 
-    [CommandSwitch("--delete-nodes")]
+    [CliOption("--delete-nodes")]
     public string[]? DeleteNodes { get; set; }
 
-    [CommandSwitch("--autoscaler-mode")]
+    [CliOption("--autoscaler-mode")]
     public string? AutoscalerMode { get; set; }
 
-    [BooleanCommandSwitch("off")]
+    [CliFlag("off")]
     public bool? Off { get; set; }
 
-    [BooleanCommandSwitch("on")]
+    [CliFlag("on")]
     public bool? On { get; set; }
 
-    [BooleanCommandSwitch("only-scale-out")]
+    [CliFlag("only-scale-out")]
     public bool? OnlyScaleOut { get; set; }
 
-    [CommandSwitch("--max-nodes")]
+    [CliOption("--max-nodes")]
     public string? MaxNodes { get; set; }
 
-    [CommandSwitch("--min-nodes")]
+    [CliOption("--min-nodes")]
     public string? MinNodes { get; set; }
 
-    [CommandSwitch("--share-setting")]
+    [CliOption("--share-setting")]
     public string? ShareSetting { get; set; }
 
-    [CommandSwitch("--share-with")]
+    [CliOption("--share-with")]
     public string[]? ShareWith { get; set; }
 }

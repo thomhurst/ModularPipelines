@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "volume-group", "show")]
+[CliSubCommand("netappfiles", "volume-group", "show")]
 public record AzNetappfilesVolumeGroupShowOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--group-name")] string GroupName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--group-name")] string GroupName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

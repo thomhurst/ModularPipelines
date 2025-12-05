@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("relay", "wcfrelay", "create")]
+[CliSubCommand("relay", "wcfrelay", "create")]
 public record AzRelayWcfrelayCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--relay-type")]
+    [CliOption("--relay-type")]
     public string? RelayType { get; set; }
 
-    [BooleanCommandSwitch("--requires-client-authorization")]
+    [CliFlag("--requires-client-authorization")]
     public bool? RequiresClientAuthorization { get; set; }
 
-    [BooleanCommandSwitch("--requires-transport-security")]
+    [CliFlag("--requires-transport-security")]
     public bool? RequiresTransportSecurity { get; set; }
 
-    [CommandSwitch("--user-metadata")]
+    [CliOption("--user-metadata")]
     public string? UserMetadata { get; set; }
 }

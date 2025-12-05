@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("infra-manager", "deployments", "unlock")]
+[CliCommand("infra-manager", "deployments", "unlock")]
 public record GcloudInfraManagerDeploymentsUnlockOptions(
-[property: PositionalArgument] string Deployment,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--lock-id")] string LockId
+[property: CliArgument] string Deployment,
+[property: CliArgument] string Location,
+[property: CliOption("--lock-id")] string LockId
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "batch-create-partition")]
+[CliCommand("glue", "batch-create-partition")]
 public record AwsGlueBatchCreatePartitionOptions(
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--table-name")] string TableName,
-[property: CommandSwitch("--partition-input-list")] string[] PartitionInputList
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--table-name")] string TableName,
+[property: CliOption("--partition-input-list")] string[] PartitionInputList
 ) : AwsOptions
 {
-    [CommandSwitch("--catalog-id")]
+    [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

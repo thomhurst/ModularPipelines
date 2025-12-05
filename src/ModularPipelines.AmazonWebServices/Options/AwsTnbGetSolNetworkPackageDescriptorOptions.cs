@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tnb", "get-sol-network-package-descriptor")]
+[CliCommand("tnb", "get-sol-network-package-descriptor")]
 public record AwsTnbGetSolNetworkPackageDescriptorOptions(
-[property: CommandSwitch("--nsd-info-id")] string NsdInfoId
+[property: CliOption("--nsd-info-id")] string NsdInfoId
 ) : AwsOptions;

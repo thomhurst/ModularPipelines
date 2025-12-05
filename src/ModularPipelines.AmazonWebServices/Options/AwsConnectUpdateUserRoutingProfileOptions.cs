@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "update-user-routing-profile")]
+[CliCommand("connect", "update-user-routing-profile")]
 public record AwsConnectUpdateUserRoutingProfileOptions(
-[property: CommandSwitch("--routing-profile-id")] string RoutingProfileId,
-[property: CommandSwitch("--user-id")] string UserId,
-[property: CommandSwitch("--instance-id")] string InstanceId
+[property: CliOption("--routing-profile-id")] string RoutingProfileId,
+[property: CliOption("--user-id")] string UserId,
+[property: CliOption("--instance-id")] string InstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

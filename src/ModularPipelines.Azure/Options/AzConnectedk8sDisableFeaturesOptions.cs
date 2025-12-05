@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectedk8s", "disable-features")]
+[CliSubCommand("connectedk8s", "disable-features")]
 public record AzConnectedk8sDisableFeaturesOptions(
-[property: CommandSwitch("--features")] string Features
+[property: CliOption("--features")] string Features
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--kube-config")]
+    [CliOption("--kube-config")]
     public string? KubeConfig { get; set; }
 
-    [CommandSwitch("--kube-context")]
+    [CliOption("--kube-context")]
     public string? KubeContext { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

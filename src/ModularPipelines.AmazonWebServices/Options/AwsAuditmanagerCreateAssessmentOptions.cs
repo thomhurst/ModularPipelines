@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("auditmanager", "create-assessment")]
+[CliCommand("auditmanager", "create-assessment")]
 public record AwsAuditmanagerCreateAssessmentOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--assessment-reports-destination")] string AssessmentReportsDestination,
-[property: CommandSwitch("--scope")] string Scope,
-[property: CommandSwitch("--roles")] string[] Roles,
-[property: CommandSwitch("--framework-id")] string FrameworkId
+[property: CliOption("--name")] string Name,
+[property: CliOption("--assessment-reports-destination")] string AssessmentReportsDestination,
+[property: CliOption("--scope")] string Scope,
+[property: CliOption("--roles")] string[] Roles,
+[property: CliOption("--framework-id")] string FrameworkId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

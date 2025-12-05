@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("data-catalog", "entry-groups", "create")]
+[CliCommand("data-catalog", "entry-groups", "create")]
 public record GcloudDataCatalogEntryGroupsCreateOptions(
-[property: PositionalArgument] string EntryGroup,
-[property: PositionalArgument] string Location
+[property: CliArgument] string EntryGroup,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 }

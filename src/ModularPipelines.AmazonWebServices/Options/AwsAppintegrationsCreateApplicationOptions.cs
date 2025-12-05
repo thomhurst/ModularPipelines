@@ -5,31 +5,31 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appintegrations", "create-application")]
+[CliCommand("appintegrations", "create-application")]
 public record AwsAppintegrationsCreateApplicationOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--namespace")] string Namespace,
-[property: CommandSwitch("--application-source-config")] string ApplicationSourceConfig
+[property: CliOption("--name")] string Name,
+[property: CliOption("--namespace")] string Namespace,
+[property: CliOption("--application-source-config")] string ApplicationSourceConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--subscriptions")]
+    [CliOption("--subscriptions")]
     public string[]? Subscriptions { get; set; }
 
-    [CommandSwitch("--publications")]
+    [CliOption("--publications")]
     public string[]? Publications { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--permissions")]
+    [CliOption("--permissions")]
     public string[]? Permissions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

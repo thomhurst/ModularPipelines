@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "allocate-hosts")]
+[CliCommand("ec2", "allocate-hosts")]
 public record AwsEc2AllocateHostsOptions(
-[property: CommandSwitch("--availability-zone")] string AvailabilityZone
+[property: CliOption("--availability-zone")] string AvailabilityZone
 ) : AwsOptions
 {
-    [CommandSwitch("--auto-placement")]
+    [CliOption("--auto-placement")]
     public string? AutoPlacement { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--instance-type")]
+    [CliOption("--instance-type")]
     public string? InstanceType { get; set; }
 
-    [CommandSwitch("--instance-family")]
+    [CliOption("--instance-family")]
     public string? InstanceFamily { get; set; }
 
-    [CommandSwitch("--quantity")]
+    [CliOption("--quantity")]
     public int? Quantity { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--host-recovery")]
+    [CliOption("--host-recovery")]
     public string? HostRecovery { get; set; }
 
-    [CommandSwitch("--outpost-arn")]
+    [CliOption("--outpost-arn")]
     public string? OutpostArn { get; set; }
 
-    [CommandSwitch("--host-maintenance")]
+    [CliOption("--host-maintenance")]
     public string? HostMaintenance { get; set; }
 
-    [CommandSwitch("--asset-ids")]
+    [CliOption("--asset-ids")]
     public string[]? AssetIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

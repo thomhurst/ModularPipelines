@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bigtable", "clusters", "update")]
+[CliCommand("bigtable", "clusters", "update")]
 public record GcloudBigtableClustersUpdateOptions(
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Instance,
-[property: CommandSwitch("--autoscaling-cpu-target")] string AutoscalingCpuTarget,
-[property: CommandSwitch("--autoscaling-max-nodes")] string AutoscalingMaxNodes,
-[property: CommandSwitch("--autoscaling-min-nodes")] string AutoscalingMinNodes,
-[property: CommandSwitch("--autoscaling-storage-target")] string AutoscalingStorageTarget,
-[property: CommandSwitch("--num-nodes")] string NumNodes,
-[property: BooleanCommandSwitch("--disable-autoscaling")] bool DisableAutoscaling
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Instance,
+[property: CliOption("--autoscaling-cpu-target")] string AutoscalingCpuTarget,
+[property: CliOption("--autoscaling-max-nodes")] string AutoscalingMaxNodes,
+[property: CliOption("--autoscaling-min-nodes")] string AutoscalingMinNodes,
+[property: CliOption("--autoscaling-storage-target")] string AutoscalingStorageTarget,
+[property: CliOption("--num-nodes")] string NumNodes,
+[property: CliFlag("--disable-autoscaling")] bool DisableAutoscaling
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

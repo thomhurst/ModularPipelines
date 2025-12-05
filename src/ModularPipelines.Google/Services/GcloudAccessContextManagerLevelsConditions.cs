@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access-context-manager", "levels")]
+[CliCommand("access-context-manager", "levels")]
 public class GcloudAccessContextManagerLevelsConditions
 {
     public GcloudAccessContextManagerLevelsConditions(

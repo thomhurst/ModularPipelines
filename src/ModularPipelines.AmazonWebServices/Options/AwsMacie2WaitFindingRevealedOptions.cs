@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("macie2", "wait", "finding-revealed")]
+[CliCommand("macie2", "wait", "finding-revealed")]
 public record AwsMacie2WaitFindingRevealedOptions(
-[property: CommandSwitch("--finding-id")] string FindingId
+[property: CliOption("--finding-id")] string FindingId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

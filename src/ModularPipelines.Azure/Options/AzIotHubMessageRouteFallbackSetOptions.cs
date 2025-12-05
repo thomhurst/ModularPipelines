@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "message-route", "fallback", "set")]
+[CliSubCommand("iot", "hub", "message-route", "fallback", "set")]
 public record AzIotHubMessageRouteFallbackSetOptions(
-[property: BooleanCommandSwitch("--enabled")] bool Enabled,
-[property: CommandSwitch("--hub-name")] string HubName
+[property: CliFlag("--enabled")] bool Enabled,
+[property: CliOption("--hub-name")] string HubName
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

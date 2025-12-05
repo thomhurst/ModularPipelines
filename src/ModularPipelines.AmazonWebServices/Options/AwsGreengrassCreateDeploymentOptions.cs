@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("greengrass", "create-deployment")]
+[CliCommand("greengrass", "create-deployment")]
 public record AwsGreengrassCreateDeploymentOptions(
-[property: CommandSwitch("--deployment-type")] string DeploymentType,
-[property: CommandSwitch("--group-id")] string GroupId
+[property: CliOption("--deployment-type")] string DeploymentType,
+[property: CliOption("--group-id")] string GroupId
 ) : AwsOptions
 {
-    [CommandSwitch("--amzn-client-token")]
+    [CliOption("--amzn-client-token")]
     public string? AmznClientToken { get; set; }
 
-    [CommandSwitch("--deployment-id")]
+    [CliOption("--deployment-id")]
     public string? DeploymentId { get; set; }
 
-    [CommandSwitch("--group-version-id")]
+    [CliOption("--group-version-id")]
     public string? GroupVersionId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

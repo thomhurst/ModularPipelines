@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securityhub", "update-organization-configuration")]
+[CliCommand("securityhub", "update-organization-configuration")]
 public record AwsSecurityhubUpdateOrganizationConfigurationOptions : AwsOptions
 {
-    [CommandSwitch("--auto-enable-standards")]
+    [CliOption("--auto-enable-standards")]
     public string? AutoEnableStandards { get; set; }
 
-    [CommandSwitch("--organization-configuration")]
+    [CliOption("--organization-configuration")]
     public string? OrganizationConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

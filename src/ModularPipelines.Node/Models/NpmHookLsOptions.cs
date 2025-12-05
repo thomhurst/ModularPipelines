@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hook", "ls")]
+[CliCommand("hook", "ls")]
 public record NpmHookLsOptions : NpmOptions
 {
-    [CommandSwitch("--registry")]
+    [CliOption("--registry")]
     public virtual Uri? Registry { get; set; }
 
-    [CommandSwitch("--otp")]
+    [CliOption("--otp")]
     public virtual string? Otp { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
-    public string? Pkg { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    public virtual string? Pkg { get; set; }
 }

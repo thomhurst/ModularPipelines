@@ -5,31 +5,31 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "create-stage")]
+[CliCommand("apigateway", "create-stage")]
 public record AwsApigatewayCreateStageOptions(
-[property: CommandSwitch("--rest-api-id")] string RestApiId,
-[property: CommandSwitch("--stage-name")] string StageName,
-[property: CommandSwitch("--deployment-id")] string DeploymentId
+[property: CliOption("--rest-api-id")] string RestApiId,
+[property: CliOption("--stage-name")] string StageName,
+[property: CliOption("--deployment-id")] string DeploymentId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--cache-cluster-size")]
+    [CliOption("--cache-cluster-size")]
     public string? CacheClusterSize { get; set; }
 
-    [CommandSwitch("--variables")]
+    [CliOption("--variables")]
     public IEnumerable<KeyValue>? Variables { get; set; }
 
-    [CommandSwitch("--documentation-version")]
+    [CliOption("--documentation-version")]
     public string? DocumentationVersion { get; set; }
 
-    [CommandSwitch("--canary-settings")]
+    [CliOption("--canary-settings")]
     public string? CanarySettings { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codestar", "create-project")]
+[CliCommand("codestar", "create-project")]
 public record AwsCodestarCreateProjectOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--name")] string Name,
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--source-code")]
+    [CliOption("--source-code")]
     public string[]? SourceCode { get; set; }
 
-    [CommandSwitch("--toolchain")]
+    [CliOption("--toolchain")]
     public string? Toolchain { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

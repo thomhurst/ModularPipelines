@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ds", "create-snapshot")]
+[CliCommand("ds", "create-snapshot")]
 public record AwsDsCreateSnapshotOptions(
-[property: CommandSwitch("--directory-id")] string DirectoryId
+[property: CliOption("--directory-id")] string DirectoryId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("convert")]
+[CliCommand("convert")]
 public record ConvertOptions(
-    [property: PositionalArgument] string Pkg
+    [property: CliArgument] string Pkg
 ) : ChocoOptions
 {
-    [CommandSwitch("--to-format")]
+    [CliOption("--to-format")]
     public virtual string? ToFormat { get; set; }
 
-    [BooleanCommandSwitch("--includeall")]
+    [CliFlag("--includeall")]
     public virtual bool? Includeall { get; set; }
 
-    [BooleanCommandSwitch("--ignore-dependencies")]
+    [CliFlag("--ignore-dependencies")]
     public virtual bool? IgnoreDependencies { get; set; }
 
-    [BooleanCommandSwitch("--force-self-service")]
+    [CliFlag("--force-self-service")]
     public virtual bool? ForceSelfService { get; set; }
 }

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pi", "create-performance-analysis-report")]
+[CliCommand("pi", "create-performance-analysis-report")]
 public record AwsPiCreatePerformanceAnalysisReportOptions(
-[property: CommandSwitch("--service-type")] string ServiceType,
-[property: CommandSwitch("--identifier")] string Identifier,
-[property: CommandSwitch("--start-time")] long StartTime,
-[property: CommandSwitch("--end-time")] long EndTime
+[property: CliOption("--service-type")] string ServiceType,
+[property: CliOption("--identifier")] string Identifier,
+[property: CliOption("--start-time")] long StartTime,
+[property: CliOption("--end-time")] long EndTime
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

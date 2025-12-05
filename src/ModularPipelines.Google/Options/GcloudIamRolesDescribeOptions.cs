@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "roles", "describe")]
+[CliCommand("iam", "roles", "describe")]
 public record GcloudIamRolesDescribeOptions(
-[property: PositionalArgument] string RoleId
+[property: CliArgument] string RoleId
 ) : GcloudOptions
 {
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string? Organization { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public new string? Project { get; set; }
 }

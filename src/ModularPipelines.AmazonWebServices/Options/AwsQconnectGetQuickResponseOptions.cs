@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qconnect", "get-quick-response")]
+[CliCommand("qconnect", "get-quick-response")]
 public record AwsQconnectGetQuickResponseOptions(
-[property: CommandSwitch("--knowledge-base-id")] string KnowledgeBaseId,
-[property: CommandSwitch("--quick-response-id")] string QuickResponseId
+[property: CliOption("--knowledge-base-id")] string KnowledgeBaseId,
+[property: CliOption("--quick-response-id")] string QuickResponseId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

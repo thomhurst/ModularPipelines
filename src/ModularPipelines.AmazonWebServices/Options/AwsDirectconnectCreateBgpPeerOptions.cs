@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("directconnect", "create-bgp-peer")]
+[CliCommand("directconnect", "create-bgp-peer")]
 public record AwsDirectconnectCreateBgpPeerOptions : AwsOptions
 {
-    [CommandSwitch("--virtual-interface-id")]
+    [CliOption("--virtual-interface-id")]
     public string? VirtualInterfaceId { get; set; }
 
-    [CommandSwitch("--new-bgp-peer")]
+    [CliOption("--new-bgp-peer")]
     public string? NewBgpPeer { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

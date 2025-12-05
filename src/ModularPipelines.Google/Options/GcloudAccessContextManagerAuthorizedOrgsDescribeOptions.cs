@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access-context-manager", "authorized-orgs", "describe")]
+[CliCommand("access-context-manager", "authorized-orgs", "describe")]
 public record GcloudAccessContextManagerAuthorizedOrgsDescribeOptions(
-[property: PositionalArgument] string AuthorizedOrgsDesc,
-[property: PositionalArgument] string Policy
+[property: CliArgument] string AuthorizedOrgsDesc,
+[property: CliArgument] string Policy
 ) : GcloudOptions;

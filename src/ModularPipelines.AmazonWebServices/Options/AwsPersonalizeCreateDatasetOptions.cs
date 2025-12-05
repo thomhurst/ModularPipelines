@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("personalize", "create-dataset")]
+[CliCommand("personalize", "create-dataset")]
 public record AwsPersonalizeCreateDatasetOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--schema-arn")] string SchemaArn,
-[property: CommandSwitch("--dataset-group-arn")] string DatasetGroupArn,
-[property: CommandSwitch("--dataset-type")] string DatasetType
+[property: CliOption("--name")] string Name,
+[property: CliOption("--schema-arn")] string SchemaArn,
+[property: CliOption("--dataset-group-arn")] string DatasetGroupArn,
+[property: CliOption("--dataset-type")] string DatasetType
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

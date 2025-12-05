@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3control", "list-storage-lens-groups")]
+[CliCommand("s3control", "list-storage-lens-groups")]
 public record AwsS3controlListStorageLensGroupsOptions(
-[property: CommandSwitch("--account-id")] string AccountId
+[property: CliOption("--account-id")] string AccountId
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

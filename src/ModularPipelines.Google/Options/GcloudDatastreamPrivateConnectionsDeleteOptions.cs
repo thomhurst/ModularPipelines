@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datastream", "private-connections", "delete")]
+[CliCommand("datastream", "private-connections", "delete")]
 public record GcloudDatastreamPrivateConnectionsDeleteOptions(
-[property: PositionalArgument] string PrivateConnection,
-[property: PositionalArgument] string Location
+[property: CliArgument] string PrivateConnection,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 }

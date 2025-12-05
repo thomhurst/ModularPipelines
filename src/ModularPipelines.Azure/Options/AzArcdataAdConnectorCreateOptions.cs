@@ -4,50 +4,50 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arcdata", "ad-connector", "create")]
+[CliSubCommand("arcdata", "ad-connector", "create")]
 public record AzArcdataAdConnectorCreateOptions(
-[property: CommandSwitch("--account-provisioning")] int AccountProvisioning,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--nameserver-addresses")] string NameserverAddresses,
-[property: CommandSwitch("--realm")] string Realm
+[property: CliOption("--account-provisioning")] int AccountProvisioning,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--nameserver-addresses")] string NameserverAddresses,
+[property: CliOption("--realm")] string Realm
 ) : AzOptions
 {
-    [CommandSwitch("--data-controller-name")]
+    [CliOption("--data-controller-name")]
     public string? DataControllerName { get; set; }
 
-    [CommandSwitch("--dns-domain-name")]
+    [CliOption("--dns-domain-name")]
     public string? DnsDomainName { get; set; }
 
-    [CommandSwitch("--dns-replicas")]
+    [CliOption("--dns-replicas")]
     public string? DnsReplicas { get; set; }
 
-    [CommandSwitch("--domain-service-account-secret")]
+    [CliOption("--domain-service-account-secret")]
     public int? DomainServiceAccountSecret { get; set; }
 
-    [CommandSwitch("--k8s-namespace")]
+    [CliOption("--k8s-namespace")]
     public string? K8sNamespace { get; set; }
 
-    [CommandSwitch("--netbios-domain-name")]
+    [CliOption("--netbios-domain-name")]
     public string? NetbiosDomainName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--ou-distinguished-name")]
+    [CliOption("--ou-distinguished-name")]
     public string? OuDistinguishedName { get; set; }
 
-    [BooleanCommandSwitch("--prefer-k8s-dns")]
+    [CliFlag("--prefer-k8s-dns")]
     public bool? PreferK8sDns { get; set; }
 
-    [CommandSwitch("--primary-ad-dc-hostname")]
+    [CliOption("--primary-ad-dc-hostname")]
     public string? PrimaryAdDcHostname { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--secondary-ad-dc-hostnames")]
+    [CliOption("--secondary-ad-dc-hostnames")]
     public string? SecondaryAdDcHostnames { get; set; }
 
-    [BooleanCommandSwitch("--use-k8s")]
+    [CliFlag("--use-k8s")]
     public bool? UseK8s { get; set; }
 }

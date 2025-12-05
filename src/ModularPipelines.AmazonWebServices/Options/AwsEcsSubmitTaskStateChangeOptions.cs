@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "submit-task-state-change")]
+[CliCommand("ecs", "submit-task-state-change")]
 public record AwsEcsSubmitTaskStateChangeOptions : AwsOptions
 {
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--task")]
+    [CliOption("--task")]
     public string? Task { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--reason")]
+    [CliOption("--reason")]
     public string? Reason { get; set; }
 
-    [CommandSwitch("--containers")]
+    [CliOption("--containers")]
     public string[]? Containers { get; set; }
 
-    [CommandSwitch("--attachments")]
+    [CliOption("--attachments")]
     public string[]? Attachments { get; set; }
 
-    [CommandSwitch("--managed-agents")]
+    [CliOption("--managed-agents")]
     public string[]? ManagedAgents { get; set; }
 
-    [CommandSwitch("--pull-started-at")]
+    [CliOption("--pull-started-at")]
     public long? PullStartedAt { get; set; }
 
-    [CommandSwitch("--pull-stopped-at")]
+    [CliOption("--pull-stopped-at")]
     public long? PullStoppedAt { get; set; }
 
-    [CommandSwitch("--execution-stopped-at")]
+    [CliOption("--execution-stopped-at")]
     public long? ExecutionStoppedAt { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

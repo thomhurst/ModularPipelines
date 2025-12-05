@@ -5,78 +5,78 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "create-function")]
+[CliCommand("lambda", "create-function")]
 public record AwsLambdaCreateFunctionOptions(
-[property: CommandSwitch("--function-name")] string FunctionName,
-[property: CommandSwitch("--role")] string Role
+[property: CliOption("--function-name")] string FunctionName,
+[property: CliOption("--role")] string Role
 ) : AwsOptions
 {
-    [CommandSwitch("--runtime")]
+    [CliOption("--runtime")]
     public string? Runtime { get; set; }
 
-    [CommandSwitch("--handler")]
+    [CliOption("--handler")]
     public string? Handler { get; set; }
 
-    [CommandSwitch("--code")]
+    [CliOption("--code")]
     public string? Code { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public int? Timeout { get; set; }
 
-    [CommandSwitch("--memory-size")]
+    [CliOption("--memory-size")]
     public int? MemorySize { get; set; }
 
-    [CommandSwitch("--vpc-config")]
+    [CliOption("--vpc-config")]
     public string? VpcConfig { get; set; }
 
-    [CommandSwitch("--package-type")]
+    [CliOption("--package-type")]
     public string? PackageType { get; set; }
 
-    [CommandSwitch("--dead-letter-config")]
+    [CliOption("--dead-letter-config")]
     public string? DeadLetterConfig { get; set; }
 
-    [CommandSwitch("--environment")]
+    [CliOption("--environment")]
     public string? Environment { get; set; }
 
-    [CommandSwitch("--kms-key-arn")]
+    [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
-    [CommandSwitch("--tracing-config")]
+    [CliOption("--tracing-config")]
     public string? TracingConfig { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--layers")]
+    [CliOption("--layers")]
     public string[]? Layers { get; set; }
 
-    [CommandSwitch("--file-system-configs")]
+    [CliOption("--file-system-configs")]
     public string[]? FileSystemConfigs { get; set; }
 
-    [CommandSwitch("--image-config")]
+    [CliOption("--image-config")]
     public string? ImageConfig { get; set; }
 
-    [CommandSwitch("--code-signing-config-arn")]
+    [CliOption("--code-signing-config-arn")]
     public string? CodeSigningConfigArn { get; set; }
 
-    [CommandSwitch("--architectures")]
+    [CliOption("--architectures")]
     public string[]? Architectures { get; set; }
 
-    [CommandSwitch("--ephemeral-storage")]
+    [CliOption("--ephemeral-storage")]
     public string? EphemeralStorage { get; set; }
 
-    [CommandSwitch("--snap-start")]
+    [CliOption("--snap-start")]
     public string? SnapStart { get; set; }
 
-    [CommandSwitch("--logging-config")]
+    [CliOption("--logging-config")]
     public string? LoggingConfig { get; set; }
 
-    [CommandSwitch("--zip-file")]
+    [CliOption("--zip-file")]
     public string? ZipFile { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

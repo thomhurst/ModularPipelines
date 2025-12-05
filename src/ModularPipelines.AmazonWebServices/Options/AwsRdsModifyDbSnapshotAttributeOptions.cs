@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "modify-db-snapshot-attribute")]
+[CliCommand("rds", "modify-db-snapshot-attribute")]
 public record AwsRdsModifyDbSnapshotAttributeOptions(
-[property: CommandSwitch("--db-snapshot-identifier")] string DbSnapshotIdentifier,
-[property: CommandSwitch("--attribute-name")] string AttributeName
+[property: CliOption("--db-snapshot-identifier")] string DbSnapshotIdentifier,
+[property: CliOption("--attribute-name")] string AttributeName
 ) : AwsOptions
 {
-    [CommandSwitch("--values-to-add")]
+    [CliOption("--values-to-add")]
     public string[]? ValuesToAdd { get; set; }
 
-    [CommandSwitch("--values-to-remove")]
+    [CliOption("--values-to-remove")]
     public string[]? ValuesToRemove { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

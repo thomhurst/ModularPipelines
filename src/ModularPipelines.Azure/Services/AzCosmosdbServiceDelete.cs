@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "service")]
+[CliCommand("cosmosdb", "service")]
 public class AzCosmosdbServiceDelete
 {
     public AzCosmosdbServiceDelete(

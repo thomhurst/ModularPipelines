@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vpn-gateway", "create")]
+[CliSubCommand("network", "vpn-gateway", "create")]
 public record AzNetworkVpnGatewayCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--asn")]
+    [CliOption("--asn")]
     public string? Asn { get; set; }
 
-    [CommandSwitch("--bgp-peering-address")]
+    [CliOption("--bgp-peering-address")]
     public string? BgpPeeringAddress { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--peer-weight")]
+    [CliOption("--peer-weight")]
     public string? PeerWeight { get; set; }
 
-    [CommandSwitch("--scale-unit")]
+    [CliOption("--scale-unit")]
     public string? ScaleUnit { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--vhub")]
+    [CliOption("--vhub")]
     public string? Vhub { get; set; }
 }

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lakeformation", "delete-objects-on-cancel")]
+[CliCommand("lakeformation", "delete-objects-on-cancel")]
 public record AwsLakeformationDeleteObjectsOnCancelOptions(
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--table-name")] string TableName,
-[property: CommandSwitch("--transaction-id")] string TransactionId,
-[property: CommandSwitch("--objects")] string[] Objects
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--table-name")] string TableName,
+[property: CliOption("--transaction-id")] string TransactionId,
+[property: CliOption("--objects")] string[] Objects
 ) : AwsOptions
 {
-    [CommandSwitch("--catalog-id")]
+    [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

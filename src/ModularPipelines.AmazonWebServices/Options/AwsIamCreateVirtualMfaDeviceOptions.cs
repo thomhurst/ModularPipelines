@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "create-virtual-mfa-device")]
+[CliCommand("iam", "create-virtual-mfa-device")]
 public record AwsIamCreateVirtualMfaDeviceOptions(
-[property: CommandSwitch("--virtual-mfa-device-name")] string VirtualMfaDeviceName,
-[property: CommandSwitch("--outfile")] string Outfile,
-[property: CommandSwitch("--bootstrap-method")] string BootstrapMethod
+[property: CliOption("--virtual-mfa-device-name")] string VirtualMfaDeviceName,
+[property: CliOption("--outfile")] string Outfile,
+[property: CliOption("--bootstrap-method")] string BootstrapMethod
 ) : AwsOptions
 {
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 }

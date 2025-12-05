@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("inspector", "remove-attributes-from-findings")]
+[CliCommand("inspector", "remove-attributes-from-findings")]
 public record AwsInspectorRemoveAttributesFromFindingsOptions(
-[property: CommandSwitch("--finding-arns")] string[] FindingArns,
-[property: CommandSwitch("--attribute-keys")] string[] AttributeKeys
+[property: CliOption("--finding-arns")] string[] FindingArns,
+[property: CliOption("--attribute-keys")] string[] AttributeKeys
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

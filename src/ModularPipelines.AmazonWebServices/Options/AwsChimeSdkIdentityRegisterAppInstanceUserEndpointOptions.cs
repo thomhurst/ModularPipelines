@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-identity", "register-app-instance-user-endpoint")]
+[CliCommand("chime-sdk-identity", "register-app-instance-user-endpoint")]
 public record AwsChimeSdkIdentityRegisterAppInstanceUserEndpointOptions(
-[property: CommandSwitch("--app-instance-user-arn")] string AppInstanceUserArn,
-[property: CommandSwitch("--type")] string Type,
-[property: CommandSwitch("--resource-arn")] string ResourceArn,
-[property: CommandSwitch("--endpoint-attributes")] string EndpointAttributes
+[property: CliOption("--app-instance-user-arn")] string AppInstanceUserArn,
+[property: CliOption("--type")] string Type,
+[property: CliOption("--resource-arn")] string ResourceArn,
+[property: CliOption("--endpoint-attributes")] string EndpointAttributes
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--allow-messages")]
+    [CliOption("--allow-messages")]
     public string? AllowMessages { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

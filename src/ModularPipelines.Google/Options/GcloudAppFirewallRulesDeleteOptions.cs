@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "firewall-rules", "delete")]
+[CliCommand("app", "firewall-rules", "delete")]
 public record GcloudAppFirewallRulesDeleteOptions(
-[property: PositionalArgument] string Priority
+[property: CliArgument] string Priority
 ) : GcloudOptions;

@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "put-gateway-response")]
+[CliCommand("apigateway", "put-gateway-response")]
 public record AwsApigatewayPutGatewayResponseOptions(
-[property: CommandSwitch("--rest-api-id")] string RestApiId,
-[property: CommandSwitch("--response-type")] string ResponseType
+[property: CliOption("--rest-api-id")] string RestApiId,
+[property: CliOption("--response-type")] string ResponseType
 ) : AwsOptions
 {
-    [CommandSwitch("--status-code")]
+    [CliOption("--status-code")]
     public string? StatusCode { get; set; }
 
-    [CommandSwitch("--response-parameters")]
+    [CliOption("--response-parameters")]
     public IEnumerable<KeyValue>? ResponseParameters { get; set; }
 
-    [CommandSwitch("--response-templates")]
+    [CliOption("--response-templates")]
     public IEnumerable<KeyValue>? ResponseTemplates { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

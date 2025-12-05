@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecommit", "merge-branches-by-fast-forward")]
+[CliCommand("codecommit", "merge-branches-by-fast-forward")]
 public record AwsCodecommitMergeBranchesByFastForwardOptions(
-[property: CommandSwitch("--repository-name")] string RepositoryName,
-[property: CommandSwitch("--source-commit-specifier")] string SourceCommitSpecifier,
-[property: CommandSwitch("--destination-commit-specifier")] string DestinationCommitSpecifier
+[property: CliOption("--repository-name")] string RepositoryName,
+[property: CliOption("--source-commit-specifier")] string SourceCommitSpecifier,
+[property: CliOption("--destination-commit-specifier")] string DestinationCommitSpecifier
 ) : AwsOptions
 {
-    [CommandSwitch("--target-branch")]
+    [CliOption("--target-branch")]
     public string? TargetBranch { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

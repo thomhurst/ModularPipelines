@@ -4,72 +4,72 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ams", "live-event", "create")]
+[CliSubCommand("ams", "live-event", "create")]
 public record AzAmsLiveEventCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--ips")] string Ips,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--streaming-protocol")] string StreamingProtocol
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--ips")] string Ips,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--streaming-protocol")] string StreamingProtocol
 ) : AzOptions
 {
-    [CommandSwitch("--access-token")]
+    [CliOption("--access-token")]
     public string? AccessToken { get; set; }
 
-    [CommandSwitch("--alternative-media-id")]
+    [CliOption("--alternative-media-id")]
     public string? AlternativeMediaId { get; set; }
 
-    [BooleanCommandSwitch("--auto-start")]
+    [CliFlag("--auto-start")]
     public bool? AutoStart { get; set; }
 
-    [CommandSwitch("--client-access-policy")]
+    [CliOption("--client-access-policy")]
     public string? ClientAccessPolicy { get; set; }
 
-    [CommandSwitch("--cross-domain-policy")]
+    [CliOption("--cross-domain-policy")]
     public string? CrossDomainPolicy { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--encoding-type")]
+    [CliOption("--encoding-type")]
     public string? EncodingType { get; set; }
 
-    [CommandSwitch("--hostname-prefix")]
+    [CliOption("--hostname-prefix")]
     public string? HostnamePrefix { get; set; }
 
-    [CommandSwitch("--key-frame-interval")]
+    [CliOption("--key-frame-interval")]
     public string? KeyFrameInterval { get; set; }
 
-    [CommandSwitch("--key-frame-interval-duration")]
+    [CliOption("--key-frame-interval-duration")]
     public string? KeyFrameIntervalDuration { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--preset-name")]
+    [CliOption("--preset-name")]
     public string? PresetName { get; set; }
 
-    [CommandSwitch("--preview-ips")]
+    [CliOption("--preview-ips")]
     public string? PreviewIps { get; set; }
 
-    [CommandSwitch("--preview-locator")]
+    [CliOption("--preview-locator")]
     public string? PreviewLocator { get; set; }
 
-    [CommandSwitch("--stream-options")]
+    [CliOption("--stream-options")]
     public string? StreamOptions { get; set; }
 
-    [CommandSwitch("--streaming-policy-name")]
+    [CliOption("--streaming-policy-name")]
     public string? StreamingPolicyName { get; set; }
 
-    [CommandSwitch("--stretch-mode")]
+    [CliOption("--stretch-mode")]
     public string? StretchMode { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--transcription-lang")]
+    [CliOption("--transcription-lang")]
     public string? TranscriptionLang { get; set; }
 
-    [BooleanCommandSwitch("--use-static-hostname")]
+    [CliFlag("--use-static-hostname")]
     public bool? UseStaticHostname { get; set; }
 }

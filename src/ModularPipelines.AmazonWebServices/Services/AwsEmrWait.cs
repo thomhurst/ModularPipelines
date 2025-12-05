@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr")]
+[CliCommand("emr")]
 public class AwsEmrWait
 {
     public AwsEmrWait(

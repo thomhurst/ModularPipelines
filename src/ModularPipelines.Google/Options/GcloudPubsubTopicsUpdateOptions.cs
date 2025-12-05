@@ -5,59 +5,59 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub", "topics", "update")]
+[CliCommand("pubsub", "topics", "update")]
 public record GcloudPubsubTopicsUpdateOptions(
-[property: PositionalArgument] string Topic
+[property: CliArgument] string Topic
 ) : GcloudOptions
 {
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-message-retention-duration")]
+    [CliFlag("--clear-message-retention-duration")]
     public bool? ClearMessageRetentionDuration { get; set; }
 
-    [CommandSwitch("--message-retention-duration")]
+    [CliOption("--message-retention-duration")]
     public string? MessageRetentionDuration { get; set; }
 
-    [BooleanCommandSwitch("--clear-schema-settings")]
+    [CliFlag("--clear-schema-settings")]
     public bool? ClearSchemaSettings { get; set; }
 
-    [CommandSwitch("--message-encoding")]
+    [CliOption("--message-encoding")]
     public string? MessageEncoding { get; set; }
 
-    [CommandSwitch("--first-revision-id")]
+    [CliOption("--first-revision-id")]
     public string? FirstRevisionId { get; set; }
 
-    [CommandSwitch("--last-revision-id")]
+    [CliOption("--last-revision-id")]
     public string? LastRevisionId { get; set; }
 
-    [CommandSwitch("--schema")]
+    [CliOption("--schema")]
     public string? Schema { get; set; }
 
-    [CommandSwitch("--schema-project")]
+    [CliOption("--schema-project")]
     public string? SchemaProject { get; set; }
 
-    [CommandSwitch("--message-storage-policy-allowed-regions")]
+    [CliOption("--message-storage-policy-allowed-regions")]
     public string[]? MessageStoragePolicyAllowedRegions { get; set; }
 
-    [BooleanCommandSwitch("--recompute-message-storage-policy")]
+    [CliFlag("--recompute-message-storage-policy")]
     public bool? RecomputeMessageStoragePolicy { get; set; }
 
-    [CommandSwitch("--topic-encryption-key")]
+    [CliOption("--topic-encryption-key")]
     public string? TopicEncryptionKey { get; set; }
 
-    [CommandSwitch("--topic-encryption-key-keyring")]
+    [CliOption("--topic-encryption-key-keyring")]
     public string? TopicEncryptionKeyKeyring { get; set; }
 
-    [CommandSwitch("--topic-encryption-key-location")]
+    [CliOption("--topic-encryption-key-location")]
     public string? TopicEncryptionKeyLocation { get; set; }
 
-    [CommandSwitch("--topic-encryption-key-project")]
+    [CliOption("--topic-encryption-key-project")]
     public string? TopicEncryptionKeyProject { get; set; }
 }

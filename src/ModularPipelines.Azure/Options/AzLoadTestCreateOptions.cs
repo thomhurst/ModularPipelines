@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("load", "test", "create")]
+[CliSubCommand("load", "test", "create")]
 public record AzLoadTestCreateOptions(
-[property: CommandSwitch("--load-test-resource")] string LoadTestResource,
-[property: CommandSwitch("--test-id")] string TestId
+[property: CliOption("--load-test-resource")] string LoadTestResource,
+[property: CliOption("--test-id")] string TestId
 ) : AzOptions
 {
-    [CommandSwitch("--certificate")]
+    [CliOption("--certificate")]
     public string? Certificate { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--engine-instances")]
+    [CliOption("--engine-instances")]
     public string? EngineInstances { get; set; }
 
-    [CommandSwitch("--env")]
+    [CliOption("--env")]
     public string? Env { get; set; }
 
-    [CommandSwitch("--keyvault-reference-id")]
+    [CliOption("--keyvault-reference-id")]
     public string? KeyvaultReferenceId { get; set; }
 
-    [CommandSwitch("--load-test-config-file")]
+    [CliOption("--load-test-config-file")]
     public string? LoadTestConfigFile { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--secret")]
+    [CliOption("--secret")]
     public string? Secret { get; set; }
 
-    [CommandSwitch("--split-csv")]
+    [CliOption("--split-csv")]
     public string? SplitCsv { get; set; }
 
-    [CommandSwitch("--subnet-id")]
+    [CliOption("--subnet-id")]
     public string? SubnetId { get; set; }
 
-    [CommandSwitch("--test-plan")]
+    [CliOption("--test-plan")]
     public string? TestPlan { get; set; }
 }

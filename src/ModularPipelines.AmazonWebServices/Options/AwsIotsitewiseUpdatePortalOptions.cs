@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotsitewise", "update-portal")]
+[CliCommand("iotsitewise", "update-portal")]
 public record AwsIotsitewiseUpdatePortalOptions(
-[property: CommandSwitch("--portal-id")] string PortalId,
-[property: CommandSwitch("--portal-name")] string PortalName,
-[property: CommandSwitch("--portal-contact-email")] string PortalContactEmail,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--portal-id")] string PortalId,
+[property: CliOption("--portal-name")] string PortalName,
+[property: CliOption("--portal-contact-email")] string PortalContactEmail,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--portal-description")]
+    [CliOption("--portal-description")]
     public string? PortalDescription { get; set; }
 
-    [CommandSwitch("--portal-logo-image")]
+    [CliOption("--portal-logo-image")]
     public string? PortalLogoImage { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--notification-sender-email")]
+    [CliOption("--notification-sender-email")]
     public string? NotificationSenderEmail { get; set; }
 
-    [CommandSwitch("--alarms")]
+    [CliOption("--alarms")]
     public string? Alarms { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

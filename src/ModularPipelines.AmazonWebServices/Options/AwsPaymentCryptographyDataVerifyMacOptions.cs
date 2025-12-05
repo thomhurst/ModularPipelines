@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("payment-cryptography-data", "verify-mac")]
+[CliCommand("payment-cryptography-data", "verify-mac")]
 public record AwsPaymentCryptographyDataVerifyMacOptions(
-[property: CommandSwitch("--key-identifier")] string KeyIdentifier,
-[property: CommandSwitch("--mac")] string Mac,
-[property: CommandSwitch("--message-data")] string MessageData,
-[property: CommandSwitch("--verification-attributes")] string VerificationAttributes
+[property: CliOption("--key-identifier")] string KeyIdentifier,
+[property: CliOption("--mac")] string Mac,
+[property: CliOption("--message-data")] string MessageData,
+[property: CliOption("--verification-attributes")] string VerificationAttributes
 ) : AwsOptions
 {
-    [CommandSwitch("--mac-length")]
+    [CliOption("--mac-length")]
     public int? MacLength { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

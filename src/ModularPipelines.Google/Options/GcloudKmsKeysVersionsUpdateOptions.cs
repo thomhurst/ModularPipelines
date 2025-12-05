@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "keys", "versions", "update")]
+[CliCommand("kms", "keys", "versions", "update")]
 public record GcloudKmsKeysVersionsUpdateOptions : GcloudOptions
 {
     public GcloudKmsKeysVersionsUpdateOptions(
@@ -14,24 +14,24 @@ public record GcloudKmsKeysVersionsUpdateOptions : GcloudOptions
         GcloudKmsKeysVersionsUpdateOptionsVersion = version;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string GcloudKmsKeysVersionsUpdateOptionsVersion { get; set; }
 
-    [CommandSwitch("--ekm-connection-key-path")]
+    [CliOption("--ekm-connection-key-path")]
     public string? EkmConnectionKeyPath { get; set; }
 
-    [CommandSwitch("--external-key-uri")]
+    [CliOption("--external-key-uri")]
     public string? ExternalKeyUri { get; set; }
 
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 
-    [CommandSwitch("--keyring")]
+    [CliOption("--keyring")]
     public string? Keyring { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 }

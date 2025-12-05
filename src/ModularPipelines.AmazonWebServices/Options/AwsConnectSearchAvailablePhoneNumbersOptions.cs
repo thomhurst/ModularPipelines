@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "search-available-phone-numbers")]
+[CliCommand("connect", "search-available-phone-numbers")]
 public record AwsConnectSearchAvailablePhoneNumbersOptions(
-[property: CommandSwitch("--phone-number-country-code")] string PhoneNumberCountryCode,
-[property: CommandSwitch("--phone-number-type")] string PhoneNumberType
+[property: CliOption("--phone-number-country-code")] string PhoneNumberCountryCode,
+[property: CliOption("--phone-number-type")] string PhoneNumberType
 ) : AwsOptions
 {
-    [CommandSwitch("--target-arn")]
+    [CliOption("--target-arn")]
     public string? TargetArn { get; set; }
 
-    [CommandSwitch("--instance-id")]
+    [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
-    [CommandSwitch("--phone-number-prefix")]
+    [CliOption("--phone-number-prefix")]
     public string? PhoneNumberPrefix { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

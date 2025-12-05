@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "delete-topic-refresh-schedule")]
+[CliCommand("quicksight", "delete-topic-refresh-schedule")]
 public record AwsQuicksightDeleteTopicRefreshScheduleOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--topic-id")] string TopicId,
-[property: CommandSwitch("--dataset-id")] string DatasetId
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--topic-id")] string TopicId,
+[property: CliOption("--dataset-id")] string DatasetId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

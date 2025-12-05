@@ -3,40 +3,40 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("repo", "add")]
+[CliCommand("repo", "add")]
 [ExcludeFromCodeCoverage]
 public record HelmRepoAddOptions : HelmOptions
 {
-    [BooleanCommandSwitch("--allow-deprecated-repos")]
+    [CliFlag("--allow-deprecated-repos")]
     public virtual bool? AllowDeprecatedRepos { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--ca-file", SwitchValueSeparator = " ")]
-    public string? CaFile { get; set; }
+    [CliOption("--ca-file")]
+    public virtual string? CaFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cert-file", SwitchValueSeparator = " ")]
-    public string? CertFile { get; set; }
+    [CliOption("--cert-file")]
+    public virtual string? CertFile { get; set; }
 
-    [BooleanCommandSwitch("--force-update")]
+    [CliFlag("--force-update")]
     public virtual bool? ForceUpdate { get; set; }
 
-    [BooleanCommandSwitch("--insecure-skip-tls-verify")]
+    [CliFlag("--insecure-skip-tls-verify")]
     public virtual bool? InsecureSkipTlsVerify { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--key-file", SwitchValueSeparator = " ")]
-    public string? KeyFile { get; set; }
+    [CliOption("--key-file")]
+    public virtual string? KeyFile { get; set; }
 
-    [BooleanCommandSwitch("--no-update")]
+    [CliFlag("--no-update")]
     public virtual bool? NoUpdate { get; set; }
 
-    [BooleanCommandSwitch("--pass-credentials")]
+    [CliFlag("--pass-credentials")]
     public virtual bool? PassCredentials { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--password", SwitchValueSeparator = " ")]
-    public string? Password { get; set; }
+    [CliOption("--password")]
+    public virtual string? Password { get; set; }
 
-    [BooleanCommandSwitch("--password-stdin")]
+    [CliFlag("--password-stdin")]
     public virtual bool? PasswordStdin { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--username", SwitchValueSeparator = " ")]
-    public string? Username { get; set; }
+    [CliOption("--username")]
+    public virtual string? Username { get; set; }
 }

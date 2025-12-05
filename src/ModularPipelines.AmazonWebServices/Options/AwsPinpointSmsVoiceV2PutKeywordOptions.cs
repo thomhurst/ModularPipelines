@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint-sms-voice-v2", "put-keyword")]
+[CliCommand("pinpoint-sms-voice-v2", "put-keyword")]
 public record AwsPinpointSmsVoiceV2PutKeywordOptions(
-[property: CommandSwitch("--origination-identity")] string OriginationIdentity,
-[property: CommandSwitch("--keyword")] string Keyword,
-[property: CommandSwitch("--keyword-message")] string KeywordMessage
+[property: CliOption("--origination-identity")] string OriginationIdentity,
+[property: CliOption("--keyword")] string Keyword,
+[property: CliOption("--keyword-message")] string KeywordMessage
 ) : AwsOptions
 {
-    [CommandSwitch("--keyword-action")]
+    [CliOption("--keyword-action")]
     public string? KeywordAction { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose", "alpha", "dry-run")]
+[CliCommand("compose", "alpha", "dry-run")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeAlphaDryRunOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public IEnumerable<string>? Command { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual IEnumerable<string>? Command { get; set; }
 }

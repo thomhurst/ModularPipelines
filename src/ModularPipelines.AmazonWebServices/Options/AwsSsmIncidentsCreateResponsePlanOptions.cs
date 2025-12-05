@@ -5,33 +5,33 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm-incidents", "create-response-plan")]
+[CliCommand("ssm-incidents", "create-response-plan")]
 public record AwsSsmIncidentsCreateResponsePlanOptions(
-[property: CommandSwitch("--incident-template")] string IncidentTemplate,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--incident-template")] string IncidentTemplate,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--actions")]
+    [CliOption("--actions")]
     public string[]? Actions { get; set; }
 
-    [CommandSwitch("--chat-channel")]
+    [CliOption("--chat-channel")]
     public string? ChatChannel { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--engagements")]
+    [CliOption("--engagements")]
     public string[]? Engagements { get; set; }
 
-    [CommandSwitch("--integrations")]
+    [CliOption("--integrations")]
     public string[]? Integrations { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

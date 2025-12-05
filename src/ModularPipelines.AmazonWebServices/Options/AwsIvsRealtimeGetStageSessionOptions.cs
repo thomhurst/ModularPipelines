@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ivs-realtime", "get-stage-session")]
+[CliCommand("ivs-realtime", "get-stage-session")]
 public record AwsIvsRealtimeGetStageSessionOptions(
-[property: CommandSwitch("--session-id")] string SessionId,
-[property: CommandSwitch("--stage-arn")] string StageArn
+[property: CliOption("--session-id")] string SessionId,
+[property: CliOption("--stage-arn")] string StageArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

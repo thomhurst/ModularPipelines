@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "register-container-image")]
+[CliCommand("lightsail", "register-container-image")]
 public record AwsLightsailRegisterContainerImageOptions(
-[property: CommandSwitch("--service-name")] string ServiceName,
-[property: CommandSwitch("--label")] string Label,
-[property: CommandSwitch("--digest")] string Digest
+[property: CliOption("--service-name")] string ServiceName,
+[property: CliOption("--label")] string Label,
+[property: CliOption("--digest")] string Digest
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

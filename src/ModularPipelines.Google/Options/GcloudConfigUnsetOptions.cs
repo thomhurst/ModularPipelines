@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("config", "unset")]
+[CliCommand("config", "unset")]
 public record GcloudConfigUnsetOptions(
-[property: PositionalArgument] string Section
+[property: CliArgument] string Section
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--installation")]
+    [CliFlag("--installation")]
     public bool? Installation { get; set; }
 }

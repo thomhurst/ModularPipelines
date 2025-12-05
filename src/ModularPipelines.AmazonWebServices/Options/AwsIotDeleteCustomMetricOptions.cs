@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "delete-custom-metric")]
+[CliCommand("iot", "delete-custom-metric")]
 public record AwsIotDeleteCustomMetricOptions(
-[property: CommandSwitch("--metric-name")] string MetricName
+[property: CliOption("--metric-name")] string MetricName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

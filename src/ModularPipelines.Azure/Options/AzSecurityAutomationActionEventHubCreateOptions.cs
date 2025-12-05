@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "automation-action-event-hub", "create")]
+[CliSubCommand("security", "automation-action-event-hub", "create")]
 public record AzSecurityAutomationActionEventHubCreateOptions(
-[property: CommandSwitch("--connection-string")] string ConnectionString,
-[property: CommandSwitch("--event-hub-resource-id")] string EventHubResourceId
+[property: CliOption("--connection-string")] string ConnectionString,
+[property: CliOption("--event-hub-resource-id")] string EventHubResourceId
 ) : AzOptions
 {
-    [CommandSwitch("--sas-policy-name")]
+    [CliOption("--sas-policy-name")]
     public string? SasPolicyName { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeguru-reviewer", "describe-recommendation-feedback")]
+[CliCommand("codeguru-reviewer", "describe-recommendation-feedback")]
 public record AwsCodeguruReviewerDescribeRecommendationFeedbackOptions(
-[property: CommandSwitch("--code-review-arn")] string CodeReviewArn,
-[property: CommandSwitch("--recommendation-id")] string RecommendationId
+[property: CliOption("--code-review-arn")] string CodeReviewArn,
+[property: CliOption("--recommendation-id")] string RecommendationId
 ) : AwsOptions
 {
-    [CommandSwitch("--user-id")]
+    [CliOption("--user-id")]
     public string? UserId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

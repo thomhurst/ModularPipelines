@@ -5,69 +5,69 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cloud", "container", "clusters", "create")]
+[CliCommand("edge-cloud", "container", "clusters", "create")]
 public record GcloudEdgeCloudContainerClustersCreateOptions(
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--admin-users")]
+    [CliOption("--admin-users")]
     public string? AdminUsers { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--cluster-ipv4-cidr")]
+    [CliOption("--cluster-ipv4-cidr")]
     public string? ClusterIpv4Cidr { get; set; }
 
-    [CommandSwitch("--control-plane-kms-key")]
+    [CliOption("--control-plane-kms-key")]
     public string? ControlPlaneKmsKey { get; set; }
 
-    [CommandSwitch("--control-plane-machine-filter")]
+    [CliOption("--control-plane-machine-filter")]
     public string? ControlPlaneMachineFilter { get; set; }
 
-    [CommandSwitch("--control-plane-node-count")]
+    [CliOption("--control-plane-node-count")]
     public string? ControlPlaneNodeCount { get; set; }
 
-    [CommandSwitch("--control-plane-node-location")]
+    [CliOption("--control-plane-node-location")]
     public string? ControlPlaneNodeLocation { get; set; }
 
-    [CommandSwitch("--control-plane-shared-deployment-policy")]
+    [CliOption("--control-plane-shared-deployment-policy")]
     public string? ControlPlaneSharedDeploymentPolicy { get; set; }
 
-    [CommandSwitch("--default-max-pods-per-node")]
+    [CliOption("--default-max-pods-per-node")]
     public string? DefaultMaxPodsPerNode { get; set; }
 
-    [CommandSwitch("--external-lb-ipv4-address-pools")]
+    [CliOption("--external-lb-ipv4-address-pools")]
     public string[]? ExternalLbIpv4AddressPools { get; set; }
 
-    [CommandSwitch("--fleet-project")]
+    [CliOption("--fleet-project")]
     public string? FleetProject { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--lro-timeout")]
+    [CliOption("--lro-timeout")]
     public string? LroTimeout { get; set; }
 
-    [CommandSwitch("--maintenance-window-end")]
+    [CliOption("--maintenance-window-end")]
     public string? MaintenanceWindowEnd { get; set; }
 
-    [CommandSwitch("--maintenance-window-recurrence")]
+    [CliOption("--maintenance-window-recurrence")]
     public string? MaintenanceWindowRecurrence { get; set; }
 
-    [CommandSwitch("--maintenance-window-start")]
+    [CliOption("--maintenance-window-start")]
     public string? MaintenanceWindowStart { get; set; }
 
-    [CommandSwitch("--release-channel")]
+    [CliOption("--release-channel")]
     public string? ReleaseChannel { get; set; }
 
-    [CommandSwitch("--services-ipv4-cidr")]
+    [CliOption("--services-ipv4-cidr")]
     public string? ServicesIpv4Cidr { get; set; }
 
-    [CommandSwitch("--system-addons-config")]
+    [CliOption("--system-addons-config")]
     public string? SystemAddonsConfig { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string? Version { get; set; }
 }

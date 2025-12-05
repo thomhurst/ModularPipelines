@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "modify-global-cluster")]
+[CliCommand("rds", "modify-global-cluster")]
 public record AwsRdsModifyGlobalClusterOptions : AwsOptions
 {
-    [CommandSwitch("--global-cluster-identifier")]
+    [CliOption("--global-cluster-identifier")]
     public string? GlobalClusterIdentifier { get; set; }
 
-    [CommandSwitch("--new-global-cluster-identifier")]
+    [CliOption("--new-global-cluster-identifier")]
     public string? NewGlobalClusterIdentifier { get; set; }
 
-    [CommandSwitch("--engine-version")]
+    [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

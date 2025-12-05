@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "register-compute")]
+[CliCommand("gamelift", "register-compute")]
 public record AwsGameliftRegisterComputeOptions(
-[property: CommandSwitch("--fleet-id")] string FleetId,
-[property: CommandSwitch("--compute-name")] string ComputeName
+[property: CliOption("--fleet-id")] string FleetId,
+[property: CliOption("--compute-name")] string ComputeName
 ) : AwsOptions
 {
-    [CommandSwitch("--certificate-path")]
+    [CliOption("--certificate-path")]
     public string? CertificatePath { get; set; }
 
-    [CommandSwitch("--dns-name")]
+    [CliOption("--dns-name")]
     public string? DnsName { get; set; }
 
-    [CommandSwitch("--ip-address")]
+    [CliOption("--ip-address")]
     public string? IpAddress { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

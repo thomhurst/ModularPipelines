@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudwatch", "describe-alarms")]
+[CliCommand("cloudwatch", "describe-alarms")]
 public record AwsCloudwatchDescribeAlarmsOptions : AwsOptions
 {
-    [CommandSwitch("--alarm-names")]
+    [CliOption("--alarm-names")]
     public string[]? AlarmNames { get; set; }
 
-    [CommandSwitch("--alarm-name-prefix")]
+    [CliOption("--alarm-name-prefix")]
     public string? AlarmNamePrefix { get; set; }
 
-    [CommandSwitch("--alarm-types")]
+    [CliOption("--alarm-types")]
     public string[]? AlarmTypes { get; set; }
 
-    [CommandSwitch("--children-of-alarm-name")]
+    [CliOption("--children-of-alarm-name")]
     public string? ChildrenOfAlarmName { get; set; }
 
-    [CommandSwitch("--parents-of-alarm-name")]
+    [CliOption("--parents-of-alarm-name")]
     public string? ParentsOfAlarmName { get; set; }
 
-    [CommandSwitch("--state-value")]
+    [CliOption("--state-value")]
     public string? StateValue { get; set; }
 
-    [CommandSwitch("--action-prefix")]
+    [CliOption("--action-prefix")]
     public string? ActionPrefix { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

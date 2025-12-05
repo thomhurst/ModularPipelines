@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicecatalog", "create-tag-option")]
+[CliCommand("servicecatalog", "create-tag-option")]
 public record AwsServicecatalogCreateTagOptionOptions(
-[property: CommandSwitch("--key")] string Key,
-[property: CommandSwitch("--value")] string Value
+[property: CliOption("--key")] string Key,
+[property: CliOption("--value")] string Value
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

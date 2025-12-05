@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "create-disk-snapshot")]
+[CliCommand("lightsail", "create-disk-snapshot")]
 public record AwsLightsailCreateDiskSnapshotOptions(
-[property: CommandSwitch("--disk-snapshot-name")] string DiskSnapshotName
+[property: CliOption("--disk-snapshot-name")] string DiskSnapshotName
 ) : AwsOptions
 {
-    [CommandSwitch("--disk-name")]
+    [CliOption("--disk-name")]
     public string? DiskName { get; set; }
 
-    [CommandSwitch("--instance-name")]
+    [CliOption("--instance-name")]
     public string? InstanceName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

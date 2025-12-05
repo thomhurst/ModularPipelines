@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "partner", "topic", "event-subscription", "delete")]
+[CliSubCommand("eventgrid", "partner", "topic", "event-subscription", "delete")]
 public record AzEventgridPartnerTopicEventSubscriptionDeleteOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--partner-topic-name")] string PartnerTopicName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--partner-topic-name")] string PartnerTopicName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("nimble", "update-studio-component")]
+[CliCommand("nimble", "update-studio-component")]
 public record AwsNimbleUpdateStudioComponentOptions(
-[property: CommandSwitch("--studio-component-id")] string StudioComponentId,
-[property: CommandSwitch("--studio-id")] string StudioId
+[property: CliOption("--studio-component-id")] string StudioComponentId,
+[property: CliOption("--studio-id")] string StudioId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--configuration")]
+    [CliOption("--configuration")]
     public string? Configuration { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--ec2-security-group-ids")]
+    [CliOption("--ec2-security-group-ids")]
     public string[]? Ec2SecurityGroupIds { get; set; }
 
-    [CommandSwitch("--initialization-scripts")]
+    [CliOption("--initialization-scripts")]
     public string[]? InitializationScripts { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--runtime-role-arn")]
+    [CliOption("--runtime-role-arn")]
     public string? RuntimeRoleArn { get; set; }
 
-    [CommandSwitch("--script-parameters")]
+    [CliOption("--script-parameters")]
     public string[]? ScriptParameters { get; set; }
 
-    [CommandSwitch("--secure-initialization-role-arn")]
+    [CliOption("--secure-initialization-role-arn")]
     public string? SecureInitializationRoleArn { get; set; }
 
-    [CommandSwitch("--subtype")]
+    [CliOption("--subtype")]
     public string? Subtype { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

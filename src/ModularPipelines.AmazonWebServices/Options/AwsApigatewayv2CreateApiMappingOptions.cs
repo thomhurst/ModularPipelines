@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigatewayv2", "create-api-mapping")]
+[CliCommand("apigatewayv2", "create-api-mapping")]
 public record AwsApigatewayv2CreateApiMappingOptions(
-[property: CommandSwitch("--api-id")] string ApiId,
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--stage")] string Stage
+[property: CliOption("--api-id")] string ApiId,
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--stage")] string Stage
 ) : AwsOptions
 {
-    [CommandSwitch("--api-mapping-key")]
+    [CliOption("--api-mapping-key")]
     public string? ApiMappingKey { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

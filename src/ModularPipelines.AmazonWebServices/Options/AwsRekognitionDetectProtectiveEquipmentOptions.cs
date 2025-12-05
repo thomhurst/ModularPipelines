@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "detect-protective-equipment")]
+[CliCommand("rekognition", "detect-protective-equipment")]
 public record AwsRekognitionDetectProtectiveEquipmentOptions : AwsOptions
 {
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [CommandSwitch("--summarization-attributes")]
+    [CliOption("--summarization-attributes")]
     public string? SummarizationAttributes { get; set; }
 
-    [CommandSwitch("--image-bytes")]
+    [CliOption("--image-bytes")]
     public string? ImageBytes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

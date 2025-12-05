@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkmanager", "start-organization-service-access-update")]
+[CliCommand("networkmanager", "start-organization-service-access-update")]
 public record AwsNetworkmanagerStartOrganizationServiceAccessUpdateOptions(
-[property: CommandSwitch("--action")] string Action
+[property: CliOption("--action")] string Action
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

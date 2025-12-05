@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "trustedaccess")]
+[CliCommand("aks", "trustedaccess")]
 public class AzAksTrustedaccessRolebinding
 {
     public AzAksTrustedaccessRolebinding(

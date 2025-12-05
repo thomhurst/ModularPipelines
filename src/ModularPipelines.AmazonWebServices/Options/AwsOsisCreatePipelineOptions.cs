@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("osis", "create-pipeline")]
+[CliCommand("osis", "create-pipeline")]
 public record AwsOsisCreatePipelineOptions(
-[property: CommandSwitch("--pipeline-name")] string PipelineName,
-[property: CommandSwitch("--min-units")] int MinUnits,
-[property: CommandSwitch("--max-units")] int MaxUnits,
-[property: CommandSwitch("--pipeline-configuration-body")] string PipelineConfigurationBody
+[property: CliOption("--pipeline-name")] string PipelineName,
+[property: CliOption("--min-units")] int MinUnits,
+[property: CliOption("--max-units")] int MaxUnits,
+[property: CliOption("--pipeline-configuration-body")] string PipelineConfigurationBody
 ) : AwsOptions
 {
-    [CommandSwitch("--log-publishing-options")]
+    [CliOption("--log-publishing-options")]
     public string? LogPublishingOptions { get; set; }
 
-    [CommandSwitch("--vpc-options")]
+    [CliOption("--vpc-options")]
     public string? VpcOptions { get; set; }
 
-    [CommandSwitch("--buffer-options")]
+    [CliOption("--buffer-options")]
     public string? BufferOptions { get; set; }
 
-    [CommandSwitch("--encryption-at-rest-options")]
+    [CliOption("--encryption-at-rest-options")]
     public string? EncryptionAtRestOptions { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

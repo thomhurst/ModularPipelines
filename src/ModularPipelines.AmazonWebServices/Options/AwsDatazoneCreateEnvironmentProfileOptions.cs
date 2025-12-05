@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datazone", "create-environment-profile")]
+[CliCommand("datazone", "create-environment-profile")]
 public record AwsDatazoneCreateEnvironmentProfileOptions(
-[property: CommandSwitch("--domain-identifier")] string DomainIdentifier,
-[property: CommandSwitch("--environment-blueprint-identifier")] string EnvironmentBlueprintIdentifier,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--project-identifier")] string ProjectIdentifier
+[property: CliOption("--domain-identifier")] string DomainIdentifier,
+[property: CliOption("--environment-blueprint-identifier")] string EnvironmentBlueprintIdentifier,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--project-identifier")] string ProjectIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--aws-account-id")]
+    [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; set; }
 
-    [CommandSwitch("--aws-account-region")]
+    [CliOption("--aws-account-region")]
     public string? AwsAccountRegion { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--user-parameters")]
+    [CliOption("--user-parameters")]
     public string[]? UserParameters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

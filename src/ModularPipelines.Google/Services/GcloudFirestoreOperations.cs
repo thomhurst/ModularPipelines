@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("firestore")]
+[CliCommand("firestore")]
 public class GcloudFirestoreOperations
 {
     public GcloudFirestoreOperations(

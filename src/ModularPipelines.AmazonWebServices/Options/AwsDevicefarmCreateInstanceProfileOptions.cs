@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devicefarm", "create-instance-profile")]
+[CliCommand("devicefarm", "create-instance-profile")]
 public record AwsDevicefarmCreateInstanceProfileOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--exclude-app-packages-from-cleanup")]
+    [CliOption("--exclude-app-packages-from-cleanup")]
     public string[]? ExcludeAppPackagesFromCleanup { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

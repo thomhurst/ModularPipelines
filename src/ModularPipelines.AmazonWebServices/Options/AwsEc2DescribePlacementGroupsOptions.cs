@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "describe-placement-groups")]
+[CliCommand("ec2", "describe-placement-groups")]
 public record AwsEc2DescribePlacementGroupsOptions : AwsOptions
 {
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--group-names")]
+    [CliOption("--group-names")]
     public string[]? GroupNames { get; set; }
 
-    [CommandSwitch("--group-ids")]
+    [CliOption("--group-ids")]
     public string[]? GroupIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

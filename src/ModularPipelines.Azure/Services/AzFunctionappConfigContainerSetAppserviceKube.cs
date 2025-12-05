@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "config", "container", "set")]
+[CliCommand("functionapp", "config", "container", "set")]
 public class AzFunctionappConfigContainerSetAppserviceKube
 {
     public AzFunctionappConfigContainerSetAppserviceKube(

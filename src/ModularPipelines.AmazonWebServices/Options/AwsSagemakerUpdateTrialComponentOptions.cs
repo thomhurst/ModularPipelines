@@ -5,41 +5,41 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "update-trial-component")]
+[CliCommand("sagemaker", "update-trial-component")]
 public record AwsSagemakerUpdateTrialComponentOptions(
-[property: CommandSwitch("--trial-component-name")] string TrialComponentName
+[property: CliOption("--trial-component-name")] string TrialComponentName
 ) : AwsOptions
 {
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public long? StartTime { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public long? EndTime { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public IEnumerable<KeyValue>? Parameters { get; set; }
 
-    [CommandSwitch("--parameters-to-remove")]
+    [CliOption("--parameters-to-remove")]
     public string[]? ParametersToRemove { get; set; }
 
-    [CommandSwitch("--input-artifacts")]
+    [CliOption("--input-artifacts")]
     public IEnumerable<KeyValue>? InputArtifacts { get; set; }
 
-    [CommandSwitch("--input-artifacts-to-remove")]
+    [CliOption("--input-artifacts-to-remove")]
     public string[]? InputArtifactsToRemove { get; set; }
 
-    [CommandSwitch("--output-artifacts")]
+    [CliOption("--output-artifacts")]
     public IEnumerable<KeyValue>? OutputArtifacts { get; set; }
 
-    [CommandSwitch("--output-artifacts-to-remove")]
+    [CliOption("--output-artifacts-to-remove")]
     public string[]? OutputArtifactsToRemove { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

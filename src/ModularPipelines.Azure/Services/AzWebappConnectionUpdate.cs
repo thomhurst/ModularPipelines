@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "connection")]
+[CliCommand("webapp", "connection")]
 public class AzWebappConnectionUpdate
 {
     public AzWebappConnectionUpdate(

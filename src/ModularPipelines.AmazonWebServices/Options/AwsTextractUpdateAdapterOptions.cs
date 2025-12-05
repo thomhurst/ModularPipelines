@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("textract", "update-adapter")]
+[CliCommand("textract", "update-adapter")]
 public record AwsTextractUpdateAdapterOptions(
-[property: CommandSwitch("--adapter-id")] string AdapterId
+[property: CliOption("--adapter-id")] string AdapterId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--adapter-name")]
+    [CliOption("--adapter-name")]
     public string? AdapterName { get; set; }
 
-    [CommandSwitch("--auto-update")]
+    [CliOption("--auto-update")]
     public string? AutoUpdate { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

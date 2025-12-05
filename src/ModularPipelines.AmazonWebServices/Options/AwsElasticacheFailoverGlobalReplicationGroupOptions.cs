@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticache", "failover-global-replication-group")]
+[CliCommand("elasticache", "failover-global-replication-group")]
 public record AwsElasticacheFailoverGlobalReplicationGroupOptions(
-[property: CommandSwitch("--global-replication-group-id")] string GlobalReplicationGroupId,
-[property: CommandSwitch("--primary-region")] string PrimaryRegion,
-[property: CommandSwitch("--primary-replication-group-id")] string PrimaryReplicationGroupId
+[property: CliOption("--global-replication-group-id")] string GlobalReplicationGroupId,
+[property: CliOption("--primary-region")] string PrimaryRegion,
+[property: CliOption("--primary-replication-group-id")] string PrimaryReplicationGroupId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

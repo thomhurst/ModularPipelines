@@ -5,13 +5,13 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-identity", "unlink-identity")]
+[CliCommand("cognito-identity", "unlink-identity")]
 public record AwsCognitoIdentityUnlinkIdentityOptions(
-[property: CommandSwitch("--identity-id")] string IdentityId,
-[property: CommandSwitch("--logins")] IEnumerable<KeyValue> Logins,
-[property: CommandSwitch("--logins-to-remove")] string[] LoginsToRemove
+[property: CliOption("--identity-id")] string IdentityId,
+[property: CliOption("--logins")] IEnumerable<KeyValue> Logins,
+[property: CliOption("--logins-to-remove")] string[] LoginsToRemove
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

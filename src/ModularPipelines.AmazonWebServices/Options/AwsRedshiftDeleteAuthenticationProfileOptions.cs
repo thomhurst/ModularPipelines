@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "delete-authentication-profile")]
+[CliCommand("redshift", "delete-authentication-profile")]
 public record AwsRedshiftDeleteAuthenticationProfileOptions(
-[property: CommandSwitch("--authentication-profile-name")] string AuthenticationProfileName
+[property: CliOption("--authentication-profile-name")] string AuthenticationProfileName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "commitments", "update")]
+[CliCommand("compute", "commitments", "update")]
 public record GcloudComputeCommitmentsUpdateOptions(
-[property: PositionalArgument] string Commitment
+[property: CliArgument] string Commitment
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--auto-renew")]
+    [CliFlag("--auto-renew")]
     public bool? AutoRenew { get; set; }
 
-    [CommandSwitch("--plan")]
+    [CliOption("--plan")]
     public string? Plan { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

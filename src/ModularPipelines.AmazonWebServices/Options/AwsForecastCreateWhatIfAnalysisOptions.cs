@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("forecast", "create-what-if-analysis")]
+[CliCommand("forecast", "create-what-if-analysis")]
 public record AwsForecastCreateWhatIfAnalysisOptions(
-[property: CommandSwitch("--what-if-analysis-name")] string WhatIfAnalysisName,
-[property: CommandSwitch("--forecast-arn")] string ForecastArn
+[property: CliOption("--what-if-analysis-name")] string WhatIfAnalysisName,
+[property: CliOption("--forecast-arn")] string ForecastArn
 ) : AwsOptions
 {
-    [CommandSwitch("--time-series-selector")]
+    [CliOption("--time-series-selector")]
     public string? TimeSeriesSelector { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

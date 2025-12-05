@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bms", "networks", "describe")]
+[CliCommand("bms", "networks", "describe")]
 public record GcloudBmsNetworksDescribeOptions(
-[property: PositionalArgument] string Network,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Network,
+[property: CliArgument] string Region
 ) : GcloudOptions;

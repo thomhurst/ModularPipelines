@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "images", "export")]
+[CliCommand("compute", "images", "export")]
 public record GcloudComputeImagesExportOptions(
-[property: CommandSwitch("--destination-uri")] string DestinationUri,
-[property: CommandSwitch("--image")] string Image,
-[property: CommandSwitch("--image-family")] string ImageFamily
+[property: CliOption("--destination-uri")] string DestinationUri,
+[property: CliOption("--image")] string Image,
+[property: CliOption("--image-family")] string ImageFamily
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--cloudbuild-service-account")]
+    [CliOption("--cloudbuild-service-account")]
     public string? CloudbuildServiceAccount { get; set; }
 
-    [CommandSwitch("--compute-service-account")]
+    [CliOption("--compute-service-account")]
     public string? ComputeServiceAccount { get; set; }
 
-    [CommandSwitch("--export-format")]
+    [CliOption("--export-format")]
     public string? ExportFormat { get; set; }
 
-    [CommandSwitch("--image-project")]
+    [CliOption("--image-project")]
     public string? ImageProject { get; set; }
 
-    [CommandSwitch("--log-location")]
+    [CliOption("--log-location")]
     public string? LogLocation { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

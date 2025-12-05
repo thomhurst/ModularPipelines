@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("nimble", "list-eula-acceptances")]
+[CliCommand("nimble", "list-eula-acceptances")]
 public record AwsNimbleListEulaAcceptancesOptions(
-[property: CommandSwitch("--studio-id")] string StudioId
+[property: CliOption("--studio-id")] string StudioId
 ) : AwsOptions
 {
-    [CommandSwitch("--eula-ids")]
+    [CliOption("--eula-ids")]
     public string[]? EulaIds { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

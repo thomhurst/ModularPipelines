@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("composer", "environments", "list-packages")]
+[CliCommand("composer", "environments", "list-packages")]
 public record GcloudComposerEnvironmentsListPackagesOptions(
-[property: PositionalArgument] string Environment,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Environment,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--tree")]
+    [CliFlag("--tree")]
     public bool? Tree { get; set; }
 }

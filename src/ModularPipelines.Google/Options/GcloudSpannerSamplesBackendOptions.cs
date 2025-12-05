@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spanner", "samples", "backend")]
+[CliCommand("spanner", "samples", "backend")]
 public record GcloudSpannerSamplesBackendOptions(
-[property: PositionalArgument] string Appname,
-[property: CommandSwitch("--instance-id")] string InstanceId
+[property: CliArgument] string Appname,
+[property: CliOption("--instance-id")] string InstanceId
 ) : GcloudOptions
 {
-    [CommandSwitch("--database-id")]
+    [CliOption("--database-id")]
     public string? DatabaseId { get; set; }
 
-    [CommandSwitch("--duration")]
+    [CliOption("--duration")]
     public string? Duration { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public string? Port { get; set; }
 }

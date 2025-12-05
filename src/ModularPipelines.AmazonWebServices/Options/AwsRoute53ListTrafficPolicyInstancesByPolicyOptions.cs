@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53", "list-traffic-policy-instances-by-policy")]
+[CliCommand("route53", "list-traffic-policy-instances-by-policy")]
 public record AwsRoute53ListTrafficPolicyInstancesByPolicyOptions(
-[property: CommandSwitch("--traffic-policy-id")] string TrafficPolicyId,
-[property: CommandSwitch("--traffic-policy-version")] int TrafficPolicyVersion
+[property: CliOption("--traffic-policy-id")] string TrafficPolicyId,
+[property: CliOption("--traffic-policy-version")] int TrafficPolicyVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--hosted-zone-id-marker")]
+    [CliOption("--hosted-zone-id-marker")]
     public string? HostedZoneIdMarker { get; set; }
 
-    [CommandSwitch("--traffic-policy-instance-name-marker")]
+    [CliOption("--traffic-policy-instance-name-marker")]
     public string? TrafficPolicyInstanceNameMarker { get; set; }
 
-    [CommandSwitch("--traffic-policy-instance-type-marker")]
+    [CliOption("--traffic-policy-instance-type-marker")]
     public string? TrafficPolicyInstanceTypeMarker { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

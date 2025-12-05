@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "assessment-metadata", "create")]
+[CliSubCommand("security", "assessment-metadata", "create")]
 public record AzSecurityAssessmentMetadataCreateOptions(
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--severity")] string Severity
+[property: CliOption("--description")] string Description,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--severity")] string Severity
 ) : AzOptions
 {
-    [CommandSwitch("--remediation-description")]
+    [CliOption("--remediation-description")]
     public string? RemediationDescription { get; set; }
 }

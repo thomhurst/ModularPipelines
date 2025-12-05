@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qbusiness", "list-documents")]
+[CliCommand("qbusiness", "list-documents")]
 public record AwsQbusinessListDocumentsOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--index-id")] string IndexId
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--index-id")] string IndexId
 ) : AwsOptions
 {
-    [CommandSwitch("--data-source-ids")]
+    [CliOption("--data-source-ids")]
     public string[]? DataSourceIds { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "watcher")]
+[CliCommand("network", "watcher")]
 public class AzNetworkWatcherConnectionMonitor
 {
     public AzNetworkWatcherConnectionMonitor(

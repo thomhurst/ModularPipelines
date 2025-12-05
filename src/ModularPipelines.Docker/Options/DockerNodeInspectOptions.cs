@@ -15,15 +15,15 @@ public record DockerNodeInspectOptions : DockerOptions
         SelfOrNode = selfOrNode;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? SelfOrNode { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? SelfOrNode { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public IEnumerable<string>? Node { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual IEnumerable<string>? Node { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 
-    [CommandSwitch("--pretty")]
+    [CliOption("--pretty")]
     public virtual string? Pretty { get; set; }
 }

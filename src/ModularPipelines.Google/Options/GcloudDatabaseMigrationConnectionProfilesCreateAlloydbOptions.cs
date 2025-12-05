@@ -5,45 +5,45 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("database-migration", "connection-profiles", "create", "alloydb")]
+[CliCommand("database-migration", "connection-profiles", "create", "alloydb")]
 public record GcloudDatabaseMigrationConnectionProfilesCreateAlloydbOptions(
-[property: PositionalArgument] string ConnectionProfile,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--cpu-count")] string CpuCount,
-[property: CommandSwitch("--password")] string Password,
-[property: CommandSwitch("--primary-id")] string PrimaryId
+[property: CliArgument] string ConnectionProfile,
+[property: CliArgument] string Region,
+[property: CliOption("--cpu-count")] string CpuCount,
+[property: CliOption("--password")] string Password,
+[property: CliOption("--primary-id")] string PrimaryId
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--no-async")]
+    [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }
 
-    [CommandSwitch("--cluster-labels")]
+    [CliOption("--cluster-labels")]
     public IEnumerable<KeyValue>? ClusterLabels { get; set; }
 
-    [CommandSwitch("--database-flags")]
+    [CliOption("--database-flags")]
     public string[]? DatabaseFlags { get; set; }
 
-    [CommandSwitch("--database-version")]
+    [CliOption("--database-version")]
     public string? DatabaseVersion { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--primary-labels")]
+    [CliOption("--primary-labels")]
     public IEnumerable<KeyValue>? PrimaryLabels { get; set; }
 
-    [CommandSwitch("--kms-key")]
+    [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [CommandSwitch("--kms-keyring")]
+    [CliOption("--kms-keyring")]
     public string? KmsKeyring { get; set; }
 
-    [CommandSwitch("--kms-project")]
+    [CliOption("--kms-project")]
     public string? KmsProject { get; set; }
 }

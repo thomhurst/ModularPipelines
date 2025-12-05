@@ -4,57 +4,57 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("image", "builder", "customizer", "add")]
+[CliSubCommand("image", "builder", "customizer", "add")]
 public record AzImageBuilderCustomizerAddOptions(
-[property: CommandSwitch("--customizer-name")] string CustomizerName,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--customizer-name")] string CustomizerName,
+[property: CliOption("--type")] string Type
 ) : AzOptions
 {
-    [CommandSwitch("--defer")]
+    [CliOption("--defer")]
     public string? Defer { get; set; }
 
-    [CommandSwitch("--dest-path")]
+    [CliOption("--dest-path")]
     public string? DestPath { get; set; }
 
-    [CommandSwitch("--exit-codes")]
+    [CliOption("--exit-codes")]
     public string? ExitCodes { get; set; }
 
-    [CommandSwitch("--file-source")]
+    [CliOption("--file-source")]
     public string? FileSource { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string? Filters { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--inline-script")]
+    [CliOption("--inline-script")]
     public string? InlineScript { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--restart-check-command")]
+    [CliOption("--restart-check-command")]
     public string? RestartCheckCommand { get; set; }
 
-    [CommandSwitch("--restart-command")]
+    [CliOption("--restart-command")]
     public string? RestartCommand { get; set; }
 
-    [CommandSwitch("--restart-timeout")]
+    [CliOption("--restart-timeout")]
     public string? RestartTimeout { get; set; }
 
-    [CommandSwitch("--script-url")]
+    [CliOption("--script-url")]
     public string? ScriptUrl { get; set; }
 
-    [CommandSwitch("--search-criteria")]
+    [CliOption("--search-criteria")]
     public string? SearchCriteria { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--update-limit")]
+    [CliOption("--update-limit")]
     public string? UpdateLimit { get; set; }
 }

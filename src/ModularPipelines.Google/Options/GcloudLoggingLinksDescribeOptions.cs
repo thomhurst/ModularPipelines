@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logging", "links", "describe")]
+[CliCommand("logging", "links", "describe")]
 public record GcloudLoggingLinksDescribeOptions(
-[property: PositionalArgument] string LinkId,
-[property: CommandSwitch("--bucket")] string Bucket,
-[property: CommandSwitch("--location")] string Location
+[property: CliArgument] string LinkId,
+[property: CliOption("--bucket")] string Bucket,
+[property: CliOption("--location")] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--billing-account")]
+    [CliOption("--billing-account")]
     public string? BillingAccount { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string? Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string? Organization { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public new string? Project { get; set; }
 }

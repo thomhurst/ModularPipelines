@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataplex", "tasks", "jobs", "cancel")]
+[CliCommand("dataplex", "tasks", "jobs", "cancel")]
 public record GcloudDataplexTasksJobsCancelOptions(
-[property: PositionalArgument] string Job,
-[property: PositionalArgument] string Lake,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Task
+[property: CliArgument] string Job,
+[property: CliArgument] string Lake,
+[property: CliArgument] string Location,
+[property: CliArgument] string Task
 ) : GcloudOptions;

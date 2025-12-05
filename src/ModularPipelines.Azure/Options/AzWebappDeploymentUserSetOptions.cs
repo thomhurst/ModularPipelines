@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "deployment", "user", "set")]
+[CliSubCommand("webapp", "deployment", "user", "set")]
 public record AzWebappDeploymentUserSetOptions(
-[property: CommandSwitch("--user-name")] string UserName
+[property: CliOption("--user-name")] string UserName
 ) : AzOptions
 {
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 }

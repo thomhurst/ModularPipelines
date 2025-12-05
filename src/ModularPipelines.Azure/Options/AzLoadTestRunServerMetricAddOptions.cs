@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("load", "test-run", "server-metric", "add")]
+[CliSubCommand("load", "test-run", "server-metric", "add")]
 public record AzLoadTestRunServerMetricAddOptions(
-[property: CommandSwitch("--aggregation")] string Aggregation,
-[property: CommandSwitch("--app-component-id")] string AppComponentId,
-[property: CommandSwitch("--app-component-type")] string AppComponentType,
-[property: CommandSwitch("--load-test-resource")] string LoadTestResource,
-[property: CommandSwitch("--metric-id")] string MetricId,
-[property: CommandSwitch("--metric-name")] string MetricName,
-[property: CommandSwitch("--metric-namespace")] string MetricNamespace,
-[property: CommandSwitch("--test-run-id")] string TestRunId
+[property: CliOption("--aggregation")] string Aggregation,
+[property: CliOption("--app-component-id")] string AppComponentId,
+[property: CliOption("--app-component-type")] string AppComponentType,
+[property: CliOption("--load-test-resource")] string LoadTestResource,
+[property: CliOption("--metric-id")] string MetricId,
+[property: CliOption("--metric-name")] string MetricName,
+[property: CliOption("--metric-namespace")] string MetricNamespace,
+[property: CliOption("--test-run-id")] string TestRunId
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

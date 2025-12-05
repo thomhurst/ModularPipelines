@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("private-link", "association", "create")]
+[CliSubCommand("private-link", "association", "create")]
 public record AzPrivateLinkAssociationCreateOptions(
-[property: CommandSwitch("--management-group-id")] string ManagementGroupId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--privatelink")] string Privatelink,
-[property: CommandSwitch("--public-network-access")] string PublicNetworkAccess
+[property: CliOption("--management-group-id")] string ManagementGroupId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--privatelink")] string Privatelink,
+[property: CliOption("--public-network-access")] string PublicNetworkAccess
 ) : AzOptions;

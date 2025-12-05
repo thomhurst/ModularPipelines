@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces", "describe-workspaces-connection-status")]
+[CliCommand("workspaces", "describe-workspaces-connection-status")]
 public record AwsWorkspacesDescribeWorkspacesConnectionStatusOptions : AwsOptions
 {
-    [CommandSwitch("--workspace-ids")]
+    [CliOption("--workspace-ids")]
     public string[]? WorkspaceIds { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

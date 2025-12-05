@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("evidently", "evaluate-feature")]
+[CliCommand("evidently", "evaluate-feature")]
 public record AwsEvidentlyEvaluateFeatureOptions(
-[property: CommandSwitch("--entity-id")] string EntityId,
-[property: CommandSwitch("--feature")] string Feature,
-[property: CommandSwitch("--project")] string Project
+[property: CliOption("--entity-id")] string EntityId,
+[property: CliOption("--feature")] string Feature,
+[property: CliOption("--project")] string Project
 ) : AwsOptions
 {
-    [CommandSwitch("--evaluation-context")]
+    [CliOption("--evaluation-context")]
     public string? EvaluationContext { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,26 +5,26 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("migration-hub-refactor-spaces", "create-route")]
+[CliCommand("migration-hub-refactor-spaces", "create-route")]
 public record AwsMigrationHubRefactorSpacesCreateRouteOptions(
-[property: CommandSwitch("--application-identifier")] string ApplicationIdentifier,
-[property: CommandSwitch("--environment-identifier")] string EnvironmentIdentifier,
-[property: CommandSwitch("--route-type")] string RouteType,
-[property: CommandSwitch("--service-identifier")] string ServiceIdentifier
+[property: CliOption("--application-identifier")] string ApplicationIdentifier,
+[property: CliOption("--environment-identifier")] string EnvironmentIdentifier,
+[property: CliOption("--route-type")] string RouteType,
+[property: CliOption("--service-identifier")] string ServiceIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--default-route")]
+    [CliOption("--default-route")]
     public string? DefaultRoute { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--uri-path-route")]
+    [CliOption("--uri-path-route")]
     public string? UriPathRoute { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

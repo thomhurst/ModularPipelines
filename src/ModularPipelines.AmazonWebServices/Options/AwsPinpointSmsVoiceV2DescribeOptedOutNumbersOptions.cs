@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint-sms-voice-v2", "describe-opted-out-numbers")]
+[CliCommand("pinpoint-sms-voice-v2", "describe-opted-out-numbers")]
 public record AwsPinpointSmsVoiceV2DescribeOptedOutNumbersOptions(
-[property: CommandSwitch("--opt-out-list-name")] string OptOutListName
+[property: CliOption("--opt-out-list-name")] string OptOutListName
 ) : AwsOptions
 {
-    [CommandSwitch("--opted-out-numbers")]
+    [CliOption("--opted-out-numbers")]
     public string[]? OptedOutNumbers { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

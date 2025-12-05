@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "create-instance-profile")]
+[CliCommand("iam", "create-instance-profile")]
 public record AwsIamCreateInstanceProfileOptions(
-[property: CommandSwitch("--instance-profile-name")] string InstanceProfileName
+[property: CliOption("--instance-profile-name")] string InstanceProfileName
 ) : AwsOptions
 {
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

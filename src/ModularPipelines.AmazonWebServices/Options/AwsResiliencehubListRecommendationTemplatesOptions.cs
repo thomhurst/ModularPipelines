@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resiliencehub", "list-recommendation-templates")]
+[CliCommand("resiliencehub", "list-recommendation-templates")]
 public record AwsResiliencehubListRecommendationTemplatesOptions(
-[property: CommandSwitch("--assessment-arn")] string AssessmentArn
+[property: CliOption("--assessment-arn")] string AssessmentArn
 ) : AwsOptions
 {
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--recommendation-template-arn")]
+    [CliOption("--recommendation-template-arn")]
     public string? RecommendationTemplateArn { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string[]? Status { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

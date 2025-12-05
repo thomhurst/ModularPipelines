@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthlake", "list-fhir-export-jobs")]
+[CliCommand("healthlake", "list-fhir-export-jobs")]
 public record AwsHealthlakeListFhirExportJobsOptions(
-[property: CommandSwitch("--datastore-id")] string DatastoreId
+[property: CliOption("--datastore-id")] string DatastoreId
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--job-name")]
+    [CliOption("--job-name")]
     public string? JobName { get; set; }
 
-    [CommandSwitch("--job-status")]
+    [CliOption("--job-status")]
     public string? JobStatus { get; set; }
 
-    [CommandSwitch("--submitted-before")]
+    [CliOption("--submitted-before")]
     public long? SubmittedBefore { get; set; }
 
-    [CommandSwitch("--submitted-after")]
+    [CliOption("--submitted-after")]
     public long? SubmittedAfter { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

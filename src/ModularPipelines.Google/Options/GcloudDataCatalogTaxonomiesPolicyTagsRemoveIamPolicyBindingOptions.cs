@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("data-catalog", "taxonomies", "policy-tags", "remove-iam-policy-binding")]
+[CliCommand("data-catalog", "taxonomies", "policy-tags", "remove-iam-policy-binding")]
 public record GcloudDataCatalogTaxonomiesPolicyTagsRemoveIamPolicyBindingOptions(
-[property: PositionalArgument] string PolicyTag,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Taxonomy,
-[property: CommandSwitch("--member")] string Member,
-[property: CommandSwitch("--role")] string Role
+[property: CliArgument] string PolicyTag,
+[property: CliArgument] string Location,
+[property: CliArgument] string Taxonomy,
+[property: CliOption("--member")] string Member,
+[property: CliOption("--role")] string Role
 ) : GcloudOptions;

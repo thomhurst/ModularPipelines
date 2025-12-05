@@ -5,23 +5,23 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("marketplace-entitlement", "get-entitlements")]
+[CliCommand("marketplace-entitlement", "get-entitlements")]
 public record AwsMarketplaceEntitlementGetEntitlementsOptions(
-[property: CommandSwitch("--product-code")] string ProductCode
+[property: CliOption("--product-code")] string ProductCode
 ) : AwsOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public IEnumerable<KeyValue>? Filter { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

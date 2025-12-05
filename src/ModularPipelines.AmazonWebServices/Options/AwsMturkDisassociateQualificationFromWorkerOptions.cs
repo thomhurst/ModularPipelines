@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mturk", "disassociate-qualification-from-worker")]
+[CliCommand("mturk", "disassociate-qualification-from-worker")]
 public record AwsMturkDisassociateQualificationFromWorkerOptions(
-[property: CommandSwitch("--worker-id")] string WorkerId,
-[property: CommandSwitch("--qualification-type-id")] string QualificationTypeId
+[property: CliOption("--worker-id")] string WorkerId,
+[property: CliOption("--qualification-type-id")] string QualificationTypeId
 ) : AwsOptions
 {
-    [CommandSwitch("--reason")]
+    [CliOption("--reason")]
     public string? Reason { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

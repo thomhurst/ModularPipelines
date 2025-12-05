@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cache", "services", "import")]
+[CliCommand("edge-cache", "services", "import")]
 public record GcloudEdgeCacheServicesImportOptions(
-[property: PositionalArgument] string Service,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Service,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 }

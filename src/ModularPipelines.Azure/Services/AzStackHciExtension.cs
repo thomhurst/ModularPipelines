@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stack-hci")]
+[CliCommand("stack-hci")]
 public class AzStackHciExtension
 {
     public AzStackHciExtension(

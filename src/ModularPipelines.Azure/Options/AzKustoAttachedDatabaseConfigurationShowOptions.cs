@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kusto", "attached-database-configuration", "show")]
+[CliSubCommand("kusto", "attached-database-configuration", "show")]
 public record AzKustoAttachedDatabaseConfigurationShowOptions : AzOptions
 {
-    [BooleanCommandSwitch("--attached-database-configuration-name")]
+    [CliFlag("--attached-database-configuration-name")]
     public bool? AttachedDatabaseConfigurationName { get; set; }
 
-    [CommandSwitch("--cluster-name")]
+    [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

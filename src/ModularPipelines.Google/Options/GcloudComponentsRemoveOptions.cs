@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("components", "remove")]
+[CliCommand("components", "remove")]
 public record GcloudComponentsRemoveOptions(
-[property: PositionalArgument] string ComponentId
+[property: CliArgument] string ComponentId
 ) : GcloudOptions;

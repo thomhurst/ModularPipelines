@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("xray", "create-group")]
+[CliCommand("xray", "create-group")]
 public record AwsXrayCreateGroupOptions(
-[property: CommandSwitch("--group-name")] string GroupName
+[property: CliOption("--group-name")] string GroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--filter-expression")]
+    [CliOption("--filter-expression")]
     public string? FilterExpression { get; set; }
 
-    [CommandSwitch("--insights-configuration")]
+    [CliOption("--insights-configuration")]
     public string? InsightsConfiguration { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

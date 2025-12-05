@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "logs", "tail")]
+[CliCommand("app", "logs", "tail")]
 public record GcloudAppLogsTailOptions : GcloudOptions
 {
-    [CommandSwitch("--level")]
+    [CliOption("--level")]
     public string? Level { get; set; }
 
-    [CommandSwitch("--logs")]
+    [CliOption("--logs")]
     public string[]? Logs { get; set; }
 
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string? Version { get; set; }
 }

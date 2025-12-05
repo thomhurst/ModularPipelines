@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("active-directory", "domains", "describe-ldaps-settings")]
+[CliCommand("active-directory", "domains", "describe-ldaps-settings")]
 public record GcloudActiveDirectoryDomainsDescribeLdapsSettingsOptions(
-[property: PositionalArgument] string Domain
+[property: CliArgument] string Domain
 ) : GcloudOptions;

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repos", "pr", "policy", "queue")]
+[CliSubCommand("repos", "pr", "policy", "queue")]
 public record AzReposPrPolicyQueueOptions(
-[property: CommandSwitch("--evaluation-id")] string EvaluationId,
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--evaluation-id")] string EvaluationId,
+[property: CliOption("--id")] string Id
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 }

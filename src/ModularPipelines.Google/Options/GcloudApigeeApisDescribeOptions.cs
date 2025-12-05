@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigee", "apis", "describe")]
+[CliCommand("apigee", "apis", "describe")]
 public record GcloudApigeeApisDescribeOptions(
-[property: PositionalArgument] string Api,
-[property: PositionalArgument] string Organization
+[property: CliArgument] string Api,
+[property: CliArgument] string Organization
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public bool? Verbose { get; set; }
 }

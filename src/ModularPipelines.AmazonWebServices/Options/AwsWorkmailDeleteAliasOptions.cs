@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workmail", "delete-alias")]
+[CliCommand("workmail", "delete-alias")]
 public record AwsWorkmailDeleteAliasOptions(
-[property: CommandSwitch("--organization-id")] string OrganizationId,
-[property: CommandSwitch("--entity-id")] string EntityId,
-[property: CommandSwitch("--alias")] string Alias
+[property: CliOption("--organization-id")] string OrganizationId,
+[property: CliOption("--entity-id")] string EntityId,
+[property: CliOption("--alias")] string Alias
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

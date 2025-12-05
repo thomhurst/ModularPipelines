@@ -13,6 +13,7 @@ public class ModuleResult<T> : ModuleResult
     private T? _value;
 
     /// <summary>
+    /// Initialises a new instance of the <see cref="ModuleResult{T}"/> class.
     /// Creates a result from execution context (composition-based modules).
     /// </summary>
     internal ModuleResult(Exception exception, ModuleExecutionContext executionContext)
@@ -21,6 +22,7 @@ public class ModuleResult<T> : ModuleResult
     }
 
     /// <summary>
+    /// Initialises a new instance of the <see cref="ModuleResult{T}"/> class.
     /// Creates a result from execution context (composition-based modules).
     /// </summary>
     internal ModuleResult(T? value, ModuleExecutionContext executionContext)
@@ -90,6 +92,7 @@ public class ModuleResult : IModuleResult, ITypeDiscriminator
     public DateTimeOffset ModuleEnd { get; private set; }
 
     /// <summary>
+    /// Initialises a new instance of the <see cref="ModuleResult"/> class.
     /// Creates a result from execution context (composition-based modules).
     /// </summary>
     internal ModuleResult(Exception exception, ModuleExecutionContext executionContext)
@@ -99,6 +102,7 @@ public class ModuleResult : IModuleResult, ITypeDiscriminator
     }
 
     /// <summary>
+    /// Initialises a new instance of the <see cref="ModuleResult"/> class.
     /// Creates a result from execution context (composition-based modules).
     /// </summary>
     internal ModuleResult(ModuleExecutionContext executionContext)
@@ -166,7 +170,7 @@ public class ModuleResult : IModuleResult, ITypeDiscriminator
     public string TypeDiscriminator { get; private set; }
 
     /// <summary>
-    /// Gets the type of the module that produced this result.
+    /// Gets or sets the type of the module that produced this result.
     /// </summary>
     [JsonIgnore]
     internal Type? ModuleType { get; set; }

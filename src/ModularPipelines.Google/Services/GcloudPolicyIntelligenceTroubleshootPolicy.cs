@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("policy-intelligence")]
+[CliCommand("policy-intelligence")]
 public class GcloudPolicyIntelligenceTroubleshootPolicy
 {
     public GcloudPolicyIntelligenceTroubleshootPolicy(

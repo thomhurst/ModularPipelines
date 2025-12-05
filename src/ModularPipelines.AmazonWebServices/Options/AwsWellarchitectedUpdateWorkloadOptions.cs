@@ -4,56 +4,56 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "update-workload")]
+[CliCommand("wellarchitected", "update-workload")]
 public record AwsWellarchitectedUpdateWorkloadOptions(
-[property: CommandSwitch("--workload-id")] string WorkloadId
+[property: CliOption("--workload-id")] string WorkloadId
 ) : AwsOptions
 {
-    [CommandSwitch("--workload-name")]
+    [CliOption("--workload-name")]
     public string? WorkloadName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--environment")]
+    [CliOption("--environment")]
     public string? Environment { get; set; }
 
-    [CommandSwitch("--account-ids")]
+    [CliOption("--account-ids")]
     public string[]? AccountIds { get; set; }
 
-    [CommandSwitch("--aws-regions")]
+    [CliOption("--aws-regions")]
     public string[]? AwsRegions { get; set; }
 
-    [CommandSwitch("--non-aws-regions")]
+    [CliOption("--non-aws-regions")]
     public string[]? NonAwsRegions { get; set; }
 
-    [CommandSwitch("--pillar-priorities")]
+    [CliOption("--pillar-priorities")]
     public string[]? PillarPriorities { get; set; }
 
-    [CommandSwitch("--architectural-design")]
+    [CliOption("--architectural-design")]
     public string? ArchitecturalDesign { get; set; }
 
-    [CommandSwitch("--review-owner")]
+    [CliOption("--review-owner")]
     public string? ReviewOwner { get; set; }
 
-    [CommandSwitch("--industry-type")]
+    [CliOption("--industry-type")]
     public string? IndustryType { get; set; }
 
-    [CommandSwitch("--industry")]
+    [CliOption("--industry")]
     public string? Industry { get; set; }
 
-    [CommandSwitch("--notes")]
+    [CliOption("--notes")]
     public string? Notes { get; set; }
 
-    [CommandSwitch("--improvement-status")]
+    [CliOption("--improvement-status")]
     public string? ImprovementStatus { get; set; }
 
-    [CommandSwitch("--discovery-config")]
+    [CliOption("--discovery-config")]
     public string? DiscoveryConfig { get; set; }
 
-    [CommandSwitch("--applications")]
+    [CliOption("--applications")]
     public string[]? Applications { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("terraform providers mirror")]
+[CliCommand("terraform providers mirror")]
 [ExcludeFromCodeCoverage]
 public record TerraformTerraformProvidersMirrorOptions : TerraformOptions
 {
-    [CommandSwitch("-platform")]
+    [CliOption("-platform")]
     public virtual string? Platform { get; set; }
 }

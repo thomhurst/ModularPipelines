@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sso-admin", "list-permission-sets-provisioned-to-account")]
+[CliCommand("sso-admin", "list-permission-sets-provisioned-to-account")]
 public record AwsSsoAdminListPermissionSetsProvisionedToAccountOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--instance-arn")] string InstanceArn
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--instance-arn")] string InstanceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--provisioning-status")]
+    [CliOption("--provisioning-status")]
     public string? ProvisioningStatus { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

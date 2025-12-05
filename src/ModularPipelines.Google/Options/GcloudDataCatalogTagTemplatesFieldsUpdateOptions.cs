@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("data-catalog", "tag-templates", "fields", "update")]
+[CliCommand("data-catalog", "tag-templates", "fields", "update")]
 public record GcloudDataCatalogTagTemplatesFieldsUpdateOptions(
-[property: PositionalArgument] string Field,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string TagTemplate
+[property: CliArgument] string Field,
+[property: CliArgument] string Location,
+[property: CliArgument] string TagTemplate
 ) : GcloudOptions
 {
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--enum-values")]
+    [CliOption("--enum-values")]
     public string[]? EnumValues { get; set; }
 
-    [BooleanCommandSwitch("--required")]
+    [CliFlag("--required")]
     public bool? Required { get; set; }
 }

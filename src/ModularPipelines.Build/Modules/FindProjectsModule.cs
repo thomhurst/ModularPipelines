@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
@@ -14,50 +13,30 @@ public class FindProjectsModule : Module<IReadOnlyList<File>>, IAlwaysRun
     {
         await Task.Yield();
 
-        return context.Git()
-            .RootDirectory!
-            .GetFiles(f => GetProjectsPredicate(f, context))
-            .OrderBy(x => x.NameWithoutExtension)
-            .ToList();
-    }
-
-    private bool GetProjectsPredicate(File file, IModuleContext context)
-    {
-        var path = file.Path;
-
-        if (!path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase))
-        {
-            return false;
-        }
-
-        if (path.Contains("Test", StringComparison.OrdinalIgnoreCase))
-        {
-            return false;
-        }
-
-        if (path.EndsWith("ModularPipelines.Build.csproj")
-            || path.Contains("Example"))
-        {
-            return false;
-        }
-
-        if (path.EndsWith("ModularPipelines.Analyzers.Package.csproj"))
-        {
-            return true;
-        }
-
-        if (path.Contains("Development"))
-        {
-            return false;
-        }
-
-        if (path.Contains("ModularPipelines.Analyzers"))
-        {
-            return false;
-        }
-
-        context.Logger.LogInformation("Found File: {File}", path);
-
-        return true;
+        return
+        [
+            Sourcy.DotNet.Projects.ModularPipelines,
+            Sourcy.DotNet.Projects.ModularPipelines_AmazonWebServices,
+            Sourcy.DotNet.Projects.ModularPipelines_Azure,
+            Sourcy.DotNet.Projects.ModularPipelines_Azure_Pipelines,
+            Sourcy.DotNet.Projects.ModularPipelines_Chocolatey,
+            Sourcy.DotNet.Projects.ModularPipelines_Cmd,
+            Sourcy.DotNet.Projects.ModularPipelines_Docker,
+            Sourcy.DotNet.Projects.ModularPipelines_DotNet,
+            Sourcy.DotNet.Projects.ModularPipelines_Email,
+            Sourcy.DotNet.Projects.ModularPipelines_Ftp,
+            Sourcy.DotNet.Projects.ModularPipelines_Yarn,
+            Sourcy.DotNet.Projects.ModularPipelines_Node,
+            Sourcy.DotNet.Projects.ModularPipelines_Git,
+            Sourcy.DotNet.Projects.ModularPipelines_GitHub,
+            Sourcy.DotNet.Projects.ModularPipelines_Google,
+            Sourcy.DotNet.Projects.ModularPipelines_Helm,
+            Sourcy.DotNet.Projects.ModularPipelines_Kubernetes,
+            Sourcy.DotNet.Projects.ModularPipelines_MicrosoftTeams,
+            Sourcy.DotNet.Projects.ModularPipelines_Slack,
+            Sourcy.DotNet.Projects.ModularPipelines_TeamCity,
+            Sourcy.DotNet.Projects.ModularPipelines_Terraform,
+            Sourcy.DotNet.Projects.ModularPipelines_WinGet
+        ];
     }
 }

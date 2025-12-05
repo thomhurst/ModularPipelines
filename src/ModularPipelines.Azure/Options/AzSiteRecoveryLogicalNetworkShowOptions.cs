@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("site-recovery", "logical-network", "show")]
+[CliSubCommand("site-recovery", "logical-network", "show")]
 public record AzSiteRecoveryLogicalNetworkShowOptions : AzOptions
 {
-    [CommandSwitch("--fabric-name")]
+    [CliOption("--fabric-name")]
     public string? FabricName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--logical-network-name")]
+    [CliOption("--logical-network-name")]
     public string? LogicalNetworkName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--vault-name")]
+    [CliOption("--vault-name")]
     public string? VaultName { get; set; }
 }

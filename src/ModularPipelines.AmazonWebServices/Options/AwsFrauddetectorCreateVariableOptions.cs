@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("frauddetector", "create-variable")]
+[CliCommand("frauddetector", "create-variable")]
 public record AwsFrauddetectorCreateVariableOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--data-type")] string DataType,
-[property: CommandSwitch("--data-source")] string DataSource,
-[property: CommandSwitch("--default-value")] string DefaultValue
+[property: CliOption("--name")] string Name,
+[property: CliOption("--data-type")] string DataType,
+[property: CliOption("--data-source")] string DataSource,
+[property: CliOption("--default-value")] string DefaultValue
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--variable-type")]
+    [CliOption("--variable-type")]
     public string? VariableType { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

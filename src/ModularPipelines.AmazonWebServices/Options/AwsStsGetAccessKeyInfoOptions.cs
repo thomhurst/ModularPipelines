@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sts", "get-access-key-info")]
+[CliCommand("sts", "get-access-key-info")]
 public record AwsStsGetAccessKeyInfoOptions(
-[property: CommandSwitch("--access-key-id")] string AccessKeyId
+[property: CliOption("--access-key-id")] string AccessKeyId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

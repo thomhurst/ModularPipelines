@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kendra-ranking", "rescore")]
+[CliCommand("kendra-ranking", "rescore")]
 public record AwsKendraRankingRescoreOptions(
-[property: CommandSwitch("--rescore-execution-plan-id")] string RescoreExecutionPlanId,
-[property: CommandSwitch("--search-query")] string SearchQuery,
-[property: CommandSwitch("--documents")] string[] Documents
+[property: CliOption("--rescore-execution-plan-id")] string RescoreExecutionPlanId,
+[property: CliOption("--search-query")] string SearchQuery,
+[property: CliOption("--documents")] string[] Documents
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

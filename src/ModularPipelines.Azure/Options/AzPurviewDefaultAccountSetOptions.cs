@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("purview", "default-account", "set")]
+[CliSubCommand("purview", "default-account", "set")]
 public record AzPurviewDefaultAccountSetOptions(
-[property: CommandSwitch("--scope-tenant-id")] string ScopeTenantId,
-[property: CommandSwitch("--subscription-id")] string SubscriptionId
+[property: CliOption("--scope-tenant-id")] string ScopeTenantId,
+[property: CliOption("--subscription-id")] string SubscriptionId
 ) : AzOptions
 {
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--scope-type")]
+    [CliOption("--scope-type")]
     public string? ScopeType { get; set; }
 }

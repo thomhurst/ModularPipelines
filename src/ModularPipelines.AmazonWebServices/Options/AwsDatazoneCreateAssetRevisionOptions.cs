@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datazone", "create-asset-revision")]
+[CliCommand("datazone", "create-asset-revision")]
 public record AwsDatazoneCreateAssetRevisionOptions(
-[property: CommandSwitch("--domain-identifier")] string DomainIdentifier,
-[property: CommandSwitch("--identifier")] string Identifier,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--domain-identifier")] string DomainIdentifier,
+[property: CliOption("--identifier")] string Identifier,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--forms-input")]
+    [CliOption("--forms-input")]
     public string[]? FormsInput { get; set; }
 
-    [CommandSwitch("--glossary-terms")]
+    [CliOption("--glossary-terms")]
     public string[]? GlossaryTerms { get; set; }
 
-    [CommandSwitch("--prediction-configuration")]
+    [CliOption("--prediction-configuration")]
     public string? PredictionConfiguration { get; set; }
 
-    [CommandSwitch("--type-revision")]
+    [CliOption("--type-revision")]
     public string? TypeRevision { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("athena", "get-session")]
+[CliCommand("athena", "get-session")]
 public record AwsAthenaGetSessionOptions(
-[property: CommandSwitch("--session-id")] string SessionId
+[property: CliOption("--session-id")] string SessionId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iap", "tcp", "dest-groups", "delete")]
+[CliCommand("iap", "tcp", "dest-groups", "delete")]
 public record GcloudIapTcpDestGroupsDeleteOptions(
-[property: PositionalArgument] string GroupName,
-[property: CommandSwitch("--region")] string Region
+[property: CliArgument] string GroupName,
+[property: CliOption("--region")] string Region
 ) : GcloudOptions;

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "accept-reserved-node-exchange")]
+[CliCommand("redshift", "accept-reserved-node-exchange")]
 public record AwsRedshiftAcceptReservedNodeExchangeOptions(
-[property: CommandSwitch("--reserved-node-id")] string ReservedNodeId,
-[property: CommandSwitch("--target-reserved-node-offering-id")] string TargetReservedNodeOfferingId
+[property: CliOption("--reserved-node-id")] string ReservedNodeId,
+[property: CliOption("--target-reserved-node-offering-id")] string TargetReservedNodeOfferingId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "calculate-route")]
+[CliCommand("location", "calculate-route")]
 public record AwsLocationCalculateRouteOptions(
-[property: CommandSwitch("--calculator-name")] string CalculatorName,
-[property: CommandSwitch("--departure-position")] string[] DeparturePosition,
-[property: CommandSwitch("--destination-position")] string[] DestinationPosition
+[property: CliOption("--calculator-name")] string CalculatorName,
+[property: CliOption("--departure-position")] string[] DeparturePosition,
+[property: CliOption("--destination-position")] string[] DestinationPosition
 ) : AwsOptions
 {
-    [CommandSwitch("--arrival-time")]
+    [CliOption("--arrival-time")]
     public long? ArrivalTime { get; set; }
 
-    [CommandSwitch("--car-mode-options")]
+    [CliOption("--car-mode-options")]
     public string? CarModeOptions { get; set; }
 
-    [CommandSwitch("--departure-time")]
+    [CliOption("--departure-time")]
     public long? DepartureTime { get; set; }
 
-    [CommandSwitch("--distance-unit")]
+    [CliOption("--distance-unit")]
     public string? DistanceUnit { get; set; }
 
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 
-    [CommandSwitch("--optimize-for")]
+    [CliOption("--optimize-for")]
     public string? OptimizeFor { get; set; }
 
-    [CommandSwitch("--travel-mode")]
+    [CliOption("--travel-mode")]
     public string? TravelMode { get; set; }
 
-    [CommandSwitch("--truck-mode-options")]
+    [CliOption("--truck-mode-options")]
     public string? TruckModeOptions { get; set; }
 
-    [CommandSwitch("--waypoint-positions")]
+    [CliOption("--waypoint-positions")]
     public string[]? WaypointPositions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

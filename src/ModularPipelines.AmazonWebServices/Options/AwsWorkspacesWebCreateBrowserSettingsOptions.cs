@@ -5,23 +5,23 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces-web", "create-browser-settings")]
+[CliCommand("workspaces-web", "create-browser-settings")]
 public record AwsWorkspacesWebCreateBrowserSettingsOptions(
-[property: CommandSwitch("--browser-policy")] string BrowserPolicy
+[property: CliOption("--browser-policy")] string BrowserPolicy
 ) : AwsOptions
 {
-    [CommandSwitch("--additional-encryption-context")]
+    [CliOption("--additional-encryption-context")]
     public IEnumerable<KeyValue>? AdditionalEncryptionContext { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--customer-managed-key")]
+    [CliOption("--customer-managed-key")]
     public string? CustomerManagedKey { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

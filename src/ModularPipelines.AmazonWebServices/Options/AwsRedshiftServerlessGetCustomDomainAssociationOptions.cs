@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift-serverless", "get-custom-domain-association")]
+[CliCommand("redshift-serverless", "get-custom-domain-association")]
 public record AwsRedshiftServerlessGetCustomDomainAssociationOptions(
-[property: CommandSwitch("--custom-domain-name")] string CustomDomainName,
-[property: CommandSwitch("--workgroup-name")] string WorkgroupName
+[property: CliOption("--custom-domain-name")] string CustomDomainName,
+[property: CliOption("--workgroup-name")] string WorkgroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

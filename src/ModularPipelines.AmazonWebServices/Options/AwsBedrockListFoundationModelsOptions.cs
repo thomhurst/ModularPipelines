@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bedrock", "list-foundation-models")]
+[CliCommand("bedrock", "list-foundation-models")]
 public record AwsBedrockListFoundationModelsOptions : AwsOptions
 {
-    [CommandSwitch("--by-provider")]
+    [CliOption("--by-provider")]
     public string? ByProvider { get; set; }
 
-    [CommandSwitch("--by-customization-type")]
+    [CliOption("--by-customization-type")]
     public string? ByCustomizationType { get; set; }
 
-    [CommandSwitch("--by-output-modality")]
+    [CliOption("--by-output-modality")]
     public string? ByOutputModality { get; set; }
 
-    [CommandSwitch("--by-inference-type")]
+    [CliOption("--by-inference-type")]
     public string? ByInferenceType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

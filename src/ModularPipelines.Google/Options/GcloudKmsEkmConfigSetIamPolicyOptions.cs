@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "ekm-config", "set-iam-policy")]
+[CliCommand("kms", "ekm-config", "set-iam-policy")]
 public record GcloudKmsEkmConfigSetIamPolicyOptions(
-[property: PositionalArgument] string PolicyFile,
-[property: CommandSwitch("--location")] string Location
+[property: CliArgument] string PolicyFile,
+[property: CliOption("--location")] string Location
 ) : GcloudOptions;

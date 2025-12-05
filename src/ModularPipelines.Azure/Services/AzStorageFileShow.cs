@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "file")]
+[CliCommand("storage", "file")]
 public class AzStorageFileShow
 {
     public AzStorageFileShow(

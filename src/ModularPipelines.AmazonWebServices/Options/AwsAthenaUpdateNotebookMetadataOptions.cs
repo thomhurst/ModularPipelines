@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("athena", "update-notebook-metadata")]
+[CliCommand("athena", "update-notebook-metadata")]
 public record AwsAthenaUpdateNotebookMetadataOptions(
-[property: CommandSwitch("--notebook-id")] string NotebookId,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--notebook-id")] string NotebookId,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

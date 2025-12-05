@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("policy", "set-definition", "create")]
+[CliSubCommand("policy", "set-definition", "create")]
 public record AzPolicySetDefinitionCreateOptions(
-[property: CommandSwitch("--definitions")] string Definitions,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--definitions")] string Definitions,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--definition-groups")]
+    [CliOption("--definition-groups")]
     public string? DefinitionGroups { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--management-group")]
+    [CliOption("--management-group")]
     public string? ManagementGroup { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public string? Metadata { get; set; }
 
-    [CommandSwitch("--params")]
+    [CliOption("--params")]
     public string? Params { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opensearch", "purchase-reserved-instance-offering")]
+[CliCommand("opensearch", "purchase-reserved-instance-offering")]
 public record AwsOpensearchPurchaseReservedInstanceOfferingOptions(
-[property: CommandSwitch("--reserved-instance-offering-id")] string ReservedInstanceOfferingId,
-[property: CommandSwitch("--reservation-name")] string ReservationName
+[property: CliOption("--reserved-instance-offering-id")] string ReservedInstanceOfferingId,
+[property: CliOption("--reservation-name")] string ReservationName
 ) : AwsOptions
 {
-    [CommandSwitch("--instance-count")]
+    [CliOption("--instance-count")]
     public int? InstanceCount { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

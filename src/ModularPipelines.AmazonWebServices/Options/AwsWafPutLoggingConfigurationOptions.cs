@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("waf", "put-logging-configuration")]
+[CliCommand("waf", "put-logging-configuration")]
 public record AwsWafPutLoggingConfigurationOptions(
-[property: CommandSwitch("--logging-configuration")] string LoggingConfiguration
+[property: CliOption("--logging-configuration")] string LoggingConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

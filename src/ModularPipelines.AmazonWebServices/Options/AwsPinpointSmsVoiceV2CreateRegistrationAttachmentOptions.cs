@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint-sms-voice-v2", "create-registration-attachment")]
+[CliCommand("pinpoint-sms-voice-v2", "create-registration-attachment")]
 public record AwsPinpointSmsVoiceV2CreateRegistrationAttachmentOptions : AwsOptions
 {
-    [CommandSwitch("--attachment-body")]
+    [CliOption("--attachment-body")]
     public string? AttachmentBody { get; set; }
 
-    [CommandSwitch("--attachment-url")]
+    [CliOption("--attachment-url")]
     public string? AttachmentUrl { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

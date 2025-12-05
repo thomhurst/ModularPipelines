@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "describe-certificate")]
+[CliCommand("transfer", "describe-certificate")]
 public record AwsTransferDescribeCertificateOptions(
-[property: CommandSwitch("--certificate-id")] string CertificateId
+[property: CliOption("--certificate-id")] string CertificateId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

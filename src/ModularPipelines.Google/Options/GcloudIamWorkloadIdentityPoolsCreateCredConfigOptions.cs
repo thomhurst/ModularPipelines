@@ -4,44 +4,44 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "workload-identity-pools", "create-cred-config")]
+[CliCommand("iam", "workload-identity-pools", "create-cred-config")]
 public record GcloudIamWorkloadIdentityPoolsCreateCredConfigOptions(
-[property: PositionalArgument] string Audience,
-[property: CommandSwitch("--output-file")] string OutputFile,
-[property: BooleanCommandSwitch("--aws")] bool Aws,
-[property: BooleanCommandSwitch("--azure")] bool Azure,
-[property: CommandSwitch("--credential-source-file")] string CredentialSourceFile,
-[property: CommandSwitch("--credential-source-url")] string CredentialSourceUrl,
-[property: CommandSwitch("--executable-command")] string ExecutableCommand
+[property: CliArgument] string Audience,
+[property: CliOption("--output-file")] string OutputFile,
+[property: CliFlag("--aws")] bool Aws,
+[property: CliFlag("--azure")] bool Azure,
+[property: CliOption("--credential-source-file")] string CredentialSourceFile,
+[property: CliOption("--credential-source-url")] string CredentialSourceUrl,
+[property: CliOption("--executable-command")] string ExecutableCommand
 ) : GcloudOptions
 {
-    [CommandSwitch("--app-id-uri")]
+    [CliOption("--app-id-uri")]
     public string? AppIdUri { get; set; }
 
-    [CommandSwitch("--credential-source-field-name")]
+    [CliOption("--credential-source-field-name")]
     public string? CredentialSourceFieldName { get; set; }
 
-    [CommandSwitch("--credential-source-headers")]
+    [CliOption("--credential-source-headers")]
     public string[]? CredentialSourceHeaders { get; set; }
 
-    [CommandSwitch("--credential-source-type")]
+    [CliOption("--credential-source-type")]
     public string? CredentialSourceType { get; set; }
 
-    [BooleanCommandSwitch("--enable-imdsv2")]
+    [CliFlag("--enable-imdsv2")]
     public bool? EnableImdsv2 { get; set; }
 
-    [CommandSwitch("--subject-token-type")]
+    [CliOption("--subject-token-type")]
     public string? SubjectTokenType { get; set; }
 
-    [CommandSwitch("--executable-output-file")]
+    [CliOption("--executable-output-file")]
     public string? ExecutableOutputFile { get; set; }
 
-    [CommandSwitch("--executable-timeout-millis")]
+    [CliOption("--executable-timeout-millis")]
     public string? ExecutableTimeoutMillis { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 
-    [CommandSwitch("--service-account-token-lifetime-seconds")]
+    [CliOption("--service-account-token-lifetime-seconds")]
     public string? ServiceAccountTokenLifetimeSeconds { get; set; }
 }

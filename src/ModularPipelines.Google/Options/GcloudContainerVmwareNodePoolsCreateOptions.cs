@@ -5,37 +5,37 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "vmware", "node-pools", "create")]
+[CliCommand("container", "vmware", "node-pools", "create")]
 public record GcloudContainerVmwareNodePoolsCreateOptions(
-[property: PositionalArgument] string NodePool,
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--image-type")] string ImageType,
-[property: CommandSwitch("--boot-disk-size")] string BootDiskSize,
-[property: CommandSwitch("--cpus")] string Cpus,
-[property: BooleanCommandSwitch("--enable-load-balancer")] bool EnableLoadBalancer,
-[property: CommandSwitch("--image")] string Image,
-[property: CommandSwitch("--memory")] string Memory,
-[property: CommandSwitch("--node-labels")] IEnumerable<KeyValue> NodeLabels,
-[property: CommandSwitch("--node-taints")] IEnumerable<KeyValue> NodeTaints,
-[property: CommandSwitch("--replicas")] string Replicas
+[property: CliArgument] string NodePool,
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Location,
+[property: CliOption("--image-type")] string ImageType,
+[property: CliOption("--boot-disk-size")] string BootDiskSize,
+[property: CliOption("--cpus")] string Cpus,
+[property: CliFlag("--enable-load-balancer")] bool EnableLoadBalancer,
+[property: CliOption("--image")] string Image,
+[property: CliOption("--memory")] string Memory,
+[property: CliOption("--node-labels")] IEnumerable<KeyValue> NodeLabels,
+[property: CliOption("--node-taints")] IEnumerable<KeyValue> NodeTaints,
+[property: CliOption("--replicas")] string Replicas
 ) : GcloudOptions
 {
-    [CommandSwitch("--annotations")]
+    [CliOption("--annotations")]
     public IEnumerable<KeyValue>? Annotations { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
-    [CommandSwitch("--max-replicas")]
+    [CliOption("--max-replicas")]
     public string? MaxReplicas { get; set; }
 
-    [CommandSwitch("--min-replicas")]
+    [CliOption("--min-replicas")]
     public string? MinReplicas { get; set; }
 }

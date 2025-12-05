@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ds", "create-computer")]
+[CliCommand("ds", "create-computer")]
 public record AwsDsCreateComputerOptions(
-[property: CommandSwitch("--directory-id")] string DirectoryId,
-[property: CommandSwitch("--computer-name")] string ComputerName,
-[property: CommandSwitch("--password")] string Password
+[property: CliOption("--directory-id")] string DirectoryId,
+[property: CliOption("--computer-name")] string ComputerName,
+[property: CliOption("--password")] string Password
 ) : AwsOptions
 {
-    [CommandSwitch("--organizational-unit-distinguished-name")]
+    [CliOption("--organizational-unit-distinguished-name")]
     public string? OrganizationalUnitDistinguishedName { get; set; }
 
-    [CommandSwitch("--computer-attributes")]
+    [CliOption("--computer-attributes")]
     public string[]? ComputerAttributes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

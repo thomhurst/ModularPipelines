@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appservice")]
+[CliCommand("appservice")]
 public class AzAppservicePlan
 {
     public AzAppservicePlan(

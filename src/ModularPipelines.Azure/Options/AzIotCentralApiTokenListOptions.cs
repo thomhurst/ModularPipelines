@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "central", "api-token", "list")]
+[CliSubCommand("iot", "central", "api-token", "list")]
 public record AzIotCentralApiTokenListOptions(
-[property: CommandSwitch("--app-id")] string AppId
+[property: CliOption("--app-id")] string AppId
 ) : AzOptions
 {
-    [CommandSwitch("--central-api-uri")]
+    [CliOption("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotwireless", "get-resource-position")]
+[CliCommand("iotwireless", "get-resource-position")]
 public record AwsIotwirelessGetResourcePositionOptions(
-[property: CommandSwitch("--resource-identifier")] string ResourceIdentifier,
-[property: CommandSwitch("--resource-type")] string ResourceType
+[property: CliOption("--resource-identifier")] string ResourceIdentifier,
+[property: CliOption("--resource-type")] string ResourceType
 ) : AwsOptions;

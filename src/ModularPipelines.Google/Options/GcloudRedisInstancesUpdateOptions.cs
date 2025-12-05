@@ -5,66 +5,66 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redis", "instances", "update")]
+[CliCommand("redis", "instances", "update")]
 public record GcloudRedisInstancesUpdateOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Instance,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [BooleanCommandSwitch("--enable-auth")]
+    [CliFlag("--enable-auth")]
     public bool? EnableAuth { get; set; }
 
-    [CommandSwitch("--maintenance-version")]
+    [CliOption("--maintenance-version")]
     public string? MaintenanceVersion { get; set; }
 
-    [CommandSwitch("--persistence-mode")]
+    [CliOption("--persistence-mode")]
     public string? PersistenceMode { get; set; }
 
-    [CommandSwitch("--rdb-snapshot-period")]
+    [CliOption("--rdb-snapshot-period")]
     public string? RdbSnapshotPeriod { get; set; }
 
-    [CommandSwitch("--rdb-snapshot-start-time")]
+    [CliOption("--rdb-snapshot-start-time")]
     public string? RdbSnapshotStartTime { get; set; }
 
-    [CommandSwitch("--read-replicas-mode")]
+    [CliOption("--read-replicas-mode")]
     public string? ReadReplicasMode { get; set; }
 
-    [CommandSwitch("--remove-redis-config")]
+    [CliOption("--remove-redis-config")]
     public string[]? RemoveRedisConfig { get; set; }
 
-    [CommandSwitch("--replica-count")]
+    [CliOption("--replica-count")]
     public string? ReplicaCount { get; set; }
 
-    [CommandSwitch("--secondary-ip-range")]
+    [CliOption("--secondary-ip-range")]
     public string? SecondaryIpRange { get; set; }
 
-    [CommandSwitch("--size")]
+    [CliOption("--size")]
     public string? Size { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [CommandSwitch("--update-redis-config")]
+    [CliOption("--update-redis-config")]
     public IEnumerable<KeyValue>? UpdateRedisConfig { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 
-    [BooleanCommandSwitch("--maintenance-window-any")]
+    [CliFlag("--maintenance-window-any")]
     public bool? MaintenanceWindowAny { get; set; }
 
-    [CommandSwitch("--maintenance-window-day")]
+    [CliOption("--maintenance-window-day")]
     public string? MaintenanceWindowDay { get; set; }
 
-    [CommandSwitch("--maintenance-window-hour")]
+    [CliOption("--maintenance-window-hour")]
     public string? MaintenanceWindowHour { get; set; }
 }

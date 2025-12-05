@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "buckets", "set-iam-policy")]
+[CliCommand("storage", "buckets", "set-iam-policy")]
 public record GcloudStorageBucketsSetIamPolicyOptions(
-[property: PositionalArgument] string Urls,
-[property: PositionalArgument] string PolicyFile
+[property: CliArgument] string Urls,
+[property: CliArgument] string PolicyFile
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--continue-on-error")]
+    [CliFlag("--continue-on-error")]
     public bool? ContinueOnError { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 }

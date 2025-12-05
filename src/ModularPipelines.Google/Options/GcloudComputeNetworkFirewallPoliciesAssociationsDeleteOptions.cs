@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "network-firewall-policies", "associations", "delete")]
+[CliCommand("compute", "network-firewall-policies", "associations", "delete")]
 public record GcloudComputeNetworkFirewallPoliciesAssociationsDeleteOptions(
-[property: CommandSwitch("--firewall-policy")] string FirewallPolicy,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--firewall-policy")] string FirewallPolicy,
+[property: CliOption("--name")] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--firewall-policy-region")]
+    [CliOption("--firewall-policy-region")]
     public string? FirewallPolicyRegion { get; set; }
 
-    [BooleanCommandSwitch("--global-firewall-policy")]
+    [CliFlag("--global-firewall-policy")]
     public bool? GlobalFirewallPolicy { get; set; }
 }

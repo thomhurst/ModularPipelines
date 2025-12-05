@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amplifyuibuilder", "export-forms")]
+[CliCommand("amplifyuibuilder", "export-forms")]
 public record AwsAmplifyuibuilderExportFormsOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--environment-name")] string EnvironmentName
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--environment-name")] string EnvironmentName
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "nodepool", "snapshot", "update")]
+[CliCommand("aks", "nodepool", "snapshot", "update")]
 public class AzAksNodepoolSnapshotUpdateAksPreview
 {
     public AzAksNodepoolSnapshotUpdateAksPreview(

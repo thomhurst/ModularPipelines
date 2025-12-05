@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("nginx", "deployment", "certificate", "create")]
+[CliSubCommand("nginx", "deployment", "certificate", "create")]
 public record AzNginxDeploymentCertificateCreateOptions(
-[property: CommandSwitch("--certificate-name")] string CertificateName,
-[property: CommandSwitch("--deployment-name")] string DeploymentName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--certificate-name")] string CertificateName,
+[property: CliOption("--deployment-name")] string DeploymentName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--certificate-path")]
+    [CliOption("--certificate-path")]
     public string? CertificatePath { get; set; }
 
-    [CommandSwitch("--key-path")]
+    [CliOption("--key-path")]
     public string? KeyPath { get; set; }
 
-    [CommandSwitch("--key-vault-secret-id")]
+    [CliOption("--key-vault-secret-id")]
     public string? KeyVaultSecretId { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--provisioning-state")]
+    [CliOption("--provisioning-state")]
     public string? ProvisioningState { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

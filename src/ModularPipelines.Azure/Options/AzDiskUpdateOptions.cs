@@ -4,81 +4,81 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("disk", "update")]
+[CliSubCommand("disk", "update")]
 public record AzDiskUpdateOptions : AzOptions
 {
-    [BooleanCommandSwitch("--accelerated-network")]
+    [CliFlag("--accelerated-network")]
     public bool? AcceleratedNetwork { get; set; }
 
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--architecture")]
+    [CliOption("--architecture")]
     public string? Architecture { get; set; }
 
-    [CommandSwitch("--data-access-auth-mode")]
+    [CliOption("--data-access-auth-mode")]
     public string? DataAccessAuthMode { get; set; }
 
-    [CommandSwitch("--disk-access")]
+    [CliOption("--disk-access")]
     public string? DiskAccess { get; set; }
 
-    [CommandSwitch("--disk-encryption-set")]
+    [CliOption("--disk-encryption-set")]
     public string? DiskEncryptionSet { get; set; }
 
-    [CommandSwitch("--disk-iops-read-only")]
+    [CliOption("--disk-iops-read-only")]
     public string? DiskIopsReadOnly { get; set; }
 
-    [CommandSwitch("--disk-iops-read-write")]
+    [CliOption("--disk-iops-read-write")]
     public string? DiskIopsReadWrite { get; set; }
 
-    [CommandSwitch("--disk-mbps-read-only")]
+    [CliOption("--disk-mbps-read-only")]
     public string? DiskMbpsReadOnly { get; set; }
 
-    [CommandSwitch("--disk-mbps-read-write")]
+    [CliOption("--disk-mbps-read-write")]
     public string? DiskMbpsReadWrite { get; set; }
 
-    [BooleanCommandSwitch("--enable-bursting")]
+    [CliFlag("--enable-bursting")]
     public bool? EnableBursting { get; set; }
 
-    [CommandSwitch("--encryption-type")]
+    [CliOption("--encryption-type")]
     public string? EncryptionType { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--max-shares")]
+    [CliOption("--max-shares")]
     public string? MaxShares { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--network-access-policy")]
+    [CliOption("--network-access-policy")]
     public string? NetworkAccessPolicy { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--public-network-access")]
+    [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--size-gb")]
+    [CliOption("--size-gb")]
     public string? SizeGb { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

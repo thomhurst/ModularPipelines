@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transcribe", "start-call-analytics-job")]
+[CliCommand("transcribe", "start-call-analytics-job")]
 public record AwsTranscribeStartCallAnalyticsJobOptions(
-[property: CommandSwitch("--call-analytics-job-name")] string CallAnalyticsJobName,
-[property: CommandSwitch("--media")] string Media
+[property: CliOption("--call-analytics-job-name")] string CallAnalyticsJobName,
+[property: CliOption("--media")] string Media
 ) : AwsOptions
 {
-    [CommandSwitch("--output-location")]
+    [CliOption("--output-location")]
     public string? OutputLocation { get; set; }
 
-    [CommandSwitch("--output-encryption-kms-key-id")]
+    [CliOption("--output-encryption-kms-key-id")]
     public string? OutputEncryptionKmsKeyId { get; set; }
 
-    [CommandSwitch("--data-access-role-arn")]
+    [CliOption("--data-access-role-arn")]
     public string? DataAccessRoleArn { get; set; }
 
-    [CommandSwitch("--settings")]
+    [CliOption("--settings")]
     public string? Settings { get; set; }
 
-    [CommandSwitch("--channel-definitions")]
+    [CliOption("--channel-definitions")]
     public string[]? ChannelDefinitions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

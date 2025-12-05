@@ -5,32 +5,32 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("migration-hub-refactor-spaces", "create-service")]
+[CliCommand("migration-hub-refactor-spaces", "create-service")]
 public record AwsMigrationHubRefactorSpacesCreateServiceOptions(
-[property: CommandSwitch("--application-identifier")] string ApplicationIdentifier,
-[property: CommandSwitch("--endpoint-type")] string EndpointType,
-[property: CommandSwitch("--environment-identifier")] string EnvironmentIdentifier,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--application-identifier")] string ApplicationIdentifier,
+[property: CliOption("--endpoint-type")] string EndpointType,
+[property: CliOption("--environment-identifier")] string EnvironmentIdentifier,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--lambda-endpoint")]
+    [CliOption("--lambda-endpoint")]
     public string? LambdaEndpoint { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--url-endpoint")]
+    [CliOption("--url-endpoint")]
     public string? UrlEndpoint { get; set; }
 
-    [CommandSwitch("--vpc-id")]
+    [CliOption("--vpc-id")]
     public string? VpcId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

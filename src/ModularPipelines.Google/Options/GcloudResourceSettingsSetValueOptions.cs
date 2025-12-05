@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-settings", "set-value")]
+[CliCommand("resource-settings", "set-value")]
 public record GcloudResourceSettingsSetValueOptions(
-[property: CommandSwitch("--value-file")] string ValueFile
+[property: CliOption("--value-file")] string ValueFile
 ) : GcloudOptions;

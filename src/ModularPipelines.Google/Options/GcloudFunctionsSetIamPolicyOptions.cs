@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functions", "set-iam-policy")]
+[CliCommand("functions", "set-iam-policy")]
 public record GcloudFunctionsSetIamPolicyOptions(
-[property: PositionalArgument] string Name,
-[property: PositionalArgument] string Region,
-[property: PositionalArgument] string PolicyFile
+[property: CliArgument] string Name,
+[property: CliArgument] string Region,
+[property: CliArgument] string PolicyFile
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--gen2")]
+    [CliFlag("--gen2")]
     public bool? Gen2 { get; set; }
 }

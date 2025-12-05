@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sqs", "purge-queue")]
+[CliCommand("sqs", "purge-queue")]
 public record AwsSqsPurgeQueueOptions(
-[property: CommandSwitch("--queue-url")] string QueueUrl
+[property: CliOption("--queue-url")] string QueueUrl
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

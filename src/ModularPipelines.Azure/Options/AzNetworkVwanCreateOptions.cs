@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vwan", "create")]
+[CliSubCommand("network", "vwan", "create")]
 public record AzNetworkVwanCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--branch-to-branch-traffic")]
+    [CliFlag("--branch-to-branch-traffic")]
     public bool? BranchToBranchTraffic { get; set; }
 
-    [BooleanCommandSwitch("--disable-vpn-encryption")]
+    [CliFlag("--disable-vpn-encryption")]
     public bool? DisableVpnEncryption { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--office365-category")]
+    [CliOption("--office365-category")]
     public string? Office365Category { get; set; }
 
-    [CommandSwitch("--security-provider-name")]
+    [CliOption("--security-provider-name")]
     public string? SecurityProviderName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 }

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("firestore", "databases", "update")]
+[CliCommand("firestore", "databases", "update")]
 public record GcloudFirestoreDatabasesUpdateOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--database")]
+    [CliOption("--database")]
     public string? Database { get; set; }
 
-    [BooleanCommandSwitch("--delete-protection")]
+    [CliFlag("--delete-protection")]
     public bool? DeleteProtection { get; set; }
 
-    [BooleanCommandSwitch("--enable-pitr")]
+    [CliFlag("--enable-pitr")]
     public bool? EnablePitr { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 }

@@ -5,29 +5,29 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fis", "create-experiment-template")]
+[CliCommand("fis", "create-experiment-template")]
 public record AwsFisCreateExperimentTemplateOptions(
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--stop-conditions")] string[] StopConditions,
-[property: CommandSwitch("--actions")] IEnumerable<KeyValue> Actions,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--description")] string Description,
+[property: CliOption("--stop-conditions")] string[] StopConditions,
+[property: CliOption("--actions")] IEnumerable<KeyValue> Actions,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--targets")]
+    [CliOption("--targets")]
     public IEnumerable<KeyValue>? Targets { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--log-configuration")]
+    [CliOption("--log-configuration")]
     public string? LogConfiguration { get; set; }
 
-    [CommandSwitch("--experiment-options")]
+    [CliOption("--experiment-options")]
     public string? ExperimentOptions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

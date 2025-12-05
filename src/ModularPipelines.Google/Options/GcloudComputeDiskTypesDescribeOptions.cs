@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "disk-types", "describe")]
+[CliCommand("compute", "disk-types", "describe")]
 public record GcloudComputeDiskTypesDescribeOptions(
-[property: PositionalArgument] string DiskType
+[property: CliArgument] string DiskType
 ) : GcloudOptions
 {
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

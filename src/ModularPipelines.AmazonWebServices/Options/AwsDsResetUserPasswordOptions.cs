@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ds", "reset-user-password")]
+[CliCommand("ds", "reset-user-password")]
 public record AwsDsResetUserPasswordOptions(
-[property: CommandSwitch("--directory-id")] string DirectoryId,
-[property: CommandSwitch("--user-name")] string UserName,
-[property: CommandSwitch("--new-password")] string NewPassword
+[property: CliOption("--directory-id")] string DirectoryId,
+[property: CliOption("--user-name")] string UserName,
+[property: CliOption("--new-password")] string NewPassword
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "rollouts", "approve")]
+[CliCommand("deploy", "rollouts", "approve")]
 public record GcloudDeployRolloutsApproveOptions(
-[property: PositionalArgument] string Rollout,
-[property: PositionalArgument] string DeliveryPipeline,
-[property: PositionalArgument] string Region,
-[property: PositionalArgument] string Release
+[property: CliArgument] string Rollout,
+[property: CliArgument] string DeliveryPipeline,
+[property: CliArgument] string Region,
+[property: CliArgument] string Release
 ) : GcloudOptions;

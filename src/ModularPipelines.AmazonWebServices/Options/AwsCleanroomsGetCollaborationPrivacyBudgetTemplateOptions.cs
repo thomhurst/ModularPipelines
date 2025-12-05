@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cleanrooms", "get-collaboration-privacy-budget-template")]
+[CliCommand("cleanrooms", "get-collaboration-privacy-budget-template")]
 public record AwsCleanroomsGetCollaborationPrivacyBudgetTemplateOptions(
-[property: CommandSwitch("--collaboration-identifier")] string CollaborationIdentifier,
-[property: CommandSwitch("--privacy-budget-template-identifier")] string PrivacyBudgetTemplateIdentifier
+[property: CliOption("--collaboration-identifier")] string CollaborationIdentifier,
+[property: CliOption("--privacy-budget-template-identifier")] string PrivacyBudgetTemplateIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

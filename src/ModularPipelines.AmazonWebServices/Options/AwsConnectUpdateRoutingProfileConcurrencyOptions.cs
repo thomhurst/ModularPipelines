@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "update-routing-profile-concurrency")]
+[CliCommand("connect", "update-routing-profile-concurrency")]
 public record AwsConnectUpdateRoutingProfileConcurrencyOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--routing-profile-id")] string RoutingProfileId,
-[property: CommandSwitch("--media-concurrencies")] string[] MediaConcurrencies
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--routing-profile-id")] string RoutingProfileId,
+[property: CliOption("--media-concurrencies")] string[] MediaConcurrencies
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

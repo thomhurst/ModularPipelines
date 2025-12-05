@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("site-recovery", "recovery-plan", "create")]
+[CliSubCommand("site-recovery", "recovery-plan", "create")]
 public record AzSiteRecoveryRecoveryPlanCreateOptions(
-[property: CommandSwitch("--groups")] string Groups,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--primary-fabric-id")] string PrimaryFabricId,
-[property: CommandSwitch("--recovery-fabric-id")] string RecoveryFabricId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vault-name")] string VaultName
+[property: CliOption("--groups")] string Groups,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--primary-fabric-id")] string PrimaryFabricId,
+[property: CliOption("--recovery-fabric-id")] string RecoveryFabricId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vault-name")] string VaultName
 ) : AzOptions
 {
-    [CommandSwitch("--failover-deploy-model")]
+    [CliOption("--failover-deploy-model")]
     public string? FailoverDeployModel { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--provider-input")]
+    [CliOption("--provider-input")]
     public string? ProviderInput { get; set; }
 }

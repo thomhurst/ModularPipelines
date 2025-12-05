@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("peering", "service", "prefix", "list")]
+[CliSubCommand("peering", "service", "prefix", "list")]
 public record AzPeeringServicePrefixListOptions(
-[property: CommandSwitch("--peering-service-name")] string PeeringServiceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--peering-service-name")] string PeeringServiceName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--expand")]
+    [CliOption("--expand")]
     public string? Expand { get; set; }
 }

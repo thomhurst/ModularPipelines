@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "targets", "export")]
+[CliCommand("deploy", "targets", "export")]
 public record GcloudDeployTargetsExportOptions(
-[property: PositionalArgument] string Target,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Target,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [CommandSwitch("--destination")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 }

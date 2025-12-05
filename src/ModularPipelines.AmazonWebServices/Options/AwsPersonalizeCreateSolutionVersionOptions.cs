@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("personalize", "create-solution-version")]
+[CliCommand("personalize", "create-solution-version")]
 public record AwsPersonalizeCreateSolutionVersionOptions(
-[property: CommandSwitch("--solution-arn")] string SolutionArn
+[property: CliOption("--solution-arn")] string SolutionArn
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--training-mode")]
+    [CliOption("--training-mode")]
     public string? TrainingMode { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

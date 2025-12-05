@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datapipeline", "activate-pipeline")]
+[CliCommand("datapipeline", "activate-pipeline")]
 public record AwsDatapipelineActivatePipelineOptions(
-[property: CommandSwitch("--pipeline-id")] string PipelineId
+[property: CliOption("--pipeline-id")] string PipelineId
 ) : AwsOptions
 {
-    [CommandSwitch("--parameter-values")]
+    [CliOption("--parameter-values")]
     public string? ParameterValues { get; set; }
 
-    [CommandSwitch("--start-timestamp")]
+    [CliOption("--start-timestamp")]
     public long? StartTimestamp { get; set; }
 
-    [CommandSwitch("--parameter-values-uri")]
+    [CliOption("--parameter-values-uri")]
     public string? ParameterValuesUri { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

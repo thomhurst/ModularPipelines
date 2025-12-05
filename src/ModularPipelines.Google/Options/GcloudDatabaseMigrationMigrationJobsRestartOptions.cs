@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("database-migration", "migration-jobs", "restart")]
+[CliCommand("database-migration", "migration-jobs", "restart")]
 public record GcloudDatabaseMigrationMigrationJobsRestartOptions(
-[property: PositionalArgument] string MigrationJob,
-[property: PositionalArgument] string Region
+[property: CliArgument] string MigrationJob,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--skip-validation")]
+    [CliFlag("--skip-validation")]
     public bool? SkipValidation { get; set; }
 }

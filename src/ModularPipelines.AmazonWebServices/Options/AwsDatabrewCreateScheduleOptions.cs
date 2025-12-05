@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databrew", "create-schedule")]
+[CliCommand("databrew", "create-schedule")]
 public record AwsDatabrewCreateScheduleOptions(
-[property: CommandSwitch("--cron-expression")] string CronExpression,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--cron-expression")] string CronExpression,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--job-names")]
+    [CliOption("--job-names")]
     public string[]? JobNames { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

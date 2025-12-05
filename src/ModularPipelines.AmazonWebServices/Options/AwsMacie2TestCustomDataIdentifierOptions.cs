@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("macie2", "test-custom-data-identifier")]
+[CliCommand("macie2", "test-custom-data-identifier")]
 public record AwsMacie2TestCustomDataIdentifierOptions(
-[property: CommandSwitch("--regex")] string Regex,
-[property: CommandSwitch("--sample-text")] string SampleText
+[property: CliOption("--regex")] string Regex,
+[property: CliOption("--sample-text")] string SampleText
 ) : AwsOptions
 {
-    [CommandSwitch("--ignore-words")]
+    [CliOption("--ignore-words")]
     public string[]? IgnoreWords { get; set; }
 
-    [CommandSwitch("--keywords")]
+    [CliOption("--keywords")]
     public string[]? Keywords { get; set; }
 
-    [CommandSwitch("--maximum-match-distance")]
+    [CliOption("--maximum-match-distance")]
     public int? MaximumMatchDistance { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

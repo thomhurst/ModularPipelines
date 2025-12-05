@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("node")]
+[CliCommand("node")]
 [ExcludeFromCodeCoverage]
 public record DockerNodeOptions : DockerOptions
 {

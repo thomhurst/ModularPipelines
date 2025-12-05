@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "start-face-search")]
+[CliCommand("rekognition", "start-face-search")]
 public record AwsRekognitionStartFaceSearchOptions(
-[property: CommandSwitch("--video")] string Video,
-[property: CommandSwitch("--collection-id")] string CollectionId
+[property: CliOption("--video")] string Video,
+[property: CliOption("--collection-id")] string CollectionId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--face-match-threshold")]
+    [CliOption("--face-match-threshold")]
     public float? FaceMatchThreshold { get; set; }
 
-    [CommandSwitch("--notification-channel")]
+    [CliOption("--notification-channel")]
     public string? NotificationChannel { get; set; }
 
-    [CommandSwitch("--job-tag")]
+    [CliOption("--job-tag")]
     public string? JobTag { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

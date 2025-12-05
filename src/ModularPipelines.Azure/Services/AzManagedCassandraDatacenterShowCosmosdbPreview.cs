@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managed-cassandra", "datacenter", "show")]
+[CliCommand("managed-cassandra", "datacenter", "show")]
 public class AzManagedCassandraDatacenterShowCosmosdbPreview
 {
     public AzManagedCassandraDatacenterShowCosmosdbPreview(

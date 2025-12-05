@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kendra", "put-principal-mapping")]
+[CliCommand("kendra", "put-principal-mapping")]
 public record AwsKendraPutPrincipalMappingOptions(
-[property: CommandSwitch("--index-id")] string IndexId,
-[property: CommandSwitch("--group-id")] string GroupId,
-[property: CommandSwitch("--group-members")] string GroupMembers
+[property: CliOption("--index-id")] string IndexId,
+[property: CliOption("--group-id")] string GroupId,
+[property: CliOption("--group-members")] string GroupMembers
 ) : AwsOptions
 {
-    [CommandSwitch("--data-source-id")]
+    [CliOption("--data-source-id")]
     public string? DataSourceId { get; set; }
 
-    [CommandSwitch("--ordering-id")]
+    [CliOption("--ordering-id")]
     public long? OrderingId { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

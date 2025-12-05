@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediatailor", "create-prefetch-schedule")]
+[CliCommand("mediatailor", "create-prefetch-schedule")]
 public record AwsMediatailorCreatePrefetchScheduleOptions(
-[property: CommandSwitch("--consumption")] string Consumption,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--playback-configuration-name")] string PlaybackConfigurationName,
-[property: CommandSwitch("--retrieval")] string Retrieval
+[property: CliOption("--consumption")] string Consumption,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--playback-configuration-name")] string PlaybackConfigurationName,
+[property: CliOption("--retrieval")] string Retrieval
 ) : AwsOptions
 {
-    [CommandSwitch("--stream-id")]
+    [CliOption("--stream-id")]
     public string? StreamId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

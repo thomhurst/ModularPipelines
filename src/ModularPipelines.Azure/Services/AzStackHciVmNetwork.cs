@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stack-hci-vm")]
+[CliCommand("stack-hci-vm")]
 public class AzStackHciVmNetwork
 {
     public AzStackHciVmNetwork(

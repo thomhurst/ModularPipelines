@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scheduler", "create-schedule")]
+[CliCommand("scheduler", "create-schedule")]
 public record AwsSchedulerCreateScheduleOptions(
-[property: CommandSwitch("--flexible-time-window")] string FlexibleTimeWindow,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--schedule-expression")] string ScheduleExpression,
-[property: CommandSwitch("--target")] string Target
+[property: CliOption("--flexible-time-window")] string FlexibleTimeWindow,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--schedule-expression")] string ScheduleExpression,
+[property: CliOption("--target")] string Target
 ) : AwsOptions
 {
-    [CommandSwitch("--action-after-completion")]
+    [CliOption("--action-after-completion")]
     public string? ActionAfterCompletion { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--end-date")]
+    [CliOption("--end-date")]
     public long? EndDate { get; set; }
 
-    [CommandSwitch("--group-name")]
+    [CliOption("--group-name")]
     public string? GroupName { get; set; }
 
-    [CommandSwitch("--kms-key-arn")]
+    [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
-    [CommandSwitch("--schedule-expression-timezone")]
+    [CliOption("--schedule-expression-timezone")]
     public string? ScheduleExpressionTimezone { get; set; }
 
-    [CommandSwitch("--start-date")]
+    [CliOption("--start-date")]
     public long? StartDate { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

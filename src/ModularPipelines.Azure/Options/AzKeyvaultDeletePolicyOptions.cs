@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "delete-policy")]
+[CliSubCommand("keyvault", "delete-policy")]
 public record AzKeyvaultDeletePolicyOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--application-id")]
+    [CliOption("--application-id")]
     public string? ApplicationId { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--object-id")]
+    [CliOption("--object-id")]
     public string? ObjectId { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--spn")]
+    [CliOption("--spn")]
     public string? Spn { get; set; }
 
-    [CommandSwitch("--upn")]
+    [CliOption("--upn")]
     public string? Upn { get; set; }
 }

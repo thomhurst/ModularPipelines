@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bedrock-runtime", "invoke-model")]
+[CliCommand("bedrock-runtime", "invoke-model")]
 public record AwsBedrockRuntimeInvokeModelOptions(
-[property: CommandSwitch("--body")] string Body,
-[property: CommandSwitch("--model-id")] string ModelId
+[property: CliOption("--body")] string Body,
+[property: CliOption("--model-id")] string ModelId
 ) : AwsOptions
 {
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
-    [CommandSwitch("--accept")]
+    [CliOption("--accept")]
     public string? Accept { get; set; }
 }

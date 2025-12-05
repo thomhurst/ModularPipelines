@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "import-certificate")]
+[CliCommand("dms", "import-certificate")]
 public record AwsDmsImportCertificateOptions(
-[property: CommandSwitch("--certificate-identifier")] string CertificateIdentifier
+[property: CliOption("--certificate-identifier")] string CertificateIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--certificate-pem")]
+    [CliOption("--certificate-pem")]
     public string? CertificatePem { get; set; }
 
-    [CommandSwitch("--certificate-wallet")]
+    [CliOption("--certificate-wallet")]
     public string? CertificateWallet { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

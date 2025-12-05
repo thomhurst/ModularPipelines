@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("asset", "saved-queries", "list")]
+[CliCommand("asset", "saved-queries", "list")]
 public record GcloudAssetSavedQueriesListOptions : GcloudOptions
 {
     public GcloudAssetSavedQueriesListOptions(
@@ -18,9 +18,9 @@ public record GcloudAssetSavedQueriesListOptions : GcloudOptions
         Project = project;
     }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 }

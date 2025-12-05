@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "tpus", "execution-groups", "delete")]
+[CliCommand("compute", "tpus", "execution-groups", "delete")]
 public record GcloudComputeTpusExecutionGroupsDeleteOptions(
-[property: PositionalArgument] string ExecutionGroupName
+[property: CliArgument] string ExecutionGroupName
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--tpu-only")]
+    [CliFlag("--tpu-only")]
     public bool? TpuOnly { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

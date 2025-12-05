@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tasks", "cmek-config", "update")]
+[CliCommand("tasks", "cmek-config", "update")]
 public record GcloudTasksCmekConfigUpdateOptions : GcloudOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--clear-kms-key")]
+    [CliFlag("--clear-kms-key")]
     public bool? ClearKmsKey { get; set; }
 
-    [CommandSwitch("--kms-key-name")]
+    [CliOption("--kms-key-name")]
     public string? KmsKeyName { get; set; }
 
-    [CommandSwitch("--kms-keyring")]
+    [CliOption("--kms-keyring")]
     public string? KmsKeyring { get; set; }
 
-    [CommandSwitch("--kms-project")]
+    [CliOption("--kms-project")]
     public string? KmsProject { get; set; }
 }

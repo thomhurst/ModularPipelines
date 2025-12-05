@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sts", "assume-role-with-saml")]
+[CliCommand("sts", "assume-role-with-saml")]
 public record AwsStsAssumeRoleWithSamlOptions(
-[property: CommandSwitch("--role-arn")] string RoleArn,
-[property: CommandSwitch("--principal-arn")] string PrincipalArn,
-[property: CommandSwitch("--saml-assertion")] string SamlAssertion
+[property: CliOption("--role-arn")] string RoleArn,
+[property: CliOption("--principal-arn")] string PrincipalArn,
+[property: CliOption("--saml-assertion")] string SamlAssertion
 ) : AwsOptions
 {
-    [CommandSwitch("--policy-arns")]
+    [CliOption("--policy-arns")]
     public string[]? PolicyArns { get; set; }
 
-    [CommandSwitch("--policy")]
+    [CliOption("--policy")]
     public string? Policy { get; set; }
 
-    [CommandSwitch("--duration-seconds")]
+    [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

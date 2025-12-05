@@ -3,43 +3,43 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("show", "all")]
+[CliCommand("show", "all")]
 [ExcludeFromCodeCoverage]
 public record HelmShowAllOptions : HelmOptions
 {
-    [CommandEqualsSeparatorSwitch("--ca-file", SwitchValueSeparator = " ")]
-    public string? CaFile { get; set; }
+    [CliOption("--ca-file")]
+    public virtual string? CaFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cert-file", SwitchValueSeparator = " ")]
-    public string? CertFile { get; set; }
+    [CliOption("--cert-file")]
+    public virtual string? CertFile { get; set; }
 
-    [BooleanCommandSwitch("--devel")]
+    [CliFlag("--devel")]
     public virtual bool? Devel { get; set; }
 
-    [BooleanCommandSwitch("--insecure-skip-tls-verify")]
+    [CliFlag("--insecure-skip-tls-verify")]
     public virtual bool? InsecureSkipTlsVerify { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--key-file", SwitchValueSeparator = " ")]
-    public string? KeyFile { get; set; }
+    [CliOption("--key-file")]
+    public virtual string? KeyFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--keyring", SwitchValueSeparator = " ")]
-    public string? Keyring { get; set; }
+    [CliOption("--keyring")]
+    public virtual string? Keyring { get; set; }
 
-    [BooleanCommandSwitch("--pass-credentials")]
+    [CliFlag("--pass-credentials")]
     public virtual bool? PassCredentials { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--password", SwitchValueSeparator = " ")]
-    public string? Password { get; set; }
+    [CliOption("--password")]
+    public virtual string? Password { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--repo", SwitchValueSeparator = " ")]
-    public string? Repo { get; set; }
+    [CliOption("--repo")]
+    public virtual string? Repo { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--username", SwitchValueSeparator = " ")]
-    public string? Username { get; set; }
+    [CliOption("--username")]
+    public virtual string? Username { get; set; }
 
-    [BooleanCommandSwitch("--verify")]
+    [CliFlag("--verify")]
     public virtual bool? Verify { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--version", SwitchValueSeparator = " ")]
-    public string? Version { get; set; }
+    [CliOption("--version")]
+    public virtual string? Version { get; set; }
 }

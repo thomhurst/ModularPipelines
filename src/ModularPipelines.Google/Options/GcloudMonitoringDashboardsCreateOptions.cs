@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitoring", "dashboards", "create")]
+[CliCommand("monitoring", "dashboards", "create")]
 public record GcloudMonitoringDashboardsCreateOptions(
-[property: CommandSwitch("--config")] string Config,
-[property: CommandSwitch("--config-from-file")] string ConfigFromFile
+[property: CliOption("--config")] string Config,
+[property: CliOption("--config-from-file")] string ConfigFromFile
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 }

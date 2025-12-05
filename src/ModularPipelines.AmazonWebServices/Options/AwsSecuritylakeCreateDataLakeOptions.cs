@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securitylake", "create-data-lake")]
+[CliCommand("securitylake", "create-data-lake")]
 public record AwsSecuritylakeCreateDataLakeOptions(
-[property: CommandSwitch("--configurations")] string[] Configurations,
-[property: CommandSwitch("--meta-store-manager-role-arn")] string MetaStoreManagerRoleArn
+[property: CliOption("--configurations")] string[] Configurations,
+[property: CliOption("--meta-store-manager-role-arn")] string MetaStoreManagerRoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

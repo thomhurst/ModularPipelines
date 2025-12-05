@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "alerts-suppression-rule", "upsert_scope")]
+[CliSubCommand("security", "alerts-suppression-rule", "upsert_scope")]
 public record AzSecurityAlertsSuppressionRuleUpsert_scopeOptions(
-[property: CommandSwitch("--field")] string Field,
-[property: CommandSwitch("--rule-name")] string RuleName
+[property: CliOption("--field")] string Field,
+[property: CliOption("--rule-name")] string RuleName
 ) : AzOptions
 {
-    [CommandSwitch("--any-of")]
+    [CliOption("--any-of")]
     public string? AnyOf { get; set; }
 
-    [CommandSwitch("--contains-substring")]
+    [CliOption("--contains-substring")]
     public string? ContainsSubstring { get; set; }
 }

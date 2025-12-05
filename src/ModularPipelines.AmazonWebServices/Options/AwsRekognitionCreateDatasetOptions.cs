@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "create-dataset")]
+[CliCommand("rekognition", "create-dataset")]
 public record AwsRekognitionCreateDatasetOptions(
-[property: CommandSwitch("--dataset-type")] string DatasetType,
-[property: CommandSwitch("--project-arn")] string ProjectArn
+[property: CliOption("--dataset-type")] string DatasetType,
+[property: CliOption("--project-arn")] string ProjectArn
 ) : AwsOptions
 {
-    [CommandSwitch("--dataset-source")]
+    [CliOption("--dataset-source")]
     public string? DatasetSource { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

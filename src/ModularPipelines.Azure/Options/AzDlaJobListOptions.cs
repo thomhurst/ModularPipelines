@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dla", "job", "list")]
+[CliSubCommand("dla", "job", "list")]
 public record AzDlaJobListOptions : AzOptions
 {
-    [CommandSwitch("--account")]
+    [CliOption("--account")]
     public int? Account { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--pipeline-id")]
+    [CliOption("--pipeline-id")]
     public string? PipelineId { get; set; }
 
-    [CommandSwitch("--recurrence-id")]
+    [CliOption("--recurrence-id")]
     public string? RecurrenceId { get; set; }
 
-    [CommandSwitch("--result")]
+    [CliOption("--result")]
     public string? Result { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [CommandSwitch("--submitted-after")]
+    [CliOption("--submitted-after")]
     public string? SubmittedAfter { get; set; }
 
-    [CommandSwitch("--submitted-before")]
+    [CliOption("--submitted-before")]
     public string? SubmittedBefore { get; set; }
 
-    [CommandSwitch("--submitter")]
+    [CliOption("--submitter")]
     public string? Submitter { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 }

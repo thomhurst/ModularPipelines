@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("proton", "cancel-service-instance-deployment")]
+[CliCommand("proton", "cancel-service-instance-deployment")]
 public record AwsProtonCancelServiceInstanceDeploymentOptions(
-[property: CommandSwitch("--service-instance-name")] string ServiceInstanceName,
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--service-instance-name")] string ServiceInstanceName,
+[property: CliOption("--service-name")] string ServiceName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

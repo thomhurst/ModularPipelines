@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3control", "put-job-tagging")]
+[CliCommand("s3control", "put-job-tagging")]
 public record AwsS3controlPutJobTaggingOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--job-id")] string JobId,
-[property: CommandSwitch("--tags")] string[] Tags
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--job-id")] string JobId,
+[property: CliOption("--tags")] string[] Tags
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

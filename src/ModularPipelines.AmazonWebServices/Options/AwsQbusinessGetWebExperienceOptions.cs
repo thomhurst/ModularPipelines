@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qbusiness", "get-web-experience")]
+[CliCommand("qbusiness", "get-web-experience")]
 public record AwsQbusinessGetWebExperienceOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--web-experience-id")] string WebExperienceId
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--web-experience-id")] string WebExperienceId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigee", "apis", "undeploy")]
+[CliCommand("apigee", "apis", "undeploy")]
 public record GcloudApigeeApisUndeployOptions(
-[property: PositionalArgument] string Revision,
-[property: PositionalArgument] string Api,
-[property: PositionalArgument] string Environment,
-[property: PositionalArgument] string Organization
+[property: CliArgument] string Revision,
+[property: CliArgument] string Api,
+[property: CliArgument] string Environment,
+[property: CliArgument] string Organization
 ) : GcloudOptions;

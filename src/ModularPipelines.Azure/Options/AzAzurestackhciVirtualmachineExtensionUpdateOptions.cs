@@ -4,47 +4,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("urestackhci", "virtualmachine", "extension", "update")]
+[CliSubCommand("urestackhci", "virtualmachine", "extension", "update")]
 public record AzAzurestackhciVirtualmachineExtensionUpdateOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--auto-upgrade-minor")]
+    [CliFlag("--auto-upgrade-minor")]
     public bool? AutoUpgradeMinor { get; set; }
 
-    [BooleanCommandSwitch("--enable-auto-upgrade")]
+    [CliFlag("--enable-auto-upgrade")]
     public bool? EnableAutoUpgrade { get; set; }
 
-    [CommandSwitch("--extension-type")]
+    [CliOption("--extension-type")]
     public string? ExtensionType { get; set; }
 
-    [BooleanCommandSwitch("--force-update-tag")]
+    [CliFlag("--force-update-tag")]
     public bool? ForceUpdateTag { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--protected-settings")]
+    [CliOption("--protected-settings")]
     public string? ProtectedSettings { get; set; }
 
-    [CommandSwitch("--publisher")]
+    [CliOption("--publisher")]
     public string? Publisher { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--settings")]
+    [CliOption("--settings")]
     public string? Settings { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--type-handler-version")]
+    [CliOption("--type-handler-version")]
     public string? TypeHandlerVersion { get; set; }
 
-    [CommandSwitch("--virtualmachine-name")]
+    [CliOption("--virtualmachine-name")]
     public string? VirtualmachineName { get; set; }
 }

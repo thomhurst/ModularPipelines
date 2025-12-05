@@ -5,25 +5,25 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eks", "create-fargate-profile")]
+[CliCommand("eks", "create-fargate-profile")]
 public record AwsEksCreateFargateProfileOptions(
-[property: CommandSwitch("--fargate-profile-name")] string FargateProfileName,
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--pod-execution-role-arn")] string PodExecutionRoleArn
+[property: CliOption("--fargate-profile-name")] string FargateProfileName,
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--pod-execution-role-arn")] string PodExecutionRoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--subnets")]
+    [CliOption("--subnets")]
     public string[]? Subnets { get; set; }
 
-    [CommandSwitch("--selectors")]
+    [CliOption("--selectors")]
     public string[]? Selectors { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

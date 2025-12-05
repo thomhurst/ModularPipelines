@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transcribe", "get-call-analytics-job")]
+[CliCommand("transcribe", "get-call-analytics-job")]
 public record AwsTranscribeGetCallAnalyticsJobOptions(
-[property: CommandSwitch("--call-analytics-job-name")] string CallAnalyticsJobName
+[property: CliOption("--call-analytics-job-name")] string CallAnalyticsJobName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

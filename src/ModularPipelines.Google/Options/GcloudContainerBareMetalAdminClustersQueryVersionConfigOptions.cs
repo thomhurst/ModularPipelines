@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "bare-metal", "admin-clusters", "query-version-config")]
+[CliCommand("container", "bare-metal", "admin-clusters", "query-version-config")]
 public record GcloudContainerBareMetalAdminClustersQueryVersionConfigOptions : GcloudOptions
 {
-    [CommandSwitch("--admin-cluster")]
+    [CliOption("--admin-cluster")]
     public string? AdminCluster { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

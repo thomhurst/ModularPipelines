@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3api", "put-bucket-versioning")]
+[CliCommand("s3api", "put-bucket-versioning")]
 public record AwsS3apiPutBucketVersioningOptions(
-[property: CommandSwitch("--bucket")] string Bucket,
-[property: CommandSwitch("--versioning-configuration")] string VersioningConfiguration
+[property: CliOption("--bucket")] string Bucket,
+[property: CliOption("--versioning-configuration")] string VersioningConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--content-md5")]
+    [CliOption("--content-md5")]
     public string? ContentMd5 { get; set; }
 
-    [CommandSwitch("--checksum-algorithm")]
+    [CliOption("--checksum-algorithm")]
     public string? ChecksumAlgorithm { get; set; }
 
-    [CommandSwitch("--mfa")]
+    [CliOption("--mfa")]
     public string? Mfa { get; set; }
 
-    [CommandSwitch("--expected-bucket-owner")]
+    [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

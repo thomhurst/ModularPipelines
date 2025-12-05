@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "list", "(cosmosdb-preview", "extension)")]
+[CliSubCommand("cosmosdb", "list", "(cosmosdb-preview", "extension)")]
 public record AzCosmosdbListCosmosdbPreviewExtensionOptions : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

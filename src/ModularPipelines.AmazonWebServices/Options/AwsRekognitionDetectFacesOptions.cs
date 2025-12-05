@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "detect-faces")]
+[CliCommand("rekognition", "detect-faces")]
 public record AwsRekognitionDetectFacesOptions : AwsOptions
 {
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [CommandSwitch("--attributes")]
+    [CliOption("--attributes")]
     public string[]? Attributes { get; set; }
 
-    [CommandSwitch("--image-bytes")]
+    [CliOption("--image-bytes")]
     public string? ImageBytes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

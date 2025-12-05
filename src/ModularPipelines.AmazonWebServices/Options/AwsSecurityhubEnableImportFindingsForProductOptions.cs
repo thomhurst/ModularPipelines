@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securityhub", "enable-import-findings-for-product")]
+[CliCommand("securityhub", "enable-import-findings-for-product")]
 public record AwsSecurityhubEnableImportFindingsForProductOptions(
-[property: CommandSwitch("--product-arn")] string ProductArn
+[property: CliOption("--product-arn")] string ProductArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-security", "address-groups", "list-references")]
+[CliCommand("network-security", "address-groups", "list-references")]
 public record GcloudNetworkSecurityAddressGroupsListReferencesOptions(
-[property: PositionalArgument] string AddressGroup,
-[property: PositionalArgument] string Location
+[property: CliArgument] string AddressGroup,
+[property: CliArgument] string Location
 ) : GcloudOptions;

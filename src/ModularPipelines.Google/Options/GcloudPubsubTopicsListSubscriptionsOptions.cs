@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub", "topics", "list-subscriptions")]
+[CliCommand("pubsub", "topics", "list-subscriptions")]
 public record GcloudPubsubTopicsListSubscriptionsOptions(
-[property: PositionalArgument] string Topic
+[property: CliArgument] string Topic
 ) : GcloudOptions;

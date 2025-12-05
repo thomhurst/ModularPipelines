@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "delete-artifact")]
+[CliCommand("sagemaker", "delete-artifact")]
 public record AwsSagemakerDeleteArtifactOptions : AwsOptions
 {
-    [CommandSwitch("--artifact-arn")]
+    [CliOption("--artifact-arn")]
     public string? ArtifactArn { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

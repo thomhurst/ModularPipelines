@@ -4,54 +4,54 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "job", "create")]
+[CliSubCommand("iot", "hub", "job", "create")]
 public record AzIotHubJobCreateOptions(
-[property: CommandSwitch("--job-id")] string JobId,
-[property: CommandSwitch("--job-type")] string JobType
+[property: CliOption("--job-id")] string JobId,
+[property: CliOption("--job-type")] string JobType
 ) : AzOptions
 {
-    [CommandSwitch("--auth-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [CommandSwitch("--duration")]
+    [CliOption("--duration")]
     public string? Duration { get; set; }
 
-    [CommandSwitch("--hub-name")]
+    [CliOption("--hub-name")]
     public string? HubName { get; set; }
 
-    [CommandSwitch("--interval")]
+    [CliOption("--interval")]
     public int? Interval { get; set; }
 
-    [CommandSwitch("--login")]
+    [CliOption("--login")]
     public string? Login { get; set; }
 
-    [CommandSwitch("--mct")]
+    [CliOption("--mct")]
     public string? Mct { get; set; }
 
-    [CommandSwitch("--method-name")]
+    [CliOption("--method-name")]
     public string? MethodName { get; set; }
 
-    [CommandSwitch("--method-payload")]
+    [CliOption("--method-payload")]
     public string? MethodPayload { get; set; }
 
-    [CommandSwitch("--method-response-timeout")]
+    [CliOption("--method-response-timeout")]
     public string? MethodResponseTimeout { get; set; }
 
-    [CommandSwitch("--patch")]
+    [CliOption("--patch")]
     public string? Patch { get; set; }
 
-    [CommandSwitch("--query-condition")]
+    [CliOption("--query-condition")]
     public string? QueryCondition { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--start")]
+    [CliOption("--start")]
     public string? Start { get; set; }
 
-    [CommandSwitch("--ttl")]
+    [CliOption("--ttl")]
     public string? Ttl { get; set; }
 
-    [BooleanCommandSwitch("--wait")]
+    [CliFlag("--wait")]
     public bool? Wait { get; set; }
 }

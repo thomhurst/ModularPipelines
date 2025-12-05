@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cache", "clean")]
+[CliCommand("cache", "clean")]
 public record NpmCacheCleanOptions : NpmOptions
 {
-    [CommandSwitch("--cache")]
+    [CliOption("--cache")]
     public virtual string? Cache { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
-    public string? Key { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    public virtual string? Key { get; set; }
 }

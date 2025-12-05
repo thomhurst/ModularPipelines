@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("swf", "undeprecate-activity-type")]
+[CliCommand("swf", "undeprecate-activity-type")]
 public record AwsSwfUndeprecateActivityTypeOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--activity-type")] string ActivityType
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--activity-type")] string ActivityType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

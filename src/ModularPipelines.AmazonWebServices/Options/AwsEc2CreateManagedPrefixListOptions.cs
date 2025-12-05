@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-managed-prefix-list")]
+[CliCommand("ec2", "create-managed-prefix-list")]
 public record AwsEc2CreateManagedPrefixListOptions(
-[property: CommandSwitch("--prefix-list-name")] string PrefixListName,
-[property: CommandSwitch("--max-entries")] int MaxEntries,
-[property: CommandSwitch("--address-family")] string AddressFamily
+[property: CliOption("--prefix-list-name")] string PrefixListName,
+[property: CliOption("--max-entries")] int MaxEntries,
+[property: CliOption("--address-family")] string AddressFamily
 ) : AwsOptions
 {
-    [CommandSwitch("--entries")]
+    [CliOption("--entries")]
     public string[]? Entries { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

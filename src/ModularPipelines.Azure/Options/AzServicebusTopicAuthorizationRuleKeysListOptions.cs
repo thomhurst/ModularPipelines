@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicebus", "topic", "authorization-rule", "keys", "list")]
+[CliSubCommand("servicebus", "topic", "authorization-rule", "keys", "list")]
 public record AzServicebusTopicAuthorizationRuleKeysListOptions(
-[property: CommandSwitch("--authorization-rule-name")] string AuthorizationRuleName,
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--topic-name")] string TopicName
+[property: CliOption("--authorization-rule-name")] string AuthorizationRuleName,
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--topic-name")] string TopicName
 ) : AzOptions;

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "log")]
+[CliCommand("webapp", "log")]
 public class AzWebappLogDeployment
 {
     public AzWebappLogDeployment(

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces", "stop-workspaces")]
+[CliCommand("workspaces", "stop-workspaces")]
 public record AwsWorkspacesStopWorkspacesOptions(
-[property: CommandSwitch("--stop-workspace-requests")] string[] StopWorkspaceRequests
+[property: CliOption("--stop-workspace-requests")] string[] StopWorkspaceRequests
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

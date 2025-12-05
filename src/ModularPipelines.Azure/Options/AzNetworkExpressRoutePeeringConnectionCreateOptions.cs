@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "express-route", "peering", "connection", "create")]
+[CliSubCommand("network", "express-route", "peering", "connection", "create")]
 public record AzNetworkExpressRoutePeeringConnectionCreateOptions(
-[property: CommandSwitch("--circuit-name")] string CircuitName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--peering-name")] string PeeringName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--circuit-name")] string CircuitName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--peering-name")] string PeeringName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--address-prefix")]
+    [CliOption("--address-prefix")]
     public string? AddressPrefix { get; set; }
 
-    [CommandSwitch("--authorization-key")]
+    [CliOption("--authorization-key")]
     public string? AuthorizationKey { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--peer-circuit")]
+    [CliOption("--peer-circuit")]
     public string? PeerCircuit { get; set; }
 
-    [CommandSwitch("--source-circuit")]
+    [CliOption("--source-circuit")]
     public string? SourceCircuit { get; set; }
 }

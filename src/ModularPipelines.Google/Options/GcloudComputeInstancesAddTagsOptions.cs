@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instances", "add-tags")]
+[CliCommand("compute", "instances", "add-tags")]
 public record GcloudComputeInstancesAddTagsOptions(
-[property: PositionalArgument] string InstanceName,
-[property: CommandSwitch("--tags")] string[] Tags
+[property: CliArgument] string InstanceName,
+[property: CliOption("--tags")] string[] Tags
 ) : GcloudOptions
 {
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "url-maps", "invalidate-cdn-cache")]
+[CliCommand("compute", "url-maps", "invalidate-cdn-cache")]
 public record GcloudComputeUrlMapsInvalidateCdnCacheOptions(
-[property: PositionalArgument] string Urlmap,
-[property: CommandSwitch("--path")] string Path
+[property: CliArgument] string Urlmap,
+[property: CliOption("--path")] string Path
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--host")]
+    [CliOption("--host")]
     public string? Host { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

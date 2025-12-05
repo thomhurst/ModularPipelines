@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("domains", "registrations")]
+[CliCommand("domains", "registrations")]
 public class GcloudDomainsRegistrationsOperations
 {
     public GcloudDomainsRegistrationsOperations(

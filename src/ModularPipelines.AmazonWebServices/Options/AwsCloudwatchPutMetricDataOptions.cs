@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudwatch", "put-metric-data")]
+[CliCommand("cloudwatch", "put-metric-data")]
 public record AwsCloudwatchPutMetricDataOptions(
-[property: CommandSwitch("--namespace")] string Namespace
+[property: CliOption("--namespace")] string Namespace
 ) : AwsOptions
 {
-    [CommandSwitch("--metric-data")]
+    [CliOption("--metric-data")]
     public string[]? MetricData { get; set; }
 
-    [CommandSwitch("--metric-name")]
+    [CliOption("--metric-name")]
     public string? MetricName { get; set; }
 
-    [CommandSwitch("--timestamp")]
+    [CliOption("--timestamp")]
     public string? Timestamp { get; set; }
 
-    [CommandSwitch("--unit")]
+    [CliOption("--unit")]
     public string? Unit { get; set; }
 
-    [CommandSwitch("--value")]
+    [CliOption("--value")]
     public string? Value { get; set; }
 
-    [CommandSwitch("--dimensions")]
+    [CliOption("--dimensions")]
     public string? Dimensions { get; set; }
 
-    [CommandSwitch("--statistic-values")]
+    [CliOption("--statistic-values")]
     public string? StatisticValues { get; set; }
 
-    [CommandSwitch("--storage-resolution")]
+    [CliOption("--storage-resolution")]
     public string? StorageResolution { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

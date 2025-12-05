@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qconnect", "query-assistant")]
+[CliCommand("qconnect", "query-assistant")]
 public record AwsQconnectQueryAssistantOptions(
-[property: CommandSwitch("--assistant-id")] string AssistantId,
-[property: CommandSwitch("--query-text")] string QueryText
+[property: CliOption("--assistant-id")] string AssistantId,
+[property: CliOption("--query-text")] string QueryText
 ) : AwsOptions
 {
-    [CommandSwitch("--query-condition")]
+    [CliOption("--query-condition")]
     public string[]? QueryCondition { get; set; }
 
-    [CommandSwitch("--session-id")]
+    [CliOption("--session-id")]
     public string? SessionId { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

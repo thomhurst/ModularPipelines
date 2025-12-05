@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dynamodbstreams", "list-streams")]
+[CliCommand("dynamodbstreams", "list-streams")]
 public record AwsDynamodbstreamsListStreamsOptions : AwsOptions
 {
-    [CommandSwitch("--table-name")]
+    [CliOption("--table-name")]
     public string? TableName { get; set; }
 
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public int? Limit { get; set; }
 
-    [CommandSwitch("--exclusive-start-stream-arn")]
+    [CliOption("--exclusive-start-stream-arn")]
     public string? ExclusiveStartStreamArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

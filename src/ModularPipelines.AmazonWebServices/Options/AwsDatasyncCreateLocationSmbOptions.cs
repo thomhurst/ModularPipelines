@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datasync", "create-location-smb")]
+[CliCommand("datasync", "create-location-smb")]
 public record AwsDatasyncCreateLocationSmbOptions(
-[property: CommandSwitch("--subdirectory")] string Subdirectory,
-[property: CommandSwitch("--server-hostname")] string ServerHostname,
-[property: CommandSwitch("--user")] string User,
-[property: CommandSwitch("--password")] string Password,
-[property: CommandSwitch("--agent-arns")] string[] AgentArns
+[property: CliOption("--subdirectory")] string Subdirectory,
+[property: CliOption("--server-hostname")] string ServerHostname,
+[property: CliOption("--user")] string User,
+[property: CliOption("--password")] string Password,
+[property: CliOption("--agent-arns")] string[] AgentArns
 ) : AwsOptions
 {
-    [CommandSwitch("--domain")]
+    [CliOption("--domain")]
     public string? Domain { get; set; }
 
-    [CommandSwitch("--mount-options")]
+    [CliOption("--mount-options")]
     public string? MountOptions { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

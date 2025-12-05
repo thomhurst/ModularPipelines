@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "public-advertised-prefixes", "delete")]
+[CliCommand("compute", "public-advertised-prefixes", "delete")]
 public record GcloudComputePublicAdvertisedPrefixesDeleteOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions;

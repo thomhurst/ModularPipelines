@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("token", "list")]
+[CliCommand("token", "list")]
 public record NpmTokenListOptions : NpmOptions
 {
-    [BooleanCommandSwitch("--read-only")]
+    [CliFlag("--read-only")]
     public virtual bool? ReadOnly { get; set; }
 
-    [CommandSwitch("--cidr")]
+    [CliOption("--cidr")]
     public virtual string? Cidr { get; set; }
 
-    [CommandSwitch("--registry")]
+    [CliOption("--registry")]
     public virtual Uri? Registry { get; set; }
 
-    [CommandSwitch("--otp")]
+    [CliOption("--otp")]
     public virtual string? Otp { get; set; }
 }

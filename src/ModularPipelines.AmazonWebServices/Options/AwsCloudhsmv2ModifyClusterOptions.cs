@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudhsmv2", "modify-cluster")]
+[CliCommand("cloudhsmv2", "modify-cluster")]
 public record AwsCloudhsmv2ModifyClusterOptions(
-[property: CommandSwitch("--backup-retention-policy")] string BackupRetentionPolicy,
-[property: CommandSwitch("--cluster-id")] string ClusterId
+[property: CliOption("--backup-retention-policy")] string BackupRetentionPolicy,
+[property: CliOption("--cluster-id")] string ClusterId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

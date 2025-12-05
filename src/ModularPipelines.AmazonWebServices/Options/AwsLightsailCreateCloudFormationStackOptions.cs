@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "create-cloud-formation-stack")]
+[CliCommand("lightsail", "create-cloud-formation-stack")]
 public record AwsLightsailCreateCloudFormationStackOptions(
-[property: CommandSwitch("--instances")] string[] Instances
+[property: CliOption("--instances")] string[] Instances
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

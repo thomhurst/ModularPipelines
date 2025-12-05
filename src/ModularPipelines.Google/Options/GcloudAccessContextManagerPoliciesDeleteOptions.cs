@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access-context-manager", "policies", "delete")]
+[CliCommand("access-context-manager", "policies", "delete")]
 public record GcloudAccessContextManagerPoliciesDeleteOptions(
-[property: PositionalArgument] string Policy
+[property: CliArgument] string Policy
 ) : GcloudOptions;

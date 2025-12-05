@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cleanrooms", "update-configured-table")]
+[CliCommand("cleanrooms", "update-configured-table")]
 public record AwsCleanroomsUpdateConfiguredTableOptions(
-[property: CommandSwitch("--configured-table-identifier")] string ConfiguredTableIdentifier
+[property: CliOption("--configured-table-identifier")] string ConfiguredTableIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

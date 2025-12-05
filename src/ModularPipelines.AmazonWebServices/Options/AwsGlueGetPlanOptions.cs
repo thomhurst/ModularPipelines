@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "get-plan")]
+[CliCommand("glue", "get-plan")]
 public record AwsGlueGetPlanOptions(
-[property: CommandSwitch("--mapping")] string[] Mapping,
-[property: CommandSwitch("--source")] string Source
+[property: CliOption("--mapping")] string[] Mapping,
+[property: CliOption("--source")] string Source
 ) : AwsOptions
 {
-    [CommandSwitch("--sinks")]
+    [CliOption("--sinks")]
     public string[]? Sinks { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--language")]
+    [CliOption("--language")]
     public string? Language { get; set; }
 
-    [CommandSwitch("--additional-plan-options-map")]
+    [CliOption("--additional-plan-options-map")]
     public IEnumerable<KeyValue>? AdditionalPlanOptionsMap { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

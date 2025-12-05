@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("events", "list-targets-by-rule")]
+[CliCommand("events", "list-targets-by-rule")]
 public record AwsEventsListTargetsByRuleOptions(
-[property: CommandSwitch("--rule")] string Rule
+[property: CliOption("--rule")] string Rule
 ) : AwsOptions
 {
-    [CommandSwitch("--event-bus-name")]
+    [CliOption("--event-bus-name")]
     public string? EventBusName { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

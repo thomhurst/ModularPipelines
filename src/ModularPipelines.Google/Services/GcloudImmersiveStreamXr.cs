@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("immersive-stream")]
+[CliCommand("immersive-stream")]
 public class GcloudImmersiveStreamXr
 {
     public GcloudImmersiveStreamXr(

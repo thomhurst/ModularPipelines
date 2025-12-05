@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "create-vocabulary")]
+[CliCommand("connect", "create-vocabulary")]
 public record AwsConnectCreateVocabularyOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--vocabulary-name")] string VocabularyName,
-[property: CommandSwitch("--language-code")] string LanguageCode,
-[property: CommandSwitch("--content")] string Content
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--vocabulary-name")] string VocabularyName,
+[property: CliOption("--language-code")] string LanguageCode,
+[property: CliOption("--content")] string Content
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("forecast", "delete-explainability-export")]
+[CliCommand("forecast", "delete-explainability-export")]
 public record AwsForecastDeleteExplainabilityExportOptions(
-[property: CommandSwitch("--explainability-export-arn")] string ExplainabilityExportArn
+[property: CliOption("--explainability-export-arn")] string ExplainabilityExportArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

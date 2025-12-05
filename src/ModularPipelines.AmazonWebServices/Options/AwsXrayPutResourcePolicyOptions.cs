@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("xray", "put-resource-policy")]
+[CliCommand("xray", "put-resource-policy")]
 public record AwsXrayPutResourcePolicyOptions(
-[property: CommandSwitch("--policy-name")] string PolicyName,
-[property: CommandSwitch("--policy-document")] string PolicyDocument
+[property: CliOption("--policy-name")] string PolicyName,
+[property: CliOption("--policy-document")] string PolicyDocument
 ) : AwsOptions
 {
-    [CommandSwitch("--policy-revision-id")]
+    [CliOption("--policy-revision-id")]
     public string? PolicyRevisionId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

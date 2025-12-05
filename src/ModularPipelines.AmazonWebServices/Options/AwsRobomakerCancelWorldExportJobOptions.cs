@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("robomaker", "cancel-world-export-job")]
+[CliCommand("robomaker", "cancel-world-export-job")]
 public record AwsRobomakerCancelWorldExportJobOptions(
-[property: CommandSwitch("--job")] string Job
+[property: CliOption("--job")] string Job
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

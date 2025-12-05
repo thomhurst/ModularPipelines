@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logic", "integration-account")]
+[CliCommand("logic", "integration-account")]
 public class AzLogicIntegrationAccountMap
 {
     public AzLogicIntegrationAccountMap(

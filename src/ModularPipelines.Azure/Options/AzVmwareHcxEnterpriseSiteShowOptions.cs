@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "hcx-enterprise-site", "show")]
+[CliSubCommand("vmware", "hcx-enterprise-site", "show")]
 public record AzVmwareHcxEnterpriseSiteShowOptions : AzOptions
 {
-    [CommandSwitch("--hcx-enterprise-site-name")]
+    [CliOption("--hcx-enterprise-site-name")]
     public string? HcxEnterpriseSiteName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--private-cloud")]
+    [CliOption("--private-cloud")]
     public string? PrivateCloud { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "create-hsm-configuration")]
+[CliCommand("redshift", "create-hsm-configuration")]
 public record AwsRedshiftCreateHsmConfigurationOptions(
-[property: CommandSwitch("--hsm-configuration-identifier")] string HsmConfigurationIdentifier,
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--hsm-ip-address")] string HsmIpAddress,
-[property: CommandSwitch("--hsm-partition-name")] string HsmPartitionName,
-[property: CommandSwitch("--hsm-partition-password")] string HsmPartitionPassword,
-[property: CommandSwitch("--hsm-server-public-certificate")] string HsmServerPublicCertificate
+[property: CliOption("--hsm-configuration-identifier")] string HsmConfigurationIdentifier,
+[property: CliOption("--description")] string Description,
+[property: CliOption("--hsm-ip-address")] string HsmIpAddress,
+[property: CliOption("--hsm-partition-name")] string HsmPartitionName,
+[property: CliOption("--hsm-partition-password")] string HsmPartitionPassword,
+[property: CliOption("--hsm-server-public-certificate")] string HsmServerPublicCertificate
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

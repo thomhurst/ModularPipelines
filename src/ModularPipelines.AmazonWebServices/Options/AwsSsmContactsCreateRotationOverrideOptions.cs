@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm-contacts", "create-rotation-override")]
+[CliCommand("ssm-contacts", "create-rotation-override")]
 public record AwsSsmContactsCreateRotationOverrideOptions(
-[property: CommandSwitch("--rotation-id")] string RotationId,
-[property: CommandSwitch("--new-contact-ids")] string[] NewContactIds,
-[property: CommandSwitch("--start-time")] long StartTime,
-[property: CommandSwitch("--end-time")] long EndTime
+[property: CliOption("--rotation-id")] string RotationId,
+[property: CliOption("--new-contact-ids")] string[] NewContactIds,
+[property: CliOption("--start-time")] long StartTime,
+[property: CliOption("--end-time")] long EndTime
 ) : AwsOptions
 {
-    [CommandSwitch("--idempotency-token")]
+    [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

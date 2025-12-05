@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-traffic-mirror-session")]
+[CliCommand("ec2", "modify-traffic-mirror-session")]
 public record AwsEc2ModifyTrafficMirrorSessionOptions(
-[property: CommandSwitch("--traffic-mirror-session-id")] string TrafficMirrorSessionId
+[property: CliOption("--traffic-mirror-session-id")] string TrafficMirrorSessionId
 ) : AwsOptions
 {
-    [CommandSwitch("--traffic-mirror-target-id")]
+    [CliOption("--traffic-mirror-target-id")]
     public string? TrafficMirrorTargetId { get; set; }
 
-    [CommandSwitch("--traffic-mirror-filter-id")]
+    [CliOption("--traffic-mirror-filter-id")]
     public string? TrafficMirrorFilterId { get; set; }
 
-    [CommandSwitch("--packet-length")]
+    [CliOption("--packet-length")]
     public int? PacketLength { get; set; }
 
-    [CommandSwitch("--session-number")]
+    [CliOption("--session-number")]
     public int? SessionNumber { get; set; }
 
-    [CommandSwitch("--virtual-network-id")]
+    [CliOption("--virtual-network-id")]
     public int? VirtualNetworkId { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--remove-fields")]
+    [CliOption("--remove-fields")]
     public string[]? RemoveFields { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("version")]
+[CliCommand("version")]
 public record GcloudVersionOptions : GcloudOptions;

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "batch-delete-connection")]
+[CliCommand("glue", "batch-delete-connection")]
 public record AwsGlueBatchDeleteConnectionOptions(
-[property: CommandSwitch("--connection-name-list")] string[] ConnectionNameList
+[property: CliOption("--connection-name-list")] string[] ConnectionNameList
 ) : AwsOptions
 {
-    [CommandSwitch("--catalog-id")]
+    [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

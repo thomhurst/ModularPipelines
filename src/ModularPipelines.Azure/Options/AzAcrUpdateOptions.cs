@@ -4,50 +4,50 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "update")]
+[CliSubCommand("acr", "update")]
 public record AzAcrUpdateOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--admin-enabled")]
+    [CliFlag("--admin-enabled")]
     public bool? AdminEnabled { get; set; }
 
-    [BooleanCommandSwitch("--allow-exports")]
+    [CliFlag("--allow-exports")]
     public bool? AllowExports { get; set; }
 
-    [BooleanCommandSwitch("--allow-trusted-services")]
+    [CliFlag("--allow-trusted-services")]
     public bool? AllowTrustedServices { get; set; }
 
-    [BooleanCommandSwitch("--anonymous-pull-enabled")]
+    [CliFlag("--anonymous-pull-enabled")]
     public bool? AnonymousPullEnabled { get; set; }
 
-    [BooleanCommandSwitch("--data-endpoint-enabled")]
+    [CliFlag("--data-endpoint-enabled")]
     public bool? DataEndpointEnabled { get; set; }
 
-    [CommandSwitch("--default-action")]
+    [CliOption("--default-action")]
     public string? DefaultAction { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [BooleanCommandSwitch("--public-network-enabled")]
+    [CliFlag("--public-network-enabled")]
     public bool? PublicNetworkEnabled { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

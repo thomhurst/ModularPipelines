@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apic", "api", "deployment", "create")]
+[CliSubCommand("apic", "api", "deployment", "create")]
 public record AzApicApiDeploymentCreateOptions(
-[property: CommandSwitch("--api")] string Api,
-[property: CommandSwitch("--deployment")] string Deployment,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--api")] string Api,
+[property: CliOption("--deployment")] string Deployment,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--custom-properties")]
+    [CliOption("--custom-properties")]
     public string? CustomProperties { get; set; }
 
-    [CommandSwitch("--definition-id")]
+    [CliOption("--definition-id")]
     public string? DefinitionId { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--environment-id")]
+    [CliOption("--environment-id")]
     public string? EnvironmentId { get; set; }
 
-    [CommandSwitch("--server")]
+    [CliOption("--server")]
     public string? Server { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [CommandSwitch("--title")]
+    [CliOption("--title")]
     public string? Title { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public string? Workspace { get; set; }
 }

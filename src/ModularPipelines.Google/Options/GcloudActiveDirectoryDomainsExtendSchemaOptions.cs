@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("active-directory", "domains", "extend-schema")]
+[CliCommand("active-directory", "domains", "extend-schema")]
 public record GcloudActiveDirectoryDomainsExtendSchemaOptions(
-[property: PositionalArgument] string Domain,
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--ldif-file")] string LdifFile
+[property: CliArgument] string Domain,
+[property: CliOption("--description")] string Description,
+[property: CliOption("--ldif-file")] string LdifFile
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

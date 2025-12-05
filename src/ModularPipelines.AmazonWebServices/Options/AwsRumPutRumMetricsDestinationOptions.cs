@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rum", "put-rum-metrics-destination")]
+[CliCommand("rum", "put-rum-metrics-destination")]
 public record AwsRumPutRumMetricsDestinationOptions(
-[property: CommandSwitch("--app-monitor-name")] string AppMonitorName,
-[property: CommandSwitch("--destination")] string Destination
+[property: CliOption("--app-monitor-name")] string AppMonitorName,
+[property: CliOption("--destination")] string Destination
 ) : AwsOptions
 {
-    [CommandSwitch("--destination-arn")]
+    [CliOption("--destination-arn")]
     public string? DestinationArn { get; set; }
 
-    [CommandSwitch("--iam-role-arn")]
+    [CliOption("--iam-role-arn")]
     public string? IamRoleArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

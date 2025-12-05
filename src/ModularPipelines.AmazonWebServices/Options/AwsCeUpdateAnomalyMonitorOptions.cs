@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ce", "update-anomaly-monitor")]
+[CliCommand("ce", "update-anomaly-monitor")]
 public record AwsCeUpdateAnomalyMonitorOptions(
-[property: CommandSwitch("--monitor-arn")] string MonitorArn
+[property: CliOption("--monitor-arn")] string MonitorArn
 ) : AwsOptions
 {
-    [CommandSwitch("--monitor-name")]
+    [CliOption("--monitor-name")]
     public string? MonitorName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops", "service-endpoint")]
+[CliCommand("devops", "service-endpoint")]
 public class AzDevopsServiceEndpointAzurerm
 {
     public AzDevopsServiceEndpointAzurerm(

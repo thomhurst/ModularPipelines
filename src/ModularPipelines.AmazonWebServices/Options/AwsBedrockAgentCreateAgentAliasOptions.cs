@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bedrock-agent", "create-agent-alias")]
+[CliCommand("bedrock-agent", "create-agent-alias")]
 public record AwsBedrockAgentCreateAgentAliasOptions(
-[property: CommandSwitch("--agent-id")] string AgentId,
-[property: CommandSwitch("--agent-alias-name")] string AgentAliasName
+[property: CliOption("--agent-id")] string AgentId,
+[property: CliOption("--agent-alias-name")] string AgentAliasName
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--routing-configuration")]
+    [CliOption("--routing-configuration")]
     public string[]? RoutingConfiguration { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

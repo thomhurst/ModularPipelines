@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "wait", "image-deleted")]
+[CliCommand("sagemaker", "wait", "image-deleted")]
 public record AwsSagemakerWaitImageDeletedOptions(
-[property: CommandSwitch("--image-name")] string ImageName
+[property: CliOption("--image-name")] string ImageName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

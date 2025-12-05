@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediapackage-vod", "create-packaging-group")]
+[CliCommand("mediapackage-vod", "create-packaging-group")]
 public record AwsMediapackageVodCreatePackagingGroupOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--authorization")]
+    [CliOption("--authorization")]
     public string? Authorization { get; set; }
 
-    [CommandSwitch("--egress-access-logs")]
+    [CliOption("--egress-access-logs")]
     public string? EgressAccessLogs { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

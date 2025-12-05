@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutequipment", "update-model")]
+[CliCommand("lookoutequipment", "update-model")]
 public record AwsLookoutequipmentUpdateModelOptions(
-[property: CommandSwitch("--model-name")] string ModelName
+[property: CliOption("--model-name")] string ModelName
 ) : AwsOptions
 {
-    [CommandSwitch("--labels-input-configuration")]
+    [CliOption("--labels-input-configuration")]
     public string? LabelsInputConfiguration { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

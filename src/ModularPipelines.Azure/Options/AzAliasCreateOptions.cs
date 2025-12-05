@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("alias", "create")]
+[CliSubCommand("alias", "create")]
 public record AzAliasCreateOptions(
-[property: CommandSwitch("--command")] string Command,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--command")] string Command,
+[property: CliOption("--name")] string Name
 ) : AzOptions;

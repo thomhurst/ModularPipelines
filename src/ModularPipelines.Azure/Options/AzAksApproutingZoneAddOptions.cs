@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "approuting", "zone", "add")]
+[CliSubCommand("aks", "approuting", "zone", "add")]
 public record AzAksApproutingZoneAddOptions(
-[property: CommandSwitch("--ids")] string Ids,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--ids")] string Ids,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--attach-zones")]
+    [CliFlag("--attach-zones")]
     public bool? AttachZones { get; set; }
 }

@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("topic", "ignore")]
+[CliCommand("topic", "ignore")]
 public record GcloudTopicGcloudignoreOptions : GcloudOptions;

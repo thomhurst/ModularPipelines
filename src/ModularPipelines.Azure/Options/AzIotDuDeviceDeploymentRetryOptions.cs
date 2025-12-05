@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "du", "device", "deployment", "retry")]
+[CliSubCommand("iot", "du", "device", "deployment", "retry")]
 public record AzIotDuDeviceDeploymentRetryOptions(
-[property: CommandSwitch("--account")] int Account,
-[property: CommandSwitch("--cid")] string Cid,
-[property: CommandSwitch("--deployment-id")] string DeploymentId,
-[property: CommandSwitch("--gid")] string Gid,
-[property: CommandSwitch("--instance")] string Instance
+[property: CliOption("--account")] int Account,
+[property: CliOption("--cid")] string Cid,
+[property: CliOption("--deployment-id")] string DeploymentId,
+[property: CliOption("--gid")] string Gid,
+[property: CliOption("--instance")] string Instance
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

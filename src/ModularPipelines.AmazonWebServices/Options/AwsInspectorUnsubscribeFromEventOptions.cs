@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("inspector", "unsubscribe-from-event")]
+[CliCommand("inspector", "unsubscribe-from-event")]
 public record AwsInspectorUnsubscribeFromEventOptions(
-[property: CommandSwitch("--resource-arn")] string ResourceArn,
-[property: CommandSwitch("--event")] string Event,
-[property: CommandSwitch("--topic-arn")] string TopicArn
+[property: CliOption("--resource-arn")] string ResourceArn,
+[property: CliOption("--event")] string Event,
+[property: CliOption("--topic-arn")] string TopicArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

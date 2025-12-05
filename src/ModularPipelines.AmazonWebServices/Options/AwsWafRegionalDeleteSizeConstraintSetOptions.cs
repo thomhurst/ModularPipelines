@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("waf-regional", "delete-size-constraint-set")]
+[CliCommand("waf-regional", "delete-size-constraint-set")]
 public record AwsWafRegionalDeleteSizeConstraintSetOptions(
-[property: CommandSwitch("--size-constraint-set-id")] string SizeConstraintSetId,
-[property: CommandSwitch("--change-token")] string ChangeToken
+[property: CliOption("--size-constraint-set-id")] string SizeConstraintSetId,
+[property: CliOption("--change-token")] string ChangeToken
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

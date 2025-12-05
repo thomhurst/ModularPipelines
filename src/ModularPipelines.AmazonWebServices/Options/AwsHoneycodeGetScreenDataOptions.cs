@@ -5,22 +5,22 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("honeycode", "get-screen-data")]
+[CliCommand("honeycode", "get-screen-data")]
 public record AwsHoneycodeGetScreenDataOptions(
-[property: CommandSwitch("--workbook-id")] string WorkbookId,
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--screen-id")] string ScreenId
+[property: CliOption("--workbook-id")] string WorkbookId,
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--screen-id")] string ScreenId
 ) : AwsOptions
 {
-    [CommandSwitch("--variables")]
+    [CliOption("--variables")]
     public IEnumerable<KeyValue>? Variables { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

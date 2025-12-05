@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("meteringmarketplace", "register-usage")]
+[CliCommand("meteringmarketplace", "register-usage")]
 public record AwsMeteringmarketplaceRegisterUsageOptions(
-[property: CommandSwitch("--product-code")] string ProductCode,
-[property: CommandSwitch("--public-key-version")] int PublicKeyVersion
+[property: CliOption("--product-code")] string ProductCode,
+[property: CliOption("--public-key-version")] int PublicKeyVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--nonce")]
+    [CliOption("--nonce")]
     public string? Nonce { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "topic", "key")]
+[CliCommand("eventgrid", "topic", "key")]
 public class AzEventgridTopicKeyList
 {
     public AzEventgridTopicKeyList(

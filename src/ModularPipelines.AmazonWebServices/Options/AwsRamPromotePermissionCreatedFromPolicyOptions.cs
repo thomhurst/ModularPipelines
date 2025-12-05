@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ram", "promote-permission-created-from-policy")]
+[CliCommand("ram", "promote-permission-created-from-policy")]
 public record AwsRamPromotePermissionCreatedFromPolicyOptions(
-[property: CommandSwitch("--permission-arn")] string PermissionArn,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--permission-arn")] string PermissionArn,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

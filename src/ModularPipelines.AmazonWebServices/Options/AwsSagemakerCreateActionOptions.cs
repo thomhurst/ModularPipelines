@@ -5,28 +5,28 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-action")]
+[CliCommand("sagemaker", "create-action")]
 public record AwsSagemakerCreateActionOptions(
-[property: CommandSwitch("--action-name")] string ActionName,
-[property: CommandSwitch("--source")] string Source,
-[property: CommandSwitch("--action-type")] string ActionType
+[property: CliOption("--action-name")] string ActionName,
+[property: CliOption("--source")] string Source,
+[property: CliOption("--action-type")] string ActionType
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public IEnumerable<KeyValue>? Properties { get; set; }
 
-    [CommandSwitch("--metadata-properties")]
+    [CliOption("--metadata-properties")]
     public string? MetadataProperties { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

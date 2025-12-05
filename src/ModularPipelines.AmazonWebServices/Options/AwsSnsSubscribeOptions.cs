@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sns", "subscribe")]
+[CliCommand("sns", "subscribe")]
 public record AwsSnsSubscribeOptions(
-[property: CommandSwitch("--topic-arn")] string TopicArn,
-[property: CommandSwitch("--protocol")] string Protocol
+[property: CliOption("--topic-arn")] string TopicArn,
+[property: CliOption("--protocol")] string Protocol
 ) : AwsOptions
 {
-    [CommandSwitch("--attributes")]
+    [CliOption("--attributes")]
     public IEnumerable<KeyValue>? Attributes { get; set; }
 
-    [CommandSwitch("--notification-endpoint")]
+    [CliOption("--notification-endpoint")]
     public string? NotificationEndpoint { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces", "list")]
+[CliCommand("workspaces", "list")]
 public record YarnWorkspacesListOptions : YarnOptions
 {
-    [BooleanCommandSwitch("--since")]
+    [CliFlag("--since")]
     public virtual bool? Since { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [BooleanCommandSwitch("--no-private")]
+    [CliFlag("--no-private")]
     public virtual bool? NoPrivate { get; set; }
 
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 }

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "manager", "connection", "subscription", "delete")]
+[CliSubCommand("network", "manager", "connection", "subscription", "delete")]
 public record AzNetworkManagerConnectionSubscriptionDeleteOptions : AzOptions
 {
-    [CommandSwitch("--connection-name")]
+    [CliOption("--connection-name")]
     public string? ConnectionName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

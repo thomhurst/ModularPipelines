@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworks", "deregister-volume")]
+[CliCommand("opsworks", "deregister-volume")]
 public record AwsOpsworksDeregisterVolumeOptions(
-[property: CommandSwitch("--volume-id")] string VolumeId
+[property: CliOption("--volume-id")] string VolumeId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

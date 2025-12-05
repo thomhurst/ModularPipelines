@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "log-analytics", "workspace", "linked-storage", "create")]
+[CliSubCommand("monitor", "log-analytics", "workspace", "linked-storage", "create")]
 public record AzMonitorLogAnalyticsWorkspaceLinkedStorageCreateOptions(
-[property: CommandSwitch("--data-source-type")] string DataSourceType,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--storage-accounts")] int StorageAccounts,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--data-source-type")] string DataSourceType,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--storage-accounts")] int StorageAccounts,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions;

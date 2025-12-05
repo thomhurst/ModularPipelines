@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotwireless", "get-position-estimate")]
+[CliCommand("iotwireless", "get-position-estimate")]
 public record AwsIotwirelessGetPositionEstimateOptions : AwsOptions
 {
-    [CommandSwitch("--wi-fi-access-points")]
+    [CliOption("--wi-fi-access-points")]
     public string[]? WiFiAccessPoints { get; set; }
 
-    [CommandSwitch("--cell-towers")]
+    [CliOption("--cell-towers")]
     public string? CellTowers { get; set; }
 
-    [CommandSwitch("--ip")]
+    [CliOption("--ip")]
     public string? Ip { get; set; }
 
-    [CommandSwitch("--gnss")]
+    [CliOption("--gnss")]
     public string? Gnss { get; set; }
 
-    [CommandSwitch("--timestamp")]
+    [CliOption("--timestamp")]
     public long? Timestamp { get; set; }
 }

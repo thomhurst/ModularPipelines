@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("disk-encryption-set", "list-associated-resources")]
+[CliSubCommand("disk-encryption-set", "list-associated-resources")]
 public record AzDiskEncryptionSetListAssociatedResourcesOptions(
-[property: CommandSwitch("--disk-encryption-set-name")] string DiskEncryptionSetName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--disk-encryption-set-name")] string DiskEncryptionSetName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 }

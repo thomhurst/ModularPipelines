@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "sql", "restorable-container")]
+[CliCommand("cosmosdb", "sql", "restorable-container")]
 public class AzCosmosdbSqlRestorableContainerList
 {
     public AzCosmosdbSqlRestorableContainerList(

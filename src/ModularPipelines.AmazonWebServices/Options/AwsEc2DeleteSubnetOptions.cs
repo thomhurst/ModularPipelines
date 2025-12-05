@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "delete-subnet")]
+[CliCommand("ec2", "delete-subnet")]
 public record AwsEc2DeleteSubnetOptions(
-[property: CommandSwitch("--subnet-id")] string SubnetId
+[property: CliOption("--subnet-id")] string SubnetId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

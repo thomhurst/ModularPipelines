@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("entityresolution", "get-schema-mapping")]
+[CliCommand("entityresolution", "get-schema-mapping")]
 public record AwsEntityresolutionGetSchemaMappingOptions(
-[property: CommandSwitch("--schema-name")] string SchemaName
+[property: CliOption("--schema-name")] string SchemaName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

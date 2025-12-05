@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("forecast", "create-predictor-backtest-export-job")]
+[CliCommand("forecast", "create-predictor-backtest-export-job")]
 public record AwsForecastCreatePredictorBacktestExportJobOptions(
-[property: CommandSwitch("--predictor-backtest-export-job-name")] string PredictorBacktestExportJobName,
-[property: CommandSwitch("--predictor-arn")] string PredictorArn,
-[property: CommandSwitch("--destination")] string Destination
+[property: CliOption("--predictor-backtest-export-job-name")] string PredictorBacktestExportJobName,
+[property: CliOption("--predictor-arn")] string PredictorArn,
+[property: CliOption("--destination")] string Destination
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public string? Format { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

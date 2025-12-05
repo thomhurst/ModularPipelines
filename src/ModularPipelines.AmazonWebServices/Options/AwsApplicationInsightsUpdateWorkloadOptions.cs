@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("application-insights", "update-workload")]
+[CliCommand("application-insights", "update-workload")]
 public record AwsApplicationInsightsUpdateWorkloadOptions(
-[property: CommandSwitch("--resource-group-name")] string ResourceGroupName,
-[property: CommandSwitch("--component-name")] string ComponentName,
-[property: CommandSwitch("--workload-configuration")] string WorkloadConfiguration
+[property: CliOption("--resource-group-name")] string ResourceGroupName,
+[property: CliOption("--component-name")] string ComponentName,
+[property: CliOption("--workload-configuration")] string WorkloadConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--workload-id")]
+    [CliOption("--workload-id")]
     public string? WorkloadId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

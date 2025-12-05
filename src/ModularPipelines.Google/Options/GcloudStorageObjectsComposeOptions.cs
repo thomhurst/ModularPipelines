@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "objects", "compose")]
+[CliCommand("storage", "objects", "compose")]
 public record GcloudStorageObjectsComposeOptions(
-[property: PositionalArgument] string Source,
-[property: PositionalArgument] string Destination
+[property: CliArgument] string Source,
+[property: CliArgument] string Destination
 ) : GcloudOptions
 {
-    [CommandSwitch("--additional-headers")]
+    [CliOption("--additional-headers")]
     public string? AdditionalHeaders { get; set; }
 }

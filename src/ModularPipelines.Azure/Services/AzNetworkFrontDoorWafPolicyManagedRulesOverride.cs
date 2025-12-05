@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "waf-policy", "managed-rules")]
+[CliCommand("network", "front-door", "waf-policy", "managed-rules")]
 public class AzNetworkFrontDoorWafPolicyManagedRulesOverride
 {
     public AzNetworkFrontDoorWafPolicyManagedRulesOverride(

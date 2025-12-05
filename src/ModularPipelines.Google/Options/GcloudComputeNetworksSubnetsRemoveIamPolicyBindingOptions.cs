@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "networks", "subnets", "remove-iam-policy-binding")]
+[CliCommand("compute", "networks", "subnets", "remove-iam-policy-binding")]
 public record GcloudComputeNetworksSubnetsRemoveIamPolicyBindingOptions(
-[property: PositionalArgument] string Subnetwork,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--member")] string Member,
-[property: CommandSwitch("--role")] string Role
+[property: CliArgument] string Subnetwork,
+[property: CliArgument] string Region,
+[property: CliOption("--member")] string Member,
+[property: CliOption("--role")] string Role
 ) : GcloudOptions;

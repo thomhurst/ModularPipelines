@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datazone", "create-subscription-grant")]
+[CliCommand("datazone", "create-subscription-grant")]
 public record AwsDatazoneCreateSubscriptionGrantOptions(
-[property: CommandSwitch("--domain-identifier")] string DomainIdentifier,
-[property: CommandSwitch("--environment-identifier")] string EnvironmentIdentifier,
-[property: CommandSwitch("--granted-entity")] string GrantedEntity,
-[property: CommandSwitch("--subscription-target-identifier")] string SubscriptionTargetIdentifier
+[property: CliOption("--domain-identifier")] string DomainIdentifier,
+[property: CliOption("--environment-identifier")] string EnvironmentIdentifier,
+[property: CliOption("--granted-entity")] string GrantedEntity,
+[property: CliOption("--subscription-target-identifier")] string SubscriptionTargetIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--asset-target-names")]
+    [CliOption("--asset-target-names")]
     public string[]? AssetTargetNames { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

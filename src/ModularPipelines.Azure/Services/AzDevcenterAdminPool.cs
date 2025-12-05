@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devcenter", "admin")]
+[CliCommand("devcenter", "admin")]
 public class AzDevcenterAdminPool
 {
     public AzDevcenterAdminPool(

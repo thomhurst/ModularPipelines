@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutmetrics", "update-alert")]
+[CliCommand("lookoutmetrics", "update-alert")]
 public record AwsLookoutmetricsUpdateAlertOptions(
-[property: CommandSwitch("--alert-arn")] string AlertArn
+[property: CliOption("--alert-arn")] string AlertArn
 ) : AwsOptions
 {
-    [CommandSwitch("--alert-description")]
+    [CliOption("--alert-description")]
     public string? AlertDescription { get; set; }
 
-    [CommandSwitch("--alert-sensitivity-threshold")]
+    [CliOption("--alert-sensitivity-threshold")]
     public int? AlertSensitivityThreshold { get; set; }
 
-    [CommandSwitch("--action")]
+    [CliOption("--action")]
     public string? Action { get; set; }
 
-    [CommandSwitch("--alert-filters")]
+    [CliOption("--alert-filters")]
     public string? AlertFilters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

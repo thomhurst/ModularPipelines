@@ -4,59 +4,59 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "device", "simulate")]
+[CliSubCommand("iot", "device", "simulate")]
 public record AzIotDeviceSimulateOptions(
-[property: CommandSwitch("--device-id")] string DeviceId
+[property: CliOption("--device-id")] string DeviceId
 ) : AzOptions
 {
-    [CommandSwitch("--certificate-file-path")]
+    [CliOption("--certificate-file-path")]
     public string? CertificateFilePath { get; set; }
 
-    [CommandSwitch("--da")]
+    [CliOption("--da")]
     public string? Da { get; set; }
 
-    [CommandSwitch("--dtmi")]
+    [CliOption("--dtmi")]
     public string? Dtmi { get; set; }
 
-    [CommandSwitch("--hub-name")]
+    [CliOption("--hub-name")]
     public string? HubName { get; set; }
 
-    [CommandSwitch("--init-reported-properties")]
+    [CliOption("--init-reported-properties")]
     public string? InitReportedProperties { get; set; }
 
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 
-    [CommandSwitch("--key-file-path")]
+    [CliOption("--key-file-path")]
     public string? KeyFilePath { get; set; }
 
-    [CommandSwitch("--login")]
+    [CliOption("--login")]
     public string? Login { get; set; }
 
-    [CommandSwitch("--mc")]
+    [CliOption("--mc")]
     public string? Mc { get; set; }
 
-    [CommandSwitch("--method-response-code")]
+    [CliOption("--method-response-code")]
     public string? MethodResponseCode { get; set; }
 
-    [CommandSwitch("--method-response-payload")]
+    [CliOption("--method-response-payload")]
     public string? MethodResponsePayload { get; set; }
 
-    [CommandSwitch("--mi")]
+    [CliOption("--mi")]
     public string? Mi { get; set; }
 
-    [CommandSwitch("--pass")]
+    [CliOption("--pass")]
     public string? Pass { get; set; }
 
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public string? Properties { get; set; }
 
-    [CommandSwitch("--proto")]
+    [CliOption("--proto")]
     public string? Proto { get; set; }
 
-    [CommandSwitch("--receive-settle")]
+    [CliOption("--receive-settle")]
     public string? ReceiveSettle { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

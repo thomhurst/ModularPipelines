@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "project-info", "remove-metadata")]
+[CliCommand("compute", "project-info", "remove-metadata")]
 public record GcloudComputeProjectInfoRemoveMetadataOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public bool? All { get; set; }
 
-    [CommandSwitch("--keys")]
+    [CliOption("--keys")]
     public string[]? Keys { get; set; }
 }

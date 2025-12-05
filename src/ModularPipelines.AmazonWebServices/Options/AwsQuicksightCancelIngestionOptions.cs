@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "cancel-ingestion")]
+[CliCommand("quicksight", "cancel-ingestion")]
 public record AwsQuicksightCancelIngestionOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--data-set-id")] string DataSetId,
-[property: CommandSwitch("--ingestion-id")] string IngestionId
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--data-set-id")] string DataSetId,
+[property: CliOption("--ingestion-id")] string IngestionId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

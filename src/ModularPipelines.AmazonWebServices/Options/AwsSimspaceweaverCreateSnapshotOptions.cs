@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("simspaceweaver", "create-snapshot")]
+[CliCommand("simspaceweaver", "create-snapshot")]
 public record AwsSimspaceweaverCreateSnapshotOptions(
-[property: CommandSwitch("--destination")] string Destination,
-[property: CommandSwitch("--simulation")] string Simulation
+[property: CliOption("--destination")] string Destination,
+[property: CliOption("--simulation")] string Simulation
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

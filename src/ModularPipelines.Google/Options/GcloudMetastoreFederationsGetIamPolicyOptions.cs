@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("metastore", "federations", "get-iam-policy")]
+[CliCommand("metastore", "federations", "get-iam-policy")]
 public record GcloudMetastoreFederationsGetIamPolicyOptions(
-[property: PositionalArgument] string Federation,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Federation,
+[property: CliArgument] string Location
 ) : GcloudOptions;

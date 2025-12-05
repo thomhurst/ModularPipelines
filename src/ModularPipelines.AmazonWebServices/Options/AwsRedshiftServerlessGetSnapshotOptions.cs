@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift-serverless", "get-snapshot")]
+[CliCommand("redshift-serverless", "get-snapshot")]
 public record AwsRedshiftServerlessGetSnapshotOptions : AwsOptions
 {
-    [CommandSwitch("--owner-account")]
+    [CliOption("--owner-account")]
     public string? OwnerAccount { get; set; }
 
-    [CommandSwitch("--snapshot-arn")]
+    [CliOption("--snapshot-arn")]
     public string? SnapshotArn { get; set; }
 
-    [CommandSwitch("--snapshot-name")]
+    [CliOption("--snapshot-name")]
     public string? SnapshotName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

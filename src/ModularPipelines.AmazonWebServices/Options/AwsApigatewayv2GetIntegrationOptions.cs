@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigatewayv2", "get-integration")]
+[CliCommand("apigatewayv2", "get-integration")]
 public record AwsApigatewayv2GetIntegrationOptions(
-[property: CommandSwitch("--api-id")] string ApiId,
-[property: CommandSwitch("--integration-id")] string IntegrationId
+[property: CliOption("--api-id")] string ApiId,
+[property: CliOption("--integration-id")] string IntegrationId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

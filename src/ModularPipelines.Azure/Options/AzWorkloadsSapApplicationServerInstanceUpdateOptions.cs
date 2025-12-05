@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workloads", "sap-application-server-instance", "update")]
+[CliSubCommand("workloads", "sap-application-server-instance", "update")]
 public record AzWorkloadsSapApplicationServerInstanceUpdateOptions : AzOptions
 {
-    [CommandSwitch("--application-instance-name")]
+    [CliOption("--application-instance-name")]
     public string? ApplicationInstanceName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--sap-virtual-instance-name")]
+    [CliOption("--sap-virtual-instance-name")]
     public string? SapVirtualInstanceName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

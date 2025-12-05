@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("communication", "email", "send")]
+[CliSubCommand("communication", "email", "send")]
 public record AzCommunicationEmailSendOptions(
-[property: CommandSwitch("--sender")] string Sender,
-[property: CommandSwitch("--subject")] string Subject
+[property: CliOption("--sender")] string Sender,
+[property: CliOption("--subject")] string Subject
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--attachment-types")]
+    [CliFlag("--attachment-types")]
     public bool? AttachmentTypes { get; set; }
 
-    [BooleanCommandSwitch("--attachments")]
+    [CliFlag("--attachments")]
     public bool? Attachments { get; set; }
 
-    [CommandSwitch("--bcc")]
+    [CliOption("--bcc")]
     public string? Bcc { get; set; }
 
-    [CommandSwitch("--cc")]
+    [CliOption("--cc")]
     public string? Cc { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [BooleanCommandSwitch("--disable-tracking")]
+    [CliFlag("--disable-tracking")]
     public bool? DisableTracking { get; set; }
 
-    [CommandSwitch("--html")]
+    [CliOption("--html")]
     public string? Html { get; set; }
 
-    [CommandSwitch("--importance")]
+    [CliOption("--importance")]
     public string? Importance { get; set; }
 
-    [CommandSwitch("--reply-to")]
+    [CliOption("--reply-to")]
     public string? ReplyTo { get; set; }
 
-    [CommandSwitch("--text")]
+    [CliOption("--text")]
     public string? Text { get; set; }
 
-    [CommandSwitch("--to")]
+    [CliOption("--to")]
     public string? To { get; set; }
 }

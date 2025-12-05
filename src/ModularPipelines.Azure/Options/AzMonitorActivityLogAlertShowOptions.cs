@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "activity-log", "alert", "show")]
+[CliSubCommand("monitor", "activity-log", "alert", "show")]
 public record AzMonitorActivityLogAlertShowOptions : AzOptions
 {
-    [CommandSwitch("--activity-log-alert-name")]
+    [CliOption("--activity-log-alert-name")]
     public string? ActivityLogAlertName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

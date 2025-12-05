@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("support-app", "register-slack-workspace-for-organization")]
+[CliCommand("support-app", "register-slack-workspace-for-organization")]
 public record AwsSupportAppRegisterSlackWorkspaceForOrganizationOptions(
-[property: CommandSwitch("--team-id")] string TeamId
+[property: CliOption("--team-id")] string TeamId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

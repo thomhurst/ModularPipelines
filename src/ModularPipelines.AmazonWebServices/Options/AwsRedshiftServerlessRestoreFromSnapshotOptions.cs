@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift-serverless", "restore-from-snapshot")]
+[CliCommand("redshift-serverless", "restore-from-snapshot")]
 public record AwsRedshiftServerlessRestoreFromSnapshotOptions(
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--workgroup-name")] string WorkgroupName
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--workgroup-name")] string WorkgroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--admin-password-secret-kms-key-id")]
+    [CliOption("--admin-password-secret-kms-key-id")]
     public string? AdminPasswordSecretKmsKeyId { get; set; }
 
-    [CommandSwitch("--owner-account")]
+    [CliOption("--owner-account")]
     public string? OwnerAccount { get; set; }
 
-    [CommandSwitch("--snapshot-arn")]
+    [CliOption("--snapshot-arn")]
     public string? SnapshotArn { get; set; }
 
-    [CommandSwitch("--snapshot-name")]
+    [CliOption("--snapshot-name")]
     public string? SnapshotName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

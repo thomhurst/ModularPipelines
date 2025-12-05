@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcare", "consent-stores", "set-iam-policy")]
+[CliCommand("healthcare", "consent-stores", "set-iam-policy")]
 public record GcloudHealthcareConsentStoresSetIamPolicyOptions(
-[property: PositionalArgument] string ConsentStore,
-[property: PositionalArgument] string Dataset,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string PolicyFile
+[property: CliArgument] string ConsentStore,
+[property: CliArgument] string Dataset,
+[property: CliArgument] string Location,
+[property: CliArgument] string PolicyFile
 ) : GcloudOptions;

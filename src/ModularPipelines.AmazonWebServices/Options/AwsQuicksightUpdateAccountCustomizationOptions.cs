@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "update-account-customization")]
+[CliCommand("quicksight", "update-account-customization")]
 public record AwsQuicksightUpdateAccountCustomizationOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--account-customization")] string AccountCustomization
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--account-customization")] string AccountCustomization
 ) : AwsOptions
 {
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

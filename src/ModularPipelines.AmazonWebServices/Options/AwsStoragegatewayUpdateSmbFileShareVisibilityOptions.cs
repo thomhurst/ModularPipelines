@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "update-smb-file-share-visibility")]
+[CliCommand("storagegateway", "update-smb-file-share-visibility")]
 public record AwsStoragegatewayUpdateSmbFileShareVisibilityOptions(
-[property: CommandSwitch("--gateway-arn")] string GatewayArn
+[property: CliOption("--gateway-arn")] string GatewayArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

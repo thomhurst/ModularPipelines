@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("recaptcha", "firewall-policies", "describe")]
+[CliCommand("recaptcha", "firewall-policies", "describe")]
 public record GcloudRecaptchaFirewallPoliciesDescribeOptions(
-[property: PositionalArgument] string FirewallPolicy
+[property: CliArgument] string FirewallPolicy
 ) : GcloudOptions;

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-connectivity", "hubs")]
+[CliCommand("network-connectivity", "hubs")]
 public class GcloudNetworkConnectivityHubsRouteTables
 {
     public GcloudNetworkConnectivityHubsRouteTables(

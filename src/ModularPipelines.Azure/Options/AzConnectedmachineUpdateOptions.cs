@@ -4,75 +4,75 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectedmachine", "update")]
+[CliSubCommand("connectedmachine", "update")]
 public record AzConnectedmachineUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--agent-upgrade")]
+    [CliOption("--agent-upgrade")]
     public string? AgentUpgrade { get; set; }
 
-    [CommandSwitch("--client-public-key")]
+    [CliOption("--client-public-key")]
     public string? ClientPublicKey { get; set; }
 
-    [CommandSwitch("--expand")]
+    [CliOption("--expand")]
     public string? Expand { get; set; }
 
-    [CommandSwitch("--extensions")]
+    [CliOption("--extensions")]
     public string? Extensions { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--kind")]
+    [CliOption("--kind")]
     public string? Kind { get; set; }
 
-    [CommandSwitch("--license-profile")]
+    [CliOption("--license-profile")]
     public string? LicenseProfile { get; set; }
 
-    [CommandSwitch("--location-data")]
+    [CliOption("--location-data")]
     public string? LocationData { get; set; }
 
-    [CommandSwitch("--machine-name")]
+    [CliOption("--machine-name")]
     public string? MachineName { get; set; }
 
-    [CommandSwitch("--mssql-discovered")]
+    [CliOption("--mssql-discovered")]
     public string? MssqlDiscovered { get; set; }
 
-    [CommandSwitch("--os-profile")]
+    [CliOption("--os-profile")]
     public string? OsProfile { get; set; }
 
-    [CommandSwitch("--os-type")]
+    [CliOption("--os-type")]
     public string? OsType { get; set; }
 
-    [CommandSwitch("--parent-cluster-id")]
+    [CliOption("--parent-cluster-id")]
     public string? ParentClusterId { get; set; }
 
-    [CommandSwitch("--private-link-scope-resource-id")]
+    [CliOption("--private-link-scope-resource-id")]
     public string? PrivateLinkScopeResourceId { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--service-statuses")]
+    [CliOption("--service-statuses")]
     public string? ServiceStatuses { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

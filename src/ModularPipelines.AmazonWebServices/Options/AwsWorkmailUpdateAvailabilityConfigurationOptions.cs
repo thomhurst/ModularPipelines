@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workmail", "update-availability-configuration")]
+[CliCommand("workmail", "update-availability-configuration")]
 public record AwsWorkmailUpdateAvailabilityConfigurationOptions(
-[property: CommandSwitch("--organization-id")] string OrganizationId,
-[property: CommandSwitch("--domain-name")] string DomainName
+[property: CliOption("--organization-id")] string OrganizationId,
+[property: CliOption("--domain-name")] string DomainName
 ) : AwsOptions
 {
-    [CommandSwitch("--ews-provider")]
+    [CliOption("--ews-provider")]
     public string? EwsProvider { get; set; }
 
-    [CommandSwitch("--lambda-provider")]
+    [CliOption("--lambda-provider")]
     public string? LambdaProvider { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

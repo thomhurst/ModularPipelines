@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "public-delegated-prefixes", "create")]
+[CliCommand("compute", "public-delegated-prefixes", "create")]
 public record GcloudComputePublicDelegatedPrefixesCreateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--range")] string Range,
-[property: CommandSwitch("--public-advertised-prefix")] string PublicAdvertisedPrefix,
-[property: CommandSwitch("--public-delegated-prefix")] string PublicDelegatedPrefix
+[property: CliArgument] string Name,
+[property: CliOption("--range")] string Range,
+[property: CliOption("--public-advertised-prefix")] string PublicAdvertisedPrefix,
+[property: CliOption("--public-delegated-prefix")] string PublicDelegatedPrefix
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--enable-live-migration")]
+    [CliFlag("--enable-live-migration")]
     public bool? EnableLiveMigration { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

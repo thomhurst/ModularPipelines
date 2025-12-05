@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("inspector", "register-cross-account-access-role")]
+[CliCommand("inspector", "register-cross-account-access-role")]
 public record AwsInspectorRegisterCrossAccountAccessRoleOptions(
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

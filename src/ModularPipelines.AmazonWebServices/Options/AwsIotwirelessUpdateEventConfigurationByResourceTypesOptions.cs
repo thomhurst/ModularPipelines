@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotwireless", "update-event-configuration-by-resource-types")]
+[CliCommand("iotwireless", "update-event-configuration-by-resource-types")]
 public record AwsIotwirelessUpdateEventConfigurationByResourceTypesOptions : AwsOptions
 {
-    [CommandSwitch("--device-registration-state")]
+    [CliOption("--device-registration-state")]
     public string? DeviceRegistrationState { get; set; }
 
-    [CommandSwitch("--proximity")]
+    [CliOption("--proximity")]
     public string? Proximity { get; set; }
 
-    [CommandSwitch("--join")]
+    [CliOption("--join")]
     public string? Join { get; set; }
 
-    [CommandSwitch("--connection-status")]
+    [CliOption("--connection-status")]
     public string? ConnectionStatus { get; set; }
 
-    [CommandSwitch("--message-delivery-status")]
+    [CliOption("--message-delivery-status")]
     public string? MessageDeliveryStatus { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

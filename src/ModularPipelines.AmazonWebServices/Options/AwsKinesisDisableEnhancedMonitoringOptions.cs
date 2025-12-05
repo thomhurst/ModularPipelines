@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesis", "disable-enhanced-monitoring")]
+[CliCommand("kinesis", "disable-enhanced-monitoring")]
 public record AwsKinesisDisableEnhancedMonitoringOptions(
-[property: CommandSwitch("--shard-level-metrics")] string[] ShardLevelMetrics
+[property: CliOption("--shard-level-metrics")] string[] ShardLevelMetrics
 ) : AwsOptions
 {
-    [CommandSwitch("--stream-name")]
+    [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
-    [CommandSwitch("--stream-arn")]
+    [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

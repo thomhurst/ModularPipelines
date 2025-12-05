@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "env")]
+[CliCommand("containerapp", "env")]
 public class AzContainerappEnvStorage
 {
     public AzContainerappEnvStorage(

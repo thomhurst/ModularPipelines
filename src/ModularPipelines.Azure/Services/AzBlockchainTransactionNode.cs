@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("blockchain")]
+[CliCommand("blockchain")]
 public class AzBlockchainTransactionNode
 {
     public AzBlockchainTransactionNode(

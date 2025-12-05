@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access-context-manager", "levels", "conditions", "list")]
+[CliCommand("access-context-manager", "levels", "conditions", "list")]
 public record GcloudAccessContextManagerLevelsConditionsListOptions(
-[property: CommandSwitch("--level")] string Level,
-[property: CommandSwitch("--policy")] string Policy
+[property: CliOption("--level")] string Level,
+[property: CliOption("--policy")] string Policy
 ) : GcloudOptions;

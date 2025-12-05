@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "server")]
+[CliCommand("sql", "server")]
 public class AzSqlServerMsSupport
 {
     public AzSqlServerMsSupport(

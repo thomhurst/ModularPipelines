@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutmetrics", "list-anomaly-group-related-metrics")]
+[CliCommand("lookoutmetrics", "list-anomaly-group-related-metrics")]
 public record AwsLookoutmetricsListAnomalyGroupRelatedMetricsOptions(
-[property: CommandSwitch("--anomaly-detector-arn")] string AnomalyDetectorArn,
-[property: CommandSwitch("--anomaly-group-id")] string AnomalyGroupId
+[property: CliOption("--anomaly-detector-arn")] string AnomalyDetectorArn,
+[property: CliOption("--anomaly-group-id")] string AnomalyGroupId
 ) : AwsOptions
 {
-    [CommandSwitch("--relationship-type-filter")]
+    [CliOption("--relationship-type-filter")]
     public string? RelationshipTypeFilter { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

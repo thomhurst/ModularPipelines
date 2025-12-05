@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "get-package")]
+[CliCommand("iot", "get-package")]
 public record AwsIotGetPackageOptions(
-[property: CommandSwitch("--package-name")] string PackageName
+[property: CliOption("--package-name")] string PackageName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

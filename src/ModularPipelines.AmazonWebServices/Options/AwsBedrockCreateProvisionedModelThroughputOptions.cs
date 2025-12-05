@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bedrock", "create-provisioned-model-throughput")]
+[CliCommand("bedrock", "create-provisioned-model-throughput")]
 public record AwsBedrockCreateProvisionedModelThroughputOptions(
-[property: CommandSwitch("--model-units")] int ModelUnits,
-[property: CommandSwitch("--provisioned-model-name")] string ProvisionedModelName,
-[property: CommandSwitch("--model-id")] string ModelId
+[property: CliOption("--model-units")] int ModelUnits,
+[property: CliOption("--provisioned-model-name")] string ProvisionedModelName,
+[property: CliOption("--model-id")] string ModelId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--commitment-duration")]
+    [CliOption("--commitment-duration")]
     public string? CommitmentDuration { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

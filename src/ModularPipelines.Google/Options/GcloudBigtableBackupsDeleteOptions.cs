@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bigtable", "backups", "delete")]
+[CliCommand("bigtable", "backups", "delete")]
 public record GcloudBigtableBackupsDeleteOptions(
-[property: PositionalArgument] string Backup,
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Instance
+[property: CliArgument] string Backup,
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Instance
 ) : GcloudOptions;

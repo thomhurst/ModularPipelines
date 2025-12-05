@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "du", "update", "delete")]
+[CliSubCommand("iot", "du", "update", "delete")]
 public record AzIotDuUpdateDeleteOptions(
-[property: CommandSwitch("--account")] int Account,
-[property: CommandSwitch("--instance")] string Instance,
-[property: CommandSwitch("--un")] string Un,
-[property: CommandSwitch("--up")] string Up,
-[property: CommandSwitch("--update-version")] string UpdateVersion
+[property: CliOption("--account")] int Account,
+[property: CliOption("--instance")] string Instance,
+[property: CliOption("--un")] string Un,
+[property: CliOption("--up")] string Up,
+[property: CliOption("--update-version")] string UpdateVersion
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

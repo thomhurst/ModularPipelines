@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datazone", "search-group-profiles")]
+[CliCommand("datazone", "search-group-profiles")]
 public record AwsDatazoneSearchGroupProfilesOptions(
-[property: CommandSwitch("--domain-identifier")] string DomainIdentifier,
-[property: CommandSwitch("--group-type")] string GroupType
+[property: CliOption("--domain-identifier")] string DomainIdentifier,
+[property: CliOption("--group-type")] string GroupType
 ) : AwsOptions
 {
-    [CommandSwitch("--search-text")]
+    [CliOption("--search-text")]
     public string? SearchText { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts", "sbom", "list")]
+[CliCommand("artifacts", "sbom", "list")]
 public record GcloudArtifactsSbomListOptions : GcloudOptions
 {
-    [CommandSwitch("--dependency")]
+    [CliOption("--dependency")]
     public string? Dependency { get; set; }
 
-    [CommandSwitch("--resource")]
+    [CliOption("--resource")]
     public string? Resource { get; set; }
 
-    [CommandSwitch("--resource-prefix")]
+    [CliOption("--resource-prefix")]
     public string? ResourcePrefix { get; set; }
 }

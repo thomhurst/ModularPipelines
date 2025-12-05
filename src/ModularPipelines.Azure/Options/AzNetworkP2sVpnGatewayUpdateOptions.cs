@@ -4,54 +4,54 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "p2s-vpn-gateway", "update")]
+[CliSubCommand("network", "p2s-vpn-gateway", "update")]
 public record AzNetworkP2sVpnGatewayUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--address-space")]
+    [CliOption("--address-space")]
     public string? AddressSpace { get; set; }
 
-    [CommandSwitch("--associated")]
+    [CliOption("--associated")]
     public string? Associated { get; set; }
 
-    [CommandSwitch("--associated-inbound-routemap")]
+    [CliOption("--associated-inbound-routemap")]
     public string? AssociatedInboundRoutemap { get; set; }
 
-    [CommandSwitch("--associated-outbound-routemap")]
+    [CliOption("--associated-outbound-routemap")]
     public string? AssociatedOutboundRoutemap { get; set; }
 
-    [CommandSwitch("--config-name")]
+    [CliOption("--config-name")]
     public string? ConfigName { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--propagated")]
+    [CliOption("--propagated")]
     public string? Propagated { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--scale-unit")]
+    [CliOption("--scale-unit")]
     public string? ScaleUnit { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--vpn-server-config")]
+    [CliOption("--vpn-server-config")]
     public string? VpnServerConfig { get; set; }
 }

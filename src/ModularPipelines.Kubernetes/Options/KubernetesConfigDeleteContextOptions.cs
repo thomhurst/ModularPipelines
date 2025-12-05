@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("config", "delete-context")]
+[CliCommand("config", "delete-context")]
 [ExcludeFromCodeCoverage]
-public record KubernetesConfigDeleteContextOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesConfigDeleteContextOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--no-headers")]
+    [CliFlag("--no-headers")]
     public virtual bool? NoHeaders { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
-    public string? Output { get; set; }
+    [CliOption("--output")]
+    public virtual string? Output { get; set; }
 }

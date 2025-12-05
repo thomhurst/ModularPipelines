@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "account")]
+[CliCommand("storage", "account")]
 public class AzStorageAccountBlobInventoryPolicy
 {
     public AzStorageAccountBlobInventoryPolicy(

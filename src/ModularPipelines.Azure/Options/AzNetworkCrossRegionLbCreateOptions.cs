@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "cross-region-lb", "create")]
+[CliSubCommand("network", "cross-region-lb", "create")]
 public record AzNetworkCrossRegionLbCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--address-allocation")]
+    [CliOption("--address-allocation")]
     public string? AddressAllocation { get; set; }
 
-    [CommandSwitch("--backend-pool-name")]
+    [CliOption("--backend-pool-name")]
     public string? BackendPoolName { get; set; }
 
-    [CommandSwitch("--frontend-ip-name")]
+    [CliOption("--frontend-ip-name")]
     public string? FrontendIpName { get; set; }
 
-    [CommandSwitch("--frontend-ip-zone")]
+    [CliOption("--frontend-ip-zone")]
     public string? FrontendIpZone { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--public-ip-address")]
+    [CliOption("--public-ip-address")]
     public string? PublicIpAddress { get; set; }
 
-    [CommandSwitch("--public-ip-dns-name")]
+    [CliOption("--public-ip-dns-name")]
     public string? PublicIpDnsName { get; set; }
 
-    [CommandSwitch("--public-ip-zone")]
+    [CliOption("--public-ip-zone")]
     public string? PublicIpZone { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [BooleanCommandSwitch("--validate")]
+    [CliFlag("--validate")]
     public bool? Validate { get; set; }
 }

@@ -4,56 +4,56 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "cluster", "create")]
+[CliSubCommand("sf", "cluster", "create")]
 public record AzSfClusterCreateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--cert-out-folder")]
+    [CliOption("--cert-out-folder")]
     public string? CertOutFolder { get; set; }
 
-    [CommandSwitch("--cert-subject-name")]
+    [CliOption("--cert-subject-name")]
     public string? CertSubjectName { get; set; }
 
-    [CommandSwitch("--certificate-file")]
+    [CliOption("--certificate-file")]
     public string? CertificateFile { get; set; }
 
-    [CommandSwitch("--certificate-password")]
+    [CliOption("--certificate-password")]
     public string? CertificatePassword { get; set; }
 
-    [CommandSwitch("--cluster-name")]
+    [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
-    [CommandSwitch("--cluster-size")]
+    [CliOption("--cluster-size")]
     public string? ClusterSize { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--os")]
+    [CliOption("--os")]
     public string? Os { get; set; }
 
-    [CommandSwitch("--parameter-file")]
+    [CliOption("--parameter-file")]
     public string? ParameterFile { get; set; }
 
-    [CommandSwitch("--secret-identifier")]
+    [CliOption("--secret-identifier")]
     public string? SecretIdentifier { get; set; }
 
-    [CommandSwitch("--template-file")]
+    [CliOption("--template-file")]
     public string? TemplateFile { get; set; }
 
-    [CommandSwitch("--vault-name")]
+    [CliOption("--vault-name")]
     public string? VaultName { get; set; }
 
-    [CommandSwitch("--vault-rg")]
+    [CliOption("--vault-rg")]
     public string? VaultRg { get; set; }
 
-    [CommandSwitch("--vm-password")]
+    [CliOption("--vm-password")]
     public string? VmPassword { get; set; }
 
-    [CommandSwitch("--vm-sku")]
+    [CliOption("--vm-sku")]
     public string? VmSku { get; set; }
 
-    [CommandSwitch("--vm-user-name")]
+    [CliOption("--vm-user-name")]
     public string? VmUserName { get; set; }
 }

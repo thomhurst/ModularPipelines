@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "interconnects", "get-diagnostics")]
+[CliCommand("compute", "interconnects", "get-diagnostics")]
 public record GcloudComputeInterconnectsGetDiagnosticsOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions;

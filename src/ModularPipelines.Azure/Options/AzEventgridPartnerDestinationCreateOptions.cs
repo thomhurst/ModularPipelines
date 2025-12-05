@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "partner", "destination", "create")]
+[CliSubCommand("eventgrid", "partner", "destination", "create")]
 public record AzEventgridPartnerDestinationCreateOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--location")] string Location,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--act-exp-date")]
+    [CliOption("--act-exp-date")]
     public string? ActExpDate { get; set; }
 
-    [CommandSwitch("--ed-serv-cont")]
+    [CliOption("--ed-serv-cont")]
     public string? EdServCont { get; set; }
 
-    [CommandSwitch("--endpoint-base-url")]
+    [CliOption("--endpoint-base-url")]
     public string? EndpointBaseUrl { get; set; }
 
-    [CommandSwitch("--message-for-activation")]
+    [CliOption("--message-for-activation")]
     public string? MessageForActivation { get; set; }
 
-    [CommandSwitch("--partner-registration-immutable-id")]
+    [CliOption("--partner-registration-immutable-id")]
     public string? PartnerRegistrationImmutableId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

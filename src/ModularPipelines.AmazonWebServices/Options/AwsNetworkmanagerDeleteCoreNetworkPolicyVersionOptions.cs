@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkmanager", "delete-core-network-policy-version")]
+[CliCommand("networkmanager", "delete-core-network-policy-version")]
 public record AwsNetworkmanagerDeleteCoreNetworkPolicyVersionOptions(
-[property: CommandSwitch("--core-network-id")] string CoreNetworkId,
-[property: CommandSwitch("--policy-version-id")] int PolicyVersionId
+[property: CliOption("--core-network-id")] string CoreNetworkId,
+[property: CliOption("--policy-version-id")] int PolicyVersionId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

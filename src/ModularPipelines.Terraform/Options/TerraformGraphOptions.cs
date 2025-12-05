@@ -3,19 +3,19 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("graph")]
+[CliCommand("graph")]
 [ExcludeFromCodeCoverage]
 public record TerraformGraphOptions : TerraformOptions
 {
-    [BooleanCommandSwitch("-type")]
+    [CliFlag("-type")]
     public virtual bool? Type { get; set; }
 
-    [CommandSwitch("-plan")]
+    [CliOption("-plan")]
     public virtual string? Plan { get; set; }
 
-    [BooleanCommandSwitch("-draw-cycles")]
+    [CliFlag("-draw-cycles")]
     public virtual bool? DrawCycles { get; set; }
 
-    [CommandSwitch("-module-depth")]
+    [CliOption("-module-depth")]
     public virtual int? ModuleDepth { get; set; }
 }

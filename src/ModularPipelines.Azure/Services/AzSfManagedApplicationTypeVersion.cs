@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "managed-application-type")]
+[CliCommand("sf", "managed-application-type")]
 public class AzSfManagedApplicationTypeVersion
 {
     public AzSfManagedApplicationTypeVersion(

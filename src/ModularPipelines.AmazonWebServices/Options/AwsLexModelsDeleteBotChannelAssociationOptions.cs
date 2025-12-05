@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lex-models", "delete-bot-channel-association")]
+[CliCommand("lex-models", "delete-bot-channel-association")]
 public record AwsLexModelsDeleteBotChannelAssociationOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--bot-name")] string BotName,
-[property: CommandSwitch("--bot-alias")] string BotAlias
+[property: CliOption("--name")] string Name,
+[property: CliOption("--bot-name")] string BotName,
+[property: CliOption("--bot-alias")] string BotAlias
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

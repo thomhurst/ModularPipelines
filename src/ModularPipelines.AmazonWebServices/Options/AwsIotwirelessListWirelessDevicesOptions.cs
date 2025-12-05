@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotwireless", "list-wireless-devices")]
+[CliCommand("iotwireless", "list-wireless-devices")]
 public record AwsIotwirelessListWirelessDevicesOptions : AwsOptions
 {
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--destination-name")]
+    [CliOption("--destination-name")]
     public string? DestinationName { get; set; }
 
-    [CommandSwitch("--device-profile-id")]
+    [CliOption("--device-profile-id")]
     public string? DeviceProfileId { get; set; }
 
-    [CommandSwitch("--service-profile-id")]
+    [CliOption("--service-profile-id")]
     public string? ServiceProfileId { get; set; }
 
-    [CommandSwitch("--wireless-device-type")]
+    [CliOption("--wireless-device-type")]
     public string? WirelessDeviceType { get; set; }
 
-    [CommandSwitch("--fuota-task-id")]
+    [CliOption("--fuota-task-id")]
     public string? FuotaTaskId { get; set; }
 
-    [CommandSwitch("--multicast-group-id")]
+    [CliOption("--multicast-group-id")]
     public string? MulticastGroupId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

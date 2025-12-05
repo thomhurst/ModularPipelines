@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("schemas", "describe-schema")]
+[CliCommand("schemas", "describe-schema")]
 public record AwsSchemasDescribeSchemaOptions(
-[property: CommandSwitch("--registry-name")] string RegistryName,
-[property: CommandSwitch("--schema-name")] string SchemaName
+[property: CliOption("--registry-name")] string RegistryName,
+[property: CliOption("--schema-name")] string SchemaName
 ) : AwsOptions
 {
-    [CommandSwitch("--schema-version")]
+    [CliOption("--schema-version")]
     public string? SchemaVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

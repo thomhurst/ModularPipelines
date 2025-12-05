@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("repo", "update")]
+[CliCommand("repo", "update")]
 [ExcludeFromCodeCoverage]
 public record HelmRepoUpdateOptions : HelmOptions
 {
-    [BooleanCommandSwitch("--fail-on-repo-update-fail")]
+    [CliFlag("--fail-on-repo-update-fail")]
     public virtual bool? FailOnRepoUpdateFail { get; set; }
 }

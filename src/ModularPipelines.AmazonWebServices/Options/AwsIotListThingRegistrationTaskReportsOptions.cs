@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "list-thing-registration-task-reports")]
+[CliCommand("iot", "list-thing-registration-task-reports")]
 public record AwsIotListThingRegistrationTaskReportsOptions(
-[property: CommandSwitch("--task-id")] string TaskId,
-[property: CommandSwitch("--report-type")] string ReportType
+[property: CliOption("--task-id")] string TaskId,
+[property: CliOption("--report-type")] string ReportType
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

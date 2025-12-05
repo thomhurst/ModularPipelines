@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "create-blueprint")]
+[CliCommand("glue", "create-blueprint")]
 public record AwsGlueCreateBlueprintOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--blueprint-location")] string BlueprintLocation
+[property: CliOption("--name")] string Name,
+[property: CliOption("--blueprint-location")] string BlueprintLocation
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

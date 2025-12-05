@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53-recovery-control-config", "create-safety-rule")]
+[CliCommand("route53-recovery-control-config", "create-safety-rule")]
 public record AwsRoute53RecoveryControlConfigCreateSafetyRuleOptions : AwsOptions
 {
-    [CommandSwitch("--assertion-rule")]
+    [CliOption("--assertion-rule")]
     public string? AssertionRule { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--gating-rule")]
+    [CliOption("--gating-rule")]
     public string? GatingRule { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

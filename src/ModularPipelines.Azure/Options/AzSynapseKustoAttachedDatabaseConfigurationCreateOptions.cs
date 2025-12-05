@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "kusto", "attached-database-configuration", "create")]
+[CliSubCommand("synapse", "kusto", "attached-database-configuration", "create")]
 public record AzSynapseKustoAttachedDatabaseConfigurationCreateOptions(
-[property: BooleanCommandSwitch("--attached-database-configuration-name")] bool AttachedDatabaseConfigurationName,
-[property: CommandSwitch("--kusto-pool-name")] string KustoPoolName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliFlag("--attached-database-configuration-name")] bool AttachedDatabaseConfigurationName,
+[property: CliOption("--kusto-pool-name")] string KustoPoolName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--database-name")]
+    [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [CommandSwitch("--default-principals-modification-kind")]
+    [CliOption("--default-principals-modification-kind")]
     public string? DefaultPrincipalsModificationKind { get; set; }
 
-    [CommandSwitch("--kusto-pool-resource-id")]
+    [CliOption("--kusto-pool-resource-id")]
     public string? KustoPoolResourceId { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--table-level-sharing-properties")]
+    [CliOption("--table-level-sharing-properties")]
     public string? TableLevelSharingProperties { get; set; }
 }

@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("policy", "exemption", "create")]
+[CliSubCommand("policy", "exemption", "create")]
 public record AzPolicyExemptionCreateOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--exemption-category")]
+    [CliOption("--exemption-category")]
     public string? ExemptionCategory { get; set; }
 
-    [CommandSwitch("--expires-on")]
+    [CliOption("--expires-on")]
     public string? ExpiresOn { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public string? Metadata { get; set; }
 
-    [CommandSwitch("--policy-assignment")]
+    [CliOption("--policy-assignment")]
     public string? PolicyAssignment { get; set; }
 
-    [CommandSwitch("--policy-definition-reference-ids")]
+    [CliOption("--policy-definition-reference-ids")]
     public string? PolicyDefinitionReferenceIds { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 }

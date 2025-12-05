@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acm-pca", "delete-permission")]
+[CliCommand("acm-pca", "delete-permission")]
 public record AwsAcmPcaDeletePermissionOptions(
-[property: CommandSwitch("--certificate-authority-arn")] string CertificateAuthorityArn,
-[property: CommandSwitch("--principal")] string Principal
+[property: CliOption("--certificate-authority-arn")] string CertificateAuthorityArn,
+[property: CliOption("--principal")] string Principal
 ) : AwsOptions
 {
-    [CommandSwitch("--source-account")]
+    [CliOption("--source-account")]
     public string? SourceAccount { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instances")]
+[CliCommand("compute", "instances")]
 public class GcloudComputeInstancesBulk
 {
     public GcloudComputeInstancesBulk(

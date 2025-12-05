@@ -5,38 +5,38 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "disks", "snapshot")]
+[CliCommand("compute", "disks", "snapshot")]
 public record GcloudComputeDisksSnapshotOptions(
-[property: PositionalArgument] string DiskName
+[property: CliArgument] string DiskName
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--chain-name")]
+    [CliOption("--chain-name")]
     public string? ChainName { get; set; }
 
-    [CommandSwitch("--csek-key-file")]
+    [CliOption("--csek-key-file")]
     public string? CsekKeyFile { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--guest-flush")]
+    [CliFlag("--guest-flush")]
     public bool? GuestFlush { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--snapshot-names")]
+    [CliOption("--snapshot-names")]
     public string[]? SnapshotNames { get; set; }
 
-    [CommandSwitch("--storage-location")]
+    [CliOption("--storage-location")]
     public string? StorageLocation { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

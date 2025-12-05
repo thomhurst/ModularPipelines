@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "watcher", "connection-monitor", "endpoint", "remove")]
+[CliSubCommand("network", "watcher", "connection-monitor", "endpoint", "remove")]
 public record AzNetworkWatcherConnectionMonitorEndpointRemoveOptions(
-[property: CommandSwitch("--connection-monitor")] string ConnectionMonitor,
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--connection-monitor")] string ConnectionMonitor,
+[property: CliOption("--endpoint-name")] string EndpointName,
+[property: CliOption("--location")] string Location
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--test-groups")]
+    [CliOption("--test-groups")]
     public string? TestGroups { get; set; }
 }

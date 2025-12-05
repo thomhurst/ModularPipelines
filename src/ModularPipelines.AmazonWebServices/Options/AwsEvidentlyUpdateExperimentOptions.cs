@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("evidently", "update-experiment")]
+[CliCommand("evidently", "update-experiment")]
 public record AwsEvidentlyUpdateExperimentOptions(
-[property: CommandSwitch("--experiment")] string Experiment,
-[property: CommandSwitch("--project")] string Project
+[property: CliOption("--experiment")] string Experiment,
+[property: CliOption("--project")] string Project
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--metric-goals")]
+    [CliOption("--metric-goals")]
     public string[]? MetricGoals { get; set; }
 
-    [CommandSwitch("--online-ab-config")]
+    [CliOption("--online-ab-config")]
     public string? OnlineAbConfig { get; set; }
 
-    [CommandSwitch("--randomization-salt")]
+    [CliOption("--randomization-salt")]
     public string? RandomizationSalt { get; set; }
 
-    [CommandSwitch("--sampling-rate")]
+    [CliOption("--sampling-rate")]
     public long? SamplingRate { get; set; }
 
-    [CommandSwitch("--segment")]
+    [CliOption("--segment")]
     public string? Segment { get; set; }
 
-    [CommandSwitch("--treatments")]
+    [CliOption("--treatments")]
     public string[]? Treatments { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "mongocluster", "firewall", "rule", "create")]
+[CliSubCommand("cosmosdb", "mongocluster", "firewall", "rule", "create")]
 public record AzCosmosdbMongoclusterFirewallRuleCreateOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--end-ip-address")] string EndIpAddress,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--rule-name")] string RuleName,
-[property: CommandSwitch("--start-ip-address")] string StartIpAddress
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--end-ip-address")] string EndIpAddress,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--rule-name")] string RuleName,
+[property: CliOption("--start-ip-address")] string StartIpAddress
 ) : AzOptions;

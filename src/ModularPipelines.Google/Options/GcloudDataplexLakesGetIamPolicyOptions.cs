@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataplex", "lakes", "get-iam-policy")]
+[CliCommand("dataplex", "lakes", "get-iam-policy")]
 public record GcloudDataplexLakesGetIamPolicyOptions(
-[property: PositionalArgument] string Lake,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Lake,
+[property: CliArgument] string Location
 ) : GcloudOptions;

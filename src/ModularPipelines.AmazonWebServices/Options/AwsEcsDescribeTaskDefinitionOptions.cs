@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "describe-task-definition")]
+[CliCommand("ecs", "describe-task-definition")]
 public record AwsEcsDescribeTaskDefinitionOptions(
-[property: CommandSwitch("--task-definition")] string TaskDefinition
+[property: CliOption("--task-definition")] string TaskDefinition
 ) : AwsOptions
 {
-    [CommandSwitch("--include")]
+    [CliOption("--include")]
     public string[]? Include { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

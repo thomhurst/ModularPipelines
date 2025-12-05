@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mobile", "update-project")]
+[CliCommand("mobile", "update-project")]
 public record AwsMobileUpdateProjectOptions(
-[property: CommandSwitch("--project-id")] string ProjectId
+[property: CliOption("--project-id")] string ProjectId
 ) : AwsOptions
 {
-    [CommandSwitch("--contents")]
+    [CliOption("--contents")]
     public string? Contents { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

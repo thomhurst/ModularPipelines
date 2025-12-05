@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns", "record-sets")]
+[CliCommand("dns", "record-sets")]
 public class GcloudDnsRecordSetsChanges
 {
     public GcloudDnsRecordSetsChanges(

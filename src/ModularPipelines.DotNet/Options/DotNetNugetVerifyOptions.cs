@@ -20,18 +20,18 @@ public record DotNetNugetVerifyOptions : DotNetOptions
         CommandParts = ["nuget", "verify", "[<package-path(s)>]"];
     }
 
-    [PositionalArgument(PlaceholderName = "[<package-path(s)>]")]
-    public string? PackagePath { get; set; }
+    [CliArgument(Name = "[<package-path(s)>]")]
+    public virtual string? PackagePath { get; set; }
 
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [CommandSwitch("--certificate-fingerprint")]
+    [CliOption("--certificate-fingerprint")]
     public virtual IEnumerable<string>? CertificateFingerprint { get; set; }
 
-    [CommandSwitch("--verbosity")]
+    [CliOption("--verbosity")]
     public virtual string? Verbosity { get; set; }
 
-    [CommandSwitch("--configfile")]
+    [CliOption("--configfile")]
     public virtual string? Configfile { get; set; }
 }

@@ -5,15 +5,15 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptune-graph", "create-graph-snapshot")]
+[CliCommand("neptune-graph", "create-graph-snapshot")]
 public record AwsNeptuneGraphCreateGraphSnapshotOptions(
-[property: CommandSwitch("--graph-identifier")] string GraphIdentifier,
-[property: CommandSwitch("--snapshot-name")] string SnapshotName
+[property: CliOption("--graph-identifier")] string GraphIdentifier,
+[property: CliOption("--snapshot-name")] string SnapshotName
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

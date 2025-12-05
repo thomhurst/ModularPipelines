@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "delete-launch-template-versions")]
+[CliCommand("ec2", "delete-launch-template-versions")]
 public record AwsEc2DeleteLaunchTemplateVersionsOptions(
-[property: CommandSwitch("--versions")] string[] Versions
+[property: CliOption("--versions")] string[] Versions
 ) : AwsOptions
 {
-    [CommandSwitch("--launch-template-id")]
+    [CliOption("--launch-template-id")]
     public string? LaunchTemplateId { get; set; }
 
-    [CommandSwitch("--launch-template-name")]
+    [CliOption("--launch-template-name")]
     public string? LaunchTemplateName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

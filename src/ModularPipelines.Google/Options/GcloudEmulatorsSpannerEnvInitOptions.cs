@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emulators", "spanner", "env-init")]
+[CliCommand("emulators", "spanner", "env-init")]
 public record GcloudEmulatorsSpannerEnvInitOptions : GcloudOptions;

@@ -4,53 +4,53 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3api", "upload-part")]
+[CliCommand("s3api", "upload-part")]
 public record AwsS3apiUploadPartOptions(
-[property: CommandSwitch("--bucket")] string Bucket,
-[property: CommandSwitch("--key")] string Key,
-[property: CommandSwitch("--part-number")] int PartNumber,
-[property: CommandSwitch("--upload-id")] string UploadId
+[property: CliOption("--bucket")] string Bucket,
+[property: CliOption("--key")] string Key,
+[property: CliOption("--part-number")] int PartNumber,
+[property: CliOption("--upload-id")] string UploadId
 ) : AwsOptions
 {
-    [CommandSwitch("--body")]
+    [CliOption("--body")]
     public string? Body { get; set; }
 
-    [CommandSwitch("--content-length")]
+    [CliOption("--content-length")]
     public long? ContentLength { get; set; }
 
-    [CommandSwitch("--content-md5")]
+    [CliOption("--content-md5")]
     public string? ContentMd5 { get; set; }
 
-    [CommandSwitch("--checksum-algorithm")]
+    [CliOption("--checksum-algorithm")]
     public string? ChecksumAlgorithm { get; set; }
 
-    [CommandSwitch("--checksum-crc32")]
+    [CliOption("--checksum-crc32")]
     public string? ChecksumCrc32 { get; set; }
 
-    [CommandSwitch("--checksum-crc32-c")]
+    [CliOption("--checksum-crc32-c")]
     public string? ChecksumCrc32C { get; set; }
 
-    [CommandSwitch("--checksum-sha1")]
+    [CliOption("--checksum-sha1")]
     public string? ChecksumSha1 { get; set; }
 
-    [CommandSwitch("--checksum-sha256")]
+    [CliOption("--checksum-sha256")]
     public string? ChecksumSha256 { get; set; }
 
-    [CommandSwitch("--sse-customer-algorithm")]
+    [CliOption("--sse-customer-algorithm")]
     public string? SseCustomerAlgorithm { get; set; }
 
-    [CommandSwitch("--sse-customer-key")]
+    [CliOption("--sse-customer-key")]
     public string? SseCustomerKey { get; set; }
 
-    [CommandSwitch("--sse-customer-key-md5")]
+    [CliOption("--sse-customer-key-md5")]
     public string? SseCustomerKeyMd5 { get; set; }
 
-    [CommandSwitch("--request-payer")]
+    [CliOption("--request-payer")]
     public string? RequestPayer { get; set; }
 
-    [CommandSwitch("--expected-bucket-owner")]
+    [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

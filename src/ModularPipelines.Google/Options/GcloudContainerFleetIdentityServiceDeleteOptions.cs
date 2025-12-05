@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "fleet", "identity-service", "delete")]
+[CliCommand("container", "fleet", "identity-service", "delete")]
 public record GcloudContainerFleetIdentityServiceDeleteOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--fleet-default-member-config")]
+    [CliFlag("--fleet-default-member-config")]
     public bool? FleetDefaultMemberConfig { get; set; }
 
-    [CommandSwitch("--membership")]
+    [CliOption("--membership")]
     public string? Membership { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

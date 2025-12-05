@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53-recovery-control-config", "delete-cluster")]
+[CliCommand("route53-recovery-control-config", "delete-cluster")]
 public record AwsRoute53RecoveryControlConfigDeleteClusterOptions(
-[property: CommandSwitch("--cluster-arn")] string ClusterArn
+[property: CliOption("--cluster-arn")] string ClusterArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

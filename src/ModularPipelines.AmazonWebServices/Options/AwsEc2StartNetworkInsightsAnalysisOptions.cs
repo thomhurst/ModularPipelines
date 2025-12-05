@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "start-network-insights-analysis")]
+[CliCommand("ec2", "start-network-insights-analysis")]
 public record AwsEc2StartNetworkInsightsAnalysisOptions(
-[property: CommandSwitch("--network-insights-path-id")] string NetworkInsightsPathId
+[property: CliOption("--network-insights-path-id")] string NetworkInsightsPathId
 ) : AwsOptions
 {
-    [CommandSwitch("--additional-accounts")]
+    [CliOption("--additional-accounts")]
     public string[]? AdditionalAccounts { get; set; }
 
-    [CommandSwitch("--filter-in-arns")]
+    [CliOption("--filter-in-arns")]
     public string[]? FilterInArns { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

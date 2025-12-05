@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("waf-regional", "associate-web-acl")]
+[CliCommand("waf-regional", "associate-web-acl")]
 public record AwsWafRegionalAssociateWebAclOptions(
-[property: CommandSwitch("--web-acl-id")] string WebAclId,
-[property: CommandSwitch("--resource-arn")] string ResourceArn
+[property: CliOption("--web-acl-id")] string WebAclId,
+[property: CliOption("--resource-arn")] string ResourceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

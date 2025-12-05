@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime", "disassociate-signin-delegate-groups-from-account")]
+[CliCommand("chime", "disassociate-signin-delegate-groups-from-account")]
 public record AwsChimeDisassociateSigninDelegateGroupsFromAccountOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--group-names")] string[] GroupNames
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--group-names")] string[] GroupNames
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

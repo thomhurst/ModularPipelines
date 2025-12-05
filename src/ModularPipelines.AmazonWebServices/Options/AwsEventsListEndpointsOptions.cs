@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("events", "list-endpoints")]
+[CliCommand("events", "list-endpoints")]
 public record AwsEventsListEndpointsOptions : AwsOptions
 {
-    [CommandSwitch("--name-prefix")]
+    [CliOption("--name-prefix")]
     public string? NamePrefix { get; set; }
 
-    [CommandSwitch("--home-region")]
+    [CliOption("--home-region")]
     public string? HomeRegion { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

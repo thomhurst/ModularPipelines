@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicediscovery", "discover-instances")]
+[CliCommand("servicediscovery", "discover-instances")]
 public record AwsServicediscoveryDiscoverInstancesOptions(
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--service-name")] string ServiceName
 ) : AwsOptions
 {
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--query-parameters")]
+    [CliOption("--query-parameters")]
     public IEnumerable<KeyValue>? QueryParameters { get; set; }
 
-    [CommandSwitch("--optional-parameters")]
+    [CliOption("--optional-parameters")]
     public IEnumerable<KeyValue>? OptionalParameters { get; set; }
 
-    [CommandSwitch("--health-status")]
+    [CliOption("--health-status")]
     public string? HealthStatus { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

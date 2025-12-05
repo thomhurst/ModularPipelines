@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("signer", "add-profile-permission")]
+[CliCommand("signer", "add-profile-permission")]
 public record AwsSignerAddProfilePermissionOptions(
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--action")] string Action,
-[property: CommandSwitch("--principal")] string Principal,
-[property: CommandSwitch("--statement-id")] string StatementId
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--action")] string Action,
+[property: CliOption("--principal")] string Principal,
+[property: CliOption("--statement-id")] string StatementId
 ) : AwsOptions
 {
-    [CommandSwitch("--profile-version")]
+    [CliOption("--profile-version")]
     public string? ProfileVersion { get; set; }
 
-    [CommandSwitch("--revision-id")]
+    [CliOption("--revision-id")]
     public string? RevisionId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

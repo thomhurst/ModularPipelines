@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventhubs", "namespace", "network-rule-set")]
+[CliCommand("eventhubs", "namespace", "network-rule-set")]
 public class AzEventhubsNamespaceNetworkRuleSetVirtualNetworkRule
 {
     public AzEventhubsNamespaceNetworkRuleSetVirtualNetworkRule(

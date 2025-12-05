@@ -4,103 +4,103 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workstations", "configs", "update")]
+[CliCommand("workstations", "configs", "update")]
 public record GcloudWorkstationsConfigsUpdateOptions(
-[property: PositionalArgument] string Config,
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Config,
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--boot-disk-size")]
+    [CliOption("--boot-disk-size")]
     public string? BootDiskSize { get; set; }
 
-    [CommandSwitch("--container-args")]
+    [CliOption("--container-args")]
     public string[]? ContainerArgs { get; set; }
 
-    [CommandSwitch("--container-command")]
+    [CliOption("--container-command")]
     public string[]? ContainerCommand { get; set; }
 
-    [CommandSwitch("--container-env")]
+    [CliOption("--container-env")]
     public string[]? ContainerEnv { get; set; }
 
-    [CommandSwitch("--container-run-as-user")]
+    [CliOption("--container-run-as-user")]
     public string? ContainerRunAsUser { get; set; }
 
-    [CommandSwitch("--container-working-dir")]
+    [CliOption("--container-working-dir")]
     public string? ContainerWorkingDir { get; set; }
 
-    [BooleanCommandSwitch("--disable-public-ip-addresses")]
+    [CliFlag("--disable-public-ip-addresses")]
     public bool? DisablePublicIpAddresses { get; set; }
 
-    [BooleanCommandSwitch("--enable-audit-agent")]
+    [CliFlag("--enable-audit-agent")]
     public bool? EnableAuditAgent { get; set; }
 
-    [BooleanCommandSwitch("--enable-confidential-compute")]
+    [CliFlag("--enable-confidential-compute")]
     public bool? EnableConfidentialCompute { get; set; }
 
-    [BooleanCommandSwitch("--enable-nested-virtualization")]
+    [CliFlag("--enable-nested-virtualization")]
     public bool? EnableNestedVirtualization { get; set; }
 
-    [CommandSwitch("--idle-timeout")]
+    [CliOption("--idle-timeout")]
     public string? IdleTimeout { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string[]? Labels { get; set; }
 
-    [CommandSwitch("--machine-type")]
+    [CliOption("--machine-type")]
     public string? MachineType { get; set; }
 
-    [CommandSwitch("--network-tags")]
+    [CliOption("--network-tags")]
     public string[]? NetworkTags { get; set; }
 
-    [CommandSwitch("--pool-size")]
+    [CliOption("--pool-size")]
     public string? PoolSize { get; set; }
 
-    [CommandSwitch("--running-timeout")]
+    [CliOption("--running-timeout")]
     public string? RunningTimeout { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 
-    [CommandSwitch("--service-account-scopes")]
+    [CliOption("--service-account-scopes")]
     public string[]? ServiceAccountScopes { get; set; }
 
-    [CommandSwitch("--container-custom-image")]
+    [CliOption("--container-custom-image")]
     public string? ContainerCustomImage { get; set; }
 
-    [CommandSwitch("--container-predefined-image")]
+    [CliOption("--container-predefined-image")]
     public string? ContainerPredefinedImage { get; set; }
 
-    [BooleanCommandSwitch("base-image")]
+    [CliFlag("base-image")]
     public bool? BaseImage { get; set; }
 
-    [BooleanCommandSwitch("clion")]
+    [CliFlag("clion")]
     public bool? Clion { get; set; }
 
-    [BooleanCommandSwitch("codeoss")]
+    [CliFlag("codeoss")]
     public bool? Codeoss { get; set; }
 
-    [BooleanCommandSwitch("goland")]
+    [CliFlag("goland")]
     public bool? Goland { get; set; }
 
-    [BooleanCommandSwitch("intellij")]
+    [CliFlag("intellij")]
     public bool? Intellij { get; set; }
 
-    [BooleanCommandSwitch("phpstorm")]
+    [CliFlag("phpstorm")]
     public bool? Phpstorm { get; set; }
 
-    [BooleanCommandSwitch("pycharm")]
+    [CliFlag("pycharm")]
     public bool? Pycharm { get; set; }
 
-    [BooleanCommandSwitch("rider")]
+    [CliFlag("rider")]
     public bool? Rider { get; set; }
 
-    [BooleanCommandSwitch("rubymine")]
+    [CliFlag("rubymine")]
     public bool? Rubymine { get; set; }
 
-    [BooleanCommandSwitch("webstorm")]
+    [CliFlag("webstorm")]
     public bool? Webstorm { get; set; }
 }

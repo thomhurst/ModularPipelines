@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "lb", "address-pool", "tunnel-interface", "add")]
+[CliSubCommand("network", "lb", "address-pool", "tunnel-interface", "add")]
 public record AzNetworkLbAddressPoolTunnelInterfaceAddOptions(
-[property: CommandSwitch("--address-pool")] string AddressPool,
-[property: CommandSwitch("--identifier")] string Identifier,
-[property: CommandSwitch("--lb-name")] string LbName,
-[property: CommandSwitch("--protocol")] string Protocol,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--address-pool")] string AddressPool,
+[property: CliOption("--identifier")] string Identifier,
+[property: CliOption("--lb-name")] string LbName,
+[property: CliOption("--protocol")] string Protocol,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--type")] string Type
 ) : AzOptions
 {
-    [CommandSwitch("--index")]
+    [CliOption("--index")]
     public string? Index { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 }

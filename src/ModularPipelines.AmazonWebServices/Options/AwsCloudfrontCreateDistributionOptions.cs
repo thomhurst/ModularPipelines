@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudfront", "create-distribution")]
+[CliCommand("cloudfront", "create-distribution")]
 public record AwsCloudfrontCreateDistributionOptions : AwsOptions
 {
-    [CommandSwitch("--distribution-config")]
+    [CliOption("--distribution-config")]
     public string? DistributionConfig { get; set; }
 
-    [CommandSwitch("--origin-domain-name")]
+    [CliOption("--origin-domain-name")]
     public string? OriginDomainName { get; set; }
 
-    [CommandSwitch("--default-root-object")]
+    [CliOption("--default-root-object")]
     public string? DefaultRootObject { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

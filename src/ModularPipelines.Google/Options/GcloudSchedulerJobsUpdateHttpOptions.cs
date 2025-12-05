@@ -5,93 +5,93 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scheduler", "jobs", "update", "http")]
+[CliCommand("scheduler", "jobs", "update", "http")]
 public record GcloudSchedulerJobsUpdateHttpOptions(
-[property: PositionalArgument] string Job,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Job,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--attempt-deadline")]
+    [CliOption("--attempt-deadline")]
     public string? AttemptDeadline { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--http-method")]
+    [CliOption("--http-method")]
     public string? HttpMethod { get; set; }
 
-    [CommandSwitch("--schedule")]
+    [CliOption("--schedule")]
     public string? Schedule { get; set; }
 
-    [CommandSwitch("--uri")]
+    [CliOption("--uri")]
     public string? Uri { get; set; }
 
-    [BooleanCommandSwitch("--clear-auth-token")]
+    [CliFlag("--clear-auth-token")]
     public bool? ClearAuthToken { get; set; }
 
-    [CommandSwitch("--oauth-service-account-email")]
+    [CliOption("--oauth-service-account-email")]
     public string? OauthServiceAccountEmail { get; set; }
 
-    [CommandSwitch("--oauth-token-scope")]
+    [CliOption("--oauth-token-scope")]
     public string? OauthTokenScope { get; set; }
 
-    [CommandSwitch("--oidc-service-account-email")]
+    [CliOption("--oidc-service-account-email")]
     public string? OidcServiceAccountEmail { get; set; }
 
-    [CommandSwitch("--oidc-token-audience")]
+    [CliOption("--oidc-token-audience")]
     public string? OidcTokenAudience { get; set; }
 
-    [BooleanCommandSwitch("--clear-headers")]
+    [CliFlag("--clear-headers")]
     public bool? ClearHeaders { get; set; }
 
-    [CommandSwitch("--remove-headers")]
+    [CliOption("--remove-headers")]
     public string[]? RemoveHeaders { get; set; }
 
-    [CommandSwitch("--update-headers")]
+    [CliOption("--update-headers")]
     public IEnumerable<KeyValue>? UpdateHeaders { get; set; }
 
-    [BooleanCommandSwitch("--clear-max-backoff")]
+    [CliFlag("--clear-max-backoff")]
     public bool? ClearMaxBackoff { get; set; }
 
-    [CommandSwitch("--max-backoff")]
+    [CliOption("--max-backoff")]
     public string? MaxBackoff { get; set; }
 
-    [BooleanCommandSwitch("--clear-max-doublings")]
+    [CliFlag("--clear-max-doublings")]
     public bool? ClearMaxDoublings { get; set; }
 
-    [CommandSwitch("--max-doublings")]
+    [CliOption("--max-doublings")]
     public string? MaxDoublings { get; set; }
 
-    [BooleanCommandSwitch("--clear-max-retry-attempts")]
+    [CliFlag("--clear-max-retry-attempts")]
     public bool? ClearMaxRetryAttempts { get; set; }
 
-    [CommandSwitch("--max-retry-attempts")]
+    [CliOption("--max-retry-attempts")]
     public string? MaxRetryAttempts { get; set; }
 
-    [BooleanCommandSwitch("--clear-max-retry-duration")]
+    [CliFlag("--clear-max-retry-duration")]
     public bool? ClearMaxRetryDuration { get; set; }
 
-    [CommandSwitch("--max-retry-duration")]
+    [CliOption("--max-retry-duration")]
     public string? MaxRetryDuration { get; set; }
 
-    [BooleanCommandSwitch("--clear-message-body")]
+    [CliFlag("--clear-message-body")]
     public bool? ClearMessageBody { get; set; }
 
-    [CommandSwitch("--message-body")]
+    [CliOption("--message-body")]
     public string? MessageBody { get; set; }
 
-    [CommandSwitch("--message-body-from-file")]
+    [CliOption("--message-body-from-file")]
     public string? MessageBodyFromFile { get; set; }
 
-    [BooleanCommandSwitch("--clear-min-backoff")]
+    [CliFlag("--clear-min-backoff")]
     public bool? ClearMinBackoff { get; set; }
 
-    [CommandSwitch("--min-backoff")]
+    [CliOption("--min-backoff")]
     public string? MinBackoff { get; set; }
 
-    [BooleanCommandSwitch("--clear-time-zone")]
+    [CliFlag("--clear-time-zone")]
     public bool? ClearTimeZone { get; set; }
 
-    [CommandSwitch("--time-zone")]
+    [CliOption("--time-zone")]
     public string? TimeZone { get; set; }
 }

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "repository", "untag")]
+[CliSubCommand("acr", "repository", "untag")]
 public record AzAcrRepositoryUntagOptions(
-[property: CommandSwitch("--image")] string Image,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--image")] string Image,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--suffix")]
+    [CliOption("--suffix")]
     public string? Suffix { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 }

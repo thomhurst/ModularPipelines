@@ -4,60 +4,60 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "create-server")]
+[CliCommand("transfer", "create-server")]
 public record AwsTransferCreateServerOptions : AwsOptions
 {
-    [CommandSwitch("--certificate")]
+    [CliOption("--certificate")]
     public string? Certificate { get; set; }
 
-    [CommandSwitch("--domain")]
+    [CliOption("--domain")]
     public string? Domain { get; set; }
 
-    [CommandSwitch("--endpoint-details")]
+    [CliOption("--endpoint-details")]
     public string? EndpointDetails { get; set; }
 
-    [CommandSwitch("--endpoint-type")]
+    [CliOption("--endpoint-type")]
     public string? EndpointType { get; set; }
 
-    [CommandSwitch("--host-key")]
+    [CliOption("--host-key")]
     public string? HostKey { get; set; }
 
-    [CommandSwitch("--identity-provider-details")]
+    [CliOption("--identity-provider-details")]
     public string? IdentityProviderDetails { get; set; }
 
-    [CommandSwitch("--identity-provider-type")]
+    [CliOption("--identity-provider-type")]
     public string? IdentityProviderType { get; set; }
 
-    [CommandSwitch("--logging-role")]
+    [CliOption("--logging-role")]
     public string? LoggingRole { get; set; }
 
-    [CommandSwitch("--post-authentication-login-banner")]
+    [CliOption("--post-authentication-login-banner")]
     public string? PostAuthenticationLoginBanner { get; set; }
 
-    [CommandSwitch("--pre-authentication-login-banner")]
+    [CliOption("--pre-authentication-login-banner")]
     public string? PreAuthenticationLoginBanner { get; set; }
 
-    [CommandSwitch("--protocols")]
+    [CliOption("--protocols")]
     public string[]? Protocols { get; set; }
 
-    [CommandSwitch("--protocol-details")]
+    [CliOption("--protocol-details")]
     public string? ProtocolDetails { get; set; }
 
-    [CommandSwitch("--security-policy-name")]
+    [CliOption("--security-policy-name")]
     public string? SecurityPolicyName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--workflow-details")]
+    [CliOption("--workflow-details")]
     public string? WorkflowDetails { get; set; }
 
-    [CommandSwitch("--structured-log-destinations")]
+    [CliOption("--structured-log-destinations")]
     public string[]? StructuredLogDestinations { get; set; }
 
-    [CommandSwitch("--s3-storage-options")]
+    [CliOption("--s3-storage-options")]
     public string? S3StorageOptions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "activity-log")]
+[CliCommand("monitor", "activity-log")]
 public class AzMonitorActivityLogAlert
 {
     public AzMonitorActivityLogAlert(

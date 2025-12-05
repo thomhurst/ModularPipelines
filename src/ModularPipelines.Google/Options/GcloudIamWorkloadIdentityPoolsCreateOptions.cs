@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "workload-identity-pools", "create")]
+[CliCommand("iam", "workload-identity-pools", "create")]
 public record GcloudIamWorkloadIdentityPoolsCreateOptions(
-[property: PositionalArgument] string WorkloadIdentityPool,
-[property: PositionalArgument] string Location
+[property: CliArgument] string WorkloadIdentityPool,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 }

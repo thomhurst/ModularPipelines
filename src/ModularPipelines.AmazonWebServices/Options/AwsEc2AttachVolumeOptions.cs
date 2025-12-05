@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "attach-volume")]
+[CliCommand("ec2", "attach-volume")]
 public record AwsEc2AttachVolumeOptions(
-[property: CommandSwitch("--device")] string Device,
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--volume-id")] string VolumeId
+[property: CliOption("--device")] string Device,
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--volume-id")] string VolumeId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

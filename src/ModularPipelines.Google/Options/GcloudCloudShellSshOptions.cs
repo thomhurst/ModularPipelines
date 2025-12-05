@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloud-shell", "ssh")]
+[CliCommand("cloud-shell", "ssh")]
 public record GcloudCloudShellSshOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--authorize-session")]
+    [CliFlag("--authorize-session")]
     public bool? AuthorizeSession { get; set; }
 
-    [CommandSwitch("--command")]
+    [CliOption("--command")]
     public string? Command { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("--force-key-file-overwrite")]
+    [CliFlag("--force-key-file-overwrite")]
     public bool? ForceKeyFileOverwrite { get; set; }
 
-    [CommandSwitch("--ssh-flag")]
+    [CliOption("--ssh-flag")]
     public string? SshFlag { get; set; }
 
-    [BooleanCommandSwitch("--ssh-key-file")]
+    [CliFlag("--ssh-key-file")]
     public bool? SshKeyFile { get; set; }
 }

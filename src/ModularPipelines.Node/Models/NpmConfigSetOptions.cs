@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("config", "set")]
+[CliCommand("config", "set")]
 public record NpmConfigSetOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Value
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Value
 ) : NpmOptions
 {
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public virtual bool? Global { get; set; }
 
-    [CommandSwitch("--editor")]
+    [CliOption("--editor")]
     public virtual string? Editor { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public virtual string? Location { get; set; }
 
-    [BooleanCommandSwitch("--long")]
+    [CliFlag("--long")]
     public virtual bool? Long { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
-    public string? Key { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    public virtual string? Key { get; set; }
 }

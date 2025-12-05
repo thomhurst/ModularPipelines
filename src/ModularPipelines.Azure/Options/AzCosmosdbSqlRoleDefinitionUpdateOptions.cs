@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "sql", "role", "definition", "update")]
+[CliSubCommand("cosmosdb", "sql", "role", "definition", "update")]
 public record AzCosmosdbSqlRoleDefinitionUpdateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--body")] string Body,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--body")] string Body,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

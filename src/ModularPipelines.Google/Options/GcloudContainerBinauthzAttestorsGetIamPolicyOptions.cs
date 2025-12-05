@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "binauthz", "attestors", "get-iam-policy")]
+[CliCommand("container", "binauthz", "attestors", "get-iam-policy")]
 public record GcloudContainerBinauthzAttestorsGetIamPolicyOptions(
-[property: PositionalArgument] string Attestor
+[property: CliArgument] string Attestor
 ) : GcloudOptions;

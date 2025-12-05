@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "get-calendar-state")]
+[CliCommand("ssm", "get-calendar-state")]
 public record AwsSsmGetCalendarStateOptions(
-[property: CommandSwitch("--calendar-names")] string[] CalendarNames
+[property: CliOption("--calendar-names")] string[] CalendarNames
 ) : AwsOptions
 {
-    [CommandSwitch("--at-time")]
+    [CliOption("--at-time")]
     public string? AtTime { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

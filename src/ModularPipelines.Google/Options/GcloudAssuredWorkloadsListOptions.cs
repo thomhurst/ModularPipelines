@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("assured", "workloads", "list")]
+[CliCommand("assured", "workloads", "list")]
 public record GcloudAssuredWorkloadsListOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--organization")] string Organization
+[property: CliOption("--location")] string Location,
+[property: CliOption("--organization")] string Organization
 ) : GcloudOptions;

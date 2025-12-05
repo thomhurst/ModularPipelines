@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "routers", "get-nat-mapping-info")]
+[CliCommand("compute", "routers", "get-nat-mapping-info")]
 public record GcloudComputeRoutersGetNatMappingInfoOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--nat-name")]
+    [CliOption("--nat-name")]
     public string? NatName { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

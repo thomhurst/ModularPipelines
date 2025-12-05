@@ -4,92 +4,92 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticache", "create-cache-cluster")]
+[CliCommand("elasticache", "create-cache-cluster")]
 public record AwsElasticacheCreateCacheClusterOptions(
-[property: CommandSwitch("--cache-cluster-id")] string CacheClusterId
+[property: CliOption("--cache-cluster-id")] string CacheClusterId
 ) : AwsOptions
 {
-    [CommandSwitch("--replication-group-id")]
+    [CliOption("--replication-group-id")]
     public string? ReplicationGroupId { get; set; }
 
-    [CommandSwitch("--az-mode")]
+    [CliOption("--az-mode")]
     public string? AzMode { get; set; }
 
-    [CommandSwitch("--preferred-availability-zone")]
+    [CliOption("--preferred-availability-zone")]
     public string? PreferredAvailabilityZone { get; set; }
 
-    [CommandSwitch("--preferred-availability-zones")]
+    [CliOption("--preferred-availability-zones")]
     public string[]? PreferredAvailabilityZones { get; set; }
 
-    [CommandSwitch("--num-cache-nodes")]
+    [CliOption("--num-cache-nodes")]
     public int? NumCacheNodes { get; set; }
 
-    [CommandSwitch("--cache-node-type")]
+    [CliOption("--cache-node-type")]
     public string? CacheNodeType { get; set; }
 
-    [CommandSwitch("--engine")]
+    [CliOption("--engine")]
     public string? Engine { get; set; }
 
-    [CommandSwitch("--engine-version")]
+    [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CommandSwitch("--cache-parameter-group-name")]
+    [CliOption("--cache-parameter-group-name")]
     public string? CacheParameterGroupName { get; set; }
 
-    [CommandSwitch("--cache-subnet-group-name")]
+    [CliOption("--cache-subnet-group-name")]
     public string? CacheSubnetGroupName { get; set; }
 
-    [CommandSwitch("--cache-security-group-names")]
+    [CliOption("--cache-security-group-names")]
     public string[]? CacheSecurityGroupNames { get; set; }
 
-    [CommandSwitch("--security-group-ids")]
+    [CliOption("--security-group-ids")]
     public string[]? SecurityGroupIds { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--snapshot-arns")]
+    [CliOption("--snapshot-arns")]
     public string[]? SnapshotArns { get; set; }
 
-    [CommandSwitch("--snapshot-name")]
+    [CliOption("--snapshot-name")]
     public string? SnapshotName { get; set; }
 
-    [CommandSwitch("--preferred-maintenance-window")]
+    [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--notification-topic-arn")]
+    [CliOption("--notification-topic-arn")]
     public string? NotificationTopicArn { get; set; }
 
-    [CommandSwitch("--snapshot-retention-limit")]
+    [CliOption("--snapshot-retention-limit")]
     public int? SnapshotRetentionLimit { get; set; }
 
-    [CommandSwitch("--snapshot-window")]
+    [CliOption("--snapshot-window")]
     public string? SnapshotWindow { get; set; }
 
-    [CommandSwitch("--auth-token")]
+    [CliOption("--auth-token")]
     public string? AuthToken { get; set; }
 
-    [CommandSwitch("--outpost-mode")]
+    [CliOption("--outpost-mode")]
     public string? OutpostMode { get; set; }
 
-    [CommandSwitch("--preferred-outpost-arn")]
+    [CliOption("--preferred-outpost-arn")]
     public string? PreferredOutpostArn { get; set; }
 
-    [CommandSwitch("--preferred-outpost-arns")]
+    [CliOption("--preferred-outpost-arns")]
     public string[]? PreferredOutpostArns { get; set; }
 
-    [CommandSwitch("--log-delivery-configurations")]
+    [CliOption("--log-delivery-configurations")]
     public string[]? LogDeliveryConfigurations { get; set; }
 
-    [CommandSwitch("--network-type")]
+    [CliOption("--network-type")]
     public string? NetworkType { get; set; }
 
-    [CommandSwitch("--ip-discovery")]
+    [CliOption("--ip-discovery")]
     public string? IpDiscovery { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

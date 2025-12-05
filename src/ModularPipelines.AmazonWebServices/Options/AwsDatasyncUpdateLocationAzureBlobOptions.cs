@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datasync", "update-location-azure-blob")]
+[CliCommand("datasync", "update-location-azure-blob")]
 public record AwsDatasyncUpdateLocationAzureBlobOptions(
-[property: CommandSwitch("--location-arn")] string LocationArn
+[property: CliOption("--location-arn")] string LocationArn
 ) : AwsOptions
 {
-    [CommandSwitch("--subdirectory")]
+    [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
 
-    [CommandSwitch("--authentication-type")]
+    [CliOption("--authentication-type")]
     public string? AuthenticationType { get; set; }
 
-    [CommandSwitch("--sas-configuration")]
+    [CliOption("--sas-configuration")]
     public string? SasConfiguration { get; set; }
 
-    [CommandSwitch("--blob-type")]
+    [CliOption("--blob-type")]
     public string? BlobType { get; set; }
 
-    [CommandSwitch("--access-tier")]
+    [CliOption("--access-tier")]
     public string? AccessTier { get; set; }
 
-    [CommandSwitch("--agent-arns")]
+    [CliOption("--agent-arns")]
     public string[]? AgentArns { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

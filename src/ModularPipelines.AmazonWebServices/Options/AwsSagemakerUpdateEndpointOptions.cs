@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "update-endpoint")]
+[CliCommand("sagemaker", "update-endpoint")]
 public record AwsSagemakerUpdateEndpointOptions(
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--endpoint-config-name")] string EndpointConfigName
+[property: CliOption("--endpoint-name")] string EndpointName,
+[property: CliOption("--endpoint-config-name")] string EndpointConfigName
 ) : AwsOptions
 {
-    [CommandSwitch("--exclude-retained-variant-properties")]
+    [CliOption("--exclude-retained-variant-properties")]
     public string[]? ExcludeRetainedVariantProperties { get; set; }
 
-    [CommandSwitch("--deployment-config")]
+    [CliOption("--deployment-config")]
     public string? DeploymentConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

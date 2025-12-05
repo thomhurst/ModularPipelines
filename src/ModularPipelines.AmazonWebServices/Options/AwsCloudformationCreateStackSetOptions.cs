@@ -4,53 +4,53 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation", "create-stack-set")]
+[CliCommand("cloudformation", "create-stack-set")]
 public record AwsCloudformationCreateStackSetOptions(
-[property: CommandSwitch("--stack-set-name")] string StackSetName
+[property: CliOption("--stack-set-name")] string StackSetName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--template-body")]
+    [CliOption("--template-body")]
     public string? TemplateBody { get; set; }
 
-    [CommandSwitch("--template-url")]
+    [CliOption("--template-url")]
     public string? TemplateUrl { get; set; }
 
-    [CommandSwitch("--stack-id")]
+    [CliOption("--stack-id")]
     public string? StackId { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--capabilities")]
+    [CliOption("--capabilities")]
     public string[]? Capabilities { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--administration-role-arn")]
+    [CliOption("--administration-role-arn")]
     public string? AdministrationRoleArn { get; set; }
 
-    [CommandSwitch("--execution-role-name")]
+    [CliOption("--execution-role-name")]
     public string? ExecutionRoleName { get; set; }
 
-    [CommandSwitch("--permission-model")]
+    [CliOption("--permission-model")]
     public string? PermissionModel { get; set; }
 
-    [CommandSwitch("--auto-deployment")]
+    [CliOption("--auto-deployment")]
     public string? AutoDeployment { get; set; }
 
-    [CommandSwitch("--call-as")]
+    [CliOption("--call-as")]
     public string? CallAs { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--managed-execution")]
+    [CliOption("--managed-execution")]
     public string? ManagedExecution { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

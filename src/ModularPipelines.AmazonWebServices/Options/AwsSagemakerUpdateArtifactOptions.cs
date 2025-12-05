@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "update-artifact")]
+[CliCommand("sagemaker", "update-artifact")]
 public record AwsSagemakerUpdateArtifactOptions(
-[property: CommandSwitch("--artifact-arn")] string ArtifactArn
+[property: CliOption("--artifact-arn")] string ArtifactArn
 ) : AwsOptions
 {
-    [CommandSwitch("--artifact-name")]
+    [CliOption("--artifact-name")]
     public string? ArtifactName { get; set; }
 
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public IEnumerable<KeyValue>? Properties { get; set; }
 
-    [CommandSwitch("--properties-to-remove")]
+    [CliOption("--properties-to-remove")]
     public string[]? PropertiesToRemove { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns", "record-sets", "create")]
+[CliCommand("dns", "record-sets", "create")]
 public record GcloudDnsRecordSetsCreateOptions(
-[property: PositionalArgument] string DnsName,
-[property: CommandSwitch("--type")] string Type,
-[property: CommandSwitch("--zone")] string Zone,
-[property: CommandSwitch("--rrdatas")] string[] Rrdatas,
-[property: CommandSwitch("--routing-policy-type")] string RoutingPolicyType,
-[property: BooleanCommandSwitch("--enable-geo-fencing")] bool EnableGeoFencing,
-[property: BooleanCommandSwitch("--enable-health-checking")] bool EnableHealthChecking,
-[property: CommandSwitch("--routing-policy-data")] string RoutingPolicyData,
-[property: CommandSwitch("--routing-policy-backup-data")] string RoutingPolicyBackupData,
-[property: CommandSwitch("--routing-policy-backup-data-type")] string RoutingPolicyBackupDataType,
-[property: CommandSwitch("--routing-policy-primary-data")] string RoutingPolicyPrimaryData,
-[property: CommandSwitch("--backup-data-trickle-ratio")] string BackupDataTrickleRatio
+[property: CliArgument] string DnsName,
+[property: CliOption("--type")] string Type,
+[property: CliOption("--zone")] string Zone,
+[property: CliOption("--rrdatas")] string[] Rrdatas,
+[property: CliOption("--routing-policy-type")] string RoutingPolicyType,
+[property: CliFlag("--enable-geo-fencing")] bool EnableGeoFencing,
+[property: CliFlag("--enable-health-checking")] bool EnableHealthChecking,
+[property: CliOption("--routing-policy-data")] string RoutingPolicyData,
+[property: CliOption("--routing-policy-backup-data")] string RoutingPolicyBackupData,
+[property: CliOption("--routing-policy-backup-data-type")] string RoutingPolicyBackupDataType,
+[property: CliOption("--routing-policy-primary-data")] string RoutingPolicyPrimaryData,
+[property: CliOption("--backup-data-trickle-ratio")] string BackupDataTrickleRatio
 ) : GcloudOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--ttl")]
+    [CliOption("--ttl")]
     public string? Ttl { get; set; }
 }

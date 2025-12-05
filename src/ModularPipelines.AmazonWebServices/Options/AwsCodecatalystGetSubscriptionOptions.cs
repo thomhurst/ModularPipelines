@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecatalyst", "get-subscription")]
+[CliCommand("codecatalyst", "get-subscription")]
 public record AwsCodecatalystGetSubscriptionOptions(
-[property: CommandSwitch("--space-name")] string SpaceName
+[property: CliOption("--space-name")] string SpaceName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

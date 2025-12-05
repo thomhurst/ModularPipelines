@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3api", "select-object-content")]
+[CliCommand("s3api", "select-object-content")]
 public record AwsS3apiSelectObjectContentOptions(
-[property: CommandSwitch("--bucket")] string Bucket,
-[property: CommandSwitch("--key")] string Key,
-[property: CommandSwitch("--expression")] string Expression,
-[property: CommandSwitch("--expression-type")] string ExpressionType,
-[property: CommandSwitch("--input-serialization")] string InputSerialization,
-[property: CommandSwitch("--output-serialization")] string OutputSerialization
+[property: CliOption("--bucket")] string Bucket,
+[property: CliOption("--key")] string Key,
+[property: CliOption("--expression")] string Expression,
+[property: CliOption("--expression-type")] string ExpressionType,
+[property: CliOption("--input-serialization")] string InputSerialization,
+[property: CliOption("--output-serialization")] string OutputSerialization
 ) : AwsOptions
 {
-    [CommandSwitch("--sse-customer-algorithm")]
+    [CliOption("--sse-customer-algorithm")]
     public string? SseCustomerAlgorithm { get; set; }
 
-    [CommandSwitch("--sse-customer-key")]
+    [CliOption("--sse-customer-key")]
     public string? SseCustomerKey { get; set; }
 
-    [CommandSwitch("--sse-customer-key-md5")]
+    [CliOption("--sse-customer-key-md5")]
     public string? SseCustomerKeyMd5 { get; set; }
 
-    [CommandSwitch("--request-progress")]
+    [CliOption("--request-progress")]
     public string? RequestProgress { get; set; }
 
-    [CommandSwitch("--scan-range")]
+    [CliOption("--scan-range")]
     public string? ScanRange { get; set; }
 
-    [CommandSwitch("--expected-bucket-owner")]
+    [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 }

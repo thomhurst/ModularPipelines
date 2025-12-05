@@ -4,10 +4,10 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("plugin", "set")]
+[CliCommand("plugin", "set")]
 [ExcludeFromCodeCoverage]
 public record DockerPluginSetOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public IEnumerable<KeyValue>? KeyValue { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual IEnumerable<KeyValue>? KeyValue { get; set; }
 }

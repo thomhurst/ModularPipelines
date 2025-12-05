@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "update-function-event-invoke-config")]
+[CliCommand("lambda", "update-function-event-invoke-config")]
 public record AwsLambdaUpdateFunctionEventInvokeConfigOptions(
-[property: CommandSwitch("--function-name")] string FunctionName
+[property: CliOption("--function-name")] string FunctionName
 ) : AwsOptions
 {
-    [CommandSwitch("--qualifier")]
+    [CliOption("--qualifier")]
     public string? Qualifier { get; set; }
 
-    [CommandSwitch("--maximum-retry-attempts")]
+    [CliOption("--maximum-retry-attempts")]
     public int? MaximumRetryAttempts { get; set; }
 
-    [CommandSwitch("--maximum-event-age-in-seconds")]
+    [CliOption("--maximum-event-age-in-seconds")]
     public int? MaximumEventAgeInSeconds { get; set; }
 
-    [CommandSwitch("--destination-config")]
+    [CliOption("--destination-config")]
     public string? DestinationConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

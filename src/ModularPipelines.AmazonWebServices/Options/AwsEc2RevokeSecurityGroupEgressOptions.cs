@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "revoke-security-group-egress")]
+[CliCommand("ec2", "revoke-security-group-egress")]
 public record AwsEc2RevokeSecurityGroupEgressOptions(
-[property: CommandSwitch("--group-id")] string GroupId
+[property: CliOption("--group-id")] string GroupId
 ) : AwsOptions
 {
-    [CommandSwitch("--ip-permissions")]
+    [CliOption("--ip-permissions")]
     public string[]? IpPermissions { get; set; }
 
-    [CommandSwitch("--security-group-rule-ids")]
+    [CliOption("--security-group-rule-ids")]
     public string[]? SecurityGroupRuleIds { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public string? Port { get; set; }
 
-    [CommandSwitch("--cidr")]
+    [CliOption("--cidr")]
     public string? Cidr { get; set; }
 
-    [CommandSwitch("--source-group")]
+    [CliOption("--source-group")]
     public string? SourceGroup { get; set; }
 
-    [CommandSwitch("--group-owner")]
+    [CliOption("--group-owner")]
     public string? GroupOwner { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

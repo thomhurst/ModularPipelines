@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "remove-layer-version-permission")]
+[CliCommand("lambda", "remove-layer-version-permission")]
 public record AwsLambdaRemoveLayerVersionPermissionOptions(
-[property: CommandSwitch("--layer-name")] string LayerName,
-[property: CommandSwitch("--version-number")] long VersionNumber,
-[property: CommandSwitch("--statement-id")] string StatementId
+[property: CliOption("--layer-name")] string LayerName,
+[property: CliOption("--version-number")] long VersionNumber,
+[property: CliOption("--statement-id")] string StatementId
 ) : AwsOptions
 {
-    [CommandSwitch("--revision-id")]
+    [CliOption("--revision-id")]
     public string? RevisionId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

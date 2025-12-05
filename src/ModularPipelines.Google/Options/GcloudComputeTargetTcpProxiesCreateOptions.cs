@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "target-tcp-proxies", "create")]
+[CliCommand("compute", "target-tcp-proxies", "create")]
 public record GcloudComputeTargetTcpProxiesCreateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--backend-service")] string BackendService
+[property: CliArgument] string Name,
+[property: CliOption("--backend-service")] string BackendService
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--[no-]proxy-bind")]
+    [CliOption("--[no-]proxy-bind")]
     public string[]? NoProxyBind { get; set; }
 
-    [CommandSwitch("--proxy-header")]
+    [CliOption("--proxy-header")]
     public string? ProxyHeader { get; set; }
 
-    [CommandSwitch("--backend-service-region")]
+    [CliOption("--backend-service-region")]
     public string? BackendServiceRegion { get; set; }
 
-    [BooleanCommandSwitch("--global-backend-service")]
+    [CliFlag("--global-backend-service")]
     public bool? GlobalBackendService { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

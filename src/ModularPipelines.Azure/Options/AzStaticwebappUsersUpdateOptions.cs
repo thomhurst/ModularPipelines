@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("staticwebapp", "users", "update")]
+[CliSubCommand("staticwebapp", "users", "update")]
 public record AzStaticwebappUsersUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--roles")] string Roles
+[property: CliOption("--name")] string Name,
+[property: CliOption("--roles")] string Roles
 ) : AzOptions
 {
-    [CommandSwitch("--authentication-provider")]
+    [CliOption("--authentication-provider")]
     public string? AuthenticationProvider { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--user-details")]
+    [CliOption("--user-details")]
     public string? UserDetails { get; set; }
 
-    [CommandSwitch("--user-id")]
+    [CliOption("--user-id")]
     public string? UserId { get; set; }
 }

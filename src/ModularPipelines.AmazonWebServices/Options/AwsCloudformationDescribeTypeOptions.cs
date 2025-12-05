@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation", "describe-type")]
+[CliCommand("cloudformation", "describe-type")]
 public record AwsCloudformationDescribeTypeOptions : AwsOptions
 {
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--type-name")]
+    [CliOption("--type-name")]
     public string? TypeName { get; set; }
 
-    [CommandSwitch("--arn")]
+    [CliOption("--arn")]
     public string? Arn { get; set; }
 
-    [CommandSwitch("--version-id")]
+    [CliOption("--version-id")]
     public string? VersionId { get; set; }
 
-    [CommandSwitch("--publisher-id")]
+    [CliOption("--publisher-id")]
     public string? PublisherId { get; set; }
 
-    [CommandSwitch("--public-version-number")]
+    [CliOption("--public-version-number")]
     public string? PublicVersionNumber { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-connectivity", "spokes")]
+[CliCommand("network-connectivity", "spokes")]
 public class GcloudNetworkConnectivitySpokesLinkedVpcNetwork
 {
     public GcloudNetworkConnectivitySpokesLinkedVpcNetwork(

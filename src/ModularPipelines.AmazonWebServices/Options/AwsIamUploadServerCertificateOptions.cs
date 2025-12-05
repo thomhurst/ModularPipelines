@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "upload-server-certificate")]
+[CliCommand("iam", "upload-server-certificate")]
 public record AwsIamUploadServerCertificateOptions(
-[property: CommandSwitch("--server-certificate-name")] string ServerCertificateName,
-[property: CommandSwitch("--certificate-body")] string CertificateBody,
-[property: CommandSwitch("--private-key")] string PrivateKey
+[property: CliOption("--server-certificate-name")] string ServerCertificateName,
+[property: CliOption("--certificate-body")] string CertificateBody,
+[property: CliOption("--private-key")] string PrivateKey
 ) : AwsOptions
 {
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--certificate-chain")]
+    [CliOption("--certificate-chain")]
     public string? CertificateChain { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

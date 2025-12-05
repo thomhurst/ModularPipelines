@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("projects", "update")]
+[CliCommand("projects", "update")]
 public record GcloudProjectsUpdateOptions(
-[property: PositionalArgument] string ProjectId,
-[property: CommandSwitch("--name")] string Name
+[property: CliArgument] string ProjectId,
+[property: CliOption("--name")] string Name
 ) : GcloudOptions;

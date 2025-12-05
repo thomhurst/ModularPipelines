@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configservice", "get-aggregate-config-rule-compliance-summary")]
+[CliCommand("configservice", "get-aggregate-config-rule-compliance-summary")]
 public record AwsConfigserviceGetAggregateConfigRuleComplianceSummaryOptions(
-[property: CommandSwitch("--configuration-aggregator-name")] string ConfigurationAggregatorName
+[property: CliOption("--configuration-aggregator-name")] string ConfigurationAggregatorName
 ) : AwsOptions
 {
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string? Filters { get; set; }
 
-    [CommandSwitch("--group-by-key")]
+    [CliOption("--group-by-key")]
     public string? GroupByKey { get; set; }
 
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public int? Limit { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

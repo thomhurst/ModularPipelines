@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml-engine", "versions", "list")]
+[CliCommand("ml-engine", "versions", "list")]
 public record GcloudMlEngineVersionsListOptions(
-[property: CommandSwitch("--model")] string Model
+[property: CliOption("--model")] string Model
 ) : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

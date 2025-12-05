@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("personalize", "describe-filter")]
+[CliCommand("personalize", "describe-filter")]
 public record AwsPersonalizeDescribeFilterOptions(
-[property: CommandSwitch("--filter-arn")] string FilterArn
+[property: CliOption("--filter-arn")] string FilterArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

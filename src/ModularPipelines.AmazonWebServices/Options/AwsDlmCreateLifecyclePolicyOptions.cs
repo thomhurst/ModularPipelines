@@ -5,34 +5,34 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dlm", "create-lifecycle-policy")]
+[CliCommand("dlm", "create-lifecycle-policy")]
 public record AwsDlmCreateLifecyclePolicyOptions(
-[property: CommandSwitch("--execution-role-arn")] string ExecutionRoleArn,
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--state")] string State
+[property: CliOption("--execution-role-arn")] string ExecutionRoleArn,
+[property: CliOption("--description")] string Description,
+[property: CliOption("--state")] string State
 ) : AwsOptions
 {
-    [CommandSwitch("--policy-details")]
+    [CliOption("--policy-details")]
     public string? PolicyDetails { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--default-policy")]
+    [CliOption("--default-policy")]
     public string? DefaultPolicy { get; set; }
 
-    [CommandSwitch("--create-interval")]
+    [CliOption("--create-interval")]
     public int? CreateInterval { get; set; }
 
-    [CommandSwitch("--retain-interval")]
+    [CliOption("--retain-interval")]
     public int? RetainInterval { get; set; }
 
-    [CommandSwitch("--cross-region-copy-targets")]
+    [CliOption("--cross-region-copy-targets")]
     public string[]? CrossRegionCopyTargets { get; set; }
 
-    [CommandSwitch("--exclusions")]
+    [CliOption("--exclusions")]
     public string? Exclusions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

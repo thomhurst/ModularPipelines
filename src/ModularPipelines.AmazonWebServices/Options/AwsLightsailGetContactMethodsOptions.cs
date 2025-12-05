@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "get-contact-methods")]
+[CliCommand("lightsail", "get-contact-methods")]
 public record AwsLightsailGetContactMethodsOptions : AwsOptions
 {
-    [CommandSwitch("--protocols")]
+    [CliOption("--protocols")]
     public string[]? Protocols { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codestar-connections", "list-sync-configurations")]
+[CliCommand("codestar-connections", "list-sync-configurations")]
 public record AwsCodestarConnectionsListSyncConfigurationsOptions(
-[property: CommandSwitch("--repository-link-id")] string RepositoryLinkId,
-[property: CommandSwitch("--sync-type")] string SyncType
+[property: CliOption("--repository-link-id")] string RepositoryLinkId,
+[property: CliOption("--sync-type")] string SyncType
 ) : AwsOptions
 {
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

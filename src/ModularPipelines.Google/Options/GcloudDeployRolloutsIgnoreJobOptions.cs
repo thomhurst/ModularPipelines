@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "rollouts", "ignore-job")]
+[CliCommand("deploy", "rollouts", "ignore-job")]
 public record GcloudDeployRolloutsIgnoreJobOptions(
-[property: PositionalArgument] string Rollout,
-[property: PositionalArgument] string DeliveryPipeline,
-[property: PositionalArgument] string Region,
-[property: PositionalArgument] string Release,
-[property: CommandSwitch("--job-id")] string JobId,
-[property: CommandSwitch("--phase-id")] string PhaseId
+[property: CliArgument] string Rollout,
+[property: CliArgument] string DeliveryPipeline,
+[property: CliArgument] string Region,
+[property: CliArgument] string Release,
+[property: CliOption("--job-id")] string JobId,
+[property: CliOption("--phase-id")] string PhaseId
 ) : GcloudOptions;

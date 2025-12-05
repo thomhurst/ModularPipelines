@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("entityresolution", "update-id-mapping-workflow")]
+[CliCommand("entityresolution", "update-id-mapping-workflow")]
 public record AwsEntityresolutionUpdateIdMappingWorkflowOptions(
-[property: CommandSwitch("--id-mapping-techniques")] string IdMappingTechniques,
-[property: CommandSwitch("--input-source-config")] string[] InputSourceConfig,
-[property: CommandSwitch("--output-source-config")] string[] OutputSourceConfig,
-[property: CommandSwitch("--role-arn")] string RoleArn,
-[property: CommandSwitch("--workflow-name")] string WorkflowName
+[property: CliOption("--id-mapping-techniques")] string IdMappingTechniques,
+[property: CliOption("--input-source-config")] string[] InputSourceConfig,
+[property: CliOption("--output-source-config")] string[] OutputSourceConfig,
+[property: CliOption("--role-arn")] string RoleArn,
+[property: CliOption("--workflow-name")] string WorkflowName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

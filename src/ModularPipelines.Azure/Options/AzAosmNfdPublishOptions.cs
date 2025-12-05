@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aosm", "nfd", "publish")]
+[CliSubCommand("aosm", "nfd", "publish")]
 public record AzAosmNfdPublishOptions(
-[property: CommandSwitch("--config-file")] string ConfigFile,
-[property: CommandSwitch("--definition-type")] string DefinitionType
+[property: CliOption("--config-file")] string ConfigFile,
+[property: CliOption("--definition-type")] string DefinitionType
 ) : AzOptions
 {
-    [CommandSwitch("--definition-file")]
+    [CliOption("--definition-file")]
     public string? DefinitionFile { get; set; }
 
-    [CommandSwitch("--manifest-file")]
+    [CliOption("--manifest-file")]
     public string? ManifestFile { get; set; }
 
-    [CommandSwitch("--manifest-params-file")]
+    [CliOption("--manifest-params-file")]
     public string? ManifestParamsFile { get; set; }
 
-    [BooleanCommandSwitch("--no-subscription-permissions")]
+    [CliFlag("--no-subscription-permissions")]
     public bool? NoSubscriptionPermissions { get; set; }
 
-    [CommandSwitch("--parameters-file")]
+    [CliOption("--parameters-file")]
     public string? ParametersFile { get; set; }
 
-    [CommandSwitch("--skip")]
+    [CliOption("--skip")]
     public string? Skip { get; set; }
 }

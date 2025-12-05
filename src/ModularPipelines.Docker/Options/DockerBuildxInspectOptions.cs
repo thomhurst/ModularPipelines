@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("buildx", "inspect")]
+[CliCommand("buildx", "inspect")]
 [ExcludeFromCodeCoverage]
 public record DockerBuildxInspectOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Name { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Name { get; set; }
 
-    [CommandSwitch("--bootstrap")]
+    [CliOption("--bootstrap")]
     public virtual string? Bootstrap { get; set; }
 }

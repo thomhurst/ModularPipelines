@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticache", "test-failover")]
+[CliCommand("elasticache", "test-failover")]
 public record AwsElasticacheTestFailoverOptions(
-[property: CommandSwitch("--replication-group-id")] string ReplicationGroupId,
-[property: CommandSwitch("--node-group-id")] string NodeGroupId
+[property: CliOption("--replication-group-id")] string ReplicationGroupId,
+[property: CliOption("--node-group-id")] string NodeGroupId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

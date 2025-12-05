@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("migrationhuborchestrator", "update-workflow-step")]
+[CliCommand("migrationhuborchestrator", "update-workflow-step")]
 public record AwsMigrationhuborchestratorUpdateWorkflowStepOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--step-group-id")] string StepGroupId,
-[property: CommandSwitch("--workflow-id")] string WorkflowId
+[property: CliOption("--id")] string Id,
+[property: CliOption("--step-group-id")] string StepGroupId,
+[property: CliOption("--workflow-id")] string WorkflowId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--step-action-type")]
+    [CliOption("--step-action-type")]
     public string? StepActionType { get; set; }
 
-    [CommandSwitch("--workflow-step-automation-configuration")]
+    [CliOption("--workflow-step-automation-configuration")]
     public string? WorkflowStepAutomationConfiguration { get; set; }
 
-    [CommandSwitch("--step-target")]
+    [CliOption("--step-target")]
     public string[]? StepTarget { get; set; }
 
-    [CommandSwitch("--outputs")]
+    [CliOption("--outputs")]
     public string[]? Outputs { get; set; }
 
-    [CommandSwitch("--previous")]
+    [CliOption("--previous")]
     public string[]? Previous { get; set; }
 
-    [CommandSwitch("--next")]
+    [CliOption("--next")]
     public string[]? Next { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

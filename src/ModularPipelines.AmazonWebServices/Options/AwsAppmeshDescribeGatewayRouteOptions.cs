@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appmesh", "describe-gateway-route")]
+[CliCommand("appmesh", "describe-gateway-route")]
 public record AwsAppmeshDescribeGatewayRouteOptions(
-[property: CommandSwitch("--gateway-route-name")] string GatewayRouteName,
-[property: CommandSwitch("--mesh-name")] string MeshName,
-[property: CommandSwitch("--virtual-gateway-name")] string VirtualGatewayName
+[property: CliOption("--gateway-route-name")] string GatewayRouteName,
+[property: CliOption("--mesh-name")] string MeshName,
+[property: CliOption("--virtual-gateway-name")] string VirtualGatewayName
 ) : AwsOptions
 {
-    [CommandSwitch("--mesh-owner")]
+    [CliOption("--mesh-owner")]
     public string? MeshOwner { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

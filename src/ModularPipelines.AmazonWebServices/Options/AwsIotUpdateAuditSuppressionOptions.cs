@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "update-audit-suppression")]
+[CliCommand("iot", "update-audit-suppression")]
 public record AwsIotUpdateAuditSuppressionOptions(
-[property: CommandSwitch("--check-name")] string CheckName,
-[property: CommandSwitch("--resource-identifier")] string ResourceIdentifier
+[property: CliOption("--check-name")] string CheckName,
+[property: CliOption("--resource-identifier")] string ResourceIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--expiration-date")]
+    [CliOption("--expiration-date")]
     public long? ExpirationDate { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

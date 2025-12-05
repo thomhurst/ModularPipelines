@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functions", "call")]
+[CliCommand("functions", "call")]
 public record GcloudFunctionsCallOptions(
-[property: PositionalArgument] string Name,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Name,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--gen2")]
+    [CliFlag("--gen2")]
     public bool? Gen2 { get; set; }
 
-    [CommandSwitch("--cloud-event")]
+    [CliOption("--cloud-event")]
     public string? CloudEvent { get; set; }
 
-    [CommandSwitch("--data")]
+    [CliOption("--data")]
     public string? Data { get; set; }
 }

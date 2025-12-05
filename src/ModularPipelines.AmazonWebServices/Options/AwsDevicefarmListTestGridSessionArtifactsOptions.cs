@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devicefarm", "list-test-grid-session-artifacts")]
+[CliCommand("devicefarm", "list-test-grid-session-artifacts")]
 public record AwsDevicefarmListTestGridSessionArtifactsOptions(
-[property: CommandSwitch("--session-arn")] string SessionArn
+[property: CliOption("--session-arn")] string SessionArn
 ) : AwsOptions
 {
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--max-result")]
+    [CliOption("--max-result")]
     public int? MaxResult { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

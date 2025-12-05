@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backupstorage", "get-object-metadata")]
+[CliCommand("backupstorage", "get-object-metadata")]
 public record AwsBackupstorageGetObjectMetadataOptions(
-[property: CommandSwitch("--storage-job-id")] string StorageJobId,
-[property: CommandSwitch("--object-token")] string ObjectToken
+[property: CliOption("--storage-job-id")] string StorageJobId,
+[property: CliOption("--object-token")] string ObjectToken
 ) : AwsOptions;

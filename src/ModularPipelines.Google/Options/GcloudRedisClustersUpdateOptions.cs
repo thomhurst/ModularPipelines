@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redis", "clusters", "update")]
+[CliCommand("redis", "clusters", "update")]
 public record GcloudRedisClustersUpdateOptions(
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--replica-count")]
+    [CliOption("--replica-count")]
     public string? ReplicaCount { get; set; }
 
-    [CommandSwitch("--shard-count")]
+    [CliOption("--shard-count")]
     public string? ShardCount { get; set; }
 }

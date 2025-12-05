@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "get-review-template")]
+[CliCommand("wellarchitected", "get-review-template")]
 public record AwsWellarchitectedGetReviewTemplateOptions(
-[property: CommandSwitch("--template-arn")] string TemplateArn
+[property: CliOption("--template-arn")] string TemplateArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

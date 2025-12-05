@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcare", "dicom-stores", "export", "bq")]
+[CliCommand("healthcare", "dicom-stores", "export", "bq")]
 public record GcloudHealthcareDicomStoresExportBqOptions(
-[property: PositionalArgument] string DicomStore,
-[property: PositionalArgument] string Dataset,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--bq-table")] string BqTable
+[property: CliArgument] string DicomStore,
+[property: CliArgument] string Dataset,
+[property: CliArgument] string Location,
+[property: CliOption("--bq-table")] string BqTable
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--overwrite-table")]
+    [CliFlag("--overwrite-table")]
     public bool? OverwriteTable { get; set; }
 
-    [CommandSwitch("--write-disposition")]
+    [CliOption("--write-disposition")]
     public string? WriteDisposition { get; set; }
 }

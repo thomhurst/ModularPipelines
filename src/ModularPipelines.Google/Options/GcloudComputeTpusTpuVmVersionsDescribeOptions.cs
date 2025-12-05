@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "tpus", "tpu-vm", "versions", "describe")]
+[CliCommand("compute", "tpus", "tpu-vm", "versions", "describe")]
 public record GcloudComputeTpusTpuVmVersionsDescribeOptions : GcloudOptions
 {
     public GcloudComputeTpusTpuVmVersionsDescribeOptions(
@@ -16,9 +16,9 @@ public record GcloudComputeTpusTpuVmVersionsDescribeOptions : GcloudOptions
         Zone = zone;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string GcloudComputeTpusTpuVmVersionsDescribeOptionsVersion { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Zone { get; set; }
 }

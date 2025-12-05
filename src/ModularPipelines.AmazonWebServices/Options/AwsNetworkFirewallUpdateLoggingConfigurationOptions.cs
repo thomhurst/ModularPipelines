@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-firewall", "update-logging-configuration")]
+[CliCommand("network-firewall", "update-logging-configuration")]
 public record AwsNetworkFirewallUpdateLoggingConfigurationOptions : AwsOptions
 {
-    [CommandSwitch("--firewall-arn")]
+    [CliOption("--firewall-arn")]
     public string? FirewallArn { get; set; }
 
-    [CommandSwitch("--firewall-name")]
+    [CliOption("--firewall-name")]
     public string? FirewallName { get; set; }
 
-    [CommandSwitch("--logging-configuration")]
+    [CliOption("--logging-configuration")]
     public string? LoggingConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

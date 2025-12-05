@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kusto", "cluster", "list")]
+[CliCommand("kusto", "cluster", "list")]
 public class AzKustoClusterListKusto
 {
     public AzKustoClusterListKusto(

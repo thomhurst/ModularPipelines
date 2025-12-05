@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cleanrooms", "update-protected-query")]
+[CliCommand("cleanrooms", "update-protected-query")]
 public record AwsCleanroomsUpdateProtectedQueryOptions(
-[property: CommandSwitch("--membership-identifier")] string MembershipIdentifier,
-[property: CommandSwitch("--protected-query-identifier")] string ProtectedQueryIdentifier,
-[property: CommandSwitch("--target-status")] string TargetStatus
+[property: CliOption("--membership-identifier")] string MembershipIdentifier,
+[property: CliOption("--protected-query-identifier")] string ProtectedQueryIdentifier,
+[property: CliOption("--target-status")] string TargetStatus
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bms", "ssh-keys", "remove")]
+[CliCommand("bms", "ssh-keys", "remove")]
 public record GcloudBmsSshKeysRemoveOptions(
-[property: PositionalArgument] string SshKey
+[property: CliArgument] string SshKey
 ) : GcloudOptions;

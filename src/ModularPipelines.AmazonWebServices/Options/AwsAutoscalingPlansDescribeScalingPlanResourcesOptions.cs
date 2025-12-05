@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("autoscaling-plans", "describe-scaling-plan-resources")]
+[CliCommand("autoscaling-plans", "describe-scaling-plan-resources")]
 public record AwsAutoscalingPlansDescribeScalingPlanResourcesOptions(
-[property: CommandSwitch("--scaling-plan-name")] string ScalingPlanName,
-[property: CommandSwitch("--scaling-plan-version")] long ScalingPlanVersion
+[property: CliOption("--scaling-plan-name")] string ScalingPlanName,
+[property: CliOption("--scaling-plan-version")] long ScalingPlanVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

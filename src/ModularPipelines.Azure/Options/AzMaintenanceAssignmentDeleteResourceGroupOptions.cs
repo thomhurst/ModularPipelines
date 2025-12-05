@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("maintenance", "assignment", "delete-resource-group")]
+[CliSubCommand("maintenance", "assignment", "delete-resource-group")]
 public record AzMaintenanceAssignmentDeleteResourceGroupOptions : AzOptions
 {
-    [CommandSwitch("--configuration-assignment-name")]
+    [CliOption("--configuration-assignment-name")]
     public string? ConfigurationAssignmentName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

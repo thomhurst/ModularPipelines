@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iottwinmaker", "list-properties")]
+[CliCommand("iottwinmaker", "list-properties")]
 public record AwsIottwinmakerListPropertiesOptions(
-[property: CommandSwitch("--workspace-id")] string WorkspaceId,
-[property: CommandSwitch("--entity-id")] string EntityId
+[property: CliOption("--workspace-id")] string WorkspaceId,
+[property: CliOption("--entity-id")] string EntityId
 ) : AwsOptions
 {
-    [CommandSwitch("--component-name")]
+    [CliOption("--component-name")]
     public string? ComponentName { get; set; }
 
-    [CommandSwitch("--component-path")]
+    [CliOption("--component-path")]
     public string? ComponentPath { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

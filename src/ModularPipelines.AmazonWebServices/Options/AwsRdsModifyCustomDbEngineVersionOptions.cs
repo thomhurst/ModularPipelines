@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "modify-custom-db-engine-version")]
+[CliCommand("rds", "modify-custom-db-engine-version")]
 public record AwsRdsModifyCustomDbEngineVersionOptions(
-[property: CommandSwitch("--engine")] string Engine,
-[property: CommandSwitch("--engine-version")] string EngineVersion
+[property: CliOption("--engine")] string Engine,
+[property: CliOption("--engine-version")] string EngineVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

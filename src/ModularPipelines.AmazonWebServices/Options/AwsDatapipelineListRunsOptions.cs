@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datapipeline", "list-runs")]
+[CliCommand("datapipeline", "list-runs")]
 public record AwsDatapipelineListRunsOptions(
-[property: CommandSwitch("--pipeline-id")] string PipelineId
+[property: CliOption("--pipeline-id")] string PipelineId
 ) : AwsOptions
 {
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--start-interval")]
+    [CliOption("--start-interval")]
     public string? StartInterval { get; set; }
 
-    [CommandSwitch("--schedule-interval")]
+    [CliOption("--schedule-interval")]
     public string? ScheduleInterval { get; set; }
 }

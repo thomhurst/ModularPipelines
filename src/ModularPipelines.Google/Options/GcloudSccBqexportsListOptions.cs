@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scc", "bqexports", "list")]
+[CliCommand("scc", "bqexports", "list")]
 public record GcloudSccBqexportsListOptions : GcloudOptions
 {
     public GcloudSccBqexportsListOptions(
@@ -18,9 +18,9 @@ public record GcloudSccBqexportsListOptions : GcloudOptions
         Project = project;
     }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 }

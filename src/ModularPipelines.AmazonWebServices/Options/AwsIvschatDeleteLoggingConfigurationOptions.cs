@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ivschat", "delete-logging-configuration")]
+[CliCommand("ivschat", "delete-logging-configuration")]
 public record AwsIvschatDeleteLoggingConfigurationOptions(
-[property: CommandSwitch("--identifier")] string Identifier
+[property: CliOption("--identifier")] string Identifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

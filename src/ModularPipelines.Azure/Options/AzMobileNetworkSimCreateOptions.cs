@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mobile-network", "sim", "create")]
+[CliSubCommand("mobile-network", "sim", "create")]
 public record AzMobileNetworkSimCreateOptions(
-[property: CommandSwitch("--international-msi")] string InternationalMsi,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sim-group-name")] string SimGroupName
+[property: CliOption("--international-msi")] string InternationalMsi,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sim-group-name")] string SimGroupName
 ) : AzOptions
 {
-    [CommandSwitch("--authentication-key")]
+    [CliOption("--authentication-key")]
     public string? AuthenticationKey { get; set; }
 
-    [CommandSwitch("--device-type")]
+    [CliOption("--device-type")]
     public string? DeviceType { get; set; }
 
-    [CommandSwitch("--icc-id")]
+    [CliOption("--icc-id")]
     public string? IccId { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--operator-key-code")]
+    [CliOption("--operator-key-code")]
     public string? OperatorKeyCode { get; set; }
 
-    [CommandSwitch("--sim-policy")]
+    [CliOption("--sim-policy")]
     public string? SimPolicy { get; set; }
 
-    [CommandSwitch("--static-ip-config")]
+    [CliOption("--static-ip-config")]
     public string? StaticIpConfig { get; set; }
 }

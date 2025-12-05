@@ -51,5 +51,4 @@ internal class DependencyPrinter : IDependencyPrinter
         _collapsableLogging.EndConsoleLogGroupDirectToConsole("Dependency Chains", LogLevel.Debug);
         _logger.LogDebug("\n");
     }
-
 }

@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databrew", "update-recipe-job")]
+[CliCommand("databrew", "update-recipe-job")]
 public record AwsDatabrewUpdateRecipeJobOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--name")] string Name,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--encryption-key-arn")]
+    [CliOption("--encryption-key-arn")]
     public string? EncryptionKeyArn { get; set; }
 
-    [CommandSwitch("--encryption-mode")]
+    [CliOption("--encryption-mode")]
     public string? EncryptionMode { get; set; }
 
-    [CommandSwitch("--log-subscription")]
+    [CliOption("--log-subscription")]
     public string? LogSubscription { get; set; }
 
-    [CommandSwitch("--max-capacity")]
+    [CliOption("--max-capacity")]
     public int? MaxCapacity { get; set; }
 
-    [CommandSwitch("--max-retries")]
+    [CliOption("--max-retries")]
     public int? MaxRetries { get; set; }
 
-    [CommandSwitch("--outputs")]
+    [CliOption("--outputs")]
     public string[]? Outputs { get; set; }
 
-    [CommandSwitch("--data-catalog-outputs")]
+    [CliOption("--data-catalog-outputs")]
     public string[]? DataCatalogOutputs { get; set; }
 
-    [CommandSwitch("--database-outputs")]
+    [CliOption("--database-outputs")]
     public string[]? DatabaseOutputs { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public int? Timeout { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

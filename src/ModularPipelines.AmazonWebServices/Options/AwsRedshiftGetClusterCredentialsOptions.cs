@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "get-cluster-credentials")]
+[CliCommand("redshift", "get-cluster-credentials")]
 public record AwsRedshiftGetClusterCredentialsOptions(
-[property: CommandSwitch("--db-user")] string DbUser
+[property: CliOption("--db-user")] string DbUser
 ) : AwsOptions
 {
-    [CommandSwitch("--db-name")]
+    [CliOption("--db-name")]
     public string? DbName { get; set; }
 
-    [CommandSwitch("--cluster-identifier")]
+    [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
 
-    [CommandSwitch("--duration-seconds")]
+    [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
-    [CommandSwitch("--db-groups")]
+    [CliOption("--db-groups")]
     public string[]? DbGroups { get; set; }
 
-    [CommandSwitch("--custom-domain-name")]
+    [CliOption("--custom-domain-name")]
     public string? CustomDomainName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

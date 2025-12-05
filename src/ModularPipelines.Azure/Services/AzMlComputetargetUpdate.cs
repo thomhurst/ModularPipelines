@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "computetarget")]
+[CliCommand("ml", "computetarget")]
 public class AzMlComputetargetUpdate
 {
     public AzMlComputetargetUpdate(

@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redis", "export")]
+[CliSubCommand("redis", "export")]
 public record AzRedisExportOptions(
-[property: CommandSwitch("--container")] string Container,
-[property: CommandSwitch("--prefix")] string Prefix
+[property: CliOption("--container")] string Container,
+[property: CliOption("--prefix")] string Prefix
 ) : AzOptions
 {
-    [CommandSwitch("--auth-method")]
+    [CliOption("--auth-method")]
     public string? AuthMethod { get; set; }
 
-    [CommandSwitch("--file-format")]
+    [CliOption("--file-format")]
     public string? FileFormat { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

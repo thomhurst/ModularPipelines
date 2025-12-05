@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "associate-ops-item-related-item")]
+[CliCommand("ssm", "associate-ops-item-related-item")]
 public record AwsSsmAssociateOpsItemRelatedItemOptions(
-[property: CommandSwitch("--ops-item-id")] string OpsItemId,
-[property: CommandSwitch("--association-type")] string AssociationType,
-[property: CommandSwitch("--resource-type")] string ResourceType,
-[property: CommandSwitch("--resource-uri")] string ResourceUri
+[property: CliOption("--ops-item-id")] string OpsItemId,
+[property: CliOption("--association-type")] string AssociationType,
+[property: CliOption("--resource-type")] string ResourceType,
+[property: CliOption("--resource-uri")] string ResourceUri
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

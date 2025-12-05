@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "update-hours-of-operation")]
+[CliCommand("connect", "update-hours-of-operation")]
 public record AwsConnectUpdateHoursOfOperationOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--hours-of-operation-id")] string HoursOfOperationId
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--hours-of-operation-id")] string HoursOfOperationId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--time-zone")]
+    [CliOption("--time-zone")]
     public string? TimeZone { get; set; }
 
-    [CommandSwitch("--config")]
+    [CliOption("--config")]
     public string[]? Config { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

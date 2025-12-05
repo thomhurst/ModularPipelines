@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "assign-private-nat-gateway-address")]
+[CliCommand("ec2", "assign-private-nat-gateway-address")]
 public record AwsEc2AssignPrivateNatGatewayAddressOptions(
-[property: CommandSwitch("--nat-gateway-id")] string NatGatewayId
+[property: CliOption("--nat-gateway-id")] string NatGatewayId
 ) : AwsOptions
 {
-    [CommandSwitch("--private-ip-addresses")]
+    [CliOption("--private-ip-addresses")]
     public string[]? PrivateIpAddresses { get; set; }
 
-    [CommandSwitch("--private-ip-address-count")]
+    [CliOption("--private-ip-address-count")]
     public int? PrivateIpAddressCount { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

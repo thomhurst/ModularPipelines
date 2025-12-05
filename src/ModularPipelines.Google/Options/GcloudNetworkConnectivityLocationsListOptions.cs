@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-connectivity", "locations", "list")]
+[CliCommand("network-connectivity", "locations", "list")]
 public record GcloudNetworkConnectivityLocationsListOptions : GcloudOptions;

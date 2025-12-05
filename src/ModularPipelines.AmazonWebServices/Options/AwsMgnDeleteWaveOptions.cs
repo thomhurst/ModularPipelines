@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mgn", "delete-wave")]
+[CliCommand("mgn", "delete-wave")]
 public record AwsMgnDeleteWaveOptions(
-[property: CommandSwitch("--wave-id")] string WaveId
+[property: CliOption("--wave-id")] string WaveId
 ) : AwsOptions
 {
-    [CommandSwitch("--account-id")]
+    [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

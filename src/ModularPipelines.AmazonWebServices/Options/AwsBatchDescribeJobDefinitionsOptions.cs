@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "describe-job-definitions")]
+[CliCommand("batch", "describe-job-definitions")]
 public record AwsBatchDescribeJobDefinitionsOptions : AwsOptions
 {
-    [CommandSwitch("--job-definitions")]
+    [CliOption("--job-definitions")]
     public string[]? JobDefinitions { get; set; }
 
-    [CommandSwitch("--job-definition-name")]
+    [CliOption("--job-definition-name")]
     public string? JobDefinitionName { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

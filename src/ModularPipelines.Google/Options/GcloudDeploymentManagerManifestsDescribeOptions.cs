@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deployment-manager", "manifests", "describe")]
+[CliCommand("deployment-manager", "manifests", "describe")]
 public record GcloudDeploymentManagerManifestsDescribeOptions(
-[property: PositionalArgument] string Manifest,
-[property: CommandSwitch("--deployment")] string Deployment
+[property: CliArgument] string Manifest,
+[property: CliOption("--deployment")] string Deployment
 ) : GcloudOptions;

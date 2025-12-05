@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hook", "rm")]
+[CliCommand("hook", "rm")]
 public record NpmHookRmOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Id
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Id
 ) : NpmOptions
 {
-    [CommandSwitch("--registry")]
+    [CliOption("--registry")]
     public virtual Uri? Registry { get; set; }
 
-    [CommandSwitch("--otp")]
+    [CliOption("--otp")]
     public virtual string? Otp { get; set; }
 }

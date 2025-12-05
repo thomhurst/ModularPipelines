@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("stack", "ls")]
+[CliCommand("stack", "ls")]
 [ExcludeFromCodeCoverage]
 public record DockerStackLsOptions : DockerOptions
 {
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 }

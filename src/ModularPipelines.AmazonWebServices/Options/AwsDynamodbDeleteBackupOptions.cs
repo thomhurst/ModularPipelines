@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dynamodb", "delete-backup")]
+[CliCommand("dynamodb", "delete-backup")]
 public record AwsDynamodbDeleteBackupOptions(
-[property: CommandSwitch("--backup-arn")] string BackupArn
+[property: CliOption("--backup-arn")] string BackupArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

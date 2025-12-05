@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lakeformation", "create-lf-tag")]
+[CliCommand("lakeformation", "create-lf-tag")]
 public record AwsLakeformationCreateLfTagOptions(
-[property: CommandSwitch("--tag-key")] string TagKey,
-[property: CommandSwitch("--tag-values")] string[] TagValues
+[property: CliOption("--tag-key")] string TagKey,
+[property: CliOption("--tag-values")] string[] TagValues
 ) : AwsOptions
 {
-    [CommandSwitch("--catalog-id")]
+    [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

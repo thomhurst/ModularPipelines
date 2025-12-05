@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lex-models", "put-bot")]
+[CliCommand("lex-models", "put-bot")]
 public record AwsLexModelsPutBotOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--locale")] string Locale
+[property: CliOption("--name")] string Name,
+[property: CliOption("--locale")] string Locale
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--intents")]
+    [CliOption("--intents")]
     public string[]? Intents { get; set; }
 
-    [CommandSwitch("--nlu-intent-confidence-threshold")]
+    [CliOption("--nlu-intent-confidence-threshold")]
     public double? NluIntentConfidenceThreshold { get; set; }
 
-    [CommandSwitch("--clarification-prompt")]
+    [CliOption("--clarification-prompt")]
     public string? ClarificationPrompt { get; set; }
 
-    [CommandSwitch("--abort-statement")]
+    [CliOption("--abort-statement")]
     public string? AbortStatement { get; set; }
 
-    [CommandSwitch("--idle-session-ttl-in-seconds")]
+    [CliOption("--idle-session-ttl-in-seconds")]
     public int? IdleSessionTtlInSeconds { get; set; }
 
-    [CommandSwitch("--voice-id")]
+    [CliOption("--voice-id")]
     public string? VoiceId { get; set; }
 
-    [CommandSwitch("--checksum")]
+    [CliOption("--checksum")]
     public string? Checksum { get; set; }
 
-    [CommandSwitch("--process-behavior")]
+    [CliOption("--process-behavior")]
     public string? ProcessBehavior { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

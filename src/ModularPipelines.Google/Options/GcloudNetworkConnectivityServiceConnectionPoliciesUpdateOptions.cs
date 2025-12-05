@@ -5,22 +5,22 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-connectivity", "service-connection-policies", "update")]
+[CliCommand("network-connectivity", "service-connection-policies", "update")]
 public record GcloudNetworkConnectivityServiceConnectionPoliciesUpdateOptions(
-[property: PositionalArgument] string ServiceConnectionPolicy,
-[property: CommandSwitch("--subnets")] string[] Subnets,
-[property: CommandSwitch("--psc-connection-limit")] string PscConnectionLimit
+[property: CliArgument] string ServiceConnectionPolicy,
+[property: CliOption("--subnets")] string[] Subnets,
+[property: CliOption("--psc-connection-limit")] string PscConnectionLimit
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

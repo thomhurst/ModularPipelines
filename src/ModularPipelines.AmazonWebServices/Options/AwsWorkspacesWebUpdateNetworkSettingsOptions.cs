@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces-web", "update-network-settings")]
+[CliCommand("workspaces-web", "update-network-settings")]
 public record AwsWorkspacesWebUpdateNetworkSettingsOptions(
-[property: CommandSwitch("--network-settings-arn")] string NetworkSettingsArn
+[property: CliOption("--network-settings-arn")] string NetworkSettingsArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--security-group-ids")]
+    [CliOption("--security-group-ids")]
     public string[]? SecurityGroupIds { get; set; }
 
-    [CommandSwitch("--subnet-ids")]
+    [CliOption("--subnet-ids")]
     public string[]? SubnetIds { get; set; }
 
-    [CommandSwitch("--vpc-id")]
+    [CliOption("--vpc-id")]
     public string? VpcId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

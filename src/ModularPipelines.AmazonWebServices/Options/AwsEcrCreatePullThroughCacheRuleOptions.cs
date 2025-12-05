@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecr", "create-pull-through-cache-rule")]
+[CliCommand("ecr", "create-pull-through-cache-rule")]
 public record AwsEcrCreatePullThroughCacheRuleOptions(
-[property: CommandSwitch("--ecr-repository-prefix")] string EcrRepositoryPrefix,
-[property: CommandSwitch("--upstream-registry-url")] string UpstreamRegistryUrl,
-[property: CommandSwitch("--upstream-registry")] string UpstreamRegistry
+[property: CliOption("--ecr-repository-prefix")] string EcrRepositoryPrefix,
+[property: CliOption("--upstream-registry-url")] string UpstreamRegistryUrl,
+[property: CliOption("--upstream-registry")] string UpstreamRegistry
 ) : AwsOptions
 {
-    [CommandSwitch("--registry-id")]
+    [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
-    [CommandSwitch("--credential-arn")]
+    [CliOption("--credential-arn")]
     public string? CredentialArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataplex", "assets", "delete")]
+[CliCommand("dataplex", "assets", "delete")]
 public record GcloudDataplexAssetsDeleteOptions(
-[property: PositionalArgument] string Asset,
-[property: PositionalArgument] string Lake,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Zone
+[property: CliArgument] string Asset,
+[property: CliArgument] string Lake,
+[property: CliArgument] string Location,
+[property: CliArgument] string Zone
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

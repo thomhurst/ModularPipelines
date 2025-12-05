@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "create-db-proxy")]
+[CliCommand("rds", "create-db-proxy")]
 public record AwsRdsCreateDbProxyOptions(
-[property: CommandSwitch("--db-proxy-name")] string DbProxyName,
-[property: CommandSwitch("--engine-family")] string EngineFamily,
-[property: CommandSwitch("--auth")] string[] Auth,
-[property: CommandSwitch("--role-arn")] string RoleArn,
-[property: CommandSwitch("--vpc-subnet-ids")] string[] VpcSubnetIds
+[property: CliOption("--db-proxy-name")] string DbProxyName,
+[property: CliOption("--engine-family")] string EngineFamily,
+[property: CliOption("--auth")] string[] Auth,
+[property: CliOption("--role-arn")] string RoleArn,
+[property: CliOption("--vpc-subnet-ids")] string[] VpcSubnetIds
 ) : AwsOptions
 {
-    [CommandSwitch("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids")]
     public string[]? VpcSecurityGroupIds { get; set; }
 
-    [CommandSwitch("--idle-client-timeout")]
+    [CliOption("--idle-client-timeout")]
     public int? IdleClientTimeout { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

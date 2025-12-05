@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint", "update-sms-channel")]
+[CliCommand("pinpoint", "update-sms-channel")]
 public record AwsPinpointUpdateSmsChannelOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--sms-channel-request")] string SmsChannelRequest
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--sms-channel-request")] string SmsChannelRequest
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("payment-cryptography-data", "verify-auth-request-cryptogram")]
+[CliCommand("payment-cryptography-data", "verify-auth-request-cryptogram")]
 public record AwsPaymentCryptographyDataVerifyAuthRequestCryptogramOptions(
-[property: CommandSwitch("--auth-request-cryptogram")] string AuthRequestCryptogram,
-[property: CommandSwitch("--key-identifier")] string KeyIdentifier,
-[property: CommandSwitch("--major-key-derivation-mode")] string MajorKeyDerivationMode,
-[property: CommandSwitch("--session-key-derivation-attributes")] string SessionKeyDerivationAttributes,
-[property: CommandSwitch("--transaction-data")] string TransactionData
+[property: CliOption("--auth-request-cryptogram")] string AuthRequestCryptogram,
+[property: CliOption("--key-identifier")] string KeyIdentifier,
+[property: CliOption("--major-key-derivation-mode")] string MajorKeyDerivationMode,
+[property: CliOption("--session-key-derivation-attributes")] string SessionKeyDerivationAttributes,
+[property: CliOption("--transaction-data")] string TransactionData
 ) : AwsOptions
 {
-    [CommandSwitch("--auth-response-attributes")]
+    [CliOption("--auth-response-attributes")]
     public string? AuthResponseAttributes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

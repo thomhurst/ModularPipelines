@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amplifyuibuilder", "exchange-code-for-token")]
+[CliCommand("amplifyuibuilder", "exchange-code-for-token")]
 public record AwsAmplifyuibuilderExchangeCodeForTokenOptions(
-[property: CommandSwitch("--provider")] string Provider,
-[property: CommandSwitch("--request")] string Request
+[property: CliOption("--provider")] string Provider,
+[property: CliOption("--request")] string Request
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

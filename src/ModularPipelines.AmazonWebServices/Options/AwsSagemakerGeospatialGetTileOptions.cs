@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker-geospatial", "get-tile")]
+[CliCommand("sagemaker-geospatial", "get-tile")]
 public record AwsSagemakerGeospatialGetTileOptions(
-[property: CommandSwitch("--arn")] string Arn,
-[property: CommandSwitch("--image-assets")] string[] ImageAssets,
-[property: CommandSwitch("--target")] string Target,
-[property: CommandSwitch("--x")] int X,
-[property: CommandSwitch("--y")] int Y,
-[property: CommandSwitch("--z")] int Z
+[property: CliOption("--arn")] string Arn,
+[property: CliOption("--image-assets")] string[] ImageAssets,
+[property: CliOption("--target")] string Target,
+[property: CliOption("--x")] int X,
+[property: CliOption("--y")] int Y,
+[property: CliOption("--z")] int Z
 ) : AwsOptions
 {
-    [CommandSwitch("--execution-role-arn")]
+    [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
 
-    [CommandSwitch("--output-data-type")]
+    [CliOption("--output-data-type")]
     public string? OutputDataType { get; set; }
 
-    [CommandSwitch("--output-format")]
+    [CliOption("--output-format")]
     public string? OutputFormat { get; set; }
 
-    [CommandSwitch("--property-filters")]
+    [CliOption("--property-filters")]
     public string? PropertyFilters { get; set; }
 
-    [CommandSwitch("--time-range-filter")]
+    [CliOption("--time-range-filter")]
     public string? TimeRangeFilter { get; set; }
 }

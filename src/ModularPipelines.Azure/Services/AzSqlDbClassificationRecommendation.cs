@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "db", "classification")]
+[CliCommand("sql", "db", "classification")]
 public class AzSqlDbClassificationRecommendation
 {
     public AzSqlDbClassificationRecommendation(

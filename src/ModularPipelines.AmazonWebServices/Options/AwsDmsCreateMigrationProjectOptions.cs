@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "create-migration-project")]
+[CliCommand("dms", "create-migration-project")]
 public record AwsDmsCreateMigrationProjectOptions(
-[property: CommandSwitch("--source-data-provider-descriptors")] string[] SourceDataProviderDescriptors,
-[property: CommandSwitch("--target-data-provider-descriptors")] string[] TargetDataProviderDescriptors,
-[property: CommandSwitch("--instance-profile-identifier")] string InstanceProfileIdentifier
+[property: CliOption("--source-data-provider-descriptors")] string[] SourceDataProviderDescriptors,
+[property: CliOption("--target-data-provider-descriptors")] string[] TargetDataProviderDescriptors,
+[property: CliOption("--instance-profile-identifier")] string InstanceProfileIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--migration-project-name")]
+    [CliOption("--migration-project-name")]
     public string? MigrationProjectName { get; set; }
 
-    [CommandSwitch("--transformation-rules")]
+    [CliOption("--transformation-rules")]
     public string? TransformationRules { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--schema-conversion-application-attributes")]
+    [CliOption("--schema-conversion-application-attributes")]
     public string? SchemaConversionApplicationAttributes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

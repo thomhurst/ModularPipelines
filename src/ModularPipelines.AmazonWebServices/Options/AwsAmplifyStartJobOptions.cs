@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amplify", "start-job")]
+[CliCommand("amplify", "start-job")]
 public record AwsAmplifyStartJobOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--branch-name")] string BranchName,
-[property: CommandSwitch("--job-type")] string JobType
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--branch-name")] string BranchName,
+[property: CliOption("--job-type")] string JobType
 ) : AwsOptions
 {
-    [CommandSwitch("--job-id")]
+    [CliOption("--job-id")]
     public string? JobId { get; set; }
 
-    [CommandSwitch("--job-reason")]
+    [CliOption("--job-reason")]
     public string? JobReason { get; set; }
 
-    [CommandSwitch("--commit-id")]
+    [CliOption("--commit-id")]
     public string? CommitId { get; set; }
 
-    [CommandSwitch("--commit-message")]
+    [CliOption("--commit-message")]
     public string? CommitMessage { get; set; }
 
-    [CommandSwitch("--commit-time")]
+    [CliOption("--commit-time")]
     public long? CommitTime { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

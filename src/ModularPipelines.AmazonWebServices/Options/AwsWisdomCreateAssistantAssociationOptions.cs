@@ -5,19 +5,19 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wisdom", "create-assistant-association")]
+[CliCommand("wisdom", "create-assistant-association")]
 public record AwsWisdomCreateAssistantAssociationOptions(
-[property: CommandSwitch("--assistant-id")] string AssistantId,
-[property: CommandSwitch("--association")] string Association,
-[property: CommandSwitch("--association-type")] string AssociationType
+[property: CliOption("--assistant-id")] string AssistantId,
+[property: CliOption("--association")] string Association,
+[property: CliOption("--association-type")] string AssociationType
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

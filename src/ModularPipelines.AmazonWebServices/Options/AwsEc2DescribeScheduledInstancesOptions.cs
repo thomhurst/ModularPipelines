@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "describe-scheduled-instances")]
+[CliCommand("ec2", "describe-scheduled-instances")]
 public record AwsEc2DescribeScheduledInstancesOptions : AwsOptions
 {
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--scheduled-instance-ids")]
+    [CliOption("--scheduled-instance-ids")]
     public string[]? ScheduledInstanceIds { get; set; }
 
-    [CommandSwitch("--slot-start-time-range")]
+    [CliOption("--slot-start-time-range")]
     public string? SlotStartTimeRange { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

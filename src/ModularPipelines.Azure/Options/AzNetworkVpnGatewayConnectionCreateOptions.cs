@@ -4,56 +4,56 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vpn-gateway", "connection", "create")]
+[CliSubCommand("network", "vpn-gateway", "connection", "create")]
 public record AzNetworkVpnGatewayConnectionCreateOptions(
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--remote-vpn-site")] string RemoteVpnSite,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--remote-vpn-site")] string RemoteVpnSite,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--associated")]
+    [CliOption("--associated")]
     public string? Associated { get; set; }
 
-    [CommandSwitch("--associated-inbound-routemap")]
+    [CliOption("--associated-inbound-routemap")]
     public string? AssociatedInboundRoutemap { get; set; }
 
-    [CommandSwitch("--associated-outbound-routemap")]
+    [CliOption("--associated-outbound-routemap")]
     public string? AssociatedOutboundRoutemap { get; set; }
 
-    [CommandSwitch("--connection-bandwidth")]
+    [CliOption("--connection-bandwidth")]
     public string? ConnectionBandwidth { get; set; }
 
-    [BooleanCommandSwitch("--enable-bgp")]
+    [CliFlag("--enable-bgp")]
     public bool? EnableBgp { get; set; }
 
-    [BooleanCommandSwitch("--internet-security")]
+    [CliFlag("--internet-security")]
     public bool? InternetSecurity { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--propagated")]
+    [CliOption("--propagated")]
     public string? Propagated { get; set; }
 
-    [CommandSwitch("--protocol-type")]
+    [CliOption("--protocol-type")]
     public string? ProtocolType { get; set; }
 
-    [BooleanCommandSwitch("--rate-limiting")]
+    [CliFlag("--rate-limiting")]
     public bool? RateLimiting { get; set; }
 
-    [CommandSwitch("--routing-weight")]
+    [CliOption("--routing-weight")]
     public string? RoutingWeight { get; set; }
 
-    [CommandSwitch("--shared-key")]
+    [CliOption("--shared-key")]
     public string? SharedKey { get; set; }
 
-    [CommandSwitch("--vpn-site-link")]
+    [CliOption("--vpn-site-link")]
     public string? VpnSiteLink { get; set; }
 
-    [BooleanCommandSwitch("--with-link")]
+    [CliFlag("--with-link")]
     public bool? WithLink { get; set; }
 }

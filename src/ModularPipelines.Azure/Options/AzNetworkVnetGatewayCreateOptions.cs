@@ -4,88 +4,88 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vnet-gateway", "create")]
+[CliSubCommand("network", "vnet-gateway", "create")]
 public record AzNetworkVnetGatewayCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vnet")] string Vnet
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vnet")] string Vnet
 ) : AzOptions
 {
-    [CommandSwitch("--aad-audience")]
+    [CliOption("--aad-audience")]
     public string? AadAudience { get; set; }
 
-    [CommandSwitch("--aad-issuer")]
+    [CliOption("--aad-issuer")]
     public string? AadIssuer { get; set; }
 
-    [CommandSwitch("--aad-tenant")]
+    [CliOption("--aad-tenant")]
     public string? AadTenant { get; set; }
 
-    [CommandSwitch("--address-prefix")]
+    [CliOption("--address-prefix")]
     public string? AddressPrefix { get; set; }
 
-    [CommandSwitch("--asn")]
+    [CliOption("--asn")]
     public string? Asn { get; set; }
 
-    [CommandSwitch("--bgp-peering-address")]
+    [CliOption("--bgp-peering-address")]
     public string? BgpPeeringAddress { get; set; }
 
-    [CommandSwitch("--client-protocol")]
+    [CliOption("--client-protocol")]
     public string? ClientProtocol { get; set; }
 
-    [CommandSwitch("--custom-routes")]
+    [CliOption("--custom-routes")]
     public string? CustomRoutes { get; set; }
 
-    [CommandSwitch("--edge-zone")]
+    [CliOption("--edge-zone")]
     public string? EdgeZone { get; set; }
 
-    [CommandSwitch("--edge-zone-vnet-id")]
+    [CliOption("--edge-zone-vnet-id")]
     public string? EdgeZoneVnetId { get; set; }
 
-    [CommandSwitch("--gateway-default-site")]
+    [CliOption("--gateway-default-site")]
     public string? GatewayDefaultSite { get; set; }
 
-    [CommandSwitch("--gateway-type")]
+    [CliOption("--gateway-type")]
     public string? GatewayType { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--nat-rule")]
+    [CliOption("--nat-rule")]
     public string? NatRule { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--peer-weight")]
+    [CliOption("--peer-weight")]
     public string? PeerWeight { get; set; }
 
-    [CommandSwitch("--public-ip-address")]
+    [CliOption("--public-ip-address")]
     public string? PublicIpAddress { get; set; }
 
-    [CommandSwitch("--radius-secret")]
+    [CliOption("--radius-secret")]
     public string? RadiusSecret { get; set; }
 
-    [CommandSwitch("--radius-server")]
+    [CliOption("--radius-server")]
     public string? RadiusServer { get; set; }
 
-    [CommandSwitch("--root-cert-data")]
+    [CliOption("--root-cert-data")]
     public string? RootCertData { get; set; }
 
-    [CommandSwitch("--root-cert-name")]
+    [CliOption("--root-cert-name")]
     public string? RootCertName { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--vpn-auth-type")]
+    [CliOption("--vpn-auth-type")]
     public string? VpnAuthType { get; set; }
 
-    [CommandSwitch("--vpn-gateway-generation")]
+    [CliOption("--vpn-gateway-generation")]
     public string? VpnGatewayGeneration { get; set; }
 
-    [CommandSwitch("--vpn-type")]
+    [CliOption("--vpn-type")]
     public string? VpnType { get; set; }
 }

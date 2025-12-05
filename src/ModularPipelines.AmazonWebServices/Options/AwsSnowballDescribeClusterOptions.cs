@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("snowball", "describe-cluster")]
+[CliCommand("snowball", "describe-cluster")]
 public record AwsSnowballDescribeClusterOptions(
-[property: CommandSwitch("--cluster-id")] string ClusterId
+[property: CliOption("--cluster-id")] string ClusterId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managed-cassandra", "cluster", "deallocate")]
+[CliCommand("managed-cassandra", "cluster", "deallocate")]
 public class AzManagedCassandraClusterDeallocateCosmosdbPreview
 {
     public AzManagedCassandraClusterDeallocateCosmosdbPreview(

@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datastream", "routes", "create")]
+[CliCommand("datastream", "routes", "create")]
 public record GcloudDatastreamRoutesCreateOptions(
-[property: PositionalArgument] string Route,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string PrivateConnection,
-[property: CommandSwitch("--destination-address")] string DestinationAddress,
-[property: CommandSwitch("--display-name")] string DisplayName
+[property: CliArgument] string Route,
+[property: CliArgument] string Location,
+[property: CliArgument] string PrivateConnection,
+[property: CliOption("--destination-address")] string DestinationAddress,
+[property: CliOption("--display-name")] string DisplayName
 ) : GcloudOptions
 {
-    [CommandSwitch("--destination-port")]
+    [CliOption("--destination-port")]
     public string? DestinationPort { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 }

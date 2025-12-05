@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "networks", "subnets", "expand-ip-range")]
+[CliCommand("compute", "networks", "subnets", "expand-ip-range")]
 public record GcloudComputeNetworksSubnetsExpandIpRangeOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--prefix-length")] string PrefixLength
+[property: CliArgument] string Name,
+[property: CliOption("--prefix-length")] string PrefixLength
 ) : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

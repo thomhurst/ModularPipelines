@@ -5,38 +5,38 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutmetrics", "create-metric-set")]
+[CliCommand("lookoutmetrics", "create-metric-set")]
 public record AwsLookoutmetricsCreateMetricSetOptions(
-[property: CommandSwitch("--anomaly-detector-arn")] string AnomalyDetectorArn,
-[property: CommandSwitch("--metric-set-name")] string MetricSetName,
-[property: CommandSwitch("--metric-list")] string[] MetricList,
-[property: CommandSwitch("--metric-source")] string MetricSource
+[property: CliOption("--anomaly-detector-arn")] string AnomalyDetectorArn,
+[property: CliOption("--metric-set-name")] string MetricSetName,
+[property: CliOption("--metric-list")] string[] MetricList,
+[property: CliOption("--metric-source")] string MetricSource
 ) : AwsOptions
 {
-    [CommandSwitch("--metric-set-description")]
+    [CliOption("--metric-set-description")]
     public string? MetricSetDescription { get; set; }
 
-    [CommandSwitch("--offset")]
+    [CliOption("--offset")]
     public int? Offset { get; set; }
 
-    [CommandSwitch("--timestamp-column")]
+    [CliOption("--timestamp-column")]
     public string? TimestampColumn { get; set; }
 
-    [CommandSwitch("--dimension-list")]
+    [CliOption("--dimension-list")]
     public string[]? DimensionList { get; set; }
 
-    [CommandSwitch("--metric-set-frequency")]
+    [CliOption("--metric-set-frequency")]
     public string? MetricSetFrequency { get; set; }
 
-    [CommandSwitch("--timezone")]
+    [CliOption("--timezone")]
     public string? Timezone { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--dimension-filter-list")]
+    [CliOption("--dimension-filter-list")]
     public string[]? DimensionFilterList { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

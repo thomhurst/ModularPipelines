@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "describe-script")]
+[CliCommand("gamelift", "describe-script")]
 public record AwsGameliftDescribeScriptOptions(
-[property: CommandSwitch("--script-id")] string ScriptId
+[property: CliOption("--script-id")] string ScriptId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

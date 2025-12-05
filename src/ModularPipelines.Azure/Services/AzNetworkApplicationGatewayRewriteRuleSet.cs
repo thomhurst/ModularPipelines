@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "rewrite-rule")]
+[CliCommand("network", "application-gateway", "rewrite-rule")]
 public class AzNetworkApplicationGatewayRewriteRuleSet
 {
     public AzNetworkApplicationGatewayRewriteRuleSet(

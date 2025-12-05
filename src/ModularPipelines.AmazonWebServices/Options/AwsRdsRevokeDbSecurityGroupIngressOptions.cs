@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "revoke-db-security-group-ingress")]
+[CliCommand("rds", "revoke-db-security-group-ingress")]
 public record AwsRdsRevokeDbSecurityGroupIngressOptions(
-[property: CommandSwitch("--db-security-group-name")] string DbSecurityGroupName
+[property: CliOption("--db-security-group-name")] string DbSecurityGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--cidrip")]
+    [CliOption("--cidrip")]
     public string? Cidrip { get; set; }
 
-    [CommandSwitch("--ec2-security-group-name")]
+    [CliOption("--ec2-security-group-name")]
     public string? Ec2SecurityGroupName { get; set; }
 
-    [CommandSwitch("--ec2-security-group-id")]
+    [CliOption("--ec2-security-group-id")]
     public string? Ec2SecurityGroupId { get; set; }
 
-    [CommandSwitch("--ec2-security-group-owner-id")]
+    [CliOption("--ec2-security-group-owner-id")]
     public string? Ec2SecurityGroupOwnerId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "application", "set")]
+[CliSubCommand("vm", "application", "set")]
 public record AzVmApplicationSetOptions(
-[property: CommandSwitch("--app-version-ids")] string AppVersionIds
+[property: CliOption("--app-version-ids")] string AppVersionIds
 ) : AzOptions
 {
-    [CommandSwitch("--app-config-overrides")]
+    [CliOption("--app-config-overrides")]
     public string? AppConfigOverrides { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--order-applications")]
+    [CliFlag("--order-applications")]
     public bool? OrderApplications { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--treat-deployment-as-failure")]
+    [CliOption("--treat-deployment-as-failure")]
     public string? TreatDeploymentAsFailure { get; set; }
 }

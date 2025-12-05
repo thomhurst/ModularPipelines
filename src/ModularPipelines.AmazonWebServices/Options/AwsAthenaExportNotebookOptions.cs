@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("athena", "export-notebook")]
+[CliCommand("athena", "export-notebook")]
 public record AwsAthenaExportNotebookOptions(
-[property: CommandSwitch("--notebook-id")] string NotebookId
+[property: CliOption("--notebook-id")] string NotebookId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

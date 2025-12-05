@@ -11,75 +11,75 @@ public record AptGetOptions : CommandLineToolOptions
         Sudo = true;
     }
 
-    [BooleanCommandSwitch("--download-only")]
+    [CliFlag("--download-only")]
     public virtual bool? DownloadOnly { get; set; }
 
-    [BooleanCommandSwitch("--fix-broken")]
+    [CliFlag("--fix-broken")]
     public virtual bool? FixBroken { get; set; }
 
-    [BooleanCommandSwitch("--fix-missing")]
+    [CliFlag("--fix-missing")]
     public virtual bool? FixMissing { get; set; }
 
-    [BooleanCommandSwitch("--no-download")]
+    [CliFlag("--no-download")]
     public virtual bool? NoDownload { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("--assume-yes")]
+    [CliFlag("--assume-yes")]
     public virtual bool? AssumeYes { get; set; } = true;
 
-    [BooleanCommandSwitch("--show-upgraded")]
+    [CliFlag("--show-upgraded")]
     public virtual bool? ShowUpgraded { get; set; }
 
-    [BooleanCommandSwitch("--verbose-versions")]
+    [CliFlag("--verbose-versions")]
     public virtual bool? VerboseVersions { get; set; }
 
-    [BooleanCommandSwitch("--build")]
+    [CliFlag("--build")]
     public virtual bool? Build { get; set; }
 
-    [BooleanCommandSwitch("--ignore-hold")]
+    [CliFlag("--ignore-hold")]
     public virtual bool? IgnoreHold { get; set; }
 
-    [BooleanCommandSwitch("--no-upgrade")]
+    [CliFlag("--no-upgrade")]
     public virtual bool? NoUpgrade { get; set; }
 
-    [BooleanCommandSwitch("--force-yes")]
+    [CliFlag("--force-yes")]
     public virtual bool? ForceYes { get; set; }
 
-    [BooleanCommandSwitch("--print-uris")]
+    [CliFlag("--print-uris")]
     public virtual bool? PrintUris { get; set; }
 
-    [BooleanCommandSwitch("--reinstall")]
+    [CliFlag("--reinstall")]
     public virtual bool? Reinstall { get; set; }
 
-    [BooleanCommandSwitch("--list-cleanup")]
+    [CliFlag("--list-cleanup")]
     public virtual bool? ListCleanup { get; set; }
 
-    [BooleanCommandSwitch("--default-release")]
+    [CliFlag("--default-release")]
     public virtual bool? DefaultRelease { get; set; }
 
-    [BooleanCommandSwitch("--trivial-only")]
+    [CliFlag("--trivial-only")]
     public virtual bool? TrivialOnly { get; set; }
 
-    [BooleanCommandSwitch("--no-remove")]
+    [CliFlag("--no-remove")]
     public virtual bool? NoRemove { get; set; }
 
-    [BooleanCommandSwitch("--only-source")]
+    [CliFlag("--only-source")]
     public virtual bool? OnlySource { get; set; }
 
-    [BooleanCommandSwitch("--help")]
+    [CliFlag("--help")]
     public virtual bool? Help { get; set; }
 
-    [BooleanCommandSwitch("--version")]
+    [CliFlag("--version")]
     public virtual bool? Version { get; set; }
 
-    [BooleanCommandSwitch("--config-file")]
+    [CliFlag("--config-file")]
     public virtual bool? ConfigFile { get; set; }
 
-    [BooleanCommandSwitch("--option")]
+    [CliFlag("--option")]
     public virtual bool? Option { get; set; }
 }

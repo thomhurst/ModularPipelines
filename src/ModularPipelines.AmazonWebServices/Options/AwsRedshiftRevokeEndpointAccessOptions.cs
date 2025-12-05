@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "revoke-endpoint-access")]
+[CliCommand("redshift", "revoke-endpoint-access")]
 public record AwsRedshiftRevokeEndpointAccessOptions : AwsOptions
 {
-    [CommandSwitch("--cluster-identifier")]
+    [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
 
-    [CommandSwitch("--account")]
+    [CliOption("--account")]
     public string? Account { get; set; }
 
-    [CommandSwitch("--vpc-ids")]
+    [CliOption("--vpc-ids")]
     public string[]? VpcIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

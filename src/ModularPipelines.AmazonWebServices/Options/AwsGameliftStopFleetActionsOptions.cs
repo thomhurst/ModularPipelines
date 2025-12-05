@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "stop-fleet-actions")]
+[CliCommand("gamelift", "stop-fleet-actions")]
 public record AwsGameliftStopFleetActionsOptions(
-[property: CommandSwitch("--fleet-id")] string FleetId,
-[property: CommandSwitch("--actions")] string[] Actions
+[property: CliOption("--fleet-id")] string FleetId,
+[property: CliOption("--actions")] string[] Actions
 ) : AwsOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

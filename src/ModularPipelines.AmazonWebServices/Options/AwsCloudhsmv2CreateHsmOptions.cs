@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudhsmv2", "create-hsm")]
+[CliCommand("cloudhsmv2", "create-hsm")]
 public record AwsCloudhsmv2CreateHsmOptions(
-[property: CommandSwitch("--cluster-id")] string ClusterId,
-[property: CommandSwitch("--availability-zone")] string AvailabilityZone
+[property: CliOption("--cluster-id")] string ClusterId,
+[property: CliOption("--availability-zone")] string AvailabilityZone
 ) : AwsOptions
 {
-    [CommandSwitch("--ip-address")]
+    [CliOption("--ip-address")]
     public string? IpAddress { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

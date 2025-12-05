@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "list-deployments")]
+[CliCommand("deploy", "list-deployments")]
 public record AwsDeployListDeploymentsOptions : AwsOptions
 {
-    [CommandSwitch("--application-name")]
+    [CliOption("--application-name")]
     public string? ApplicationName { get; set; }
 
-    [CommandSwitch("--deployment-group-name")]
+    [CliOption("--deployment-group-name")]
     public string? DeploymentGroupName { get; set; }
 
-    [CommandSwitch("--external-id")]
+    [CliOption("--external-id")]
     public string? ExternalId { get; set; }
 
-    [CommandSwitch("--include-only-statuses")]
+    [CliOption("--include-only-statuses")]
     public string[]? IncludeOnlyStatuses { get; set; }
 
-    [CommandSwitch("--create-time-range")]
+    [CliOption("--create-time-range")]
     public string? CreateTimeRange { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

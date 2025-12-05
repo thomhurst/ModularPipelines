@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "device-identity", "export")]
+[CliSubCommand("iot", "hub", "device-identity", "export")]
 public record AzIotHubDeviceIdentityExportOptions : AzOptions
 {
-    [CommandSwitch("--auth-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [CommandSwitch("--bc")]
+    [CliOption("--bc")]
     public string? Bc { get; set; }
 
-    [CommandSwitch("--bcu")]
+    [CliOption("--bcu")]
     public string? Bcu { get; set; }
 
-    [CommandSwitch("--hub-name")]
+    [CliOption("--hub-name")]
     public string? HubName { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [BooleanCommandSwitch("--ik")]
+    [CliFlag("--ik")]
     public bool? Ik { get; set; }
 
-    [CommandSwitch("--login")]
+    [CliOption("--login")]
     public string? Login { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--sa")]
+    [CliOption("--sa")]
     public string? Sa { get; set; }
 }

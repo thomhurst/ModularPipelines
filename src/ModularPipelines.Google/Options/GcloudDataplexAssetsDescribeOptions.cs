@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataplex", "assets", "describe")]
+[CliCommand("dataplex", "assets", "describe")]
 public record GcloudDataplexAssetsDescribeOptions(
-[property: PositionalArgument] string Asset,
-[property: PositionalArgument] string Lake,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Zone
+[property: CliArgument] string Asset,
+[property: CliArgument] string Lake,
+[property: CliArgument] string Location,
+[property: CliArgument] string Zone
 ) : GcloudOptions;

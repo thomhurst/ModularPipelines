@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer")]
+[CliCommand("transfer")]
 public class GcloudTransferOperations
 {
     public GcloudTransferOperations(

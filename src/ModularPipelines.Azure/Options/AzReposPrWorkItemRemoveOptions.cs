@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repos", "pr", "work-item", "remove")]
+[CliSubCommand("repos", "pr", "work-item", "remove")]
 public record AzReposPrWorkItemRemoveOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--work-items")] string WorkItems
+[property: CliOption("--id")] string Id,
+[property: CliOption("--work-items")] string WorkItems
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 }

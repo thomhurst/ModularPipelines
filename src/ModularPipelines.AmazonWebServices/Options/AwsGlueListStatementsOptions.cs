@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "list-statements")]
+[CliCommand("glue", "list-statements")]
 public record AwsGlueListStatementsOptions(
-[property: CommandSwitch("--session-id")] string SessionId
+[property: CliOption("--session-id")] string SessionId
 ) : AwsOptions
 {
-    [CommandSwitch("--request-origin")]
+    [CliOption("--request-origin")]
     public string? RequestOrigin { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

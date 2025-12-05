@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("marketplace-catalog", "describe-entity")]
+[CliCommand("marketplace-catalog", "describe-entity")]
 public record AwsMarketplaceCatalogDescribeEntityOptions(
-[property: CommandSwitch("--catalog")] string Catalog,
-[property: CommandSwitch("--entity-id")] string EntityId
+[property: CliOption("--catalog")] string Catalog,
+[property: CliOption("--entity-id")] string EntityId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

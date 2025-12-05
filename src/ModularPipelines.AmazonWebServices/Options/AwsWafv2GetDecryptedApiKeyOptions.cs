@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wafv2", "get-decrypted-api-key")]
+[CliCommand("wafv2", "get-decrypted-api-key")]
 public record AwsWafv2GetDecryptedApiKeyOptions(
-[property: CommandSwitch("--scope")] string Scope,
-[property: CommandSwitch("--api-key")] string ApiKey
+[property: CliOption("--scope")] string Scope,
+[property: CliOption("--api-key")] string ApiKey
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

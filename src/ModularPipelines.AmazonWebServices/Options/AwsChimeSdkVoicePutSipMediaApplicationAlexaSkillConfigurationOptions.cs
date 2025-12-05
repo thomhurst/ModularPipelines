@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-voice", "put-sip-media-application-alexa-skill-configuration")]
+[CliCommand("chime-sdk-voice", "put-sip-media-application-alexa-skill-configuration")]
 public record AwsChimeSdkVoicePutSipMediaApplicationAlexaSkillConfigurationOptions(
-[property: CommandSwitch("--sip-media-application-id")] string SipMediaApplicationId
+[property: CliOption("--sip-media-application-id")] string SipMediaApplicationId
 ) : AwsOptions
 {
-    [CommandSwitch("--sip-media-application-alexa-skill-configuration")]
+    [CliOption("--sip-media-application-alexa-skill-configuration")]
     public string? SipMediaApplicationAlexaSkillConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

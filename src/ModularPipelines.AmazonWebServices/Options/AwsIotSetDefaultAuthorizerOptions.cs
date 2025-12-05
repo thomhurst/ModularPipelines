@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "set-default-authorizer")]
+[CliCommand("iot", "set-default-authorizer")]
 public record AwsIotSetDefaultAuthorizerOptions(
-[property: CommandSwitch("--authorizer-name")] string AuthorizerName
+[property: CliOption("--authorizer-name")] string AuthorizerName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

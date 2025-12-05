@@ -5,33 +5,33 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts", "repositories", "update")]
+[CliCommand("artifacts", "repositories", "update")]
 public record GcloudArtifactsRepositoriesUpdateOptions(
-[property: PositionalArgument] string Repository,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Repository,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--immutable-tags")]
+    [CliFlag("--immutable-tags")]
     public bool? ImmutableTags { get; set; }
 
-    [CommandSwitch("--remote-password-secret-version")]
+    [CliOption("--remote-password-secret-version")]
     public string? RemotePasswordSecretVersion { get; set; }
 
-    [CommandSwitch("--remote-username")]
+    [CliOption("--remote-username")]
     public string? RemoteUsername { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [CommandSwitch("--upstream-policy-file")]
+    [CliOption("--upstream-policy-file")]
     public string? UpstreamPolicyFile { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 }

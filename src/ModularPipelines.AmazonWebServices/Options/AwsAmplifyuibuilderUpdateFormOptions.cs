@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amplifyuibuilder", "update-form")]
+[CliCommand("amplifyuibuilder", "update-form")]
 public record AwsAmplifyuibuilderUpdateFormOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--environment-name")] string EnvironmentName,
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--updated-form")] string UpdatedForm
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--environment-name")] string EnvironmentName,
+[property: CliOption("--id")] string Id,
+[property: CliOption("--updated-form")] string UpdatedForm
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "express-route", "create")]
+[CliSubCommand("network", "express-route", "create")]
 public record AzNetworkExpressRouteCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--allow-classic-operations")]
+    [CliFlag("--allow-classic-operations")]
     public bool? AllowClassicOperations { get; set; }
 
-    [BooleanCommandSwitch("--allow-global-reach")]
+    [CliFlag("--allow-global-reach")]
     public bool? AllowGlobalReach { get; set; }
 
-    [CommandSwitch("--bandwidth")]
+    [CliOption("--bandwidth")]
     public string? Bandwidth { get; set; }
 
-    [CommandSwitch("--express-route-port")]
+    [CliOption("--express-route-port")]
     public string? ExpressRoutePort { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--peering-location")]
+    [CliOption("--peering-location")]
     public string? PeeringLocation { get; set; }
 
-    [CommandSwitch("--provider")]
+    [CliOption("--provider")]
     public string? Provider { get; set; }
 
-    [CommandSwitch("--sku-family")]
+    [CliOption("--sku-family")]
     public string? SkuFamily { get; set; }
 
-    [CommandSwitch("--sku-tier")]
+    [CliOption("--sku-tier")]
     public string? SkuTier { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

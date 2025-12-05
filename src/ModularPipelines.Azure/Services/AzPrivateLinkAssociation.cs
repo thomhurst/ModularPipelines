@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("private-link")]
+[CliCommand("private-link")]
 public class AzPrivateLinkAssociation
 {
     public AzPrivateLinkAssociation(

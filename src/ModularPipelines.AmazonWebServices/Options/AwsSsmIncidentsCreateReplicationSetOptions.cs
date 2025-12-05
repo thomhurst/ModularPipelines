@@ -5,17 +5,17 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm-incidents", "create-replication-set")]
+[CliCommand("ssm-incidents", "create-replication-set")]
 public record AwsSsmIncidentsCreateReplicationSetOptions(
-[property: CommandSwitch("--regions")] IEnumerable<KeyValue> Regions
+[property: CliOption("--regions")] IEnumerable<KeyValue> Regions
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("textract", "start-document-text-detection")]
+[CliCommand("textract", "start-document-text-detection")]
 public record AwsTextractStartDocumentTextDetectionOptions(
-[property: CommandSwitch("--document-location")] string DocumentLocation
+[property: CliOption("--document-location")] string DocumentLocation
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--job-tag")]
+    [CliOption("--job-tag")]
     public string? JobTag { get; set; }
 
-    [CommandSwitch("--notification-channel")]
+    [CliOption("--notification-channel")]
     public string? NotificationChannel { get; set; }
 
-    [CommandSwitch("--output-config")]
+    [CliOption("--output-config")]
     public string? OutputConfig { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

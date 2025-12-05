@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("timestream-write", "create-table")]
+[CliCommand("timestream-write", "create-table")]
 public record AwsTimestreamWriteCreateTableOptions(
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--table-name")] string TableName
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--table-name")] string TableName
 ) : AwsOptions
 {
-    [CommandSwitch("--retention-properties")]
+    [CliOption("--retention-properties")]
     public string? RetentionProperties { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--magnetic-store-write-properties")]
+    [CliOption("--magnetic-store-write-properties")]
     public string? MagneticStoreWriteProperties { get; set; }
 
-    [CommandSwitch("--schema")]
+    [CliOption("--schema")]
     public string? Schema { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

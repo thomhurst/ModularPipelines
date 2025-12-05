@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-manager", "tags", "keys", "get-iam-policy")]
+[CliCommand("resource-manager", "tags", "keys", "get-iam-policy")]
 public record GcloudResourceManagerTagsKeysGetIamPolicyOptions(
-[property: PositionalArgument] string ResourceName
+[property: CliArgument] string ResourceName
 ) : GcloudOptions;

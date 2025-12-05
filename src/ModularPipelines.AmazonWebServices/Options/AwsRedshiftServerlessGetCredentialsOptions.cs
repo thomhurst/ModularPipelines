@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift-serverless", "get-credentials")]
+[CliCommand("redshift-serverless", "get-credentials")]
 public record AwsRedshiftServerlessGetCredentialsOptions : AwsOptions
 {
-    [CommandSwitch("--custom-domain-name")]
+    [CliOption("--custom-domain-name")]
     public string? CustomDomainName { get; set; }
 
-    [CommandSwitch("--db-name")]
+    [CliOption("--db-name")]
     public string? DbName { get; set; }
 
-    [CommandSwitch("--duration-seconds")]
+    [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
-    [CommandSwitch("--workgroup-name")]
+    [CliOption("--workgroup-name")]
     public string? WorkgroupName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

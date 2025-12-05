@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datashare", "consumer-invitation", "reject-invitation")]
+[CliSubCommand("datashare", "consumer-invitation", "reject-invitation")]
 public record AzDatashareConsumerInvitationRejectInvitationOptions(
-[property: CommandSwitch("--invitation-id")] string InvitationId,
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--invitation-id")] string InvitationId,
+[property: CliOption("--location")] string Location
 ) : AzOptions;

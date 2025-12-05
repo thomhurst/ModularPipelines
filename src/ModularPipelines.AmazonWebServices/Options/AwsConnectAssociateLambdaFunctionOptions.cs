@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "associate-lambda-function")]
+[CliCommand("connect", "associate-lambda-function")]
 public record AwsConnectAssociateLambdaFunctionOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--function-arn")] string FunctionArn
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--function-arn")] string FunctionArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

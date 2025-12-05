@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint", "get-segment-version")]
+[CliCommand("pinpoint", "get-segment-version")]
 public record AwsPinpointGetSegmentVersionOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--segment-id")] string SegmentId,
-[property: CommandSwitch("--segment-version")] string SegmentVersion
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--segment-id")] string SegmentId,
+[property: CliOption("--segment-version")] string SegmentVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

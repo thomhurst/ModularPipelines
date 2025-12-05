@@ -4,37 +4,37 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datamigration", "sql-vm", "create")]
+[CliSubCommand("datamigration", "sql-vm", "create")]
 public record AzDatamigrationSqlVmCreateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sql-vm-name")] string SqlVmName,
-[property: CommandSwitch("--target-db-name")] string TargetDbName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sql-vm-name")] string SqlVmName,
+[property: CliOption("--target-db-name")] string TargetDbName
 ) : AzOptions
 {
-    [CommandSwitch("--migration-service")]
+    [CliOption("--migration-service")]
     public string? MigrationService { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--offline-configuration")]
+    [CliOption("--offline-configuration")]
     public string? OfflineConfiguration { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--source-database-name")]
+    [CliOption("--source-database-name")]
     public string? SourceDatabaseName { get; set; }
 
-    [CommandSwitch("--source-location")]
+    [CliOption("--source-location")]
     public string? SourceLocation { get; set; }
 
-    [CommandSwitch("--source-sql-connection")]
+    [CliOption("--source-sql-connection")]
     public string? SourceSqlConnection { get; set; }
 
-    [CommandSwitch("--target-db-collation")]
+    [CliOption("--target-db-collation")]
     public string? TargetDbCollation { get; set; }
 
-    [CommandSwitch("--target-location")]
+    [CliOption("--target-location")]
     public string? TargetLocation { get; set; }
 }

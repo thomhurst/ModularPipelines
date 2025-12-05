@@ -4,108 +4,108 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "vm", "create")]
+[CliSubCommand("sql", "vm", "create")]
 public record AzSqlVmCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--backup-pwd")]
+    [CliOption("--backup-pwd")]
     public string? BackupPwd { get; set; }
 
-    [CommandSwitch("--backup-schedule-type")]
+    [CliOption("--backup-schedule-type")]
     public string? BackupScheduleType { get; set; }
 
-    [BooleanCommandSwitch("--backup-system-dbs")]
+    [CliFlag("--backup-system-dbs")]
     public bool? BackupSystemDbs { get; set; }
 
-    [CommandSwitch("--connectivity-type")]
+    [CliOption("--connectivity-type")]
     public string? ConnectivityType { get; set; }
 
-    [CommandSwitch("--credential-name")]
+    [CliOption("--credential-name")]
     public string? CredentialName { get; set; }
 
-    [CommandSwitch("--day-of-week")]
+    [CliOption("--day-of-week")]
     public string? DayOfWeek { get; set; }
 
-    [BooleanCommandSwitch("--enable-auto-backup")]
+    [CliFlag("--enable-auto-backup")]
     public bool? EnableAutoBackup { get; set; }
 
-    [BooleanCommandSwitch("--enable-auto-patching")]
+    [CliFlag("--enable-auto-patching")]
     public bool? EnableAutoPatching { get; set; }
 
-    [BooleanCommandSwitch("--enable-encryption")]
+    [CliFlag("--enable-encryption")]
     public bool? EnableEncryption { get; set; }
 
-    [BooleanCommandSwitch("--enable-key-vault-credential")]
+    [CliFlag("--enable-key-vault-credential")]
     public bool? EnableKeyVaultCredential { get; set; }
 
-    [BooleanCommandSwitch("--enable-r-services")]
+    [CliFlag("--enable-r-services")]
     public bool? EnableRServices { get; set; }
 
-    [CommandSwitch("--full-backup-duration")]
+    [CliOption("--full-backup-duration")]
     public string? FullBackupDuration { get; set; }
 
-    [CommandSwitch("--full-backup-frequency")]
+    [CliOption("--full-backup-frequency")]
     public string? FullBackupFrequency { get; set; }
 
-    [CommandSwitch("--full-backup-start-hour")]
+    [CliOption("--full-backup-start-hour")]
     public string? FullBackupStartHour { get; set; }
 
-    [CommandSwitch("--image-offer")]
+    [CliOption("--image-offer")]
     public string? ImageOffer { get; set; }
 
-    [CommandSwitch("--image-sku")]
+    [CliOption("--image-sku")]
     public string? ImageSku { get; set; }
 
-    [CommandSwitch("--key-vault")]
+    [CliOption("--key-vault")]
     public string? KeyVault { get; set; }
 
-    [CommandSwitch("--least-privilege-mode")]
+    [CliOption("--least-privilege-mode")]
     public string? LeastPrivilegeMode { get; set; }
 
-    [CommandSwitch("--license-type")]
+    [CliOption("--license-type")]
     public string? LicenseType { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--log-backup-frequency")]
+    [CliOption("--log-backup-frequency")]
     public string? LogBackupFrequency { get; set; }
 
-    [CommandSwitch("--maintenance-window-duration")]
+    [CliOption("--maintenance-window-duration")]
     public string? MaintenanceWindowDuration { get; set; }
 
-    [CommandSwitch("--maintenance-window-start-hour")]
+    [CliOption("--maintenance-window-start-hour")]
     public string? MaintenanceWindowStartHour { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--retention-period")]
+    [CliOption("--retention-period")]
     public string? RetentionPeriod { get; set; }
 
-    [CommandSwitch("--sa-key")]
+    [CliOption("--sa-key")]
     public string? SaKey { get; set; }
 
-    [CommandSwitch("--sp-name")]
+    [CliOption("--sp-name")]
     public string? SpName { get; set; }
 
-    [CommandSwitch("--sp-secret")]
+    [CliOption("--sp-secret")]
     public string? SpSecret { get; set; }
 
-    [CommandSwitch("--sql-auth-update-pwd")]
+    [CliOption("--sql-auth-update-pwd")]
     public string? SqlAuthUpdatePwd { get; set; }
 
-    [CommandSwitch("--sql-auth-update-username")]
+    [CliOption("--sql-auth-update-username")]
     public string? SqlAuthUpdateUsername { get; set; }
 
-    [CommandSwitch("--sql-workload-type")]
+    [CliOption("--sql-workload-type")]
     public string? SqlWorkloadType { get; set; }
 
-    [CommandSwitch("--storage-account")]
+    [CliOption("--storage-account")]
     public int? StorageAccount { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

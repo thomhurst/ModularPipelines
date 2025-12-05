@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "blob", "restore")]
+[CliSubCommand("storage", "blob", "restore")]
 public record AzStorageBlobRestoreOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--time-to-restore")] string TimeToRestore
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--time-to-restore")] string TimeToRestore
 ) : AzOptions
 {
-    [CommandSwitch("--blob-range")]
+    [CliOption("--blob-range")]
     public string? BlobRange { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "import-certificate")]
+[CliCommand("transfer", "import-certificate")]
 public record AwsTransferImportCertificateOptions(
-[property: CommandSwitch("--usage")] string Usage,
-[property: CommandSwitch("--certificate")] string Certificate
+[property: CliOption("--usage")] string Usage,
+[property: CliOption("--certificate")] string Certificate
 ) : AwsOptions
 {
-    [CommandSwitch("--certificate-chain")]
+    [CliOption("--certificate-chain")]
     public string? CertificateChain { get; set; }
 
-    [CommandSwitch("--private-key")]
+    [CliOption("--private-key")]
     public string? PrivateKey { get; set; }
 
-    [CommandSwitch("--active-date")]
+    [CliOption("--active-date")]
     public long? ActiveDate { get; set; }
 
-    [CommandSwitch("--inactive-date")]
+    [CliOption("--inactive-date")]
     public long? InactiveDate { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

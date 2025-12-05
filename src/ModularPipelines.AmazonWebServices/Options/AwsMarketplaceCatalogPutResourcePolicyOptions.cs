@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("marketplace-catalog", "put-resource-policy")]
+[CliCommand("marketplace-catalog", "put-resource-policy")]
 public record AwsMarketplaceCatalogPutResourcePolicyOptions(
-[property: CommandSwitch("--resource-arn")] string ResourceArn,
-[property: CommandSwitch("--policy")] string Policy
+[property: CliOption("--resource-arn")] string ResourceArn,
+[property: CliOption("--policy")] string Policy
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

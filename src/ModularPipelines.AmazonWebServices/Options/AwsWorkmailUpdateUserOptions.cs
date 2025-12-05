@@ -4,54 +4,54 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workmail", "update-user")]
+[CliCommand("workmail", "update-user")]
 public record AwsWorkmailUpdateUserOptions(
-[property: CommandSwitch("--organization-id")] string OrganizationId,
-[property: CommandSwitch("--user-id")] string UserId
+[property: CliOption("--organization-id")] string OrganizationId,
+[property: CliOption("--user-id")] string UserId
 ) : AwsOptions
 {
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--first-name")]
+    [CliOption("--first-name")]
     public string? FirstName { get; set; }
 
-    [CommandSwitch("--last-name")]
+    [CliOption("--last-name")]
     public string? LastName { get; set; }
 
-    [CommandSwitch("--initials")]
+    [CliOption("--initials")]
     public string? Initials { get; set; }
 
-    [CommandSwitch("--telephone")]
+    [CliOption("--telephone")]
     public string? Telephone { get; set; }
 
-    [CommandSwitch("--street")]
+    [CliOption("--street")]
     public string? Street { get; set; }
 
-    [CommandSwitch("--job-title")]
+    [CliOption("--job-title")]
     public string? JobTitle { get; set; }
 
-    [CommandSwitch("--city")]
+    [CliOption("--city")]
     public string? City { get; set; }
 
-    [CommandSwitch("--company")]
+    [CliOption("--company")]
     public string? Company { get; set; }
 
-    [CommandSwitch("--zip-code")]
+    [CliOption("--zip-code")]
     public string? ZipCode { get; set; }
 
-    [CommandSwitch("--department")]
+    [CliOption("--department")]
     public string? Department { get; set; }
 
-    [CommandSwitch("--country")]
+    [CliOption("--country")]
     public string? Country { get; set; }
 
-    [CommandSwitch("--office")]
+    [CliOption("--office")]
     public string? Office { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

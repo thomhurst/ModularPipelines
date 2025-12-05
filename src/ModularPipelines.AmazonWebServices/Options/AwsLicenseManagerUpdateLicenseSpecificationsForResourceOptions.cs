@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("license-manager", "update-license-specifications-for-resource")]
+[CliCommand("license-manager", "update-license-specifications-for-resource")]
 public record AwsLicenseManagerUpdateLicenseSpecificationsForResourceOptions(
-[property: CommandSwitch("--resource-arn")] string ResourceArn
+[property: CliOption("--resource-arn")] string ResourceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--add-license-specifications")]
+    [CliOption("--add-license-specifications")]
     public string[]? AddLicenseSpecifications { get; set; }
 
-    [CommandSwitch("--remove-license-specifications")]
+    [CliOption("--remove-license-specifications")]
     public string[]? RemoveLicenseSpecifications { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

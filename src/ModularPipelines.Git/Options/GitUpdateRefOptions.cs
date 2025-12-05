@@ -3,6 +3,6 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("update-ref")]
+[CliSubCommand("update-ref")]
 [ExcludeFromCodeCoverage]
 public record GitUpdateRefOptions : GitOptions;

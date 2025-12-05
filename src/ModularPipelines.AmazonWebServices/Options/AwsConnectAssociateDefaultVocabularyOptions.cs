@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "associate-default-vocabulary")]
+[CliCommand("connect", "associate-default-vocabulary")]
 public record AwsConnectAssociateDefaultVocabularyOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--language-code")] string LanguageCode
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--language-code")] string LanguageCode
 ) : AwsOptions
 {
-    [CommandSwitch("--vocabulary-id")]
+    [CliOption("--vocabulary-id")]
     public string? VocabularyId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

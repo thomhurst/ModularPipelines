@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai", "indexes", "create")]
+[CliCommand("ai", "indexes", "create")]
 public record GcloudAiIndexesCreateOptions(
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--metadata-file")] string MetadataFile
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--metadata-file")] string MetadataFile
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--encryption-kms-key-name")]
+    [CliOption("--encryption-kms-key-name")]
     public string? EncryptionKmsKeyName { get; set; }
 
-    [CommandSwitch("--index-update-method")]
+    [CliOption("--index-update-method")]
     public string? IndexUpdateMethod { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--metadata-schema-uri")]
+    [CliOption("--metadata-schema-uri")]
     public string? MetadataSchemaUri { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

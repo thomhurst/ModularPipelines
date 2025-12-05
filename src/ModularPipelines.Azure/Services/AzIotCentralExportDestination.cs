@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "central", "export")]
+[CliCommand("iot", "central", "export")]
 public class AzIotCentralExportDestination
 {
     public AzIotCentralExportDestination(

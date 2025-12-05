@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("boards", "iteration")]
+[CliCommand("boards", "iteration")]
 public class AzBoardsIterationProject
 {
     public AzBoardsIterationProject(

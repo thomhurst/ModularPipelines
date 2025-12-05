@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesisvideo", "update-data-retention")]
+[CliCommand("kinesisvideo", "update-data-retention")]
 public record AwsKinesisvideoUpdateDataRetentionOptions(
-[property: CommandSwitch("--current-version")] string CurrentVersion,
-[property: CommandSwitch("--operation")] string Operation,
-[property: CommandSwitch("--data-retention-change-in-hours")] int DataRetentionChangeInHours
+[property: CliOption("--current-version")] string CurrentVersion,
+[property: CliOption("--operation")] string Operation,
+[property: CliOption("--data-retention-change-in-hours")] int DataRetentionChangeInHours
 ) : AwsOptions
 {
-    [CommandSwitch("--stream-name")]
+    [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
-    [CommandSwitch("--stream-arn")]
+    [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

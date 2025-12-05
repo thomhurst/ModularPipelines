@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transcoder", "templates", "describe")]
+[CliCommand("transcoder", "templates", "describe")]
 public record GcloudTranscoderTemplatesDescribeOptions(
-[property: PositionalArgument] string TemplateId,
-[property: PositionalArgument] string Location
+[property: CliArgument] string TemplateId,
+[property: CliArgument] string Location
 ) : GcloudOptions;

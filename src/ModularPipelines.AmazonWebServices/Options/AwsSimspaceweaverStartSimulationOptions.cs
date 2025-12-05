@@ -5,30 +5,30 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("simspaceweaver", "start-simulation")]
+[CliCommand("simspaceweaver", "start-simulation")]
 public record AwsSimspaceweaverStartSimulationOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--name")] string Name,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--maximum-duration")]
+    [CliOption("--maximum-duration")]
     public string? MaximumDuration { get; set; }
 
-    [CommandSwitch("--schema-s3-location")]
+    [CliOption("--schema-s3-location")]
     public string? SchemaS3Location { get; set; }
 
-    [CommandSwitch("--snapshot-s3-location")]
+    [CliOption("--snapshot-s3-location")]
     public string? SnapshotS3Location { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

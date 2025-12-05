@@ -4,43 +4,43 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "express-route", "port", "link", "update")]
+[CliSubCommand("network", "express-route", "port", "link", "update")]
 public record AzNetworkExpressRoutePortLinkUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--port-name")] string PortName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--port-name")] string PortName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--admin-state")]
+    [CliOption("--admin-state")]
     public string? AdminState { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--macsec-cak-secret-identifier")]
+    [CliOption("--macsec-cak-secret-identifier")]
     public string? MacsecCakSecretIdentifier { get; set; }
 
-    [CommandSwitch("--macsec-cipher")]
+    [CliOption("--macsec-cipher")]
     public string? MacsecCipher { get; set; }
 
-    [CommandSwitch("--macsec-ckn-secret-identifier")]
+    [CliOption("--macsec-ckn-secret-identifier")]
     public string? MacsecCknSecretIdentifier { get; set; }
 
-    [CommandSwitch("--macsec-sci-state")]
+    [CliOption("--macsec-sci-state")]
     public string? MacsecSciState { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "rotate-certs")]
+[CliCommand("aks", "rotate-certs")]
 public class AzAksRotateCertsAksPreview
 {
     public AzAksRotateCertsAksPreview(

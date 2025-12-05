@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutequipment", "update-inference-scheduler")]
+[CliCommand("lookoutequipment", "update-inference-scheduler")]
 public record AwsLookoutequipmentUpdateInferenceSchedulerOptions(
-[property: CommandSwitch("--inference-scheduler-name")] string InferenceSchedulerName
+[property: CliOption("--inference-scheduler-name")] string InferenceSchedulerName
 ) : AwsOptions
 {
-    [CommandSwitch("--data-delay-offset-in-minutes")]
+    [CliOption("--data-delay-offset-in-minutes")]
     public long? DataDelayOffsetInMinutes { get; set; }
 
-    [CommandSwitch("--data-upload-frequency")]
+    [CliOption("--data-upload-frequency")]
     public string? DataUploadFrequency { get; set; }
 
-    [CommandSwitch("--data-input-configuration")]
+    [CliOption("--data-input-configuration")]
     public string? DataInputConfiguration { get; set; }
 
-    [CommandSwitch("--data-output-configuration")]
+    [CliOption("--data-output-configuration")]
     public string? DataOutputConfiguration { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

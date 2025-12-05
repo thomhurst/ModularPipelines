@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scc", "notifications", "list")]
+[CliCommand("scc", "notifications", "list")]
 public record GcloudSccNotificationsListOptions(
-[property: PositionalArgument] string Parent
+[property: CliArgument] string Parent
 ) : GcloudOptions;

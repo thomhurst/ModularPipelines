@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("service-directory", "namespaces", "get-iam-policy")]
+[CliCommand("service-directory", "namespaces", "get-iam-policy")]
 public record GcloudServiceDirectoryNamespacesGetIamPolicyOptions(
-[property: PositionalArgument] string Namespace,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Namespace,
+[property: CliArgument] string Location
 ) : GcloudOptions;

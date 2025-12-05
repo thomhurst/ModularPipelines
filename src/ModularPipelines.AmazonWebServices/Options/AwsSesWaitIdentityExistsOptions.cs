@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ses", "wait", "identity-exists")]
+[CliCommand("ses", "wait", "identity-exists")]
 public record AwsSesWaitIdentityExistsOptions(
-[property: CommandSwitch("--identities")] string[] Identities
+[property: CliOption("--identities")] string[] Identities
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

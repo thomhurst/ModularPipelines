@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bms", "volumes", "rename")]
+[CliCommand("bms", "volumes", "rename")]
 public record GcloudBmsVolumesRenameOptions(
-[property: PositionalArgument] string Volume,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--new-name")] string NewName
+[property: CliArgument] string Volume,
+[property: CliArgument] string Region,
+[property: CliOption("--new-name")] string NewName
 ) : GcloudOptions;

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "kusto")]
+[CliCommand("synapse", "kusto")]
 public class AzSynapseKustoPoolPrincipalAssignment
 {
     public AzSynapseKustoPoolPrincipalAssignment(

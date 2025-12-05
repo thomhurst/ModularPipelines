@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ams", "streaming-locator", "create")]
+[CliSubCommand("ams", "streaming-locator", "create")]
 public record AzAmsStreamingLocatorCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--asset-name")] string AssetName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--streaming-policy-name")] string StreamingPolicyName
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--asset-name")] string AssetName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--streaming-policy-name")] string StreamingPolicyName
 ) : AzOptions
 {
-    [CommandSwitch("--alternative-media-id")]
+    [CliOption("--alternative-media-id")]
     public string? AlternativeMediaId { get; set; }
 
-    [CommandSwitch("--content-key-policy-name")]
+    [CliOption("--content-key-policy-name")]
     public string? ContentKeyPolicyName { get; set; }
 
-    [CommandSwitch("--content-keys")]
+    [CliOption("--content-keys")]
     public string? ContentKeys { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string? Filters { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public string? StartTime { get; set; }
 
-    [CommandSwitch("--streaming-locator-id")]
+    [CliOption("--streaming-locator-id")]
     public string? StreamingLocatorId { get; set; }
 }

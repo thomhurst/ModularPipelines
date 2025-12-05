@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("internet-analyzer", "show-timeseries")]
+[CliSubCommand("internet-analyzer", "show-timeseries")]
 public record AzInternetAnalyzerShowTimeseriesOptions(
-[property: CommandSwitch("--aggregation-interval")] string AggregationInterval,
-[property: CommandSwitch("--end-date-time-utc")] string EndDateTimeUtc,
-[property: CommandSwitch("--endpoint")] string Endpoint,
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--start-date-time-utc")] string StartDateTimeUtc,
-[property: CommandSwitch("--test-name")] string TestName,
-[property: CommandSwitch("--timeseries-type")] string TimeseriesType
+[property: CliOption("--aggregation-interval")] string AggregationInterval,
+[property: CliOption("--end-date-time-utc")] string EndDateTimeUtc,
+[property: CliOption("--endpoint")] string Endpoint,
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--start-date-time-utc")] string StartDateTimeUtc,
+[property: CliOption("--test-name")] string TestName,
+[property: CliOption("--timeseries-type")] string TimeseriesType
 ) : AzOptions
 {
-    [CommandSwitch("--country")]
+    [CliOption("--country")]
     public int? Country { get; set; }
 }

@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hpc-cache", "storage-target", "show")]
+[CliSubCommand("hpc-cache", "storage-target", "show")]
 public record AzHpcCacheStorageTargetShowOptions(
-[property: CommandSwitch("--cache-name")] string CacheName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cache-name")] string CacheName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

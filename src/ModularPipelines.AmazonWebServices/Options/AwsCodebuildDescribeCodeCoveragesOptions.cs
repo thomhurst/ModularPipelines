@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codebuild", "describe-code-coverages")]
+[CliCommand("codebuild", "describe-code-coverages")]
 public record AwsCodebuildDescribeCodeCoveragesOptions(
-[property: CommandSwitch("--report-arn")] string ReportArn
+[property: CliOption("--report-arn")] string ReportArn
 ) : AwsOptions
 {
-    [CommandSwitch("--sort-order")]
+    [CliOption("--sort-order")]
     public string? SortOrder { get; set; }
 
-    [CommandSwitch("--sort-by")]
+    [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
-    [CommandSwitch("--min-line-coverage-percentage")]
+    [CliOption("--min-line-coverage-percentage")]
     public double? MinLineCoveragePercentage { get; set; }
 
-    [CommandSwitch("--max-line-coverage-percentage")]
+    [CliOption("--max-line-coverage-percentage")]
     public double? MaxLineCoveragePercentage { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

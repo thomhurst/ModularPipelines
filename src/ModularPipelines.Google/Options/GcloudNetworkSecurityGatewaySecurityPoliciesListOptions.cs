@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-security", "gateway-security-policies", "list")]
+[CliCommand("network-security", "gateway-security-policies", "list")]
 public record GcloudNetworkSecurityGatewaySecurityPoliciesListOptions(
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--location")] string Location
 ) : GcloudOptions;

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datafactory", "managed-virtual-network", "list")]
+[CliSubCommand("datafactory", "managed-virtual-network", "list")]
 public record AzDatafactoryManagedVirtualNetworkListOptions(
-[property: CommandSwitch("--factory-name")] string FactoryName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--factory-name")] string FactoryName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

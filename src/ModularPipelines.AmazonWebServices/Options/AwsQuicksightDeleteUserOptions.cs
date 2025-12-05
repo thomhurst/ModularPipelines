@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "delete-user")]
+[CliCommand("quicksight", "delete-user")]
 public record AwsQuicksightDeleteUserOptions(
-[property: CommandSwitch("--user-name")] string UserName,
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--namespace")] string Namespace
+[property: CliOption("--user-name")] string UserName,
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--namespace")] string Namespace
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

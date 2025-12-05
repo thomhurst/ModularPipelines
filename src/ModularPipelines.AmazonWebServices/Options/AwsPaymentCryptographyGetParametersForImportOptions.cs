@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("payment-cryptography", "get-parameters-for-import")]
+[CliCommand("payment-cryptography", "get-parameters-for-import")]
 public record AwsPaymentCryptographyGetParametersForImportOptions(
-[property: CommandSwitch("--key-material-type")] string KeyMaterialType,
-[property: CommandSwitch("--wrapping-key-algorithm")] string WrappingKeyAlgorithm
+[property: CliOption("--key-material-type")] string KeyMaterialType,
+[property: CliOption("--wrapping-key-algorithm")] string WrappingKeyAlgorithm
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

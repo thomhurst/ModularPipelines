@@ -4,110 +4,110 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "restore-db-instance-to-point-in-time")]
+[CliCommand("rds", "restore-db-instance-to-point-in-time")]
 public record AwsRdsRestoreDbInstanceToPointInTimeOptions(
-[property: CommandSwitch("--target-db-instance-identifier")] string TargetDbInstanceIdentifier
+[property: CliOption("--target-db-instance-identifier")] string TargetDbInstanceIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--source-db-instance-identifier")]
+    [CliOption("--source-db-instance-identifier")]
     public string? SourceDbInstanceIdentifier { get; set; }
 
-    [CommandSwitch("--restore-time")]
+    [CliOption("--restore-time")]
     public long? RestoreTime { get; set; }
 
-    [CommandSwitch("--db-instance-class")]
+    [CliOption("--db-instance-class")]
     public string? DbInstanceClass { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--availability-zone")]
+    [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
-    [CommandSwitch("--db-subnet-group-name")]
+    [CliOption("--db-subnet-group-name")]
     public string? DbSubnetGroupName { get; set; }
 
-    [CommandSwitch("--license-model")]
+    [CliOption("--license-model")]
     public string? LicenseModel { get; set; }
 
-    [CommandSwitch("--db-name")]
+    [CliOption("--db-name")]
     public string? DbName { get; set; }
 
-    [CommandSwitch("--engine")]
+    [CliOption("--engine")]
     public string? Engine { get; set; }
 
-    [CommandSwitch("--iops")]
+    [CliOption("--iops")]
     public int? Iops { get; set; }
 
-    [CommandSwitch("--option-group-name")]
+    [CliOption("--option-group-name")]
     public string? OptionGroupName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--storage-type")]
+    [CliOption("--storage-type")]
     public string? StorageType { get; set; }
 
-    [CommandSwitch("--tde-credential-arn")]
+    [CliOption("--tde-credential-arn")]
     public string? TdeCredentialArn { get; set; }
 
-    [CommandSwitch("--tde-credential-password")]
+    [CliOption("--tde-credential-password")]
     public string? TdeCredentialPassword { get; set; }
 
-    [CommandSwitch("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids")]
     public string[]? VpcSecurityGroupIds { get; set; }
 
-    [CommandSwitch("--domain")]
+    [CliOption("--domain")]
     public string? Domain { get; set; }
 
-    [CommandSwitch("--domain-iam-role-name")]
+    [CliOption("--domain-iam-role-name")]
     public string? DomainIamRoleName { get; set; }
 
-    [CommandSwitch("--domain-fqdn")]
+    [CliOption("--domain-fqdn")]
     public string? DomainFqdn { get; set; }
 
-    [CommandSwitch("--domain-ou")]
+    [CliOption("--domain-ou")]
     public string? DomainOu { get; set; }
 
-    [CommandSwitch("--domain-auth-secret-arn")]
+    [CliOption("--domain-auth-secret-arn")]
     public string? DomainAuthSecretArn { get; set; }
 
-    [CommandSwitch("--domain-dns-ips")]
+    [CliOption("--domain-dns-ips")]
     public string[]? DomainDnsIps { get; set; }
 
-    [CommandSwitch("--enable-cloudwatch-logs-exports")]
+    [CliOption("--enable-cloudwatch-logs-exports")]
     public string[]? EnableCloudwatchLogsExports { get; set; }
 
-    [CommandSwitch("--processor-features")]
+    [CliOption("--processor-features")]
     public string[]? ProcessorFeatures { get; set; }
 
-    [CommandSwitch("--db-parameter-group-name")]
+    [CliOption("--db-parameter-group-name")]
     public string? DbParameterGroupName { get; set; }
 
-    [CommandSwitch("--source-dbi-resource-id")]
+    [CliOption("--source-dbi-resource-id")]
     public string? SourceDbiResourceId { get; set; }
 
-    [CommandSwitch("--max-allocated-storage")]
+    [CliOption("--max-allocated-storage")]
     public int? MaxAllocatedStorage { get; set; }
 
-    [CommandSwitch("--source-db-instance-automated-backups-arn")]
+    [CliOption("--source-db-instance-automated-backups-arn")]
     public string? SourceDbInstanceAutomatedBackupsArn { get; set; }
 
-    [CommandSwitch("--custom-iam-instance-profile")]
+    [CliOption("--custom-iam-instance-profile")]
     public string? CustomIamInstanceProfile { get; set; }
 
-    [CommandSwitch("--backup-target")]
+    [CliOption("--backup-target")]
     public string? BackupTarget { get; set; }
 
-    [CommandSwitch("--network-type")]
+    [CliOption("--network-type")]
     public string? NetworkType { get; set; }
 
-    [CommandSwitch("--storage-throughput")]
+    [CliOption("--storage-throughput")]
     public int? StorageThroughput { get; set; }
 
-    [CommandSwitch("--allocated-storage")]
+    [CliOption("--allocated-storage")]
     public int? AllocatedStorage { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

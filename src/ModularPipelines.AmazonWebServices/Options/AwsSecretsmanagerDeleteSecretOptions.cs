@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("secretsmanager", "delete-secret")]
+[CliCommand("secretsmanager", "delete-secret")]
 public record AwsSecretsmanagerDeleteSecretOptions(
-[property: CommandSwitch("--secret-id")] string SecretId
+[property: CliOption("--secret-id")] string SecretId
 ) : AwsOptions
 {
-    [CommandSwitch("--recovery-window-in-days")]
+    [CliOption("--recovery-window-in-days")]
     public long? RecoveryWindowInDays { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transcribe", "create-vocabulary-filter")]
+[CliCommand("transcribe", "create-vocabulary-filter")]
 public record AwsTranscribeCreateVocabularyFilterOptions(
-[property: CommandSwitch("--vocabulary-filter-name")] string VocabularyFilterName,
-[property: CommandSwitch("--language-code")] string LanguageCode
+[property: CliOption("--vocabulary-filter-name")] string VocabularyFilterName,
+[property: CliOption("--language-code")] string LanguageCode
 ) : AwsOptions
 {
-    [CommandSwitch("--words")]
+    [CliOption("--words")]
     public string[]? Words { get; set; }
 
-    [CommandSwitch("--vocabulary-filter-file-uri")]
+    [CliOption("--vocabulary-filter-file-uri")]
     public string? VocabularyFilterFileUri { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--data-access-role-arn")]
+    [CliOption("--data-access-role-arn")]
     public string? DataAccessRoleArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "change-password")]
+[CliCommand("iam", "change-password")]
 public record AwsIamChangePasswordOptions(
-[property: CommandSwitch("--old-password")] string OldPassword,
-[property: CommandSwitch("--new-password")] string NewPassword
+[property: CliOption("--old-password")] string OldPassword,
+[property: CliOption("--new-password")] string NewPassword
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "delete-geofence-collection")]
+[CliCommand("location", "delete-geofence-collection")]
 public record AwsLocationDeleteGeofenceCollectionOptions(
-[property: CommandSwitch("--collection-name")] string CollectionName
+[property: CliOption("--collection-name")] string CollectionName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

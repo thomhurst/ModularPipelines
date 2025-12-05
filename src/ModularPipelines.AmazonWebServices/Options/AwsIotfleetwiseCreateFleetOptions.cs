@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotfleetwise", "create-fleet")]
+[CliCommand("iotfleetwise", "create-fleet")]
 public record AwsIotfleetwiseCreateFleetOptions(
-[property: CommandSwitch("--fleet-id")] string FleetId,
-[property: CommandSwitch("--signal-catalog-arn")] string SignalCatalogArn
+[property: CliOption("--fleet-id")] string FleetId,
+[property: CliOption("--signal-catalog-arn")] string SignalCatalogArn
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "modify-document-permission")]
+[CliCommand("ssm", "modify-document-permission")]
 public record AwsSsmModifyDocumentPermissionOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--permission-type")] string PermissionType
+[property: CliOption("--name")] string Name,
+[property: CliOption("--permission-type")] string PermissionType
 ) : AwsOptions
 {
-    [CommandSwitch("--account-ids-to-add")]
+    [CliOption("--account-ids-to-add")]
     public string[]? AccountIdsToAdd { get; set; }
 
-    [CommandSwitch("--account-ids-to-remove")]
+    [CliOption("--account-ids-to-remove")]
     public string[]? AccountIdsToRemove { get; set; }
 
-    [CommandSwitch("--shared-document-version")]
+    [CliOption("--shared-document-version")]
     public string? SharedDocumentVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

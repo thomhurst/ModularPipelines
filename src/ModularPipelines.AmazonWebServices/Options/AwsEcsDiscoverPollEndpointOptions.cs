@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "discover-poll-endpoint")]
+[CliCommand("ecs", "discover-poll-endpoint")]
 public record AwsEcsDiscoverPollEndpointOptions : AwsOptions
 {
-    [CommandSwitch("--container-instance")]
+    [CliOption("--container-instance")]
     public string? ContainerInstance { get; set; }
 
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

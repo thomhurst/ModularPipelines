@@ -5,36 +5,36 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bedrock-agent", "create-agent")]
+[CliCommand("bedrock-agent", "create-agent")]
 public record AwsBedrockAgentCreateAgentOptions(
-[property: CommandSwitch("--agent-name")] string AgentName,
-[property: CommandSwitch("--agent-resource-role-arn")] string AgentResourceRoleArn
+[property: CliOption("--agent-name")] string AgentName,
+[property: CliOption("--agent-resource-role-arn")] string AgentResourceRoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--instruction")]
+    [CliOption("--instruction")]
     public string? Instruction { get; set; }
 
-    [CommandSwitch("--foundation-model")]
+    [CliOption("--foundation-model")]
     public string? FoundationModel { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--idle-session-ttl-in-seconds")]
+    [CliOption("--idle-session-ttl-in-seconds")]
     public int? IdleSessionTtlInSeconds { get; set; }
 
-    [CommandSwitch("--customer-encryption-key-arn")]
+    [CliOption("--customer-encryption-key-arn")]
     public string? CustomerEncryptionKeyArn { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--prompt-override-configuration")]
+    [CliOption("--prompt-override-configuration")]
     public string? PromptOverrideConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

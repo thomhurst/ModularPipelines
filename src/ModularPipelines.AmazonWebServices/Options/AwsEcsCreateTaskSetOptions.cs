@@ -4,43 +4,43 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "create-task-set")]
+[CliCommand("ecs", "create-task-set")]
 public record AwsEcsCreateTaskSetOptions(
-[property: CommandSwitch("--service")] string Service,
-[property: CommandSwitch("--cluster")] string Cluster,
-[property: CommandSwitch("--task-definition")] string TaskDefinition
+[property: CliOption("--service")] string Service,
+[property: CliOption("--cluster")] string Cluster,
+[property: CliOption("--task-definition")] string TaskDefinition
 ) : AwsOptions
 {
-    [CommandSwitch("--external-id")]
+    [CliOption("--external-id")]
     public string? ExternalId { get; set; }
 
-    [CommandSwitch("--network-configuration")]
+    [CliOption("--network-configuration")]
     public string? NetworkConfiguration { get; set; }
 
-    [CommandSwitch("--load-balancers")]
+    [CliOption("--load-balancers")]
     public string[]? LoadBalancers { get; set; }
 
-    [CommandSwitch("--service-registries")]
+    [CliOption("--service-registries")]
     public string[]? ServiceRegistries { get; set; }
 
-    [CommandSwitch("--launch-type")]
+    [CliOption("--launch-type")]
     public string? LaunchType { get; set; }
 
-    [CommandSwitch("--capacity-provider-strategy")]
+    [CliOption("--capacity-provider-strategy")]
     public string[]? CapacityProviderStrategy { get; set; }
 
-    [CommandSwitch("--platform-version")]
+    [CliOption("--platform-version")]
     public string? PlatformVersion { get; set; }
 
-    [CommandSwitch("--scale")]
+    [CliOption("--scale")]
     public string? Scale { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

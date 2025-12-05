@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53resolver", "get-resolver-rule-association")]
+[CliCommand("route53resolver", "get-resolver-rule-association")]
 public record AwsRoute53resolverGetResolverRuleAssociationOptions(
-[property: CommandSwitch("--resolver-rule-association-id")] string ResolverRuleAssociationId
+[property: CliOption("--resolver-rule-association-id")] string ResolverRuleAssociationId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("blueprint", "artifact", "delete")]
+[CliSubCommand("blueprint", "artifact", "delete")]
 public record AzBlueprintArtifactDeleteOptions(
-[property: CommandSwitch("--blueprint-name")] string BlueprintName,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--blueprint-name")] string BlueprintName,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--management-group")]
+    [CliOption("--management-group")]
     public string? ManagementGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

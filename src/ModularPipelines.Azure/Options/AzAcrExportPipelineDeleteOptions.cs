@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "export-pipeline", "delete")]
+[CliSubCommand("acr", "export-pipeline", "delete")]
 public record AzAcrExportPipelineDeleteOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--registry")] string Registry,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--registry")] string Registry,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

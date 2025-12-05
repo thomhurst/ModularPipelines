@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datazone", "update-subscription-grant-status")]
+[CliCommand("datazone", "update-subscription-grant-status")]
 public record AwsDatazoneUpdateSubscriptionGrantStatusOptions(
-[property: CommandSwitch("--asset-identifier")] string AssetIdentifier,
-[property: CommandSwitch("--domain-identifier")] string DomainIdentifier,
-[property: CommandSwitch("--identifier")] string Identifier,
-[property: CommandSwitch("--status")] string Status
+[property: CliOption("--asset-identifier")] string AssetIdentifier,
+[property: CliOption("--domain-identifier")] string DomainIdentifier,
+[property: CliOption("--identifier")] string Identifier,
+[property: CliOption("--status")] string Status
 ) : AwsOptions
 {
-    [CommandSwitch("--failure-cause")]
+    [CliOption("--failure-cause")]
     public string? FailureCause { get; set; }
 
-    [CommandSwitch("--target-name")]
+    [CliOption("--target-name")]
     public string? TargetName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

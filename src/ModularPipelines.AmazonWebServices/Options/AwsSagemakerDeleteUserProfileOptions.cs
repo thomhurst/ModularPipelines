@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "delete-user-profile")]
+[CliCommand("sagemaker", "delete-user-profile")]
 public record AwsSagemakerDeleteUserProfileOptions(
-[property: CommandSwitch("--domain-id")] string DomainId,
-[property: CommandSwitch("--user-profile-name")] string UserProfileName
+[property: CliOption("--domain-id")] string DomainId,
+[property: CliOption("--user-profile-name")] string UserProfileName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

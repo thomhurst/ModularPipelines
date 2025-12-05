@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "list-answers")]
+[CliCommand("wellarchitected", "list-answers")]
 public record AwsWellarchitectedListAnswersOptions(
-[property: CommandSwitch("--workload-id")] string WorkloadId,
-[property: CommandSwitch("--lens-alias")] string LensAlias
+[property: CliOption("--workload-id")] string WorkloadId,
+[property: CliOption("--lens-alias")] string LensAlias
 ) : AwsOptions
 {
-    [CommandSwitch("--pillar-id")]
+    [CliOption("--pillar-id")]
     public string? PillarId { get; set; }
 
-    [CommandSwitch("--milestone-number")]
+    [CliOption("--milestone-number")]
     public int? MilestoneNumber { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--question-priority")]
+    [CliOption("--question-priority")]
     public string? QuestionPriority { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

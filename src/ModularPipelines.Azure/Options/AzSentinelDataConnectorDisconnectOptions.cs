@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "data-connector", "disconnect")]
+[CliSubCommand("sentinel", "data-connector", "disconnect")]
 public record AzSentinelDataConnectorDisconnectOptions(
-[property: CommandSwitch("--data-connector-id")] string DataConnectorId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--data-connector-id")] string DataConnectorId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions;

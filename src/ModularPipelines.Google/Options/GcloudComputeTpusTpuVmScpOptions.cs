@@ -4,47 +4,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "tpus", "tpu-vm", "scp")]
+[CliCommand("compute", "tpus", "tpu-vm", "scp")]
 public record GcloudComputeTpusTpuVmScpOptions(
-[property: PositionalArgument] string User
+[property: CliArgument] string User
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--compress")]
+    [CliFlag("--compress")]
     public bool? Compress { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("--force-key-file-overwrite")]
+    [CliFlag("--force-key-file-overwrite")]
     public bool? ForceKeyFileOverwrite { get; set; }
 
-    [BooleanCommandSwitch("--internal-ip")]
+    [CliFlag("--internal-ip")]
     public bool? InternalIp { get; set; }
 
-    [BooleanCommandSwitch("--plain")]
+    [CliFlag("--plain")]
     public bool? Plain { get; set; }
 
-    [BooleanCommandSwitch("--recurse")]
+    [CliFlag("--recurse")]
     public bool? Recurse { get; set; }
 
-    [CommandSwitch("--scp-flag")]
+    [CliOption("--scp-flag")]
     public string? ScpFlag { get; set; }
 
-    [CommandSwitch("--ssh-key-file")]
+    [CliOption("--ssh-key-file")]
     public string? SshKeyFile { get; set; }
 
-    [CommandSwitch("--strict-host-key-checking")]
+    [CliOption("--strict-host-key-checking")]
     public string? StrictHostKeyChecking { get; set; }
 
-    [CommandSwitch("--worker")]
+    [CliOption("--worker")]
     public string? Worker { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [CommandSwitch("--ssh-key-expiration")]
+    [CliOption("--ssh-key-expiration")]
     public string? SshKeyExpiration { get; set; }
 
-    [CommandSwitch("--ssh-key-expire-after")]
+    [CliOption("--ssh-key-expire-after")]
     public string? SshKeyExpireAfter { get; set; }
 }

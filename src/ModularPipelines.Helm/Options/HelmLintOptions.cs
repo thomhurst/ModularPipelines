@@ -3,34 +3,34 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("lint")]
+[CliCommand("lint")]
 [ExcludeFromCodeCoverage]
 public record HelmLintOptions : HelmOptions
 {
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--set", SwitchValueSeparator = " ")]
-    public string[]? Set { get; set; }
+    [CliOption("--set")]
+    public virtual string[]? Set { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--set-file", SwitchValueSeparator = " ")]
-    public string[]? SetFile { get; set; }
+    [CliOption("--set-file")]
+    public virtual string[]? SetFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--set-json", SwitchValueSeparator = " ")]
-    public string[]? SetJson { get; set; }
+    [CliOption("--set-json")]
+    public virtual string[]? SetJson { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--set-literal", SwitchValueSeparator = " ")]
-    public string[]? SetLiteral { get; set; }
+    [CliOption("--set-literal")]
+    public virtual string[]? SetLiteral { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--set-string", SwitchValueSeparator = " ")]
-    public string[]? SetString { get; set; }
+    [CliOption("--set-string")]
+    public virtual string[]? SetString { get; set; }
 
-    [BooleanCommandSwitch("--strict")]
+    [CliFlag("--strict")]
     public virtual bool? Strict { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--values", SwitchValueSeparator = " ")]
-    public string[]? Values { get; set; }
+    [CliOption("--values")]
+    public virtual string[]? Values { get; set; }
 
-    [BooleanCommandSwitch("--with-subcharts")]
+    [CliFlag("--with-subcharts")]
     public virtual bool? WithSubcharts { get; set; }
 }

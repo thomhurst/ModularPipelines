@@ -3,64 +3,64 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("restore")]
+[CliSubCommand("restore")]
 [ExcludeFromCodeCoverage]
 public record GitRestoreOptions : GitOptions
 {
-    [CommandEqualsSeparatorSwitch("--source")]
-    public string? Source { get; set; }
+    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Source { get; set; }
 
-    [BooleanCommandSwitch("--patch")]
+    [CliFlag("--patch")]
     public virtual bool? Patch { get; set; }
 
-    [BooleanCommandSwitch("--worktree")]
+    [CliFlag("--worktree")]
     public virtual bool? Worktree { get; set; }
 
-    [BooleanCommandSwitch("--staged")]
+    [CliFlag("--staged")]
     public virtual bool? Staged { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--progress")]
+    [CliFlag("--progress")]
     public virtual bool? Progress { get; set; }
 
-    [BooleanCommandSwitch("--no-progress")]
+    [CliFlag("--no-progress")]
     public virtual bool? NoProgress { get; set; }
 
-    [BooleanCommandSwitch("--ours")]
+    [CliFlag("--ours")]
     public virtual bool? Ours { get; set; }
 
-    [BooleanCommandSwitch("--theirs")]
+    [CliFlag("--theirs")]
     public virtual bool? Theirs { get; set; }
 
-    [BooleanCommandSwitch("--merge")]
+    [CliFlag("--merge")]
     public virtual bool? Merge { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--conflict")]
-    public string? Conflict { get; set; }
+    [CliOption("--conflict", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Conflict { get; set; }
 
-    [BooleanCommandSwitch("--ignore-unmerged")]
+    [CliFlag("--ignore-unmerged")]
     public virtual bool? IgnoreUnmerged { get; set; }
 
-    [BooleanCommandSwitch("--ignore-skip-worktree-bits")]
+    [CliFlag("--ignore-skip-worktree-bits")]
     public virtual bool? IgnoreSkipWorktreeBits { get; set; }
 
-    [BooleanCommandSwitch("--recurse-submodules")]
+    [CliFlag("--recurse-submodules")]
     public virtual bool? RecurseSubmodules { get; set; }
 
-    [BooleanCommandSwitch("--no-recurse-submodules")]
+    [CliFlag("--no-recurse-submodules")]
     public virtual bool? NoRecurseSubmodules { get; set; }
 
-    [BooleanCommandSwitch("--overlay")]
+    [CliFlag("--overlay")]
     public virtual bool? Overlay { get; set; }
 
-    [BooleanCommandSwitch("--no-overlay")]
+    [CliFlag("--no-overlay")]
     public virtual bool? NoOverlay { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--pathspec-from-file")]
-    public string? PathspecFromFile { get; set; }
+    [CliOption("--pathspec-from-file", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? PathspecFromFile { get; set; }
 
-    [BooleanCommandSwitch("--pathspec-file-nul")]
+    [CliFlag("--pathspec-file-nul")]
     public virtual bool? PathspecFileNul { get; set; }
 }

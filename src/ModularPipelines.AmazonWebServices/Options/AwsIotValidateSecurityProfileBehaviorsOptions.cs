@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "validate-security-profile-behaviors")]
+[CliCommand("iot", "validate-security-profile-behaviors")]
 public record AwsIotValidateSecurityProfileBehaviorsOptions(
-[property: CommandSwitch("--behaviors")] string[] Behaviors
+[property: CliOption("--behaviors")] string[] Behaviors
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -1,12 +1,12 @@
 namespace ModularPipelines.Engine;
 
 /// <summary>
-/// Constants used throughout the module execution engine
+/// Constants used throughout the module execution engine.
 /// </summary>
 internal static class EngineConstants
 {
     /// <summary>
-    /// Scheduler configuration constants
+    /// Scheduler configuration constants.
     /// </summary>
     public static class Scheduler
     {

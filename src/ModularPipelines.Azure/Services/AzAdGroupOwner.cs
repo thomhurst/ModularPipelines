@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ad", "group")]
+[CliCommand("ad", "group")]
 public class AzAdGroupOwner
 {
     public AzAdGroupOwner(

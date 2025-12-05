@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vpn-gateway", "connection", "vpn-site-link-conn")]
+[CliCommand("network", "vpn-gateway", "connection", "vpn-site-link-conn")]
 public class AzNetworkVpnGatewayConnectionVpnSiteLinkConnIpsecPolicy
 {
     public AzNetworkVpnGatewayConnectionVpnSiteLinkConnIpsecPolicy(

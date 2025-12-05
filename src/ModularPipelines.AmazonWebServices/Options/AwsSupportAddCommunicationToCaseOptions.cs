@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("support", "add-communication-to-case")]
+[CliCommand("support", "add-communication-to-case")]
 public record AwsSupportAddCommunicationToCaseOptions(
-[property: CommandSwitch("--communication-body")] string CommunicationBody
+[property: CliOption("--communication-body")] string CommunicationBody
 ) : AwsOptions
 {
-    [CommandSwitch("--case-id")]
+    [CliOption("--case-id")]
     public string? CaseId { get; set; }
 
-    [CommandSwitch("--cc-email-addresses")]
+    [CliOption("--cc-email-addresses")]
     public string[]? CcEmailAddresses { get; set; }
 
-    [CommandSwitch("--attachment-set-id")]
+    [CliOption("--attachment-set-id")]
     public string? AttachmentSetId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

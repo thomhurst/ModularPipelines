@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "resiliency", "show")]
+[CliSubCommand("containerapp", "resiliency", "show")]
 public record AzContainerappResiliencyShowOptions(
-[property: CommandSwitch("--container-app-name")] string ContainerAppName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--container-app-name")] string ContainerAppName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

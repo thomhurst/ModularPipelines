@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("forecast", "create-explainability")]
+[CliCommand("forecast", "create-explainability")]
 public record AwsForecastCreateExplainabilityOptions(
-[property: CommandSwitch("--explainability-name")] string ExplainabilityName,
-[property: CommandSwitch("--resource-arn")] string ResourceArn,
-[property: CommandSwitch("--explainability-config")] string ExplainabilityConfig
+[property: CliOption("--explainability-name")] string ExplainabilityName,
+[property: CliOption("--resource-arn")] string ResourceArn,
+[property: CliOption("--explainability-config")] string ExplainabilityConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--data-source")]
+    [CliOption("--data-source")]
     public string? DataSource { get; set; }
 
-    [CommandSwitch("--schema")]
+    [CliOption("--schema")]
     public string? Schema { get; set; }
 
-    [CommandSwitch("--start-date-time")]
+    [CliOption("--start-date-time")]
     public string? StartDateTime { get; set; }
 
-    [CommandSwitch("--end-date-time")]
+    [CliOption("--end-date-time")]
     public string? EndDateTime { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

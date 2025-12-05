@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("immersive-stream", "xr", "instances", "create")]
+[CliCommand("immersive-stream", "xr", "instances", "create")]
 public record GcloudImmersiveStreamXrInstancesCreateOptions : GcloudOptions
 {
     public GcloudImmersiveStreamXrInstancesCreateOptions(
@@ -22,24 +22,24 @@ public record GcloudImmersiveStreamXrInstancesCreateOptions : GcloudOptions
         Location = location;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Instance { get; set; }
 
-    [CommandSwitch("--add-region")]
+    [CliOption("--add-region")]
     public string[] AddRegion { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string Version { get; set; }
 
-    [CommandSwitch("--content")]
+    [CliOption("--content")]
     public string Content { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string Location { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--fallback-url")]
+    [CliOption("--fallback-url")]
     public string? FallbackUrl { get; set; }
 }

@@ -5,28 +5,28 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "create-queue")]
+[CliCommand("connect", "create-queue")]
 public record AwsConnectCreateQueueOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--hours-of-operation-id")] string HoursOfOperationId
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--hours-of-operation-id")] string HoursOfOperationId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--outbound-caller-config")]
+    [CliOption("--outbound-caller-config")]
     public string? OutboundCallerConfig { get; set; }
 
-    [CommandSwitch("--max-contacts")]
+    [CliOption("--max-contacts")]
     public int? MaxContacts { get; set; }
 
-    [CommandSwitch("--quick-connect-ids")]
+    [CliOption("--quick-connect-ids")]
     public string[]? QuickConnectIds { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

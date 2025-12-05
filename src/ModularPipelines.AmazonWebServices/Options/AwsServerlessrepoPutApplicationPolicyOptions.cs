@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("serverlessrepo", "put-application-policy")]
+[CliCommand("serverlessrepo", "put-application-policy")]
 public record AwsServerlessrepoPutApplicationPolicyOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--statements")] string[] Statements
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--statements")] string[] Statements
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

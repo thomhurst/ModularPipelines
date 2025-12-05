@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("blockchain", "member", "update")]
+[CliSubCommand("blockchain", "member", "update")]
 public record AzBlockchainMemberUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--consortium-management-account-password")]
+    [CliOption("--consortium-management-account-password")]
     public int? ConsortiumManagementAccountPassword { get; set; }
 
-    [CommandSwitch("--firewall-rules")]
+    [CliOption("--firewall-rules")]
     public string? FirewallRules { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

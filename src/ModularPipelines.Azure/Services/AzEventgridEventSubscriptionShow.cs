@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "event-subscription")]
+[CliCommand("eventgrid", "event-subscription")]
 public class AzEventgridEventSubscriptionShow
 {
     public AzEventgridEventSubscriptionShow(

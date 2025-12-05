@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml-engine", "versions", "delete")]
+[CliCommand("ml-engine", "versions", "delete")]
 public record GcloudMlEngineVersionsDeleteOptions : GcloudOptions
 {
     public GcloudMlEngineVersionsDeleteOptions(
@@ -16,12 +16,12 @@ public record GcloudMlEngineVersionsDeleteOptions : GcloudOptions
         Model = model;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string GcloudMlEngineVersionsDeleteOptionsVersion { get; set; }
 
-    [CommandSwitch("--model")]
+    [CliOption("--model")]
     public string Model { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

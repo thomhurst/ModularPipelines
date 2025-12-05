@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "get-place")]
+[CliCommand("location", "get-place")]
 public record AwsLocationGetPlaceOptions(
-[property: CommandSwitch("--index-name")] string IndexName,
-[property: CommandSwitch("--place-id")] string PlaceId
+[property: CliOption("--index-name")] string IndexName,
+[property: CliOption("--place-id")] string PlaceId
 ) : AwsOptions
 {
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 
-    [CommandSwitch("--language")]
+    [CliOption("--language")]
     public string? Language { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

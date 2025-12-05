@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("auditmanager", "get-evidence-folders-by-assessment")]
+[CliCommand("auditmanager", "get-evidence-folders-by-assessment")]
 public record AwsAuditmanagerGetEvidenceFoldersByAssessmentOptions(
-[property: CommandSwitch("--assessment-id")] string AssessmentId
+[property: CliOption("--assessment-id")] string AssessmentId
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

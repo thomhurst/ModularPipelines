@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm-incidents", "update-incident-record")]
+[CliCommand("ssm-incidents", "update-incident-record")]
 public record AwsSsmIncidentsUpdateIncidentRecordOptions(
-[property: CommandSwitch("--arn")] string Arn
+[property: CliOption("--arn")] string Arn
 ) : AwsOptions
 {
-    [CommandSwitch("--chat-channel")]
+    [CliOption("--chat-channel")]
     public string? ChatChannel { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--impact")]
+    [CliOption("--impact")]
     public int? Impact { get; set; }
 
-    [CommandSwitch("--notification-targets")]
+    [CliOption("--notification-targets")]
     public string[]? NotificationTargets { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--summary")]
+    [CliOption("--summary")]
     public string? Summary { get; set; }
 
-    [CommandSwitch("--title")]
+    [CliOption("--title")]
     public string? Title { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

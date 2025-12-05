@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "script-execution", "create")]
+[CliSubCommand("vmware", "script-execution", "create")]
 public record AzVmwareScriptExecutionCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--private-cloud")] string PrivateCloud,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--timeout")] string Timeout
+[property: CliOption("--name")] string Name,
+[property: CliOption("--private-cloud")] string PrivateCloud,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--timeout")] string Timeout
 ) : AzOptions
 {
-    [CommandSwitch("--failure-reason")]
+    [CliOption("--failure-reason")]
     public string? FailureReason { get; set; }
 
-    [CommandSwitch("--hidden-parameter")]
+    [CliOption("--hidden-parameter")]
     public string? HiddenParameter { get; set; }
 
-    [CommandSwitch("--named-outputs")]
+    [CliOption("--named-outputs")]
     public string? NamedOutputs { get; set; }
 
-    [CommandSwitch("--out")]
+    [CliOption("--out")]
     public string? Out { get; set; }
 
-    [CommandSwitch("--parameter")]
+    [CliOption("--parameter")]
     public string? Parameter { get; set; }
 
-    [CommandSwitch("--retention")]
+    [CliOption("--retention")]
     public string? Retention { get; set; }
 
-    [CommandSwitch("--script-cmdlet-id")]
+    [CliOption("--script-cmdlet-id")]
     public string? ScriptCmdletId { get; set; }
 }

@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeguruprofiler", "put-permission")]
+[CliCommand("codeguruprofiler", "put-permission")]
 public record AwsCodeguruprofilerPutPermissionOptions(
-[property: CommandSwitch("--action-group")] string ActionGroup,
-[property: CommandSwitch("--principals")] string[] Principals,
-[property: CommandSwitch("--profiling-group-name")] string ProfilingGroupName
+[property: CliOption("--action-group")] string ActionGroup,
+[property: CliOption("--principals")] string[] Principals,
+[property: CliOption("--profiling-group-name")] string ProfilingGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--revision-id")]
+    [CliOption("--revision-id")]
     public string? RevisionId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,26 +5,26 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptunedata", "start-loader-job")]
+[CliCommand("neptunedata", "start-loader-job")]
 public record AwsNeptunedataStartLoaderJobOptions(
-[property: CommandSwitch("--source")] string Source,
-[property: CommandSwitch("--format")] string Format,
-[property: CommandSwitch("--s3-bucket-region")] string S3BucketRegion,
-[property: CommandSwitch("--iam-role-arn")] string IamRoleArn
+[property: CliOption("--source")] string Source,
+[property: CliOption("--format")] string Format,
+[property: CliOption("--s3-bucket-region")] string S3BucketRegion,
+[property: CliOption("--iam-role-arn")] string IamRoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--mode")]
+    [CliOption("--mode")]
     public string? Mode { get; set; }
 
-    [CommandSwitch("--parallelism")]
+    [CliOption("--parallelism")]
     public string? Parallelism { get; set; }
 
-    [CommandSwitch("--parser-configuration")]
+    [CliOption("--parser-configuration")]
     public IEnumerable<KeyValue>? ParserConfiguration { get; set; }
 
-    [CommandSwitch("--dependencies")]
+    [CliOption("--dependencies")]
     public string[]? Dependencies { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

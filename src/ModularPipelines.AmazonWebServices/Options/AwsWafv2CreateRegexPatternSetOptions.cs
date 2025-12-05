@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wafv2", "create-regex-pattern-set")]
+[CliCommand("wafv2", "create-regex-pattern-set")]
 public record AwsWafv2CreateRegexPatternSetOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--scope")] string Scope,
-[property: CommandSwitch("--regular-expression-list")] string[] RegularExpressionList
+[property: CliOption("--name")] string Name,
+[property: CliOption("--scope")] string Scope,
+[property: CliOption("--regular-expression-list")] string[] RegularExpressionList
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

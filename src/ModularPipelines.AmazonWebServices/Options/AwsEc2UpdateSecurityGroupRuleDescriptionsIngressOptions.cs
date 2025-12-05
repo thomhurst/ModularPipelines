@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "update-security-group-rule-descriptions-ingress")]
+[CliCommand("ec2", "update-security-group-rule-descriptions-ingress")]
 public record AwsEc2UpdateSecurityGroupRuleDescriptionsIngressOptions : AwsOptions
 {
-    [CommandSwitch("--group-id")]
+    [CliOption("--group-id")]
     public string? GroupId { get; set; }
 
-    [CommandSwitch("--group-name")]
+    [CliOption("--group-name")]
     public string? GroupName { get; set; }
 
-    [CommandSwitch("--ip-permissions")]
+    [CliOption("--ip-permissions")]
     public string[]? IpPermissions { get; set; }
 
-    [CommandSwitch("--security-group-rule-descriptions")]
+    [CliOption("--security-group-rule-descriptions")]
     public string[]? SecurityGroupRuleDescriptions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appintegrations", "list-data-integration-associations")]
+[CliCommand("appintegrations", "list-data-integration-associations")]
 public record AwsAppintegrationsListDataIntegrationAssociationsOptions(
-[property: CommandSwitch("--data-integration-identifier")] string DataIntegrationIdentifier
+[property: CliOption("--data-integration-identifier")] string DataIntegrationIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

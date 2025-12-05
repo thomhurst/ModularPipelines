@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "delete-verified-access-trust-provider")]
+[CliCommand("ec2", "delete-verified-access-trust-provider")]
 public record AwsEc2DeleteVerifiedAccessTrustProviderOptions(
-[property: CommandSwitch("--verified-access-trust-provider-id")] string VerifiedAccessTrustProviderId
+[property: CliOption("--verified-access-trust-provider-id")] string VerifiedAccessTrustProviderId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

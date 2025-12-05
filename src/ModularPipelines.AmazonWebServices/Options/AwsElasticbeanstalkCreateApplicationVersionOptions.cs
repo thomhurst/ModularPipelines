@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticbeanstalk", "create-application-version")]
+[CliCommand("elasticbeanstalk", "create-application-version")]
 public record AwsElasticbeanstalkCreateApplicationVersionOptions(
-[property: CommandSwitch("--application-name")] string ApplicationName,
-[property: CommandSwitch("--version-label")] string VersionLabel
+[property: CliOption("--application-name")] string ApplicationName,
+[property: CliOption("--version-label")] string VersionLabel
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--source-build-information")]
+    [CliOption("--source-build-information")]
     public string? SourceBuildInformation { get; set; }
 
-    [CommandSwitch("--source-bundle")]
+    [CliOption("--source-bundle")]
     public string? SourceBundle { get; set; }
 
-    [CommandSwitch("--build-configuration")]
+    [CliOption("--build-configuration")]
     public string? BuildConfiguration { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

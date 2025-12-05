@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("account", "create")]
+[CliSubCommand("account", "create")]
 public record AzAccountCreateOptions(
-[property: CommandSwitch("--enrollment-account-name")] int EnrollmentAccountName,
-[property: CommandSwitch("--offer-type")] string OfferType
+[property: CliOption("--enrollment-account-name")] int EnrollmentAccountName,
+[property: CliOption("--offer-type")] string OfferType
 ) : AzOptions
 {
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--owner-object-id")]
+    [CliOption("--owner-object-id")]
     public string? OwnerObjectId { get; set; }
 
-    [CommandSwitch("--owner-spn")]
+    [CliOption("--owner-spn")]
     public string? OwnerSpn { get; set; }
 
-    [CommandSwitch("--owner-upn")]
+    [CliOption("--owner-upn")]
     public string? OwnerUpn { get; set; }
 }

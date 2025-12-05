@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "copy-fpga-image")]
+[CliCommand("ec2", "copy-fpga-image")]
 public record AwsEc2CopyFpgaImageOptions(
-[property: CommandSwitch("--source-fpga-image-id")] string SourceFpgaImageId,
-[property: CommandSwitch("--source-region")] string SourceRegion
+[property: CliOption("--source-fpga-image-id")] string SourceFpgaImageId,
+[property: CliOption("--source-region")] string SourceRegion
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

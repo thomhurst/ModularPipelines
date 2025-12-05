@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudcontrol", "delete-resource")]
+[CliCommand("cloudcontrol", "delete-resource")]
 public record AwsCloudcontrolDeleteResourceOptions(
-[property: CommandSwitch("--type-name")] string TypeName,
-[property: CommandSwitch("--identifier")] string Identifier
+[property: CliOption("--type-name")] string TypeName,
+[property: CliOption("--identifier")] string Identifier
 ) : AwsOptions
 {
-    [CommandSwitch("--type-version-id")]
+    [CliOption("--type-version-id")]
     public string? TypeVersionId { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

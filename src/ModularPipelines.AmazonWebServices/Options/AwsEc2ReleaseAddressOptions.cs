@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "release-address")]
+[CliCommand("ec2", "release-address")]
 public record AwsEc2ReleaseAddressOptions : AwsOptions
 {
-    [CommandSwitch("--allocation-id")]
+    [CliOption("--allocation-id")]
     public string? AllocationId { get; set; }
 
-    [CommandSwitch("--public-ip")]
+    [CliOption("--public-ip")]
     public string? PublicIp { get; set; }
 
-    [CommandSwitch("--network-border-group")]
+    [CliOption("--network-border-group")]
     public string? NetworkBorderGroup { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

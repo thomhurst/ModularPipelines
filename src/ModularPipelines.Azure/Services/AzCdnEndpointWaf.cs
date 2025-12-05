@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cdn", "endpoint")]
+[CliCommand("cdn", "endpoint")]
 public class AzCdnEndpointWaf
 {
     public AzCdnEndpointWaf(

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iottwinmaker", "delete-workspace")]
+[CliCommand("iottwinmaker", "delete-workspace")]
 public record AwsIottwinmakerDeleteWorkspaceOptions(
-[property: CommandSwitch("--workspace-id")] string WorkspaceId
+[property: CliOption("--workspace-id")] string WorkspaceId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

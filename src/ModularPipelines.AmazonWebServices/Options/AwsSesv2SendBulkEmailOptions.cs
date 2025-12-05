@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sesv2", "send-bulk-email")]
+[CliCommand("sesv2", "send-bulk-email")]
 public record AwsSesv2SendBulkEmailOptions(
-[property: CommandSwitch("--default-content")] string DefaultContent,
-[property: CommandSwitch("--bulk-email-entries")] string[] BulkEmailEntries
+[property: CliOption("--default-content")] string DefaultContent,
+[property: CliOption("--bulk-email-entries")] string[] BulkEmailEntries
 ) : AwsOptions
 {
-    [CommandSwitch("--from-email-address")]
+    [CliOption("--from-email-address")]
     public string? FromEmailAddress { get; set; }
 
-    [CommandSwitch("--from-email-address-identity-arn")]
+    [CliOption("--from-email-address-identity-arn")]
     public string? FromEmailAddressIdentityArn { get; set; }
 
-    [CommandSwitch("--reply-to-addresses")]
+    [CliOption("--reply-to-addresses")]
     public string[]? ReplyToAddresses { get; set; }
 
-    [CommandSwitch("--feedback-forwarding-email-address")]
+    [CliOption("--feedback-forwarding-email-address")]
     public string? FeedbackForwardingEmailAddress { get; set; }
 
-    [CommandSwitch("--feedback-forwarding-email-address-identity-arn")]
+    [CliOption("--feedback-forwarding-email-address-identity-arn")]
     public string? FeedbackForwardingEmailAddressIdentityArn { get; set; }
 
-    [CommandSwitch("--default-email-tags")]
+    [CliOption("--default-email-tags")]
     public string[]? DefaultEmailTags { get; set; }
 
-    [CommandSwitch("--configuration-set-name")]
+    [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

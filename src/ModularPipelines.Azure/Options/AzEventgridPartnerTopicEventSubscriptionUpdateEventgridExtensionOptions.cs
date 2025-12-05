@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "partner", "topic", "event-subscription", "update", "(eventgrid", "extension)")]
+[CliSubCommand("eventgrid", "partner", "topic", "event-subscription", "update", "(eventgrid", "extension)")]
 public record AzEventgridPartnerTopicEventSubscriptionUpdateEventgridExtensionOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--partner-topic-name")] string PartnerTopicName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--partner-topic-name")] string PartnerTopicName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--advanced-filter")]
+    [CliOption("--advanced-filter")]
     public string? AdvancedFilter { get; set; }
 
-    [CommandSwitch("--deadletter-endpoint")]
+    [CliOption("--deadletter-endpoint")]
     public string? DeadletterEndpoint { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [CommandSwitch("--endpoint-type")]
+    [CliOption("--endpoint-type")]
     public string? EndpointType { get; set; }
 
-    [CommandSwitch("--included-event-types")]
+    [CliOption("--included-event-types")]
     public string? IncludedEventTypes { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 
-    [CommandSwitch("--subject-begins-with")]
+    [CliOption("--subject-begins-with")]
     public string? SubjectBeginsWith { get; set; }
 
-    [CommandSwitch("--subject-ends-with")]
+    [CliOption("--subject-ends-with")]
     public string? SubjectEndsWith { get; set; }
 }

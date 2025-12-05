@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-hyper-parameter-tuning-job")]
+[CliCommand("sagemaker", "create-hyper-parameter-tuning-job")]
 public record AwsSagemakerCreateHyperParameterTuningJobOptions(
-[property: CommandSwitch("--hyper-parameter-tuning-job-name")] string HyperParameterTuningJobName,
-[property: CommandSwitch("--hyper-parameter-tuning-job-config")] string HyperParameterTuningJobConfig
+[property: CliOption("--hyper-parameter-tuning-job-name")] string HyperParameterTuningJobName,
+[property: CliOption("--hyper-parameter-tuning-job-config")] string HyperParameterTuningJobConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--training-job-definition")]
+    [CliOption("--training-job-definition")]
     public string? TrainingJobDefinition { get; set; }
 
-    [CommandSwitch("--training-job-definitions")]
+    [CliOption("--training-job-definitions")]
     public string[]? TrainingJobDefinitions { get; set; }
 
-    [CommandSwitch("--warm-start-config")]
+    [CliOption("--warm-start-config")]
     public string? WarmStartConfig { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--autotune")]
+    [CliOption("--autotune")]
     public string? Autotune { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

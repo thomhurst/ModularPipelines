@@ -4,50 +4,50 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotfleetwise", "create-campaign")]
+[CliCommand("iotfleetwise", "create-campaign")]
 public record AwsIotfleetwiseCreateCampaignOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--signal-catalog-arn")] string SignalCatalogArn,
-[property: CommandSwitch("--target-arn")] string TargetArn,
-[property: CommandSwitch("--collection-scheme")] string CollectionScheme
+[property: CliOption("--name")] string Name,
+[property: CliOption("--signal-catalog-arn")] string SignalCatalogArn,
+[property: CliOption("--target-arn")] string TargetArn,
+[property: CliOption("--collection-scheme")] string CollectionScheme
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public long? StartTime { get; set; }
 
-    [CommandSwitch("--expiry-time")]
+    [CliOption("--expiry-time")]
     public long? ExpiryTime { get; set; }
 
-    [CommandSwitch("--post-trigger-collection-duration")]
+    [CliOption("--post-trigger-collection-duration")]
     public long? PostTriggerCollectionDuration { get; set; }
 
-    [CommandSwitch("--diagnostics-mode")]
+    [CliOption("--diagnostics-mode")]
     public string? DiagnosticsMode { get; set; }
 
-    [CommandSwitch("--spooling-mode")]
+    [CliOption("--spooling-mode")]
     public string? SpoolingMode { get; set; }
 
-    [CommandSwitch("--compression")]
+    [CliOption("--compression")]
     public string? Compression { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public int? Priority { get; set; }
 
-    [CommandSwitch("--signals-to-collect")]
+    [CliOption("--signals-to-collect")]
     public string[]? SignalsToCollect { get; set; }
 
-    [CommandSwitch("--data-extra-dimensions")]
+    [CliOption("--data-extra-dimensions")]
     public string[]? DataExtraDimensions { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--data-destination-configs")]
+    [CliOption("--data-destination-configs")]
     public string[]? DataDestinationConfigs { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

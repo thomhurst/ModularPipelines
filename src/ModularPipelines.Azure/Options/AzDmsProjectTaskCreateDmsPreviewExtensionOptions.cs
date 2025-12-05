@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "project", "task", "create", "(dms-preview", "extension)")]
+[CliSubCommand("dms", "project", "task", "create", "(dms-preview", "extension)")]
 public record AzDmsProjectTaskCreateDmsPreviewExtensionOptions(
-[property: CommandSwitch("--database-options-json")] string DatabaseOptionsJson,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--project-name")] string ProjectName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service-name")] string ServiceName,
-[property: CommandSwitch("--source-connection-json")] string SourceConnectionJson,
-[property: CommandSwitch("--target-connection-json")] string TargetConnectionJson
+[property: CliOption("--database-options-json")] string DatabaseOptionsJson,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--project-name")] string ProjectName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service-name")] string ServiceName,
+[property: CliOption("--source-connection-json")] string SourceConnectionJson,
+[property: CliOption("--target-connection-json")] string TargetConnectionJson
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--enable-data-integrity-validation")]
+    [CliFlag("--enable-data-integrity-validation")]
     public bool? EnableDataIntegrityValidation { get; set; }
 
-    [BooleanCommandSwitch("--enable-query-analysis-validation")]
+    [CliFlag("--enable-query-analysis-validation")]
     public bool? EnableQueryAnalysisValidation { get; set; }
 
-    [BooleanCommandSwitch("--enable-schema-validation")]
+    [CliFlag("--enable-schema-validation")]
     public bool? EnableSchemaValidation { get; set; }
 
-    [CommandSwitch("--task-type")]
+    [CliOption("--task-type")]
     public string? TaskType { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
-    [CommandSwitch("--validated-task-name")]
+    [CliOption("--validated-task-name")]
     public string? ValidatedTaskName { get; set; }
 }

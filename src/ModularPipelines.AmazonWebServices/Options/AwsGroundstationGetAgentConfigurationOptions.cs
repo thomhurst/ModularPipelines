@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("groundstation", "get-agent-configuration")]
+[CliCommand("groundstation", "get-agent-configuration")]
 public record AwsGroundstationGetAgentConfigurationOptions(
-[property: CommandSwitch("--agent-id")] string AgentId
+[property: CliOption("--agent-id")] string AgentId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

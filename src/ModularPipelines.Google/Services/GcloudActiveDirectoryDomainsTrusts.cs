@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("active-directory", "domains")]
+[CliCommand("active-directory", "domains")]
 public class GcloudActiveDirectoryDomainsTrusts
 {
     public GcloudActiveDirectoryDomainsTrusts(

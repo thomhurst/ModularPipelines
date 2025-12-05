@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("feedback")]
+[CliSubCommand("feedback")]
 public record AzFeedbackOptions : AzOptions;

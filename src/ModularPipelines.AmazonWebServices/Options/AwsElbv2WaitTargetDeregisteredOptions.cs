@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elbv2", "wait", "target-deregistered")]
+[CliCommand("elbv2", "wait", "target-deregistered")]
 public record AwsElbv2WaitTargetDeregisteredOptions(
-[property: CommandSwitch("--target-group-arn")] string TargetGroupArn
+[property: CliOption("--target-group-arn")] string TargetGroupArn
 ) : AwsOptions
 {
-    [CommandSwitch("--targets")]
+    [CliOption("--targets")]
     public string[]? Targets { get; set; }
 
-    [CommandSwitch("--include")]
+    [CliOption("--include")]
     public string[]? Include { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

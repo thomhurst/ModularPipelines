@@ -3,73 +3,73 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("blame")]
+[CliSubCommand("blame")]
 [ExcludeFromCodeCoverage]
 public record GitBlameOptions : GitOptions
 {
-    [BooleanCommandSwitch("--root")]
+    [CliFlag("--root")]
     public virtual bool? Root { get; set; }
 
-    [BooleanCommandSwitch("--show-stats")]
+    [CliFlag("--show-stats")]
     public virtual bool? ShowStats { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--reverse")]
-    public string? Reverse { get; set; }
+    [CliOption("--reverse", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Reverse { get; set; }
 
-    [BooleanCommandSwitch("--first-parent")]
+    [CliFlag("--first-parent")]
     public virtual bool? FirstParent { get; set; }
 
-    [BooleanCommandSwitch("--porcelain")]
+    [CliFlag("--porcelain")]
     public virtual bool? Porcelain { get; set; }
 
-    [BooleanCommandSwitch("--line-porcelain")]
+    [CliFlag("--line-porcelain")]
     public virtual bool? LinePorcelain { get; set; }
 
-    [BooleanCommandSwitch("--incremental")]
+    [CliFlag("--incremental")]
     public virtual bool? Incremental { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--encoding")]
-    public string? Encoding { get; set; }
+    [CliOption("--encoding", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Encoding { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--contents")]
-    public string? Contents { get; set; }
+    [CliOption("--contents", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Contents { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--date")]
-    public string? Date { get; set; }
+    [CliOption("--date", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Date { get; set; }
 
-    [BooleanCommandSwitch("--no-progress")]
+    [CliFlag("--no-progress")]
     public virtual bool? NoProgress { get; set; }
 
-    [BooleanCommandSwitch("--progress")]
+    [CliFlag("--progress")]
     public virtual bool? Progress { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--ignore-rev")]
-    public string? IgnoreRev { get; set; }
+    [CliOption("--ignore-rev", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? IgnoreRev { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--ignore-revs-file")]
-    public string? IgnoreRevsFile { get; set; }
+    [CliOption("--ignore-revs-file", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? IgnoreRevsFile { get; set; }
 
-    [BooleanCommandSwitch("--color-lines")]
+    [CliFlag("--color-lines")]
     public virtual bool? ColorLines { get; set; }
 
-    [BooleanCommandSwitch("--color-by-age")]
+    [CliFlag("--color-by-age")]
     public virtual bool? ColorByAge { get; set; }
 
-    [BooleanCommandSwitch("--c")]
+    [CliFlag("--c")]
     public virtual bool? C { get; set; }
 
-    [BooleanCommandSwitch("--score-debug")]
+    [CliFlag("--score-debug")]
     public virtual bool? ScoreDebug { get; set; }
 
-    [BooleanCommandSwitch("--show-name")]
+    [CliFlag("--show-name")]
     public virtual bool? ShowName { get; set; }
 
-    [BooleanCommandSwitch("--show-number")]
+    [CliFlag("--show-number")]
     public virtual bool? ShowNumber { get; set; }
 
-    [BooleanCommandSwitch("--show-email")]
+    [CliFlag("--show-email")]
     public virtual bool? ShowEmail { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--abbrev")]
-    public string? Abbrev { get; set; }
+    [CliOption("--abbrev", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Abbrev { get; set; }
 }

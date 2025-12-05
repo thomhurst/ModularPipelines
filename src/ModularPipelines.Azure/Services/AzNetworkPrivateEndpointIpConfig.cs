@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "private-endpoint")]
+[CliCommand("network", "private-endpoint")]
 public class AzNetworkPrivateEndpointIpConfig
 {
     public AzNetworkPrivateEndpointIpConfig(

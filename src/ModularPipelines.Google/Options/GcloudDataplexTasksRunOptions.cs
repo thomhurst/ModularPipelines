@@ -5,14 +5,14 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataplex", "tasks", "run")]
+[CliCommand("dataplex", "tasks", "run")]
 public record GcloudDataplexTasksRunOptions(
-[property: PositionalArgument] string Task,
-[property: PositionalArgument] string Lake,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string ExecutionSpecArgs
+[property: CliArgument] string Task,
+[property: CliArgument] string Lake,
+[property: CliArgument] string Location,
+[property: CliArgument] string ExecutionSpecArgs
 ) : GcloudOptions
 {
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 }

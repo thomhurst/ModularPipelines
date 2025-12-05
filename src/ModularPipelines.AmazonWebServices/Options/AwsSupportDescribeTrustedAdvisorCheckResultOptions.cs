@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("support", "describe-trusted-advisor-check-result")]
+[CliCommand("support", "describe-trusted-advisor-check-result")]
 public record AwsSupportDescribeTrustedAdvisorCheckResultOptions(
-[property: CommandSwitch("--check-id")] string CheckId
+[property: CliOption("--check-id")] string CheckId
 ) : AwsOptions
 {
-    [CommandSwitch("--language")]
+    [CliOption("--language")]
     public string? Language { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

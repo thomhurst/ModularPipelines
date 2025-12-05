@@ -4,37 +4,37 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "create-analysis")]
+[CliCommand("quicksight", "create-analysis")]
 public record AwsQuicksightCreateAnalysisOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--analysis-id")] string AnalysisId,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--analysis-id")] string AnalysisId,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string? Parameters { get; set; }
 
-    [CommandSwitch("--permissions")]
+    [CliOption("--permissions")]
     public string[]? Permissions { get; set; }
 
-    [CommandSwitch("--source-entity")]
+    [CliOption("--source-entity")]
     public string? SourceEntity { get; set; }
 
-    [CommandSwitch("--theme-arn")]
+    [CliOption("--theme-arn")]
     public string? ThemeArn { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--definition")]
+    [CliOption("--definition")]
     public string? Definition { get; set; }
 
-    [CommandSwitch("--validation-strategy")]
+    [CliOption("--validation-strategy")]
     public string? ValidationStrategy { get; set; }
 
-    [CommandSwitch("--folder-arns")]
+    [CliOption("--folder-arns")]
     public string[]? FolderArns { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

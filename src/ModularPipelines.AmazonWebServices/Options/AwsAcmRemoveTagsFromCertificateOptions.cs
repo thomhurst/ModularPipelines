@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acm", "remove-tags-from-certificate")]
+[CliCommand("acm", "remove-tags-from-certificate")]
 public record AwsAcmRemoveTagsFromCertificateOptions(
-[property: CommandSwitch("--certificate-arn")] string CertificateArn,
-[property: CommandSwitch("--tags")] string[] Tags
+[property: CliOption("--certificate-arn")] string CertificateArn,
+[property: CliOption("--tags")] string[] Tags
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("athena", "get-named-query")]
+[CliCommand("athena", "get-named-query")]
 public record AwsAthenaGetNamedQueryOptions(
-[property: CommandSwitch("--named-query-id")] string NamedQueryId
+[property: CliOption("--named-query-id")] string NamedQueryId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

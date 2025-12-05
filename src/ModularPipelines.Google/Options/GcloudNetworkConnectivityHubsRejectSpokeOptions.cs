@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-connectivity", "hubs", "reject-spoke")]
+[CliCommand("network-connectivity", "hubs", "reject-spoke")]
 public record GcloudNetworkConnectivityHubsRejectSpokeOptions(
-[property: PositionalArgument] string Hub,
-[property: CommandSwitch("--spoke")] string Spoke
+[property: CliArgument] string Hub,
+[property: CliOption("--spoke")] string Spoke
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--details")]
+    [CliOption("--details")]
     public string? Details { get; set; }
 }

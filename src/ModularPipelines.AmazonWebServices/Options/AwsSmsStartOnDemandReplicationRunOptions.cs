@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sms", "start-on-demand-replication-run")]
+[CliCommand("sms", "start-on-demand-replication-run")]
 public record AwsSmsStartOnDemandReplicationRunOptions(
-[property: CommandSwitch("--replication-job-id")] string ReplicationJobId
+[property: CliOption("--replication-job-id")] string ReplicationJobId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

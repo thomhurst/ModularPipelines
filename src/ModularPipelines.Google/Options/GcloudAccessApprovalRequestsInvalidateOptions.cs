@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access-approval", "requests", "invalidate")]
+[CliCommand("access-approval", "requests", "invalidate")]
 public record GcloudAccessApprovalRequestsInvalidateOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions;

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "update-ca-certificate")]
+[CliCommand("iot", "update-ca-certificate")]
 public record AwsIotUpdateCaCertificateOptions(
-[property: CommandSwitch("--certificate-id")] string CertificateId
+[property: CliOption("--certificate-id")] string CertificateId
 ) : AwsOptions
 {
-    [CommandSwitch("--new-status")]
+    [CliOption("--new-status")]
     public string? NewStatus { get; set; }
 
-    [CommandSwitch("--new-auto-registration-status")]
+    [CliOption("--new-auto-registration-status")]
     public string? NewAutoRegistrationStatus { get; set; }
 
-    [CommandSwitch("--registration-config")]
+    [CliOption("--registration-config")]
     public string? RegistrationConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

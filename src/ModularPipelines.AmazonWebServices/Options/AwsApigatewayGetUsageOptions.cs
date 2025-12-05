@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "get-usage")]
+[CliCommand("apigateway", "get-usage")]
 public record AwsApigatewayGetUsageOptions(
-[property: CommandSwitch("--usage-plan-id")] string UsagePlanId,
-[property: CommandSwitch("--start-date")] string StartDate,
-[property: CommandSwitch("--end-date")] string EndDate
+[property: CliOption("--usage-plan-id")] string UsagePlanId,
+[property: CliOption("--start-date")] string StartDate,
+[property: CliOption("--end-date")] string EndDate
 ) : AwsOptions
 {
-    [CommandSwitch("--key-id")]
+    [CliOption("--key-id")]
     public string? KeyId { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

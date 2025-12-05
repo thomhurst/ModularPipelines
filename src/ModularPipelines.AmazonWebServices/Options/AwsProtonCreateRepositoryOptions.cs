@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("proton", "create-repository")]
+[CliCommand("proton", "create-repository")]
 public record AwsProtonCreateRepositoryOptions(
-[property: CommandSwitch("--connection-arn")] string ConnectionArn,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--provider")] string Provider
+[property: CliOption("--connection-arn")] string ConnectionArn,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--provider")] string Provider
 ) : AwsOptions
 {
-    [CommandSwitch("--encryption-key")]
+    [CliOption("--encryption-key")]
     public string? EncryptionKey { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

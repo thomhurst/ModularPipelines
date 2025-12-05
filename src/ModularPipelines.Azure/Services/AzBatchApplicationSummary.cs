@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "application")]
+[CliCommand("batch", "application")]
 public class AzBatchApplicationSummary
 {
     public AzBatchApplicationSummary(

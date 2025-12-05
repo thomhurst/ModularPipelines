@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("constraints", "query")]
+[CliCommand("constraints", "query")]
 public record YarnConstraintsQueryOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Query
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Query
 ) : YarnOptions
 {
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 }

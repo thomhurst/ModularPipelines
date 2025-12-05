@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "unlabel-parameter-version")]
+[CliCommand("ssm", "unlabel-parameter-version")]
 public record AwsSsmUnlabelParameterVersionOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--parameter-version")] long ParameterVersion,
-[property: CommandSwitch("--labels")] string[] Labels
+[property: CliOption("--name")] string Name,
+[property: CliOption("--parameter-version")] long ParameterVersion,
+[property: CliOption("--labels")] string[] Labels
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "create-thing-group")]
+[CliCommand("iot", "create-thing-group")]
 public record AwsIotCreateThingGroupOptions(
-[property: CommandSwitch("--thing-group-name")] string ThingGroupName
+[property: CliOption("--thing-group-name")] string ThingGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--parent-group-name")]
+    [CliOption("--parent-group-name")]
     public string? ParentGroupName { get; set; }
 
-    [CommandSwitch("--thing-group-properties")]
+    [CliOption("--thing-group-properties")]
     public string? ThingGroupProperties { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

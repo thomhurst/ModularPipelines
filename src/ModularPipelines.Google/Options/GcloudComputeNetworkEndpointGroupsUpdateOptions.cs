@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "network-endpoint-groups", "update")]
+[CliCommand("compute", "network-endpoint-groups", "update")]
 public record GcloudComputeNetworkEndpointGroupsUpdateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--add-endpoint")] string[] AddEndpoint,
-[property: CommandSwitch("--remove-endpoint")] string[] RemoveEndpoint
+[property: CliArgument] string Name,
+[property: CliOption("--add-endpoint")] string[] AddEndpoint,
+[property: CliOption("--remove-endpoint")] string[] RemoveEndpoint
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

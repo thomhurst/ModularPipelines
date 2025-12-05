@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "target-grpc-proxies", "describe")]
+[CliCommand("compute", "target-grpc-proxies", "describe")]
 public record GcloudComputeTargetGrpcProxiesDescribeOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions;

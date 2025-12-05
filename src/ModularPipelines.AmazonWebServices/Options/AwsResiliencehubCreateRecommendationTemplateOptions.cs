@@ -5,30 +5,30 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resiliencehub", "create-recommendation-template")]
+[CliCommand("resiliencehub", "create-recommendation-template")]
 public record AwsResiliencehubCreateRecommendationTemplateOptions(
-[property: CommandSwitch("--assessment-arn")] string AssessmentArn,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--assessment-arn")] string AssessmentArn,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--bucket-name")]
+    [CliOption("--bucket-name")]
     public string? BucketName { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public string? Format { get; set; }
 
-    [CommandSwitch("--recommendation-ids")]
+    [CliOption("--recommendation-ids")]
     public string[]? RecommendationIds { get; set; }
 
-    [CommandSwitch("--recommendation-types")]
+    [CliOption("--recommendation-types")]
     public string[]? RecommendationTypes { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

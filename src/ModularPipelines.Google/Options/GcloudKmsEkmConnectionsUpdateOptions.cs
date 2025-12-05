@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "ekm-connections", "update")]
+[CliCommand("kms", "ekm-connections", "update")]
 public record GcloudKmsEkmConnectionsUpdateOptions(
-[property: PositionalArgument] string EkmConnection,
-[property: PositionalArgument] string Location
+[property: CliArgument] string EkmConnection,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--endpoint-filter")]
+    [CliOption("--endpoint-filter")]
     public string? EndpointFilter { get; set; }
 
-    [CommandSwitch("--hostname")]
+    [CliOption("--hostname")]
     public string? Hostname { get; set; }
 
-    [CommandSwitch("--server-certificates-files")]
+    [CliOption("--server-certificates-files")]
     public string[]? ServerCertificatesFiles { get; set; }
 
-    [CommandSwitch("--service-directory-service")]
+    [CliOption("--service-directory-service")]
     public string? ServiceDirectoryService { get; set; }
 
-    [CommandSwitch("--crypto-space-path")]
+    [CliOption("--crypto-space-path")]
     public string? CryptoSpacePath { get; set; }
 
-    [CommandSwitch("--key-management-mode")]
+    [CliOption("--key-management-mode")]
     public string? KeyManagementMode { get; set; }
 }

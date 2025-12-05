@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-model")]
+[CliCommand("sagemaker", "create-model")]
 public record AwsSagemakerCreateModelOptions(
-[property: CommandSwitch("--model-name")] string ModelName
+[property: CliOption("--model-name")] string ModelName
 ) : AwsOptions
 {
-    [CommandSwitch("--primary-container")]
+    [CliOption("--primary-container")]
     public string? PrimaryContainer { get; set; }
 
-    [CommandSwitch("--containers")]
+    [CliOption("--containers")]
     public string[]? Containers { get; set; }
 
-    [CommandSwitch("--inference-execution-config")]
+    [CliOption("--inference-execution-config")]
     public string? InferenceExecutionConfig { get; set; }
 
-    [CommandSwitch("--execution-role-arn")]
+    [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--vpc-config")]
+    [CliOption("--vpc-config")]
     public string? VpcConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

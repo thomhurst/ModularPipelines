@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "delete-usage-plan")]
+[CliCommand("apigateway", "delete-usage-plan")]
 public record AwsApigatewayDeleteUsagePlanOptions(
-[property: CommandSwitch("--usage-plan-id")] string UsagePlanId
+[property: CliOption("--usage-plan-id")] string UsagePlanId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

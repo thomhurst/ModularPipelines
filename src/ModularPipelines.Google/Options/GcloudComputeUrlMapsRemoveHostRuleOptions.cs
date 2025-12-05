@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "url-maps", "remove-host-rule")]
+[CliCommand("compute", "url-maps", "remove-host-rule")]
 public record GcloudComputeUrlMapsRemoveHostRuleOptions(
-[property: PositionalArgument] string UrlMap,
-[property: CommandSwitch("--host")] string Host
+[property: CliArgument] string UrlMap,
+[property: CliOption("--host")] string Host
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--delete-orphaned-path-matcher")]
+    [CliFlag("--delete-orphaned-path-matcher")]
     public bool? DeleteOrphanedPathMatcher { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

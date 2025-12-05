@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "enable-logging")]
+[CliCommand("redshift", "enable-logging")]
 public record AwsRedshiftEnableLoggingOptions(
-[property: CommandSwitch("--cluster-identifier")] string ClusterIdentifier
+[property: CliOption("--cluster-identifier")] string ClusterIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--bucket-name")]
+    [CliOption("--bucket-name")]
     public string? BucketName { get; set; }
 
-    [CommandSwitch("--s3-key-prefix")]
+    [CliOption("--s3-key-prefix")]
     public string? S3KeyPrefix { get; set; }
 
-    [CommandSwitch("--log-destination-type")]
+    [CliOption("--log-destination-type")]
     public string? LogDestinationType { get; set; }
 
-    [CommandSwitch("--log-exports")]
+    [CliOption("--log-exports")]
     public string[]? LogExports { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

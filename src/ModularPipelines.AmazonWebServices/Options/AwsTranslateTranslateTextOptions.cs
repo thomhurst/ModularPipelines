@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("translate", "translate-text")]
+[CliCommand("translate", "translate-text")]
 public record AwsTranslateTranslateTextOptions(
-[property: CommandSwitch("--text")] string Text,
-[property: CommandSwitch("--source-language-code")] string SourceLanguageCode,
-[property: CommandSwitch("--target-language-code")] string TargetLanguageCode
+[property: CliOption("--text")] string Text,
+[property: CliOption("--source-language-code")] string SourceLanguageCode,
+[property: CliOption("--target-language-code")] string TargetLanguageCode
 ) : AwsOptions
 {
-    [CommandSwitch("--terminology-names")]
+    [CliOption("--terminology-names")]
     public string[]? TerminologyNames { get; set; }
 
-    [CommandSwitch("--settings")]
+    [CliOption("--settings")]
     public string? Settings { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

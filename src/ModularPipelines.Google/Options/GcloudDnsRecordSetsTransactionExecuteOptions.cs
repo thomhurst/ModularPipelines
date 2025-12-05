@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns", "record-sets", "transaction", "execute")]
+[CliCommand("dns", "record-sets", "transaction", "execute")]
 public record GcloudDnsRecordSetsTransactionExecuteOptions(
-[property: CommandSwitch("--zone")] string Zone
+[property: CliOption("--zone")] string Zone
 ) : GcloudOptions
 {
-    [CommandSwitch("--transaction-file")]
+    [CliOption("--transaction-file")]
     public string? TransactionFile { get; set; }
 }

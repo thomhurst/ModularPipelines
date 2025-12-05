@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appstream")]
+[CliCommand("appstream")]
 public class AwsAppstreamWait
 {
     public AwsAppstreamWait(

@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicecatalog", "create-provisioned-product-plan")]
+[CliCommand("servicecatalog", "create-provisioned-product-plan")]
 public record AwsServicecatalogCreateProvisionedProductPlanOptions(
-[property: CommandSwitch("--plan-name")] string PlanName,
-[property: CommandSwitch("--plan-type")] string PlanType,
-[property: CommandSwitch("--product-id")] string ProductId,
-[property: CommandSwitch("--provisioned-product-name")] string ProvisionedProductName,
-[property: CommandSwitch("--provisioning-artifact-id")] string ProvisioningArtifactId
+[property: CliOption("--plan-name")] string PlanName,
+[property: CliOption("--plan-type")] string PlanType,
+[property: CliOption("--product-id")] string ProductId,
+[property: CliOption("--provisioned-product-name")] string ProvisionedProductName,
+[property: CliOption("--provisioning-artifact-id")] string ProvisioningArtifactId
 ) : AwsOptions
 {
-    [CommandSwitch("--accept-language")]
+    [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
-    [CommandSwitch("--notification-arns")]
+    [CliOption("--notification-arns")]
     public string[]? NotificationArns { get; set; }
 
-    [CommandSwitch("--path-id")]
+    [CliOption("--path-id")]
     public string? PathId { get; set; }
 
-    [CommandSwitch("--provisioning-parameters")]
+    [CliOption("--provisioning-parameters")]
     public string[]? ProvisioningParameters { get; set; }
 
-    [CommandSwitch("--idempotency-token")]
+    [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

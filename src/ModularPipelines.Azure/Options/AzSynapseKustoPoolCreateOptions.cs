@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "kusto", "pool", "create")]
+[CliSubCommand("synapse", "kusto", "pool", "create")]
 public record AzSynapseKustoPoolCreateOptions(
-[property: CommandSwitch("--kusto-pool-name")] string KustoPoolName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sku")] string Sku,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--kusto-pool-name")] string KustoPoolName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sku")] string Sku,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--enable-purge")]
+    [CliFlag("--enable-purge")]
     public bool? EnablePurge { get; set; }
 
-    [BooleanCommandSwitch("--enable-streaming-ingest")]
+    [CliFlag("--enable-streaming-ingest")]
     public bool? EnableStreamingIngest { get; set; }
 
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--if-none-match")]
+    [CliOption("--if-none-match")]
     public string? IfNoneMatch { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--optimized-autoscale")]
+    [CliOption("--optimized-autoscale")]
     public string? OptimizedAutoscale { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--workspace-uid")]
+    [CliOption("--workspace-uid")]
     public string? WorkspaceUid { get; set; }
 }

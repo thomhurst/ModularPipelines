@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr-containers", "update-role-trust-policy")]
+[CliCommand("emr-containers", "update-role-trust-policy")]
 public record AwsEmrContainersUpdateRoleTrustPolicyOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--namespace")] string Namespace,
-[property: CommandSwitch("--role-name")] string RoleName
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--namespace")] string Namespace,
+[property: CliOption("--role-name")] string RoleName
 ) : AwsOptions
 {
-    [CommandSwitch("--iam-endpoint")]
+    [CliOption("--iam-endpoint")]
     public string? IamEndpoint { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logicapp", "deployment")]
+[CliCommand("logicapp", "deployment")]
 public class AzLogicappDeploymentSource
 {
     public AzLogicappDeploymentSource(

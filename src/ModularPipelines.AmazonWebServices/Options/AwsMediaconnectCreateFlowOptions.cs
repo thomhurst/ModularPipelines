@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediaconnect", "create-flow")]
+[CliCommand("mediaconnect", "create-flow")]
 public record AwsMediaconnectCreateFlowOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--availability-zone")]
+    [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
-    [CommandSwitch("--entitlements")]
+    [CliOption("--entitlements")]
     public string[]? Entitlements { get; set; }
 
-    [CommandSwitch("--media-streams")]
+    [CliOption("--media-streams")]
     public string[]? MediaStreams { get; set; }
 
-    [CommandSwitch("--outputs")]
+    [CliOption("--outputs")]
     public string[]? Outputs { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CommandSwitch("--source-failover-config")]
+    [CliOption("--source-failover-config")]
     public string? SourceFailoverConfig { get; set; }
 
-    [CommandSwitch("--sources")]
+    [CliOption("--sources")]
     public string[]? Sources { get; set; }
 
-    [CommandSwitch("--vpc-interfaces")]
+    [CliOption("--vpc-interfaces")]
     public string[]? VpcInterfaces { get; set; }
 
-    [CommandSwitch("--maintenance")]
+    [CliOption("--maintenance")]
     public string? Maintenance { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

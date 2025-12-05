@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fsx", "delete-volume")]
+[CliCommand("fsx", "delete-volume")]
 public record AwsFsxDeleteVolumeOptions(
-[property: CommandSwitch("--volume-id")] string VolumeId
+[property: CliOption("--volume-id")] string VolumeId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--ontap-configuration")]
+    [CliOption("--ontap-configuration")]
     public string? OntapConfiguration { get; set; }
 
-    [CommandSwitch("--open-zfs-configuration")]
+    [CliOption("--open-zfs-configuration")]
     public string? OpenZfsConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

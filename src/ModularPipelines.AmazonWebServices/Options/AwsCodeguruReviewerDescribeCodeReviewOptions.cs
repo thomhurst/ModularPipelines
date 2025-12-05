@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeguru-reviewer", "describe-code-review")]
+[CliCommand("codeguru-reviewer", "describe-code-review")]
 public record AwsCodeguruReviewerDescribeCodeReviewOptions(
-[property: CommandSwitch("--code-review-arn")] string CodeReviewArn
+[property: CliOption("--code-review-arn")] string CodeReviewArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

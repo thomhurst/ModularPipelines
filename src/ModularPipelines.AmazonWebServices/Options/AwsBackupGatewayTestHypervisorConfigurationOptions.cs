@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup-gateway", "test-hypervisor-configuration")]
+[CliCommand("backup-gateway", "test-hypervisor-configuration")]
 public record AwsBackupGatewayTestHypervisorConfigurationOptions(
-[property: CommandSwitch("--gateway-arn")] string GatewayArn,
-[property: CommandSwitch("--host")] string Host
+[property: CliOption("--gateway-arn")] string GatewayArn,
+[property: CliOption("--host")] string Host
 ) : AwsOptions
 {
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

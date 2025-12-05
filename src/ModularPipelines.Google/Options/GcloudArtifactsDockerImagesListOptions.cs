@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts", "docker", "images", "list")]
+[CliCommand("artifacts", "docker", "images", "list")]
 public record GcloudArtifactsDockerImagesListOptions(
-[property: PositionalArgument] string ImagePath
+[property: CliArgument] string ImagePath
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--include-tags")]
+    [CliFlag("--include-tags")]
     public bool? IncludeTags { get; set; }
 
-    [CommandSwitch("--occurrence-filter")]
+    [CliOption("--occurrence-filter")]
     public string? OccurrenceFilter { get; set; }
 
-    [BooleanCommandSwitch("--show-occurrences")]
+    [CliFlag("--show-occurrences")]
     public bool? ShowOccurrences { get; set; }
 
-    [CommandSwitch("--show-occurrences-from")]
+    [CliOption("--show-occurrences-from")]
     public string? ShowOccurrencesFrom { get; set; }
 }

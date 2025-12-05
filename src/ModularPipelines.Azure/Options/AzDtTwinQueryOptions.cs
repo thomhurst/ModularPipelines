@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "twin", "query")]
+[CliSubCommand("dt", "twin", "query")]
 public record AzDtTwinQueryOptions(
-[property: CommandSwitch("--dt-name")] string DtName,
-[property: CommandSwitch("--query-command")] string QueryCommand
+[property: CliOption("--dt-name")] string DtName,
+[property: CliOption("--query-command")] string QueryCommand
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--cost")]
+    [CliFlag("--cost")]
     public bool? Cost { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

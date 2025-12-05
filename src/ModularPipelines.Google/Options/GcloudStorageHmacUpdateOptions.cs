@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "hmac", "update")]
+[CliCommand("storage", "hmac", "update")]
 public record GcloudStorageHmacUpdateOptions(
-[property: PositionalArgument] string AccessId,
-[property: BooleanCommandSwitch("--activate")] bool Activate,
-[property: BooleanCommandSwitch("--deactivate")] bool Deactivate
+[property: CliArgument] string AccessId,
+[property: CliFlag("--activate")] bool Activate,
+[property: CliFlag("--deactivate")] bool Deactivate
 ) : GcloudOptions
 {
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 }

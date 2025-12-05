@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "express-route", "peering", "create")]
+[CliSubCommand("network", "express-route", "peering", "create")]
 public record AzNetworkExpressRoutePeeringCreateOptions(
-[property: CommandSwitch("--circuit-name")] string CircuitName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--circuit-name")] string CircuitName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--advertised-public-prefixes")]
+    [CliOption("--advertised-public-prefixes")]
     public string? AdvertisedPublicPrefixes { get; set; }
 
-    [CommandSwitch("--customer-asn")]
+    [CliOption("--customer-asn")]
     public string? CustomerAsn { get; set; }
 
-    [CommandSwitch("--ip-version")]
+    [CliOption("--ip-version")]
     public string? IpVersion { get; set; }
 
-    [CommandSwitch("--legacy-mode")]
+    [CliOption("--legacy-mode")]
     public string? LegacyMode { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--peer-asn")]
+    [CliOption("--peer-asn")]
     public string? PeerAsn { get; set; }
 
-    [CommandSwitch("--peering-type")]
+    [CliOption("--peering-type")]
     public string? PeeringType { get; set; }
 
-    [CommandSwitch("--primary-peer-subnet")]
+    [CliOption("--primary-peer-subnet")]
     public string? PrimaryPeerSubnet { get; set; }
 
-    [CommandSwitch("--route-filter")]
+    [CliOption("--route-filter")]
     public string? RouteFilter { get; set; }
 
-    [CommandSwitch("--routing-registry-name")]
+    [CliOption("--routing-registry-name")]
     public string? RoutingRegistryName { get; set; }
 
-    [CommandSwitch("--secondary-peer-subnet")]
+    [CliOption("--secondary-peer-subnet")]
     public string? SecondaryPeerSubnet { get; set; }
 
-    [CommandSwitch("--shared-key")]
+    [CliOption("--shared-key")]
     public string? SharedKey { get; set; }
 
-    [CommandSwitch("--vlan-id")]
+    [CliOption("--vlan-id")]
     public string? VlanId { get; set; }
 }

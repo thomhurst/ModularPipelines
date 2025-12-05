@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcareapis", "workspace", "iot-connector", "fhir-destination", "show")]
+[CliSubCommand("healthcareapis", "workspace", "iot-connector", "fhir-destination", "show")]
 public record AzHealthcareapisWorkspaceIotConnectorFhirDestinationShowOptions : AzOptions
 {
-    [CommandSwitch("--fhir-destination-name")]
+    [CliOption("--fhir-destination-name")]
     public string? FhirDestinationName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--iot-connector-name")]
+    [CliOption("--iot-connector-name")]
     public string? IotConnectorName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

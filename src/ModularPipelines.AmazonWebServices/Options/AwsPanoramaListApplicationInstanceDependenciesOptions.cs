@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("panorama", "list-application-instance-dependencies")]
+[CliCommand("panorama", "list-application-instance-dependencies")]
 public record AwsPanoramaListApplicationInstanceDependenciesOptions(
-[property: CommandSwitch("--application-instance-id")] string ApplicationInstanceId
+[property: CliOption("--application-instance-id")] string ApplicationInstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

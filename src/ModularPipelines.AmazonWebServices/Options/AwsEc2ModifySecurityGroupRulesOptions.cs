@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-security-group-rules")]
+[CliCommand("ec2", "modify-security-group-rules")]
 public record AwsEc2ModifySecurityGroupRulesOptions(
-[property: CommandSwitch("--group-id")] string GroupId,
-[property: CommandSwitch("--security-group-rules")] string[] SecurityGroupRules
+[property: CliOption("--group-id")] string GroupId,
+[property: CliOption("--security-group-rules")] string[] SecurityGroupRules
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

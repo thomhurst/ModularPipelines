@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "get-rest-api")]
+[CliCommand("apigateway", "get-rest-api")]
 public record AwsApigatewayGetRestApiOptions(
-[property: CommandSwitch("--rest-api-id")] string RestApiId
+[property: CliOption("--rest-api-id")] string RestApiId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

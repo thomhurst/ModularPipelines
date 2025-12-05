@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fzf", "subscription")]
+[CliSubCommand("fzf", "subscription")]
 public record AzFzfSubscriptionOptions : AzOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [BooleanCommandSwitch("--no-default")]
+    [CliFlag("--no-default")]
     public bool? NoDefault { get; set; }
 }

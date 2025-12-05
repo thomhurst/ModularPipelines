@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "app", "deployment", "start-jfr")]
+[CliSubCommand("spring", "app", "deployment", "start-jfr")]
 public record AzSpringAppDeploymentStartJfrOptions(
-[property: CommandSwitch("--app")] string App,
-[property: CommandSwitch("--app-instance")] string AppInstance,
-[property: CommandSwitch("--file-path")] string FilePath,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--app")] string App,
+[property: CliOption("--app-instance")] string AppInstance,
+[property: CliOption("--file-path")] string FilePath,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--deployment")]
+    [CliOption("--deployment")]
     public string? Deployment { get; set; }
 
-    [CommandSwitch("--duration")]
+    [CliOption("--duration")]
     public string? Duration { get; set; }
 }

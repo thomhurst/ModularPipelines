@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cur", "put-report-definition")]
+[CliCommand("cur", "put-report-definition")]
 public record AwsCurPutReportDefinitionOptions(
-[property: CommandSwitch("--report-definition")] string ReportDefinition
+[property: CliOption("--report-definition")] string ReportDefinition
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

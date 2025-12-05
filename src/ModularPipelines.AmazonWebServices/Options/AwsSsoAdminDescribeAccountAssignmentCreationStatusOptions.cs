@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sso-admin", "describe-account-assignment-creation-status")]
+[CliCommand("sso-admin", "describe-account-assignment-creation-status")]
 public record AwsSsoAdminDescribeAccountAssignmentCreationStatusOptions(
-[property: CommandSwitch("--account-assignment-creation-request-id")] string AccountAssignmentCreationRequestId,
-[property: CommandSwitch("--instance-arn")] string InstanceArn
+[property: CliOption("--account-assignment-creation-request-id")] string AccountAssignmentCreationRequestId,
+[property: CliOption("--instance-arn")] string InstanceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

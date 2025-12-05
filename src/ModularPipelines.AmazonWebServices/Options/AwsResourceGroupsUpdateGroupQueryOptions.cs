@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-groups", "update-group-query")]
+[CliCommand("resource-groups", "update-group-query")]
 public record AwsResourceGroupsUpdateGroupQueryOptions(
-[property: CommandSwitch("--resource-query")] string ResourceQuery
+[property: CliOption("--resource-query")] string ResourceQuery
 ) : AwsOptions
 {
-    [CommandSwitch("--group-name")]
+    [CliOption("--group-name")]
     public string? GroupName { get; set; }
 
-    [CommandSwitch("--group")]
+    [CliOption("--group")]
     public string? Group { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

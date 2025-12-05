@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("plugin", "import", "from", "sources")]
+[CliCommand("plugin", "import", "from", "sources")]
 public record YarnPluginImportFromSourcesOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Name
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Name
 ) : YarnOptions
 {
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public virtual string? Path { get; set; }
 
-    [CommandSwitch("--repository")]
+    [CliOption("--repository")]
     public virtual string? Repository { get; set; }
 
-    [CommandSwitch("--branch")]
+    [CliOption("--branch")]
     public virtual string? Branch { get; set; }
 
-    [BooleanCommandSwitch("--no-minify")]
+    [CliFlag("--no-minify")]
     public virtual bool? NoMinify { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 }

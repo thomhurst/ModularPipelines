@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managed-cassandra", "cluster")]
+[CliCommand("managed-cassandra", "cluster")]
 public class AzManagedCassandraClusterUpdate
 {
     public AzManagedCassandraClusterUpdate(

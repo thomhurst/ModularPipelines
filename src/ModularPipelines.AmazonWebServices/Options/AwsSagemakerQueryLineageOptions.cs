@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "query-lineage")]
+[CliCommand("sagemaker", "query-lineage")]
 public record AwsSagemakerQueryLineageOptions : AwsOptions
 {
-    [CommandSwitch("--start-arns")]
+    [CliOption("--start-arns")]
     public string[]? StartArns { get; set; }
 
-    [CommandSwitch("--direction")]
+    [CliOption("--direction")]
     public string? Direction { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string? Filters { get; set; }
 
-    [CommandSwitch("--max-depth")]
+    [CliOption("--max-depth")]
     public int? MaxDepth { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

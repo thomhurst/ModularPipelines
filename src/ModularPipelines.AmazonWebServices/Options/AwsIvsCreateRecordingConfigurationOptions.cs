@@ -5,26 +5,26 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ivs", "create-recording-configuration")]
+[CliCommand("ivs", "create-recording-configuration")]
 public record AwsIvsCreateRecordingConfigurationOptions(
-[property: CommandSwitch("--destination-configuration")] string DestinationConfiguration
+[property: CliOption("--destination-configuration")] string DestinationConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--recording-reconnect-window-seconds")]
+    [CliOption("--recording-reconnect-window-seconds")]
     public int? RecordingReconnectWindowSeconds { get; set; }
 
-    [CommandSwitch("--rendition-configuration")]
+    [CliOption("--rendition-configuration")]
     public string? RenditionConfiguration { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--thumbnail-configuration")]
+    [CliOption("--thumbnail-configuration")]
     public string? ThumbnailConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

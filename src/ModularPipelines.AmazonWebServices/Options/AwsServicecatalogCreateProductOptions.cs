@@ -4,43 +4,43 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicecatalog", "create-product")]
+[CliCommand("servicecatalog", "create-product")]
 public record AwsServicecatalogCreateProductOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--owner")] string Owner,
-[property: CommandSwitch("--product-type")] string ProductType
+[property: CliOption("--name")] string Name,
+[property: CliOption("--owner")] string Owner,
+[property: CliOption("--product-type")] string ProductType
 ) : AwsOptions
 {
-    [CommandSwitch("--accept-language")]
+    [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--distributor")]
+    [CliOption("--distributor")]
     public string? Distributor { get; set; }
 
-    [CommandSwitch("--support-description")]
+    [CliOption("--support-description")]
     public string? SupportDescription { get; set; }
 
-    [CommandSwitch("--support-email")]
+    [CliOption("--support-email")]
     public string? SupportEmail { get; set; }
 
-    [CommandSwitch("--support-url")]
+    [CliOption("--support-url")]
     public string? SupportUrl { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--provisioning-artifact-parameters")]
+    [CliOption("--provisioning-artifact-parameters")]
     public string? ProvisioningArtifactParameters { get; set; }
 
-    [CommandSwitch("--idempotency-token")]
+    [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
-    [CommandSwitch("--source-connection")]
+    [CliOption("--source-connection")]
     public string? SourceConnection { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securitylake", "delete-data-lake")]
+[CliCommand("securitylake", "delete-data-lake")]
 public record AwsSecuritylakeDeleteDataLakeOptions(
-[property: CommandSwitch("--regions")] string[] Regions
+[property: CliOption("--regions")] string[] Regions
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

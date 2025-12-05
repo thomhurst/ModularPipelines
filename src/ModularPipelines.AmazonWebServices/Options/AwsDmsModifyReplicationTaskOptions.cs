@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "modify-replication-task")]
+[CliCommand("dms", "modify-replication-task")]
 public record AwsDmsModifyReplicationTaskOptions(
-[property: CommandSwitch("--replication-task-arn")] string ReplicationTaskArn
+[property: CliOption("--replication-task-arn")] string ReplicationTaskArn
 ) : AwsOptions
 {
-    [CommandSwitch("--replication-task-identifier")]
+    [CliOption("--replication-task-identifier")]
     public string? ReplicationTaskIdentifier { get; set; }
 
-    [CommandSwitch("--migration-type")]
+    [CliOption("--migration-type")]
     public string? MigrationType { get; set; }
 
-    [CommandSwitch("--table-mappings")]
+    [CliOption("--table-mappings")]
     public string? TableMappings { get; set; }
 
-    [CommandSwitch("--replication-task-settings")]
+    [CliOption("--replication-task-settings")]
     public string? ReplicationTaskSettings { get; set; }
 
-    [CommandSwitch("--cdc-start-time")]
+    [CliOption("--cdc-start-time")]
     public long? CdcStartTime { get; set; }
 
-    [CommandSwitch("--cdc-start-position")]
+    [CliOption("--cdc-start-position")]
     public string? CdcStartPosition { get; set; }
 
-    [CommandSwitch("--cdc-stop-position")]
+    [CliOption("--cdc-stop-position")]
     public string? CdcStopPosition { get; set; }
 
-    [CommandSwitch("--task-data")]
+    [CliOption("--task-data")]
     public string? TaskData { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

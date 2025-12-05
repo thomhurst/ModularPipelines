@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "network")]
+[CliCommand("dt", "network")]
 public class AzDtNetworkPrivateLink
 {
     public AzDtNetworkPrivateLink(

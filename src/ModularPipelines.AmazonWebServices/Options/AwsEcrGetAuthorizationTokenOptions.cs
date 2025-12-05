@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecr", "get-authorization-token")]
+[CliCommand("ecr", "get-authorization-token")]
 public record AwsEcrGetAuthorizationTokenOptions : AwsOptions
 {
-    [CommandSwitch("--registry-ids")]
+    [CliOption("--registry-ids")]
     public string[]? RegistryIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

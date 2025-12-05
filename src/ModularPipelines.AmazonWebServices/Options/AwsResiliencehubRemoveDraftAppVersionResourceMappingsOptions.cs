@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resiliencehub", "remove-draft-app-version-resource-mappings")]
+[CliCommand("resiliencehub", "remove-draft-app-version-resource-mappings")]
 public record AwsResiliencehubRemoveDraftAppVersionResourceMappingsOptions(
-[property: CommandSwitch("--app-arn")] string AppArn
+[property: CliOption("--app-arn")] string AppArn
 ) : AwsOptions
 {
-    [CommandSwitch("--app-registry-app-names")]
+    [CliOption("--app-registry-app-names")]
     public string[]? AppRegistryAppNames { get; set; }
 
-    [CommandSwitch("--eks-source-names")]
+    [CliOption("--eks-source-names")]
     public string[]? EksSourceNames { get; set; }
 
-    [CommandSwitch("--logical-stack-names")]
+    [CliOption("--logical-stack-names")]
     public string[]? LogicalStackNames { get; set; }
 
-    [CommandSwitch("--resource-group-names")]
+    [CliOption("--resource-group-names")]
     public string[]? ResourceGroupNames { get; set; }
 
-    [CommandSwitch("--resource-names")]
+    [CliOption("--resource-names")]
     public string[]? ResourceNames { get; set; }
 
-    [CommandSwitch("--terraform-source-names")]
+    [CliOption("--terraform-source-names")]
     public string[]? TerraformSourceNames { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

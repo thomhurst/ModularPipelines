@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkmanager", "update-link")]
+[CliCommand("networkmanager", "update-link")]
 public record AwsNetworkmanagerUpdateLinkOptions(
-[property: CommandSwitch("--global-network-id")] string GlobalNetworkId,
-[property: CommandSwitch("--link-id")] string LinkId
+[property: CliOption("--global-network-id")] string GlobalNetworkId,
+[property: CliOption("--link-id")] string LinkId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--bandwidth")]
+    [CliOption("--bandwidth")]
     public string? Bandwidth { get; set; }
 
-    [CommandSwitch("--provider")]
+    [CliOption("--provider")]
     public string? Provider { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

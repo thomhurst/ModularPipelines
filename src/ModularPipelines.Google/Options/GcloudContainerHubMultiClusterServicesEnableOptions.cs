@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "hub", "multi-cluster-services", "enable")]
+[CliCommand("container", "hub", "multi-cluster-services", "enable")]
 public record GcloudContainerHubMultiClusterServicesEnableOptions : GcloudOptions;

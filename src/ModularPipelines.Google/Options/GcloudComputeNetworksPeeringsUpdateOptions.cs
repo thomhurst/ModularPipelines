@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "networks", "peerings", "update")]
+[CliCommand("compute", "networks", "peerings", "update")]
 public record GcloudComputeNetworksPeeringsUpdateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--network")] string Network
+[property: CliArgument] string Name,
+[property: CliOption("--network")] string Network
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--export-custom-routes")]
+    [CliFlag("--export-custom-routes")]
     public bool? ExportCustomRoutes { get; set; }
 
-    [BooleanCommandSwitch("--export-subnet-routes-with-public-ip")]
+    [CliFlag("--export-subnet-routes-with-public-ip")]
     public bool? ExportSubnetRoutesWithPublicIp { get; set; }
 
-    [BooleanCommandSwitch("--import-custom-routes")]
+    [CliFlag("--import-custom-routes")]
     public bool? ImportCustomRoutes { get; set; }
 
-    [BooleanCommandSwitch("--import-subnet-routes-with-public-ip")]
+    [CliFlag("--import-subnet-routes-with-public-ip")]
     public bool? ImportSubnetRoutesWithPublicIp { get; set; }
 
-    [CommandSwitch("--stack-type")]
+    [CliOption("--stack-type")]
     public string? StackType { get; set; }
 }

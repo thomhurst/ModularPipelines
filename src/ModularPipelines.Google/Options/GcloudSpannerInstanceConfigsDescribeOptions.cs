@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spanner", "instance-configs", "describe")]
+[CliCommand("spanner", "instance-configs", "describe")]
 public record GcloudSpannerInstanceConfigsDescribeOptions(
-[property: PositionalArgument] string InstanceConfig
+[property: CliArgument] string InstanceConfig
 ) : GcloudOptions;

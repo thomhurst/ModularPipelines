@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm-contacts", "get-contact-policy")]
+[CliCommand("ssm-contacts", "get-contact-policy")]
 public record AwsSsmContactsGetContactPolicyOptions(
-[property: CommandSwitch("--contact-arn")] string ContactArn
+[property: CliOption("--contact-arn")] string ContactArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

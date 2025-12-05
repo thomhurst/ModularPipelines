@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "get-map-sprites")]
+[CliCommand("location", "get-map-sprites")]
 public record AwsLocationGetMapSpritesOptions(
-[property: CommandSwitch("--file-name")] string FileName,
-[property: CommandSwitch("--map-name")] string MapName
+[property: CliOption("--file-name")] string FileName,
+[property: CliOption("--map-name")] string MapName
 ) : AwsOptions
 {
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 }

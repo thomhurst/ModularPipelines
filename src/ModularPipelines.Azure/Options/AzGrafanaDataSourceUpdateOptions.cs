@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("grafana", "data-source", "update")]
+[CliSubCommand("grafana", "data-source", "update")]
 public record AzGrafanaDataSourceUpdateOptions(
-[property: CommandSwitch("--data-source")] string DataSource,
-[property: CommandSwitch("--definition")] string Definition,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--data-source")] string DataSource,
+[property: CliOption("--definition")] string Definition,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--api-key")]
+    [CliOption("--api-key")]
     public string? ApiKey { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

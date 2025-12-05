@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "get-relational-database-parameters")]
+[CliCommand("lightsail", "get-relational-database-parameters")]
 public record AwsLightsailGetRelationalDatabaseParametersOptions(
-[property: CommandSwitch("--relational-database-name")] string RelationalDatabaseName
+[property: CliOption("--relational-database-name")] string RelationalDatabaseName
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

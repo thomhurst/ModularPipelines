@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("docdb-elastic", "delete-cluster-snapshot")]
+[CliCommand("docdb-elastic", "delete-cluster-snapshot")]
 public record AwsDocdbElasticDeleteClusterSnapshotOptions(
-[property: CommandSwitch("--snapshot-arn")] string SnapshotArn
+[property: CliOption("--snapshot-arn")] string SnapshotArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

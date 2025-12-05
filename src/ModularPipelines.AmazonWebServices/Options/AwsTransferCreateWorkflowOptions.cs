@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "create-workflow")]
+[CliCommand("transfer", "create-workflow")]
 public record AwsTransferCreateWorkflowOptions(
-[property: CommandSwitch("--steps")] string[] Steps
+[property: CliOption("--steps")] string[] Steps
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--on-exception-steps")]
+    [CliOption("--on-exception-steps")]
     public string[]? OnExceptionSteps { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

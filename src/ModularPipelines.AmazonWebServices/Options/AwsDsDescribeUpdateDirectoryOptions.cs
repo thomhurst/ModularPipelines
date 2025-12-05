@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ds", "describe-update-directory")]
+[CliCommand("ds", "describe-update-directory")]
 public record AwsDsDescribeUpdateDirectoryOptions(
-[property: CommandSwitch("--directory-id")] string DirectoryId,
-[property: CommandSwitch("--update-type")] string UpdateType
+[property: CliOption("--directory-id")] string DirectoryId,
+[property: CliOption("--update-type")] string UpdateType
 ) : AwsOptions
 {
-    [CommandSwitch("--region-name")]
+    [CliOption("--region-name")]
     public string? RegionName { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elbv2", "create-rule")]
+[CliCommand("elbv2", "create-rule")]
 public record AwsElbv2CreateRuleOptions(
-[property: CommandSwitch("--listener-arn")] string ListenerArn,
-[property: CommandSwitch("--conditions")] string[] Conditions,
-[property: CommandSwitch("--priority")] int Priority,
-[property: CommandSwitch("--actions")] string[] Actions
+[property: CliOption("--listener-arn")] string ListenerArn,
+[property: CliOption("--conditions")] string[] Conditions,
+[property: CliOption("--priority")] int Priority,
+[property: CliOption("--actions")] string[] Actions
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

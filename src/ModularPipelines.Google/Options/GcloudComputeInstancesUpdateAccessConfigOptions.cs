@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instances", "update-access-config")]
+[CliCommand("compute", "instances", "update-access-config")]
 public record GcloudComputeInstancesUpdateAccessConfigOptions(
-[property: PositionalArgument] string InstanceName
+[property: CliArgument] string InstanceName
 ) : GcloudOptions
 {
-    [CommandSwitch("--network-interface")]
+    [CliOption("--network-interface")]
     public string? NetworkInterface { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [BooleanCommandSwitch("--no-ipv6-public-ptr")]
+    [CliFlag("--no-ipv6-public-ptr")]
     public bool? NoIpv6PublicPtr { get; set; }
 
-    [CommandSwitch("--ipv6-public-ptr-domain")]
+    [CliOption("--ipv6-public-ptr-domain")]
     public string? Ipv6PublicPtrDomain { get; set; }
 
-    [BooleanCommandSwitch("--public-ptr")]
+    [CliFlag("--public-ptr")]
     public bool? PublicPtr { get; set; }
 
-    [BooleanCommandSwitch("--no-public-ptr")]
+    [CliFlag("--no-public-ptr")]
     public bool? NoPublicPtr { get; set; }
 
-    [CommandSwitch("--public-ptr-domain")]
+    [CliOption("--public-ptr-domain")]
     public string? PublicPtrDomain { get; set; }
 
-    [BooleanCommandSwitch("--no-public-ptr-domain")]
+    [CliFlag("--no-public-ptr-domain")]
     public bool? NoPublicPtrDomain { get; set; }
 }

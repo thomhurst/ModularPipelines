@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logs", "start-query")]
+[CliCommand("logs", "start-query")]
 public record AwsLogsStartQueryOptions(
-[property: CommandSwitch("--start-time")] long StartTime,
-[property: CommandSwitch("--end-time")] long EndTime,
-[property: CommandSwitch("--query-string")] string QueryString
+[property: CliOption("--start-time")] long StartTime,
+[property: CliOption("--end-time")] long EndTime,
+[property: CliOption("--query-string")] string QueryString
 ) : AwsOptions
 {
-    [CommandSwitch("--log-group-name")]
+    [CliOption("--log-group-name")]
     public string? LogGroupName { get; set; }
 
-    [CommandSwitch("--log-group-names")]
+    [CliOption("--log-group-names")]
     public string[]? LogGroupNames { get; set; }
 
-    [CommandSwitch("--log-group-identifiers")]
+    [CliOption("--log-group-identifiers")]
     public string[]? LogGroupIdentifiers { get; set; }
 
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public int? Limit { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

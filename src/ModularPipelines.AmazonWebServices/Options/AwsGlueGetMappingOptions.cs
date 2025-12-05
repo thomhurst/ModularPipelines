@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "get-mapping")]
+[CliCommand("glue", "get-mapping")]
 public record AwsGlueGetMappingOptions(
-[property: CommandSwitch("--source")] string Source
+[property: CliOption("--source")] string Source
 ) : AwsOptions
 {
-    [CommandSwitch("--sinks")]
+    [CliOption("--sinks")]
     public string[]? Sinks { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

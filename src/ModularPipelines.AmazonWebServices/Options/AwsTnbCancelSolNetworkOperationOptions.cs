@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tnb", "cancel-sol-network-operation")]
+[CliCommand("tnb", "cancel-sol-network-operation")]
 public record AwsTnbCancelSolNetworkOperationOptions(
-[property: CommandSwitch("--ns-lcm-op-occ-id")] string NsLcmOpOccId
+[property: CliOption("--ns-lcm-op-occ-id")] string NsLcmOpOccId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

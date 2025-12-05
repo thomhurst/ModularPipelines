@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appsync", "associate-source-graphql-api")]
+[CliCommand("appsync", "associate-source-graphql-api")]
 public record AwsAppsyncAssociateSourceGraphqlApiOptions(
-[property: CommandSwitch("--merged-api-identifier")] string MergedApiIdentifier,
-[property: CommandSwitch("--source-api-identifier")] string SourceApiIdentifier
+[property: CliOption("--merged-api-identifier")] string MergedApiIdentifier,
+[property: CliOption("--source-api-identifier")] string SourceApiIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--source-api-association-config")]
+    [CliOption("--source-api-association-config")]
     public string? SourceApiAssociationConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

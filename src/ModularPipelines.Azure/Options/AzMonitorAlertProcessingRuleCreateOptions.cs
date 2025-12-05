@@ -4,89 +4,89 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "alert-processing-rule", "create")]
+[CliSubCommand("monitor", "alert-processing-rule", "create")]
 public record AzMonitorAlertProcessingRuleCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--rule-type")] string RuleType,
-[property: CommandSwitch("--scopes")] string Scopes
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--rule-type")] string RuleType,
+[property: CliOption("--scopes")] string Scopes
 ) : AzOptions
 {
-    [CommandSwitch("--action-groups")]
+    [CliOption("--action-groups")]
     public string? ActionGroups { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--enabled")]
+    [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
 
-    [CommandSwitch("--filter-alert-context")]
+    [CliOption("--filter-alert-context")]
     public string? FilterAlertContext { get; set; }
 
-    [CommandSwitch("--filter-alert-rule-description")]
+    [CliOption("--filter-alert-rule-description")]
     public string? FilterAlertRuleDescription { get; set; }
 
-    [CommandSwitch("--filter-alert-rule-id")]
+    [CliOption("--filter-alert-rule-id")]
     public string? FilterAlertRuleId { get; set; }
 
-    [CommandSwitch("--filter-alert-rule-name")]
+    [CliOption("--filter-alert-rule-name")]
     public string? FilterAlertRuleName { get; set; }
 
-    [CommandSwitch("--filter-monitor-condition")]
+    [CliOption("--filter-monitor-condition")]
     public string? FilterMonitorCondition { get; set; }
 
-    [CommandSwitch("--filter-monitor-service")]
+    [CliOption("--filter-monitor-service")]
     public string? FilterMonitorService { get; set; }
 
-    [CommandSwitch("--filter-resource-group")]
+    [CliOption("--filter-resource-group")]
     public string? FilterResourceGroup { get; set; }
 
-    [CommandSwitch("--filter-resource-type")]
+    [CliOption("--filter-resource-type")]
     public string? FilterResourceType { get; set; }
 
-    [CommandSwitch("--filter-severity")]
+    [CliOption("--filter-severity")]
     public string? FilterSeverity { get; set; }
 
-    [CommandSwitch("--filter-signal-type")]
+    [CliOption("--filter-signal-type")]
     public string? FilterSignalType { get; set; }
 
-    [CommandSwitch("--filter-target-resource")]
+    [CliOption("--filter-target-resource")]
     public string? FilterTargetResource { get; set; }
 
-    [CommandSwitch("--schedule-end-datetime")]
+    [CliOption("--schedule-end-datetime")]
     public string? ScheduleEndDatetime { get; set; }
 
-    [CommandSwitch("--schedule-recurrence")]
+    [CliOption("--schedule-recurrence")]
     public string? ScheduleRecurrence { get; set; }
 
-    [CommandSwitch("--schedule-recurrence-2")]
+    [CliOption("--schedule-recurrence-2")]
     public string? ScheduleRecurrence2 { get; set; }
 
-    [CommandSwitch("--schedule-recurrence-2-end-time")]
+    [CliOption("--schedule-recurrence-2-end-time")]
     public string? ScheduleRecurrence2EndTime { get; set; }
 
-    [CommandSwitch("--schedule-recurrence-2-start-time")]
+    [CliOption("--schedule-recurrence-2-start-time")]
     public string? ScheduleRecurrence2StartTime { get; set; }
 
-    [CommandSwitch("--schedule-recurrence-2-type")]
+    [CliOption("--schedule-recurrence-2-type")]
     public string? ScheduleRecurrence2Type { get; set; }
 
-    [CommandSwitch("--schedule-recurrence-end-time")]
+    [CliOption("--schedule-recurrence-end-time")]
     public string? ScheduleRecurrenceEndTime { get; set; }
 
-    [CommandSwitch("--schedule-recurrence-start-time")]
+    [CliOption("--schedule-recurrence-start-time")]
     public string? ScheduleRecurrenceStartTime { get; set; }
 
-    [CommandSwitch("--schedule-recurrence-type")]
+    [CliOption("--schedule-recurrence-type")]
     public string? ScheduleRecurrenceType { get; set; }
 
-    [CommandSwitch("--schedule-start-datetime")]
+    [CliOption("--schedule-start-datetime")]
     public string? ScheduleStartDatetime { get; set; }
 
-    [CommandSwitch("--schedule-time-zone")]
+    [CliOption("--schedule-time-zone")]
     public string? ScheduleTimeZone { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

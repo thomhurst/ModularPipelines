@@ -5,22 +5,22 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("database-migration", "conversion-workspaces", "create")]
+[CliCommand("database-migration", "conversion-workspaces", "create")]
 public record GcloudDatabaseMigrationConversionWorkspacesCreateOptions(
-[property: PositionalArgument] string ConversionWorkspace,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--destination-database-engine")] string DestinationDatabaseEngine,
-[property: CommandSwitch("--destination-database-version")] string DestinationDatabaseVersion,
-[property: CommandSwitch("--source-database-engine")] string SourceDatabaseEngine,
-[property: CommandSwitch("--source-database-version")] string SourceDatabaseVersion
+[property: CliArgument] string ConversionWorkspace,
+[property: CliArgument] string Region,
+[property: CliOption("--destination-database-engine")] string DestinationDatabaseEngine,
+[property: CliOption("--destination-database-version")] string DestinationDatabaseVersion,
+[property: CliOption("--source-database-engine")] string SourceDatabaseEngine,
+[property: CliOption("--source-database-version")] string SourceDatabaseVersion
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--no-async")]
+    [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--global-settings")]
+    [CliOption("--global-settings")]
     public IEnumerable<KeyValue>? GlobalSettings { get; set; }
 }

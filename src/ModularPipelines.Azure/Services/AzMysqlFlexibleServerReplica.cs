@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mysql", "flexible-server")]
+[CliCommand("mysql", "flexible-server")]
 public class AzMysqlFlexibleServerReplica
 {
     public AzMysqlFlexibleServerReplica(

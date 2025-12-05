@@ -133,7 +133,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         // Register skipped results for ignored modules (via Category/RunCondition)
         await RegisterIgnoredModuleResultsAsync(organizedModules.IgnoredModules);
 
-        var runnableModules = organizedModules.RunnableModules.Select(x => (IModule)x.Module).ToList();
+        var runnableModules = organizedModules.RunnableModules.Select(x => (IModule) x.Module).ToList();
 
         var start = DateTimeOffset.UtcNow;
         var stopWatch = Stopwatch.StartNew();
@@ -231,7 +231,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
             // Create execution context with Skipped status
             var contextType = typeof(ModuleExecutionContext<>).MakeGenericType(resultType);
-            var executionContext = (ModuleExecutionContext)Activator.CreateInstance(contextType, module, moduleType)!;
+            var executionContext = (ModuleExecutionContext) Activator.CreateInstance(contextType, module, moduleType)!;
             executionContext.Status = Status.Skipped;
             executionContext.SkipResult = ignoredModule.SkipDecision;
 
@@ -249,7 +249,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
                 continue;
             }
 
-            var result = (IModuleResult)constructor.Invoke(new object?[] { null, executionContext })!;
+            var result = (IModuleResult) constructor.Invoke(new object?[] { null, executionContext })!;
 
             _resultRegistry.RegisterResult(moduleType, result);
         }
@@ -272,7 +272,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
                 .MakeGenericMethod(resultType);
 
             // Invoke the method: Task<ModuleResult<T>?> GetResultAsync<T>(Module<T> module, IPipelineHookContext pipelineContext)
-            var task = (Task?)getResultAsyncMethod.Invoke(_resultRepository, new object[] { module, pipelineContext });
+            var task = (Task?) getResultAsyncMethod.Invoke(_resultRepository, new object[] { module, pipelineContext });
 
             if (task == null)
             {

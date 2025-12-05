@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigee", "applications", "list")]
+[CliCommand("apigee", "applications", "list")]
 public record GcloudApigeeApplicationsListOptions : GcloudOptions
 {
-    [CommandSwitch("--developer")]
+    [CliOption("--developer")]
     public string? Developer { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string? Organization { get; set; }
 }

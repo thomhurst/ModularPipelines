@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "describe-user")]
+[CliCommand("connect", "describe-user")]
 public record AwsConnectDescribeUserOptions(
-[property: CommandSwitch("--user-id")] string UserId,
-[property: CommandSwitch("--instance-id")] string InstanceId
+[property: CliOption("--user-id")] string UserId,
+[property: CliOption("--instance-id")] string InstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

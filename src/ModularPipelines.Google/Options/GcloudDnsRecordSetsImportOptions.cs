@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns", "record-sets", "import")]
+[CliCommand("dns", "record-sets", "import")]
 public record GcloudDnsRecordSetsImportOptions(
-[property: PositionalArgument] string RecordsFile,
-[property: CommandSwitch("--zone")] string Zone
+[property: CliArgument] string RecordsFile,
+[property: CliOption("--zone")] string Zone
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--delete-all-existing")]
+    [CliFlag("--delete-all-existing")]
     public bool? DeleteAllExisting { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--replace-origin-ns")]
+    [CliFlag("--replace-origin-ns")]
     public bool? ReplaceOriginNs { get; set; }
 
-    [BooleanCommandSwitch("--zone-file-format")]
+    [CliFlag("--zone-file-format")]
     public bool? ZoneFileFormat { get; set; }
 }

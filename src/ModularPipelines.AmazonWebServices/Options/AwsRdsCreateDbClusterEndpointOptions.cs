@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "create-db-cluster-endpoint")]
+[CliCommand("rds", "create-db-cluster-endpoint")]
 public record AwsRdsCreateDbClusterEndpointOptions(
-[property: CommandSwitch("--db-cluster-identifier")] string DbClusterIdentifier,
-[property: CommandSwitch("--db-cluster-endpoint-identifier")] string DbClusterEndpointIdentifier,
-[property: CommandSwitch("--endpoint-type")] string EndpointType
+[property: CliOption("--db-cluster-identifier")] string DbClusterIdentifier,
+[property: CliOption("--db-cluster-endpoint-identifier")] string DbClusterEndpointIdentifier,
+[property: CliOption("--endpoint-type")] string EndpointType
 ) : AwsOptions
 {
-    [CommandSwitch("--static-members")]
+    [CliOption("--static-members")]
     public string[]? StaticMembers { get; set; }
 
-    [CommandSwitch("--excluded-members")]
+    [CliOption("--excluded-members")]
     public string[]? ExcludedMembers { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

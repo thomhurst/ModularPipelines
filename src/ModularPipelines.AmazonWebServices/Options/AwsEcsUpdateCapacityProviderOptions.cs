@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "update-capacity-provider")]
+[CliCommand("ecs", "update-capacity-provider")]
 public record AwsEcsUpdateCapacityProviderOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--auto-scaling-group-provider")] string AutoScalingGroupProvider
+[property: CliOption("--name")] string Name,
+[property: CliOption("--auto-scaling-group-provider")] string AutoScalingGroupProvider
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

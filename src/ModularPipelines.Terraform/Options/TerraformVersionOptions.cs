@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("version")]
+[CliCommand("version")]
 [ExcludeFromCodeCoverage]
 public record TerraformVersionOptions : TerraformOptions
 {
-    [BooleanCommandSwitch("-json")]
+    [CliFlag("-json")]
     public virtual bool? Json { get; set; }
 }

@@ -6,6 +6,6 @@ namespace ModularPipelines.Options.Linux.AptGet;
 [ExcludeFromCodeCoverage]
 public record AptGetCheckOptions : AptGetOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string CommandName { get; } = "check";
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string CommandName { get; } = "check";
 }

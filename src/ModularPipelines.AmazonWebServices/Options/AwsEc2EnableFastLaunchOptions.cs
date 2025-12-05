@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "enable-fast-launch")]
+[CliCommand("ec2", "enable-fast-launch")]
 public record AwsEc2EnableFastLaunchOptions(
-[property: CommandSwitch("--image-id")] string ImageId
+[property: CliOption("--image-id")] string ImageId
 ) : AwsOptions
 {
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--snapshot-configuration")]
+    [CliOption("--snapshot-configuration")]
     public string? SnapshotConfiguration { get; set; }
 
-    [CommandSwitch("--launch-template")]
+    [CliOption("--launch-template")]
     public string? LaunchTemplate { get; set; }
 
-    [CommandSwitch("--max-parallel-launches")]
+    [CliOption("--max-parallel-launches")]
     public int? MaxParallelLaunches { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

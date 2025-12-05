@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appsync", "evaluate-mapping-template")]
+[CliCommand("appsync", "evaluate-mapping-template")]
 public record AwsAppsyncEvaluateMappingTemplateOptions(
-[property: CommandSwitch("--template")] string Template,
-[property: CommandSwitch("--context")] string Context
+[property: CliOption("--template")] string Template,
+[property: CliOption("--context")] string Context
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

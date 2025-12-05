@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotsitewise", "delete-time-series")]
+[CliCommand("iotsitewise", "delete-time-series")]
 public record AwsIotsitewiseDeleteTimeSeriesOptions : AwsOptions
 {
-    [CommandSwitch("--alias")]
+    [CliOption("--alias")]
     public string? Alias { get; set; }
 
-    [CommandSwitch("--asset-id")]
+    [CliOption("--asset-id")]
     public string? AssetId { get; set; }
 
-    [CommandSwitch("--property-id")]
+    [CliOption("--property-id")]
     public string? PropertyId { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

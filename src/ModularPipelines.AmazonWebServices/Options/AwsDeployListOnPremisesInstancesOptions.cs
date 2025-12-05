@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "list-on-premises-instances")]
+[CliCommand("deploy", "list-on-premises-instances")]
 public record AwsDeployListOnPremisesInstancesOptions : AwsOptions
 {
-    [CommandSwitch("--registration-status")]
+    [CliOption("--registration-status")]
     public string? RegistrationStatus { get; set; }
 
-    [CommandSwitch("--tag-filters")]
+    [CliOption("--tag-filters")]
     public string[]? TagFilters { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

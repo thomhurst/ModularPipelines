@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesisanalytics", "create-application")]
+[CliCommand("kinesisanalytics", "create-application")]
 public record AwsKinesisanalyticsCreateApplicationOptions(
-[property: CommandSwitch("--application-name")] string ApplicationName
+[property: CliOption("--application-name")] string ApplicationName
 ) : AwsOptions
 {
-    [CommandSwitch("--application-description")]
+    [CliOption("--application-description")]
     public string? ApplicationDescription { get; set; }
 
-    [CommandSwitch("--inputs")]
+    [CliOption("--inputs")]
     public string[]? Inputs { get; set; }
 
-    [CommandSwitch("--outputs")]
+    [CliOption("--outputs")]
     public string[]? Outputs { get; set; }
 
-    [CommandSwitch("--cloud-watch-logging-options")]
+    [CliOption("--cloud-watch-logging-options")]
     public string[]? CloudWatchLoggingOptions { get; set; }
 
-    [CommandSwitch("--application-code")]
+    [CliOption("--application-code")]
     public string? ApplicationCode { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

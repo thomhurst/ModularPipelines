@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "modify-cluster-subnet-group")]
+[CliCommand("redshift", "modify-cluster-subnet-group")]
 public record AwsRedshiftModifyClusterSubnetGroupOptions(
-[property: CommandSwitch("--cluster-subnet-group-name")] string ClusterSubnetGroupName,
-[property: CommandSwitch("--subnet-ids")] string[] SubnetIds
+[property: CliOption("--cluster-subnet-group-name")] string ClusterSubnetGroupName,
+[property: CliOption("--subnet-ids")] string[] SubnetIds
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint-email", "create-dedicated-ip-pool")]
+[CliCommand("pinpoint-email", "create-dedicated-ip-pool")]
 public record AwsPinpointEmailCreateDedicatedIpPoolOptions(
-[property: CommandSwitch("--pool-name")] string PoolName
+[property: CliOption("--pool-name")] string PoolName
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workmail", "put-retention-policy")]
+[CliCommand("workmail", "put-retention-policy")]
 public record AwsWorkmailPutRetentionPolicyOptions(
-[property: CommandSwitch("--organization-id")] string OrganizationId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--folder-configurations")] string[] FolderConfigurations
+[property: CliOption("--organization-id")] string OrganizationId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--folder-configurations")] string[] FolderConfigurations
 ) : AwsOptions
 {
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

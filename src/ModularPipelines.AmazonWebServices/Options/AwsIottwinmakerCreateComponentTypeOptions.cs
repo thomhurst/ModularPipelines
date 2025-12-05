@@ -5,36 +5,36 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iottwinmaker", "create-component-type")]
+[CliCommand("iottwinmaker", "create-component-type")]
 public record AwsIottwinmakerCreateComponentTypeOptions(
-[property: CommandSwitch("--workspace-id")] string WorkspaceId,
-[property: CommandSwitch("--component-type-id")] string ComponentTypeId
+[property: CliOption("--workspace-id")] string WorkspaceId,
+[property: CliOption("--component-type-id")] string ComponentTypeId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--property-definitions")]
+    [CliOption("--property-definitions")]
     public IEnumerable<KeyValue>? PropertyDefinitions { get; set; }
 
-    [CommandSwitch("--extends-from")]
+    [CliOption("--extends-from")]
     public string[]? ExtendsFrom { get; set; }
 
-    [CommandSwitch("--functions")]
+    [CliOption("--functions")]
     public IEnumerable<KeyValue>? Functions { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--property-groups")]
+    [CliOption("--property-groups")]
     public IEnumerable<KeyValue>? PropertyGroups { get; set; }
 
-    [CommandSwitch("--component-type-name")]
+    [CliOption("--component-type-name")]
     public string? ComponentTypeName { get; set; }
 
-    [CommandSwitch("--composite-component-types")]
+    [CliOption("--composite-component-types")]
     public IEnumerable<KeyValue>? CompositeComponentTypes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

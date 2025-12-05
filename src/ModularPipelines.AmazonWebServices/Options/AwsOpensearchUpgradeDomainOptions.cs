@@ -5,15 +5,15 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opensearch", "upgrade-domain")]
+[CliCommand("opensearch", "upgrade-domain")]
 public record AwsOpensearchUpgradeDomainOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--target-version")] string TargetVersion
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--target-version")] string TargetVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--advanced-options")]
+    [CliOption("--advanced-options")]
     public IEnumerable<KeyValue>? AdvancedOptions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

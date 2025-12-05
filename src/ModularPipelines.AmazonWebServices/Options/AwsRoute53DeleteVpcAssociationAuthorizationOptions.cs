@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53", "delete-vpc-association-authorization")]
+[CliCommand("route53", "delete-vpc-association-authorization")]
 public record AwsRoute53DeleteVpcAssociationAuthorizationOptions(
-[property: CommandSwitch("--hosted-zone-id")] string HostedZoneId,
-[property: CommandSwitch("--vpc")] string Vpc
+[property: CliOption("--hosted-zone-id")] string HostedZoneId,
+[property: CliOption("--vpc")] string Vpc
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

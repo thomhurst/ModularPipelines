@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("anthos", "config")]
+[CliCommand("anthos", "config")]
 public class GcloudAnthosConfigOperations
 {
     public GcloudAnthosConfigOperations(

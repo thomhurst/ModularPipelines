@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "disks", "stop-group-async-replication")]
+[CliCommand("compute", "disks", "stop-group-async-replication")]
 public record GcloudComputeDisksStopGroupAsyncReplicationOptions(
-[property: PositionalArgument] string DiskConsistencyGroupPolicy
+[property: CliArgument] string DiskConsistencyGroupPolicy
 ) : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

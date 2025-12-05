@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr", "modify-cluster-attributes")]
+[CliCommand("emr", "modify-cluster-attributes")]
 public record AwsEmrModifyClusterAttributesOptions(
-[property: CommandSwitch("--cluster-id")] string ClusterId
+[property: CliOption("--cluster-id")] string ClusterId
 ) : AwsOptions;

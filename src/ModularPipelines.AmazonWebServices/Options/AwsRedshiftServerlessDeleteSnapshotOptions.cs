@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift-serverless", "delete-snapshot")]
+[CliCommand("redshift-serverless", "delete-snapshot")]
 public record AwsRedshiftServerlessDeleteSnapshotOptions(
-[property: CommandSwitch("--snapshot-name")] string SnapshotName
+[property: CliOption("--snapshot-name")] string SnapshotName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("config", "unset")]
+[CliCommand("config", "unset")]
 public record YarnConfigUnsetOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Name
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Name
 ) : YarnOptions
 {
-    [BooleanCommandSwitch("--home")]
+    [CliFlag("--home")]
     public virtual bool? Home { get; set; }
 }

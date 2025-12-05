@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "keys", "versions", "create")]
+[CliCommand("kms", "keys", "versions", "create")]
 public record GcloudKmsKeysVersionsCreateOptions : GcloudOptions
 {
-    [CommandSwitch("--ekm-connection-key-path")]
+    [CliOption("--ekm-connection-key-path")]
     public string? EkmConnectionKeyPath { get; set; }
 
-    [CommandSwitch("--external-key-uri")]
+    [CliOption("--external-key-uri")]
     public string? ExternalKeyUri { get; set; }
 
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 
-    [CommandSwitch("--keyring")]
+    [CliOption("--keyring")]
     public string? Keyring { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--primary")]
+    [CliFlag("--primary")]
     public bool? Primary { get; set; }
 }

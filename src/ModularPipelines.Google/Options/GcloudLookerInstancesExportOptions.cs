@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("looker", "instances", "export")]
+[CliCommand("looker", "instances", "export")]
 public record GcloudLookerInstancesExportOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--kms-key")] string KmsKey,
-[property: CommandSwitch("--target-gcs-uri")] string TargetGcsUri
+[property: CliArgument] string Instance,
+[property: CliArgument] string Region,
+[property: CliOption("--kms-key")] string KmsKey,
+[property: CliOption("--target-gcs-uri")] string TargetGcsUri
 ) : GcloudOptions;

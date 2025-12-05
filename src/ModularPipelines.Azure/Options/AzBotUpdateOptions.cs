@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bot", "update")]
+[CliSubCommand("bot", "update")]
 public record AzBotUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--ai-api-key")]
+    [CliOption("--ai-api-key")]
     public string? AiApiKey { get; set; }
 
-    [CommandSwitch("--ai-app-id")]
+    [CliOption("--ai-app-id")]
     public string? AiAppId { get; set; }
 
-    [CommandSwitch("--ai-key")]
+    [CliOption("--ai-key")]
     public string? AiKey { get; set; }
 
-    [CommandSwitch("--cmk")]
+    [CliOption("--cmk")]
     public string? Cmk { get; set; }
 
-    [CommandSwitch("--cmk-off")]
+    [CliOption("--cmk-off")]
     public string? CmkOff { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [CommandSwitch("--icon-url")]
+    [CliOption("--icon-url")]
     public string? IconUrl { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

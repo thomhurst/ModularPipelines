@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("metastore", "operations", "delete")]
+[CliCommand("metastore", "operations", "delete")]
 public record GcloudMetastoreOperationsDeleteOptions(
-[property: PositionalArgument] string Operations,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Operations,
+[property: CliArgument] string Location
 ) : GcloudOptions;

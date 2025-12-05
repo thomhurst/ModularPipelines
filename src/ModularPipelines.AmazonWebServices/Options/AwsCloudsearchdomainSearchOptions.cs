@@ -4,47 +4,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudsearchdomain", "search")]
+[CliCommand("cloudsearchdomain", "search")]
 public record AwsCloudsearchdomainSearchOptions(
-[property: CommandSwitch("--search-query")] string SearchQuery
+[property: CliOption("--search-query")] string SearchQuery
 ) : AwsOptions
 {
-    [CommandSwitch("--cursor")]
+    [CliOption("--cursor")]
     public string? Cursor { get; set; }
 
-    [CommandSwitch("--expr")]
+    [CliOption("--expr")]
     public string? Expr { get; set; }
 
-    [CommandSwitch("--facet")]
+    [CliOption("--facet")]
     public string? Facet { get; set; }
 
-    [CommandSwitch("--filter-query")]
+    [CliOption("--filter-query")]
     public string? FilterQuery { get; set; }
 
-    [CommandSwitch("--highlight")]
+    [CliOption("--highlight")]
     public string? Highlight { get; set; }
 
-    [CommandSwitch("--query-options")]
+    [CliOption("--query-options")]
     public string? QueryOptions { get; set; }
 
-    [CommandSwitch("--query-parser")]
+    [CliOption("--query-parser")]
     public string? QueryParser { get; set; }
 
-    [CommandSwitch("--return")]
+    [CliOption("--return")]
     public string? Return { get; set; }
 
-    [CommandSwitch("--size")]
+    [CliOption("--size")]
     public long? Size { get; set; }
 
-    [CommandSwitch("--sort")]
+    [CliOption("--sort")]
     public string? Sort { get; set; }
 
-    [CommandSwitch("--start")]
+    [CliOption("--start")]
     public long? Start { get; set; }
 
-    [CommandSwitch("--stats")]
+    [CliOption("--stats")]
     public string? Stats { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

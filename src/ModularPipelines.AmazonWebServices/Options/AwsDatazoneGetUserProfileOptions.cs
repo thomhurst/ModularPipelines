@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datazone", "get-user-profile")]
+[CliCommand("datazone", "get-user-profile")]
 public record AwsDatazoneGetUserProfileOptions(
-[property: CommandSwitch("--domain-identifier")] string DomainIdentifier,
-[property: CommandSwitch("--user-identifier")] string UserIdentifier
+[property: CliOption("--domain-identifier")] string DomainIdentifier,
+[property: CliOption("--user-identifier")] string UserIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

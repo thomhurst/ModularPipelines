@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptune-graph", "create-private-graph-endpoint")]
+[CliCommand("neptune-graph", "create-private-graph-endpoint")]
 public record AwsNeptuneGraphCreatePrivateGraphEndpointOptions(
-[property: CommandSwitch("--graph-identifier")] string GraphIdentifier
+[property: CliOption("--graph-identifier")] string GraphIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--vpc-id")]
+    [CliOption("--vpc-id")]
     public string? VpcId { get; set; }
 
-    [CommandSwitch("--subnet-ids")]
+    [CliOption("--subnet-ids")]
     public string[]? SubnetIds { get; set; }
 
-    [CommandSwitch("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids")]
     public string[]? VpcSecurityGroupIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

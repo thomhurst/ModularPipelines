@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("new-relic", "account", "list")]
+[CliSubCommand("new-relic", "account", "list")]
 public record AzNewRelicAccountListOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--user-email")] string UserEmail
+[property: CliOption("--location")] string Location,
+[property: CliOption("--user-email")] string UserEmail
 ) : AzOptions;

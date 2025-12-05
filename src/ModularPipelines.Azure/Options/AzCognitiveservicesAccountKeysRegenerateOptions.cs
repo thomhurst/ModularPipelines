@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognitiveservices", "account", "keys", "regenerate")]
+[CliSubCommand("cognitiveservices", "account", "keys", "regenerate")]
 public record AzCognitiveservicesAccountKeysRegenerateOptions(
-[property: CommandSwitch("--key-name")] string KeyName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--key-name")] string KeyName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

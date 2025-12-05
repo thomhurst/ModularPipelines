@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "partner", "registration", "delete")]
+[CliCommand("eventgrid", "partner", "registration", "delete")]
 public class AzEventgridPartnerRegistrationDeleteEventgrid
 {
     public AzEventgridPartnerRegistrationDeleteEventgrid(

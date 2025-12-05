@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "auth")]
+[CliCommand("containerapp", "auth")]
 public class AzContainerappAuthTwitter
 {
     public AzContainerappAuthTwitter(

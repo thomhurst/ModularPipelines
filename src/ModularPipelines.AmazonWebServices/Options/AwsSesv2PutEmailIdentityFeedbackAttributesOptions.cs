@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sesv2", "put-email-identity-feedback-attributes")]
+[CliCommand("sesv2", "put-email-identity-feedback-attributes")]
 public record AwsSesv2PutEmailIdentityFeedbackAttributesOptions(
-[property: CommandSwitch("--email-identity")] string EmailIdentity
+[property: CliOption("--email-identity")] string EmailIdentity
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

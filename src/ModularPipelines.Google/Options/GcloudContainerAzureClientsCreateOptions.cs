@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "azure", "clients", "create")]
+[CliCommand("container", "azure", "clients", "create")]
 public record GcloudContainerAzureClientsCreateOptions(
-[property: PositionalArgument] string Client,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--tenant-id")] string TenantId
+[property: CliArgument] string Client,
+[property: CliArgument] string Location,
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--tenant-id")] string TenantId
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 }

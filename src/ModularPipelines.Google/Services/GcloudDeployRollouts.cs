@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy")]
+[CliCommand("deploy")]
 public class GcloudDeployRollouts
 {
     public GcloudDeployRollouts(

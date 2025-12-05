@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("advisor", "configuration", "update")]
+[CliSubCommand("advisor", "configuration", "update")]
 public record AzAdvisorConfigurationUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--configuration-name")]
+    [CliOption("--configuration-name")]
     public string? ConfigurationName { get; set; }
 
-    [CommandSwitch("--exclude")]
+    [CliOption("--exclude")]
     public string? Exclude { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--include")]
+    [CliOption("--include")]
     public string? Include { get; set; }
 
-    [CommandSwitch("--low-cpu-threshold")]
+    [CliOption("--low-cpu-threshold")]
     public string? LowCpuThreshold { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 }

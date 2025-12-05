@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworks", "set-load-based-auto-scaling")]
+[CliCommand("opsworks", "set-load-based-auto-scaling")]
 public record AwsOpsworksSetLoadBasedAutoScalingOptions(
-[property: CommandSwitch("--layer-id")] string LayerId
+[property: CliOption("--layer-id")] string LayerId
 ) : AwsOptions
 {
-    [CommandSwitch("--up-scaling")]
+    [CliOption("--up-scaling")]
     public string? UpScaling { get; set; }
 
-    [CommandSwitch("--down-scaling")]
+    [CliOption("--down-scaling")]
     public string? DownScaling { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

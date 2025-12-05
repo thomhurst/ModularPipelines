@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qldb", "describe-journal-kinesis-stream")]
+[CliCommand("qldb", "describe-journal-kinesis-stream")]
 public record AwsQldbDescribeJournalKinesisStreamOptions(
-[property: CommandSwitch("--ledger-name")] string LedgerName,
-[property: CommandSwitch("--stream-id")] string StreamId
+[property: CliOption("--ledger-name")] string LedgerName,
+[property: CliOption("--stream-id")] string StreamId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,84 +4,84 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "revision", "copy")]
+[CliSubCommand("containerapp", "revision", "copy")]
 public record AzContainerappRevisionCopyOptions : AzOptions
 {
-    [CommandSwitch("--args")]
+    [CliOption("--args")]
     public string? Args { get; set; }
 
-    [CommandSwitch("--command")]
+    [CliOption("--command")]
     public string? Command { get; set; }
 
-    [CommandSwitch("--container-name")]
+    [CliOption("--container-name")]
     public string? ContainerName { get; set; }
 
-    [CommandSwitch("--cpu")]
+    [CliOption("--cpu")]
     public string? Cpu { get; set; }
 
-    [CommandSwitch("--from-revision")]
+    [CliOption("--from-revision")]
     public string? FromRevision { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [CommandSwitch("--max-replicas")]
+    [CliOption("--max-replicas")]
     public string? MaxReplicas { get; set; }
 
-    [CommandSwitch("--memory")]
+    [CliOption("--memory")]
     public string? Memory { get; set; }
 
-    [CommandSwitch("--min-replicas")]
+    [CliOption("--min-replicas")]
     public string? MinReplicas { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--remove-all-env-vars")]
+    [CliFlag("--remove-all-env-vars")]
     public bool? RemoveAllEnvVars { get; set; }
 
-    [CommandSwitch("--remove-env-vars")]
+    [CliOption("--remove-env-vars")]
     public string? RemoveEnvVars { get; set; }
 
-    [CommandSwitch("--replace-env-vars")]
+    [CliOption("--replace-env-vars")]
     public string? ReplaceEnvVars { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--revision-suffix")]
+    [CliOption("--revision-suffix")]
     public string? RevisionSuffix { get; set; }
 
-    [CommandSwitch("--scale-rule-auth")]
+    [CliOption("--scale-rule-auth")]
     public string? ScaleRuleAuth { get; set; }
 
-    [CommandSwitch("--scale-rule-http-concurrency")]
+    [CliOption("--scale-rule-http-concurrency")]
     public string? ScaleRuleHttpConcurrency { get; set; }
 
-    [CommandSwitch("--scale-rule-metadata")]
+    [CliOption("--scale-rule-metadata")]
     public string? ScaleRuleMetadata { get; set; }
 
-    [CommandSwitch("--scale-rule-name")]
+    [CliOption("--scale-rule-name")]
     public string? ScaleRuleName { get; set; }
 
-    [CommandSwitch("--scale-rule-type")]
+    [CliOption("--scale-rule-type")]
     public string? ScaleRuleType { get; set; }
 
-    [CommandSwitch("--set-env-vars")]
+    [CliOption("--set-env-vars")]
     public string? SetEnvVars { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--workload-profile-name")]
+    [CliOption("--workload-profile-name")]
     public string? WorkloadProfileName { get; set; }
 
-    [CommandSwitch("--yaml")]
+    [CliOption("--yaml")]
     public string? Yaml { get; set; }
 }

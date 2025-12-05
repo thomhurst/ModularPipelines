@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("urestackhci", "virtualmachine")]
+[CliCommand("urestackhci", "virtualmachine")]
 public class AzAzurestackhciVirtualmachineVnic
 {
     public AzAzurestackhciVirtualmachineVnic(

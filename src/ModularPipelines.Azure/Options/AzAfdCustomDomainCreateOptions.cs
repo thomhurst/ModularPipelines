@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("afd", "custom-domain", "create")]
+[CliSubCommand("afd", "custom-domain", "create")]
 public record AzAfdCustomDomainCreateOptions(
-[property: CommandSwitch("--certificate-type")] string CertificateType,
-[property: CommandSwitch("--custom-domain-name")] string CustomDomainName,
-[property: CommandSwitch("--host-name")] string HostName,
-[property: CommandSwitch("--minimum-tls-version")] string MinimumTlsVersion,
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--certificate-type")] string CertificateType,
+[property: CliOption("--custom-domain-name")] string CustomDomainName,
+[property: CliOption("--host-name")] string HostName,
+[property: CliOption("--minimum-tls-version")] string MinimumTlsVersion,
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--azure-dns-zone")]
+    [CliOption("--azure-dns-zone")]
     public string? AzureDnsZone { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--secret")]
+    [CliOption("--secret")]
     public string? Secret { get; set; }
 }

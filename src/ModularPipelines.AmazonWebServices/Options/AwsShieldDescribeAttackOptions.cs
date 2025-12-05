@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("shield", "describe-attack")]
+[CliCommand("shield", "describe-attack")]
 public record AwsShieldDescribeAttackOptions(
-[property: CommandSwitch("--attack-id")] string AttackId
+[property: CliOption("--attack-id")] string AttackId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns", "record-sets", "changes", "list")]
+[CliCommand("dns", "record-sets", "changes", "list")]
 public record GcloudDnsRecordSetsChangesListOptions(
-[property: CommandSwitch("--zone")] string Zone
+[property: CliOption("--zone")] string Zone
 ) : GcloudOptions
 {
-    [CommandSwitch("--sort-order")]
+    [CliOption("--sort-order")]
     public string? SortOrder { get; set; }
 }

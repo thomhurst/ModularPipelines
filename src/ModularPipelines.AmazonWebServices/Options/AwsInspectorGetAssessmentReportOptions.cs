@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("inspector", "get-assessment-report")]
+[CliCommand("inspector", "get-assessment-report")]
 public record AwsInspectorGetAssessmentReportOptions(
-[property: CommandSwitch("--assessment-run-arn")] string AssessmentRunArn,
-[property: CommandSwitch("--report-file-format")] string ReportFileFormat,
-[property: CommandSwitch("--report-type")] string ReportType
+[property: CliOption("--assessment-run-arn")] string AssessmentRunArn,
+[property: CliOption("--report-file-format")] string ReportFileFormat,
+[property: CliOption("--report-type")] string ReportType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

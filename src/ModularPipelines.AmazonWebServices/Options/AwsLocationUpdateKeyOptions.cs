@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "update-key")]
+[CliCommand("location", "update-key")]
 public record AwsLocationUpdateKeyOptions(
-[property: CommandSwitch("--key-name")] string KeyName
+[property: CliOption("--key-name")] string KeyName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--expire-time")]
+    [CliOption("--expire-time")]
     public long? ExpireTime { get; set; }
 
-    [CommandSwitch("--restrictions")]
+    [CliOption("--restrictions")]
     public string? Restrictions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

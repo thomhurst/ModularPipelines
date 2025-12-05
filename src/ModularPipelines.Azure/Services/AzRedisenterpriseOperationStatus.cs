@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redisenterprise")]
+[CliCommand("redisenterprise")]
 public class AzRedisenterpriseOperationStatus
 {
     public AzRedisenterpriseOperationStatus(

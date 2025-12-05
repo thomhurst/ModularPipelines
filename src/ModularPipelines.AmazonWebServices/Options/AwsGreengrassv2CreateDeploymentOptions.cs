@@ -5,32 +5,32 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("greengrassv2", "create-deployment")]
+[CliCommand("greengrassv2", "create-deployment")]
 public record AwsGreengrassv2CreateDeploymentOptions(
-[property: CommandSwitch("--target-arn")] string TargetArn
+[property: CliOption("--target-arn")] string TargetArn
 ) : AwsOptions
 {
-    [CommandSwitch("--deployment-name")]
+    [CliOption("--deployment-name")]
     public string? DeploymentName { get; set; }
 
-    [CommandSwitch("--components")]
+    [CliOption("--components")]
     public IEnumerable<KeyValue>? Components { get; set; }
 
-    [CommandSwitch("--iot-job-configuration")]
+    [CliOption("--iot-job-configuration")]
     public string? IotJobConfiguration { get; set; }
 
-    [CommandSwitch("--deployment-policies")]
+    [CliOption("--deployment-policies")]
     public string? DeploymentPolicies { get; set; }
 
-    [CommandSwitch("--parent-target-arn")]
+    [CliOption("--parent-target-arn")]
     public string? ParentTargetArn { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

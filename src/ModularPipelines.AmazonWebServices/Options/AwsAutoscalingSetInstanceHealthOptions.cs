@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("autoscaling", "set-instance-health")]
+[CliCommand("autoscaling", "set-instance-health")]
 public record AwsAutoscalingSetInstanceHealthOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--health-status")] string HealthStatus
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--health-status")] string HealthStatus
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

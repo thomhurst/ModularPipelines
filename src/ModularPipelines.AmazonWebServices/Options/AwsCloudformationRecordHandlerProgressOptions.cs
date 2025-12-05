@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation", "record-handler-progress")]
+[CliCommand("cloudformation", "record-handler-progress")]
 public record AwsCloudformationRecordHandlerProgressOptions(
-[property: CommandSwitch("--bearer-token")] string BearerToken,
-[property: CommandSwitch("--operation-status")] string OperationStatus
+[property: CliOption("--bearer-token")] string BearerToken,
+[property: CliOption("--operation-status")] string OperationStatus
 ) : AwsOptions
 {
-    [CommandSwitch("--current-operation-status")]
+    [CliOption("--current-operation-status")]
     public string? CurrentOperationStatus { get; set; }
 
-    [CommandSwitch("--status-message")]
+    [CliOption("--status-message")]
     public string? StatusMessage { get; set; }
 
-    [CommandSwitch("--error-code")]
+    [CliOption("--error-code")]
     public string? ErrorCode { get; set; }
 
-    [CommandSwitch("--resource-model")]
+    [CliOption("--resource-model")]
     public string? ResourceModel { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

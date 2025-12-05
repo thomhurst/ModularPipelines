@@ -4,65 +4,65 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instances", "set-scheduling")]
+[CliCommand("compute", "instances", "set-scheduling")]
 public record GcloudComputeInstancesSetSchedulingOptions(
-[property: PositionalArgument] string InstanceName
+[property: CliArgument] string InstanceName
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--clear-min-node-cpu")]
+    [CliFlag("--clear-min-node-cpu")]
     public bool? ClearMinNodeCpu { get; set; }
 
-    [CommandSwitch("--local-ssd-recovery-timeout")]
+    [CliOption("--local-ssd-recovery-timeout")]
     public string? LocalSsdRecoveryTimeout { get; set; }
 
-    [CommandSwitch("--maintenance-policy")]
+    [CliOption("--maintenance-policy")]
     public string? MaintenancePolicy { get; set; }
 
-    [CommandSwitch("--min-node-cpu")]
+    [CliOption("--min-node-cpu")]
     public string? MinNodeCpu { get; set; }
 
-    [CommandSwitch("--[no-]preemptible")]
+    [CliOption("--[no-]preemptible")]
     public string[]? NoPreemptible { get; set; }
 
-    [CommandSwitch("--provisioning-model")]
+    [CliOption("--provisioning-model")]
     public string? ProvisioningModel { get; set; }
 
-    [CommandSwitch("--[no-]restart-on-failure")]
+    [CliOption("--[no-]restart-on-failure")]
     public string[]? NoRestartOnFailure { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [BooleanCommandSwitch("--clear-instance-termination-action")]
+    [CliFlag("--clear-instance-termination-action")]
     public bool? ClearInstanceTerminationAction { get; set; }
 
-    [CommandSwitch("--instance-termination-action")]
+    [CliOption("--instance-termination-action")]
     public string? InstanceTerminationAction { get; set; }
 
-    [BooleanCommandSwitch("DELETE")]
+    [CliFlag("DELETE")]
     public bool? Delete { get; set; }
 
-    [BooleanCommandSwitch("STOP")]
+    [CliFlag("STOP")]
     public bool? Stop { get; set; }
 
-    [BooleanCommandSwitch("--clear-node-affinities")]
+    [CliFlag("--clear-node-affinities")]
     public bool? ClearNodeAffinities { get; set; }
 
-    [CommandSwitch("--node")]
+    [CliOption("--node")]
     public string? Node { get; set; }
 
-    [CommandSwitch("--node-affinity-file")]
+    [CliOption("--node-affinity-file")]
     public string? NodeAffinityFile { get; set; }
 
-    [BooleanCommandSwitch("key")]
+    [CliFlag("key")]
     public bool? Key { get; set; }
 
-    [BooleanCommandSwitch("operator")]
+    [CliFlag("operator")]
     public bool? Operator { get; set; }
 
-    [BooleanCommandSwitch("values")]
+    [CliFlag("values")]
     public bool? Values { get; set; }
 
-    [CommandSwitch("--node-group")]
+    [CliOption("--node-group")]
     public string? NodeGroup { get; set; }
 }

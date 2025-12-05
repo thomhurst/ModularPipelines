@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces", "delete-ip-group")]
+[CliCommand("workspaces", "delete-ip-group")]
 public record AwsWorkspacesDeleteIpGroupOptions(
-[property: CommandSwitch("--group-id")] string GroupId
+[property: CliOption("--group-id")] string GroupId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devicefarm", "create-remote-access-session")]
+[CliCommand("devicefarm", "create-remote-access-session")]
 public record AwsDevicefarmCreateRemoteAccessSessionOptions(
-[property: CommandSwitch("--project-arn")] string ProjectArn,
-[property: CommandSwitch("--device-arn")] string DeviceArn
+[property: CliOption("--project-arn")] string ProjectArn,
+[property: CliOption("--device-arn")] string DeviceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--instance-arn")]
+    [CliOption("--instance-arn")]
     public string? InstanceArn { get; set; }
 
-    [CommandSwitch("--ssh-public-key")]
+    [CliOption("--ssh-public-key")]
     public string? SshPublicKey { get; set; }
 
-    [CommandSwitch("--remote-record-app-arn")]
+    [CliOption("--remote-record-app-arn")]
     public string? RemoteRecordAppArn { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--client-id")]
+    [CliOption("--client-id")]
     public string? ClientId { get; set; }
 
-    [CommandSwitch("--configuration")]
+    [CliOption("--configuration")]
     public string? Configuration { get; set; }
 
-    [CommandSwitch("--interaction-mode")]
+    [CliOption("--interaction-mode")]
     public string? InteractionMode { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

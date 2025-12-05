@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("infra-manager", "deployments", "delete")]
+[CliCommand("infra-manager", "deployments", "delete")]
 public record GcloudInfraManagerDeploymentsDeleteOptions(
-[property: PositionalArgument] string Deployment,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Deployment,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--delete-policy")]
+    [CliOption("--delete-policy")]
     public string? DeletePolicy { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "get-operation")]
+[CliCommand("lightsail", "get-operation")]
 public record AwsLightsailGetOperationOptions(
-[property: CommandSwitch("--operation-id")] string OperationId
+[property: CliOption("--operation-id")] string OperationId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

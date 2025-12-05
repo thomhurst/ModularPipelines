@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "tag-resource")]
+[CliCommand("lightsail", "tag-resource")]
 public record AwsLightsailTagResourceOptions(
-[property: CommandSwitch("--resource-name")] string ResourceName,
-[property: CommandSwitch("--tags")] string[] Tags
+[property: CliOption("--resource-name")] string ResourceName,
+[property: CliOption("--tags")] string[] Tags
 ) : AwsOptions
 {
-    [CommandSwitch("--resource-arn")]
+    [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

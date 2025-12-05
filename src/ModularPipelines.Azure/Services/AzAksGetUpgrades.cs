@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks")]
+[CliCommand("aks")]
 public class AzAksGetUpgrades
 {
     public AzAksGetUpgrades(

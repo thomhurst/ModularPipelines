@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudwatch", "describe-anomaly-detectors")]
+[CliCommand("cloudwatch", "describe-anomaly-detectors")]
 public record AwsCloudwatchDescribeAnomalyDetectorsOptions : AwsOptions
 {
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CommandSwitch("--metric-name")]
+    [CliOption("--metric-name")]
     public string? MetricName { get; set; }
 
-    [CommandSwitch("--dimensions")]
+    [CliOption("--dimensions")]
     public string[]? Dimensions { get; set; }
 
-    [CommandSwitch("--anomaly-detector-types")]
+    [CliOption("--anomaly-detector-types")]
     public string[]? AnomalyDetectorTypes { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

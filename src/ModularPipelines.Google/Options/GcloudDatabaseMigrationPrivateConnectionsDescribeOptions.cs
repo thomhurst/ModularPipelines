@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("database-migration", "private-connections", "describe")]
+[CliCommand("database-migration", "private-connections", "describe")]
 public record GcloudDatabaseMigrationPrivateConnectionsDescribeOptions(
-[property: PositionalArgument] string PrivateConnection,
-[property: PositionalArgument] string Region
+[property: CliArgument] string PrivateConnection,
+[property: CliArgument] string Region
 ) : GcloudOptions;

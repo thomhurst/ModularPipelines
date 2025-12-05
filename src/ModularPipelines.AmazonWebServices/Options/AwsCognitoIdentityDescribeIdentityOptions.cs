@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-identity", "describe-identity")]
+[CliCommand("cognito-identity", "describe-identity")]
 public record AwsCognitoIdentityDescribeIdentityOptions(
-[property: CommandSwitch("--identity-id")] string IdentityId
+[property: CliOption("--identity-id")] string IdentityId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

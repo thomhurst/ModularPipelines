@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataplex", "content", "delete")]
+[CliCommand("dataplex", "content", "delete")]
 public record GcloudDataplexContentDeleteOptions(
-[property: PositionalArgument] string Content,
-[property: PositionalArgument] string Lake,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Content,
+[property: CliArgument] string Lake,
+[property: CliArgument] string Location
 ) : GcloudOptions;

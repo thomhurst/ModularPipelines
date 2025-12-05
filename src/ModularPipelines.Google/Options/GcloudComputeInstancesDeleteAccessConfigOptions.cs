@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instances", "delete-access-config")]
+[CliCommand("compute", "instances", "delete-access-config")]
 public record GcloudComputeInstancesDeleteAccessConfigOptions(
-[property: PositionalArgument] string InstanceName
+[property: CliArgument] string InstanceName
 ) : GcloudOptions
 {
-    [CommandSwitch("--access-config-name")]
+    [CliOption("--access-config-name")]
     public string? AccessConfigName { get; set; }
 
-    [CommandSwitch("--network-interface")]
+    [CliOption("--network-interface")]
     public string? NetworkInterface { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

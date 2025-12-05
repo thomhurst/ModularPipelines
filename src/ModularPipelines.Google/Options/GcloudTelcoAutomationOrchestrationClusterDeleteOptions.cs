@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("telco-automation", "orchestration-cluster", "delete")]
+[CliCommand("telco-automation", "orchestration-cluster", "delete")]
 public record GcloudTelcoAutomationOrchestrationClusterDeleteOptions(
-[property: PositionalArgument] string OrchestrationCluster,
-[property: PositionalArgument] string Location
+[property: CliArgument] string OrchestrationCluster,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

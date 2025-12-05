@@ -5,38 +5,38 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "disks", "update")]
+[CliCommand("compute", "disks", "update")]
 public record GcloudComputeDisksUpdateOptions(
-[property: PositionalArgument] string DiskName
+[property: CliArgument] string DiskName
 ) : GcloudOptions
 {
-    [CommandSwitch("--provisioned-iops")]
+    [CliOption("--provisioned-iops")]
     public string? ProvisionedIops { get; set; }
 
-    [CommandSwitch("--provisioned-throughput")]
+    [CliOption("--provisioned-throughput")]
     public string? ProvisionedThroughput { get; set; }
 
-    [CommandSwitch("--size")]
+    [CliOption("--size")]
     public string? Size { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-architecture")]
+    [CliFlag("--clear-architecture")]
     public bool? ClearArchitecture { get; set; }
 
-    [CommandSwitch("--update-architecture")]
+    [CliOption("--update-architecture")]
     public string? UpdateArchitecture { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

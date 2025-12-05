@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "connected-env", "dapr-component", "set")]
+[CliSubCommand("containerapp", "connected-env", "dapr-component", "set")]
 public record AzContainerappConnectedEnvDaprComponentSetOptions(
-[property: CommandSwitch("--dapr-component-name")] string DaprComponentName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--yaml")] string Yaml
+[property: CliOption("--dapr-component-name")] string DaprComponentName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--yaml")] string Yaml
 ) : AzOptions;

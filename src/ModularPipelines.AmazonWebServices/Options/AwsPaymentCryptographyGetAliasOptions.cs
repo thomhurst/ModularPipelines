@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("payment-cryptography", "get-alias")]
+[CliCommand("payment-cryptography", "get-alias")]
 public record AwsPaymentCryptographyGetAliasOptions(
-[property: CommandSwitch("--alias-name")] string AliasName
+[property: CliOption("--alias-name")] string AliasName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

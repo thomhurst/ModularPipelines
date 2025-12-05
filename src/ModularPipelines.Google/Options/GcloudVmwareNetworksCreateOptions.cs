@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "networks", "create")]
+[CliCommand("vmware", "networks", "create")]
 public record GcloudVmwareNetworksCreateOptions(
-[property: PositionalArgument] string VmwareEngineNetwork,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--type")] string Type
+[property: CliArgument] string VmwareEngineNetwork,
+[property: CliArgument] string Location,
+[property: CliOption("--type")] string Type
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 }

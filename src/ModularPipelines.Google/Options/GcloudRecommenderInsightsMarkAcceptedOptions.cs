@@ -5,7 +5,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("recommender", "insights", "mark-accepted")]
+[CliCommand("recommender", "insights", "mark-accepted")]
 public record GcloudRecommenderInsightsMarkAcceptedOptions : GcloudOptions
 {
     public GcloudRecommenderInsightsMarkAcceptedOptions(
@@ -29,27 +29,27 @@ public record GcloudRecommenderInsightsMarkAcceptedOptions : GcloudOptions
         Project = project;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Insight { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string Etag { get; set; }
 
-    [CommandSwitch("--insight-type")]
+    [CliOption("--insight-type")]
     public string InsightType { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string Location { get; set; }
 
-    [CommandSwitch("--billing-account")]
+    [CliOption("--billing-account")]
     public string BillingAccount { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 
-    [CommandSwitch("--state-metadata")]
+    [CliOption("--state-metadata")]
     public IEnumerable<KeyValue>? StateMetadata { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesisanalyticsv2", "describe-application-snapshot")]
+[CliCommand("kinesisanalyticsv2", "describe-application-snapshot")]
 public record AwsKinesisanalyticsv2DescribeApplicationSnapshotOptions(
-[property: CommandSwitch("--application-name")] string ApplicationName,
-[property: CommandSwitch("--snapshot-name")] string SnapshotName
+[property: CliOption("--application-name")] string ApplicationName,
+[property: CliOption("--snapshot-name")] string SnapshotName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

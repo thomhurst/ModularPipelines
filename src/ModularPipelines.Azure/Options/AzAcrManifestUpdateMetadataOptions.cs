@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "manifest", "update-metadata")]
+[CliSubCommand("acr", "manifest", "update-metadata")]
 public record AzAcrManifestUpdateMetadataOptions : AzOptions
 {
-    [BooleanCommandSwitch("--delete-enabled")]
+    [CliFlag("--delete-enabled")]
     public bool? DeleteEnabled { get; set; }
 
-    [BooleanCommandSwitch("--list-enabled")]
+    [CliFlag("--list-enabled")]
     public bool? ListEnabled { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [BooleanCommandSwitch("--read-enabled")]
+    [CliFlag("--read-enabled")]
     public bool? ReadEnabled { get; set; }
 
-    [CommandSwitch("--registry")]
+    [CliOption("--registry")]
     public string? Registry { get; set; }
 
-    [CommandSwitch("--suffix")]
+    [CliOption("--suffix")]
     public string? Suffix { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 
-    [BooleanCommandSwitch("--write-enabled")]
+    [CliFlag("--write-enabled")]
     public bool? WriteEnabled { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? MANIFESTID { get; set; }
 }

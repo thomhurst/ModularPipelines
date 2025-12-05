@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("stack", "config")]
+[CliCommand("stack", "config")]
 [ExcludeFromCodeCoverage]
 public record DockerStackConfigOptions : DockerOptions
 {
-    [CommandSwitch("--compose-file")]
+    [CliOption("--compose-file")]
     public virtual string? ComposeFile { get; set; }
 
-    [CommandSwitch("--skip-interpolation")]
+    [CliOption("--skip-interpolation")]
     public virtual string? SkipInterpolation { get; set; }
 }

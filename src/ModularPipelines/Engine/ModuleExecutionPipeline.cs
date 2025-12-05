@@ -21,6 +21,7 @@ internal interface IModuleExecutionPipeline
     /// <summary>
     /// Executes a module with all applicable behaviors.
     /// </summary>
+    /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
     Task<ModuleResult<T>> ExecuteAsync<T>(
         Module<T> module,
         ModuleExecutionContext<T> executionContext,
@@ -115,15 +116,15 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             logger.LogDebug("Module succeeded after {Duration}", executionContext.Duration);
 
             executionContext.SetTypedResult(moduleResult);
-            
+
             return moduleResult;
         }
         catch (Exception exception)
         {
             executionContext.RecordEndTime();
-            
+
             module.CompletionSource.TrySetResult(new ModuleResult<T>(exception, executionContext)!);
-            
+
             return await HandleException(module, executionContext, moduleContext, exception, logger);
         }
         finally
@@ -171,7 +172,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
     {
         executionContext.Status = Status.Skipped;
         executionContext.SkipResult = skipDecision;
-        
+
         module.CompletionSource.TrySetResult(new ModuleResult<T>(new ModuleSkippedException(module.GetType().Name), executionContext)!);
 
         // Check if we should use historical data
@@ -322,6 +323,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         {
             executionContext.Status = Status.TimedOut;
         }
+
         // Check for pipeline cancellation
         else if (IsPipelineCancelled(exception))
         {
@@ -417,7 +419,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             Status.PipelineTerminated => LogLevel.Error,
             Status.UsedHistory => LogLevel.Information,
             Status.Retried => LogLevel.Warning,
-            _ => LogLevel.Error
+            _ => LogLevel.Error,
         };
 
         logger.Log(logLevel, message);

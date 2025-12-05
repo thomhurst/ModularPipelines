@@ -3,49 +3,49 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("difftool")]
+[CliSubCommand("difftool")]
 [ExcludeFromCodeCoverage]
 public record GitDifftoolOptions : GitOptions
 {
-    [BooleanCommandSwitch("--dir-diff")]
+    [CliFlag("--dir-diff")]
     public virtual bool? DirDiff { get; set; }
 
-    [BooleanCommandSwitch("--no-prompt")]
+    [CliFlag("--no-prompt")]
     public virtual bool? NoPrompt { get; set; }
 
-    [BooleanCommandSwitch("--prompt")]
+    [CliFlag("--prompt")]
     public virtual bool? Prompt { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--rotate-to")]
-    public string? RotateTo { get; set; }
+    [CliOption("--rotate-to", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? RotateTo { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--skip-to")]
-    public string? SkipTo { get; set; }
+    [CliOption("--skip-to", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? SkipTo { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--tool")]
-    public string? GitTool { get; set; }
+    [CliOption("--tool", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? GitTool { get; set; }
 
-    [BooleanCommandSwitch("--tool-help")]
+    [CliFlag("--tool-help")]
     public virtual bool? ToolHelp { get; set; }
 
-    [BooleanCommandSwitch("--no-symlinks")]
+    [CliFlag("--no-symlinks")]
     public virtual bool? NoSymlinks { get; set; }
 
-    [BooleanCommandSwitch("--symlinks")]
+    [CliFlag("--symlinks")]
     public virtual bool? Symlinks { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--extcmd")]
-    public string? Extcmd { get; set; }
+    [CliOption("--extcmd", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Extcmd { get; set; }
 
-    [BooleanCommandSwitch("--no-gui")]
+    [CliFlag("--no-gui")]
     public virtual bool? NoGui { get; set; }
 
-    [BooleanCommandSwitch("--gui")]
+    [CliFlag("--gui")]
     public virtual bool? Gui { get; set; }
 
-    [BooleanCommandSwitch("--no-trust-exit-code")]
+    [CliFlag("--no-trust-exit-code")]
     public virtual bool? NoTrustExitCode { get; set; }
 
-    [BooleanCommandSwitch("--trust-exit-code")]
+    [CliFlag("--trust-exit-code")]
     public virtual bool? TrustExitCode { get; set; }
 }

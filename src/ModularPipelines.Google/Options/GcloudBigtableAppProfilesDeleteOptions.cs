@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bigtable", "app-profiles", "delete")]
+[CliCommand("bigtable", "app-profiles", "delete")]
 public record GcloudBigtableAppProfilesDeleteOptions(
-[property: PositionalArgument] string AppProfile,
-[property: PositionalArgument] string Instance
+[property: CliArgument] string AppProfile,
+[property: CliArgument] string Instance
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "sole-tenancy")]
+[CliCommand("compute", "sole-tenancy")]
 public class GcloudComputeSoleTenancyNodeTypes
 {
     public GcloudComputeSoleTenancyNodeTypes(

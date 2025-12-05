@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("machinelearning", "create-data-source-from-redshift")]
+[CliCommand("machinelearning", "create-data-source-from-redshift")]
 public record AwsMachinelearningCreateDataSourceFromRedshiftOptions(
-[property: CommandSwitch("--data-source-id")] string DataSourceId,
-[property: CommandSwitch("--data-spec")] string DataSpec,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--data-source-id")] string DataSourceId,
+[property: CliOption("--data-spec")] string DataSpec,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--data-source-name")]
+    [CliOption("--data-source-name")]
     public string? DataSourceName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

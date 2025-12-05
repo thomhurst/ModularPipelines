@@ -15,18 +15,18 @@ public record DockerImageImportOptions : DockerOptions
         FileOrUrl = fileOrUrl;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? FileOrUrl { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? FileOrUrl { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Repository { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Repository { get; set; }
 
-    [CommandSwitch("--change")]
+    [CliOption("--change")]
     public virtual string? Change { get; set; }
 
-    [CommandSwitch("--message")]
+    [CliOption("--message")]
     public virtual string? Message { get; set; }
 
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public virtual string? Platform { get; set; }
 }

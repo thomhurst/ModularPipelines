@@ -4,86 +4,86 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("afd", "rule", "action", "add")]
+[CliSubCommand("afd", "rule", "action", "add")]
 public record AzAfdRuleActionAddOptions(
-[property: CommandSwitch("--action-name")] string ActionName
+[property: CliOption("--action-name")] string ActionName
 ) : AzOptions
 {
-    [CommandSwitch("--cache-behavior")]
+    [CliOption("--cache-behavior")]
     public string? CacheBehavior { get; set; }
 
-    [CommandSwitch("--cache-duration")]
+    [CliOption("--cache-duration")]
     public string? CacheDuration { get; set; }
 
-    [CommandSwitch("--custom-fragment")]
+    [CliOption("--custom-fragment")]
     public string? CustomFragment { get; set; }
 
-    [CommandSwitch("--custom-hostname")]
+    [CliOption("--custom-hostname")]
     public string? CustomHostname { get; set; }
 
-    [CommandSwitch("--custom-path")]
+    [CliOption("--custom-path")]
     public string? CustomPath { get; set; }
 
-    [CommandSwitch("--custom-querystring")]
+    [CliOption("--custom-querystring")]
     public string? CustomQuerystring { get; set; }
 
-    [CommandSwitch("--destination")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 
-    [BooleanCommandSwitch("--enable-caching")]
+    [CliFlag("--enable-caching")]
     public bool? EnableCaching { get; set; }
 
-    [BooleanCommandSwitch("--enable-compression")]
+    [CliFlag("--enable-compression")]
     public bool? EnableCompression { get; set; }
 
-    [CommandSwitch("--forwarding-protocol")]
+    [CliOption("--forwarding-protocol")]
     public string? ForwardingProtocol { get; set; }
 
-    [CommandSwitch("--header-action")]
+    [CliOption("--header-action")]
     public string? HeaderAction { get; set; }
 
-    [CommandSwitch("--header-name")]
+    [CliOption("--header-name")]
     public string? HeaderName { get; set; }
 
-    [CommandSwitch("--header-value")]
+    [CliOption("--header-value")]
     public string? HeaderValue { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--origin-group")]
+    [CliOption("--origin-group")]
     public string? OriginGroup { get; set; }
 
-    [BooleanCommandSwitch("--preserve-unmatched-path")]
+    [CliFlag("--preserve-unmatched-path")]
     public bool? PreserveUnmatchedPath { get; set; }
 
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 
-    [CommandSwitch("--query-parameters")]
+    [CliOption("--query-parameters")]
     public string? QueryParameters { get; set; }
 
-    [CommandSwitch("--query-string-caching-behavior")]
+    [CliOption("--query-string-caching-behavior")]
     public string? QueryStringCachingBehavior { get; set; }
 
-    [CommandSwitch("--redirect-protocol")]
+    [CliOption("--redirect-protocol")]
     public string? RedirectProtocol { get; set; }
 
-    [CommandSwitch("--redirect-type")]
+    [CliOption("--redirect-type")]
     public string? RedirectType { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--rule-name")]
+    [CliOption("--rule-name")]
     public string? RuleName { get; set; }
 
-    [CommandSwitch("--rule-set-name")]
+    [CliOption("--rule-set-name")]
     public string? RuleSetName { get; set; }
 
-    [CommandSwitch("--source-pattern")]
+    [CliOption("--source-pattern")]
     public string? SourcePattern { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

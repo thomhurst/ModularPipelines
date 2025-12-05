@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "network-rule", "add")]
+[CliSubCommand("cosmosdb", "network-rule", "add")]
 public record AzCosmosdbNetworkRuleAddOptions(
-[property: CommandSwitch("--subnet")] string Subnet
+[property: CliOption("--subnet")] string Subnet
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--ignore-missing-endpoint")]
+    [CliFlag("--ignore-missing-endpoint")]
     public bool? IgnoreMissingEndpoint { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--virtual-network")]
+    [CliOption("--virtual-network")]
     public string? VirtualNetwork { get; set; }
 }

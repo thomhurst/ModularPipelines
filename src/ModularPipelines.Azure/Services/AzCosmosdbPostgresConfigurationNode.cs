@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "postgres", "configuration")]
+[CliCommand("cosmosdb", "postgres", "configuration")]
 public class AzCosmosdbPostgresConfigurationNode
 {
     public AzCosmosdbPostgresConfigurationNode(

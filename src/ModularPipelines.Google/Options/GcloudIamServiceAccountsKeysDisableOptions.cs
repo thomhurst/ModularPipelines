@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "service-accounts", "keys", "disable")]
+[CliCommand("iam", "service-accounts", "keys", "disable")]
 public record GcloudIamServiceAccountsKeysDisableOptions(
-[property: PositionalArgument] string IamKey,
-[property: PositionalArgument] string IamAccount
+[property: CliArgument] string IamKey,
+[property: CliArgument] string IamAccount
 ) : GcloudOptions;

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation", "continue-update-rollback")]
+[CliCommand("cloudformation", "continue-update-rollback")]
 public record AwsCloudformationContinueUpdateRollbackOptions(
-[property: CommandSwitch("--stack-name")] string StackName
+[property: CliOption("--stack-name")] string StackName
 ) : AwsOptions
 {
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--resources-to-skip")]
+    [CliOption("--resources-to-skip")]
     public string[]? ResourcesToSkip { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("offure")]
+[CliCommand("offure")]
 public class AzOffazureHyperv
 {
     public AzOffazureHyperv(

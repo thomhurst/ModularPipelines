@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("accessanalyzer", "get-finding-v2")]
+[CliCommand("accessanalyzer", "get-finding-v2")]
 public record AwsAccessanalyzerGetFindingV2Options(
-[property: CommandSwitch("--analyzer-arn")] string AnalyzerArn,
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--analyzer-arn")] string AnalyzerArn,
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

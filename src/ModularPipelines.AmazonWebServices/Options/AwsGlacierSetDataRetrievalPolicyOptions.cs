@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glacier", "set-data-retrieval-policy")]
+[CliCommand("glacier", "set-data-retrieval-policy")]
 public record AwsGlacierSetDataRetrievalPolicyOptions(
-[property: CommandSwitch("--account-id")] string AccountId
+[property: CliOption("--account-id")] string AccountId
 ) : AwsOptions
 {
-    [CommandSwitch("--policy")]
+    [CliOption("--policy")]
     public string? Policy { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,96 +4,96 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "data-connector", "update")]
+[CliSubCommand("sentinel", "data-connector", "update")]
 public record AzSentinelDataConnectorUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--api-polling")]
+    [CliOption("--api-polling")]
     public string? ApiPolling { get; set; }
 
-    [CommandSwitch("--aws-cloud-trail")]
+    [CliOption("--aws-cloud-trail")]
     public string? AwsCloudTrail { get; set; }
 
-    [CommandSwitch("--aws-s3")]
+    [CliOption("--aws-s3")]
     public string? AwsS3 { get; set; }
 
-    [CommandSwitch("--azure-active-directory")]
+    [CliOption("--azure-active-directory")]
     public string? AzureActiveDirectory { get; set; }
 
-    [CommandSwitch("--azure-protection")]
+    [CliOption("--azure-protection")]
     public string? AzureProtection { get; set; }
 
-    [CommandSwitch("--azure-security-center")]
+    [CliOption("--azure-security-center")]
     public string? AzureSecurityCenter { get; set; }
 
-    [CommandSwitch("--cloud-app-security")]
+    [CliOption("--cloud-app-security")]
     public string? CloudAppSecurity { get; set; }
 
-    [CommandSwitch("--data-connector-id")]
+    [CliOption("--data-connector-id")]
     public string? DataConnectorId { get; set; }
 
-    [CommandSwitch("--defender-protection")]
+    [CliOption("--defender-protection")]
     public string? DefenderProtection { get; set; }
 
-    [CommandSwitch("--dynamics365")]
+    [CliOption("--dynamics365")]
     public string? Dynamics365 { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--generic-ui")]
+    [CliOption("--generic-ui")]
     public string? GenericUi { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--intelligence-taxii")]
+    [CliOption("--intelligence-taxii")]
     public string? IntelligenceTaxii { get; set; }
 
-    [CommandSwitch("--iot")]
+    [CliOption("--iot")]
     public string? Iot { get; set; }
 
-    [CommandSwitch("--microsoft-intelligence")]
+    [CliOption("--microsoft-intelligence")]
     public string? MicrosoftIntelligence { get; set; }
 
-    [CommandSwitch("--microsoft-protection")]
+    [CliOption("--microsoft-protection")]
     public string? MicrosoftProtection { get; set; }
 
-    [CommandSwitch("--office-atp")]
+    [CliOption("--office-atp")]
     public string? OfficeAtp { get; set; }
 
-    [CommandSwitch("--office-irm")]
+    [CliOption("--office-irm")]
     public string? OfficeIrm { get; set; }
 
-    [CommandSwitch("--office-power-bi")]
+    [CliOption("--office-power-bi")]
     public string? OfficePowerBi { get; set; }
 
-    [CommandSwitch("--office365")]
+    [CliOption("--office365")]
     public string? Office365 { get; set; }
 
-    [CommandSwitch("--office365-project")]
+    [CliOption("--office365-project")]
     public string? Office365Project { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--threat-intelligence")]
+    [CliOption("--threat-intelligence")]
     public string? ThreatIntelligence { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

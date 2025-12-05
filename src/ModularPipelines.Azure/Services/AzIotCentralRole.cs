@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "central")]
+[CliCommand("iot", "central")]
 public class AzIotCentralRole
 {
     public AzIotCentralRole(

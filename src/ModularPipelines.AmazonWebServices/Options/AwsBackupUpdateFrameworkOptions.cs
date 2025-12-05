@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "update-framework")]
+[CliCommand("backup", "update-framework")]
 public record AwsBackupUpdateFrameworkOptions(
-[property: CommandSwitch("--framework-name")] string FrameworkName
+[property: CliOption("--framework-name")] string FrameworkName
 ) : AwsOptions
 {
-    [CommandSwitch("--framework-description")]
+    [CliOption("--framework-description")]
     public string? FrameworkDescription { get; set; }
 
-    [CommandSwitch("--framework-controls")]
+    [CliOption("--framework-controls")]
     public string[]? FrameworkControls { get; set; }
 
-    [CommandSwitch("--idempotency-token")]
+    [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediatailor", "update-program")]
+[CliCommand("mediatailor", "update-program")]
 public record AwsMediatailorUpdateProgramOptions(
-[property: CommandSwitch("--channel-name")] string ChannelName,
-[property: CommandSwitch("--program-name")] string ProgramName,
-[property: CommandSwitch("--schedule-configuration")] string ScheduleConfiguration
+[property: CliOption("--channel-name")] string ChannelName,
+[property: CliOption("--program-name")] string ProgramName,
+[property: CliOption("--schedule-configuration")] string ScheduleConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--ad-breaks")]
+    [CliOption("--ad-breaks")]
     public string[]? AdBreaks { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

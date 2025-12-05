@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai", "model-monitoring-jobs", "describe")]
+[CliCommand("ai", "model-monitoring-jobs", "describe")]
 public record GcloudAiModelMonitoringJobsDescribeOptions(
-[property: PositionalArgument] string MonitoringJob,
-[property: PositionalArgument] string Region
+[property: CliArgument] string MonitoringJob,
+[property: CliArgument] string Region
 ) : GcloudOptions;

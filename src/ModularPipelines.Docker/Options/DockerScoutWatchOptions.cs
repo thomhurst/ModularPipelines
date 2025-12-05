@@ -3,37 +3,37 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("scout", "watch")]
+[CliCommand("scout", "watch")]
 [ExcludeFromCodeCoverage]
 public record DockerScoutWatchOptions : DockerOptions
 {
-    [CommandSwitch("--all-images")]
+    [CliOption("--all-images")]
     public virtual string? AllImages { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [CommandSwitch("--interval")]
+    [CliOption("--interval")]
     public virtual int? Interval { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public virtual string? Org { get; set; }
 
-    [CommandSwitch("--refresh-registry")]
+    [CliOption("--refresh-registry")]
     public virtual string? RefreshRegistry { get; set; }
 
-    [CommandSwitch("--registry")]
+    [CliOption("--registry")]
     public virtual string? Registry { get; set; }
 
-    [CommandSwitch("--repository")]
+    [CliOption("--repository")]
     public virtual string? Repository { get; set; }
 
-    [BooleanCommandSwitch("--sbom")]
+    [CliFlag("--sbom")]
     public virtual bool? Sbom { get; set; }
 
-    [CommandSwitch("--tag")]
+    [CliOption("--tag")]
     public virtual string? Tag { get; set; }
 
-    [CommandSwitch("--workers")]
+    [CliOption("--workers")]
     public virtual int? Workers { get; set; }
 }

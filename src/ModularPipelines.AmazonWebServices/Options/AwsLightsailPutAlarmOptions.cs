@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "put-alarm")]
+[CliCommand("lightsail", "put-alarm")]
 public record AwsLightsailPutAlarmOptions(
-[property: CommandSwitch("--alarm-name")] string AlarmName,
-[property: CommandSwitch("--metric-name")] string MetricName,
-[property: CommandSwitch("--monitored-resource-name")] string MonitoredResourceName,
-[property: CommandSwitch("--comparison-operator")] string ComparisonOperator,
-[property: CommandSwitch("--threshold")] double Threshold,
-[property: CommandSwitch("--evaluation-periods")] int EvaluationPeriods
+[property: CliOption("--alarm-name")] string AlarmName,
+[property: CliOption("--metric-name")] string MetricName,
+[property: CliOption("--monitored-resource-name")] string MonitoredResourceName,
+[property: CliOption("--comparison-operator")] string ComparisonOperator,
+[property: CliOption("--threshold")] double Threshold,
+[property: CliOption("--evaluation-periods")] int EvaluationPeriods
 ) : AwsOptions
 {
-    [CommandSwitch("--datapoints-to-alarm")]
+    [CliOption("--datapoints-to-alarm")]
     public int? DatapointsToAlarm { get; set; }
 
-    [CommandSwitch("--treat-missing-data")]
+    [CliOption("--treat-missing-data")]
     public string? TreatMissingData { get; set; }
 
-    [CommandSwitch("--contact-protocols")]
+    [CliOption("--contact-protocols")]
     public string[]? ContactProtocols { get; set; }
 
-    [CommandSwitch("--notification-triggers")]
+    [CliOption("--notification-triggers")]
     public string[]? NotificationTriggers { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

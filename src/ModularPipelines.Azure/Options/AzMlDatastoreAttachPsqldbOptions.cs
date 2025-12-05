@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "datastore", "attach-psqldb")]
+[CliSubCommand("ml", "datastore", "attach-psqldb")]
 public record AzMlDatastoreAttachPsqldbOptions(
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--password")] string Password,
-[property: CommandSwitch("--server-name")] string ServerName,
-[property: CommandSwitch("--user-id")] string UserId
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--password")] string Password,
+[property: CliOption("--server-name")] string ServerName,
+[property: CliOption("--user-id")] string UserId
 ) : AzOptions
 {
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [BooleanCommandSwitch("--enforce-ssl")]
+    [CliFlag("--enforce-ssl")]
     public bool? EnforceSsl { get; set; }
 
-    [CommandSwitch("--include-secret")]
+    [CliOption("--include-secret")]
     public string? IncludeSecret { get; set; }
 
-    [CommandSwitch("--output-metadata-file")]
+    [CliOption("--output-metadata-file")]
     public string? OutputMetadataFile { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription-id")]
+    [CliOption("--subscription-id")]
     public string? SubscriptionId { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("new-relic")]
+[CliCommand("new-relic")]
 public class AzNewRelicMonitor
 {
     public AzNewRelicMonitor(

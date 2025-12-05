@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("adp", "account")]
+[CliCommand("adp", "account")]
 public class AzAdpAccountDataPool
 {
     public AzAdpAccountDataPool(

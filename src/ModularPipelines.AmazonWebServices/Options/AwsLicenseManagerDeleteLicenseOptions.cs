@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("license-manager", "delete-license")]
+[CliCommand("license-manager", "delete-license")]
 public record AwsLicenseManagerDeleteLicenseOptions(
-[property: CommandSwitch("--license-arn")] string LicenseArn,
-[property: CommandSwitch("--source-version")] string SourceVersion
+[property: CliOption("--license-arn")] string LicenseArn,
+[property: CliOption("--source-version")] string SourceVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticache", "create-cache-security-group")]
+[CliCommand("elasticache", "create-cache-security-group")]
 public record AwsElasticacheCreateCacheSecurityGroupOptions(
-[property: CommandSwitch("--cache-security-group-name")] string CacheSecurityGroupName,
-[property: CommandSwitch("--description")] string Description
+[property: CliOption("--cache-security-group-name")] string CacheSecurityGroupName,
+[property: CliOption("--description")] string Description
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

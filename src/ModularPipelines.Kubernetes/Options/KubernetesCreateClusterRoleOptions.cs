@@ -3,46 +3,46 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("create", "clusterrole")]
+[CliCommand("create", "clusterrole")]
 [ExcludeFromCodeCoverage]
-public record KubernetesCreateClusterRoleOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesCreateClusterRoleOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [CommandEqualsSeparatorSwitch("--aggregation-rule", SwitchValueSeparator = " ")]
-    public string? AggregationRule { get; set; }
+    [CliOption("--aggregation-rule")]
+    public virtual string? AggregationRule { get; set; }
 
-    [BooleanCommandSwitch("--allow-missing-template-keys")]
+    [CliFlag("--allow-missing-template-keys")]
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
-    public string? DryRun { get; set; }
+    [CliOption("--dry-run")]
+    public virtual string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
-    public string? FieldManager { get; set; }
+    [CliOption("--field-manager")]
+    public virtual string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--non-resource-url", SwitchValueSeparator = " ")]
-    public string[]? NonResourceUrl { get; set; }
+    [CliOption("--non-resource-url")]
+    public virtual string[]? NonResourceUrl { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
-    public string? Output { get; set; }
+    [CliOption("--output")]
+    public virtual string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--resource", SwitchValueSeparator = " ")]
-    public string[]? Resource { get; set; }
+    [CliOption("--resource")]
+    public virtual string[]? Resource { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--resource-name", SwitchValueSeparator = " ")]
-    public string[]? ResourceName { get; set; }
+    [CliOption("--resource-name")]
+    public virtual string[]? ResourceName { get; set; }
 
-    [BooleanCommandSwitch("--save-config")]
+    [CliFlag("--save-config")]
     public virtual bool? SaveConfig { get; set; }
 
-    [BooleanCommandSwitch("--show-managed-fields")]
+    [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
-    public string? Template { get; set; }
+    [CliOption("--template")]
+    public virtual string? Template { get; set; }
 
-    [BooleanCommandSwitch("--validate")]
+    [CliFlag("--validate")]
     public virtual bool? Validate { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--verb", SwitchValueSeparator = " ")]
-    public string[]? Verb { get; set; }
+    [CliOption("--verb")]
+    public virtual string[]? Verb { get; set; }
 }

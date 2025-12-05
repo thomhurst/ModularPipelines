@@ -4,54 +4,54 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "tpus", "execution-groups", "create")]
+[CliCommand("compute", "tpus", "execution-groups", "create")]
 public record GcloudComputeTpusExecutionGroupsCreateOptions : GcloudOptions
 {
-    [CommandSwitch("--accelerator-type")]
+    [CliOption("--accelerator-type")]
     public string? AcceleratorType { get; set; }
 
-    [CommandSwitch("--disk-size")]
+    [CliOption("--disk-size")]
     public string? DiskSize { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("--forward-ports")]
+    [CliFlag("--forward-ports")]
     public bool? ForwardPorts { get; set; }
 
-    [CommandSwitch("--gce-image")]
+    [CliOption("--gce-image")]
     public string? GceImage { get; set; }
 
-    [CommandSwitch("--machine-type")]
+    [CliOption("--machine-type")]
     public string? MachineType { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [BooleanCommandSwitch("--preemptible")]
+    [CliFlag("--preemptible")]
     public bool? Preemptible { get; set; }
 
-    [BooleanCommandSwitch("--preemptible-vm")]
+    [CliFlag("--preemptible-vm")]
     public bool? PreemptibleVm { get; set; }
 
-    [CommandSwitch("--tf-version")]
+    [CliOption("--tf-version")]
     public string? TfVersion { get; set; }
 
-    [BooleanCommandSwitch("--tpu-only")]
+    [CliFlag("--tpu-only")]
     public bool? TpuOnly { get; set; }
 
-    [BooleanCommandSwitch("--use-dl-images")]
+    [CliFlag("--use-dl-images")]
     public bool? UseDlImages { get; set; }
 
-    [BooleanCommandSwitch("--use-with-notebook")]
+    [CliFlag("--use-with-notebook")]
     public bool? UseWithNotebook { get; set; }
 
-    [BooleanCommandSwitch("--vm-only")]
+    [CliFlag("--vm-only")]
     public bool? VmOnly { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

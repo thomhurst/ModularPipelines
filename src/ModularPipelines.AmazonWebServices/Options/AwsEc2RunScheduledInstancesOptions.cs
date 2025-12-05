@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "run-scheduled-instances")]
+[CliCommand("ec2", "run-scheduled-instances")]
 public record AwsEc2RunScheduledInstancesOptions(
-[property: CommandSwitch("--launch-specification")] string LaunchSpecification,
-[property: CommandSwitch("--scheduled-instance-id")] string ScheduledInstanceId
+[property: CliOption("--launch-specification")] string LaunchSpecification,
+[property: CliOption("--scheduled-instance-id")] string ScheduledInstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--instance-count")]
+    [CliOption("--instance-count")]
     public int? InstanceCount { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

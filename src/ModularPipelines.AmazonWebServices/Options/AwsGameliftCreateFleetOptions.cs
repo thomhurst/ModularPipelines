@@ -4,77 +4,77 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "create-fleet")]
+[CliCommand("gamelift", "create-fleet")]
 public record AwsGameliftCreateFleetOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--build-id")]
+    [CliOption("--build-id")]
     public string? BuildId { get; set; }
 
-    [CommandSwitch("--script-id")]
+    [CliOption("--script-id")]
     public string? ScriptId { get; set; }
 
-    [CommandSwitch("--server-launch-path")]
+    [CliOption("--server-launch-path")]
     public string? ServerLaunchPath { get; set; }
 
-    [CommandSwitch("--server-launch-parameters")]
+    [CliOption("--server-launch-parameters")]
     public string? ServerLaunchParameters { get; set; }
 
-    [CommandSwitch("--log-paths")]
+    [CliOption("--log-paths")]
     public string[]? LogPaths { get; set; }
 
-    [CommandSwitch("--ec2-instance-type")]
+    [CliOption("--ec2-instance-type")]
     public string? Ec2InstanceType { get; set; }
 
-    [CommandSwitch("--ec2-inbound-permissions")]
+    [CliOption("--ec2-inbound-permissions")]
     public string[]? Ec2InboundPermissions { get; set; }
 
-    [CommandSwitch("--new-game-session-protection-policy")]
+    [CliOption("--new-game-session-protection-policy")]
     public string? NewGameSessionProtectionPolicy { get; set; }
 
-    [CommandSwitch("--runtime-configuration")]
+    [CliOption("--runtime-configuration")]
     public string? RuntimeConfiguration { get; set; }
 
-    [CommandSwitch("--resource-creation-limit-policy")]
+    [CliOption("--resource-creation-limit-policy")]
     public string? ResourceCreationLimitPolicy { get; set; }
 
-    [CommandSwitch("--metric-groups")]
+    [CliOption("--metric-groups")]
     public string[]? MetricGroups { get; set; }
 
-    [CommandSwitch("--peer-vpc-aws-account-id")]
+    [CliOption("--peer-vpc-aws-account-id")]
     public string? PeerVpcAwsAccountId { get; set; }
 
-    [CommandSwitch("--peer-vpc-id")]
+    [CliOption("--peer-vpc-id")]
     public string? PeerVpcId { get; set; }
 
-    [CommandSwitch("--fleet-type")]
+    [CliOption("--fleet-type")]
     public string? FleetType { get; set; }
 
-    [CommandSwitch("--instance-role-arn")]
+    [CliOption("--instance-role-arn")]
     public string? InstanceRoleArn { get; set; }
 
-    [CommandSwitch("--certificate-configuration")]
+    [CliOption("--certificate-configuration")]
     public string? CertificateConfiguration { get; set; }
 
-    [CommandSwitch("--locations")]
+    [CliOption("--locations")]
     public string[]? Locations { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--compute-type")]
+    [CliOption("--compute-type")]
     public string? ComputeType { get; set; }
 
-    [CommandSwitch("--anywhere-configuration")]
+    [CliOption("--anywhere-configuration")]
     public string? AnywhereConfiguration { get; set; }
 
-    [CommandSwitch("--instance-role-credentials-provider")]
+    [CliOption("--instance-role-credentials-provider")]
     public string? InstanceRoleCredentialsProvider { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

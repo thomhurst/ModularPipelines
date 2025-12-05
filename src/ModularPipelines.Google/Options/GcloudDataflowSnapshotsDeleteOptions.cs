@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataflow", "snapshots", "delete")]
+[CliCommand("dataflow", "snapshots", "delete")]
 public record GcloudDataflowSnapshotsDeleteOptions(
-[property: PositionalArgument] string SnapshotId,
-[property: CommandSwitch("--region")] string Region
+[property: CliArgument] string SnapshotId,
+[property: CliOption("--region")] string Region
 ) : GcloudOptions;

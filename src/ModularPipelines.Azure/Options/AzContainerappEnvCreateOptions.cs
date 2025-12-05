@@ -4,75 +4,75 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "env", "create")]
+[CliSubCommand("containerapp", "env", "create")]
 public record AzContainerappEnvCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--certificate-file")]
+    [CliOption("--certificate-file")]
     public string? CertificateFile { get; set; }
 
-    [CommandSwitch("--certificate-password")]
+    [CliOption("--certificate-password")]
     public string? CertificatePassword { get; set; }
 
-    [CommandSwitch("--custom-domain-dns-suffix")]
+    [CliOption("--custom-domain-dns-suffix")]
     public string? CustomDomainDnsSuffix { get; set; }
 
-    [CommandSwitch("--dapr-instrumentation-key")]
+    [CliOption("--dapr-instrumentation-key")]
     public string? DaprInstrumentationKey { get; set; }
 
-    [CommandSwitch("--docker-bridge-cidr")]
+    [CliOption("--docker-bridge-cidr")]
     public string? DockerBridgeCidr { get; set; }
 
-    [BooleanCommandSwitch("--enable-dedicated-gpu")]
+    [CliFlag("--enable-dedicated-gpu")]
     public bool? EnableDedicatedGpu { get; set; }
 
-    [BooleanCommandSwitch("--enable-mtls")]
+    [CliFlag("--enable-mtls")]
     public bool? EnableMtls { get; set; }
 
-    [BooleanCommandSwitch("--enable-workload-profiles")]
+    [CliFlag("--enable-workload-profiles")]
     public bool? EnableWorkloadProfiles { get; set; }
 
-    [CommandSwitch("--infrastructure-resource-group")]
+    [CliOption("--infrastructure-resource-group")]
     public string? InfrastructureResourceGroup { get; set; }
 
-    [CommandSwitch("--infrastructure-subnet-resource-id")]
+    [CliOption("--infrastructure-subnet-resource-id")]
     public string? InfrastructureSubnetResourceId { get; set; }
 
-    [BooleanCommandSwitch("--internal-only")]
+    [CliFlag("--internal-only")]
     public bool? InternalOnly { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--logs-destination")]
+    [CliOption("--logs-destination")]
     public string? LogsDestination { get; set; }
 
-    [BooleanCommandSwitch("--logs-dynamic-json-columns")]
+    [CliFlag("--logs-dynamic-json-columns")]
     public bool? LogsDynamicJsonColumns { get; set; }
 
-    [CommandSwitch("--logs-workspace-id")]
+    [CliOption("--logs-workspace-id")]
     public string? LogsWorkspaceId { get; set; }
 
-    [CommandSwitch("--logs-workspace-key")]
+    [CliOption("--logs-workspace-key")]
     public string? LogsWorkspaceKey { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--platform-reserved-cidr")]
+    [CliOption("--platform-reserved-cidr")]
     public string? PlatformReservedCidr { get; set; }
 
-    [CommandSwitch("--platform-reserved-dns-ip")]
+    [CliOption("--platform-reserved-dns-ip")]
     public string? PlatformReservedDnsIp { get; set; }
 
-    [CommandSwitch("--storage-account")]
+    [CliOption("--storage-account")]
     public int? StorageAccount { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [BooleanCommandSwitch("--zone-redundant")]
+    [CliFlag("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 }

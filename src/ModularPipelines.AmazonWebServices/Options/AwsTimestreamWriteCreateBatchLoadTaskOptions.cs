@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("timestream-write", "create-batch-load-task")]
+[CliCommand("timestream-write", "create-batch-load-task")]
 public record AwsTimestreamWriteCreateBatchLoadTaskOptions(
-[property: CommandSwitch("--data-source-configuration")] string DataSourceConfiguration,
-[property: CommandSwitch("--report-configuration")] string ReportConfiguration,
-[property: CommandSwitch("--target-database-name")] string TargetDatabaseName,
-[property: CommandSwitch("--target-table-name")] string TargetTableName
+[property: CliOption("--data-source-configuration")] string DataSourceConfiguration,
+[property: CliOption("--report-configuration")] string ReportConfiguration,
+[property: CliOption("--target-database-name")] string TargetDatabaseName,
+[property: CliOption("--target-table-name")] string TargetTableName
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--data-model-configuration")]
+    [CliOption("--data-model-configuration")]
     public string? DataModelConfiguration { get; set; }
 
-    [CommandSwitch("--record-version")]
+    [CliOption("--record-version")]
     public long? RecordVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

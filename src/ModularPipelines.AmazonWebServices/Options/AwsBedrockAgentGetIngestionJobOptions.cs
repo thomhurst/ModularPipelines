@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bedrock-agent", "get-ingestion-job")]
+[CliCommand("bedrock-agent", "get-ingestion-job")]
 public record AwsBedrockAgentGetIngestionJobOptions(
-[property: CommandSwitch("--knowledge-base-id")] string KnowledgeBaseId,
-[property: CommandSwitch("--data-source-id")] string DataSourceId,
-[property: CommandSwitch("--ingestion-job-id")] string IngestionJobId
+[property: CliOption("--knowledge-base-id")] string KnowledgeBaseId,
+[property: CliOption("--data-source-id")] string DataSourceId,
+[property: CliOption("--ingestion-job-id")] string IngestionJobId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

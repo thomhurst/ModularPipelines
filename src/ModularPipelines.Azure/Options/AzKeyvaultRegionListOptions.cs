@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "region", "list")]
+[CliSubCommand("keyvault", "region", "list")]
 public record AzKeyvaultRegionListOptions(
-[property: CommandSwitch("--hsm-name")] string HsmName
+[property: CliOption("--hsm-name")] string HsmName
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

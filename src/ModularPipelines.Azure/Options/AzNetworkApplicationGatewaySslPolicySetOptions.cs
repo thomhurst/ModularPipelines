@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "ssl-policy", "set")]
+[CliSubCommand("network", "application-gateway", "ssl-policy", "set")]
 public record AzNetworkApplicationGatewaySslPolicySetOptions(
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--cipher-suites")]
+    [CliOption("--cipher-suites")]
     public string? CipherSuites { get; set; }
 
-    [BooleanCommandSwitch("--disabled-ssl-protocols")]
+    [CliFlag("--disabled-ssl-protocols")]
     public bool? DisabledSslProtocols { get; set; }
 
-    [CommandSwitch("--min-protocol-version")]
+    [CliOption("--min-protocol-version")]
     public string? MinProtocolVersion { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--policy-type")]
+    [CliOption("--policy-type")]
     public string? PolicyType { get; set; }
 }

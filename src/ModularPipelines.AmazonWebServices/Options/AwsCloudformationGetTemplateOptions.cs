@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation", "get-template")]
+[CliCommand("cloudformation", "get-template")]
 public record AwsCloudformationGetTemplateOptions : AwsOptions
 {
-    [CommandSwitch("--stack-name")]
+    [CliOption("--stack-name")]
     public string? StackName { get; set; }
 
-    [CommandSwitch("--change-set-name")]
+    [CliOption("--change-set-name")]
     public string? ChangeSetName { get; set; }
 
-    [CommandSwitch("--template-stage")]
+    [CliOption("--template-stage")]
     public string? TemplateStage { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-manager", "tags", "bindings", "list")]
+[CliCommand("resource-manager", "tags", "bindings", "list")]
 public record GcloudResourceManagerTagsBindingsListOptions(
-[property: CommandSwitch("--parent")] string Parent
+[property: CliOption("--parent")] string Parent
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--effective")]
+    [CliFlag("--effective")]
     public bool? Effective { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

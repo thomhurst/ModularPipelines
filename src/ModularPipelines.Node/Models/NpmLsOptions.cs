@@ -4,51 +4,51 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ls")]
+[CliCommand("ls")]
 public record NpmLsOptions : NpmOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 
-    [BooleanCommandSwitch("--long")]
+    [CliFlag("--long")]
     public virtual bool? Long { get; set; }
 
-    [BooleanCommandSwitch("--parseable")]
+    [CliFlag("--parseable")]
     public virtual bool? Parseable { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public virtual bool? Global { get; set; }
 
-    [CommandSwitch("--depth")]
+    [CliOption("--depth")]
     public virtual int? Depth { get; set; }
 
-    [CommandSwitch("--omit")]
+    [CliOption("--omit")]
     public virtual string? Omit { get; set; }
 
-    [CommandSwitch("--include")]
+    [CliOption("--include")]
     public virtual string? Include { get; set; }
 
-    [BooleanCommandSwitch("--link")]
+    [CliFlag("--link")]
     public virtual bool? Link { get; set; }
 
-    [BooleanCommandSwitch("--package-lock-only")]
+    [CliFlag("--package-lock-only")]
     public virtual bool? PackageLockOnly { get; set; }
 
-    [BooleanCommandSwitch("--unicode")]
+    [CliFlag("--unicode")]
     public virtual bool? Unicode { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public virtual string[]? Workspace { get; set; }
 
-    [BooleanCommandSwitch("--workspaces")]
+    [CliFlag("--workspaces")]
     public virtual bool? Workspaces { get; set; }
 
-    [BooleanCommandSwitch("--include-workspace-root")]
+    [CliFlag("--include-workspace-root")]
     public virtual bool? IncludeWorkspaceRoot { get; set; }
 
-    [BooleanCommandSwitch("--install-links")]
+    [CliFlag("--install-links")]
     public virtual bool? InstallLinks { get; set; }
 }

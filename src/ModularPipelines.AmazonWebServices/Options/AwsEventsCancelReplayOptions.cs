@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("events", "cancel-replay")]
+[CliCommand("events", "cancel-replay")]
 public record AwsEventsCancelReplayOptions(
-[property: CommandSwitch("--replay-name")] string ReplayName
+[property: CliOption("--replay-name")] string ReplayName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

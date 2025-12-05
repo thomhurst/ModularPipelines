@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotfleetwise", "update-decoder-manifest")]
+[CliCommand("iotfleetwise", "update-decoder-manifest")]
 public record AwsIotfleetwiseUpdateDecoderManifestOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--signal-decoders-to-add")]
+    [CliOption("--signal-decoders-to-add")]
     public string[]? SignalDecodersToAdd { get; set; }
 
-    [CommandSwitch("--signal-decoders-to-update")]
+    [CliOption("--signal-decoders-to-update")]
     public string[]? SignalDecodersToUpdate { get; set; }
 
-    [CommandSwitch("--signal-decoders-to-remove")]
+    [CliOption("--signal-decoders-to-remove")]
     public string[]? SignalDecodersToRemove { get; set; }
 
-    [CommandSwitch("--network-interfaces-to-add")]
+    [CliOption("--network-interfaces-to-add")]
     public string[]? NetworkInterfacesToAdd { get; set; }
 
-    [CommandSwitch("--network-interfaces-to-update")]
+    [CliOption("--network-interfaces-to-update")]
     public string[]? NetworkInterfacesToUpdate { get; set; }
 
-    [CommandSwitch("--network-interfaces-to-remove")]
+    [CliOption("--network-interfaces-to-remove")]
     public string[]? NetworkInterfacesToRemove { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

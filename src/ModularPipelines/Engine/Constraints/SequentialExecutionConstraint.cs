@@ -5,7 +5,7 @@ using ModularPipelines.Logging;
 namespace ModularPipelines.Engine.Constraints;
 
 /// <summary>
-/// Enforces sequential execution constraints (NotInParallel attribute without keys)
+/// Enforces sequential execution constraints (NotInParallel attribute without keys).
 /// </summary>
 internal class SequentialExecutionConstraint : IModuleConstraint
 {

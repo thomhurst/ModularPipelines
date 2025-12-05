@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managed-cassandra", "cluster")]
+[CliCommand("managed-cassandra", "cluster")]
 public class AzManagedCassandraClusterBackup
 {
     public AzManagedCassandraClusterBackup(

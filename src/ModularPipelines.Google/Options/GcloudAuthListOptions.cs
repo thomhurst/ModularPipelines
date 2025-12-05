@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("auth", "list")]
+[CliCommand("auth", "list")]
 public record GcloudAuthListOptions : GcloudOptions
 {
-    [CommandSwitch("--filter-account")]
+    [CliOption("--filter-account")]
     public string? FilterAccount { get; set; }
 }

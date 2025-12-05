@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "workload-identity-pools", "providers", "keys", "delete")]
+[CliCommand("iam", "workload-identity-pools", "providers", "keys", "delete")]
 public record GcloudIamWorkloadIdentityPoolsProvidersKeysDeleteOptions(
-[property: PositionalArgument] string Key,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Provider,
-[property: PositionalArgument] string WorkloadIdentityPool
+[property: CliArgument] string Key,
+[property: CliArgument] string Location,
+[property: CliArgument] string Provider,
+[property: CliArgument] string WorkloadIdentityPool
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

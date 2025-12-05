@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("memorydb", "purchase-reserved-nodes-offering")]
+[CliCommand("memorydb", "purchase-reserved-nodes-offering")]
 public record AwsMemorydbPurchaseReservedNodesOfferingOptions(
-[property: CommandSwitch("--reserved-nodes-offering-id")] string ReservedNodesOfferingId
+[property: CliOption("--reserved-nodes-offering-id")] string ReservedNodesOfferingId
 ) : AwsOptions
 {
-    [CommandSwitch("--reservation-id")]
+    [CliOption("--reservation-id")]
     public string? ReservationId { get; set; }
 
-    [CommandSwitch("--node-count")]
+    [CliOption("--node-count")]
     public int? NodeCount { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

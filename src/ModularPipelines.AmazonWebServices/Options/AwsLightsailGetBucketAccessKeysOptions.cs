@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "get-bucket-access-keys")]
+[CliCommand("lightsail", "get-bucket-access-keys")]
 public record AwsLightsailGetBucketAccessKeysOptions(
-[property: CommandSwitch("--bucket-name")] string BucketName
+[property: CliOption("--bucket-name")] string BucketName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

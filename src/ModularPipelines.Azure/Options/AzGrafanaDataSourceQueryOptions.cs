@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("grafana", "data-source", "query")]
+[CliSubCommand("grafana", "data-source", "query")]
 public record AzGrafanaDataSourceQueryOptions(
-[property: CommandSwitch("--data-source")] string DataSource,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--data-source")] string DataSource,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--api-key")]
+    [CliOption("--api-key")]
     public string? ApiKey { get; set; }
 
-    [CommandSwitch("--conditions")]
+    [CliOption("--conditions")]
     public string? Conditions { get; set; }
 
-    [CommandSwitch("--from")]
+    [CliOption("--from")]
     public string? From { get; set; }
 
-    [CommandSwitch("--internal-ms")]
+    [CliOption("--internal-ms")]
     public string? InternalMs { get; set; }
 
-    [CommandSwitch("--max-data-points")]
+    [CliOption("--max-data-points")]
     public string? MaxDataPoints { get; set; }
 
-    [CommandSwitch("--query-format")]
+    [CliOption("--query-format")]
     public string? QueryFormat { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--to")]
+    [CliOption("--to")]
     public string? To { get; set; }
 }

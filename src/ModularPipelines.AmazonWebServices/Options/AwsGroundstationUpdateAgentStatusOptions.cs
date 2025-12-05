@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("groundstation", "update-agent-status")]
+[CliCommand("groundstation", "update-agent-status")]
 public record AwsGroundstationUpdateAgentStatusOptions(
-[property: CommandSwitch("--agent-id")] string AgentId,
-[property: CommandSwitch("--aggregate-status")] string AggregateStatus,
-[property: CommandSwitch("--component-statuses")] string[] ComponentStatuses,
-[property: CommandSwitch("--task-id")] string TaskId
+[property: CliOption("--agent-id")] string AgentId,
+[property: CliOption("--aggregate-status")] string AggregateStatus,
+[property: CliOption("--component-statuses")] string[] ComponentStatuses,
+[property: CliOption("--task-id")] string TaskId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

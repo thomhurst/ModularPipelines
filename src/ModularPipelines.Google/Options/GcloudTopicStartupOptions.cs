@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("topic", "startup")]
+[CliCommand("topic", "startup")]
 public record GcloudTopicStartupOptions : GcloudOptions;

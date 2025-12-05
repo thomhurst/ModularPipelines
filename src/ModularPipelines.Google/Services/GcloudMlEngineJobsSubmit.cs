@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml-engine", "jobs")]
+[CliCommand("ml-engine", "jobs")]
 public class GcloudMlEngineJobsSubmit
 {
     public GcloudMlEngineJobsSubmit(

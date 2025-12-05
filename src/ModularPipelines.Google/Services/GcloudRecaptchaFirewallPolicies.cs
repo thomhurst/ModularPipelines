@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("recaptcha")]
+[CliCommand("recaptcha")]
 public class GcloudRecaptchaFirewallPolicies
 {
     public GcloudRecaptchaFirewallPolicies(

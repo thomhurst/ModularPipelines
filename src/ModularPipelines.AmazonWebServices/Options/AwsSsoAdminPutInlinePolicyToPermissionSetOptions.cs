@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sso-admin", "put-inline-policy-to-permission-set")]
+[CliCommand("sso-admin", "put-inline-policy-to-permission-set")]
 public record AwsSsoAdminPutInlinePolicyToPermissionSetOptions(
-[property: CommandSwitch("--inline-policy")] string InlinePolicy,
-[property: CommandSwitch("--instance-arn")] string InstanceArn,
-[property: CommandSwitch("--permission-set-arn")] string PermissionSetArn
+[property: CliOption("--inline-policy")] string InlinePolicy,
+[property: CliOption("--instance-arn")] string InstanceArn,
+[property: CliOption("--permission-set-arn")] string PermissionSetArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

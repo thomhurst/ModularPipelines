@@ -5,30 +5,30 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "admin-create-user")]
+[CliCommand("cognito-idp", "admin-create-user")]
 public record AwsCognitoIdpAdminCreateUserOptions(
-[property: CommandSwitch("--user-pool-id")] string UserPoolId,
-[property: CommandSwitch("--username")] string Username
+[property: CliOption("--user-pool-id")] string UserPoolId,
+[property: CliOption("--username")] string Username
 ) : AwsOptions
 {
-    [CommandSwitch("--user-attributes")]
+    [CliOption("--user-attributes")]
     public string[]? UserAttributes { get; set; }
 
-    [CommandSwitch("--validation-data")]
+    [CliOption("--validation-data")]
     public string[]? ValidationData { get; set; }
 
-    [CommandSwitch("--temporary-password")]
+    [CliOption("--temporary-password")]
     public string? TemporaryPassword { get; set; }
 
-    [CommandSwitch("--message-action")]
+    [CliOption("--message-action")]
     public string? MessageAction { get; set; }
 
-    [CommandSwitch("--desired-delivery-mediums")]
+    [CliOption("--desired-delivery-mediums")]
     public string[]? DesiredDeliveryMediums { get; set; }
 
-    [CommandSwitch("--client-metadata")]
+    [CliOption("--client-metadata")]
     public IEnumerable<KeyValue>? ClientMetadata { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

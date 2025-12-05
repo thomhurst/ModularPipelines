@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces", "register-workspace-directory")]
+[CliCommand("workspaces", "register-workspace-directory")]
 public record AwsWorkspacesRegisterWorkspaceDirectoryOptions(
-[property: CommandSwitch("--directory-id")] string DirectoryId
+[property: CliOption("--directory-id")] string DirectoryId
 ) : AwsOptions
 {
-    [CommandSwitch("--subnet-ids")]
+    [CliOption("--subnet-ids")]
     public string[]? SubnetIds { get; set; }
 
-    [CommandSwitch("--tenancy")]
+    [CliOption("--tenancy")]
     public string? Tenancy { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

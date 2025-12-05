@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("secrets")]
+[CliCommand("secrets")]
 public class GcloudSecretsReplication
 {
     public GcloudSecretsReplication(

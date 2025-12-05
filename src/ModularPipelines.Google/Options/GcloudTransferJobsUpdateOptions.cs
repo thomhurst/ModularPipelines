@@ -4,197 +4,197 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "jobs", "update")]
+[CliCommand("transfer", "jobs", "update")]
 public record GcloudTransferJobsUpdateOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CommandSwitch("--destination")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 
-    [BooleanCommandSwitch("--clear-description")]
+    [CliFlag("--clear-description")]
     public bool? ClearDescription { get; set; }
 
-    [BooleanCommandSwitch("--clear-source-creds-file")]
+    [CliFlag("--clear-source-creds-file")]
     public bool? ClearSourceCredsFile { get; set; }
 
-    [BooleanCommandSwitch("--clear-source-agent-pool")]
+    [CliFlag("--clear-source-agent-pool")]
     public bool? ClearSourceAgentPool { get; set; }
 
-    [BooleanCommandSwitch("--clear-destination-agent-pool")]
+    [CliFlag("--clear-destination-agent-pool")]
     public bool? ClearDestinationAgentPool { get; set; }
 
-    [BooleanCommandSwitch("--clear-intermediate-storage-path")]
+    [CliFlag("--clear-intermediate-storage-path")]
     public bool? ClearIntermediateStoragePath { get; set; }
 
-    [BooleanCommandSwitch("--clear-manifest-file")]
+    [CliFlag("--clear-manifest-file")]
     public bool? ClearManifestFile { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--source-creds-file")]
+    [CliOption("--source-creds-file")]
     public string? SourceCredsFile { get; set; }
 
-    [CommandSwitch("--source-agent-pool")]
+    [CliOption("--source-agent-pool")]
     public string? SourceAgentPool { get; set; }
 
-    [CommandSwitch("--destination-agent-pool")]
+    [CliOption("--destination-agent-pool")]
     public string? DestinationAgentPool { get; set; }
 
-    [CommandSwitch("--intermediate-storage-path")]
+    [CliOption("--intermediate-storage-path")]
     public string? IntermediateStoragePath { get; set; }
 
-    [CommandSwitch("--manifest-file")]
+    [CliOption("--manifest-file")]
     public string? ManifestFile { get; set; }
 
-    [CommandSwitch("--event-stream-name")]
+    [CliOption("--event-stream-name")]
     public string? EventStreamName { get; set; }
 
-    [CommandSwitch("--event-stream-starts")]
+    [CliOption("--event-stream-starts")]
     public string? EventStreamStarts { get; set; }
 
-    [CommandSwitch("--event-stream-expires")]
+    [CliOption("--event-stream-expires")]
     public string? EventStreamExpires { get; set; }
 
-    [BooleanCommandSwitch("--clear-event-stream")]
+    [CliFlag("--clear-event-stream")]
     public bool? ClearEventStream { get; set; }
 
-    [BooleanCommandSwitch("--clear-schedule")]
+    [CliFlag("--clear-schedule")]
     public bool? ClearSchedule { get; set; }
 
-    [CommandSwitch("--schedule-starts")]
+    [CliOption("--schedule-starts")]
     public string? ScheduleStarts { get; set; }
 
-    [CommandSwitch("--schedule-repeats-every")]
+    [CliOption("--schedule-repeats-every")]
     public string? ScheduleRepeatsEvery { get; set; }
 
-    [CommandSwitch("--schedule-repeats-until")]
+    [CliOption("--schedule-repeats-until")]
     public string? ScheduleRepeatsUntil { get; set; }
 
-    [BooleanCommandSwitch("--clear-include-prefixes")]
+    [CliFlag("--clear-include-prefixes")]
     public bool? ClearIncludePrefixes { get; set; }
 
-    [BooleanCommandSwitch("--clear-exclude-prefixes")]
+    [CliFlag("--clear-exclude-prefixes")]
     public bool? ClearExcludePrefixes { get; set; }
 
-    [BooleanCommandSwitch("--clear-include-modified-before-absolute")]
+    [CliFlag("--clear-include-modified-before-absolute")]
     public bool? ClearIncludeModifiedBeforeAbsolute { get; set; }
 
-    [BooleanCommandSwitch("--clear-include-modified-after-absolute")]
+    [CliFlag("--clear-include-modified-after-absolute")]
     public bool? ClearIncludeModifiedAfterAbsolute { get; set; }
 
-    [BooleanCommandSwitch("--clear-include-modified-before-relative")]
+    [CliFlag("--clear-include-modified-before-relative")]
     public bool? ClearIncludeModifiedBeforeRelative { get; set; }
 
-    [BooleanCommandSwitch("--clear-include-modified-after-relative")]
+    [CliFlag("--clear-include-modified-after-relative")]
     public bool? ClearIncludeModifiedAfterRelative { get; set; }
 
-    [CommandSwitch("--include-prefixes")]
+    [CliOption("--include-prefixes")]
     public string[]? IncludePrefixes { get; set; }
 
-    [CommandSwitch("--exclude-prefixes")]
+    [CliOption("--exclude-prefixes")]
     public string[]? ExcludePrefixes { get; set; }
 
-    [CommandSwitch("--include-modified-before-absolute")]
+    [CliOption("--include-modified-before-absolute")]
     public string? IncludeModifiedBeforeAbsolute { get; set; }
 
-    [CommandSwitch("--include-modified-after-absolute")]
+    [CliOption("--include-modified-after-absolute")]
     public string? IncludeModifiedAfterAbsolute { get; set; }
 
-    [CommandSwitch("--include-modified-before-relative")]
+    [CliOption("--include-modified-before-relative")]
     public string? IncludeModifiedBeforeRelative { get; set; }
 
-    [CommandSwitch("--include-modified-after-relative")]
+    [CliOption("--include-modified-after-relative")]
     public string? IncludeModifiedAfterRelative { get; set; }
 
-    [BooleanCommandSwitch("--clear-delete-from")]
+    [CliFlag("--clear-delete-from")]
     public bool? ClearDeleteFrom { get; set; }
 
-    [BooleanCommandSwitch("--clear-preserve-metadata")]
+    [CliFlag("--clear-preserve-metadata")]
     public bool? ClearPreserveMetadata { get; set; }
 
-    [BooleanCommandSwitch("--clear-custom-storage-class")]
+    [CliFlag("--clear-custom-storage-class")]
     public bool? ClearCustomStorageClass { get; set; }
 
-    [CommandSwitch("--overwrite-when")]
+    [CliOption("--overwrite-when")]
     public string? OverwriteWhen { get; set; }
 
-    [CommandSwitch("--delete-from")]
+    [CliOption("--delete-from")]
     public string? DeleteFrom { get; set; }
 
-    [CommandSwitch("--preserve-metadata")]
+    [CliOption("--preserve-metadata")]
     public string[]? PreserveMetadata { get; set; }
 
-    [CommandSwitch("--custom-storage-class")]
+    [CliOption("--custom-storage-class")]
     public string? CustomStorageClass { get; set; }
 
-    [BooleanCommandSwitch("--clear-notification-config")]
+    [CliFlag("--clear-notification-config")]
     public bool? ClearNotificationConfig { get; set; }
 
-    [BooleanCommandSwitch("--clear-notification-event-types")]
+    [CliFlag("--clear-notification-event-types")]
     public bool? ClearNotificationEventTypes { get; set; }
 
-    [CommandSwitch("--notification-pubsub-topic")]
+    [CliOption("--notification-pubsub-topic")]
     public string? NotificationPubsubTopic { get; set; }
 
-    [CommandSwitch("--notification-event-types")]
+    [CliOption("--notification-event-types")]
     public string[]? NotificationEventTypes { get; set; }
 
-    [CommandSwitch("--notification-payload-format")]
+    [CliOption("--notification-payload-format")]
     public string? NotificationPayloadFormat { get; set; }
 
-    [BooleanCommandSwitch("--clear-log-config")]
+    [CliFlag("--clear-log-config")]
     public bool? ClearLogConfig { get; set; }
 
-    [CommandSwitch("--[no-]enable-posix-transfer-logs")]
+    [CliOption("--[no-]enable-posix-transfer-logs")]
     public string[]? NoEnablePosixTransferLogs { get; set; }
 
-    [CommandSwitch("--log-actions")]
+    [CliOption("--log-actions")]
     public string[]? LogActions { get; set; }
 
-    [CommandSwitch("--log-action-states")]
+    [CliOption("--log-action-states")]
     public string[]? LogActionStates { get; set; }
 
-    [CommandSwitch("--source-endpoint")]
+    [CliOption("--source-endpoint")]
     public string? SourceEndpoint { get; set; }
 
-    [CommandSwitch("--source-signing-region")]
+    [CliOption("--source-signing-region")]
     public string? SourceSigningRegion { get; set; }
 
-    [CommandSwitch("--source-auth-method")]
+    [CliOption("--source-auth-method")]
     public string? SourceAuthMethod { get; set; }
 
-    [CommandSwitch("--source-list-api")]
+    [CliOption("--source-list-api")]
     public string? SourceListApi { get; set; }
 
-    [CommandSwitch("--source-network-protocol")]
+    [CliOption("--source-network-protocol")]
     public string? SourceNetworkProtocol { get; set; }
 
-    [CommandSwitch("--source-request-model")]
+    [CliOption("--source-request-model")]
     public string? SourceRequestModel { get; set; }
 
-    [BooleanCommandSwitch("--clear-source-endpoint")]
+    [CliFlag("--clear-source-endpoint")]
     public bool? ClearSourceEndpoint { get; set; }
 
-    [BooleanCommandSwitch("--clear-source-signing-region")]
+    [CliFlag("--clear-source-signing-region")]
     public bool? ClearSourceSigningRegion { get; set; }
 
-    [BooleanCommandSwitch("--clear-source-auth-method")]
+    [CliFlag("--clear-source-auth-method")]
     public bool? ClearSourceAuthMethod { get; set; }
 
-    [BooleanCommandSwitch("--clear-source-list-api")]
+    [CliFlag("--clear-source-list-api")]
     public bool? ClearSourceListApi { get; set; }
 
-    [BooleanCommandSwitch("--clear-source-network-protocol")]
+    [CliFlag("--clear-source-network-protocol")]
     public bool? ClearSourceNetworkProtocol { get; set; }
 
-    [BooleanCommandSwitch("--clear-source-request-model")]
+    [CliFlag("--clear-source-request-model")]
     public bool? ClearSourceRequestModel { get; set; }
 }

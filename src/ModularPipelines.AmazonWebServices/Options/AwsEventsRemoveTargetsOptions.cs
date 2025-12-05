@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("events", "remove-targets")]
+[CliCommand("events", "remove-targets")]
 public record AwsEventsRemoveTargetsOptions(
-[property: CommandSwitch("--rule")] string Rule,
-[property: CommandSwitch("--ids")] string[] Ids
+[property: CliOption("--rule")] string Rule,
+[property: CliOption("--ids")] string[] Ids
 ) : AwsOptions
 {
-    [CommandSwitch("--event-bus-name")]
+    [CliOption("--event-bus-name")]
     public string? EventBusName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

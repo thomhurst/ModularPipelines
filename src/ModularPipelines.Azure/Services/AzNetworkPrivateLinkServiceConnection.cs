@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "private-link-service")]
+[CliCommand("network", "private-link-service")]
 public class AzNetworkPrivateLinkServiceConnection
 {
     public AzNetworkPrivateLinkServiceConnection(

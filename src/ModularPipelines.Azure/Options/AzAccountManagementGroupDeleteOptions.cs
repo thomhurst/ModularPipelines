@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("account", "management-group", "delete")]
+[CliSubCommand("account", "management-group", "delete")]
 public record AzAccountManagementGroupDeleteOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-register")]
+    [CliFlag("--no-register")]
     public bool? NoRegister { get; set; }
 }

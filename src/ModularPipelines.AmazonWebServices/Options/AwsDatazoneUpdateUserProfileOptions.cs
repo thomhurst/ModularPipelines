@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datazone", "update-user-profile")]
+[CliCommand("datazone", "update-user-profile")]
 public record AwsDatazoneUpdateUserProfileOptions(
-[property: CommandSwitch("--domain-identifier")] string DomainIdentifier,
-[property: CommandSwitch("--status")] string Status,
-[property: CommandSwitch("--user-identifier")] string UserIdentifier
+[property: CliOption("--domain-identifier")] string DomainIdentifier,
+[property: CliOption("--status")] string Status,
+[property: CliOption("--user-identifier")] string UserIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

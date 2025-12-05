@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticache", "describe-service-updates")]
+[CliCommand("elasticache", "describe-service-updates")]
 public record AwsElasticacheDescribeServiceUpdatesOptions : AwsOptions
 {
-    [CommandSwitch("--service-update-name")]
+    [CliOption("--service-update-name")]
     public string? ServiceUpdateName { get; set; }
 
-    [CommandSwitch("--service-update-status")]
+    [CliOption("--service-update-status")]
     public string[]? ServiceUpdateStatus { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -16,7 +16,7 @@ public class PushVersionTagModule : Module<CommandResult>, IIgnoreFailures
 {
     public Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
     {
-        var versionInformation = ((IModuleContext)context).GetModule<NugetVersionGeneratorModule, string>();
+        var versionInformation = ((IModuleContext) context).GetModule<NugetVersionGeneratorModule, string>();
 
         return Task.FromResult(exception.Message.Contains($"tag 'v{versionInformation.Value!}' already exists"));
     }

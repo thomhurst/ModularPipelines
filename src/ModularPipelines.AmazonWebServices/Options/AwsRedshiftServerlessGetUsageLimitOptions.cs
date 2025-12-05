@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift-serverless", "get-usage-limit")]
+[CliCommand("redshift-serverless", "get-usage-limit")]
 public record AwsRedshiftServerlessGetUsageLimitOptions(
-[property: CommandSwitch("--usage-limit-id")] string UsageLimitId
+[property: CliOption("--usage-limit-id")] string UsageLimitId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

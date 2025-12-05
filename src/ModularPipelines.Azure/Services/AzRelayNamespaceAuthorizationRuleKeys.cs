@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("relay", "namespace", "authorization-rule")]
+[CliCommand("relay", "namespace", "authorization-rule")]
 public class AzRelayNamespaceAuthorizationRuleKeys
 {
     public AzRelayNamespaceAuthorizationRuleKeys(

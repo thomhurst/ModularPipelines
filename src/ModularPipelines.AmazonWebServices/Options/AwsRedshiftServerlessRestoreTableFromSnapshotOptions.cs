@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift-serverless", "restore-table-from-snapshot")]
+[CliCommand("redshift-serverless", "restore-table-from-snapshot")]
 public record AwsRedshiftServerlessRestoreTableFromSnapshotOptions(
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--new-table-name")] string NewTableName,
-[property: CommandSwitch("--snapshot-name")] string SnapshotName,
-[property: CommandSwitch("--source-database-name")] string SourceDatabaseName,
-[property: CommandSwitch("--source-table-name")] string SourceTableName,
-[property: CommandSwitch("--workgroup-name")] string WorkgroupName
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--new-table-name")] string NewTableName,
+[property: CliOption("--snapshot-name")] string SnapshotName,
+[property: CliOption("--source-database-name")] string SourceDatabaseName,
+[property: CliOption("--source-table-name")] string SourceTableName,
+[property: CliOption("--workgroup-name")] string WorkgroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--source-schema-name")]
+    [CliOption("--source-schema-name")]
     public string? SourceSchemaName { get; set; }
 
-    [CommandSwitch("--target-database-name")]
+    [CliOption("--target-database-name")]
     public string? TargetDatabaseName { get; set; }
 
-    [CommandSwitch("--target-schema-name")]
+    [CliOption("--target-schema-name")]
     public string? TargetSchemaName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

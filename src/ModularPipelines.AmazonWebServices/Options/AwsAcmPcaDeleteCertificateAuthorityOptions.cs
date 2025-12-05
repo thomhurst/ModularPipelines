@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acm-pca", "delete-certificate-authority")]
+[CliCommand("acm-pca", "delete-certificate-authority")]
 public record AwsAcmPcaDeleteCertificateAuthorityOptions(
-[property: CommandSwitch("--certificate-authority-arn")] string CertificateAuthorityArn
+[property: CliOption("--certificate-authority-arn")] string CertificateAuthorityArn
 ) : AwsOptions
 {
-    [CommandSwitch("--permanent-deletion-time-in-days")]
+    [CliOption("--permanent-deletion-time-in-days")]
     public int? PermanentDeletionTimeInDays { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

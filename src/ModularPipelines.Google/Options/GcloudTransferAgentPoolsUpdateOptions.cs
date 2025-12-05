@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "agent-pools", "update")]
+[CliCommand("transfer", "agent-pools", "update")]
 public record GcloudTransferAgentPoolsUpdateOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--bandwidth-limit")]
+    [CliOption("--bandwidth-limit")]
     public string? BandwidthLimit { get; set; }
 
-    [BooleanCommandSwitch("--clear-bandwidth-limit")]
+    [CliFlag("--clear-bandwidth-limit")]
     public bool? ClearBandwidthLimit { get; set; }
 
-    [BooleanCommandSwitch("--clear-display-name")]
+    [CliFlag("--clear-display-name")]
     public bool? ClearDisplayName { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("looker")]
+[CliCommand("looker")]
 public class GcloudLookerInstances
 {
     public GcloudLookerInstances(

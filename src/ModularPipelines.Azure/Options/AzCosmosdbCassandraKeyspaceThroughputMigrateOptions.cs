@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "cassandra", "keyspace", "throughput", "migrate")]
+[CliSubCommand("cosmosdb", "cassandra", "keyspace", "throughput", "migrate")]
 public record AzCosmosdbCassandraKeyspaceThroughputMigrateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--throughput-type")] string ThroughputType
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--throughput-type")] string ThroughputType
 ) : AzOptions;

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pipelines")]
+[CliCommand("pipelines")]
 public class AzPipelinesQueue
 {
     public AzPipelinesQueue(

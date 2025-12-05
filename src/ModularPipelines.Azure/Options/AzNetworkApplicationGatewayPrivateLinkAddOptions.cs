@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "private-link", "add")]
+[CliSubCommand("network", "application-gateway", "private-link", "add")]
 public record AzNetworkApplicationGatewayPrivateLinkAddOptions(
-[property: CommandSwitch("--frontend-ip")] string FrontendIp,
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--subnet")] string Subnet
+[property: CliOption("--frontend-ip")] string FrontendIp,
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--subnet")] string Subnet
 ) : AzOptions
 {
-    [CommandSwitch("--ip-address")]
+    [CliOption("--ip-address")]
     public string? IpAddress { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--primary")]
+    [CliFlag("--primary")]
     public bool? Primary { get; set; }
 
-    [CommandSwitch("--subnet-prefix")]
+    [CliOption("--subnet-prefix")]
     public string? SubnetPrefix { get; set; }
 }

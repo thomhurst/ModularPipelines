@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ses", "create-configuration-set")]
+[CliCommand("ses", "create-configuration-set")]
 public record AwsSesCreateConfigurationSetOptions(
-[property: CommandSwitch("--configuration-set")] string ConfigurationSet
+[property: CliOption("--configuration-set")] string ConfigurationSet
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

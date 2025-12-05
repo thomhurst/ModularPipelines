@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aksarc", "vmsize", "list")]
+[CliSubCommand("aksarc", "vmsize", "list")]
 public record AzAksarcVmsizeListOptions(
-[property: CommandSwitch("--custom-location")] string CustomLocation
+[property: CliOption("--custom-location")] string CustomLocation
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

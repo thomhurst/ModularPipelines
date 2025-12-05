@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "mongodb", "user", "definition", "delete")]
+[CliCommand("cosmosdb", "mongodb", "user", "definition", "delete")]
 public class AzCosmosdbMongodbUserDefinitionDeleteCosmosdbPreview
 {
     public AzCosmosdbMongodbUserDefinitionDeleteCosmosdbPreview(

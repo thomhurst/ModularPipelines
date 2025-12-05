@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("events", "create-api-destination")]
+[CliCommand("events", "create-api-destination")]
 public record AwsEventsCreateApiDestinationOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--connection-arn")] string ConnectionArn,
-[property: CommandSwitch("--invocation-endpoint")] string InvocationEndpoint,
-[property: CommandSwitch("--http-method")] string HttpMethod
+[property: CliOption("--name")] string Name,
+[property: CliOption("--connection-arn")] string ConnectionArn,
+[property: CliOption("--invocation-endpoint")] string InvocationEndpoint,
+[property: CliOption("--http-method")] string HttpMethod
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--invocation-rate-limit-per-second")]
+    [CliOption("--invocation-rate-limit-per-second")]
     public int? InvocationRateLimitPerSecond { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

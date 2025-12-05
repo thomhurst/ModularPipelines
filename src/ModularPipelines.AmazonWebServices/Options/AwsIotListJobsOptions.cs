@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "list-jobs")]
+[CliCommand("iot", "list-jobs")]
 public record AwsIotListJobsOptions : AwsOptions
 {
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--target-selection")]
+    [CliOption("--target-selection")]
     public string? TargetSelection { get; set; }
 
-    [CommandSwitch("--thing-group-name")]
+    [CliOption("--thing-group-name")]
     public string? ThingGroupName { get; set; }
 
-    [CommandSwitch("--thing-group-id")]
+    [CliOption("--thing-group-id")]
     public string? ThingGroupId { get; set; }
 
-    [CommandSwitch("--namespace-id")]
+    [CliOption("--namespace-id")]
     public string? NamespaceId { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

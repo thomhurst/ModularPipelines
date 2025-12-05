@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-customer-gateway")]
+[CliCommand("ec2", "create-customer-gateway")]
 public record AwsEc2CreateCustomerGatewayOptions(
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--bgp-asn")]
+    [CliOption("--bgp-asn")]
     public int? BgpAsn { get; set; }
 
-    [CommandSwitch("--public-ip")]
+    [CliOption("--public-ip")]
     public string? PublicIp { get; set; }
 
-    [CommandSwitch("--certificate-arn")]
+    [CliOption("--certificate-arn")]
     public string? CertificateArn { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--device-name")]
+    [CliOption("--device-name")]
     public string? DeviceName { get; set; }
 
-    [CommandSwitch("--ip-address")]
+    [CliOption("--ip-address")]
     public string? IpAddress { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

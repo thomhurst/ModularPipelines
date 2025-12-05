@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeartifact", "list-repositories-in-domain")]
+[CliCommand("codeartifact", "list-repositories-in-domain")]
 public record AwsCodeartifactListRepositoriesInDomainOptions(
-[property: CommandSwitch("--domain")] string Domain
+[property: CliOption("--domain")] string Domain
 ) : AwsOptions
 {
-    [CommandSwitch("--domain-owner")]
+    [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
-    [CommandSwitch("--administrator-account")]
+    [CliOption("--administrator-account")]
     public string? AdministratorAccount { get; set; }
 
-    [CommandSwitch("--repository-prefix")]
+    [CliOption("--repository-prefix")]
     public string? RepositoryPrefix { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

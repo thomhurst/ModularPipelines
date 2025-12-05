@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datasync", "delete-agent")]
+[CliCommand("datasync", "delete-agent")]
 public record AwsDatasyncDeleteAgentOptions(
-[property: CommandSwitch("--agent-arn")] string AgentArn
+[property: CliOption("--agent-arn")] string AgentArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

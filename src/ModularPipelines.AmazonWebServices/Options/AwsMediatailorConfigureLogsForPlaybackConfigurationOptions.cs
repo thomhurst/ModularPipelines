@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediatailor", "configure-logs-for-playback-configuration")]
+[CliCommand("mediatailor", "configure-logs-for-playback-configuration")]
 public record AwsMediatailorConfigureLogsForPlaybackConfigurationOptions(
-[property: CommandSwitch("--percent-enabled")] int PercentEnabled,
-[property: CommandSwitch("--playback-configuration-name")] string PlaybackConfigurationName
+[property: CliOption("--percent-enabled")] int PercentEnabled,
+[property: CliOption("--playback-configuration-name")] string PlaybackConfigurationName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

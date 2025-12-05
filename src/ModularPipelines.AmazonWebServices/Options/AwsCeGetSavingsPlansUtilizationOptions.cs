@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ce", "get-savings-plans-utilization")]
+[CliCommand("ce", "get-savings-plans-utilization")]
 public record AwsCeGetSavingsPlansUtilizationOptions(
-[property: CommandSwitch("--time-period")] string TimePeriod
+[property: CliOption("--time-period")] string TimePeriod
 ) : AwsOptions
 {
-    [CommandSwitch("--granularity")]
+    [CliOption("--granularity")]
     public string? Granularity { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--sort-by")]
+    [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "delete-job-template")]
+[CliCommand("iot", "delete-job-template")]
 public record AwsIotDeleteJobTemplateOptions(
-[property: CommandSwitch("--job-template-id")] string JobTemplateId
+[property: CliOption("--job-template-id")] string JobTemplateId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

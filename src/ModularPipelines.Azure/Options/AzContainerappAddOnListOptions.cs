@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "add-on", "list")]
+[CliSubCommand("containerapp", "add-on", "list")]
 public record AzContainerappAddOnListOptions(
-[property: CommandSwitch("--environment")] string Environment,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--environment")] string Environment,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

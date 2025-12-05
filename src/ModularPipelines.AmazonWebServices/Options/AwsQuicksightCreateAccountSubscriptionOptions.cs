@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "create-account-subscription")]
+[CliCommand("quicksight", "create-account-subscription")]
 public record AwsQuicksightCreateAccountSubscriptionOptions(
-[property: CommandSwitch("--edition")] string Edition,
-[property: CommandSwitch("--authentication-method")] string AuthenticationMethod,
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--account-name")] string AccountName,
-[property: CommandSwitch("--notification-email")] string NotificationEmail
+[property: CliOption("--edition")] string Edition,
+[property: CliOption("--authentication-method")] string AuthenticationMethod,
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--account-name")] string AccountName,
+[property: CliOption("--notification-email")] string NotificationEmail
 ) : AwsOptions
 {
-    [CommandSwitch("--active-directory-name")]
+    [CliOption("--active-directory-name")]
     public string? ActiveDirectoryName { get; set; }
 
-    [CommandSwitch("--realm")]
+    [CliOption("--realm")]
     public string? Realm { get; set; }
 
-    [CommandSwitch("--directory-id")]
+    [CliOption("--directory-id")]
     public string? DirectoryId { get; set; }
 
-    [CommandSwitch("--admin-group")]
+    [CliOption("--admin-group")]
     public string[]? AdminGroup { get; set; }
 
-    [CommandSwitch("--author-group")]
+    [CliOption("--author-group")]
     public string[]? AuthorGroup { get; set; }
 
-    [CommandSwitch("--reader-group")]
+    [CliOption("--reader-group")]
     public string[]? ReaderGroup { get; set; }
 
-    [CommandSwitch("--first-name")]
+    [CliOption("--first-name")]
     public string? FirstName { get; set; }
 
-    [CommandSwitch("--last-name")]
+    [CliOption("--last-name")]
     public string? LastName { get; set; }
 
-    [CommandSwitch("--email-address")]
+    [CliOption("--email-address")]
     public string? EmailAddress { get; set; }
 
-    [CommandSwitch("--contact-number")]
+    [CliOption("--contact-number")]
     public string? ContactNumber { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

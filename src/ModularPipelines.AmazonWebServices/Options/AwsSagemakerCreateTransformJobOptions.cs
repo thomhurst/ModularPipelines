@@ -5,42 +5,42 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-transform-job")]
+[CliCommand("sagemaker", "create-transform-job")]
 public record AwsSagemakerCreateTransformJobOptions(
-[property: CommandSwitch("--transform-job-name")] string TransformJobName,
-[property: CommandSwitch("--model-name")] string ModelName,
-[property: CommandSwitch("--transform-input")] string TransformInput,
-[property: CommandSwitch("--transform-output")] string TransformOutput,
-[property: CommandSwitch("--transform-resources")] string TransformResources
+[property: CliOption("--transform-job-name")] string TransformJobName,
+[property: CliOption("--model-name")] string ModelName,
+[property: CliOption("--transform-input")] string TransformInput,
+[property: CliOption("--transform-output")] string TransformOutput,
+[property: CliOption("--transform-resources")] string TransformResources
 ) : AwsOptions
 {
-    [CommandSwitch("--max-concurrent-transforms")]
+    [CliOption("--max-concurrent-transforms")]
     public int? MaxConcurrentTransforms { get; set; }
 
-    [CommandSwitch("--model-client-config")]
+    [CliOption("--model-client-config")]
     public string? ModelClientConfig { get; set; }
 
-    [CommandSwitch("--max-payload-in-mb")]
+    [CliOption("--max-payload-in-mb")]
     public int? MaxPayloadInMb { get; set; }
 
-    [CommandSwitch("--batch-strategy")]
+    [CliOption("--batch-strategy")]
     public string? BatchStrategy { get; set; }
 
-    [CommandSwitch("--environment")]
+    [CliOption("--environment")]
     public IEnumerable<KeyValue>? Environment { get; set; }
 
-    [CommandSwitch("--data-capture-config")]
+    [CliOption("--data-capture-config")]
     public string? DataCaptureConfig { get; set; }
 
-    [CommandSwitch("--data-processing")]
+    [CliOption("--data-processing")]
     public string? DataProcessing { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--experiment-config")]
+    [CliOption("--experiment-config")]
     public string? ExperimentConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

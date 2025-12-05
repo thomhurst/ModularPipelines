@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecatalyst", "create-project")]
+[CliCommand("codecatalyst", "create-project")]
 public record AwsCodecatalystCreateProjectOptions(
-[property: CommandSwitch("--space-name")] string SpaceName,
-[property: CommandSwitch("--display-name")] string DisplayName
+[property: CliOption("--space-name")] string SpaceName,
+[property: CliOption("--display-name")] string DisplayName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

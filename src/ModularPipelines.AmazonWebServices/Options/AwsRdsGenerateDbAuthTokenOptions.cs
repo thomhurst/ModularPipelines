@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "generate-db-auth-token")]
+[CliCommand("rds", "generate-db-auth-token")]
 public record AwsRdsGenerateDbAuthTokenOptions(
-[property: CommandSwitch("--hostname")] string Hostname,
-[property: CommandSwitch("--port")] int Port,
-[property: CommandSwitch("--username")] string Username
+[property: CliOption("--hostname")] string Hostname,
+[property: CliOption("--port")] int Port,
+[property: CliOption("--username")] string Username
 ) : AwsOptions;

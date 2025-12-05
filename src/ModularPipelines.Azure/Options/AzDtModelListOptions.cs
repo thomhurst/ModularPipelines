@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "model", "list")]
+[CliSubCommand("dt", "model", "list")]
 public record AzDtModelListOptions(
-[property: CommandSwitch("--dt-name")] string DtName
+[property: CliOption("--dt-name")] string DtName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--def")]
+    [CliFlag("--def")]
     public bool? Def { get; set; }
 
-    [CommandSwitch("--dependencies-for")]
+    [CliOption("--dependencies-for")]
     public string? DependenciesFor { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

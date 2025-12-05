@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "update-participant-role-config")]
+[CliCommand("connect", "update-participant-role-config")]
 public record AwsConnectUpdateParticipantRoleConfigOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--contact-id")] string ContactId,
-[property: CommandSwitch("--channel-configuration")] string ChannelConfiguration
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--contact-id")] string ContactId,
+[property: CliOption("--channel-configuration")] string ChannelConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

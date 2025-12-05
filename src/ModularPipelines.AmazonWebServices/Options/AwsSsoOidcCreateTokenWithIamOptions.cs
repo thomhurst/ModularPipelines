@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sso-oidc", "create-token-with-iam")]
+[CliCommand("sso-oidc", "create-token-with-iam")]
 public record AwsSsoOidcCreateTokenWithIamOptions(
-[property: CommandSwitch("--client-id")] string ClientId,
-[property: CommandSwitch("--grant-type")] string GrantType
+[property: CliOption("--client-id")] string ClientId,
+[property: CliOption("--grant-type")] string GrantType
 ) : AwsOptions
 {
-    [CommandSwitch("--code")]
+    [CliOption("--code")]
     public string? Code { get; set; }
 
-    [CommandSwitch("--refresh-token")]
+    [CliOption("--refresh-token")]
     public string? RefreshToken { get; set; }
 
-    [CommandSwitch("--assertion")]
+    [CliOption("--assertion")]
     public string? Assertion { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string[]? Scope { get; set; }
 
-    [CommandSwitch("--redirect-uri")]
+    [CliOption("--redirect-uri")]
     public string? RedirectUri { get; set; }
 
-    [CommandSwitch("--subject-token")]
+    [CliOption("--subject-token")]
     public string? SubjectToken { get; set; }
 
-    [CommandSwitch("--subject-token-type")]
+    [CliOption("--subject-token-type")]
     public string? SubjectTokenType { get; set; }
 
-    [CommandSwitch("--requested-token-type")]
+    [CliOption("--requested-token-type")]
     public string? RequestedTokenType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

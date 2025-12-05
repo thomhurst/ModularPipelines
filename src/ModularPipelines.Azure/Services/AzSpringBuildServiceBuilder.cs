@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "build-service")]
+[CliCommand("spring", "build-service")]
 public class AzSpringBuildServiceBuilder
 {
     public AzSpringBuildServiceBuilder(

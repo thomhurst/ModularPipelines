@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts", "versions", "list")]
+[CliCommand("artifacts", "versions", "list")]
 public record GcloudArtifactsVersionsListOptions(
-[property: CommandSwitch("--package")] string Package,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--repository")] string Repository
+[property: CliOption("--package")] string Package,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--repository")] string Repository
 ) : GcloudOptions;

@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("confluent", "organization", "create")]
+[CliSubCommand("confluent", "organization", "create")]
 public record AzConfluentOrganizationCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--plan-id")] string PlanId,
-[property: CommandSwitch("--plan-name")] string PlanName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--term-unit")] string TermUnit
+[property: CliOption("--name")] string Name,
+[property: CliOption("--plan-id")] string PlanId,
+[property: CliOption("--plan-name")] string PlanName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--term-unit")] string TermUnit
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--offer-id")]
+    [CliOption("--offer-id")]
     public string? OfferId { get; set; }
 
-    [CommandSwitch("--publisher-id")]
+    [CliOption("--publisher-id")]
     public string? PublisherId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

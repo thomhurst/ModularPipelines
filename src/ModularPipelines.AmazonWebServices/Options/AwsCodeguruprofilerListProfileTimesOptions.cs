@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeguruprofiler", "list-profile-times")]
+[CliCommand("codeguruprofiler", "list-profile-times")]
 public record AwsCodeguruprofilerListProfileTimesOptions(
-[property: CommandSwitch("--end-time")] long EndTime,
-[property: CommandSwitch("--period")] string Period,
-[property: CommandSwitch("--profiling-group-name")] string ProfilingGroupName,
-[property: CommandSwitch("--start-time")] long StartTime
+[property: CliOption("--end-time")] long EndTime,
+[property: CliOption("--period")] string Period,
+[property: CliOption("--profiling-group-name")] string ProfilingGroupName,
+[property: CliOption("--start-time")] long StartTime
 ) : AwsOptions
 {
-    [CommandSwitch("--order-by")]
+    [CliOption("--order-by")]
     public string? OrderBy { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot-data", "publish")]
+[CliCommand("iot-data", "publish")]
 public record AwsIotDataPublishOptions(
-[property: CommandSwitch("--topic")] string Topic
+[property: CliOption("--topic")] string Topic
 ) : AwsOptions
 {
-    [CommandSwitch("--qos")]
+    [CliOption("--qos")]
     public int? Qos { get; set; }
 
-    [CommandSwitch("--payload")]
+    [CliOption("--payload")]
     public string? Payload { get; set; }
 
-    [CommandSwitch("--user-properties")]
+    [CliOption("--user-properties")]
     public string? UserProperties { get; set; }
 
-    [CommandSwitch("--payload-format-indicator")]
+    [CliOption("--payload-format-indicator")]
     public string? PayloadFormatIndicator { get; set; }
 
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
-    [CommandSwitch("--response-topic")]
+    [CliOption("--response-topic")]
     public string? ResponseTopic { get; set; }
 
-    [CommandSwitch("--correlation-data")]
+    [CliOption("--correlation-data")]
     public string? CorrelationData { get; set; }
 
-    [CommandSwitch("--message-expiry")]
+    [CliOption("--message-expiry")]
     public long? MessageExpiry { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-firewall", "describe-rule-group")]
+[CliCommand("network-firewall", "describe-rule-group")]
 public record AwsNetworkFirewallDescribeRuleGroupOptions : AwsOptions
 {
-    [CommandSwitch("--rule-group-name")]
+    [CliOption("--rule-group-name")]
     public string? RuleGroupName { get; set; }
 
-    [CommandSwitch("--rule-group-arn")]
+    [CliOption("--rule-group-arn")]
     public string? RuleGroupArn { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

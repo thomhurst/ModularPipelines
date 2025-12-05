@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops-guru", "describe-organization-resource-collection-health")]
+[CliCommand("devops-guru", "describe-organization-resource-collection-health")]
 public record AwsDevopsGuruDescribeOrganizationResourceCollectionHealthOptions(
-[property: CommandSwitch("--organization-resource-collection-type")] string OrganizationResourceCollectionType
+[property: CliOption("--organization-resource-collection-type")] string OrganizationResourceCollectionType
 ) : AwsOptions
 {
-    [CommandSwitch("--account-ids")]
+    [CliOption("--account-ids")]
     public string[]? AccountIds { get; set; }
 
-    [CommandSwitch("--organizational-unit-ids")]
+    [CliOption("--organizational-unit-ids")]
     public string[]? OrganizationalUnitIds { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

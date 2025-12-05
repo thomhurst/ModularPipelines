@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "route-table")]
+[CliCommand("network", "route-table")]
 public class AzNetworkRouteTableRoute
 {
     public AzNetworkRouteTableRoute(

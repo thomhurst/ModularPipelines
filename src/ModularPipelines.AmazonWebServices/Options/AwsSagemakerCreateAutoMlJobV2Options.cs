@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-auto-ml-job-v2")]
+[CliCommand("sagemaker", "create-auto-ml-job-v2")]
 public record AwsSagemakerCreateAutoMlJobV2Options(
-[property: CommandSwitch("--auto-ml-job-name")] string AutoMlJobName,
-[property: CommandSwitch("--auto-ml-job-input-data-config")] string[] AutoMlJobInputDataConfig,
-[property: CommandSwitch("--output-data-config")] string OutputDataConfig,
-[property: CommandSwitch("--auto-ml-problem-type-config")] string AutoMlProblemTypeConfig,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--auto-ml-job-name")] string AutoMlJobName,
+[property: CliOption("--auto-ml-job-input-data-config")] string[] AutoMlJobInputDataConfig,
+[property: CliOption("--output-data-config")] string OutputDataConfig,
+[property: CliOption("--auto-ml-problem-type-config")] string AutoMlProblemTypeConfig,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--security-config")]
+    [CliOption("--security-config")]
     public string? SecurityConfig { get; set; }
 
-    [CommandSwitch("--auto-ml-job-objective")]
+    [CliOption("--auto-ml-job-objective")]
     public string? AutoMlJobObjective { get; set; }
 
-    [CommandSwitch("--model-deploy-config")]
+    [CliOption("--model-deploy-config")]
     public string? ModelDeployConfig { get; set; }
 
-    [CommandSwitch("--data-split-config")]
+    [CliOption("--data-split-config")]
     public string? DataSplitConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

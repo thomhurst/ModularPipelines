@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptune", "delete-db-instance")]
+[CliCommand("neptune", "delete-db-instance")]
 public record AwsNeptuneDeleteDbInstanceOptions(
-[property: CommandSwitch("--db-instance-identifier")] string DbInstanceIdentifier
+[property: CliOption("--db-instance-identifier")] string DbInstanceIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--final-db-snapshot-identifier")]
+    [CliOption("--final-db-snapshot-identifier")]
     public string? FinalDbSnapshotIdentifier { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

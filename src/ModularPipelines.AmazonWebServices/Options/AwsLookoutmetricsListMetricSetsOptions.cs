@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutmetrics", "list-metric-sets")]
+[CliCommand("lookoutmetrics", "list-metric-sets")]
 public record AwsLookoutmetricsListMetricSetsOptions : AwsOptions
 {
-    [CommandSwitch("--anomaly-detector-arn")]
+    [CliOption("--anomaly-detector-arn")]
     public string? AnomalyDetectorArn { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

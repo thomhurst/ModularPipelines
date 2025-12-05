@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qldb", "stream-journal-to-kinesis")]
+[CliCommand("qldb", "stream-journal-to-kinesis")]
 public record AwsQldbStreamJournalToKinesisOptions(
-[property: CommandSwitch("--ledger-name")] string LedgerName,
-[property: CommandSwitch("--role-arn")] string RoleArn,
-[property: CommandSwitch("--inclusive-start-time")] long InclusiveStartTime,
-[property: CommandSwitch("--kinesis-configuration")] string KinesisConfiguration,
-[property: CommandSwitch("--stream-name")] string StreamName
+[property: CliOption("--ledger-name")] string LedgerName,
+[property: CliOption("--role-arn")] string RoleArn,
+[property: CliOption("--inclusive-start-time")] long InclusiveStartTime,
+[property: CliOption("--kinesis-configuration")] string KinesisConfiguration,
+[property: CliOption("--stream-name")] string StreamName
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--exclusive-end-time")]
+    [CliOption("--exclusive-end-time")]
     public long? ExclusiveEndTime { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

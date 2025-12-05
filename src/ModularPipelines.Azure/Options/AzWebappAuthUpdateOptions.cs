@@ -4,87 +4,87 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "auth", "update")]
+[CliSubCommand("webapp", "auth", "update")]
 public record AzWebappAuthUpdateOptions : AzOptions
 {
-    [CommandSwitch("--aad-allowed-token-audiences")]
+    [CliOption("--aad-allowed-token-audiences")]
     public string? AadAllowedTokenAudiences { get; set; }
 
-    [CommandSwitch("--aad-client-id")]
+    [CliOption("--aad-client-id")]
     public string? AadClientId { get; set; }
 
-    [CommandSwitch("--aad-client-secret")]
+    [CliOption("--aad-client-secret")]
     public string? AadClientSecret { get; set; }
 
-    [CommandSwitch("--aad-client-secret-certificate-thumbprint")]
+    [CliOption("--aad-client-secret-certificate-thumbprint")]
     public string? AadClientSecretCertificateThumbprint { get; set; }
 
-    [CommandSwitch("--aad-token-issuer-url")]
+    [CliOption("--aad-token-issuer-url")]
     public string? AadTokenIssuerUrl { get; set; }
 
-    [CommandSwitch("--action")]
+    [CliOption("--action")]
     public string? Action { get; set; }
 
-    [BooleanCommandSwitch("--allowed-external-redirect-urls")]
+    [CliFlag("--allowed-external-redirect-urls")]
     public bool? AllowedExternalRedirectUrls { get; set; }
 
-    [BooleanCommandSwitch("--enabled")]
+    [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
 
-    [CommandSwitch("--facebook-app-id")]
+    [CliOption("--facebook-app-id")]
     public string? FacebookAppId { get; set; }
 
-    [CommandSwitch("--facebook-app-secret")]
+    [CliOption("--facebook-app-secret")]
     public string? FacebookAppSecret { get; set; }
 
-    [CommandSwitch("--facebook-oauth-scopes")]
+    [CliOption("--facebook-oauth-scopes")]
     public string? FacebookOauthScopes { get; set; }
 
-    [CommandSwitch("--google-client-id")]
+    [CliOption("--google-client-id")]
     public string? GoogleClientId { get; set; }
 
-    [CommandSwitch("--google-client-secret")]
+    [CliOption("--google-client-secret")]
     public string? GoogleClientSecret { get; set; }
 
-    [CommandSwitch("--google-oauth-scopes")]
+    [CliOption("--google-oauth-scopes")]
     public string? GoogleOauthScopes { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--microsoft-account-client-id")]
+    [CliOption("--microsoft-account-client-id")]
     public int? MicrosoftAccountClientId { get; set; }
 
-    [CommandSwitch("--microsoft-account-client-secret")]
+    [CliOption("--microsoft-account-client-secret")]
     public int? MicrosoftAccountClientSecret { get; set; }
 
-    [CommandSwitch("--microsoft-account-oauth-scopes")]
+    [CliOption("--microsoft-account-oauth-scopes")]
     public int? MicrosoftAccountOauthScopes { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--runtime-version")]
+    [CliOption("--runtime-version")]
     public string? RuntimeVersion { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--token-refresh-extension-hours")]
+    [CliOption("--token-refresh-extension-hours")]
     public string? TokenRefreshExtensionHours { get; set; }
 
-    [BooleanCommandSwitch("--token-store")]
+    [CliFlag("--token-store")]
     public bool? TokenStore { get; set; }
 
-    [CommandSwitch("--twitter-consumer-key")]
+    [CliOption("--twitter-consumer-key")]
     public string? TwitterConsumerKey { get; set; }
 
-    [CommandSwitch("--twitter-consumer-secret")]
+    [CliOption("--twitter-consumer-secret")]
     public string? TwitterConsumerSecret { get; set; }
 }

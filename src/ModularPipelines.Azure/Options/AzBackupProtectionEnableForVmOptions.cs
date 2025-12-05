@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "protection", "enable-for-vm")]
+[CliSubCommand("backup", "protection", "enable-for-vm")]
 public record AzBackupProtectionEnableForVmOptions(
-[property: CommandSwitch("--policy-name")] string PolicyName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vault-name")] string VaultName,
-[property: CommandSwitch("--vm")] string Vm
+[property: CliOption("--policy-name")] string PolicyName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vault-name")] string VaultName,
+[property: CliOption("--vm")] string Vm
 ) : AzOptions
 {
-    [CommandSwitch("--disk-list-setting")]
+    [CliOption("--disk-list-setting")]
     public string? DiskListSetting { get; set; }
 
-    [CommandSwitch("--diskslist")]
+    [CliOption("--diskslist")]
     public string? Diskslist { get; set; }
 
-    [BooleanCommandSwitch("--exclude-all-data-disks")]
+    [CliFlag("--exclude-all-data-disks")]
     public bool? ExcludeAllDataDisks { get; set; }
 }

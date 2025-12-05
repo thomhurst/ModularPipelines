@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworks", "assign-volume")]
+[CliCommand("opsworks", "assign-volume")]
 public record AwsOpsworksAssignVolumeOptions(
-[property: CommandSwitch("--volume-id")] string VolumeId
+[property: CliOption("--volume-id")] string VolumeId
 ) : AwsOptions
 {
-    [CommandSwitch("--instance-id")]
+    [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

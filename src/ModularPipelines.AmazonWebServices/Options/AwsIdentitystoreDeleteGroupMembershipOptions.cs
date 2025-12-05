@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("identitystore", "delete-group-membership")]
+[CliCommand("identitystore", "delete-group-membership")]
 public record AwsIdentitystoreDeleteGroupMembershipOptions(
-[property: CommandSwitch("--identity-store-id")] string IdentityStoreId,
-[property: CommandSwitch("--membership-id")] string MembershipId
+[property: CliOption("--identity-store-id")] string IdentityStoreId,
+[property: CliOption("--membership-id")] string MembershipId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

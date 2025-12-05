@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sig", "image-definition", "list-community")]
+[CliCommand("sig", "image-definition", "list-community")]
 public class AzSigImageDefinitionListCommunityImageGallery
 {
     public AzSigImageDefinitionListCommunityImageGallery(

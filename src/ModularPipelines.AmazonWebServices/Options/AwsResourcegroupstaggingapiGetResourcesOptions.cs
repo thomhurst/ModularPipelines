@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resourcegroupstaggingapi", "get-resources")]
+[CliCommand("resourcegroupstaggingapi", "get-resources")]
 public record AwsResourcegroupstaggingapiGetResourcesOptions : AwsOptions
 {
-    [CommandSwitch("--tag-filters")]
+    [CliOption("--tag-filters")]
     public string[]? TagFilters { get; set; }
 
-    [CommandSwitch("--tags-per-page")]
+    [CliOption("--tags-per-page")]
     public int? TagsPerPage { get; set; }
 
-    [CommandSwitch("--resource-type-filters")]
+    [CliOption("--resource-type-filters")]
     public string[]? ResourceTypeFilters { get; set; }
 
-    [CommandSwitch("--resource-arn-list")]
+    [CliOption("--resource-arn-list")]
     public string[]? ResourceArnList { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

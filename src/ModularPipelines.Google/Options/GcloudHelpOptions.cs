@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("help")]
+[CliCommand("help")]
 public record GcloudHelpOptions(
-[property: PositionalArgument] string Command,
-[property: PositionalArgument] string SearchTerms
+[property: CliArgument] string Command,
+[property: CliArgument] string SearchTerms
 ) : GcloudOptions;

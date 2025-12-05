@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-vpc-endpoint")]
+[CliCommand("ec2", "modify-vpc-endpoint")]
 public record AwsEc2ModifyVpcEndpointOptions(
-[property: CommandSwitch("--vpc-endpoint-id")] string VpcEndpointId
+[property: CliOption("--vpc-endpoint-id")] string VpcEndpointId
 ) : AwsOptions
 {
-    [CommandSwitch("--policy-document")]
+    [CliOption("--policy-document")]
     public string? PolicyDocument { get; set; }
 
-    [CommandSwitch("--add-route-table-ids")]
+    [CliOption("--add-route-table-ids")]
     public string[]? AddRouteTableIds { get; set; }
 
-    [CommandSwitch("--remove-route-table-ids")]
+    [CliOption("--remove-route-table-ids")]
     public string[]? RemoveRouteTableIds { get; set; }
 
-    [CommandSwitch("--add-subnet-ids")]
+    [CliOption("--add-subnet-ids")]
     public string[]? AddSubnetIds { get; set; }
 
-    [CommandSwitch("--remove-subnet-ids")]
+    [CliOption("--remove-subnet-ids")]
     public string[]? RemoveSubnetIds { get; set; }
 
-    [CommandSwitch("--add-security-group-ids")]
+    [CliOption("--add-security-group-ids")]
     public string[]? AddSecurityGroupIds { get; set; }
 
-    [CommandSwitch("--remove-security-group-ids")]
+    [CliOption("--remove-security-group-ids")]
     public string[]? RemoveSecurityGroupIds { get; set; }
 
-    [CommandSwitch("--ip-address-type")]
+    [CliOption("--ip-address-type")]
     public string? IpAddressType { get; set; }
 
-    [CommandSwitch("--dns-options")]
+    [CliOption("--dns-options")]
     public string? DnsOptions { get; set; }
 
-    [CommandSwitch("--subnet-configurations")]
+    [CliOption("--subnet-configurations")]
     public string[]? SubnetConfigurations { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

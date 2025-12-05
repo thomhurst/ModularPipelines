@@ -5,32 +5,32 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai", "index-endpoints", "create")]
+[CliCommand("ai", "index-endpoints", "create")]
 public record GcloudAiIndexEndpointsCreateOptions(
-[property: CommandSwitch("--display-name")] string DisplayName
+[property: CliOption("--display-name")] string DisplayName
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--enable-private-service-connect")]
+    [CliFlag("--enable-private-service-connect")]
     public bool? EnablePrivateServiceConnect { get; set; }
 
-    [CommandSwitch("--encryption-kms-key-name")]
+    [CliOption("--encryption-kms-key-name")]
     public string? EncryptionKmsKeyName { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--project-allowlist")]
+    [CliOption("--project-allowlist")]
     public string[]? ProjectAllowlist { get; set; }
 
-    [BooleanCommandSwitch("--public-endpoint-enabled")]
+    [CliFlag("--public-endpoint-enabled")]
     public bool? PublicEndpointEnabled { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

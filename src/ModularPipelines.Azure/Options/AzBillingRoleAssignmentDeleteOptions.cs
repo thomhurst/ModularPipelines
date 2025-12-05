@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "role-assignment", "delete")]
+[CliSubCommand("billing", "role-assignment", "delete")]
 public record AzBillingRoleAssignmentDeleteOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--invoice-section-name")]
+    [CliOption("--invoice-section-name")]
     public string? InvoiceSectionName { get; set; }
 
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

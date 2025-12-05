@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53domains", "renew-domain")]
+[CliCommand("route53domains", "renew-domain")]
 public record AwsRoute53domainsRenewDomainOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--current-expiry-year")] int CurrentExpiryYear
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--current-expiry-year")] int CurrentExpiryYear
 ) : AwsOptions
 {
-    [CommandSwitch("--duration-in-years")]
+    [CliOption("--duration-in-years")]
     public int? DurationInYears { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

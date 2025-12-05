@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("auditmanager", "get-evidence")]
+[CliCommand("auditmanager", "get-evidence")]
 public record AwsAuditmanagerGetEvidenceOptions(
-[property: CommandSwitch("--assessment-id")] string AssessmentId,
-[property: CommandSwitch("--control-set-id")] string ControlSetId,
-[property: CommandSwitch("--evidence-folder-id")] string EvidenceFolderId,
-[property: CommandSwitch("--evidence-id")] string EvidenceId
+[property: CliOption("--assessment-id")] string AssessmentId,
+[property: CliOption("--control-set-id")] string ControlSetId,
+[property: CliOption("--evidence-folder-id")] string EvidenceFolderId,
+[property: CliOption("--evidence-id")] string EvidenceId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

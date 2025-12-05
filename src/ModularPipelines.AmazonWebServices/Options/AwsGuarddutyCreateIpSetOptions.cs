@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("guardduty", "create-ip-set")]
+[CliCommand("guardduty", "create-ip-set")]
 public record AwsGuarddutyCreateIpSetOptions(
-[property: CommandSwitch("--detector-id")] string DetectorId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--format")] string Format,
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--detector-id")] string DetectorId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--format")] string Format,
+[property: CliOption("--location")] string Location
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

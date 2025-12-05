@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("simspaceweaver", "start-app")]
+[CliCommand("simspaceweaver", "start-app")]
 public record AwsSimspaceweaverStartAppOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--simulation")] string Simulation
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--simulation")] string Simulation
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--launch-overrides")]
+    [CliOption("--launch-overrides")]
     public string? LaunchOverrides { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

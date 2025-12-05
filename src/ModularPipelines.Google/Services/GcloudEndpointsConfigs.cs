@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("endpoints")]
+[CliCommand("endpoints")]
 public class GcloudEndpointsConfigs
 {
     public GcloudEndpointsConfigs(

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "manager", "group")]
+[CliCommand("network", "manager", "group")]
 public class AzNetworkManagerGroupStaticMember
 {
     public AzNetworkManagerGroupStaticMember(

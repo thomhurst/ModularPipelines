@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("migrationhubstrategy", "put-portfolio-preferences")]
+[CliCommand("migrationhubstrategy", "put-portfolio-preferences")]
 public record AwsMigrationhubstrategyPutPortfolioPreferencesOptions : AwsOptions
 {
-    [CommandSwitch("--application-mode")]
+    [CliOption("--application-mode")]
     public string? ApplicationMode { get; set; }
 
-    [CommandSwitch("--application-preferences")]
+    [CliOption("--application-preferences")]
     public string? ApplicationPreferences { get; set; }
 
-    [CommandSwitch("--database-preferences")]
+    [CliOption("--database-preferences")]
     public string? DatabasePreferences { get; set; }
 
-    [CommandSwitch("--prioritize-business-goals")]
+    [CliOption("--prioritize-business-goals")]
     public string? PrioritizeBusinessGoals { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

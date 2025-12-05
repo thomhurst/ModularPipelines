@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesis-video-archived-media", "get-hls-streaming-session-url")]
+[CliCommand("kinesis-video-archived-media", "get-hls-streaming-session-url")]
 public record AwsKinesisVideoArchivedMediaGetHlsStreamingSessionUrlOptions : AwsOptions
 {
-    [CommandSwitch("--stream-name")]
+    [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
-    [CommandSwitch("--stream-arn")]
+    [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
-    [CommandSwitch("--playback-mode")]
+    [CliOption("--playback-mode")]
     public string? PlaybackMode { get; set; }
 
-    [CommandSwitch("--hls-fragment-selector")]
+    [CliOption("--hls-fragment-selector")]
     public string? HlsFragmentSelector { get; set; }
 
-    [CommandSwitch("--container-format")]
+    [CliOption("--container-format")]
     public string? ContainerFormat { get; set; }
 
-    [CommandSwitch("--discontinuity-mode")]
+    [CliOption("--discontinuity-mode")]
     public string? DiscontinuityMode { get; set; }
 
-    [CommandSwitch("--display-fragment-timestamp")]
+    [CliOption("--display-fragment-timestamp")]
     public string? DisplayFragmentTimestamp { get; set; }
 
-    [CommandSwitch("--expires")]
+    [CliOption("--expires")]
     public int? Expires { get; set; }
 
-    [CommandSwitch("--max-media-playlist-fragment-results")]
+    [CliOption("--max-media-playlist-fragment-results")]
     public long? MaxMediaPlaylistFragmentResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

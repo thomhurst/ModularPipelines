@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediapackage", "create-harvest-job")]
+[CliCommand("mediapackage", "create-harvest-job")]
 public record AwsMediapackageCreateHarvestJobOptions(
-[property: CommandSwitch("--end-time")] string EndTime,
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--origin-endpoint-id")] string OriginEndpointId,
-[property: CommandSwitch("--s3-destination")] string S3Destination,
-[property: CommandSwitch("--start-time")] string StartTime
+[property: CliOption("--end-time")] string EndTime,
+[property: CliOption("--id")] string Id,
+[property: CliOption("--origin-endpoint-id")] string OriginEndpointId,
+[property: CliOption("--s3-destination")] string S3Destination,
+[property: CliOption("--start-time")] string StartTime
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

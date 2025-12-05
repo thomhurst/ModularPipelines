@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("accessanalyzer", "start-resource-scan")]
+[CliCommand("accessanalyzer", "start-resource-scan")]
 public record AwsAccessanalyzerStartResourceScanOptions(
-[property: CommandSwitch("--analyzer-arn")] string AnalyzerArn,
-[property: CommandSwitch("--resource-arn")] string ResourceArn
+[property: CliOption("--analyzer-arn")] string AnalyzerArn,
+[property: CliOption("--resource-arn")] string ResourceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--resource-owner-account")]
+    [CliOption("--resource-owner-account")]
     public string? ResourceOwnerAccount { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vpn-connection")]
+[CliCommand("network", "vpn-connection")]
 public class AzNetworkVpnConnectionPacketCapture
 {
     public AzNetworkVpnConnectionPacketCapture(

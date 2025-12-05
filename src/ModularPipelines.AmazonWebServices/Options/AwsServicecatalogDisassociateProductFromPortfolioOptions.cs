@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicecatalog", "disassociate-product-from-portfolio")]
+[CliCommand("servicecatalog", "disassociate-product-from-portfolio")]
 public record AwsServicecatalogDisassociateProductFromPortfolioOptions(
-[property: CommandSwitch("--product-id")] string ProductId,
-[property: CommandSwitch("--portfolio-id")] string PortfolioId
+[property: CliOption("--product-id")] string ProductId,
+[property: CliOption("--portfolio-id")] string PortfolioId
 ) : AwsOptions
 {
-    [CommandSwitch("--accept-language")]
+    [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

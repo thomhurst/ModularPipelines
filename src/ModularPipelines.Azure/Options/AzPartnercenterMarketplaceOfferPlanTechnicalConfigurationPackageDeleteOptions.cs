@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("partnercenter", "marketplace", "offer", "plan", "technical-configuration", "package", "delete")]
+[CliSubCommand("partnercenter", "marketplace", "offer", "plan", "technical-configuration", "package", "delete")]
 public record AzPartnercenterMarketplaceOfferPlanTechnicalConfigurationPackageDeleteOptions(
-[property: CommandSwitch("--offer-id")] string OfferId,
-[property: CommandSwitch("--plan-id")] string PlanId
+[property: CliOption("--offer-id")] string OfferId,
+[property: CliOption("--plan-id")] string PlanId
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--repository")]
+    [CliOption("--repository")]
     public string? Repository { get; set; }
 
-    [CommandSwitch("--tag")]
+    [CliOption("--tag")]
     public string? Tag { get; set; }
 }

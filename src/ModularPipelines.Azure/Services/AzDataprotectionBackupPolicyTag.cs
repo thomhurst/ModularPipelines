@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataprotection", "backup-policy")]
+[CliCommand("dataprotection", "backup-policy")]
 public class AzDataprotectionBackupPolicyTag
 {
     public AzDataprotectionBackupPolicyTag(

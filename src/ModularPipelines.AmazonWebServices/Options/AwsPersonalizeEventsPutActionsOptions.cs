@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("personalize-events", "put-actions")]
+[CliCommand("personalize-events", "put-actions")]
 public record AwsPersonalizeEventsPutActionsOptions(
-[property: CommandSwitch("--dataset-arn")] string DatasetArn,
-[property: CommandSwitch("--actions")] string[] Actions
+[property: CliOption("--dataset-arn")] string DatasetArn,
+[property: CliOption("--actions")] string[] Actions
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

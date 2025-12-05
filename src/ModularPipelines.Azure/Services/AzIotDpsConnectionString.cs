@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "dps")]
+[CliCommand("iot", "dps")]
 public class AzIotDpsConnectionString
 {
     public AzIotDpsConnectionString(

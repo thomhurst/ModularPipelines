@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("database-migration", "conversion-workspaces", "describe-issues")]
+[CliCommand("database-migration", "conversion-workspaces", "describe-issues")]
 public record GcloudDatabaseMigrationConversionWorkspacesDescribeIssuesOptions(
-[property: PositionalArgument] string ConversionWorkspace,
-[property: PositionalArgument] string Region
+[property: CliArgument] string ConversionWorkspace,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [CommandSwitch("--commit-id")]
+    [CliOption("--commit-id")]
     public string? CommitId { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [BooleanCommandSwitch("--uncommitted")]
+    [CliFlag("--uncommitted")]
     public bool? Uncommitted { get; set; }
 }

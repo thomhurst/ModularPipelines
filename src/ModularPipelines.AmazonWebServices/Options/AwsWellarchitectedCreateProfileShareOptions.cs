@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "create-profile-share")]
+[CliCommand("wellarchitected", "create-profile-share")]
 public record AwsWellarchitectedCreateProfileShareOptions(
-[property: CommandSwitch("--profile-arn")] string ProfileArn,
-[property: CommandSwitch("--shared-with")] string SharedWith
+[property: CliOption("--profile-arn")] string ProfileArn,
+[property: CliOption("--shared-with")] string SharedWith
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

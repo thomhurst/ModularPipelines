@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicebus", "namespace", "network-rule-set")]
+[CliCommand("servicebus", "namespace", "network-rule-set")]
 public class AzServicebusNamespaceNetworkRuleSetVirtualNetworkRule
 {
     public AzServicebusNamespaceNetworkRuleSetVirtualNetworkRule(

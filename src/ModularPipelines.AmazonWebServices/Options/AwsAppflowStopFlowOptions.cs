@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appflow", "stop-flow")]
+[CliCommand("appflow", "stop-flow")]
 public record AwsAppflowStopFlowOptions(
-[property: CommandSwitch("--flow-name")] string FlowName
+[property: CliOption("--flow-name")] string FlowName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

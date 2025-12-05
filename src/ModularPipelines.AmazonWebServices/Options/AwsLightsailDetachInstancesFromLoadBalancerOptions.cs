@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "detach-instances-from-load-balancer")]
+[CliCommand("lightsail", "detach-instances-from-load-balancer")]
 public record AwsLightsailDetachInstancesFromLoadBalancerOptions(
-[property: CommandSwitch("--load-balancer-name")] string LoadBalancerName,
-[property: CommandSwitch("--instance-names")] string[] InstanceNames
+[property: CliOption("--load-balancer-name")] string LoadBalancerName,
+[property: CliOption("--instance-names")] string[] InstanceNames
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

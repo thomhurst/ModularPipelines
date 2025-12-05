@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("active-directory", "peerings", "create")]
+[CliCommand("active-directory", "peerings", "create")]
 public record GcloudActiveDirectoryPeeringsCreateOptions(
-[property: PositionalArgument] string Peering,
-[property: CommandSwitch("--authorized-network")] string AuthorizedNetwork,
-[property: CommandSwitch("--domain")] string Domain
+[property: CliArgument] string Peering,
+[property: CliOption("--authorized-network")] string AuthorizedNetwork,
+[property: CliOption("--domain")] string Domain
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

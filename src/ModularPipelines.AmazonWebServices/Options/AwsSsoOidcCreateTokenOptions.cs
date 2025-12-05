@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sso-oidc", "create-token")]
+[CliCommand("sso-oidc", "create-token")]
 public record AwsSsoOidcCreateTokenOptions(
-[property: CommandSwitch("--client-id")] string ClientId,
-[property: CommandSwitch("--client-secret")] string ClientSecret,
-[property: CommandSwitch("--grant-type")] string GrantType
+[property: CliOption("--client-id")] string ClientId,
+[property: CliOption("--client-secret")] string ClientSecret,
+[property: CliOption("--grant-type")] string GrantType
 ) : AwsOptions
 {
-    [CommandSwitch("--device-code")]
+    [CliOption("--device-code")]
     public string? DeviceCode { get; set; }
 
-    [CommandSwitch("--code")]
+    [CliOption("--code")]
     public string? Code { get; set; }
 
-    [CommandSwitch("--refresh-token")]
+    [CliOption("--refresh-token")]
     public string? RefreshToken { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string[]? Scope { get; set; }
 
-    [CommandSwitch("--redirect-uri")]
+    [CliOption("--redirect-uri")]
     public string? RedirectUri { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

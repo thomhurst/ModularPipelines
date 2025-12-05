@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("autoscaling", "delete-policy")]
+[CliCommand("autoscaling", "delete-policy")]
 public record AwsAutoscalingDeletePolicyOptions(
-[property: CommandSwitch("--policy-name")] string PolicyName
+[property: CliOption("--policy-name")] string PolicyName
 ) : AwsOptions
 {
-    [CommandSwitch("--auto-scaling-group-name")]
+    [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

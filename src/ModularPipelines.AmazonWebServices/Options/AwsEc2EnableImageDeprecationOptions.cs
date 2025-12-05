@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "enable-image-deprecation")]
+[CliCommand("ec2", "enable-image-deprecation")]
 public record AwsEc2EnableImageDeprecationOptions(
-[property: CommandSwitch("--image-id")] string ImageId,
-[property: CommandSwitch("--deprecate-at")] long DeprecateAt
+[property: CliOption("--image-id")] string ImageId,
+[property: CliOption("--deprecate-at")] long DeprecateAt
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

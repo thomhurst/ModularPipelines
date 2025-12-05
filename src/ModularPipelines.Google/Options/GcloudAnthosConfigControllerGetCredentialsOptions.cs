@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("anthos", "config", "controller", "get-credentials")]
+[CliCommand("anthos", "config", "controller", "get-credentials")]
 public record GcloudAnthosConfigControllerGetCredentialsOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--location")] string Location
+[property: CliArgument] string Name,
+[property: CliOption("--location")] string Location
 ) : GcloudOptions;

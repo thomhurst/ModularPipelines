@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "automation-runs", "cancel")]
+[CliCommand("deploy", "automation-runs", "cancel")]
 public record GcloudDeployAutomationRunsCancelOptions(
-[property: PositionalArgument] string AutomationRun,
-[property: PositionalArgument] string DeliveryPipeline,
-[property: PositionalArgument] string Region
+[property: CliArgument] string AutomationRun,
+[property: CliArgument] string DeliveryPipeline,
+[property: CliArgument] string Region
 ) : GcloudOptions;

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecatalyst", "get-workflow")]
+[CliCommand("codecatalyst", "get-workflow")]
 public record AwsCodecatalystGetWorkflowOptions(
-[property: CommandSwitch("--space-name")] string SpaceName,
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--project-name")] string ProjectName
+[property: CliOption("--space-name")] string SpaceName,
+[property: CliOption("--id")] string Id,
+[property: CliOption("--project-name")] string ProjectName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

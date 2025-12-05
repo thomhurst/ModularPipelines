@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("immersive-stream", "xr", "instances", "update")]
+[CliCommand("immersive-stream", "xr", "instances", "update")]
 public record GcloudImmersiveStreamXrInstancesUpdateOptions : GcloudOptions
 {
     public GcloudImmersiveStreamXrInstancesUpdateOptions(
@@ -26,27 +26,27 @@ public record GcloudImmersiveStreamXrInstancesUpdateOptions : GcloudOptions
         Version = version;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Instance { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Location { get; set; }
 
-    [CommandSwitch("--add-region")]
+    [CliOption("--add-region")]
     public string[] AddRegion { get; set; }
 
-    [CommandSwitch("--fallback-url")]
+    [CliOption("--fallback-url")]
     public string FallbackUrl { get; set; }
 
-    [CommandSwitch("--remove-region")]
+    [CliOption("--remove-region")]
     public string RemoveRegion { get; set; }
 
-    [CommandSwitch("--update-region")]
+    [CliOption("--update-region")]
     public string[] UpdateRegion { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string Version { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

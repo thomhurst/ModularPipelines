@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "ssl-certificates", "describe")]
+[CliCommand("app", "ssl-certificates", "describe")]
 public record GcloudAppSslCertificatesDescribeOptions(
-[property: PositionalArgument] string Id
+[property: CliArgument] string Id
 ) : GcloudOptions;

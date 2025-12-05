@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("get", "notes")]
+[CliCommand("get", "notes")]
 [ExcludeFromCodeCoverage]
 public record HelmGetNotesOptions : HelmOptions
 {
-    [CommandEqualsSeparatorSwitch("--revision", SwitchValueSeparator = " ")]
-    public int? Revision { get; set; }
+    [CliOption("--revision")]
+    public virtual int? Revision { get; set; }
 }

@@ -4,43 +4,43 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vnet", "subnet", "create")]
+[CliSubCommand("network", "vnet", "subnet", "create")]
 public record AzNetworkVnetSubnetCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vnet-name")] string VnetName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vnet-name")] string VnetName
 ) : AzOptions
 {
-    [CommandSwitch("--address-prefixes")]
+    [CliOption("--address-prefixes")]
     public string? AddressPrefixes { get; set; }
 
-    [BooleanCommandSwitch("--default-outbound")]
+    [CliFlag("--default-outbound")]
     public bool? DefaultOutbound { get; set; }
 
-    [CommandSwitch("--delegations")]
+    [CliOption("--delegations")]
     public string? Delegations { get; set; }
 
-    [BooleanCommandSwitch("--disable-private-endpoint-network-policies")]
+    [CliFlag("--disable-private-endpoint-network-policies")]
     public bool? DisablePrivateEndpointNetworkPolicies { get; set; }
 
-    [BooleanCommandSwitch("--disable-private-link-service-network-policies")]
+    [CliFlag("--disable-private-link-service-network-policies")]
     public bool? DisablePrivateLinkServiceNetworkPolicies { get; set; }
 
-    [CommandSwitch("--nat-gateway")]
+    [CliOption("--nat-gateway")]
     public string? NatGateway { get; set; }
 
-    [CommandSwitch("--network-security-group")]
+    [CliOption("--network-security-group")]
     public string? NetworkSecurityGroup { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--route-table")]
+    [CliOption("--route-table")]
     public string? RouteTable { get; set; }
 
-    [CommandSwitch("--service-endpoint-policy")]
+    [CliOption("--service-endpoint-policy")]
     public string? ServiceEndpointPolicy { get; set; }
 
-    [CommandSwitch("--service-endpoints")]
+    [CliOption("--service-endpoints")]
     public string? ServiceEndpoints { get; set; }
 }

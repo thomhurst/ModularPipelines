@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("autoscaling", "suspend-processes")]
+[CliCommand("autoscaling", "suspend-processes")]
 public record AwsAutoscalingSuspendProcessesOptions(
-[property: CommandSwitch("--auto-scaling-group-name")] string AutoScalingGroupName
+[property: CliOption("--auto-scaling-group-name")] string AutoScalingGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--scaling-processes")]
+    [CliOption("--scaling-processes")]
     public string[]? ScalingProcesses { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

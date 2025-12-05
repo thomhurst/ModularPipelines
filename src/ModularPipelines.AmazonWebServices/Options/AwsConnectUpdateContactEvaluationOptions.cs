@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "update-contact-evaluation")]
+[CliCommand("connect", "update-contact-evaluation")]
 public record AwsConnectUpdateContactEvaluationOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--evaluation-id")] string EvaluationId
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--evaluation-id")] string EvaluationId
 ) : AwsOptions
 {
-    [CommandSwitch("--answers")]
+    [CliOption("--answers")]
     public IEnumerable<KeyValue>? Answers { get; set; }
 
-    [CommandSwitch("--notes")]
+    [CliOption("--notes")]
     public IEnumerable<KeyValue>? Notes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

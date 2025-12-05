@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "os-config", "patch-deployments", "update")]
+[CliCommand("compute", "os-config", "patch-deployments", "update")]
 public record GcloudComputeOsConfigPatchDeploymentsUpdateOptions(
-[property: PositionalArgument] string PatchDeploymentId,
-[property: CommandSwitch("--file")] string File
+[property: CliArgument] string PatchDeploymentId,
+[property: CliOption("--file")] string File
 ) : GcloudOptions;

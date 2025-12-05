@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "policy", "create")]
+[CliSubCommand("backup", "policy", "create")]
 public record AzBackupPolicyCreateOptions(
-[property: CommandSwitch("--backup-management-type")] string BackupManagementType,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--policy")] string Policy,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vault-name")] string VaultName
+[property: CliOption("--backup-management-type")] string BackupManagementType,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--policy")] string Policy,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vault-name")] string VaultName
 ) : AzOptions
 {
-    [CommandSwitch("--workload-type")]
+    [CliOption("--workload-type")]
     public string? WorkloadType { get; set; }
 }

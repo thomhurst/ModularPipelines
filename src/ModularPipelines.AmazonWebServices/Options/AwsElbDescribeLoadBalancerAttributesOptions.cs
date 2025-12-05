@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elb", "describe-load-balancer-attributes")]
+[CliCommand("elb", "describe-load-balancer-attributes")]
 public record AwsElbDescribeLoadBalancerAttributesOptions(
-[property: CommandSwitch("--load-balancer-name")] string LoadBalancerName
+[property: CliOption("--load-balancer-name")] string LoadBalancerName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

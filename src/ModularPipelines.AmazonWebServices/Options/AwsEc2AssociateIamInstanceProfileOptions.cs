@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "associate-iam-instance-profile")]
+[CliCommand("ec2", "associate-iam-instance-profile")]
 public record AwsEc2AssociateIamInstanceProfileOptions(
-[property: CommandSwitch("--iam-instance-profile")] string IamInstanceProfile,
-[property: CommandSwitch("--instance-id")] string InstanceId
+[property: CliOption("--iam-instance-profile")] string IamInstanceProfile,
+[property: CliOption("--instance-id")] string InstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

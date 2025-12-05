@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcare", "consent-stores", "list")]
+[CliCommand("healthcare", "consent-stores", "list")]
 public record GcloudHealthcareConsentStoresListOptions(
-[property: CommandSwitch("--dataset")] string Dataset,
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--dataset")] string Dataset,
+[property: CliOption("--location")] string Location
 ) : GcloudOptions;

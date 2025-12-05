@@ -5,26 +5,26 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("customer-profiles", "put-integration")]
+[CliCommand("customer-profiles", "put-integration")]
 public record AwsCustomerProfilesPutIntegrationOptions(
-[property: CommandSwitch("--domain-name")] string DomainName
+[property: CliOption("--domain-name")] string DomainName
 ) : AwsOptions
 {
-    [CommandSwitch("--uri")]
+    [CliOption("--uri")]
     public string? Uri { get; set; }
 
-    [CommandSwitch("--object-type-name")]
+    [CliOption("--object-type-name")]
     public string? ObjectTypeName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--flow-definition")]
+    [CliOption("--flow-definition")]
     public string? FlowDefinition { get; set; }
 
-    [CommandSwitch("--object-type-names")]
+    [CliOption("--object-type-names")]
     public IEnumerable<KeyValue>? ObjectTypeNames { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

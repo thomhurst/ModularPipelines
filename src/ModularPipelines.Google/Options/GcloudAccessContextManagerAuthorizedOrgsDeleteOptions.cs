@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access-context-manager", "authorized-orgs", "delete")]
+[CliCommand("access-context-manager", "authorized-orgs", "delete")]
 public record GcloudAccessContextManagerAuthorizedOrgsDeleteOptions(
-[property: PositionalArgument] string AuthorizedOrgsDesc,
-[property: PositionalArgument] string Policy
+[property: CliArgument] string AuthorizedOrgsDesc,
+[property: CliArgument] string Policy
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

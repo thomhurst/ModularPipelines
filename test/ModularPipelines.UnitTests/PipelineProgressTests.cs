@@ -97,7 +97,7 @@ public class PipelineProgressTests
         {
             // SubModule functionality now needs to be handled differently in the new architecture
             // For now, just execute some work
-            for (int i = 0; i < 20; i++)
+            for (var i = 0; i < 20; i++)
             {
                 await Task.Yield();
             }
@@ -111,7 +111,7 @@ public class PipelineProgressTests
         {
             // SubModule functionality now needs to be handled differently in the new architecture
             // For now, just execute some work
-            for (int i = 0; i < 20; i++)
+            for (var i = 0; i < 20; i++)
             {
                 await Task.Yield();
             }

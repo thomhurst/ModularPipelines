@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "gateway", "route-config", "create")]
+[CliSubCommand("spring", "gateway", "route-config", "create")]
 public record AzSpringGatewayRouteConfigCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--app-name")]
+    [CliOption("--app-name")]
     public string? AppName { get; set; }
 
-    [CommandSwitch("--routes-file")]
+    [CliOption("--routes-file")]
     public string? RoutesFile { get; set; }
 
-    [CommandSwitch("--routes-json")]
+    [CliOption("--routes-json")]
     public string? RoutesJson { get; set; }
 }

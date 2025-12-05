@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lexv2-models", "list-session-analytics-data")]
+[CliCommand("lexv2-models", "list-session-analytics-data")]
 public record AwsLexv2ModelsListSessionAnalyticsDataOptions(
-[property: CommandSwitch("--bot-id")] string BotId,
-[property: CommandSwitch("--start-date-time")] long StartDateTime,
-[property: CommandSwitch("--end-date-time")] long EndDateTime
+[property: CliOption("--bot-id")] string BotId,
+[property: CliOption("--start-date-time")] long StartDateTime,
+[property: CliOption("--end-date-time")] long EndDateTime
 ) : AwsOptions
 {
-    [CommandSwitch("--sort-by")]
+    [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

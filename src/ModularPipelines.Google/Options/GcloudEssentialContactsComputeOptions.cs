@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("essential-contacts", "compute")]
+[CliCommand("essential-contacts", "compute")]
 public record GcloudEssentialContactsComputeOptions(
-[property: CommandSwitch("--notification-categories")] string[] NotificationCategories
+[property: CliOption("--notification-categories")] string[] NotificationCategories
 ) : GcloudOptions
 {
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string? Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string? Organization { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public new string? Project { get; set; }
 }

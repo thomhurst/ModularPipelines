@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("active-directory", "domains", "reset-admin-password")]
+[CliCommand("active-directory", "domains", "reset-admin-password")]
 public record GcloudActiveDirectoryDomainsResetAdminPasswordOptions(
-[property: PositionalArgument] string Domain
+[property: CliArgument] string Domain
 ) : GcloudOptions;

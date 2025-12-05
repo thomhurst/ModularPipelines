@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bot", "prepare-publish")]
+[CliSubCommand("bot", "prepare-publish")]
 public record AzBotPreparePublishOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--proj-file-path")] string ProjFilePath,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sln-name")] string SlnName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--proj-file-path")] string ProjFilePath,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sln-name")] string SlnName
 ) : AzOptions
 {
-    [CommandSwitch("--code-dir")]
+    [CliOption("--code-dir")]
     public string? CodeDir { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 }

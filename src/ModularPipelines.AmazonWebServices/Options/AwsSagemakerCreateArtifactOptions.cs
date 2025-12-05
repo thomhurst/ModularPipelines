@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-artifact")]
+[CliCommand("sagemaker", "create-artifact")]
 public record AwsSagemakerCreateArtifactOptions(
-[property: CommandSwitch("--source")] string Source,
-[property: CommandSwitch("--artifact-type")] string ArtifactType
+[property: CliOption("--source")] string Source,
+[property: CliOption("--artifact-type")] string ArtifactType
 ) : AwsOptions
 {
-    [CommandSwitch("--artifact-name")]
+    [CliOption("--artifact-name")]
     public string? ArtifactName { get; set; }
 
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public IEnumerable<KeyValue>? Properties { get; set; }
 
-    [CommandSwitch("--metadata-properties")]
+    [CliOption("--metadata-properties")]
     public string? MetadataProperties { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bcm-data-exports", "create-export")]
+[CliCommand("bcm-data-exports", "create-export")]
 public record AwsBcmDataExportsCreateExportOptions(
-[property: CommandSwitch("--export")] string Export
+[property: CliOption("--export")] string Export
 ) : AwsOptions
 {
-    [CommandSwitch("--resource-tags")]
+    [CliOption("--resource-tags")]
     public string[]? ResourceTags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

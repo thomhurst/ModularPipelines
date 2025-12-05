@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "update-inference-component")]
+[CliCommand("sagemaker", "update-inference-component")]
 public record AwsSagemakerUpdateInferenceComponentOptions(
-[property: CommandSwitch("--inference-component-name")] string InferenceComponentName
+[property: CliOption("--inference-component-name")] string InferenceComponentName
 ) : AwsOptions
 {
-    [CommandSwitch("--specification")]
+    [CliOption("--specification")]
     public string? Specification { get; set; }
 
-    [CommandSwitch("--runtime-config")]
+    [CliOption("--runtime-config")]
     public string? RuntimeConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

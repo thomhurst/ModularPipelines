@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "describe-endpoint-config")]
+[CliCommand("sagemaker", "describe-endpoint-config")]
 public record AwsSagemakerDescribeEndpointConfigOptions(
-[property: CommandSwitch("--endpoint-config-name")] string EndpointConfigName
+[property: CliOption("--endpoint-config-name")] string EndpointConfigName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

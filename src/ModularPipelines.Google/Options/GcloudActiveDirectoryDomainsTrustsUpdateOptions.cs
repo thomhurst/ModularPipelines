@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("active-directory", "domains", "trusts", "update")]
+[CliCommand("active-directory", "domains", "trusts", "update")]
 public record GcloudActiveDirectoryDomainsTrustsUpdateOptions(
-[property: PositionalArgument] string Domain,
-[property: CommandSwitch("--target-dns-ip-addresses")] string[] TargetDnsIpAddresses,
-[property: CommandSwitch("--target-domain-name")] string TargetDomainName
+[property: CliArgument] string Domain,
+[property: CliOption("--target-dns-ip-addresses")] string[] TargetDnsIpAddresses,
+[property: CliOption("--target-domain-name")] string TargetDomainName
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

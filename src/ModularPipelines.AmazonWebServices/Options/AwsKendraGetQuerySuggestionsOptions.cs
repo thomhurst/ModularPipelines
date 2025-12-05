@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kendra", "get-query-suggestions")]
+[CliCommand("kendra", "get-query-suggestions")]
 public record AwsKendraGetQuerySuggestionsOptions(
-[property: CommandSwitch("--index-id")] string IndexId,
-[property: CommandSwitch("--query-text")] string QueryText
+[property: CliOption("--index-id")] string IndexId,
+[property: CliOption("--query-text")] string QueryText
 ) : AwsOptions
 {
-    [CommandSwitch("--max-suggestions-count")]
+    [CliOption("--max-suggestions-count")]
     public int? MaxSuggestionsCount { get; set; }
 
-    [CommandSwitch("--suggestion-types")]
+    [CliOption("--suggestion-types")]
     public string[]? SuggestionTypes { get; set; }
 
-    [CommandSwitch("--attribute-suggestions-config")]
+    [CliOption("--attribute-suggestions-config")]
     public string? AttributeSuggestionsConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,31 +5,31 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appconfig", "create-configuration-profile")]
+[CliCommand("appconfig", "create-configuration-profile")]
 public record AwsAppconfigCreateConfigurationProfileOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--location-uri")] string LocationUri
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--location-uri")] string LocationUri
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--retrieval-role-arn")]
+    [CliOption("--retrieval-role-arn")]
     public string? RetrievalRoleArn { get; set; }
 
-    [CommandSwitch("--validators")]
+    [CliOption("--validators")]
     public string[]? Validators { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--kms-key-identifier")]
+    [CliOption("--kms-key-identifier")]
     public string? KmsKeyIdentifier { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

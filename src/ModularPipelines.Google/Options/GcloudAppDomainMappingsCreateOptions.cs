@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "domain-mappings", "create")]
+[CliCommand("app", "domain-mappings", "create")]
 public record GcloudAppDomainMappingsCreateOptions(
-[property: PositionalArgument] string Domain
+[property: CliArgument] string Domain
 ) : GcloudOptions
 {
-    [CommandSwitch("--certificate-id")]
+    [CliOption("--certificate-id")]
     public string? CertificateId { get; set; }
 
-    [CommandSwitch("--certificate-management")]
+    [CliOption("--certificate-management")]
     public string? CertificateManagement { get; set; }
 }

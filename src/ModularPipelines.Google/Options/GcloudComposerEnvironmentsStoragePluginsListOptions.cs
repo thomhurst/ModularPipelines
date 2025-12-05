@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("composer", "environments", "storage", "plugins", "list")]
+[CliCommand("composer", "environments", "storage", "plugins", "list")]
 public record GcloudComposerEnvironmentsStoragePluginsListOptions(
-[property: CommandSwitch("--environment")] string Environment,
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--environment")] string Environment,
+[property: CliOption("--location")] string Location
 ) : GcloudOptions;

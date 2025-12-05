@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("secretsmanager", "get-secret-value")]
+[CliCommand("secretsmanager", "get-secret-value")]
 public record AwsSecretsmanagerGetSecretValueOptions(
-[property: CommandSwitch("--secret-id")] string SecretId
+[property: CliOption("--secret-id")] string SecretId
 ) : AwsOptions
 {
-    [CommandSwitch("--version-id")]
+    [CliOption("--version-id")]
     public string? VersionId { get; set; }
 
-    [CommandSwitch("--version-stage")]
+    [CliOption("--version-stage")]
     public string? VersionStage { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

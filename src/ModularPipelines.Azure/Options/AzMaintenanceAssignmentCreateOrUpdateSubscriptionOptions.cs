@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("maintenance", "assignment", "create-or-update-subscription")]
+[CliSubCommand("maintenance", "assignment", "create-or-update-subscription")]
 public record AzMaintenanceAssignmentCreateOrUpdateSubscriptionOptions : AzOptions
 {
-    [CommandSwitch("--config-id")]
+    [CliOption("--config-id")]
     public string? ConfigId { get; set; }
 
-    [CommandSwitch("--configuration-assignment-name")]
+    [CliOption("--configuration-assignment-name")]
     public string? ConfigurationAssignmentName { get; set; }
 
-    [CommandSwitch("--filter-locations")]
+    [CliOption("--filter-locations")]
     public string? FilterLocations { get; set; }
 
-    [CommandSwitch("--filter-os-types")]
+    [CliOption("--filter-os-types")]
     public string? FilterOsTypes { get; set; }
 
-    [CommandSwitch("--filter-resource-groups")]
+    [CliOption("--filter-resource-groups")]
     public string? FilterResourceGroups { get; set; }
 
-    [CommandSwitch("--filter-resource-types")]
+    [CliOption("--filter-resource-types")]
     public string? FilterResourceTypes { get; set; }
 
-    [CommandSwitch("--filter-tags")]
+    [CliOption("--filter-tags")]
     public string? FilterTags { get; set; }
 
-    [CommandSwitch("--filter-tags-operator")]
+    [CliOption("--filter-tags-operator")]
     public string? FilterTagsOperator { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--resource-id")]
+    [CliOption("--resource-id")]
     public string? ResourceId { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

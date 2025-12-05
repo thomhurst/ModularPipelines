@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("trustedadvisor", "list-organization-recommendation-resources")]
+[CliCommand("trustedadvisor", "list-organization-recommendation-resources")]
 public record AwsTrustedadvisorListOrganizationRecommendationResourcesOptions(
-[property: CommandSwitch("--organization-recommendation-identifier")] string OrganizationRecommendationIdentifier
+[property: CliOption("--organization-recommendation-identifier")] string OrganizationRecommendationIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--affected-account-id")]
+    [CliOption("--affected-account-id")]
     public string? AffectedAccountId { get; set; }
 
-    [CommandSwitch("--region-code")]
+    [CliOption("--region-code")]
     public string? RegionCode { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

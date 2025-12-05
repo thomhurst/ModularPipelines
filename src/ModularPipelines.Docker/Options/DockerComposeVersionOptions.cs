@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose", "version")]
+[CliCommand("compose", "version")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeVersionOptions : DockerOptions
 {
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 
-    [CommandSwitch("--short")]
+    [CliOption("--short")]
     public virtual string? Short { get; set; }
 }

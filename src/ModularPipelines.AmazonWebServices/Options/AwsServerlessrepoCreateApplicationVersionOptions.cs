@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("serverlessrepo", "create-application-version")]
+[CliCommand("serverlessrepo", "create-application-version")]
 public record AwsServerlessrepoCreateApplicationVersionOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--semantic-version")] string SemanticVersion
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--semantic-version")] string SemanticVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--source-code-archive-url")]
+    [CliOption("--source-code-archive-url")]
     public string? SourceCodeArchiveUrl { get; set; }
 
-    [CommandSwitch("--source-code-url")]
+    [CliOption("--source-code-url")]
     public string? SourceCodeUrl { get; set; }
 
-    [CommandSwitch("--template-body")]
+    [CliOption("--template-body")]
     public string? TemplateBody { get; set; }
 
-    [CommandSwitch("--template-url")]
+    [CliOption("--template-url")]
     public string? TemplateUrl { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

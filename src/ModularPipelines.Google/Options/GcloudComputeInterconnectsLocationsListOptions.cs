@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "interconnects", "locations", "list")]
+[CliCommand("compute", "interconnects", "locations", "list")]
 public record GcloudComputeInterconnectsLocationsListOptions : GcloudOptions;

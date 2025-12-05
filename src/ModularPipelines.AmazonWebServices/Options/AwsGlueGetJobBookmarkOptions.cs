@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "get-job-bookmark")]
+[CliCommand("glue", "get-job-bookmark")]
 public record AwsGlueGetJobBookmarkOptions(
-[property: CommandSwitch("--job-name")] string JobName
+[property: CliOption("--job-name")] string JobName
 ) : AwsOptions
 {
-    [CommandSwitch("--run-id")]
+    [CliOption("--run-id")]
     public string? RunId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

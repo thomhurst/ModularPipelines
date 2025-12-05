@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutequipment", "create-model")]
+[CliCommand("lookoutequipment", "create-model")]
 public record AwsLookoutequipmentCreateModelOptions(
-[property: CommandSwitch("--model-name")] string ModelName,
-[property: CommandSwitch("--dataset-name")] string DatasetName
+[property: CliOption("--model-name")] string ModelName,
+[property: CliOption("--dataset-name")] string DatasetName
 ) : AwsOptions
 {
-    [CommandSwitch("--dataset-schema")]
+    [CliOption("--dataset-schema")]
     public string? DatasetSchema { get; set; }
 
-    [CommandSwitch("--labels-input-configuration")]
+    [CliOption("--labels-input-configuration")]
     public string? LabelsInputConfiguration { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--training-data-start-time")]
+    [CliOption("--training-data-start-time")]
     public long? TrainingDataStartTime { get; set; }
 
-    [CommandSwitch("--training-data-end-time")]
+    [CliOption("--training-data-end-time")]
     public long? TrainingDataEndTime { get; set; }
 
-    [CommandSwitch("--evaluation-data-start-time")]
+    [CliOption("--evaluation-data-start-time")]
     public long? EvaluationDataStartTime { get; set; }
 
-    [CommandSwitch("--evaluation-data-end-time")]
+    [CliOption("--evaluation-data-end-time")]
     public long? EvaluationDataEndTime { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--data-pre-processing-configuration")]
+    [CliOption("--data-pre-processing-configuration")]
     public string? DataPreProcessingConfiguration { get; set; }
 
-    [CommandSwitch("--server-side-kms-key-id")]
+    [CliOption("--server-side-kms-key-id")]
     public string? ServerSideKmsKeyId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--off-condition")]
+    [CliOption("--off-condition")]
     public string? OffCondition { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

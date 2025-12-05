@@ -4,71 +4,71 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("postgres", "server-arc", "update")]
+[CliSubCommand("postgres", "server-arc", "update")]
 public record AzPostgresServerArcUpdateOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--cert-private-key-file")]
+    [CliOption("--cert-private-key-file")]
     public string? CertPrivateKeyFile { get; set; }
 
-    [CommandSwitch("--cert-public-key-file")]
+    [CliOption("--cert-public-key-file")]
     public string? CertPublicKeyFile { get; set; }
 
-    [CommandSwitch("--cores-limit")]
+    [CliOption("--cores-limit")]
     public string? CoresLimit { get; set; }
 
-    [CommandSwitch("--cores-request")]
+    [CliOption("--cores-request")]
     public string? CoresRequest { get; set; }
 
-    [CommandSwitch("--dev")]
+    [CliOption("--dev")]
     public string? Dev { get; set; }
 
-    [CommandSwitch("--extensions")]
+    [CliOption("--extensions")]
     public string? Extensions { get; set; }
 
-    [CommandSwitch("--k8s-namespace")]
+    [CliOption("--k8s-namespace")]
     public string? K8sNamespace { get; set; }
 
-    [CommandSwitch("--keytab-secret")]
+    [CliOption("--keytab-secret")]
     public string? KeytabSecret { get; set; }
 
-    [CommandSwitch("--log-level")]
+    [CliOption("--log-level")]
     public string? LogLevel { get; set; }
 
-    [CommandSwitch("--memory-limit")]
+    [CliOption("--memory-limit")]
     public string? MemoryLimit { get; set; }
 
-    [CommandSwitch("--memory-request")]
+    [CliOption("--memory-request")]
     public string? MemoryRequest { get; set; }
 
-    [BooleanCommandSwitch("--no-external-endpoint")]
+    [CliFlag("--no-external-endpoint")]
     public bool? NoExternalEndpoint { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--retention-days")]
+    [CliOption("--retention-days")]
     public string? RetentionDays { get; set; }
 
-    [CommandSwitch("--service-annotations")]
+    [CliOption("--service-annotations")]
     public string? ServiceAnnotations { get; set; }
 
-    [CommandSwitch("--service-cert-secret")]
+    [CliOption("--service-cert-secret")]
     public string? ServiceCertSecret { get; set; }
 
-    [CommandSwitch("--service-labels")]
+    [CliOption("--service-labels")]
     public string? ServiceLabels { get; set; }
 
-    [CommandSwitch("--service-type")]
+    [CliOption("--service-type")]
     public string? ServiceType { get; set; }
 
-    [BooleanCommandSwitch("--use-k8s")]
+    [CliFlag("--use-k8s")]
     public bool? UseK8s { get; set; }
 }

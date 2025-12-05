@@ -6,7 +6,7 @@ namespace ModularPipelines.Engine.BuildSystemFormatters;
 /// </summary>
 /// <remarks>
 /// GitHub Actions uses workflow commands in the format ::command::value
-/// Documentation: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions
+/// Documentation: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions.
 /// </remarks>
 /// <example>
 /// <code>

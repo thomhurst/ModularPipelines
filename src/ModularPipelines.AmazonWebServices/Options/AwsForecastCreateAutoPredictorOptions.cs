@@ -4,44 +4,44 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("forecast", "create-auto-predictor")]
+[CliCommand("forecast", "create-auto-predictor")]
 public record AwsForecastCreateAutoPredictorOptions(
-[property: CommandSwitch("--predictor-name")] string PredictorName
+[property: CliOption("--predictor-name")] string PredictorName
 ) : AwsOptions
 {
-    [CommandSwitch("--forecast-horizon")]
+    [CliOption("--forecast-horizon")]
     public int? ForecastHorizon { get; set; }
 
-    [CommandSwitch("--forecast-types")]
+    [CliOption("--forecast-types")]
     public string[]? ForecastTypes { get; set; }
 
-    [CommandSwitch("--forecast-dimensions")]
+    [CliOption("--forecast-dimensions")]
     public string[]? ForecastDimensions { get; set; }
 
-    [CommandSwitch("--forecast-frequency")]
+    [CliOption("--forecast-frequency")]
     public string? ForecastFrequency { get; set; }
 
-    [CommandSwitch("--data-config")]
+    [CliOption("--data-config")]
     public string? DataConfig { get; set; }
 
-    [CommandSwitch("--encryption-config")]
+    [CliOption("--encryption-config")]
     public string? EncryptionConfig { get; set; }
 
-    [CommandSwitch("--reference-predictor-arn")]
+    [CliOption("--reference-predictor-arn")]
     public string? ReferencePredictorArn { get; set; }
 
-    [CommandSwitch("--optimization-metric")]
+    [CliOption("--optimization-metric")]
     public string? OptimizationMetric { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--monitor-config")]
+    [CliOption("--monitor-config")]
     public string? MonitorConfig { get; set; }
 
-    [CommandSwitch("--time-alignment-boundary")]
+    [CliOption("--time-alignment-boundary")]
     public string? TimeAlignmentBoundary { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

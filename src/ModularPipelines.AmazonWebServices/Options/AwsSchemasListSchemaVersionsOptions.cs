@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("schemas", "list-schema-versions")]
+[CliCommand("schemas", "list-schema-versions")]
 public record AwsSchemasListSchemaVersionsOptions(
-[property: CommandSwitch("--registry-name")] string RegistryName,
-[property: CommandSwitch("--schema-name")] string SchemaName
+[property: CliOption("--registry-name")] string RegistryName,
+[property: CliOption("--schema-name")] string SchemaName
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sso-admin", "create-permission-set")]
+[CliCommand("sso-admin", "create-permission-set")]
 public record AwsSsoAdminCreatePermissionSetOptions(
-[property: CommandSwitch("--instance-arn")] string InstanceArn,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--instance-arn")] string InstanceArn,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--relay-state")]
+    [CliOption("--relay-state")]
     public string? RelayState { get; set; }
 
-    [CommandSwitch("--session-duration")]
+    [CliOption("--session-duration")]
     public string? SessionDuration { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

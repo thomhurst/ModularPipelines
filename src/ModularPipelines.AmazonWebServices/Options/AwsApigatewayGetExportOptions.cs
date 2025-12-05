@@ -5,16 +5,16 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "get-export")]
+[CliCommand("apigateway", "get-export")]
 public record AwsApigatewayGetExportOptions(
-[property: CommandSwitch("--rest-api-id")] string RestApiId,
-[property: CommandSwitch("--stage-name")] string StageName,
-[property: CommandSwitch("--export-type")] string ExportType
+[property: CliOption("--rest-api-id")] string RestApiId,
+[property: CliOption("--stage-name")] string StageName,
+[property: CliOption("--export-type")] string ExportType
 ) : AwsOptions
 {
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public IEnumerable<KeyValue>? Parameters { get; set; }
 
-    [CommandSwitch("--accepts")]
+    [CliOption("--accepts")]
     public string? Accepts { get; set; }
 }

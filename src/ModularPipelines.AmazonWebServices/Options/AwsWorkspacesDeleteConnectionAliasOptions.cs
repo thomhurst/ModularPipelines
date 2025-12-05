@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces", "delete-connection-alias")]
+[CliCommand("workspaces", "delete-connection-alias")]
 public record AwsWorkspacesDeleteConnectionAliasOptions(
-[property: CommandSwitch("--alias-id")] string AliasId
+[property: CliOption("--alias-id")] string AliasId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "describe-topic-refresh")]
+[CliCommand("quicksight", "describe-topic-refresh")]
 public record AwsQuicksightDescribeTopicRefreshOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--topic-id")] string TopicId,
-[property: CommandSwitch("--refresh-id")] string RefreshId
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--topic-id")] string TopicId,
+[property: CliOption("--refresh-id")] string RefreshId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

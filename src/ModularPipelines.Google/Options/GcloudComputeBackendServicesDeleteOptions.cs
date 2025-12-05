@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "backend-services", "delete")]
+[CliCommand("compute", "backend-services", "delete")]
 public record GcloudComputeBackendServicesDeleteOptions(
-[property: PositionalArgument] string BackendServiceName
+[property: CliArgument] string BackendServiceName
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

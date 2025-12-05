@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "create-fleet-metric")]
+[CliCommand("iot", "create-fleet-metric")]
 public record AwsIotCreateFleetMetricOptions(
-[property: CommandSwitch("--metric-name")] string MetricName,
-[property: CommandSwitch("--query-string")] string QueryString,
-[property: CommandSwitch("--aggregation-type")] string AggregationType,
-[property: CommandSwitch("--period")] int Period,
-[property: CommandSwitch("--aggregation-field")] string AggregationField
+[property: CliOption("--metric-name")] string MetricName,
+[property: CliOption("--query-string")] string QueryString,
+[property: CliOption("--aggregation-type")] string AggregationType,
+[property: CliOption("--period")] int Period,
+[property: CliOption("--aggregation-field")] string AggregationField
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--query-version")]
+    [CliOption("--query-version")]
     public string? QueryVersion { get; set; }
 
-    [CommandSwitch("--index-name")]
+    [CliOption("--index-name")]
     public string? IndexName { get; set; }
 
-    [CommandSwitch("--unit")]
+    [CliOption("--unit")]
     public string? Unit { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutequipment", "list-sensor-statistics")]
+[CliCommand("lookoutequipment", "list-sensor-statistics")]
 public record AwsLookoutequipmentListSensorStatisticsOptions(
-[property: CommandSwitch("--dataset-name")] string DatasetName
+[property: CliOption("--dataset-name")] string DatasetName
 ) : AwsOptions
 {
-    [CommandSwitch("--ingestion-job-id")]
+    [CliOption("--ingestion-job-id")]
     public string? IngestionJobId { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

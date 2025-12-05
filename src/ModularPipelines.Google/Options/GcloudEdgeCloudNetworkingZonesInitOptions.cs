@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cloud", "networking", "zones", "init")]
+[CliCommand("edge-cloud", "networking", "zones", "init")]
 public record GcloudEdgeCloudNetworkingZonesInitOptions(
-[property: PositionalArgument] string Zone,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Zone,
+[property: CliArgument] string Location
 ) : GcloudOptions;

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "snapshots", "get-iam-policy")]
+[CliCommand("compute", "snapshots", "get-iam-policy")]
 public record GcloudComputeSnapshotsGetIamPolicyOptions(
-[property: PositionalArgument] string SnapshotName
+[property: CliArgument] string SnapshotName
 ) : GcloudOptions;

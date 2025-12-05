@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker-geospatial", "search-raster-data-collection")]
+[CliCommand("sagemaker-geospatial", "search-raster-data-collection")]
 public record AwsSagemakerGeospatialSearchRasterDataCollectionOptions(
-[property: CommandSwitch("--arn")] string Arn,
-[property: CommandSwitch("--raster-data-collection-query")] string RasterDataCollectionQuery
+[property: CliOption("--arn")] string Arn,
+[property: CliOption("--raster-data-collection-query")] string RasterDataCollectionQuery
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

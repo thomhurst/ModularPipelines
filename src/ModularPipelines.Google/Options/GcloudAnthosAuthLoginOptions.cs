@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("anthos", "auth", "login")]
+[CliCommand("anthos", "auth", "login")]
 public record GcloudAnthosAuthLoginOptions : GcloudOptions
 {
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [CommandSwitch("--kubeconfig")]
+    [CliOption("--kubeconfig")]
     public string? Kubeconfig { get; set; }
 
-    [CommandSwitch("--login-config")]
+    [CliOption("--login-config")]
     public string? LoginConfig { get; set; }
 
-    [CommandSwitch("--login-config-cert")]
+    [CliOption("--login-config-cert")]
     public string? LoginConfigCert { get; set; }
 
-    [CommandSwitch("--server")]
+    [CliOption("--server")]
     public string? Server { get; set; }
 
-    [BooleanCommandSwitch("--set-preferred-auth")]
+    [CliFlag("--set-preferred-auth")]
     public bool? SetPreferredAuth { get; set; }
 
-    [CommandSwitch("--user")]
+    [CliOption("--user")]
     public string? User { get; set; }
 }

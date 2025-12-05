@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns-resolver", "forwarding-ruleset", "show")]
+[CliSubCommand("dns-resolver", "forwarding-ruleset", "show")]
 public record AzDnsResolverForwardingRulesetShowOptions : AzOptions
 {
-    [CommandSwitch("--dns-forwarding-ruleset-name")]
+    [CliOption("--dns-forwarding-ruleset-name")]
     public string? DnsForwardingRulesetName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

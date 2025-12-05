@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "product", "validate-move")]
+[CliSubCommand("billing", "product", "validate-move")]
 public record AzBillingProductValidateMoveOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--destination-invoice-section-id")]
+    [CliOption("--destination-invoice-section-id")]
     public string? DestinationInvoiceSectionId { get; set; }
 }

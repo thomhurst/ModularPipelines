@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyspaces", "get-keyspace")]
+[CliCommand("keyspaces", "get-keyspace")]
 public record AwsKeyspacesGetKeyspaceOptions(
-[property: CommandSwitch("--keyspace-name")] string KeyspaceName
+[property: CliOption("--keyspace-name")] string KeyspaceName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

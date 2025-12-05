@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "app-insights", "component", "continues-export", "create")]
+[CliSubCommand("monitor", "app-insights", "component", "continues-export", "create")]
 public record AzMonitorAppInsightsComponentContinuesExportCreateOptions(
-[property: CommandSwitch("--app")] string App,
-[property: CommandSwitch("--dest-account")] int DestAccount,
-[property: CommandSwitch("--dest-container")] string DestContainer,
-[property: CommandSwitch("--dest-sas")] string DestSas,
-[property: CommandSwitch("--dest-sub-id")] string DestSubId,
-[property: CommandSwitch("--record-types")] string RecordTypes,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--app")] string App,
+[property: CliOption("--dest-account")] int DestAccount,
+[property: CliOption("--dest-container")] string DestContainer,
+[property: CliOption("--dest-sas")] string DestSas,
+[property: CliOption("--dest-sub-id")] string DestSubId,
+[property: CliOption("--record-types")] string RecordTypes,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--dest-type")]
+    [CliOption("--dest-type")]
     public string? DestType { get; set; }
 
-    [BooleanCommandSwitch("--is-enabled")]
+    [CliFlag("--is-enabled")]
     public bool? IsEnabled { get; set; }
 }

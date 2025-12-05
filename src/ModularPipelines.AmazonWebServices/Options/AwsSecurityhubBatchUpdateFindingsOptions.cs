@@ -5,38 +5,38 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securityhub", "batch-update-findings")]
+[CliCommand("securityhub", "batch-update-findings")]
 public record AwsSecurityhubBatchUpdateFindingsOptions(
-[property: CommandSwitch("--finding-identifiers")] string[] FindingIdentifiers
+[property: CliOption("--finding-identifiers")] string[] FindingIdentifiers
 ) : AwsOptions
 {
-    [CommandSwitch("--note")]
+    [CliOption("--note")]
     public string? Note { get; set; }
 
-    [CommandSwitch("--severity")]
+    [CliOption("--severity")]
     public string? Severity { get; set; }
 
-    [CommandSwitch("--verification-state")]
+    [CliOption("--verification-state")]
     public string? VerificationState { get; set; }
 
-    [CommandSwitch("--confidence")]
+    [CliOption("--confidence")]
     public int? Confidence { get; set; }
 
-    [CommandSwitch("--criticality")]
+    [CliOption("--criticality")]
     public int? Criticality { get; set; }
 
-    [CommandSwitch("--types")]
+    [CliOption("--types")]
     public string[]? Types { get; set; }
 
-    [CommandSwitch("--user-defined-fields")]
+    [CliOption("--user-defined-fields")]
     public IEnumerable<KeyValue>? UserDefinedFields { get; set; }
 
-    [CommandSwitch("--workflow")]
+    [CliOption("--workflow")]
     public string? Workflow { get; set; }
 
-    [CommandSwitch("--related-findings")]
+    [CliOption("--related-findings")]
     public string[]? RelatedFindings { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

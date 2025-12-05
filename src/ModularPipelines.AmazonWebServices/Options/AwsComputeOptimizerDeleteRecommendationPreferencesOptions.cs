@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute-optimizer", "delete-recommendation-preferences")]
+[CliCommand("compute-optimizer", "delete-recommendation-preferences")]
 public record AwsComputeOptimizerDeleteRecommendationPreferencesOptions(
-[property: CommandSwitch("--resource-type")] string ResourceType,
-[property: CommandSwitch("--recommendation-preference-names")] string[] RecommendationPreferenceNames
+[property: CliOption("--resource-type")] string ResourceType,
+[property: CliOption("--recommendation-preference-names")] string[] RecommendationPreferenceNames
 ) : AwsOptions
 {
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

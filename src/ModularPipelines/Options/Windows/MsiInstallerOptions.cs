@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Options.Windows;
 
 [ExcludeFromCodeCoverage]
-public record MsiInstallerOptions([property: CommandSwitch("/package")] string MsiPath) : CommandLineToolOptions("msiexec.exe")
+public record MsiInstallerOptions([property: CliOption("/package")] string MsiPath) : CommandLineToolOptions("msiexec.exe")
 {
-    [BooleanCommandSwitch("/exenoui")]
+    [CliFlag("/exenoui")]
     public virtual bool? DisableUserInterface { get; set; } = true;
 
-    [BooleanCommandSwitch("/norestart")]
+    [CliFlag("/norestart")]
     public virtual bool NoRestart { get; init; } = true;
 
-    [BooleanCommandSwitch("/restartapplications")]
+    [CliFlag("/restartapplications")]
     public virtual bool RestartApplications { get; init; } = true;
 
-    [BooleanCommandSwitch("/qn")]
+    [CliFlag("/qn")]
     internal virtual bool? DisableUserInterface2 => DisableUserInterface;
 
-    [BooleanCommandSwitch("/quiet")]
+    [CliFlag("/quiet")]
     internal virtual bool? DisableUserInterface3 => DisableUserInterface;
 
-    [BooleanCommandSwitch("/silent")]
+    [CliFlag("/silent")]
     internal virtual bool? DisableUserInterface4 => DisableUserInterface;
 
-    [BooleanCommandSwitch("/verysilent")]
+    [CliFlag("/verysilent")]
     internal virtual bool? DisableUserInterface5 => DisableUserInterface;
 
-    [BooleanCommandSwitch("/suppressmsgboxes")]
+    [CliFlag("/suppressmsgboxes")]
     internal virtual bool? DisableUserInterface6 => DisableUserInterface;
 
-    [BooleanCommandSwitch("/passive")]
+    [CliFlag("/passive")]
     internal virtual bool? DisableUserInterface7 => DisableUserInterface;
 
-    [BooleanCommandSwitch("/sp-")]
+    [CliFlag("/sp-")]
     internal virtual bool? DisableUserInterface8 => DisableUserInterface;
 }

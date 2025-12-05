@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "create-snapshot-schedule")]
+[CliCommand("redshift", "create-snapshot-schedule")]
 public record AwsRedshiftCreateSnapshotScheduleOptions : AwsOptions
 {
-    [CommandSwitch("--schedule-definitions")]
+    [CliOption("--schedule-definitions")]
     public string[]? ScheduleDefinitions { get; set; }
 
-    [CommandSwitch("--schedule-identifier")]
+    [CliOption("--schedule-identifier")]
     public string? ScheduleIdentifier { get; set; }
 
-    [CommandSwitch("--schedule-description")]
+    [CliOption("--schedule-description")]
     public string? ScheduleDescription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--next-invocations")]
+    [CliOption("--next-invocations")]
     public int? NextInvocations { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

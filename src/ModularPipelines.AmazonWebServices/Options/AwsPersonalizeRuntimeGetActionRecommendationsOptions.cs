@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("personalize-runtime", "get-action-recommendations")]
+[CliCommand("personalize-runtime", "get-action-recommendations")]
 public record AwsPersonalizeRuntimeGetActionRecommendationsOptions : AwsOptions
 {
-    [CommandSwitch("--campaign-arn")]
+    [CliOption("--campaign-arn")]
     public string? CampaignArn { get; set; }
 
-    [CommandSwitch("--user-id")]
+    [CliOption("--user-id")]
     public string? UserId { get; set; }
 
-    [CommandSwitch("--num-results")]
+    [CliOption("--num-results")]
     public int? NumResults { get; set; }
 
-    [CommandSwitch("--filter-arn")]
+    [CliOption("--filter-arn")]
     public string? FilterArn { get; set; }
 
-    [CommandSwitch("--filter-values")]
+    [CliOption("--filter-values")]
     public IEnumerable<KeyValue>? FilterValues { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

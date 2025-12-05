@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticbeanstalk", "compose-environments")]
+[CliCommand("elasticbeanstalk", "compose-environments")]
 public record AwsElasticbeanstalkComposeEnvironmentsOptions : AwsOptions
 {
-    [CommandSwitch("--application-name")]
+    [CliOption("--application-name")]
     public string? ApplicationName { get; set; }
 
-    [CommandSwitch("--group-name")]
+    [CliOption("--group-name")]
     public string? GroupName { get; set; }
 
-    [CommandSwitch("--version-labels")]
+    [CliOption("--version-labels")]
     public string[]? VersionLabels { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

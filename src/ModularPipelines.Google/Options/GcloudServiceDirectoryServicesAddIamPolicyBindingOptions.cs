@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("service-directory", "services", "add-iam-policy-binding")]
+[CliCommand("service-directory", "services", "add-iam-policy-binding")]
 public record GcloudServiceDirectoryServicesAddIamPolicyBindingOptions(
-[property: PositionalArgument] string Service,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Namespace,
-[property: CommandSwitch("--member")] string Member,
-[property: CommandSwitch("--role")] string Role
+[property: CliArgument] string Service,
+[property: CliArgument] string Location,
+[property: CliArgument] string Namespace,
+[property: CliOption("--member")] string Member,
+[property: CliOption("--role")] string Role
 ) : GcloudOptions;

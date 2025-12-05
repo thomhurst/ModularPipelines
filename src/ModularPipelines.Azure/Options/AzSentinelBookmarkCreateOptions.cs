@@ -4,61 +4,61 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "bookmark", "create")]
+[CliSubCommand("sentinel", "bookmark", "create")]
 public record AzSentinelBookmarkCreateOptions(
-[property: CommandSwitch("--bookmark-id")] string BookmarkId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--bookmark-id")] string BookmarkId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--created")]
+    [CliOption("--created")]
     public string? Created { get; set; }
 
-    [CommandSwitch("--created-by")]
+    [CliOption("--created-by")]
     public string? CreatedBy { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--entity-mappings")]
+    [CliOption("--entity-mappings")]
     public string? EntityMappings { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [CommandSwitch("--event-time")]
+    [CliOption("--event-time")]
     public string? EventTime { get; set; }
 
-    [CommandSwitch("--incident-info")]
+    [CliOption("--incident-info")]
     public string? IncidentInfo { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 
-    [CommandSwitch("--notes")]
+    [CliOption("--notes")]
     public string? Notes { get; set; }
 
-    [CommandSwitch("--query-content")]
+    [CliOption("--query-content")]
     public string? QueryContent { get; set; }
 
-    [CommandSwitch("--query-end-time")]
+    [CliOption("--query-end-time")]
     public string? QueryEndTime { get; set; }
 
-    [CommandSwitch("--query-result")]
+    [CliOption("--query-result")]
     public string? QueryResult { get; set; }
 
-    [CommandSwitch("--query-start-time")]
+    [CliOption("--query-start-time")]
     public string? QueryStartTime { get; set; }
 
-    [CommandSwitch("--tactics")]
+    [CliOption("--tactics")]
     public string? Tactics { get; set; }
 
-    [CommandSwitch("--techniques")]
+    [CliOption("--techniques")]
     public string? Techniques { get; set; }
 
-    [CommandSwitch("--updated")]
+    [CliOption("--updated")]
     public string? Updated { get; set; }
 
-    [CommandSwitch("--updated-by")]
+    [CliOption("--updated-by")]
     public string? UpdatedBy { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "nodepool", "get-upgrades")]
+[CliCommand("aks", "nodepool", "get-upgrades")]
 public class AzAksNodepoolGetUpgradesAksPreview
 {
     public AzAksNodepoolGetUpgradesAksPreview(

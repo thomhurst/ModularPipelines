@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "register-certificate-without-ca")]
+[CliCommand("iot", "register-certificate-without-ca")]
 public record AwsIotRegisterCertificateWithoutCaOptions(
-[property: CommandSwitch("--certificate-pem")] string CertificatePem
+[property: CliOption("--certificate-pem")] string CertificatePem
 ) : AwsOptions
 {
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

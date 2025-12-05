@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "setting", "update")]
+[CliSubCommand("security", "setting", "update")]
 public record AzSecuritySettingUpdateOptions(
-[property: BooleanCommandSwitch("--enabled")] bool Enabled,
-[property: CommandSwitch("--name")] string Name
+[property: CliFlag("--enabled")] bool Enabled,
+[property: CliOption("--name")] string Name
 ) : AzOptions;

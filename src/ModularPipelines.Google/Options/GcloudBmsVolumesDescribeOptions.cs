@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bms", "volumes", "describe")]
+[CliCommand("bms", "volumes", "describe")]
 public record GcloudBmsVolumesDescribeOptions(
-[property: PositionalArgument] string Volume,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Volume,
+[property: CliArgument] string Region
 ) : GcloudOptions;

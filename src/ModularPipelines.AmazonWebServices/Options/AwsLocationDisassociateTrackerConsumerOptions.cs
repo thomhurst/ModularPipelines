@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "disassociate-tracker-consumer")]
+[CliCommand("location", "disassociate-tracker-consumer")]
 public record AwsLocationDisassociateTrackerConsumerOptions(
-[property: CommandSwitch("--consumer-arn")] string ConsumerArn,
-[property: CommandSwitch("--tracker-name")] string TrackerName
+[property: CliOption("--consumer-arn")] string ConsumerArn,
+[property: CliOption("--tracker-name")] string TrackerName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

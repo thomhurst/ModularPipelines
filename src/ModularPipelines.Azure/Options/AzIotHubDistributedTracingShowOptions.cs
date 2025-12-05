@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "distributed-tracing", "show")]
+[CliSubCommand("iot", "hub", "distributed-tracing", "show")]
 public record AzIotHubDistributedTracingShowOptions(
-[property: CommandSwitch("--device-id")] string DeviceId,
-[property: CommandSwitch("--hub-name")] string HubName
+[property: CliOption("--device-id")] string DeviceId,
+[property: CliOption("--hub-name")] string HubName
 ) : AzOptions
 {
-    [CommandSwitch("--auth-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

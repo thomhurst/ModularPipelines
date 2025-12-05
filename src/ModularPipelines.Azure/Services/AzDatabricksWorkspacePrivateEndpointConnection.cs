@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databricks", "workspace")]
+[CliCommand("databricks", "workspace")]
 public class AzDatabricksWorkspacePrivateEndpointConnection
 {
     public AzDatabricksWorkspacePrivateEndpointConnection(

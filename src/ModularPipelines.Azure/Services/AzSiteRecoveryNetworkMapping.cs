@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("site-recovery", "network")]
+[CliCommand("site-recovery", "network")]
 public class AzSiteRecoveryNetworkMapping
 {
     public AzSiteRecoveryNetworkMapping(

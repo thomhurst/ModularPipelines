@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "index-faces")]
+[CliCommand("rekognition", "index-faces")]
 public record AwsRekognitionIndexFacesOptions(
-[property: CommandSwitch("--collection-id")] string CollectionId
+[property: CliOption("--collection-id")] string CollectionId
 ) : AwsOptions
 {
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [CommandSwitch("--external-image-id")]
+    [CliOption("--external-image-id")]
     public string? ExternalImageId { get; set; }
 
-    [CommandSwitch("--detection-attributes")]
+    [CliOption("--detection-attributes")]
     public string[]? DetectionAttributes { get; set; }
 
-    [CommandSwitch("--max-faces")]
+    [CliOption("--max-faces")]
     public int? MaxFaces { get; set; }
 
-    [CommandSwitch("--quality-filter")]
+    [CliOption("--quality-filter")]
     public string? QualityFilter { get; set; }
 
-    [CommandSwitch("--image-bytes")]
+    [CliOption("--image-bytes")]
     public string? ImageBytes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

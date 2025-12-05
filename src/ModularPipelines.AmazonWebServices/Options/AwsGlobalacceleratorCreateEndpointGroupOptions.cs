@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("globalaccelerator", "create-endpoint-group")]
+[CliCommand("globalaccelerator", "create-endpoint-group")]
 public record AwsGlobalacceleratorCreateEndpointGroupOptions(
-[property: CommandSwitch("--listener-arn")] string ListenerArn,
-[property: CommandSwitch("--endpoint-group-region")] string EndpointGroupRegion
+[property: CliOption("--listener-arn")] string ListenerArn,
+[property: CliOption("--endpoint-group-region")] string EndpointGroupRegion
 ) : AwsOptions
 {
-    [CommandSwitch("--endpoint-configurations")]
+    [CliOption("--endpoint-configurations")]
     public string[]? EndpointConfigurations { get; set; }
 
-    [CommandSwitch("--traffic-dial-percentage")]
+    [CliOption("--traffic-dial-percentage")]
     public float? TrafficDialPercentage { get; set; }
 
-    [CommandSwitch("--health-check-port")]
+    [CliOption("--health-check-port")]
     public int? HealthCheckPort { get; set; }
 
-    [CommandSwitch("--health-check-protocol")]
+    [CliOption("--health-check-protocol")]
     public string? HealthCheckProtocol { get; set; }
 
-    [CommandSwitch("--health-check-path")]
+    [CliOption("--health-check-path")]
     public string? HealthCheckPath { get; set; }
 
-    [CommandSwitch("--health-check-interval-seconds")]
+    [CliOption("--health-check-interval-seconds")]
     public int? HealthCheckIntervalSeconds { get; set; }
 
-    [CommandSwitch("--threshold-count")]
+    [CliOption("--threshold-count")]
     public int? ThresholdCount { get; set; }
 
-    [CommandSwitch("--idempotency-token")]
+    [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
-    [CommandSwitch("--port-overrides")]
+    [CliOption("--port-overrides")]
     public string[]? PortOverrides { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

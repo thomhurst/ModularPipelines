@@ -5,16 +5,16 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediatailor", "create-vod-source")]
+[CliCommand("mediatailor", "create-vod-source")]
 public record AwsMediatailorCreateVodSourceOptions(
-[property: CommandSwitch("--http-package-configurations")] string[] HttpPackageConfigurations,
-[property: CommandSwitch("--source-location-name")] string SourceLocationName,
-[property: CommandSwitch("--vod-source-name")] string VodSourceName
+[property: CliOption("--http-package-configurations")] string[] HttpPackageConfigurations,
+[property: CliOption("--source-location-name")] string SourceLocationName,
+[property: CliOption("--vod-source-name")] string VodSourceName
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

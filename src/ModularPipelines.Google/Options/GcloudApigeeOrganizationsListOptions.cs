@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigee", "organizations", "list")]
+[CliCommand("apigee", "organizations", "list")]
 public record GcloudApigeeOrganizationsListOptions : GcloudOptions;

@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kendra", "update-index")]
+[CliCommand("kendra", "update-index")]
 public record AwsKendraUpdateIndexOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--document-metadata-configuration-updates")]
+    [CliOption("--document-metadata-configuration-updates")]
     public string[]? DocumentMetadataConfigurationUpdates { get; set; }
 
-    [CommandSwitch("--capacity-units")]
+    [CliOption("--capacity-units")]
     public string? CapacityUnits { get; set; }
 
-    [CommandSwitch("--user-token-configurations")]
+    [CliOption("--user-token-configurations")]
     public string[]? UserTokenConfigurations { get; set; }
 
-    [CommandSwitch("--user-context-policy")]
+    [CliOption("--user-context-policy")]
     public string? UserContextPolicy { get; set; }
 
-    [CommandSwitch("--user-group-resolution-configuration")]
+    [CliOption("--user-group-resolution-configuration")]
     public string? UserGroupResolutionConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

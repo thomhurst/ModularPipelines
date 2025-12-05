@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "restore")]
+[CliCommand("storage", "restore")]
 public record GcloudStorageRestoreOptions(
-[property: PositionalArgument] string Urls
+[property: CliArgument] string Urls
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--all-versions")]
+    [CliFlag("--all-versions")]
     public bool? AllVersions { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--[no-]preserve-acl")]
+    [CliOption("--[no-]preserve-acl")]
     public string[]? NoPreserveAcl { get; set; }
 
-    [BooleanCommandSwitch("--read-paths-from-stdin")]
+    [CliFlag("--read-paths-from-stdin")]
     public bool? ReadPathsFromStdin { get; set; }
 
-    [BooleanCommandSwitch("--allow-overwrite")]
+    [CliFlag("--allow-overwrite")]
     public bool? AllowOverwrite { get; set; }
 
-    [CommandSwitch("--deleted-after-time")]
+    [CliOption("--deleted-after-time")]
     public string? DeletedAfterTime { get; set; }
 
-    [CommandSwitch("--deleted-before-time")]
+    [CliOption("--deleted-before-time")]
     public string? DeletedBeforeTime { get; set; }
 }

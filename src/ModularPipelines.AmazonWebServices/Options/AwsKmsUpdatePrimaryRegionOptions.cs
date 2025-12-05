@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "update-primary-region")]
+[CliCommand("kms", "update-primary-region")]
 public record AwsKmsUpdatePrimaryRegionOptions(
-[property: CommandSwitch("--key-id")] string KeyId,
-[property: CommandSwitch("--primary-region")] string PrimaryRegion
+[property: CliOption("--key-id")] string KeyId,
+[property: CliOption("--primary-region")] string PrimaryRegion
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

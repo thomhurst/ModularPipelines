@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "hash")]
+[CliCommand("storage", "hash")]
 public record GcloudStorageHashOptions(
-[property: PositionalArgument] string Urls
+[property: CliArgument] string Urls
 ) : GcloudOptions
 {
-    [CommandSwitch("--additional-headers")]
+    [CliOption("--additional-headers")]
     public string? AdditionalHeaders { get; set; }
 
-    [BooleanCommandSwitch("--hex")]
+    [CliFlag("--hex")]
     public bool? Hex { get; set; }
 
-    [BooleanCommandSwitch("--skip-crc32c")]
+    [CliFlag("--skip-crc32c")]
     public bool? SkipCrc32c { get; set; }
 
-    [BooleanCommandSwitch("--skip-md5")]
+    [CliFlag("--skip-md5")]
     public bool? SkipMd5 { get; set; }
 }

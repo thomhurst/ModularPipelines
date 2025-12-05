@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hdinsight", "autoscale", "update")]
+[CliSubCommand("hdinsight", "autoscale", "update")]
 public record AzHdinsightAutoscaleUpdateOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--max-workernode-count")]
+    [CliOption("--max-workernode-count")]
     public int? MaxWorkernodeCount { get; set; }
 
-    [CommandSwitch("--min-workernode-count")]
+    [CliOption("--min-workernode-count")]
     public int? MinWorkernodeCount { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--timezone")]
+    [CliOption("--timezone")]
     public string? Timezone { get; set; }
 }

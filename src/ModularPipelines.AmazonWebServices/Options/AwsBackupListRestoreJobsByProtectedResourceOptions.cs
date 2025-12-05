@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "list-restore-jobs-by-protected-resource")]
+[CliCommand("backup", "list-restore-jobs-by-protected-resource")]
 public record AwsBackupListRestoreJobsByProtectedResourceOptions(
-[property: CommandSwitch("--resource-arn")] string ResourceArn
+[property: CliOption("--resource-arn")] string ResourceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--by-status")]
+    [CliOption("--by-status")]
     public string? ByStatus { get; set; }
 
-    [CommandSwitch("--by-recovery-point-creation-date-after")]
+    [CliOption("--by-recovery-point-creation-date-after")]
     public long? ByRecoveryPointCreationDateAfter { get; set; }
 
-    [CommandSwitch("--by-recovery-point-creation-date-before")]
+    [CliOption("--by-recovery-point-creation-date-before")]
     public long? ByRecoveryPointCreationDateBefore { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

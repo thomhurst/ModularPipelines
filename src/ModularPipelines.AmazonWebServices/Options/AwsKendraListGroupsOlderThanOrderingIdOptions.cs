@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kendra", "list-groups-older-than-ordering-id")]
+[CliCommand("kendra", "list-groups-older-than-ordering-id")]
 public record AwsKendraListGroupsOlderThanOrderingIdOptions(
-[property: CommandSwitch("--index-id")] string IndexId,
-[property: CommandSwitch("--ordering-id")] long OrderingId
+[property: CliOption("--index-id")] string IndexId,
+[property: CliOption("--ordering-id")] long OrderingId
 ) : AwsOptions
 {
-    [CommandSwitch("--data-source-id")]
+    [CliOption("--data-source-id")]
     public string? DataSourceId { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

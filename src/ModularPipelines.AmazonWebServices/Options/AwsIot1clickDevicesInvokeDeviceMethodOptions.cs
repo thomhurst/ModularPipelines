@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot1click-devices", "invoke-device-method")]
+[CliCommand("iot1click-devices", "invoke-device-method")]
 public record AwsIot1clickDevicesInvokeDeviceMethodOptions(
-[property: CommandSwitch("--device-id")] string DeviceId
+[property: CliOption("--device-id")] string DeviceId
 ) : AwsOptions
 {
-    [CommandSwitch("--device-method")]
+    [CliOption("--device-method")]
     public string? DeviceMethod { get; set; }
 
-    [CommandSwitch("--device-method-parameters")]
+    [CliOption("--device-method-parameters")]
     public string? DeviceMethodParameters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

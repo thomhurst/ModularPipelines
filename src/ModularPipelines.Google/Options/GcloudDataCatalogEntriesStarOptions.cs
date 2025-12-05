@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("data-catalog", "entries", "star")]
+[CliCommand("data-catalog", "entries", "star")]
 public record GcloudDataCatalogEntriesStarOptions(
-[property: PositionalArgument] string Entry,
-[property: PositionalArgument] string EntryGroup,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Entry,
+[property: CliArgument] string EntryGroup,
+[property: CliArgument] string Location
 ) : GcloudOptions;

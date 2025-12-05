@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kafka", "update-security")]
+[CliCommand("kafka", "update-security")]
 public record AwsKafkaUpdateSecurityOptions(
-[property: CommandSwitch("--cluster-arn")] string ClusterArn,
-[property: CommandSwitch("--current-version")] string CurrentVersion
+[property: CliOption("--cluster-arn")] string ClusterArn,
+[property: CliOption("--current-version")] string CurrentVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--client-authentication")]
+    [CliOption("--client-authentication")]
     public string? ClientAuthentication { get; set; }
 
-    [CommandSwitch("--encryption-info")]
+    [CliOption("--encryption-info")]
     public string? EncryptionInfo { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

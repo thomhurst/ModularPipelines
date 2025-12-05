@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opensearchserverless", "batch-get-lifecycle-policy")]
+[CliCommand("opensearchserverless", "batch-get-lifecycle-policy")]
 public record AwsOpensearchserverlessBatchGetLifecyclePolicyOptions(
-[property: CommandSwitch("--identifiers")] string[] Identifiers
+[property: CliOption("--identifiers")] string[] Identifiers
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

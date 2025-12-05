@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automanage", "best-practice", "version", "show")]
+[CliSubCommand("automanage", "best-practice", "version", "show")]
 public record AzAutomanageBestPracticeVersionShowOptions(
-[property: CommandSwitch("--best-practice-name")] string BestPracticeName,
-[property: CommandSwitch("--version-name")] string VersionName
+[property: CliOption("--best-practice-name")] string BestPracticeName,
+[property: CliOption("--version-name")] string VersionName
 ) : AzOptions;

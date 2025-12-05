@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("akshybrid", "notice")]
+[CliSubCommand("akshybrid", "notice")]
 public record AzAkshybridNoticeOptions(
-[property: CommandSwitch("--output-filepath")] string OutputFilepath
+[property: CliOption("--output-filepath")] string OutputFilepath
 ) : AzOptions;

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instance-groups", "managed", "resize")]
+[CliCommand("compute", "instance-groups", "managed", "resize")]
 public record GcloudComputeInstanceGroupsManagedResizeOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--size")] string Size
+[property: CliArgument] string Name,
+[property: CliOption("--size")] string Size
 ) : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

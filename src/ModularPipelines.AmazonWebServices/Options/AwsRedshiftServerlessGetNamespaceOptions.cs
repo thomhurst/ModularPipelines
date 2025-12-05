@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift-serverless", "get-namespace")]
+[CliCommand("redshift-serverless", "get-namespace")]
 public record AwsRedshiftServerlessGetNamespaceOptions(
-[property: CommandSwitch("--namespace-name")] string NamespaceName
+[property: CliOption("--namespace-name")] string NamespaceName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

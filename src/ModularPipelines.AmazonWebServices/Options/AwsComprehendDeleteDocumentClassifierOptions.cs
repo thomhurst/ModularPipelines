@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("comprehend", "delete-document-classifier")]
+[CliCommand("comprehend", "delete-document-classifier")]
 public record AwsComprehendDeleteDocumentClassifierOptions(
-[property: CommandSwitch("--document-classifier-arn")] string DocumentClassifierArn
+[property: CliOption("--document-classifier-arn")] string DocumentClassifierArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

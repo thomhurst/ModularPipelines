@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataprotection", "backup-instance")]
+[CliCommand("dataprotection", "backup-instance")]
 public class AzDataprotectionBackupInstanceDeletedBackupInstance
 {
     public AzDataprotectionBackupInstanceDeletedBackupInstance(

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logicapp")]
+[CliCommand("logicapp")]
 public class AzLogicappDeployment
 {
     public AzLogicappDeployment(

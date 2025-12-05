@@ -5,23 +5,23 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("marketplace-deployment", "put-deployment-parameter")]
+[CliCommand("marketplace-deployment", "put-deployment-parameter")]
 public record AwsMarketplaceDeploymentPutDeploymentParameterOptions(
-[property: CommandSwitch("--agreement-id")] string AgreementId,
-[property: CommandSwitch("--catalog")] string Catalog,
-[property: CommandSwitch("--deployment-parameter")] string DeploymentParameter,
-[property: CommandSwitch("--product-id")] string ProductId
+[property: CliOption("--agreement-id")] string AgreementId,
+[property: CliOption("--catalog")] string Catalog,
+[property: CliOption("--deployment-parameter")] string DeploymentParameter,
+[property: CliOption("--product-id")] string ProductId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--expiration-date")]
+    [CliOption("--expiration-date")]
     public long? ExpirationDate { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

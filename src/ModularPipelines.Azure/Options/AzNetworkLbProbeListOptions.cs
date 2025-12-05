@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "lb", "probe", "list")]
+[CliSubCommand("network", "lb", "probe", "list")]
 public record AzNetworkLbProbeListOptions(
-[property: CommandSwitch("--lb-name")] string LbName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--lb-name")] string LbName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

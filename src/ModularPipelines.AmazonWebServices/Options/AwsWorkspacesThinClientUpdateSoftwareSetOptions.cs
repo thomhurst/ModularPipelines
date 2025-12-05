@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces-thin-client", "update-software-set")]
+[CliCommand("workspaces-thin-client", "update-software-set")]
 public record AwsWorkspacesThinClientUpdateSoftwareSetOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--validation-status")] string ValidationStatus
+[property: CliOption("--id")] string Id,
+[property: CliOption("--validation-status")] string ValidationStatus
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

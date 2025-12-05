@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("braket", "cancel-quantum-task")]
+[CliCommand("braket", "cancel-quantum-task")]
 public record AwsBraketCancelQuantumTaskOptions(
-[property: CommandSwitch("--quantum-task-arn")] string QuantumTaskArn
+[property: CliOption("--quantum-task-arn")] string QuantumTaskArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

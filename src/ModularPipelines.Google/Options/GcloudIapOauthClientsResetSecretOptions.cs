@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iap", "oauth-clients", "reset-secret")]
+[CliCommand("iap", "oauth-clients", "reset-secret")]
 public record GcloudIapOauthClientsResetSecretOptions(
-[property: PositionalArgument] string Name,
-[property: PositionalArgument] string Brand
+[property: CliArgument] string Name,
+[property: CliArgument] string Brand
 ) : GcloudOptions;

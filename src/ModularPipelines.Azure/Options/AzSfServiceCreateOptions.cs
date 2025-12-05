@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "service", "create")]
+[CliSubCommand("sf", "service", "create")]
 public record AzSfServiceCreateOptions(
-[property: CommandSwitch("--application")] string Application,
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service-type")] string ServiceType,
-[property: CommandSwitch("--state")] string State
+[property: CliOption("--application")] string Application,
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service-type")] string ServiceType,
+[property: CliOption("--state")] string State
 ) : AzOptions
 {
-    [CommandSwitch("--default-move-cost")]
+    [CliOption("--default-move-cost")]
     public string? DefaultMoveCost { get; set; }
 
-    [CommandSwitch("--instance-count")]
+    [CliOption("--instance-count")]
     public int? InstanceCount { get; set; }
 
-    [CommandSwitch("--min-replica")]
+    [CliOption("--min-replica")]
     public string? MinReplica { get; set; }
 
-    [CommandSwitch("--partition-scheme")]
+    [CliOption("--partition-scheme")]
     public string? PartitionScheme { get; set; }
 
-    [CommandSwitch("--target-replica")]
+    [CliOption("--target-replica")]
     public string? TargetReplica { get; set; }
 }

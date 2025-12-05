@@ -5,23 +5,23 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vpc-lattice", "create-listener")]
+[CliCommand("vpc-lattice", "create-listener")]
 public record AwsVpcLatticeCreateListenerOptions(
-[property: CommandSwitch("--default-action")] string DefaultAction,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--protocol")] string Protocol,
-[property: CommandSwitch("--service-identifier")] string ServiceIdentifier
+[property: CliOption("--default-action")] string DefaultAction,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--protocol")] string Protocol,
+[property: CliOption("--service-identifier")] string ServiceIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

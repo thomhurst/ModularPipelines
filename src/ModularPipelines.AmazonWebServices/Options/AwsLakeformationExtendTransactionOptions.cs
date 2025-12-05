@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lakeformation", "extend-transaction")]
+[CliCommand("lakeformation", "extend-transaction")]
 public record AwsLakeformationExtendTransactionOptions : AwsOptions
 {
-    [CommandSwitch("--transaction-id")]
+    [CliOption("--transaction-id")]
     public string? TransactionId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

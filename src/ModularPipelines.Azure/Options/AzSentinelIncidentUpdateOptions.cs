@@ -4,75 +4,75 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "incident", "update")]
+[CliSubCommand("sentinel", "incident", "update")]
 public record AzSentinelIncidentUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--classification")]
+    [CliFlag("--classification")]
     public bool? Classification { get; set; }
 
-    [CommandSwitch("--classification-comment")]
+    [CliOption("--classification-comment")]
     public string? ClassificationComment { get; set; }
 
-    [CommandSwitch("--classification-reason")]
+    [CliOption("--classification-reason")]
     public string? ClassificationReason { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [CommandSwitch("--first-activity-time-utc")]
+    [CliOption("--first-activity-time-utc")]
     public string? FirstActivityTimeUtc { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--incident-id")]
+    [CliOption("--incident-id")]
     public string? IncidentId { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 
-    [CommandSwitch("--last-activity-time-utc")]
+    [CliOption("--last-activity-time-utc")]
     public string? LastActivityTimeUtc { get; set; }
 
-    [CommandSwitch("--owner")]
+    [CliOption("--owner")]
     public string? Owner { get; set; }
 
-    [CommandSwitch("--provider-incident-id")]
+    [CliOption("--provider-incident-id")]
     public string? ProviderIncidentId { get; set; }
 
-    [CommandSwitch("--provider-name")]
+    [CliOption("--provider-name")]
     public string? ProviderName { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--severity")]
+    [CliOption("--severity")]
     public string? Severity { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--title")]
+    [CliOption("--title")]
     public string? Title { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("site-recovery", "job", "export")]
+[CliSubCommand("site-recovery", "job", "export")]
 public record AzSiteRecoveryJobExportOptions : AzOptions
 {
-    [CommandSwitch("--affected-object-types")]
+    [CliOption("--affected-object-types")]
     public string? AffectedObjectTypes { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
-    [CommandSwitch("--fabric-id")]
+    [CliOption("--fabric-id")]
     public string? FabricId { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--job-name")]
+    [CliOption("--job-name")]
     public string? JobName { get; set; }
 
-    [CommandSwitch("--job-output-type")]
+    [CliOption("--job-output-type")]
     public string? JobOutputType { get; set; }
 
-    [CommandSwitch("--job-status")]
+    [CliOption("--job-status")]
     public string? JobStatus { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public string? StartTime { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--timezone-offset")]
+    [CliOption("--timezone-offset")]
     public string? TimezoneOffset { get; set; }
 
-    [CommandSwitch("--vault-name")]
+    [CliOption("--vault-name")]
     public string? VaultName { get; set; }
 }

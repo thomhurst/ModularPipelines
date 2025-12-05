@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-route-table")]
+[CliCommand("ec2", "create-route-table")]
 public record AwsEc2CreateRouteTableOptions(
-[property: CommandSwitch("--vpc-id")] string VpcId
+[property: CliOption("--vpc-id")] string VpcId
 ) : AwsOptions
 {
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

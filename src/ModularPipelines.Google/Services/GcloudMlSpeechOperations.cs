@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "speech")]
+[CliCommand("ml", "speech")]
 public class GcloudMlSpeechOperations
 {
     public GcloudMlSpeechOperations(

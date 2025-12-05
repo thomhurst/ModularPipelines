@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("omics", "upload-read-set-part")]
+[CliCommand("omics", "upload-read-set-part")]
 public record AwsOmicsUploadReadSetPartOptions(
-[property: CommandSwitch("--sequence-store-id")] string SequenceStoreId,
-[property: CommandSwitch("--upload-id")] string UploadId,
-[property: CommandSwitch("--part-source")] string PartSource,
-[property: CommandSwitch("--part-number")] int PartNumber,
-[property: CommandSwitch("--payload")] string Payload
+[property: CliOption("--sequence-store-id")] string SequenceStoreId,
+[property: CliOption("--upload-id")] string UploadId,
+[property: CliOption("--part-source")] string PartSource,
+[property: CliOption("--part-number")] int PartNumber,
+[property: CliOption("--payload")] string Payload
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

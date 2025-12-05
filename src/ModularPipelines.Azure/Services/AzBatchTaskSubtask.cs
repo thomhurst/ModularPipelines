@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "task")]
+[CliCommand("batch", "task")]
 public class AzBatchTaskSubtask
 {
     public AzBatchTaskSubtask(

@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "generate-data-key-pair-without-plaintext")]
+[CliCommand("kms", "generate-data-key-pair-without-plaintext")]
 public record AwsKmsGenerateDataKeyPairWithoutPlaintextOptions(
-[property: CommandSwitch("--key-id")] string KeyId,
-[property: CommandSwitch("--key-pair-spec")] string KeyPairSpec
+[property: CliOption("--key-id")] string KeyId,
+[property: CliOption("--key-pair-spec")] string KeyPairSpec
 ) : AwsOptions
 {
-    [CommandSwitch("--encryption-context")]
+    [CliOption("--encryption-context")]
     public IEnumerable<KeyValue>? EncryptionContext { get; set; }
 
-    [CommandSwitch("--grant-tokens")]
+    [CliOption("--grant-tokens")]
     public string[]? GrantTokens { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

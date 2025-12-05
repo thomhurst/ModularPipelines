@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "rollouts", "advance")]
+[CliCommand("deploy", "rollouts", "advance")]
 public record GcloudDeployRolloutsAdvanceOptions(
-[property: PositionalArgument] string Rollout,
-[property: PositionalArgument] string DeliveryPipeline,
-[property: PositionalArgument] string Region,
-[property: PositionalArgument] string Release
+[property: CliArgument] string Rollout,
+[property: CliArgument] string DeliveryPipeline,
+[property: CliArgument] string Region,
+[property: CliArgument] string Release
 ) : GcloudOptions
 {
-    [CommandSwitch("--phase-id")]
+    [CliOption("--phase-id")]
     public string? PhaseId { get; set; }
 }

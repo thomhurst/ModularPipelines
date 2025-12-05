@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("comprehendmedical", "infer-icd10-cm")]
+[CliCommand("comprehendmedical", "infer-icd10-cm")]
 public record AwsComprehendmedicalInferIcd10CmOptions(
-[property: CommandSwitch("--text")] string Text
+[property: CliOption("--text")] string Text
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

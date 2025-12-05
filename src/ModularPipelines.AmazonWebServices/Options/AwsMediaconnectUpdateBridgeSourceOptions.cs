@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediaconnect", "update-bridge-source")]
+[CliCommand("mediaconnect", "update-bridge-source")]
 public record AwsMediaconnectUpdateBridgeSourceOptions(
-[property: CommandSwitch("--bridge-arn")] string BridgeArn,
-[property: CommandSwitch("--source-name")] string SourceName
+[property: CliOption("--bridge-arn")] string BridgeArn,
+[property: CliOption("--source-name")] string SourceName
 ) : AwsOptions
 {
-    [CommandSwitch("--flow-source")]
+    [CliOption("--flow-source")]
     public string? FlowSource { get; set; }
 
-    [CommandSwitch("--network-source")]
+    [CliOption("--network-source")]
     public string? NetworkSource { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

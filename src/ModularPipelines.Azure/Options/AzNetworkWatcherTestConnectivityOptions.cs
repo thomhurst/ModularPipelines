@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "watcher", "test-connectivity")]
+[CliSubCommand("network", "watcher", "test-connectivity")]
 public record AzNetworkWatcherTestConnectivityOptions(
-[property: CommandSwitch("--source-resource")] string SourceResource
+[property: CliOption("--source-resource")] string SourceResource
 ) : AzOptions
 {
-    [CommandSwitch("--dest-address")]
+    [CliOption("--dest-address")]
     public string? DestAddress { get; set; }
 
-    [CommandSwitch("--dest-port")]
+    [CliOption("--dest-port")]
     public string? DestPort { get; set; }
 
-    [CommandSwitch("--dest-resource")]
+    [CliOption("--dest-resource")]
     public string? DestResource { get; set; }
 
-    [CommandSwitch("--headers")]
+    [CliOption("--headers")]
     public string? Headers { get; set; }
 
-    [CommandSwitch("--method")]
+    [CliOption("--method")]
     public string? Method { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--source-port")]
+    [CliOption("--source-port")]
     public string? SourcePort { get; set; }
 
-    [CommandSwitch("--valid-status-codes")]
+    [CliOption("--valid-status-codes")]
     public string? ValidStatusCodes { get; set; }
 }

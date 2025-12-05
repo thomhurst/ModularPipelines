@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apprunner", "list-observability-configurations")]
+[CliCommand("apprunner", "list-observability-configurations")]
 public record AwsApprunnerListObservabilityConfigurationsOptions : AwsOptions
 {
-    [CommandSwitch("--observability-configuration-name")]
+    [CliOption("--observability-configuration-name")]
     public string? ObservabilityConfigurationName { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

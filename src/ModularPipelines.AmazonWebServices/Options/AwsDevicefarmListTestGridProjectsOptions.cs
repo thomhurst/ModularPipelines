@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devicefarm", "list-test-grid-projects")]
+[CliCommand("devicefarm", "list-test-grid-projects")]
 public record AwsDevicefarmListTestGridProjectsOptions : AwsOptions
 {
-    [CommandSwitch("--max-result")]
+    [CliOption("--max-result")]
     public int? MaxResult { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

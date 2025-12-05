@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "network-firewall-policies", "clone-rules")]
+[CliCommand("compute", "network-firewall-policies", "clone-rules")]
 public record GcloudComputeNetworkFirewallPoliciesCloneRulesOptions(
-[property: PositionalArgument] string FirewallPolicy,
-[property: CommandSwitch("--source-firewall-policy")] string SourceFirewallPolicy
+[property: CliArgument] string FirewallPolicy,
+[property: CliOption("--source-firewall-policy")] string SourceFirewallPolicy
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

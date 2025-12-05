@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeartifact", "delete-domain-permissions-policy")]
+[CliCommand("codeartifact", "delete-domain-permissions-policy")]
 public record AwsCodeartifactDeleteDomainPermissionsPolicyOptions(
-[property: CommandSwitch("--domain")] string Domain
+[property: CliOption("--domain")] string Domain
 ) : AwsOptions
 {
-    [CommandSwitch("--domain-owner")]
+    [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
-    [CommandSwitch("--policy-revision")]
+    [CliOption("--policy-revision")]
     public string? PolicyRevision { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

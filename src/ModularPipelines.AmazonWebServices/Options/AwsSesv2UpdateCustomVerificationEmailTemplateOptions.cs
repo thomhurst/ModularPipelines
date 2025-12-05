@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sesv2", "update-custom-verification-email-template")]
+[CliCommand("sesv2", "update-custom-verification-email-template")]
 public record AwsSesv2UpdateCustomVerificationEmailTemplateOptions(
-[property: CommandSwitch("--template-name")] string TemplateName,
-[property: CommandSwitch("--from-email-address")] string FromEmailAddress,
-[property: CommandSwitch("--template-subject")] string TemplateSubject,
-[property: CommandSwitch("--template-content")] string TemplateContent,
-[property: CommandSwitch("--success-redirection-url")] string SuccessRedirectionUrl,
-[property: CommandSwitch("--failure-redirection-url")] string FailureRedirectionUrl
+[property: CliOption("--template-name")] string TemplateName,
+[property: CliOption("--from-email-address")] string FromEmailAddress,
+[property: CliOption("--template-subject")] string TemplateSubject,
+[property: CliOption("--template-content")] string TemplateContent,
+[property: CliOption("--success-redirection-url")] string SuccessRedirectionUrl,
+[property: CliOption("--failure-redirection-url")] string FailureRedirectionUrl
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

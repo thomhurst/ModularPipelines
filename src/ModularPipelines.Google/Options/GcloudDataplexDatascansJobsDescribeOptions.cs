@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataplex", "datascans", "jobs", "describe")]
+[CliCommand("dataplex", "datascans", "jobs", "describe")]
 public record GcloudDataplexDatascansJobsDescribeOptions(
-[property: PositionalArgument] string Job,
-[property: PositionalArgument] string Datascan,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Job,
+[property: CliArgument] string Datascan,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--view")]
+    [CliOption("--view")]
     public string? View { get; set; }
 }

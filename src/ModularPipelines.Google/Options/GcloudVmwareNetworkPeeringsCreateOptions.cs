@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "network-peerings", "create")]
+[CliCommand("vmware", "network-peerings", "create")]
 public record GcloudVmwareNetworkPeeringsCreateOptions(
-[property: PositionalArgument] string NetworkPeering,
-[property: CommandSwitch("--peer-network")] string PeerNetwork,
-[property: CommandSwitch("--peer-network-type")] string PeerNetworkType,
-[property: CommandSwitch("--vmware-engine-network")] string VmwareEngineNetwork
+[property: CliArgument] string NetworkPeering,
+[property: CliOption("--peer-network")] string PeerNetwork,
+[property: CliOption("--peer-network-type")] string PeerNetworkType,
+[property: CliOption("--vmware-engine-network")] string VmwareEngineNetwork
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--exchange-subnet-routes")]
+    [CliFlag("--exchange-subnet-routes")]
     public bool? ExchangeSubnetRoutes { get; set; }
 
-    [BooleanCommandSwitch("--export-custom-routes")]
+    [CliFlag("--export-custom-routes")]
     public bool? ExportCustomRoutes { get; set; }
 
-    [BooleanCommandSwitch("--export-custom-routes-with-public-ip")]
+    [CliFlag("--export-custom-routes-with-public-ip")]
     public bool? ExportCustomRoutesWithPublicIp { get; set; }
 
-    [BooleanCommandSwitch("--import-custom-routes")]
+    [CliFlag("--import-custom-routes")]
     public bool? ImportCustomRoutes { get; set; }
 
-    [BooleanCommandSwitch("--import-custom-routes-with-public-ip")]
+    [CliFlag("--import-custom-routes-with-public-ip")]
     public bool? ImportCustomRoutesWithPublicIp { get; set; }
 
-    [CommandSwitch("--peer-mtu")]
+    [CliOption("--peer-mtu")]
     public string? PeerMtu { get; set; }
 
-    [CommandSwitch("--peer-project")]
+    [CliOption("--peer-project")]
     public string? PeerProject { get; set; }
 }

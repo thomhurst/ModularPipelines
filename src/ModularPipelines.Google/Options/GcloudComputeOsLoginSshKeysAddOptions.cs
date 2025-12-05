@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "os-login", "ssh-keys", "add")]
+[CliCommand("compute", "os-login", "ssh-keys", "add")]
 public record GcloudComputeOsLoginSshKeysAddOptions(
-[property: CommandSwitch("--key")] string Key,
-[property: CommandSwitch("--key-file")] string KeyFile
+[property: CliOption("--key")] string Key,
+[property: CliOption("--key-file")] string KeyFile
 ) : GcloudOptions
 {
-    [CommandSwitch("--ttl")]
+    [CliOption("--ttl")]
     public string? Ttl { get; set; }
 }

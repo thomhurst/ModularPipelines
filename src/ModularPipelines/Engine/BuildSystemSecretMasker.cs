@@ -9,7 +9,7 @@ namespace ModularPipelines.Engine;
 /// - GitHub Actions: ::add-mask::
 /// - Azure Pipelines: ##vso[task.setvariable variable=X;issecret=true]
 /// - TeamCity: ##teamcity[setParameter name='system.password.X' value='...']
-/// - GitLab, Jenkins, etc.: Handled via configuration, no runtime command
+/// - GitLab, Jenkins, etc.: Handled via configuration, no runtime command.
 /// </remarks>
 /// <example>
 /// <code>

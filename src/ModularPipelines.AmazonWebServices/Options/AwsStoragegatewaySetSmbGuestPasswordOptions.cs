@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "set-smb-guest-password")]
+[CliCommand("storagegateway", "set-smb-guest-password")]
 public record AwsStoragegatewaySetSmbGuestPasswordOptions(
-[property: CommandSwitch("--gateway-arn")] string GatewayArn,
-[property: CommandSwitch("--password")] string Password
+[property: CliOption("--gateway-arn")] string GatewayArn,
+[property: CliOption("--password")] string Password
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

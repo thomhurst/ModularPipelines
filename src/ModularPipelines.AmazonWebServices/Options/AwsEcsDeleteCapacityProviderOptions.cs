@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "delete-capacity-provider")]
+[CliCommand("ecs", "delete-capacity-provider")]
 public record AwsEcsDeleteCapacityProviderOptions(
-[property: CommandSwitch("--capacity-provider")] string CapacityProvider
+[property: CliOption("--capacity-provider")] string CapacityProvider
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

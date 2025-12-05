@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "connection", "create", "postgres-flexible")]
+[CliCommand("containerapp", "connection", "create", "postgres-flexible")]
 public class AzContainerappConnectionCreatePostgresFlexibleServiceconnectorPasswordless
 {
     public AzContainerappConnectionCreatePostgresFlexibleServiceconnectorPasswordless(

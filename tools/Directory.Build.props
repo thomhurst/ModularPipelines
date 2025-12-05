@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <!-- Import parent props but override StyleCop settings for tools -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <!-- Disable StyleCop for tool projects -->
+  <ItemGroup>
+    <PackageReference Remove="StyleCop.Analyzers" />
+  </ItemGroup>
+
+  <!-- Also skip the development analyzers for tools -->
+  <ItemGroup>
+    <ProjectReference Remove="$(MSBuildThisFileDirectory)..\src\ModularPipelines.Development.Analyzers\ModularPipelines.Development.Analyzers.csproj" />
+  </ItemGroup>
+
+  <!-- Don't treat warnings as errors for tool projects (more lenient) -->
+  <PropertyGroup>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+</Project>

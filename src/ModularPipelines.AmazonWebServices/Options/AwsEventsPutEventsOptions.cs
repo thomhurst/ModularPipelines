@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("events", "put-events")]
+[CliCommand("events", "put-events")]
 public record AwsEventsPutEventsOptions(
-[property: CommandSwitch("--entries")] string[] Entries
+[property: CliOption("--entries")] string[] Entries
 ) : AwsOptions
 {
-    [CommandSwitch("--endpoint-id")]
+    [CliOption("--endpoint-id")]
     public string? EndpointId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

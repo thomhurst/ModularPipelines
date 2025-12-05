@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apim", "graphql", "resolver", "create")]
+[CliSubCommand("apim", "graphql", "resolver", "create")]
 public record AzApimGraphqlResolverCreateOptions(
-[property: CommandSwitch("--api-id")] string ApiId,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--path")] string Path,
-[property: CommandSwitch("--resolver-id")] string ResolverId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--api-id")] string ApiId,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--path")] string Path,
+[property: CliOption("--resolver-id")] string ResolverId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service-name")] string ServiceName
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 }

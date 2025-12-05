@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iottwinmaker", "list-sync-resources")]
+[CliCommand("iottwinmaker", "list-sync-resources")]
 public record AwsIottwinmakerListSyncResourcesOptions(
-[property: CommandSwitch("--workspace-id")] string WorkspaceId,
-[property: CommandSwitch("--sync-source")] string SyncSource
+[property: CliOption("--workspace-id")] string WorkspaceId,
+[property: CliOption("--sync-source")] string SyncSource
 ) : AwsOptions
 {
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

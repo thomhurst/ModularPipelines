@@ -4,56 +4,56 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deployment", "group", "create")]
+[CliSubCommand("deployment", "group", "create")]
 public record AzDeploymentGroupCreateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--aux-tenants")]
+    [CliOption("--aux-tenants")]
     public string? AuxTenants { get; set; }
 
-    [CommandSwitch("--confirm-with-what-if")]
+    [CliOption("--confirm-with-what-if")]
     public string? ConfirmWithWhatIf { get; set; }
 
-    [CommandSwitch("--mode")]
+    [CliOption("--mode")]
     public string? Mode { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-prompt")]
+    [CliFlag("--no-prompt")]
     public bool? NoPrompt { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--proceed-if-no-change")]
+    [CliOption("--proceed-if-no-change")]
     public string? ProceedIfNoChange { get; set; }
 
-    [CommandSwitch("--query-string")]
+    [CliOption("--query-string")]
     public string? QueryString { get; set; }
 
-    [CommandSwitch("--rollback-on-error")]
+    [CliOption("--rollback-on-error")]
     public string? RollbackOnError { get; set; }
 
-    [CommandSwitch("--template-file")]
+    [CliOption("--template-file")]
     public string? TemplateFile { get; set; }
 
-    [CommandSwitch("--template-spec")]
+    [CliOption("--template-spec")]
     public string? TemplateSpec { get; set; }
 
-    [CommandSwitch("--template-uri")]
+    [CliOption("--template-uri")]
     public string? TemplateUri { get; set; }
 
-    [CommandSwitch("--what-if")]
+    [CliOption("--what-if")]
     public string? WhatIf { get; set; }
 
-    [CommandSwitch("--what-if-exclude-change-types")]
+    [CliOption("--what-if-exclude-change-types")]
     public string? WhatIfExcludeChangeTypes { get; set; }
 
-    [CommandSwitch("--what-if-result-format")]
+    [CliOption("--what-if-result-format")]
     public string? WhatIfResultFormat { get; set; }
 }

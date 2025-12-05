@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeartifact", "put-package-origin-configuration")]
+[CliCommand("codeartifact", "put-package-origin-configuration")]
 public record AwsCodeartifactPutPackageOriginConfigurationOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--repository")] string Repository,
-[property: CommandSwitch("--format")] string Format,
-[property: CommandSwitch("--package")] string Package,
-[property: CommandSwitch("--restrictions")] string Restrictions
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--repository")] string Repository,
+[property: CliOption("--format")] string Format,
+[property: CliOption("--package")] string Package,
+[property: CliOption("--restrictions")] string Restrictions
 ) : AwsOptions
 {
-    [CommandSwitch("--domain-owner")]
+    [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

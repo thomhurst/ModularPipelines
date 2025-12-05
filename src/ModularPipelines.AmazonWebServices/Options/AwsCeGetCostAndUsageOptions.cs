@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ce", "get-cost-and-usage")]
+[CliCommand("ce", "get-cost-and-usage")]
 public record AwsCeGetCostAndUsageOptions(
-[property: CommandSwitch("--time-period")] string TimePeriod,
-[property: CommandSwitch("--granularity")] string Granularity,
-[property: CommandSwitch("--metrics")] string[] Metrics
+[property: CliOption("--time-period")] string TimePeriod,
+[property: CliOption("--granularity")] string Granularity,
+[property: CliOption("--metrics")] string[] Metrics
 ) : AwsOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--group-by")]
+    [CliOption("--group-by")]
     public string[]? GroupBy { get; set; }
 
-    [CommandSwitch("--next-page-token")]
+    [CliOption("--next-page-token")]
     public string? NextPageToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

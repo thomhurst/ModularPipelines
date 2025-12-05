@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codestar-connections", "get-connection")]
+[CliCommand("codestar-connections", "get-connection")]
 public record AwsCodestarConnectionsGetConnectionOptions(
-[property: CommandSwitch("--connection-arn")] string ConnectionArn
+[property: CliOption("--connection-arn")] string ConnectionArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

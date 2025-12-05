@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops-guru", "update-event-sources-config")]
+[CliCommand("devops-guru", "update-event-sources-config")]
 public record AwsDevopsGuruUpdateEventSourcesConfigOptions : AwsOptions
 {
-    [CommandSwitch("--event-sources")]
+    [CliOption("--event-sources")]
     public string? EventSources { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "snapshot-settings", "update")]
+[CliCommand("compute", "snapshot-settings", "update")]
 public record GcloudComputeSnapshotSettingsUpdateOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--storage-location-names")]
+    [CliOption("--storage-location-names")]
     public string[]? StorageLocationNames { get; set; }
 
-    [CommandSwitch("--storage-location-policy")]
+    [CliOption("--storage-location-policy")]
     public string? StorageLocationPolicy { get; set; }
 }

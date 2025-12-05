@@ -3,301 +3,301 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("show")]
+[CliSubCommand("show")]
 [ExcludeFromCodeCoverage]
 public record GitShowOptions : GitOptions
 {
-    [CommandEqualsSeparatorSwitch("--pretty")]
-    public string? Pretty { get; set; }
+    [CliOption("--pretty", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Pretty { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--format")]
-    public string? Format { get; set; }
+    [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Format { get; set; }
 
-    [BooleanCommandSwitch("--abbrev-commit")]
+    [CliFlag("--abbrev-commit")]
     public virtual bool? AbbrevCommit { get; set; }
 
-    [BooleanCommandSwitch("--no-abbrev-commit")]
+    [CliFlag("--no-abbrev-commit")]
     public virtual bool? NoAbbrevCommit { get; set; }
 
-    [BooleanCommandSwitch("--oneline")]
+    [CliFlag("--oneline")]
     public virtual bool? Oneline { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--encoding")]
-    public string? Encoding { get; set; }
+    [CliOption("--encoding", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Encoding { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--expand-tabs")]
-    public string? ExpandTabs { get; set; }
+    [CliOption("--expand-tabs", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ExpandTabs { get; set; }
 
-    [BooleanCommandSwitch("--no-expand-tabs")]
+    [CliFlag("--no-expand-tabs")]
     public virtual bool? NoExpandTabs { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--notes")]
-    public string? Notes { get; set; }
+    [CliOption("--notes", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Notes { get; set; }
 
-    [BooleanCommandSwitch("--no-notes")]
+    [CliFlag("--no-notes")]
     public virtual bool? NoNotes { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--show-notes")]
-    public string? ShowNotes { get; set; }
+    [CliOption("--show-notes", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ShowNotes { get; set; }
 
-    [BooleanCommandSwitch("--no-standard-notes")]
+    [CliFlag("--no-standard-notes")]
     public virtual bool? NoStandardNotes { get; set; }
 
-    [BooleanCommandSwitch("--standard-notes")]
+    [CliFlag("--standard-notes")]
     public virtual bool? StandardNotes { get; set; }
 
-    [BooleanCommandSwitch("--show-signature")]
+    [CliFlag("--show-signature")]
     public virtual bool? ShowSignature { get; set; }
 
-    [BooleanCommandSwitch("--patch")]
+    [CliFlag("--patch")]
     public virtual bool? Patch { get; set; }
 
-    [BooleanCommandSwitch("--no-patch")]
+    [CliFlag("--no-patch")]
     public virtual bool? NoPatch { get; set; }
 
-    [BooleanCommandSwitch("--diff-merges")]
+    [CliFlag("--diff-merges")]
     public virtual bool? DiffMerges { get; set; }
 
-    [BooleanCommandSwitch("--no-diff-merges")]
+    [CliFlag("--no-diff-merges")]
     public virtual bool? NoDiffMerges { get; set; }
 
-    [BooleanCommandSwitch("--remerge-diff")]
+    [CliFlag("--remerge-diff")]
     public virtual bool? RemergeDiff { get; set; }
 
-    [BooleanCommandSwitch("--c")]
+    [CliFlag("--c")]
     public virtual bool? C { get; set; }
 
-    [BooleanCommandSwitch("--cc")]
+    [CliFlag("--cc")]
     public virtual bool? Cc { get; set; }
 
-    [BooleanCommandSwitch("--combined-all-paths")]
+    [CliFlag("--combined-all-paths")]
     public virtual bool? CombinedAllPaths { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--unified")]
-    public string? Unified { get; set; }
+    [CliOption("--unified", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Unified { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output")]
-    public string? Output { get; set; }
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output-indicator-new")]
-    public string? OutputIndicatorNew { get; set; }
+    [CliOption("--output-indicator-new", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? OutputIndicatorNew { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output-indicator-old")]
-    public string? OutputIndicatorOld { get; set; }
+    [CliOption("--output-indicator-old", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? OutputIndicatorOld { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output-indicator-context")]
-    public string? OutputIndicatorContext { get; set; }
+    [CliOption("--output-indicator-context", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? OutputIndicatorContext { get; set; }
 
-    [BooleanCommandSwitch("--raw")]
+    [CliFlag("--raw")]
     public virtual bool? Raw { get; set; }
 
-    [BooleanCommandSwitch("--patch-with-raw")]
+    [CliFlag("--patch-with-raw")]
     public virtual bool? PatchWithRaw { get; set; }
 
-    [BooleanCommandSwitch("--indent-heuristic")]
+    [CliFlag("--indent-heuristic")]
     public virtual bool? IndentHeuristic { get; set; }
 
-    [BooleanCommandSwitch("--no-indent-heuristic")]
+    [CliFlag("--no-indent-heuristic")]
     public virtual bool? NoIndentHeuristic { get; set; }
 
-    [BooleanCommandSwitch("--minimal")]
+    [CliFlag("--minimal")]
     public virtual bool? Minimal { get; set; }
 
-    [BooleanCommandSwitch("--patience")]
+    [CliFlag("--patience")]
     public virtual bool? Patience { get; set; }
 
-    [BooleanCommandSwitch("--histogram")]
+    [CliFlag("--histogram")]
     public virtual bool? Histogram { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--anchored")]
-    public string? Anchored { get; set; }
+    [CliOption("--anchored", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Anchored { get; set; }
 
-    [BooleanCommandSwitch("--diff-algorithm")]
+    [CliFlag("--diff-algorithm")]
     public virtual bool? DiffAlgorithm { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--stat")]
-    public string? Stat { get; set; }
+    [CliOption("--stat", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Stat { get; set; }
 
-    [BooleanCommandSwitch("--compact-summary")]
+    [CliFlag("--compact-summary")]
     public virtual bool? CompactSummary { get; set; }
 
-    [BooleanCommandSwitch("--numstat")]
+    [CliFlag("--numstat")]
     public virtual bool? Numstat { get; set; }
 
-    [BooleanCommandSwitch("--shortstat")]
+    [CliFlag("--shortstat")]
     public virtual bool? Shortstat { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dirstat")]
-    public string? Dirstat { get; set; }
+    [CliOption("--dirstat", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Dirstat { get; set; }
 
-    [BooleanCommandSwitch("--cumulative")]
+    [CliFlag("--cumulative")]
     public virtual bool? Cumulative { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dirstat-by-file")]
-    public string? DirstatByFile { get; set; }
+    [CliOption("--dirstat-by-file", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? DirstatByFile { get; set; }
 
-    [BooleanCommandSwitch("--summary")]
+    [CliFlag("--summary")]
     public virtual bool? Summary { get; set; }
 
-    [BooleanCommandSwitch("--patch-with-stat")]
+    [CliFlag("--patch-with-stat")]
     public virtual bool? PatchWithStat { get; set; }
 
-    [BooleanCommandSwitch("--name-only")]
+    [CliFlag("--name-only")]
     public virtual bool? NameOnly { get; set; }
 
-    [BooleanCommandSwitch("--name-status")]
+    [CliFlag("--name-status")]
     public virtual bool? NameStatus { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--submodule")]
-    public string? Submodule { get; set; }
+    [CliOption("--submodule", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Submodule { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--color")]
-    public string? Color { get; set; }
+    [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Color { get; set; }
 
-    [BooleanCommandSwitch("--no-color")]
+    [CliFlag("--no-color")]
     public virtual bool? NoColor { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--color-moved")]
-    public string? ColorMoved { get; set; }
+    [CliOption("--color-moved", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ColorMoved { get; set; }
 
-    [BooleanCommandSwitch("--no-color-moved")]
+    [CliFlag("--no-color-moved")]
     public virtual bool? NoColorMoved { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--color-moved-ws")]
-    public string? ColorMovedWs { get; set; }
+    [CliOption("--color-moved-ws", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ColorMovedWs { get; set; }
 
-    [BooleanCommandSwitch("--no-color-moved-ws")]
+    [CliFlag("--no-color-moved-ws")]
     public virtual bool? NoColorMovedWs { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--word-diff")]
-    public string? WordDiff { get; set; }
+    [CliOption("--word-diff", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? WordDiff { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--word-diff-regex")]
-    public string? WordDiffRegex { get; set; }
+    [CliOption("--word-diff-regex", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? WordDiffRegex { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--color-words")]
-    public string? ColorWords { get; set; }
+    [CliOption("--color-words", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ColorWords { get; set; }
 
-    [BooleanCommandSwitch("--no-renames")]
+    [CliFlag("--no-renames")]
     public virtual bool? NoRenames { get; set; }
 
-    [BooleanCommandSwitch("--no-rename-empty")]
+    [CliFlag("--no-rename-empty")]
     public virtual bool? NoRenameEmpty { get; set; }
 
-    [BooleanCommandSwitch("--rename-empty")]
+    [CliFlag("--rename-empty")]
     public virtual bool? RenameEmpty { get; set; }
 
-    [BooleanCommandSwitch("--check")]
+    [CliFlag("--check")]
     public virtual bool? Check { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--ws-error-highlight")]
-    public string? WsErrorHighlight { get; set; }
+    [CliOption("--ws-error-highlight", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? WsErrorHighlight { get; set; }
 
-    [BooleanCommandSwitch("--full-index")]
+    [CliFlag("--full-index")]
     public virtual bool? FullIndex { get; set; }
 
-    [BooleanCommandSwitch("--binary")]
+    [CliFlag("--binary")]
     public virtual bool? Binary { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--abbrev")]
-    public string? Abbrev { get; set; }
+    [CliOption("--abbrev", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Abbrev { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--break-rewrites")]
-    public string? BreakRewrites { get; set; }
+    [CliOption("--break-rewrites", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? BreakRewrites { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--find-renames")]
-    public string? FindRenames { get; set; }
+    [CliOption("--find-renames", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? FindRenames { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--find-copies")]
-    public string? FindCopies { get; set; }
+    [CliOption("--find-copies", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? FindCopies { get; set; }
 
-    [BooleanCommandSwitch("--find-copies-harder")]
+    [CliFlag("--find-copies-harder")]
     public virtual bool? FindCopiesHarder { get; set; }
 
-    [BooleanCommandSwitch("--irreversible-delete")]
+    [CliFlag("--irreversible-delete")]
     public virtual bool? IrreversibleDelete { get; set; }
 
-    [BooleanCommandSwitch("--diff-filter")]
+    [CliFlag("--diff-filter")]
     public virtual bool? DiffFilter { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--find-object")]
-    public string? FindObject { get; set; }
+    [CliOption("--find-object", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? FindObject { get; set; }
 
-    [BooleanCommandSwitch("--pickaxe-all")]
+    [CliFlag("--pickaxe-all")]
     public virtual bool? PickaxeAll { get; set; }
 
-    [BooleanCommandSwitch("--pickaxe-regex")]
+    [CliFlag("--pickaxe-regex")]
     public virtual bool? PickaxeRegex { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--skip-to")]
-    public string? SkipTo { get; set; }
+    [CliOption("--skip-to", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? SkipTo { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--rotate-to")]
-    public string? RotateTo { get; set; }
+    [CliOption("--rotate-to", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? RotateTo { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--relative")]
-    public string? Relative { get; set; }
+    [CliOption("--relative", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Relative { get; set; }
 
-    [BooleanCommandSwitch("--no-relative")]
+    [CliFlag("--no-relative")]
     public virtual bool? NoRelative { get; set; }
 
-    [BooleanCommandSwitch("--text")]
+    [CliFlag("--text")]
     public virtual bool? Text { get; set; }
 
-    [BooleanCommandSwitch("--ignore-cr-at-eol")]
+    [CliFlag("--ignore-cr-at-eol")]
     public virtual bool? IgnoreCrAtEol { get; set; }
 
-    [BooleanCommandSwitch("--ignore-space-at-eol")]
+    [CliFlag("--ignore-space-at-eol")]
     public virtual bool? IgnoreSpaceAtEol { get; set; }
 
-    [BooleanCommandSwitch("--ignore-space-change")]
+    [CliFlag("--ignore-space-change")]
     public virtual bool? IgnoreSpaceChange { get; set; }
 
-    [BooleanCommandSwitch("--ignore-all-space")]
+    [CliFlag("--ignore-all-space")]
     public virtual bool? IgnoreAllSpace { get; set; }
 
-    [BooleanCommandSwitch("--ignore-blank-lines")]
+    [CliFlag("--ignore-blank-lines")]
     public virtual bool? IgnoreBlankLines { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--ignore-matching-lines")]
-    public string? IgnoreMatchingLines { get; set; }
+    [CliOption("--ignore-matching-lines", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? IgnoreMatchingLines { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--inter-hunk-context")]
-    public string? InterHunkContext { get; set; }
+    [CliOption("--inter-hunk-context", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? InterHunkContext { get; set; }
 
-    [BooleanCommandSwitch("--function-context")]
+    [CliFlag("--function-context")]
     public virtual bool? FunctionContext { get; set; }
 
-    [BooleanCommandSwitch("--ext-diff")]
+    [CliFlag("--ext-diff")]
     public virtual bool? ExtDiff { get; set; }
 
-    [BooleanCommandSwitch("--no-ext-diff")]
+    [CliFlag("--no-ext-diff")]
     public virtual bool? NoExtDiff { get; set; }
 
-    [BooleanCommandSwitch("--textconv")]
+    [CliFlag("--textconv")]
     public virtual bool? Textconv { get; set; }
 
-    [BooleanCommandSwitch("--no-textconv")]
+    [CliFlag("--no-textconv")]
     public virtual bool? NoTextconv { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--ignore-submodules")]
-    public string? IgnoreSubmodules { get; set; }
+    [CliOption("--ignore-submodules", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? IgnoreSubmodules { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--src-prefix")]
-    public string? SrcPrefix { get; set; }
+    [CliOption("--src-prefix", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? SrcPrefix { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dst-prefix")]
-    public string? DstPrefix { get; set; }
+    [CliOption("--dst-prefix", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? DstPrefix { get; set; }
 
-    [BooleanCommandSwitch("--no-prefix")]
+    [CliFlag("--no-prefix")]
     public virtual bool? NoPrefix { get; set; }
 
-    [BooleanCommandSwitch("--default-prefix")]
+    [CliFlag("--default-prefix")]
     public virtual bool? DefaultPrefix { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--line-prefix")]
-    public string? LinePrefix { get; set; }
+    [CliOption("--line-prefix", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? LinePrefix { get; set; }
 
-    [BooleanCommandSwitch("--ita-invisible-in-index")]
+    [CliFlag("--ita-invisible-in-index")]
     public virtual bool? ItaInvisibleInIndex { get; set; }
 }

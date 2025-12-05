@@ -4,84 +4,84 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instance-groups", "managed", "set-autoscaling")]
+[CliCommand("compute", "instance-groups", "managed", "set-autoscaling")]
 public record GcloudComputeInstanceGroupsManagedSetAutoscalingOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--max-num-replicas")] string MaxNumReplicas
+[property: CliArgument] string Name,
+[property: CliOption("--max-num-replicas")] string MaxNumReplicas
 ) : GcloudOptions
 {
-    [CommandSwitch("--cool-down-period")]
+    [CliOption("--cool-down-period")]
     public string? CoolDownPeriod { get; set; }
 
-    [CommandSwitch("--cpu-utilization-predictive-method")]
+    [CliOption("--cpu-utilization-predictive-method")]
     public string? CpuUtilizationPredictiveMethod { get; set; }
 
-    [CommandSwitch("--custom-metric-utilization")]
+    [CliOption("--custom-metric-utilization")]
     public string[]? CustomMetricUtilization { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--min-num-replicas")]
+    [CliOption("--min-num-replicas")]
     public string? MinNumReplicas { get; set; }
 
-    [CommandSwitch("--mode")]
+    [CliOption("--mode")]
     public string? Mode { get; set; }
 
-    [CommandSwitch("--remove-stackdriver-metric")]
+    [CliOption("--remove-stackdriver-metric")]
     public string? RemoveStackdriverMetric { get; set; }
 
-    [BooleanCommandSwitch("--scale-based-on-cpu")]
+    [CliFlag("--scale-based-on-cpu")]
     public bool? ScaleBasedOnCpu { get; set; }
 
-    [BooleanCommandSwitch("--scale-based-on-load-balancing")]
+    [CliFlag("--scale-based-on-load-balancing")]
     public bool? ScaleBasedOnLoadBalancing { get; set; }
 
-    [CommandSwitch("--scale-in-control")]
+    [CliOption("--scale-in-control")]
     public string[]? ScaleInControl { get; set; }
 
-    [CommandSwitch("--set-schedule")]
+    [CliOption("--set-schedule")]
     public string? SetSchedule { get; set; }
 
-    [CommandSwitch("--stackdriver-metric-filter")]
+    [CliOption("--stackdriver-metric-filter")]
     public string? StackdriverMetricFilter { get; set; }
 
-    [CommandSwitch("--stackdriver-metric-single-instance-assignment")]
+    [CliOption("--stackdriver-metric-single-instance-assignment")]
     public string? StackdriverMetricSingleInstanceAssignment { get; set; }
 
-    [CommandSwitch("--stackdriver-metric-utilization-target")]
+    [CliOption("--stackdriver-metric-utilization-target")]
     public string? StackdriverMetricUtilizationTarget { get; set; }
 
-    [CommandSwitch("--stackdriver-metric-utilization-target-type")]
+    [CliOption("--stackdriver-metric-utilization-target-type")]
     public string? StackdriverMetricUtilizationTargetType { get; set; }
 
-    [CommandSwitch("--target-cpu-utilization")]
+    [CliOption("--target-cpu-utilization")]
     public string? TargetCpuUtilization { get; set; }
 
-    [CommandSwitch("--target-load-balancing-utilization")]
+    [CliOption("--target-load-balancing-utilization")]
     public string? TargetLoadBalancingUtilization { get; set; }
 
-    [CommandSwitch("--update-stackdriver-metric")]
+    [CliOption("--update-stackdriver-metric")]
     public string? UpdateStackdriverMetric { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [CommandSwitch("--schedule-cron")]
+    [CliOption("--schedule-cron")]
     public string? ScheduleCron { get; set; }
 
-    [CommandSwitch("--schedule-description")]
+    [CliOption("--schedule-description")]
     public string? ScheduleDescription { get; set; }
 
-    [CommandSwitch("--schedule-duration-sec")]
+    [CliOption("--schedule-duration-sec")]
     public string? ScheduleDurationSec { get; set; }
 
-    [CommandSwitch("--schedule-min-required-replicas")]
+    [CliOption("--schedule-min-required-replicas")]
     public string? ScheduleMinRequiredReplicas { get; set; }
 
-    [CommandSwitch("--schedule-time-zone")]
+    [CliOption("--schedule-time-zone")]
     public string? ScheduleTimeZone { get; set; }
 }

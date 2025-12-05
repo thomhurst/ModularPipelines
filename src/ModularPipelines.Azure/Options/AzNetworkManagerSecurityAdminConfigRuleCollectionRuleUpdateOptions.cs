@@ -4,59 +4,59 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "manager", "security-admin-config", "rule-collection", "rule", "update")]
+[CliSubCommand("network", "manager", "security-admin-config", "rule-collection", "rule", "update")]
 public record AzNetworkManagerSecurityAdminConfigRuleCollectionRuleUpdateOptions(
-[property: CommandSwitch("--rule-collection-name")] string RuleCollectionName
+[property: CliOption("--rule-collection-name")] string RuleCollectionName
 ) : AzOptions
 {
-    [CommandSwitch("--access")]
+    [CliOption("--access")]
     public string? Access { get; set; }
 
-    [CommandSwitch("--configuration-name")]
+    [CliOption("--configuration-name")]
     public string? ConfigurationName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--dest-port-ranges")]
+    [CliOption("--dest-port-ranges")]
     public string? DestPortRanges { get; set; }
 
-    [CommandSwitch("--destinations")]
+    [CliOption("--destinations")]
     public string? Destinations { get; set; }
 
-    [CommandSwitch("--direction")]
+    [CliOption("--direction")]
     public string? Direction { get; set; }
 
-    [CommandSwitch("--flag")]
+    [CliOption("--flag")]
     public string? Flag { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--kind")]
+    [CliOption("--kind")]
     public string? Kind { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--rule-name")]
+    [CliOption("--rule-name")]
     public string? RuleName { get; set; }
 
-    [CommandSwitch("--source-port-ranges")]
+    [CliOption("--source-port-ranges")]
     public string? SourcePortRanges { get; set; }
 
-    [CommandSwitch("--sources")]
+    [CliOption("--sources")]
     public string? Sources { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

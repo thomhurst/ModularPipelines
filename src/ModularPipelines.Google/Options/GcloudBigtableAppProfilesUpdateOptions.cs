@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bigtable", "app-profiles", "update")]
+[CliCommand("bigtable", "app-profiles", "update")]
 public record GcloudBigtableAppProfilesUpdateOptions(
-[property: PositionalArgument] string AppProfile,
-[property: PositionalArgument] string Instance
+[property: CliArgument] string AppProfile,
+[property: CliArgument] string Instance
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [BooleanCommandSwitch("--route-any")]
+    [CliFlag("--route-any")]
     public bool? RouteAny { get; set; }
 
-    [CommandSwitch("--restrict-to")]
+    [CliOption("--restrict-to")]
     public string[]? RestrictTo { get; set; }
 
-    [CommandSwitch("--route-to")]
+    [CliOption("--route-to")]
     public string? RouteTo { get; set; }
 
-    [BooleanCommandSwitch("--transactional-writes")]
+    [CliFlag("--transactional-writes")]
     public bool? TransactionalWrites { get; set; }
 }

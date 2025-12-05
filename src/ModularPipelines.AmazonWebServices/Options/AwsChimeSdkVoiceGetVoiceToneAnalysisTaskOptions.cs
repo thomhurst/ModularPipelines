@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-voice", "get-voice-tone-analysis-task")]
+[CliCommand("chime-sdk-voice", "get-voice-tone-analysis-task")]
 public record AwsChimeSdkVoiceGetVoiceToneAnalysisTaskOptions(
-[property: CommandSwitch("--voice-connector-id")] string VoiceConnectorId,
-[property: CommandSwitch("--voice-tone-analysis-task-id")] string VoiceToneAnalysisTaskId
+[property: CliOption("--voice-connector-id")] string VoiceConnectorId,
+[property: CliOption("--voice-tone-analysis-task-id")] string VoiceToneAnalysisTaskId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

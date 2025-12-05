@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lakeformation", "create-lake-formation-identity-center-configuration")]
+[CliCommand("lakeformation", "create-lake-formation-identity-center-configuration")]
 public record AwsLakeformationCreateLakeFormationIdentityCenterConfigurationOptions : AwsOptions
 {
-    [CommandSwitch("--catalog-id")]
+    [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CommandSwitch("--instance-arn")]
+    [CliOption("--instance-arn")]
     public string? InstanceArn { get; set; }
 
-    [CommandSwitch("--external-filtering")]
+    [CliOption("--external-filtering")]
     public string? ExternalFiltering { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

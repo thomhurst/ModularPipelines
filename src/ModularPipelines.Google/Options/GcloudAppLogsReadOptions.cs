@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "logs", "read")]
+[CliCommand("app", "logs", "read")]
 public record GcloudAppLogsReadOptions : GcloudOptions
 {
-    [CommandSwitch("--level")]
+    [CliOption("--level")]
     public string? Level { get; set; }
 
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public string? Limit { get; set; }
 
-    [CommandSwitch("--logs")]
+    [CliOption("--logs")]
     public string[]? Logs { get; set; }
 
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string? Version { get; set; }
 }

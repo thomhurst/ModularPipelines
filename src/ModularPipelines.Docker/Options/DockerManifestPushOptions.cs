@@ -15,12 +15,12 @@ public record DockerManifestPushOptions : DockerOptions
         ManifestList = manifestList;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? ManifestList { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? ManifestList { get; set; }
 
-    [CommandSwitch("--insecure")]
+    [CliOption("--insecure")]
     public virtual string? Insecure { get; set; }
 
-    [CommandSwitch("--purge")]
+    [CliOption("--purge")]
     public virtual string? Purge { get; set; }
 }

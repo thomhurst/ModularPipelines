@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("guardduty", "get-member-detectors")]
+[CliCommand("guardduty", "get-member-detectors")]
 public record AwsGuarddutyGetMemberDetectorsOptions(
-[property: CommandSwitch("--detector-id")] string DetectorId,
-[property: CommandSwitch("--account-ids")] string[] AccountIds
+[property: CliOption("--detector-id")] string DetectorId,
+[property: CliOption("--account-ids")] string[] AccountIds
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

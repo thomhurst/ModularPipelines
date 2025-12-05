@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "wait", "tasks-stopped")]
+[CliCommand("ecs", "wait", "tasks-stopped")]
 public record AwsEcsWaitTasksStoppedOptions(
-[property: CommandSwitch("--tasks")] string[] Tasks
+[property: CliOption("--tasks")] string[] Tasks
 ) : AwsOptions
 {
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--include")]
+    [CliOption("--include")]
     public string[]? Include { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

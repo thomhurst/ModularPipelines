@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datasync", "describe-location-azure-blob")]
+[CliCommand("datasync", "describe-location-azure-blob")]
 public record AwsDatasyncDescribeLocationAzureBlobOptions(
-[property: CommandSwitch("--location-arn")] string LocationArn
+[property: CliOption("--location-arn")] string LocationArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

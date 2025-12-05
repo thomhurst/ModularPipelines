@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("asset")]
+[CliCommand("asset")]
 public class GcloudAssetSavedQueries
 {
     public GcloudAssetSavedQueries(

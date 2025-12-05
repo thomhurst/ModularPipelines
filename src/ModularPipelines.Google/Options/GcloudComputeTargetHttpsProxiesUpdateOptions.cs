@@ -4,65 +4,65 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "target-https-proxies", "update")]
+[CliCommand("compute", "target-https-proxies", "update")]
 public record GcloudComputeTargetHttpsProxiesUpdateOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--quic-override")]
+    [CliOption("--quic-override")]
     public string? QuicOverride { get; set; }
 
-    [CommandSwitch("--url-map")]
+    [CliOption("--url-map")]
     public string? UrlMap { get; set; }
 
-    [CommandSwitch("--certificate-manager-certificates")]
+    [CliOption("--certificate-manager-certificates")]
     public string[]? CertificateManagerCertificates { get; set; }
 
-    [BooleanCommandSwitch("--clear-ssl-certificates")]
+    [CliFlag("--clear-ssl-certificates")]
     public bool? ClearSslCertificates { get; set; }
 
-    [CommandSwitch("--ssl-certificates")]
+    [CliOption("--ssl-certificates")]
     public string[]? SslCertificates { get; set; }
 
-    [BooleanCommandSwitch("--global-ssl-certificates")]
+    [CliFlag("--global-ssl-certificates")]
     public bool? GlobalSslCertificates { get; set; }
 
-    [CommandSwitch("--ssl-certificates-region")]
+    [CliOption("--ssl-certificates-region")]
     public string? SslCertificatesRegion { get; set; }
 
-    [CommandSwitch("--certificate-map")]
+    [CliOption("--certificate-map")]
     public string? CertificateMap { get; set; }
 
-    [BooleanCommandSwitch("--clear-certificate-map")]
+    [CliFlag("--clear-certificate-map")]
     public bool? ClearCertificateMap { get; set; }
 
-    [BooleanCommandSwitch("--clear-http-keep-alive-timeout-sec")]
+    [CliFlag("--clear-http-keep-alive-timeout-sec")]
     public bool? ClearHttpKeepAliveTimeoutSec { get; set; }
 
-    [CommandSwitch("--http-keep-alive-timeout-sec")]
+    [CliOption("--http-keep-alive-timeout-sec")]
     public string? HttpKeepAliveTimeoutSec { get; set; }
 
-    [BooleanCommandSwitch("--clear-ssl-policy")]
+    [CliFlag("--clear-ssl-policy")]
     public bool? ClearSslPolicy { get; set; }
 
-    [CommandSwitch("--ssl-policy")]
+    [CliOption("--ssl-policy")]
     public string? SslPolicy { get; set; }
 
-    [BooleanCommandSwitch("--global-ssl-policy")]
+    [CliFlag("--global-ssl-policy")]
     public bool? GlobalSslPolicy { get; set; }
 
-    [CommandSwitch("--ssl-policy-region")]
+    [CliOption("--ssl-policy-region")]
     public string? SslPolicyRegion { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [BooleanCommandSwitch("--global-url-map")]
+    [CliFlag("--global-url-map")]
     public bool? GlobalUrlMap { get; set; }
 
-    [CommandSwitch("--url-map-region")]
+    [CliOption("--url-map-region")]
     public string? UrlMapRegion { get; set; }
 }

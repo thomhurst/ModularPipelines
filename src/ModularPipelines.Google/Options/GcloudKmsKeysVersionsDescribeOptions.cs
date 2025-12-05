@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "keys", "versions", "describe")]
+[CliCommand("kms", "keys", "versions", "describe")]
 public record GcloudKmsKeysVersionsDescribeOptions : GcloudOptions
 {
     public GcloudKmsKeysVersionsDescribeOptions(
@@ -14,18 +14,18 @@ public record GcloudKmsKeysVersionsDescribeOptions : GcloudOptions
         GcloudKmsKeysVersionsDescribeOptionsVersion = version;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string GcloudKmsKeysVersionsDescribeOptionsVersion { get; set; }
 
-    [CommandSwitch("--attestation-file")]
+    [CliOption("--attestation-file")]
     public string? AttestationFile { get; set; }
 
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 
-    [CommandSwitch("--keyring")]
+    [CliOption("--keyring")]
     public string? Keyring { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

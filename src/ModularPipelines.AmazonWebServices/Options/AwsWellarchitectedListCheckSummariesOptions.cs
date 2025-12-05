@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "list-check-summaries")]
+[CliCommand("wellarchitected", "list-check-summaries")]
 public record AwsWellarchitectedListCheckSummariesOptions(
-[property: CommandSwitch("--workload-id")] string WorkloadId,
-[property: CommandSwitch("--lens-arn")] string LensArn,
-[property: CommandSwitch("--pillar-id")] string PillarId,
-[property: CommandSwitch("--question-id")] string QuestionId,
-[property: CommandSwitch("--choice-id")] string ChoiceId
+[property: CliOption("--workload-id")] string WorkloadId,
+[property: CliOption("--lens-arn")] string LensArn,
+[property: CliOption("--pillar-id")] string PillarId,
+[property: CliOption("--question-id")] string QuestionId,
+[property: CliOption("--choice-id")] string ChoiceId
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

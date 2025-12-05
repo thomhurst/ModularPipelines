@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("auth", "application-default", "print-access-token")]
+[CliCommand("auth", "application-default", "print-access-token")]
 public record GcloudAuthApplicationDefaultPrintAccessTokenOptions : GcloudOptions
 {
-    [CommandSwitch("--lifetime")]
+    [CliOption("--lifetime")]
     public string? Lifetime { get; set; }
 
-    [CommandSwitch("--scopes")]
+    [CliOption("--scopes")]
     public string[]? Scopes { get; set; }
 }

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai-platform", "jobs", "stream-logs")]
+[CliCommand("ai-platform", "jobs", "stream-logs")]
 public record GcloudAiPlatformJobsStreamLogsOptions(
-[property: PositionalArgument] string Job
+[property: CliArgument] string Job
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--allow-multiline-logs")]
+    [CliFlag("--allow-multiline-logs")]
     public bool? AllowMultilineLogs { get; set; }
 
-    [CommandSwitch("--polling-interval")]
+    [CliOption("--polling-interval")]
     public string? PollingInterval { get; set; }
 
-    [CommandSwitch("--task-name")]
+    [CliOption("--task-name")]
     public string? TaskName { get; set; }
 }

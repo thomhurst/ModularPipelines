@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "start-session")]
+[CliCommand("ssm", "start-session")]
 public record AwsSsmStartSessionOptions(
-[property: CommandSwitch("--target")] string Target
+[property: CliOption("--target")] string Target
 ) : AwsOptions
 {
-    [CommandSwitch("--document-name")]
+    [CliOption("--document-name")]
     public string? DocumentName { get; set; }
 
-    [CommandSwitch("--reason")]
+    [CliOption("--reason")]
     public string? Reason { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public IEnumerable<KeyValue>? Parameters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

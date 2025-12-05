@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-compilation-job")]
+[CliCommand("sagemaker", "create-compilation-job")]
 public record AwsSagemakerCreateCompilationJobOptions(
-[property: CommandSwitch("--compilation-job-name")] string CompilationJobName,
-[property: CommandSwitch("--role-arn")] string RoleArn,
-[property: CommandSwitch("--output-config")] string OutputConfig,
-[property: CommandSwitch("--stopping-condition")] string StoppingCondition
+[property: CliOption("--compilation-job-name")] string CompilationJobName,
+[property: CliOption("--role-arn")] string RoleArn,
+[property: CliOption("--output-config")] string OutputConfig,
+[property: CliOption("--stopping-condition")] string StoppingCondition
 ) : AwsOptions
 {
-    [CommandSwitch("--model-package-version-arn")]
+    [CliOption("--model-package-version-arn")]
     public string? ModelPackageVersionArn { get; set; }
 
-    [CommandSwitch("--input-config")]
+    [CliOption("--input-config")]
     public string? InputConfig { get; set; }
 
-    [CommandSwitch("--vpc-config")]
+    [CliOption("--vpc-config")]
     public string? VpcConfig { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

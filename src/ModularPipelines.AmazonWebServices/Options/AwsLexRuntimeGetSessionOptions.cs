@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lex-runtime", "get-session")]
+[CliCommand("lex-runtime", "get-session")]
 public record AwsLexRuntimeGetSessionOptions(
-[property: CommandSwitch("--bot-name")] string BotName,
-[property: CommandSwitch("--bot-alias")] string BotAlias,
-[property: CommandSwitch("--user-id")] string UserId
+[property: CliOption("--bot-name")] string BotName,
+[property: CliOption("--bot-alias")] string BotAlias,
+[property: CliOption("--user-id")] string UserId
 ) : AwsOptions
 {
-    [CommandSwitch("--checkpoint-label-filter")]
+    [CliOption("--checkpoint-label-filter")]
     public string? CheckpointLabelFilter { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

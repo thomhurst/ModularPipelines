@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("active-directory", "domains", "backups", "list")]
+[CliCommand("active-directory", "domains", "backups", "list")]
 public record GcloudActiveDirectoryDomainsBackupsListOptions(
-[property: CommandSwitch("--domain")] string Domain
+[property: CliOption("--domain")] string Domain
 ) : GcloudOptions;

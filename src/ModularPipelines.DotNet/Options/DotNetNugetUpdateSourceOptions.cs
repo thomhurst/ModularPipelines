@@ -15,24 +15,24 @@ public record DotNetNugetUpdateSourceOptions : DotNetOptions
         Name = name;
     }
 
-    [PositionalArgument(PlaceholderName = "<NAME>")]
-    public string? Name { get; set; }
+    [CliArgument(Name = "<NAME>")]
+    public virtual string? Name { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public virtual string? Source { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public virtual string? Username { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public virtual string? Password { get; set; }
 
-    [BooleanCommandSwitch("--store-password-in-clear-text")]
+    [CliFlag("--store-password-in-clear-text")]
     public virtual bool? StorePasswordInClearText { get; set; }
 
-    [CommandSwitch("--valid-authentication-types")]
+    [CliOption("--valid-authentication-types")]
     public virtual string? ValidAuthenticationTypes { get; set; }
 
-    [CommandSwitch("--configfile")]
+    [CliOption("--configfile")]
     public virtual string? Configfile { get; set; }
 }

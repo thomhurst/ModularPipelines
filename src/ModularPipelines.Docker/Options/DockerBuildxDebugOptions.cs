@@ -3,25 +3,25 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("buildx", "debug")]
+[CliCommand("buildx", "debug")]
 [ExcludeFromCodeCoverage]
 public record DockerBuildxDebugOptions : DockerOptions
 {
-    [BooleanCommandSwitch("--detach")]
+    [CliFlag("--detach")]
     public virtual bool? Detach { get; set; }
 
-    [CommandSwitch("--invoke")]
+    [CliOption("--invoke")]
     public virtual string? Invoke { get; set; }
 
-    [CommandSwitch("--on")]
+    [CliOption("--on")]
     public virtual string? On { get; set; }
 
-    [CommandSwitch("--progress")]
+    [CliOption("--progress")]
     public virtual string? Progress { get; set; }
 
-    [CommandSwitch("--root")]
+    [CliOption("--root")]
     public virtual string? Root { get; set; }
 
-    [CommandSwitch("--server-config")]
+    [CliOption("--server-config")]
     public virtual string? ServerConfig { get; set; }
 }

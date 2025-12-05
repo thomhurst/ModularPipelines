@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("clouddirectory", "get-link-attributes")]
+[CliCommand("clouddirectory", "get-link-attributes")]
 public record AwsClouddirectoryGetLinkAttributesOptions(
-[property: CommandSwitch("--directory-arn")] string DirectoryArn,
-[property: CommandSwitch("--typed-link-specifier")] string TypedLinkSpecifier,
-[property: CommandSwitch("--attribute-names")] string[] AttributeNames
+[property: CliOption("--directory-arn")] string DirectoryArn,
+[property: CliOption("--typed-link-specifier")] string TypedLinkSpecifier,
+[property: CliOption("--attribute-names")] string[] AttributeNames
 ) : AwsOptions
 {
-    [CommandSwitch("--consistency-level")]
+    [CliOption("--consistency-level")]
     public string? ConsistencyLevel { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

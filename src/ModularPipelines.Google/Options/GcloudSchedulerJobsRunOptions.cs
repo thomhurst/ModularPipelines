@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scheduler", "jobs", "run")]
+[CliCommand("scheduler", "jobs", "run")]
 public record GcloudSchedulerJobsRunOptions(
-[property: PositionalArgument] string Job,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Job,
+[property: CliArgument] string Location
 ) : GcloudOptions;

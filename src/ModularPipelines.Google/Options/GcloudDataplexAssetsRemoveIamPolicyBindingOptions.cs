@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataplex", "assets", "remove-iam-policy-binding")]
+[CliCommand("dataplex", "assets", "remove-iam-policy-binding")]
 public record GcloudDataplexAssetsRemoveIamPolicyBindingOptions(
-[property: PositionalArgument] string Asset,
-[property: PositionalArgument] string Lake,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Zone,
-[property: CommandSwitch("--member")] string Member,
-[property: CommandSwitch("--role")] string Role
+[property: CliArgument] string Asset,
+[property: CliArgument] string Lake,
+[property: CliArgument] string Location,
+[property: CliArgument] string Zone,
+[property: CliOption("--member")] string Member,
+[property: CliOption("--role")] string Role
 ) : GcloudOptions;

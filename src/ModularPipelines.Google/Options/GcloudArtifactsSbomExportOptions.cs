@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts", "sbom", "export")]
+[CliCommand("artifacts", "sbom", "export")]
 public record GcloudArtifactsSbomExportOptions(
-[property: CommandSwitch("--uri")] string Uri
+[property: CliOption("--uri")] string Uri
 ) : GcloudOptions;

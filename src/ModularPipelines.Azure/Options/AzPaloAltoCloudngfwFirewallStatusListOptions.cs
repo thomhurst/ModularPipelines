@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("palo-alto", "cloudngfw", "firewall", "status", "list")]
+[CliSubCommand("palo-alto", "cloudngfw", "firewall", "status", "list")]
 public record AzPaloAltoCloudngfwFirewallStatusListOptions(
-[property: CommandSwitch("--firewall-name")] string FirewallName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--firewall-name")] string FirewallName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 }

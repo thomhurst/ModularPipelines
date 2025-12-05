@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("efs", "describe-backup-policy")]
+[CliCommand("efs", "describe-backup-policy")]
 public record AwsEfsDescribeBackupPolicyOptions(
-[property: CommandSwitch("--file-system-id")] string FileSystemId
+[property: CliOption("--file-system-id")] string FileSystemId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

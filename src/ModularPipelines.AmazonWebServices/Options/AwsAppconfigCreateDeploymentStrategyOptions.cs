@@ -5,28 +5,28 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appconfig", "create-deployment-strategy")]
+[CliCommand("appconfig", "create-deployment-strategy")]
 public record AwsAppconfigCreateDeploymentStrategyOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--deployment-duration-in-minutes")] int DeploymentDurationInMinutes,
-[property: CommandSwitch("--growth-factor")] float GrowthFactor
+[property: CliOption("--name")] string Name,
+[property: CliOption("--deployment-duration-in-minutes")] int DeploymentDurationInMinutes,
+[property: CliOption("--growth-factor")] float GrowthFactor
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--final-bake-time-in-minutes")]
+    [CliOption("--final-bake-time-in-minutes")]
     public int? FinalBakeTimeInMinutes { get; set; }
 
-    [CommandSwitch("--growth-type")]
+    [CliOption("--growth-type")]
     public string? GrowthType { get; set; }
 
-    [CommandSwitch("--replicate-to")]
+    [CliOption("--replicate-to")]
     public string? ReplicateTo { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

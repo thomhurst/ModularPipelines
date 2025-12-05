@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configservice", "describe-remediation-execution-status")]
+[CliCommand("configservice", "describe-remediation-execution-status")]
 public record AwsConfigserviceDescribeRemediationExecutionStatusOptions(
-[property: CommandSwitch("--config-rule-name")] string ConfigRuleName
+[property: CliOption("--config-rule-name")] string ConfigRuleName
 ) : AwsOptions
 {
-    [CommandSwitch("--resource-keys")]
+    [CliOption("--resource-keys")]
     public string[]? ResourceKeys { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

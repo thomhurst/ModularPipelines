@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("notification-hub", "credential")]
+[CliCommand("notification-hub", "credential")]
 public class AzNotificationHubCredentialBaidu
 {
     public AzNotificationHubCredentialBaidu(

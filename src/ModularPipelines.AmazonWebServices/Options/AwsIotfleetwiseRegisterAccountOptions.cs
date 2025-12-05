@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotfleetwise", "register-account")]
+[CliCommand("iotfleetwise", "register-account")]
 public record AwsIotfleetwiseRegisterAccountOptions : AwsOptions
 {
-    [CommandSwitch("--timestream-resources")]
+    [CliOption("--timestream-resources")]
     public string? TimestreamResources { get; set; }
 
-    [CommandSwitch("--iam-resources")]
+    [CliOption("--iam-resources")]
     public string? IamResources { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

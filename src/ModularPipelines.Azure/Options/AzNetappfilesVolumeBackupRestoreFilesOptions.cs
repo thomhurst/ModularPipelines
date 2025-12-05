@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "volume", "backup", "restore-files")]
+[CliSubCommand("netappfiles", "volume", "backup", "restore-files")]
 public record AzNetappfilesVolumeBackupRestoreFilesOptions(
-[property: CommandSwitch("--destination-path")] string DestinationPath,
-[property: CommandSwitch("--destination-volume-id")] string DestinationVolumeId,
-[property: CommandSwitch("--file-paths")] string FilePaths
+[property: CliOption("--destination-path")] string DestinationPath,
+[property: CliOption("--destination-volume-id")] string DestinationVolumeId,
+[property: CliOption("--file-paths")] string FilePaths
 ) : AzOptions
 {
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--backup-name")]
+    [CliOption("--backup-name")]
     public string? BackupName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--pool-name")]
+    [CliOption("--pool-name")]
     public string? PoolName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

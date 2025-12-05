@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint", "update-recommender-configuration")]
+[CliCommand("pinpoint", "update-recommender-configuration")]
 public record AwsPinpointUpdateRecommenderConfigurationOptions(
-[property: CommandSwitch("--recommender-id")] string RecommenderId,
-[property: CommandSwitch("--update-recommender-configuration")] string UpdateRecommenderConfiguration
+[property: CliOption("--recommender-id")] string RecommenderId,
+[property: CliOption("--update-recommender-configuration")] string UpdateRecommenderConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

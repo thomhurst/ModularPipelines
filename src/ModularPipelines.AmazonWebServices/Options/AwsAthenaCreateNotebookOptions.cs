@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("athena", "create-notebook")]
+[CliCommand("athena", "create-notebook")]
 public record AwsAthenaCreateNotebookOptions(
-[property: CommandSwitch("--work-group")] string WorkGroup,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--work-group")] string WorkGroup,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

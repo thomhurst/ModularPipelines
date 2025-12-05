@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagesync", "sync-group", "server-endpoint", "update")]
+[CliSubCommand("storagesync", "sync-group", "server-endpoint", "update")]
 public record AzStoragesyncSyncGroupServerEndpointUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--storage-sync-service")] string StorageSyncService,
-[property: CommandSwitch("--sync-group-name")] string SyncGroupName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--storage-sync-service")] string StorageSyncService,
+[property: CliOption("--sync-group-name")] string SyncGroupName
 ) : AzOptions
 {
-    [CommandSwitch("--cloud-tiering")]
+    [CliOption("--cloud-tiering")]
     public string? CloudTiering { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--offline-data-transfer")]
+    [CliOption("--offline-data-transfer")]
     public string? OfflineDataTransfer { get; set; }
 
-    [CommandSwitch("--offline-data-transfer-share-name")]
+    [CliOption("--offline-data-transfer-share-name")]
     public string? OfflineDataTransferShareName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--tier-files-older-than-days")]
+    [CliOption("--tier-files-older-than-days")]
     public string? TierFilesOlderThanDays { get; set; }
 
-    [CommandSwitch("--volume-free-space-percent")]
+    [CliOption("--volume-free-space-percent")]
     public string? VolumeFreeSpacePercent { get; set; }
 }

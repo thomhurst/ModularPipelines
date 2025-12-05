@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("data-catalog", "search")]
+[CliCommand("data-catalog", "search")]
 public record GcloudDataCatalogSearchOptions(
-[property: PositionalArgument] string Query,
-[property: BooleanCommandSwitch("--include-gcp-public-datasets")] bool IncludeGcpPublicDatasets,
-[property: CommandSwitch("--include-organization-ids")] string[] IncludeOrganizationIds,
-[property: CommandSwitch("--include-project-ids")] string[] IncludeProjectIds,
-[property: CommandSwitch("--restricted-locations")] string[] RestrictedLocations
+[property: CliArgument] string Query,
+[property: CliFlag("--include-gcp-public-datasets")] bool IncludeGcpPublicDatasets,
+[property: CliOption("--include-organization-ids")] string[] IncludeOrganizationIds,
+[property: CliOption("--include-project-ids")] string[] IncludeProjectIds,
+[property: CliOption("--restricted-locations")] string[] RestrictedLocations
 ) : GcloudOptions;

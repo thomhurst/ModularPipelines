@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cdn", "endpoint", "waf", "policy", "set")]
+[CliSubCommand("cdn", "endpoint", "waf", "policy", "set")]
 public record AzCdnEndpointWafPolicySetOptions : AzOptions
 {
-    [CommandSwitch("--endpoint-name")]
+    [CliOption("--endpoint-name")]
     public string? EndpointName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--waf-policy-id")]
+    [CliOption("--waf-policy-id")]
     public string? WafPolicyId { get; set; }
 
-    [CommandSwitch("--waf-policy-name")]
+    [CliOption("--waf-policy-name")]
     public string? WafPolicyName { get; set; }
 
-    [CommandSwitch("--waf-policy-resource-group-name")]
+    [CliOption("--waf-policy-resource-group-name")]
     public string? WafPolicyResourceGroupName { get; set; }
 
-    [CommandSwitch("--waf-policy-subscription-id")]
+    [CliOption("--waf-policy-subscription-id")]
     public string? WafPolicySubscriptionId { get; set; }
 }

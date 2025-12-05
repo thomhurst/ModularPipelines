@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dynatrace", "monitor", "get-sso-detail")]
+[CliSubCommand("dynatrace", "monitor", "get-sso-detail")]
 public record AzDynatraceMonitorGetSsoDetailOptions(
-[property: CommandSwitch("--monitor-name")] string MonitorName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--monitor-name")] string MonitorName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--user-principal")]
+    [CliOption("--user-principal")]
     public string? UserPrincipal { get; set; }
 }

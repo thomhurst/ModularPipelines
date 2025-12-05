@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "action-group")]
+[CliCommand("monitor", "action-group")]
 public class AzMonitorActionGroupTestNotifications
 {
     public AzMonitorActionGroupTestNotifications(

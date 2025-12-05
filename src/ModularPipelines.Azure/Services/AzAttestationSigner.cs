@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("attestation")]
+[CliCommand("attestation")]
 public class AzAttestationSigner
 {
     public AzAttestationSigner(

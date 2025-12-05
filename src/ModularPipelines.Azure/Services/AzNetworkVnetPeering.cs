@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vnet")]
+[CliCommand("network", "vnet")]
 public class AzNetworkVnetPeering
 {
     public AzNetworkVnetPeering(

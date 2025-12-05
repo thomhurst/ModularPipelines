@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "sole-tenancy", "node-templates", "set-iam-policy")]
+[CliCommand("compute", "sole-tenancy", "node-templates", "set-iam-policy")]
 public record GcloudComputeSoleTenancyNodeTemplatesSetIamPolicyOptions(
-[property: PositionalArgument] string NodeTemplate,
-[property: PositionalArgument] string Region,
-[property: PositionalArgument] string PolicyFile
+[property: CliArgument] string NodeTemplate,
+[property: CliArgument] string Region,
+[property: CliArgument] string PolicyFile
 ) : GcloudOptions;

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "stop-matchmaking")]
+[CliCommand("gamelift", "stop-matchmaking")]
 public record AwsGameliftStopMatchmakingOptions(
-[property: CommandSwitch("--ticket-id")] string TicketId
+[property: CliOption("--ticket-id")] string TicketId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

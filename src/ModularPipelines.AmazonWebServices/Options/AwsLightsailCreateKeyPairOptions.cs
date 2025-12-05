@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "create-key-pair")]
+[CliCommand("lightsail", "create-key-pair")]
 public record AwsLightsailCreateKeyPairOptions(
-[property: CommandSwitch("--key-pair-name")] string KeyPairName
+[property: CliOption("--key-pair-name")] string KeyPairName
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

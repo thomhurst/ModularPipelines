@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("scout", "integration", "delete")]
+[CliCommand("scout", "integration", "delete")]
 [ExcludeFromCodeCoverage]
 public record DockerScoutIntegrationDeleteOptions : DockerOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public virtual string? Name { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public virtual string? Org { get; set; }
 }

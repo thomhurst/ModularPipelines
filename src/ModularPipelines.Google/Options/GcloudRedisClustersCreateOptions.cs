@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redis", "clusters", "create")]
+[CliCommand("redis", "clusters", "create")]
 public record GcloudRedisClustersCreateOptions(
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--network")] string Network,
-[property: CommandSwitch("--shard-count")] string ShardCount
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Region,
+[property: CliOption("--network")] string Network,
+[property: CliOption("--shard-count")] string ShardCount
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--replica-count")]
+    [CliOption("--replica-count")]
     public string? ReplicaCount { get; set; }
 
-    [CommandSwitch("--transit-encryption-mode")]
+    [CliOption("--transit-encryption-mode")]
     public string? TransitEncryptionMode { get; set; }
 }

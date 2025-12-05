@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("robomaker", "start-simulation-job-batch")]
+[CliCommand("robomaker", "start-simulation-job-batch")]
 public record AwsRobomakerStartSimulationJobBatchOptions(
-[property: CommandSwitch("--create-simulation-job-requests")] string[] CreateSimulationJobRequests
+[property: CliOption("--create-simulation-job-requests")] string[] CreateSimulationJobRequests
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--batch-policy")]
+    [CliOption("--batch-policy")]
     public string? BatchPolicy { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

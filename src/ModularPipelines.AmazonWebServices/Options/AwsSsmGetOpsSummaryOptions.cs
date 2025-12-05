@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "get-ops-summary")]
+[CliCommand("ssm", "get-ops-summary")]
 public record AwsSsmGetOpsSummaryOptions : AwsOptions
 {
-    [CommandSwitch("--sync-name")]
+    [CliOption("--sync-name")]
     public string? SyncName { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--aggregators")]
+    [CliOption("--aggregators")]
     public string[]? Aggregators { get; set; }
 
-    [CommandSwitch("--result-attributes")]
+    [CliOption("--result-attributes")]
     public string[]? ResultAttributes { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

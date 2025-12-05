@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("voice-id", "update-domain")]
+[CliCommand("voice-id", "update-domain")]
 public record AwsVoiceIdUpdateDomainOptions(
-[property: CommandSwitch("--domain-id")] string DomainId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--server-side-encryption-configuration")] string ServerSideEncryptionConfiguration
+[property: CliOption("--domain-id")] string DomainId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--server-side-encryption-configuration")] string ServerSideEncryptionConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

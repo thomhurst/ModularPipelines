@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configservice", "get-resource-config-history")]
+[CliCommand("configservice", "get-resource-config-history")]
 public record AwsConfigserviceGetResourceConfigHistoryOptions(
-[property: CommandSwitch("--resource-type")] string ResourceType,
-[property: CommandSwitch("--resource-id")] string ResourceId
+[property: CliOption("--resource-type")] string ResourceType,
+[property: CliOption("--resource-id")] string ResourceId
 ) : AwsOptions
 {
-    [CommandSwitch("--later-time")]
+    [CliOption("--later-time")]
     public long? LaterTime { get; set; }
 
-    [CommandSwitch("--earlier-time")]
+    [CliOption("--earlier-time")]
     public long? EarlierTime { get; set; }
 
-    [CommandSwitch("--chronological-order")]
+    [CliOption("--chronological-order")]
     public string? ChronologicalOrder { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

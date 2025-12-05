@@ -5,30 +5,30 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appstream", "create-app-block")]
+[CliCommand("appstream", "create-app-block")]
 public record AwsAppstreamCreateAppBlockOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--source-s3-location")] string SourceS3Location
+[property: CliOption("--name")] string Name,
+[property: CliOption("--source-s3-location")] string SourceS3Location
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--setup-script-details")]
+    [CliOption("--setup-script-details")]
     public string? SetupScriptDetails { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--post-setup-script-details")]
+    [CliOption("--post-setup-script-details")]
     public string? PostSetupScriptDetails { get; set; }
 
-    [CommandSwitch("--packaging-type")]
+    [CliOption("--packaging-type")]
     public string? PackagingType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

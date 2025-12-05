@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "accounts", "set-iam-policy")]
+[CliCommand("billing", "accounts", "set-iam-policy")]
 public record GcloudBillingAccountsSetIamPolicyOptions : GcloudOptions
 {
     public GcloudBillingAccountsSetIamPolicyOptions(
@@ -16,9 +16,9 @@ public record GcloudBillingAccountsSetIamPolicyOptions : GcloudOptions
         PolicyFile = policyFile;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string GcloudBillingAccountsSetIamPolicyOptionsAccount { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string PolicyFile { get; set; }
 }

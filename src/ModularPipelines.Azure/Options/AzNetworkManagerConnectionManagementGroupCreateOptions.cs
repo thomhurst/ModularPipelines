@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "manager", "connection", "management-group", "create")]
+[CliSubCommand("network", "manager", "connection", "management-group", "create")]
 public record AzNetworkManagerConnectionManagementGroupCreateOptions(
-[property: CommandSwitch("--connection-name")] string ConnectionName,
-[property: CommandSwitch("--management-group-id")] string ManagementGroupId,
-[property: CommandSwitch("--network-manager")] string NetworkManager
+[property: CliOption("--connection-name")] string ConnectionName,
+[property: CliOption("--management-group-id")] string ManagementGroupId,
+[property: CliOption("--network-manager")] string NetworkManager
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 }

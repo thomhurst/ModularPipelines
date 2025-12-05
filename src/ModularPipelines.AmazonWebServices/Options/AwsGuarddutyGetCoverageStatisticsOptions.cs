@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("guardduty", "get-coverage-statistics")]
+[CliCommand("guardduty", "get-coverage-statistics")]
 public record AwsGuarddutyGetCoverageStatisticsOptions(
-[property: CommandSwitch("--detector-id")] string DetectorId,
-[property: CommandSwitch("--statistics-type")] string[] StatisticsType
+[property: CliOption("--detector-id")] string DetectorId,
+[property: CliOption("--statistics-type")] string[] StatisticsType
 ) : AwsOptions
 {
-    [CommandSwitch("--filter-criteria")]
+    [CliOption("--filter-criteria")]
     public string? FilterCriteria { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

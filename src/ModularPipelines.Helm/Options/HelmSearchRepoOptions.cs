@@ -3,25 +3,25 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("search", "repo")]
+[CliCommand("search", "repo")]
 [ExcludeFromCodeCoverage]
 public record HelmSearchRepoOptions : HelmOptions
 {
-    [BooleanCommandSwitch("--devel")]
+    [CliFlag("--devel")]
     public virtual bool? Devel { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--max-col-width", SwitchValueSeparator = " ")]
-    public string? MaxColWidth { get; set; }
+    [CliOption("--max-col-width")]
+    public virtual string? MaxColWidth { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
-    public string? Output { get; set; }
+    [CliOption("--output")]
+    public virtual string? Output { get; set; }
 
-    [BooleanCommandSwitch("--regexp")]
+    [CliFlag("--regexp")]
     public virtual bool? Regexp { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--version", SwitchValueSeparator = " ")]
-    public string? Version { get; set; }
+    [CliOption("--version")]
+    public virtual string? Version { get; set; }
 
-    [BooleanCommandSwitch("--versions")]
+    [CliFlag("--versions")]
     public virtual bool? Versions { get; set; }
 }

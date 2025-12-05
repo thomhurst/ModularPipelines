@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("entityresolution", "get-id-mapping-job")]
+[CliCommand("entityresolution", "get-id-mapping-job")]
 public record AwsEntityresolutionGetIdMappingJobOptions(
-[property: CommandSwitch("--job-id")] string JobId,
-[property: CommandSwitch("--workflow-name")] string WorkflowName
+[property: CliOption("--job-id")] string JobId,
+[property: CliOption("--workflow-name")] string WorkflowName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,96 +5,96 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("metastore", "services", "update")]
+[CliCommand("metastore", "services", "update")]
 public record GcloudMetastoreServicesUpdateOptions(
-[property: PositionalArgument] string Service,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Service,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--data-catalog-sync")]
+    [CliFlag("--data-catalog-sync")]
     public bool? DataCatalogSync { get; set; }
 
-    [CommandSwitch("--endpoint-protocol")]
+    [CliOption("--endpoint-protocol")]
     public string? EndpointProtocol { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public string? Port { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 
-    [CommandSwitch("--instance-size")]
+    [CliOption("--instance-size")]
     public string? InstanceSize { get; set; }
 
-    [BooleanCommandSwitch("extra-large")]
+    [CliFlag("extra-large")]
     public bool? ExtraLarge { get; set; }
 
-    [BooleanCommandSwitch("extra-small")]
+    [CliFlag("extra-small")]
     public bool? ExtraSmall { get; set; }
 
-    [BooleanCommandSwitch("large")]
+    [CliFlag("large")]
     public bool? Large { get; set; }
 
-    [BooleanCommandSwitch("medium")]
+    [CliFlag("medium")]
     public bool? Medium { get; set; }
 
-    [BooleanCommandSwitch("small")]
+    [CliFlag("small")]
     public bool? Small { get; set; }
 
-    [CommandSwitch("--scaling-factor")]
+    [CliOption("--scaling-factor")]
     public string? ScalingFactor { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 
-    [BooleanCommandSwitch("developer")]
+    [CliFlag("developer")]
     public bool? Developer { get; set; }
 
-    [BooleanCommandSwitch("enterprise")]
+    [CliFlag("enterprise")]
     public bool? Enterprise { get; set; }
 
-    [CommandSwitch("--kerberos-principal")]
+    [CliOption("--kerberos-principal")]
     public string? KerberosPrincipal { get; set; }
 
-    [CommandSwitch("--keytab")]
+    [CliOption("--keytab")]
     public string? Keytab { get; set; }
 
-    [CommandSwitch("--krb5-config")]
+    [CliOption("--krb5-config")]
     public string? Krb5Config { get; set; }
 
-    [CommandSwitch("--maintenance-window-day")]
+    [CliOption("--maintenance-window-day")]
     public string? MaintenanceWindowDay { get; set; }
 
-    [CommandSwitch("--maintenance-window-hour")]
+    [CliOption("--maintenance-window-hour")]
     public string? MaintenanceWindowHour { get; set; }
 
-    [CommandSwitch("--update-auxiliary-versions-from-file")]
+    [CliOption("--update-auxiliary-versions-from-file")]
     public string? UpdateAuxiliaryVersionsFromFile { get; set; }
 
-    [CommandSwitch("--add-auxiliary-versions")]
+    [CliOption("--add-auxiliary-versions")]
     public string[]? AddAuxiliaryVersions { get; set; }
 
-    [BooleanCommandSwitch("--clear-auxiliary-versions")]
+    [CliFlag("--clear-auxiliary-versions")]
     public bool? ClearAuxiliaryVersions { get; set; }
 
-    [CommandSwitch("--update-hive-metastore-configs-from-file")]
+    [CliOption("--update-hive-metastore-configs-from-file")]
     public string? UpdateHiveMetastoreConfigsFromFile { get; set; }
 
-    [CommandSwitch("--update-hive-metastore-configs")]
+    [CliOption("--update-hive-metastore-configs")]
     public IEnumerable<KeyValue>? UpdateHiveMetastoreConfigs { get; set; }
 
-    [BooleanCommandSwitch("--clear-hive-metastore-configs")]
+    [CliFlag("--clear-hive-metastore-configs")]
     public bool? ClearHiveMetastoreConfigs { get; set; }
 
-    [CommandSwitch("--remove-hive-metastore-configs")]
+    [CliOption("--remove-hive-metastore-configs")]
     public string[]? RemoveHiveMetastoreConfigs { get; set; }
 }

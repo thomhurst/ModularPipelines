@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "import-phone-number")]
+[CliCommand("connect", "import-phone-number")]
 public record AwsConnectImportPhoneNumberOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--source-phone-number-arn")] string SourcePhoneNumberArn
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--source-phone-number-arn")] string SourcePhoneNumberArn
 ) : AwsOptions
 {
-    [CommandSwitch("--phone-number-description")]
+    [CliOption("--phone-number-description")]
     public string? PhoneNumberDescription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

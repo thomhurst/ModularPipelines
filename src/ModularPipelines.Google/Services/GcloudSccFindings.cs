@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scc")]
+[CliCommand("scc")]
 public class GcloudSccFindings
 {
     public GcloudSccFindings(

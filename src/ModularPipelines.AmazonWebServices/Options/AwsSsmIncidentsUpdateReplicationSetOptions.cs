@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm-incidents", "update-replication-set")]
+[CliCommand("ssm-incidents", "update-replication-set")]
 public record AwsSsmIncidentsUpdateReplicationSetOptions(
-[property: CommandSwitch("--actions")] string[] Actions,
-[property: CommandSwitch("--arn")] string Arn
+[property: CliOption("--actions")] string[] Actions,
+[property: CliOption("--arn")] string Arn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

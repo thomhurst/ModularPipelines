@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai", "indexes", "describe")]
+[CliCommand("ai", "indexes", "describe")]
 public record GcloudAiIndexesDescribeOptions(
-[property: PositionalArgument] string Index,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Index,
+[property: CliArgument] string Region
 ) : GcloudOptions;

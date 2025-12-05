@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "describe-trial-component")]
+[CliCommand("sagemaker", "describe-trial-component")]
 public record AwsSagemakerDescribeTrialComponentOptions(
-[property: CommandSwitch("--trial-component-name")] string TrialComponentName
+[property: CliOption("--trial-component-name")] string TrialComponentName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

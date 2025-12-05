@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("clouddirectory", "list-policy-attachments")]
+[CliCommand("clouddirectory", "list-policy-attachments")]
 public record AwsClouddirectoryListPolicyAttachmentsOptions(
-[property: CommandSwitch("--directory-arn")] string DirectoryArn,
-[property: CommandSwitch("--policy-reference")] string PolicyReference
+[property: CliOption("--directory-arn")] string DirectoryArn,
+[property: CliOption("--policy-reference")] string PolicyReference
 ) : AwsOptions
 {
-    [CommandSwitch("--consistency-level")]
+    [CliOption("--consistency-level")]
     public string? ConsistencyLevel { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

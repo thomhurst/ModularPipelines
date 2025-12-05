@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("scout", "config")]
+[CliCommand("scout", "config")]
 [ExcludeFromCodeCoverage]
 public record DockerScoutConfigOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Key { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Key { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Value { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Value { get; set; }
 }

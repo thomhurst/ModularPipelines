@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("nimble", "list-launch-profile-members")]
+[CliCommand("nimble", "list-launch-profile-members")]
 public record AwsNimbleListLaunchProfileMembersOptions(
-[property: CommandSwitch("--launch-profile-id")] string LaunchProfileId,
-[property: CommandSwitch("--studio-id")] string StudioId
+[property: CliOption("--launch-profile-id")] string LaunchProfileId,
+[property: CliOption("--studio-id")] string StudioId
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

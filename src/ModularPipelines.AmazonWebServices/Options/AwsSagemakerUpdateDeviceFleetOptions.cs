@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "update-device-fleet")]
+[CliCommand("sagemaker", "update-device-fleet")]
 public record AwsSagemakerUpdateDeviceFleetOptions(
-[property: CommandSwitch("--device-fleet-name")] string DeviceFleetName,
-[property: CommandSwitch("--output-config")] string OutputConfig
+[property: CliOption("--device-fleet-name")] string DeviceFleetName,
+[property: CliOption("--output-config")] string OutputConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

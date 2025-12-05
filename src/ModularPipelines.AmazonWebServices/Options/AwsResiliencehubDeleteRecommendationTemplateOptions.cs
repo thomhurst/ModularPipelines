@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resiliencehub", "delete-recommendation-template")]
+[CliCommand("resiliencehub", "delete-recommendation-template")]
 public record AwsResiliencehubDeleteRecommendationTemplateOptions(
-[property: CommandSwitch("--recommendation-template-arn")] string RecommendationTemplateArn
+[property: CliOption("--recommendation-template-arn")] string RecommendationTemplateArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

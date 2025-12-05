@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "disks")]
+[CliCommand("compute", "disks")]
 public class GcloudComputeDisksBulk
 {
     public GcloudComputeDisksBulk(

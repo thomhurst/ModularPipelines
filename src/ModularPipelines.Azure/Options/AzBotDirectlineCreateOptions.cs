@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bot", "directline", "create")]
+[CliSubCommand("bot", "directline", "create")]
 public record AzBotDirectlineCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--add-disabled")]
+    [CliFlag("--add-disabled")]
     public bool? AddDisabled { get; set; }
 
-    [BooleanCommandSwitch("--disablev1")]
+    [CliFlag("--disablev1")]
     public bool? Disablev1 { get; set; }
 
-    [BooleanCommandSwitch("--disablev3")]
+    [CliFlag("--disablev3")]
     public bool? Disablev3 { get; set; }
 
-    [BooleanCommandSwitch("--enable-enhanced-auth")]
+    [CliFlag("--enable-enhanced-auth")]
     public bool? EnableEnhancedAuth { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--site-name")]
+    [CliOption("--site-name")]
     public string? SiteName { get; set; }
 
-    [CommandSwitch("--trusted-origins")]
+    [CliOption("--trusted-origins")]
     public string? TrustedOrigins { get; set; }
 }

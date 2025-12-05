@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "lb", "address-pool")]
+[CliCommand("network", "lb", "address-pool")]
 public class AzNetworkLbAddressPoolAddress
 {
     public AzNetworkLbAddressPoolAddress(

@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-local-gateway-route")]
+[CliCommand("ec2", "create-local-gateway-route")]
 public record AwsEc2CreateLocalGatewayRouteOptions(
-[property: CommandSwitch("--local-gateway-route-table-id")] string LocalGatewayRouteTableId
+[property: CliOption("--local-gateway-route-table-id")] string LocalGatewayRouteTableId
 ) : AwsOptions
 {
-    [CommandSwitch("--destination-cidr-block")]
+    [CliOption("--destination-cidr-block")]
     public string? DestinationCidrBlock { get; set; }
 
-    [CommandSwitch("--local-gateway-virtual-interface-group-id")]
+    [CliOption("--local-gateway-virtual-interface-group-id")]
     public string? LocalGatewayVirtualInterfaceGroupId { get; set; }
 
-    [CommandSwitch("--network-interface-id")]
+    [CliOption("--network-interface-id")]
     public string? NetworkInterfaceId { get; set; }
 
-    [CommandSwitch("--destination-prefix-list-id")]
+    [CliOption("--destination-prefix-list-id")]
     public string? DestinationPrefixListId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

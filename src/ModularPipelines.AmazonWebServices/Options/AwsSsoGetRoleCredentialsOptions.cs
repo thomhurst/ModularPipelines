@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sso", "get-role-credentials")]
+[CliCommand("sso", "get-role-credentials")]
 public record AwsSsoGetRoleCredentialsOptions(
-[property: CommandSwitch("--role-name")] string RoleName,
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--access-token")] string AccessToken
+[property: CliOption("--role-name")] string RoleName,
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--access-token")] string AccessToken
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

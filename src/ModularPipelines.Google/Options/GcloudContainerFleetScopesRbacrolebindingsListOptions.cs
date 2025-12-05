@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "fleet", "scopes", "rbacrolebindings", "list")]
+[CliCommand("container", "fleet", "scopes", "rbacrolebindings", "list")]
 public record GcloudContainerFleetScopesRbacrolebindingsListOptions(
-[property: CommandSwitch("--scope")] string Scope
+[property: CliOption("--scope")] string Scope
 ) : GcloudOptions;

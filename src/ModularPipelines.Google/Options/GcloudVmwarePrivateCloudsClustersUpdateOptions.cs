@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "private-clouds", "clusters", "update")]
+[CliCommand("vmware", "private-clouds", "clusters", "update")]
 public record GcloudVmwarePrivateCloudsClustersUpdateOptions(
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string PrivateCloud
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Location,
+[property: CliArgument] string PrivateCloud
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--node-type-config")]
+    [CliOption("--node-type-config")]
     public string[]? NodeTypeConfig { get; set; }
 
-    [CommandSwitch("--remove-nodes-config")]
+    [CliOption("--remove-nodes-config")]
     public string? RemoveNodesConfig { get; set; }
 
-    [CommandSwitch("--update-nodes-config")]
+    [CliOption("--update-nodes-config")]
     public string[]? UpdateNodesConfig { get; set; }
 }

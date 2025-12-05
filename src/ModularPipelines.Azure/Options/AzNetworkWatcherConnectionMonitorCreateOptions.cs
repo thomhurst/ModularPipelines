@@ -4,102 +4,102 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "watcher", "connection-monitor", "create")]
+[CliSubCommand("network", "watcher", "connection-monitor", "create")]
 public record AzNetworkWatcherConnectionMonitorCreateOptions(
-[property: CommandSwitch("--connection-monitor-name")] string ConnectionMonitorName,
-[property: CommandSwitch("--endpoint-dest-name")] string EndpointDestName,
-[property: CommandSwitch("--endpoint-source-name")] string EndpointSourceName,
-[property: CommandSwitch("--endpoint-source-resource-id")] string EndpointSourceResourceId,
-[property: CommandSwitch("--test-config-name")] string TestConfigName
+[property: CliOption("--connection-monitor-name")] string ConnectionMonitorName,
+[property: CliOption("--endpoint-dest-name")] string EndpointDestName,
+[property: CliOption("--endpoint-source-name")] string EndpointSourceName,
+[property: CliOption("--endpoint-source-resource-id")] string EndpointSourceResourceId,
+[property: CliOption("--test-config-name")] string TestConfigName
 ) : AzOptions
 {
-    [CommandSwitch("--endpoint-dest-address")]
+    [CliOption("--endpoint-dest-address")]
     public string? EndpointDestAddress { get; set; }
 
-    [CommandSwitch("--endpoint-dest-coverage-level")]
+    [CliOption("--endpoint-dest-coverage-level")]
     public string? EndpointDestCoverageLevel { get; set; }
 
-    [CommandSwitch("--endpoint-dest-resource-id")]
+    [CliOption("--endpoint-dest-resource-id")]
     public string? EndpointDestResourceId { get; set; }
 
-    [CommandSwitch("--endpoint-dest-type")]
+    [CliOption("--endpoint-dest-type")]
     public string? EndpointDestType { get; set; }
 
-    [CommandSwitch("--endpoint-source-address")]
+    [CliOption("--endpoint-source-address")]
     public string? EndpointSourceAddress { get; set; }
 
-    [CommandSwitch("--endpoint-source-coverage-level")]
+    [CliOption("--endpoint-source-coverage-level")]
     public string? EndpointSourceCoverageLevel { get; set; }
 
-    [CommandSwitch("--endpoint-source-type")]
+    [CliOption("--endpoint-source-type")]
     public string? EndpointSourceType { get; set; }
 
-    [CommandSwitch("--frequency")]
+    [CliOption("--frequency")]
     public string? Frequency { get; set; }
 
-    [CommandSwitch("--http-method")]
+    [CliOption("--http-method")]
     public string? HttpMethod { get; set; }
 
-    [CommandSwitch("--http-path")]
+    [CliOption("--http-path")]
     public string? HttpPath { get; set; }
 
-    [CommandSwitch("--http-port")]
+    [CliOption("--http-port")]
     public string? HttpPort { get; set; }
 
-    [CommandSwitch("--http-valid-status-codes")]
+    [CliOption("--http-valid-status-codes")]
     public string? HttpValidStatusCodes { get; set; }
 
-    [BooleanCommandSwitch("--https-prefer")]
+    [CliFlag("--https-prefer")]
     public bool? HttpsPrefer { get; set; }
 
-    [BooleanCommandSwitch("--icmp-disable-trace-route")]
+    [CliFlag("--icmp-disable-trace-route")]
     public bool? IcmpDisableTraceRoute { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--notes")]
+    [CliOption("--notes")]
     public string? Notes { get; set; }
 
-    [CommandSwitch("--output-type")]
+    [CliOption("--output-type")]
     public string? OutputType { get; set; }
 
-    [CommandSwitch("--preferred-ip-version")]
+    [CliOption("--preferred-ip-version")]
     public string? PreferredIpVersion { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [BooleanCommandSwitch("--tcp-disable-trace-route")]
+    [CliFlag("--tcp-disable-trace-route")]
     public bool? TcpDisableTraceRoute { get; set; }
 
-    [CommandSwitch("--tcp-port")]
+    [CliOption("--tcp-port")]
     public string? TcpPort { get; set; }
 
-    [CommandSwitch("--tcp-port-behavior")]
+    [CliOption("--tcp-port-behavior")]
     public string? TcpPortBehavior { get; set; }
 
-    [BooleanCommandSwitch("--test-group-disable")]
+    [CliFlag("--test-group-disable")]
     public bool? TestGroupDisable { get; set; }
 
-    [CommandSwitch("--test-group-name")]
+    [CliOption("--test-group-name")]
     public string? TestGroupName { get; set; }
 
-    [CommandSwitch("--threshold-failed-percent")]
+    [CliOption("--threshold-failed-percent")]
     public string? ThresholdFailedPercent { get; set; }
 
-    [CommandSwitch("--threshold-round-trip-time")]
+    [CliOption("--threshold-round-trip-time")]
     public string? ThresholdRoundTripTime { get; set; }
 
-    [CommandSwitch("--workspace-ids")]
+    [CliOption("--workspace-ids")]
     public string? WorkspaceIds { get; set; }
 }

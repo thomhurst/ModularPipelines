@@ -4,102 +4,102 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "update", "(cosmosdb-preview", "extension)")]
+[CliSubCommand("cosmosdb", "update", "(cosmosdb-preview", "extension)")]
 public record AzCosmosdbUpdateCosmosdbPreviewExtensionOptions : AzOptions
 {
-    [CommandSwitch("--analytical-storage-schema-type")]
+    [CliOption("--analytical-storage-schema-type")]
     public string? AnalyticalStorageSchemaType { get; set; }
 
-    [CommandSwitch("--backup-interval")]
+    [CliOption("--backup-interval")]
     public string? BackupInterval { get; set; }
 
-    [CommandSwitch("--backup-policy-type")]
+    [CliOption("--backup-policy-type")]
     public string? BackupPolicyType { get; set; }
 
-    [CommandSwitch("--backup-redundancy")]
+    [CliOption("--backup-redundancy")]
     public string? BackupRedundancy { get; set; }
 
-    [CommandSwitch("--backup-retention")]
+    [CliOption("--backup-retention")]
     public string? BackupRetention { get; set; }
 
-    [CommandSwitch("--capabilities")]
+    [CliOption("--capabilities")]
     public string? Capabilities { get; set; }
 
-    [CommandSwitch("--continuous-tier")]
+    [CliOption("--continuous-tier")]
     public string? ContinuousTier { get; set; }
 
-    [CommandSwitch("--default-consistency-level")]
+    [CliOption("--default-consistency-level")]
     public string? DefaultConsistencyLevel { get; set; }
 
-    [CommandSwitch("--default-identity")]
+    [CliOption("--default-identity")]
     public string? DefaultIdentity { get; set; }
 
-    [CommandSwitch("--default-priority-level")]
+    [CliOption("--default-priority-level")]
     public string? DefaultPriorityLevel { get; set; }
 
-    [BooleanCommandSwitch("--disable-key-based-metadata-write-access")]
+    [CliFlag("--disable-key-based-metadata-write-access")]
     public bool? DisableKeyBasedMetadataWriteAccess { get; set; }
 
-    [BooleanCommandSwitch("--enable-analytical-storage")]
+    [CliFlag("--enable-analytical-storage")]
     public bool? EnableAnalyticalStorage { get; set; }
 
-    [BooleanCommandSwitch("--enable-automatic-failover")]
+    [CliFlag("--enable-automatic-failover")]
     public bool? EnableAutomaticFailover { get; set; }
 
-    [BooleanCommandSwitch("--enable-burst-capacity")]
+    [CliFlag("--enable-burst-capacity")]
     public bool? EnableBurstCapacity { get; set; }
 
-    [BooleanCommandSwitch("--enable-materialized-views")]
+    [CliFlag("--enable-materialized-views")]
     public bool? EnableMaterializedViews { get; set; }
 
-    [BooleanCommandSwitch("--enable-multiple-write-locations")]
+    [CliFlag("--enable-multiple-write-locations")]
     public bool? EnableMultipleWriteLocations { get; set; }
 
-    [BooleanCommandSwitch("--enable-pbe")]
+    [CliFlag("--enable-pbe")]
     public bool? EnablePbe { get; set; }
 
-    [BooleanCommandSwitch("--enable-public-network")]
+    [CliFlag("--enable-public-network")]
     public bool? EnablePublicNetwork { get; set; }
 
-    [BooleanCommandSwitch("--enable-virtual-network")]
+    [CliFlag("--enable-virtual-network")]
     public bool? EnableVirtualNetwork { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--ip-range-filter")]
+    [CliOption("--ip-range-filter")]
     public string? IpRangeFilter { get; set; }
 
-    [CommandSwitch("--locations")]
+    [CliOption("--locations")]
     public string? Locations { get; set; }
 
-    [CommandSwitch("--max-interval")]
+    [CliOption("--max-interval")]
     public string? MaxInterval { get; set; }
 
-    [CommandSwitch("--max-staleness-prefix")]
+    [CliOption("--max-staleness-prefix")]
     public string? MaxStalenessPrefix { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--network-acl-bypass")]
+    [CliOption("--network-acl-bypass")]
     public string? NetworkAclBypass { get; set; }
 
-    [CommandSwitch("--network-acl-bypass-resource-ids")]
+    [CliOption("--network-acl-bypass-resource-ids")]
     public string? NetworkAclBypassResourceIds { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--server-version")]
+    [CliOption("--server-version")]
     public string? ServerVersion { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--virtual-network-rules")]
+    [CliOption("--virtual-network-rules")]
     public string? VirtualNetworkRules { get; set; }
 }

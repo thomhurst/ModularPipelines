@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "locations", "list")]
+[CliCommand("vmware", "locations", "list")]
 public record GcloudVmwareLocationsListOptions : GcloudOptions;

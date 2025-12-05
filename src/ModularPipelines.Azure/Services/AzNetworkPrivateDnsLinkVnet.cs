@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "private-dns", "link")]
+[CliCommand("network", "private-dns", "link")]
 public class AzNetworkPrivateDnsLinkVnet
 {
     public AzNetworkPrivateDnsLinkVnet(

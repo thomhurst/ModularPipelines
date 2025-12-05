@@ -5,36 +5,36 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediaconvert", "create-job-template")]
+[CliCommand("mediaconvert", "create-job-template")]
 public record AwsMediaconvertCreateJobTemplateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--settings")] string Settings
+[property: CliOption("--name")] string Name,
+[property: CliOption("--settings")] string Settings
 ) : AwsOptions
 {
-    [CommandSwitch("--acceleration-settings")]
+    [CliOption("--acceleration-settings")]
     public string? AccelerationSettings { get; set; }
 
-    [CommandSwitch("--category")]
+    [CliOption("--category")]
     public string? Category { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--hop-destinations")]
+    [CliOption("--hop-destinations")]
     public string[]? HopDestinations { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public int? Priority { get; set; }
 
-    [CommandSwitch("--queue")]
+    [CliOption("--queue")]
     public string? Queue { get; set; }
 
-    [CommandSwitch("--status-update-interval")]
+    [CliOption("--status-update-interval")]
     public string? StatusUpdateInterval { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

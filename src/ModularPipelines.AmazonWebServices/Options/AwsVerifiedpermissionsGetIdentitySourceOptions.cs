@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("verifiedpermissions", "get-identity-source")]
+[CliCommand("verifiedpermissions", "get-identity-source")]
 public record AwsVerifiedpermissionsGetIdentitySourceOptions(
-[property: CommandSwitch("--policy-store-id")] string PolicyStoreId,
-[property: CommandSwitch("--identity-source-id")] string IdentitySourceId
+[property: CliOption("--policy-store-id")] string PolicyStoreId,
+[property: CliOption("--identity-source-id")] string IdentitySourceId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

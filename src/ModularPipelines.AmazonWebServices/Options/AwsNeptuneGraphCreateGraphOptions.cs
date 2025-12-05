@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptune-graph", "create-graph")]
+[CliCommand("neptune-graph", "create-graph")]
 public record AwsNeptuneGraphCreateGraphOptions(
-[property: CommandSwitch("--graph-name")] string GraphName,
-[property: CommandSwitch("--provisioned-memory")] int ProvisionedMemory
+[property: CliOption("--graph-name")] string GraphName,
+[property: CliOption("--provisioned-memory")] int ProvisionedMemory
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--kms-key-identifier")]
+    [CliOption("--kms-key-identifier")]
     public string? KmsKeyIdentifier { get; set; }
 
-    [CommandSwitch("--vector-search-configuration")]
+    [CliOption("--vector-search-configuration")]
     public string? VectorSearchConfiguration { get; set; }
 
-    [CommandSwitch("--replica-count")]
+    [CliOption("--replica-count")]
     public int? ReplicaCount { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

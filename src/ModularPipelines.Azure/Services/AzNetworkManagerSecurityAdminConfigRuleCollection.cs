@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "manager", "security-admin-config")]
+[CliCommand("network", "manager", "security-admin-config")]
 public class AzNetworkManagerSecurityAdminConfigRuleCollection
 {
     public AzNetworkManagerSecurityAdminConfigRuleCollection(

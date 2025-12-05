@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("config", "set-cluster")]
+[CliCommand("config", "set-cluster")]
 [ExcludeFromCodeCoverage]
-public record KubernetesConfigSetClusterOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesConfigSetClusterOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--embed-certs")]
+    [CliFlag("--embed-certs")]
     public virtual bool? EmbedCerts { get; set; }
 }

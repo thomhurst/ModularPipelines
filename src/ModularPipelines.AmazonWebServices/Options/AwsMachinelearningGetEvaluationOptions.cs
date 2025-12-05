@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("machinelearning", "get-evaluation")]
+[CliCommand("machinelearning", "get-evaluation")]
 public record AwsMachinelearningGetEvaluationOptions(
-[property: CommandSwitch("--evaluation-id")] string EvaluationId
+[property: CliOption("--evaluation-id")] string EvaluationId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

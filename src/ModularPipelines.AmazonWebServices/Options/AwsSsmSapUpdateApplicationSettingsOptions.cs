@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm-sap", "update-application-settings")]
+[CliCommand("ssm-sap", "update-application-settings")]
 public record AwsSsmSapUpdateApplicationSettingsOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId
+[property: CliOption("--application-id")] string ApplicationId
 ) : AwsOptions
 {
-    [CommandSwitch("--credentials-to-add-or-update")]
+    [CliOption("--credentials-to-add-or-update")]
     public string[]? CredentialsToAddOrUpdate { get; set; }
 
-    [CommandSwitch("--credentials-to-remove")]
+    [CliOption("--credentials-to-remove")]
     public string[]? CredentialsToRemove { get; set; }
 
-    [CommandSwitch("--backint")]
+    [CliOption("--backint")]
     public string? Backint { get; set; }
 
-    [CommandSwitch("--database-arn")]
+    [CliOption("--database-arn")]
     public string? DatabaseArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

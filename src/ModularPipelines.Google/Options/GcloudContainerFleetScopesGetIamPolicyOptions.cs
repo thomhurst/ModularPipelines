@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "fleet", "scopes", "get-iam-policy")]
+[CliCommand("container", "fleet", "scopes", "get-iam-policy")]
 public record GcloudContainerFleetScopesGetIamPolicyOptions(
-[property: PositionalArgument] string Scope
+[property: CliArgument] string Scope
 ) : GcloudOptions;

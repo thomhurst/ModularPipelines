@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai", "models", "delete")]
+[CliCommand("ai", "models", "delete")]
 public record GcloudAiModelsDeleteOptions(
-[property: PositionalArgument] string Model,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Model,
+[property: CliArgument] string Region
 ) : GcloudOptions;

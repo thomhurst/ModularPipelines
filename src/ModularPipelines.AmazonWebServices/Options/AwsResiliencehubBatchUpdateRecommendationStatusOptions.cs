@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resiliencehub", "batch-update-recommendation-status")]
+[CliCommand("resiliencehub", "batch-update-recommendation-status")]
 public record AwsResiliencehubBatchUpdateRecommendationStatusOptions(
-[property: CommandSwitch("--app-arn")] string AppArn,
-[property: CommandSwitch("--request-entries")] string[] RequestEntries
+[property: CliOption("--app-arn")] string AppArn,
+[property: CliOption("--request-entries")] string[] RequestEntries
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

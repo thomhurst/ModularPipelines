@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "clusters", "upgrade")]
+[CliCommand("container", "clusters", "upgrade")]
 public record GcloudContainerClustersUpgradeOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--cluster-version")]
+    [CliOption("--cluster-version")]
     public string? ClusterVersion { get; set; }
 
-    [CommandSwitch("--image-type")]
+    [CliOption("--image-type")]
     public string? ImageType { get; set; }
 
-    [BooleanCommandSwitch("--master")]
+    [CliFlag("--master")]
     public bool? Master { get; set; }
 
-    [CommandSwitch("--node-pool")]
+    [CliOption("--node-pool")]
     public string? NodePool { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

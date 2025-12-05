@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "get-device-position-history")]
+[CliCommand("location", "get-device-position-history")]
 public record AwsLocationGetDevicePositionHistoryOptions(
-[property: CommandSwitch("--device-id")] string DeviceId,
-[property: CommandSwitch("--tracker-name")] string TrackerName
+[property: CliOption("--device-id")] string DeviceId,
+[property: CliOption("--tracker-name")] string TrackerName
 ) : AwsOptions
 {
-    [CommandSwitch("--end-time-exclusive")]
+    [CliOption("--end-time-exclusive")]
     public long? EndTimeExclusive { get; set; }
 
-    [CommandSwitch("--start-time-inclusive")]
+    [CliOption("--start-time-inclusive")]
     public long? StartTimeInclusive { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

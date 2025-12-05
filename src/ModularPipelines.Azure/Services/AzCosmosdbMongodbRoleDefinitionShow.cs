@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "mongodb", "role", "definition")]
+[CliCommand("cosmosdb", "mongodb", "role", "definition")]
 public class AzCosmosdbMongodbRoleDefinitionShow
 {
     public AzCosmosdbMongodbRoleDefinitionShow(

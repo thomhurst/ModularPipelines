@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instance-groups", "managed", "abandon-instances")]
+[CliCommand("compute", "instance-groups", "managed", "abandon-instances")]
 public record GcloudComputeInstanceGroupsManagedAbandonInstancesOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--instances")] string[] Instances
+[property: CliArgument] string Name,
+[property: CliOption("--instances")] string[] Instances
 ) : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

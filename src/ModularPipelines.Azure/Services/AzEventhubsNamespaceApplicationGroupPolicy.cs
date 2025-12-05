@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventhubs", "namespace", "application-group")]
+[CliCommand("eventhubs", "namespace", "application-group")]
 public class AzEventhubsNamespaceApplicationGroupPolicy
 {
     public AzEventhubsNamespaceApplicationGroupPolicy(

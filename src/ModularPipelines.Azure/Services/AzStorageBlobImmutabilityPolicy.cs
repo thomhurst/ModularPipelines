@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "blob")]
+[CliCommand("storage", "blob")]
 public class AzStorageBlobImmutabilityPolicy
 {
     public AzStorageBlobImmutabilityPolicy(

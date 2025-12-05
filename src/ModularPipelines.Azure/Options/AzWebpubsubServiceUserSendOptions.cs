@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webpubsub", "service", "user", "send")]
+[CliSubCommand("webpubsub", "service", "user", "send")]
 public record AzWebpubsubServiceUserSendOptions(
-[property: CommandSwitch("--hub-name")] string HubName,
-[property: CommandSwitch("--payload")] string Payload,
-[property: CommandSwitch("--user-id")] string UserId
+[property: CliOption("--hub-name")] string HubName,
+[property: CliOption("--payload")] string Payload,
+[property: CliOption("--user-id")] string UserId
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

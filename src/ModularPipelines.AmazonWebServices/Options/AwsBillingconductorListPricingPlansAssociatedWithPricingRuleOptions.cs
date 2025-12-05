@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billingconductor", "list-pricing-plans-associated-with-pricing-rule")]
+[CliCommand("billingconductor", "list-pricing-plans-associated-with-pricing-rule")]
 public record AwsBillingconductorListPricingPlansAssociatedWithPricingRuleOptions(
-[property: CommandSwitch("--pricing-rule-arn")] string PricingRuleArn
+[property: CliOption("--pricing-rule-arn")] string PricingRuleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--billing-period")]
+    [CliOption("--billing-period")]
     public string? BillingPeriod { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

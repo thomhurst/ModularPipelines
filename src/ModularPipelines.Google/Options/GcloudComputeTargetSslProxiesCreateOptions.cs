@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "target-ssl-proxies", "create")]
+[CliCommand("compute", "target-ssl-proxies", "create")]
 public record GcloudComputeTargetSslProxiesCreateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--backend-service")] string BackendService,
-[property: CommandSwitch("--certificate-map")] string CertificateMap,
-[property: CommandSwitch("--ssl-certificates")] string[] SslCertificates
+[property: CliArgument] string Name,
+[property: CliOption("--backend-service")] string BackendService,
+[property: CliOption("--certificate-map")] string CertificateMap,
+[property: CliOption("--ssl-certificates")] string[] SslCertificates
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--proxy-header")]
+    [CliOption("--proxy-header")]
     public string? ProxyHeader { get; set; }
 
-    [CommandSwitch("--ssl-policy")]
+    [CliOption("--ssl-policy")]
     public string? SslPolicy { get; set; }
 
-    [BooleanCommandSwitch("--global-ssl-policy")]
+    [CliFlag("--global-ssl-policy")]
     public bool? GlobalSslPolicy { get; set; }
 
-    [CommandSwitch("--ssl-policy-region")]
+    [CliOption("--ssl-policy-region")]
     public string? SslPolicyRegion { get; set; }
 }

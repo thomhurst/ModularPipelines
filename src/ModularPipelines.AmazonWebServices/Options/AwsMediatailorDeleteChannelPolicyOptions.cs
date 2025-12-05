@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediatailor", "delete-channel-policy")]
+[CliCommand("mediatailor", "delete-channel-policy")]
 public record AwsMediatailorDeleteChannelPolicyOptions(
-[property: CommandSwitch("--channel-name")] string ChannelName
+[property: CliOption("--channel-name")] string ChannelName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

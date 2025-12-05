@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rolesanywhere", "enable-trust-anchor")]
+[CliCommand("rolesanywhere", "enable-trust-anchor")]
 public record AwsRolesanywhereEnableTrustAnchorOptions(
-[property: CommandSwitch("--trust-anchor-id")] string TrustAnchorId
+[property: CliOption("--trust-anchor-id")] string TrustAnchorId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

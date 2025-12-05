@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "operations", "describe")]
+[CliCommand("storage", "operations", "describe")]
 public record GcloudStorageOperationsDescribeOptions(
-[property: PositionalArgument] string OperationName
+[property: CliArgument] string OperationName
 ) : GcloudOptions;

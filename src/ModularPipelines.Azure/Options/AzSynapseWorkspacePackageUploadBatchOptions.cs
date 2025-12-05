@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "workspace-package", "upload-batch")]
+[CliSubCommand("synapse", "workspace-package", "upload-batch")]
 public record AzSynapseWorkspacePackageUploadBatchOptions(
-[property: CommandSwitch("--source")] string Source,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--source")] string Source,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-progress")]
+    [CliFlag("--no-progress")]
     public bool? NoProgress { get; set; }
 }

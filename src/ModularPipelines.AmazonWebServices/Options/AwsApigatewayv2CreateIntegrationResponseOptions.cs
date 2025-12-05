@@ -5,25 +5,25 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigatewayv2", "create-integration-response")]
+[CliCommand("apigatewayv2", "create-integration-response")]
 public record AwsApigatewayv2CreateIntegrationResponseOptions(
-[property: CommandSwitch("--api-id")] string ApiId,
-[property: CommandSwitch("--integration-id")] string IntegrationId,
-[property: CommandSwitch("--integration-response-key")] string IntegrationResponseKey
+[property: CliOption("--api-id")] string ApiId,
+[property: CliOption("--integration-id")] string IntegrationId,
+[property: CliOption("--integration-response-key")] string IntegrationResponseKey
 ) : AwsOptions
 {
-    [CommandSwitch("--content-handling-strategy")]
+    [CliOption("--content-handling-strategy")]
     public string? ContentHandlingStrategy { get; set; }
 
-    [CommandSwitch("--response-parameters")]
+    [CliOption("--response-parameters")]
     public IEnumerable<KeyValue>? ResponseParameters { get; set; }
 
-    [CommandSwitch("--response-templates")]
+    [CliOption("--response-templates")]
     public IEnumerable<KeyValue>? ResponseTemplates { get; set; }
 
-    [CommandSwitch("--template-selection-expression")]
+    [CliOption("--template-selection-expression")]
     public string? TemplateSelectionExpression { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

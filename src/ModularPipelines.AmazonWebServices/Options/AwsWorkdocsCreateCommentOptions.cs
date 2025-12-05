@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workdocs", "create-comment")]
+[CliCommand("workdocs", "create-comment")]
 public record AwsWorkdocsCreateCommentOptions(
-[property: CommandSwitch("--document-id")] string DocumentId,
-[property: CommandSwitch("--version-id")] string VersionId,
-[property: CommandSwitch("--text")] string Text
+[property: CliOption("--document-id")] string DocumentId,
+[property: CliOption("--version-id")] string VersionId,
+[property: CliOption("--text")] string Text
 ) : AwsOptions
 {
-    [CommandSwitch("--authentication-token")]
+    [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
-    [CommandSwitch("--parent-id")]
+    [CliOption("--parent-id")]
     public string? ParentId { get; set; }
 
-    [CommandSwitch("--thread-id")]
+    [CliOption("--thread-id")]
     public string? ThreadId { get; set; }
 
-    [CommandSwitch("--visibility")]
+    [CliOption("--visibility")]
     public string? Visibility { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

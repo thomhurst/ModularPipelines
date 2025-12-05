@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("info")]
+[CliCommand("info")]
 public record GcloudInfoOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--anonymize")]
+    [CliFlag("--anonymize")]
     public bool? Anonymize { get; set; }
 
-    [BooleanCommandSwitch("--run-diagnostics")]
+    [CliFlag("--run-diagnostics")]
     public bool? RunDiagnostics { get; set; }
 
-    [BooleanCommandSwitch("--show-log")]
+    [CliFlag("--show-log")]
     public bool? ShowLog { get; set; }
 }

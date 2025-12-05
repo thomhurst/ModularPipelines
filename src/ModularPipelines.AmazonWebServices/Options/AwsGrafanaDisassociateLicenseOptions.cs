@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("grafana", "disassociate-license")]
+[CliCommand("grafana", "disassociate-license")]
 public record AwsGrafanaDisassociateLicenseOptions(
-[property: CommandSwitch("--license-type")] string LicenseType,
-[property: CommandSwitch("--workspace-id")] string WorkspaceId
+[property: CliOption("--license-type")] string LicenseType,
+[property: CliOption("--workspace-id")] string WorkspaceId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

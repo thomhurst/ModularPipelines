@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticbeanstalk", "create-configuration-template")]
+[CliCommand("elasticbeanstalk", "create-configuration-template")]
 public record AwsElasticbeanstalkCreateConfigurationTemplateOptions(
-[property: CommandSwitch("--application-name")] string ApplicationName,
-[property: CommandSwitch("--template-name")] string TemplateName
+[property: CliOption("--application-name")] string ApplicationName,
+[property: CliOption("--template-name")] string TemplateName
 ) : AwsOptions
 {
-    [CommandSwitch("--solution-stack-name")]
+    [CliOption("--solution-stack-name")]
     public string? SolutionStackName { get; set; }
 
-    [CommandSwitch("--platform-arn")]
+    [CliOption("--platform-arn")]
     public string? PlatformArn { get; set; }
 
-    [CommandSwitch("--source-configuration")]
+    [CliOption("--source-configuration")]
     public string? SourceConfiguration { get; set; }
 
-    [CommandSwitch("--environment-id")]
+    [CliOption("--environment-id")]
     public string? EnvironmentId { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--option-settings")]
+    [CliOption("--option-settings")]
     public string[]? OptionSettings { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

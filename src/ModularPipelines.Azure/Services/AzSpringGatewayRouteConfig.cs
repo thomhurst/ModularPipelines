@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "gateway")]
+[CliCommand("spring", "gateway")]
 public class AzSpringGatewayRouteConfig
 {
     public AzSpringGatewayRouteConfig(

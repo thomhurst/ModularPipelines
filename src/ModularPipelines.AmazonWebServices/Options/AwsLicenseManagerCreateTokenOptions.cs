@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("license-manager", "create-token")]
+[CliCommand("license-manager", "create-token")]
 public record AwsLicenseManagerCreateTokenOptions(
-[property: CommandSwitch("--license-arn")] string LicenseArn,
-[property: CommandSwitch("--client-token")] string ClientToken
+[property: CliOption("--license-arn")] string LicenseArn,
+[property: CliOption("--client-token")] string ClientToken
 ) : AwsOptions
 {
-    [CommandSwitch("--role-arns")]
+    [CliOption("--role-arns")]
     public string[]? RoleArns { get; set; }
 
-    [CommandSwitch("--expiration-in-days")]
+    [CliOption("--expiration-in-days")]
     public int? ExpirationInDays { get; set; }
 
-    [CommandSwitch("--token-properties")]
+    [CliOption("--token-properties")]
     public string[]? TokenProperties { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataprotection", "backup-instance", "initialize")]
+[CliSubCommand("dataprotection", "backup-instance", "initialize")]
 public record AzDataprotectionBackupInstanceInitializeOptions(
-[property: CommandSwitch("--datasource-id")] string DatasourceId,
-[property: CommandSwitch("--datasource-location")] string DatasourceLocation,
-[property: CommandSwitch("--datasource-type")] string DatasourceType,
-[property: CommandSwitch("--policy-id")] string PolicyId
+[property: CliOption("--datasource-id")] string DatasourceId,
+[property: CliOption("--datasource-location")] string DatasourceLocation,
+[property: CliOption("--datasource-type")] string DatasourceType,
+[property: CliOption("--policy-id")] string PolicyId
 ) : AzOptions
 {
-    [CommandSwitch("--backup-configuration")]
+    [CliOption("--backup-configuration")]
     public string? BackupConfiguration { get; set; }
 
-    [CommandSwitch("--friendly-name")]
+    [CliOption("--friendly-name")]
     public string? FriendlyName { get; set; }
 
-    [CommandSwitch("--secret-store-type")]
+    [CliOption("--secret-store-type")]
     public string? SecretStoreType { get; set; }
 
-    [CommandSwitch("--secret-store-uri")]
+    [CliOption("--secret-store-uri")]
     public string? SecretStoreUri { get; set; }
 
-    [CommandSwitch("--snapshot-resource-group-name")]
+    [CliOption("--snapshot-resource-group-name")]
     public string? SnapshotResourceGroupName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

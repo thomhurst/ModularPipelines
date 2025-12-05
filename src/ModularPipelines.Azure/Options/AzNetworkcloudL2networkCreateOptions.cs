@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "l2network", "create")]
+[CliSubCommand("networkcloud", "l2network", "create")]
 public record AzNetworkcloudL2networkCreateOptions(
-[property: CommandSwitch("--extended-location")] string ExtendedLocation,
-[property: CommandSwitch("--l2-isolation-domain-id")] string L2IsolationDomainId,
-[property: CommandSwitch("--l2-network-name")] string L2NetworkName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--extended-location")] string ExtendedLocation,
+[property: CliOption("--l2-isolation-domain-id")] string L2IsolationDomainId,
+[property: CliOption("--l2-network-name")] string L2NetworkName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--interface-name")]
+    [CliOption("--interface-name")]
     public string? InterfaceName { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

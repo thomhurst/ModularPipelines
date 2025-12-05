@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("support", "describe-services")]
+[CliCommand("support", "describe-services")]
 public record AwsSupportDescribeServicesOptions : AwsOptions
 {
-    [CommandSwitch("--service-code-list")]
+    [CliOption("--service-code-list")]
     public string[]? ServiceCodeList { get; set; }
 
-    [CommandSwitch("--language")]
+    [CliOption("--language")]
     public string? Language { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

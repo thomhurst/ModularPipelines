@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opensearchserverless", "update-security-config")]
+[CliCommand("opensearchserverless", "update-security-config")]
 public record AwsOpensearchserverlessUpdateSecurityConfigOptions(
-[property: CommandSwitch("--config-version")] string ConfigVersion,
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--config-version")] string ConfigVersion,
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--saml-options")]
+    [CliOption("--saml-options")]
     public string? SamlOptions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

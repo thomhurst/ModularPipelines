@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sms", "update-replication-job")]
+[CliCommand("sms", "update-replication-job")]
 public record AwsSmsUpdateReplicationJobOptions(
-[property: CommandSwitch("--replication-job-id")] string ReplicationJobId
+[property: CliOption("--replication-job-id")] string ReplicationJobId
 ) : AwsOptions
 {
-    [CommandSwitch("--frequency")]
+    [CliOption("--frequency")]
     public int? Frequency { get; set; }
 
-    [CommandSwitch("--next-replication-run-start-time")]
+    [CliOption("--next-replication-run-start-time")]
     public long? NextReplicationRunStartTime { get; set; }
 
-    [CommandSwitch("--license-type")]
+    [CliOption("--license-type")]
     public string? LicenseType { get; set; }
 
-    [CommandSwitch("--role-name")]
+    [CliOption("--role-name")]
     public string? RoleName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--number-of-recent-amis-to-keep")]
+    [CliOption("--number-of-recent-amis-to-keep")]
     public int? NumberOfRecentAmisToKeep { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

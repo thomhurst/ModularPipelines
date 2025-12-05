@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("identitystore", "update-user")]
+[CliCommand("identitystore", "update-user")]
 public record AwsIdentitystoreUpdateUserOptions(
-[property: CommandSwitch("--identity-store-id")] string IdentityStoreId,
-[property: CommandSwitch("--user-id")] string UserId,
-[property: CommandSwitch("--operations")] string[] Operations
+[property: CliOption("--identity-store-id")] string IdentityStoreId,
+[property: CliOption("--user-id")] string UserId,
+[property: CliOption("--operations")] string[] Operations
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

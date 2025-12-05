@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("topic", "offline-help")]
+[CliCommand("topic", "offline-help")]
 public record GcloudTopicOfflineHelpOptions : GcloudOptions;

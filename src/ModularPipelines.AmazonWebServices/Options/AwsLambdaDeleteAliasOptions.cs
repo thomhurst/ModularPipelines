@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "delete-alias")]
+[CliCommand("lambda", "delete-alias")]
 public record AwsLambdaDeleteAliasOptions(
-[property: CommandSwitch("--function-name")] string FunctionName,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--function-name")] string FunctionName,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

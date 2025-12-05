@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("clouddirectory", "get-directory")]
+[CliCommand("clouddirectory", "get-directory")]
 public record AwsClouddirectoryGetDirectoryOptions(
-[property: CommandSwitch("--directory-arn")] string DirectoryArn
+[property: CliOption("--directory-arn")] string DirectoryArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

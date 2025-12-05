@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cleanroomsml", "start-audience-export-job")]
+[CliCommand("cleanroomsml", "start-audience-export-job")]
 public record AwsCleanroomsmlStartAudienceExportJobOptions(
-[property: CommandSwitch("--audience-generation-job-arn")] string AudienceGenerationJobArn,
-[property: CommandSwitch("--audience-size")] string AudienceSize,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--audience-generation-job-arn")] string AudienceGenerationJobArn,
+[property: CliOption("--audience-size")] string AudienceSize,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("proton", "create-component")]
+[CliCommand("proton", "create-component")]
 public record AwsProtonCreateComponentOptions(
-[property: CommandSwitch("--manifest")] string Manifest,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--template-file")] string TemplateFile
+[property: CliOption("--manifest")] string Manifest,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--template-file")] string TemplateFile
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--environment-name")]
+    [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 
-    [CommandSwitch("--service-instance-name")]
+    [CliOption("--service-instance-name")]
     public string? ServiceInstanceName { get; set; }
 
-    [CommandSwitch("--service-name")]
+    [CliOption("--service-name")]
     public string? ServiceName { get; set; }
 
-    [CommandSwitch("--service-spec")]
+    [CliOption("--service-spec")]
     public string? ServiceSpec { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

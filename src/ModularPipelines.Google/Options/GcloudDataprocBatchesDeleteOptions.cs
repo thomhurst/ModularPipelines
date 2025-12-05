@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "batches", "delete")]
+[CliCommand("dataproc", "batches", "delete")]
 public record GcloudDataprocBatchesDeleteOptions(
-[property: PositionalArgument] string Batch,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Batch,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

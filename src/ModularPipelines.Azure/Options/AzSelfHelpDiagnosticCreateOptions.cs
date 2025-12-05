@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("self-help", "diagnostic", "create")]
+[CliSubCommand("self-help", "diagnostic", "create")]
 public record AzSelfHelpDiagnosticCreateOptions(
-[property: CommandSwitch("--diagnostic-name")] string DiagnosticName,
-[property: CommandSwitch("--scope")] string Scope
+[property: CliOption("--diagnostic-name")] string DiagnosticName,
+[property: CliOption("--scope")] string Scope
 ) : AzOptions
 {
-    [CommandSwitch("--global-parameters")]
+    [CliOption("--global-parameters")]
     public string? GlobalParameters { get; set; }
 
-    [CommandSwitch("--insights")]
+    [CliOption("--insights")]
     public string? Insights { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

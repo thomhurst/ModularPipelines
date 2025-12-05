@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("detective", "update-datasource-packages")]
+[CliCommand("detective", "update-datasource-packages")]
 public record AwsDetectiveUpdateDatasourcePackagesOptions(
-[property: CommandSwitch("--graph-arn")] string GraphArn,
-[property: CommandSwitch("--datasource-packages")] string[] DatasourcePackages
+[property: CliOption("--graph-arn")] string GraphArn,
+[property: CliOption("--datasource-packages")] string[] DatasourcePackages
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

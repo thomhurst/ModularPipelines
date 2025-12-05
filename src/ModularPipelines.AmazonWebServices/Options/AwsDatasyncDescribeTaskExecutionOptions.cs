@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datasync", "describe-task-execution")]
+[CliCommand("datasync", "describe-task-execution")]
 public record AwsDatasyncDescribeTaskExecutionOptions(
-[property: CommandSwitch("--task-execution-arn")] string TaskExecutionArn
+[property: CliOption("--task-execution-arn")] string TaskExecutionArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

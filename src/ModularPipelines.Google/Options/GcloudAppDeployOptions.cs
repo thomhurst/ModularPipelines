@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "deploy")]
+[CliCommand("app", "deploy")]
 public record GcloudAppDeployOptions(
-[property: PositionalArgument] string Deployables
+[property: CliArgument] string Deployables
 ) : GcloudOptions
 {
-    [CommandSwitch("--appyaml")]
+    [CliOption("--appyaml")]
     public string? Appyaml { get; set; }
 
-    [CommandSwitch("--bucket")]
+    [CliOption("--bucket")]
     public string? Bucket { get; set; }
 
-    [BooleanCommandSwitch("--cache")]
+    [CliFlag("--cache")]
     public bool? Cache { get; set; }
 
-    [CommandSwitch("--ignore-file")]
+    [CliOption("--ignore-file")]
     public string? IgnoreFile { get; set; }
 
-    [CommandSwitch("--image-url")]
+    [CliOption("--image-url")]
     public string? ImageUrl { get; set; }
 
-    [BooleanCommandSwitch("--promote")]
+    [CliFlag("--promote")]
     public bool? Promote { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 
-    [BooleanCommandSwitch("--stop-previous-version")]
+    [CliFlag("--stop-previous-version")]
     public bool? StopPreviousVersion { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string? Version { get; set; }
 }

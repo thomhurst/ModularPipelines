@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datasync", "create-location-efs")]
+[CliCommand("datasync", "create-location-efs")]
 public record AwsDatasyncCreateLocationEfsOptions(
-[property: CommandSwitch("--efs-filesystem-arn")] string EfsFilesystemArn,
-[property: CommandSwitch("--ec2-config")] string Ec2Config
+[property: CliOption("--efs-filesystem-arn")] string EfsFilesystemArn,
+[property: CliOption("--ec2-config")] string Ec2Config
 ) : AwsOptions
 {
-    [CommandSwitch("--subdirectory")]
+    [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--access-point-arn")]
+    [CliOption("--access-point-arn")]
     public string? AccessPointArn { get; set; }
 
-    [CommandSwitch("--file-system-access-role-arn")]
+    [CliOption("--file-system-access-role-arn")]
     public string? FileSystemAccessRoleArn { get; set; }
 
-    [CommandSwitch("--in-transit-encryption")]
+    [CliOption("--in-transit-encryption")]
     public string? InTransitEncryption { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

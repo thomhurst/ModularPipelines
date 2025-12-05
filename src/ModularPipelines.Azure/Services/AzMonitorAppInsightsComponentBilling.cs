@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "app-insights", "component")]
+[CliCommand("monitor", "app-insights", "component")]
 public class AzMonitorAppInsightsComponentBilling
 {
     public AzMonitorAppInsightsComponentBilling(

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops", "extension", "list")]
+[CliSubCommand("devops", "extension", "list")]
 public record AzDevopsExtensionListOptions : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [BooleanCommandSwitch("--include-built-in")]
+    [CliFlag("--include-built-in")]
     public bool? IncludeBuiltIn { get; set; }
 
-    [BooleanCommandSwitch("--include-disabled")]
+    [CliFlag("--include-disabled")]
     public bool? IncludeDisabled { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 }

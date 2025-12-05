@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "target-pools", "add-instances")]
+[CliCommand("compute", "target-pools", "add-instances")]
 public record GcloudComputeTargetPoolsAddInstancesOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--instances")] string[] Instances
+[property: CliArgument] string Name,
+[property: CliOption("--instances")] string[] Instances
 ) : GcloudOptions
 {
-    [CommandSwitch("--instances-zone")]
+    [CliOption("--instances-zone")]
     public string? InstancesZone { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

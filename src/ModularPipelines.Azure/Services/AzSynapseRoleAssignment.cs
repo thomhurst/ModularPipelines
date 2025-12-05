@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "role")]
+[CliCommand("synapse", "role")]
 public class AzSynapseRoleAssignment
 {
     public AzSynapseRoleAssignment(

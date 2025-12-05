@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qldb", "update-ledger-permissions-mode")]
+[CliCommand("qldb", "update-ledger-permissions-mode")]
 public record AwsQldbUpdateLedgerPermissionsModeOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--permissions-mode")] string PermissionsMode
+[property: CliOption("--name")] string Name,
+[property: CliOption("--permissions-mode")] string PermissionsMode
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

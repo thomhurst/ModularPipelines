@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "jobs", "delete")]
+[CliCommand("dataproc", "jobs", "delete")]
 public record GcloudDataprocJobsDeleteOptions(
-[property: PositionalArgument] string Job,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Job,
+[property: CliArgument] string Region
 ) : GcloudOptions;

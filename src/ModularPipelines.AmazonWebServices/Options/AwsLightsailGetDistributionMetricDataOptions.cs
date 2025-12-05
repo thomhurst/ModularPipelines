@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "get-distribution-metric-data")]
+[CliCommand("lightsail", "get-distribution-metric-data")]
 public record AwsLightsailGetDistributionMetricDataOptions(
-[property: CommandSwitch("--distribution-name")] string DistributionName,
-[property: CommandSwitch("--metric-name")] string MetricName,
-[property: CommandSwitch("--start-time")] long StartTime,
-[property: CommandSwitch("--end-time")] long EndTime,
-[property: CommandSwitch("--period")] int Period,
-[property: CommandSwitch("--unit")] string Unit,
-[property: CommandSwitch("--statistics")] string[] Statistics
+[property: CliOption("--distribution-name")] string DistributionName,
+[property: CliOption("--metric-name")] string MetricName,
+[property: CliOption("--start-time")] long StartTime,
+[property: CliOption("--end-time")] long EndTime,
+[property: CliOption("--period")] int Period,
+[property: CliOption("--unit")] string Unit,
+[property: CliOption("--statistics")] string[] Statistics
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

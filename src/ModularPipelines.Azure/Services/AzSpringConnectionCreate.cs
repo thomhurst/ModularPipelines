@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "connection")]
+[CliCommand("spring", "connection")]
 public class AzSpringConnectionCreate
 {
     public AzSpringConnectionCreate(

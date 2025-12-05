@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("active-directory", "peerings", "describe")]
+[CliCommand("active-directory", "peerings", "describe")]
 public record GcloudActiveDirectoryPeeringsDescribeOptions(
-[property: PositionalArgument] string Peering
+[property: CliArgument] string Peering
 ) : GcloudOptions;

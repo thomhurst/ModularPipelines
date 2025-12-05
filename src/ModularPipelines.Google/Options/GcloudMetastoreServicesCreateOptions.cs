@@ -5,102 +5,102 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("metastore", "services", "create")]
+[CliCommand("metastore", "services", "create")]
 public record GcloudMetastoreServicesCreateOptions(
-[property: PositionalArgument] string Service,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Service,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--data-catalog-sync")]
+    [CliFlag("--data-catalog-sync")]
     public bool? DataCatalogSync { get; set; }
 
-    [CommandSwitch("--database-type")]
+    [CliOption("--database-type")]
     public string? DatabaseType { get; set; }
 
-    [CommandSwitch("--encryption-kms-key")]
+    [CliOption("--encryption-kms-key")]
     public string? EncryptionKmsKey { get; set; }
 
-    [CommandSwitch("--endpoint-protocol")]
+    [CliOption("--endpoint-protocol")]
     public string? EndpointProtocol { get; set; }
 
-    [CommandSwitch("--hive-metastore-version")]
+    [CliOption("--hive-metastore-version")]
     public string? HiveMetastoreVersion { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public string? Port { get; set; }
 
-    [CommandSwitch("--release-channel")]
+    [CliOption("--release-channel")]
     public string? ReleaseChannel { get; set; }
 
-    [CommandSwitch("--auxiliary-versions")]
+    [CliOption("--auxiliary-versions")]
     public string[]? AuxiliaryVersions { get; set; }
 
-    [CommandSwitch("--auxiliary-versions-from-file")]
+    [CliOption("--auxiliary-versions-from-file")]
     public string? AuxiliaryVersionsFromFile { get; set; }
 
-    [CommandSwitch("--consumer-subnetworks")]
+    [CliOption("--consumer-subnetworks")]
     public string[]? ConsumerSubnetworks { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--network-config-from-file")]
+    [CliOption("--network-config-from-file")]
     public string? NetworkConfigFromFile { get; set; }
 
-    [CommandSwitch("--hive-metastore-configs")]
+    [CliOption("--hive-metastore-configs")]
     public IEnumerable<KeyValue>? HiveMetastoreConfigs { get; set; }
 
-    [CommandSwitch("--hive-metastore-configs-from-file")]
+    [CliOption("--hive-metastore-configs-from-file")]
     public string? HiveMetastoreConfigsFromFile { get; set; }
 
-    [CommandSwitch("--instance-size")]
+    [CliOption("--instance-size")]
     public string? InstanceSize { get; set; }
 
-    [BooleanCommandSwitch("extra-large")]
+    [CliFlag("extra-large")]
     public bool? ExtraLarge { get; set; }
 
-    [BooleanCommandSwitch("extra-small")]
+    [CliFlag("extra-small")]
     public bool? ExtraSmall { get; set; }
 
-    [BooleanCommandSwitch("large")]
+    [CliFlag("large")]
     public bool? Large { get; set; }
 
-    [BooleanCommandSwitch("medium")]
+    [CliFlag("medium")]
     public bool? Medium { get; set; }
 
-    [BooleanCommandSwitch("small")]
+    [CliFlag("small")]
     public bool? Small { get; set; }
 
-    [CommandSwitch("--scaling-factor")]
+    [CliOption("--scaling-factor")]
     public string? ScalingFactor { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 
-    [BooleanCommandSwitch("developer")]
+    [CliFlag("developer")]
     public bool? Developer { get; set; }
 
-    [BooleanCommandSwitch("enterprise")]
+    [CliFlag("enterprise")]
     public bool? Enterprise { get; set; }
 
-    [CommandSwitch("--kerberos-principal")]
+    [CliOption("--kerberos-principal")]
     public string? KerberosPrincipal { get; set; }
 
-    [CommandSwitch("--keytab")]
+    [CliOption("--keytab")]
     public string? Keytab { get; set; }
 
-    [CommandSwitch("--krb5-config")]
+    [CliOption("--krb5-config")]
     public string? Krb5Config { get; set; }
 
-    [CommandSwitch("--maintenance-window-day")]
+    [CliOption("--maintenance-window-day")]
     public string? MaintenanceWindowDay { get; set; }
 
-    [CommandSwitch("--maintenance-window-hour")]
+    [CliOption("--maintenance-window-hour")]
     public string? MaintenanceWindowHour { get; set; }
 }

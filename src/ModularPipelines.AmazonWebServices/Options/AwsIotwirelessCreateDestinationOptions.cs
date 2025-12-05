@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotwireless", "create-destination")]
+[CliCommand("iotwireless", "create-destination")]
 public record AwsIotwirelessCreateDestinationOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--expression-type")] string ExpressionType,
-[property: CommandSwitch("--expression")] string Expression,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--name")] string Name,
+[property: CliOption("--expression-type")] string ExpressionType,
+[property: CliOption("--expression")] string Expression,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

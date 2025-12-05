@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectcases", "create-related-item")]
+[CliCommand("connectcases", "create-related-item")]
 public record AwsConnectcasesCreateRelatedItemOptions(
-[property: CommandSwitch("--case-id")] string CaseId,
-[property: CommandSwitch("--content")] string Content,
-[property: CommandSwitch("--domain-id")] string DomainId,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--case-id")] string CaseId,
+[property: CliOption("--content")] string Content,
+[property: CliOption("--domain-id")] string DomainId,
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--performed-by")]
+    [CliOption("--performed-by")]
     public string? PerformedBy { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

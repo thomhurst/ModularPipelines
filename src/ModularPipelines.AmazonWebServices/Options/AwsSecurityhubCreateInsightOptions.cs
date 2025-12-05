@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securityhub", "create-insight")]
+[CliCommand("securityhub", "create-insight")]
 public record AwsSecurityhubCreateInsightOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--filters")] string Filters,
-[property: CommandSwitch("--group-by-attribute")] string GroupByAttribute
+[property: CliOption("--name")] string Name,
+[property: CliOption("--filters")] string Filters,
+[property: CliOption("--group-by-attribute")] string GroupByAttribute
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

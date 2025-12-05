@@ -5,51 +5,51 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("medialive", "create-channel")]
+[CliCommand("medialive", "create-channel")]
 public record AwsMedialiveCreateChannelOptions : AwsOptions
 {
-    [CommandSwitch("--cdi-input-specification")]
+    [CliOption("--cdi-input-specification")]
     public string? CdiInputSpecification { get; set; }
 
-    [CommandSwitch("--channel-class")]
+    [CliOption("--channel-class")]
     public string? ChannelClass { get; set; }
 
-    [CommandSwitch("--destinations")]
+    [CliOption("--destinations")]
     public string[]? Destinations { get; set; }
 
-    [CommandSwitch("--encoder-settings")]
+    [CliOption("--encoder-settings")]
     public string? EncoderSettings { get; set; }
 
-    [CommandSwitch("--input-attachments")]
+    [CliOption("--input-attachments")]
     public string[]? InputAttachments { get; set; }
 
-    [CommandSwitch("--input-specification")]
+    [CliOption("--input-specification")]
     public string? InputSpecification { get; set; }
 
-    [CommandSwitch("--log-level")]
+    [CliOption("--log-level")]
     public string? LogLevel { get; set; }
 
-    [CommandSwitch("--maintenance")]
+    [CliOption("--maintenance")]
     public string? Maintenance { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--request-id")]
+    [CliOption("--request-id")]
     public string? RequestId { get; set; }
 
-    [CommandSwitch("--reserved")]
+    [CliOption("--reserved")]
     public string? Reserved { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--vpc")]
+    [CliOption("--vpc")]
     public string? Vpc { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("support", "services")]
+[CliCommand("support", "services")]
 public class AzSupportServicesProblemClassifications
 {
     public AzSupportServicesProblemClassifications(

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts", "yum", "import")]
+[CliCommand("artifacts", "yum", "import")]
 public record GcloudArtifactsYumImportOptions(
-[property: PositionalArgument] string Repository,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--gcs-source")] string[] GcsSource
+[property: CliArgument] string Repository,
+[property: CliArgument] string Location,
+[property: CliOption("--gcs-source")] string[] GcsSource
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

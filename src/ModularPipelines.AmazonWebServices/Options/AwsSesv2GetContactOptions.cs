@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sesv2", "get-contact")]
+[CliCommand("sesv2", "get-contact")]
 public record AwsSesv2GetContactOptions(
-[property: CommandSwitch("--contact-list-name")] string ContactListName,
-[property: CommandSwitch("--email-address")] string EmailAddress
+[property: CliOption("--contact-list-name")] string ContactListName,
+[property: CliOption("--email-address")] string EmailAddress
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

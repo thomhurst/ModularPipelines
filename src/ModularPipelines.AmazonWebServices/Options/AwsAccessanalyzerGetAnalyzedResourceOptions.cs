@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("accessanalyzer", "get-analyzed-resource")]
+[CliCommand("accessanalyzer", "get-analyzed-resource")]
 public record AwsAccessanalyzerGetAnalyzedResourceOptions(
-[property: CommandSwitch("--analyzer-arn")] string AnalyzerArn,
-[property: CommandSwitch("--resource-arn")] string ResourceArn
+[property: CliOption("--analyzer-arn")] string AnalyzerArn,
+[property: CliOption("--resource-arn")] string ResourceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

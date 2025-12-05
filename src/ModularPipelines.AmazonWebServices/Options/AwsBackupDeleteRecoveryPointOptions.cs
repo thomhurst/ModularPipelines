@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "delete-recovery-point")]
+[CliCommand("backup", "delete-recovery-point")]
 public record AwsBackupDeleteRecoveryPointOptions(
-[property: CommandSwitch("--backup-vault-name")] string BackupVaultName,
-[property: CommandSwitch("--recovery-point-arn")] string RecoveryPointArn
+[property: CliOption("--backup-vault-name")] string BackupVaultName,
+[property: CliOption("--recovery-point-arn")] string RecoveryPointArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

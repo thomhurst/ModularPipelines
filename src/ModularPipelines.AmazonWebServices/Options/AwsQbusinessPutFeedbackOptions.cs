@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qbusiness", "put-feedback")]
+[CliCommand("qbusiness", "put-feedback")]
 public record AwsQbusinessPutFeedbackOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--conversation-id")] string ConversationId,
-[property: CommandSwitch("--message-id")] string MessageId,
-[property: CommandSwitch("--user-id")] string UserId
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--conversation-id")] string ConversationId,
+[property: CliOption("--message-id")] string MessageId,
+[property: CliOption("--user-id")] string UserId
 ) : AwsOptions
 {
-    [CommandSwitch("--message-copied-at")]
+    [CliOption("--message-copied-at")]
     public long? MessageCopiedAt { get; set; }
 
-    [CommandSwitch("--message-usefulness")]
+    [CliOption("--message-usefulness")]
     public string? MessageUsefulness { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

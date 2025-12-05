@@ -5,26 +5,26 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("certificate-manager", "certificates", "create")]
+[CliCommand("certificate-manager", "certificates", "create")]
 public record GcloudCertificateManagerCertificatesCreateOptions(
-[property: PositionalArgument] string Certificate,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--certificate-file")] string CertificateFile,
-[property: CommandSwitch("--private-key-file")] string PrivateKeyFile,
-[property: CommandSwitch("--domains")] string[] Domains,
-[property: CommandSwitch("--dns-authorizations")] string[] DnsAuthorizations,
-[property: CommandSwitch("--issuance-config")] string IssuanceConfig
+[property: CliArgument] string Certificate,
+[property: CliArgument] string Location,
+[property: CliOption("--certificate-file")] string CertificateFile,
+[property: CliOption("--private-key-file")] string PrivateKeyFile,
+[property: CliOption("--domains")] string[] Domains,
+[property: CliOption("--dns-authorizations")] string[] DnsAuthorizations,
+[property: CliOption("--issuance-config")] string IssuanceConfig
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 }

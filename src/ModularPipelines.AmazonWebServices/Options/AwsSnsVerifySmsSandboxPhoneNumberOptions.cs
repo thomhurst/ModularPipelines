@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sns", "verify-sms-sandbox-phone-number")]
+[CliCommand("sns", "verify-sms-sandbox-phone-number")]
 public record AwsSnsVerifySmsSandboxPhoneNumberOptions(
-[property: CommandSwitch("--phone-number")] string PhoneNumber,
-[property: CommandSwitch("--one-time-password")] string OneTimePassword
+[property: CliOption("--phone-number")] string PhoneNumber,
+[property: CliOption("--one-time-password")] string OneTimePassword
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

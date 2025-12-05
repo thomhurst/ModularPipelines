@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vhub", "route-map", "rule", "add")]
+[CliSubCommand("network", "vhub", "route-map", "rule", "add")]
 public record AzNetworkVhubRouteMapRuleAddOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--route-map-name")] string RouteMapName,
-[property: CommandSwitch("--vhub-name")] string VhubName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--route-map-name")] string RouteMapName,
+[property: CliOption("--vhub-name")] string VhubName
 ) : AzOptions
 {
-    [CommandSwitch("--actions")]
+    [CliOption("--actions")]
     public string? Actions { get; set; }
 
-    [CommandSwitch("--match-criteria")]
+    [CliOption("--match-criteria")]
     public string? MatchCriteria { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--next-step")]
+    [CliOption("--next-step")]
     public string? NextStep { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--rule-index")]
+    [CliOption("--rule-index")]
     public string? RuleIndex { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("clouddirectory", "get-object-information")]
+[CliCommand("clouddirectory", "get-object-information")]
 public record AwsClouddirectoryGetObjectInformationOptions(
-[property: CommandSwitch("--directory-arn")] string DirectoryArn,
-[property: CommandSwitch("--object-reference")] string ObjectReference
+[property: CliOption("--directory-arn")] string DirectoryArn,
+[property: CliOption("--object-reference")] string ObjectReference
 ) : AwsOptions
 {
-    [CommandSwitch("--consistency-level")]
+    [CliOption("--consistency-level")]
     public string? ConsistencyLevel { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

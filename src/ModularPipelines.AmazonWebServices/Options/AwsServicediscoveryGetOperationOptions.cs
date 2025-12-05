@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicediscovery", "get-operation")]
+[CliCommand("servicediscovery", "get-operation")]
 public record AwsServicediscoveryGetOperationOptions(
-[property: CommandSwitch("--operation-id")] string OperationId
+[property: CliOption("--operation-id")] string OperationId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

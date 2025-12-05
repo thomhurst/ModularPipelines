@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "add-cache")]
+[CliCommand("storagegateway", "add-cache")]
 public record AwsStoragegatewayAddCacheOptions(
-[property: CommandSwitch("--gateway-arn")] string GatewayArn,
-[property: CommandSwitch("--disk-ids")] string[] DiskIds
+[property: CliOption("--gateway-arn")] string GatewayArn,
+[property: CliOption("--disk-ids")] string[] DiskIds
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

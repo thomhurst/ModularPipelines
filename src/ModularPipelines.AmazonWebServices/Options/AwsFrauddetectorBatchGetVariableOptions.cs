@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("frauddetector", "batch-get-variable")]
+[CliCommand("frauddetector", "batch-get-variable")]
 public record AwsFrauddetectorBatchGetVariableOptions(
-[property: CommandSwitch("--names")] string[] Names
+[property: CliOption("--names")] string[] Names
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

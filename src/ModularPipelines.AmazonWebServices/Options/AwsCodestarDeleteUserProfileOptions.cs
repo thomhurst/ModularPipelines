@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codestar", "delete-user-profile")]
+[CliCommand("codestar", "delete-user-profile")]
 public record AwsCodestarDeleteUserProfileOptions(
-[property: CommandSwitch("--user-arn")] string UserArn
+[property: CliOption("--user-arn")] string UserArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

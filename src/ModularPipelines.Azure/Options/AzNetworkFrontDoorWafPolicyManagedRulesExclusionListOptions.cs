@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "waf-policy", "managed-rules", "exclusion", "list")]
+[CliSubCommand("network", "front-door", "waf-policy", "managed-rules", "exclusion", "list")]
 public record AzNetworkFrontDoorWafPolicyManagedRulesExclusionListOptions(
-[property: CommandSwitch("--policy-name")] string PolicyName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--policy-name")] string PolicyName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--type")] string Type
 ) : AzOptions
 {
-    [CommandSwitch("--rule-group-id")]
+    [CliOption("--rule-group-id")]
     public string? RuleGroupId { get; set; }
 
-    [CommandSwitch("--rule-id")]
+    [CliOption("--rule-id")]
     public string? RuleId { get; set; }
 }

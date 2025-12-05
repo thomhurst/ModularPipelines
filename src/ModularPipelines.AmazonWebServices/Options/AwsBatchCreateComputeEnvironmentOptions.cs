@@ -5,30 +5,30 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "create-compute-environment")]
+[CliCommand("batch", "create-compute-environment")]
 public record AwsBatchCreateComputeEnvironmentOptions(
-[property: CommandSwitch("--compute-environment-name")] string ComputeEnvironmentName,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--compute-environment-name")] string ComputeEnvironmentName,
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [CommandSwitch("--unmanagedv-cpus")]
+    [CliOption("--unmanagedv-cpus")]
     public int? UnmanagedvCpus { get; set; }
 
-    [CommandSwitch("--compute-resources")]
+    [CliOption("--compute-resources")]
     public string? ComputeResources { get; set; }
 
-    [CommandSwitch("--service-role")]
+    [CliOption("--service-role")]
     public string? ServiceRole { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--eks-configuration")]
+    [CliOption("--eks-configuration")]
     public string? EksConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

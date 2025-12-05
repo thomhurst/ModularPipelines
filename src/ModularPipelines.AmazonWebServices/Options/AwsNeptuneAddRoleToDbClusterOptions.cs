@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptune", "add-role-to-db-cluster")]
+[CliCommand("neptune", "add-role-to-db-cluster")]
 public record AwsNeptuneAddRoleToDbClusterOptions(
-[property: CommandSwitch("--db-cluster-identifier")] string DbClusterIdentifier,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--db-cluster-identifier")] string DbClusterIdentifier,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--feature-name")]
+    [CliOption("--feature-name")]
     public string? FeatureName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

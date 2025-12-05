@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "run", "submit-pipeline")]
+[CliSubCommand("ml", "run", "submit-pipeline")]
 public record AzMlRunSubmitPipelineOptions : AzOptions
 {
-    [CommandSwitch("--datapaths")]
+    [CliOption("--datapaths")]
     public string? Datapaths { get; set; }
 
-    [CommandSwitch("--experiment-name")]
+    [CliOption("--experiment-name")]
     public string? ExperimentName { get; set; }
 
-    [CommandSwitch("--output-metadata-file")]
+    [CliOption("--output-metadata-file")]
     public string? OutputMetadataFile { get; set; }
 
-    [CommandSwitch("--output_file")]
+    [CliOption("--output_file")]
     public string? OutputFile { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--pipeline-id")]
+    [CliOption("--pipeline-id")]
     public string? PipelineId { get; set; }
 
-    [CommandSwitch("--pipeline-yaml")]
+    [CliOption("--pipeline-yaml")]
     public string? PipelineYaml { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription-id")]
+    [CliOption("--subscription-id")]
     public string? SubscriptionId { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

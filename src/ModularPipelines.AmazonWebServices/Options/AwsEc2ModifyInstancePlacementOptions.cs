@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-instance-placement")]
+[CliCommand("ec2", "modify-instance-placement")]
 public record AwsEc2ModifyInstancePlacementOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId
+[property: CliOption("--instance-id")] string InstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--affinity")]
+    [CliOption("--affinity")]
     public string? Affinity { get; set; }
 
-    [CommandSwitch("--group-name")]
+    [CliOption("--group-name")]
     public string? GroupName { get; set; }
 
-    [CommandSwitch("--host-id")]
+    [CliOption("--host-id")]
     public string? HostId { get; set; }
 
-    [CommandSwitch("--tenancy")]
+    [CliOption("--tenancy")]
     public string? Tenancy { get; set; }
 
-    [CommandSwitch("--partition-number")]
+    [CliOption("--partition-number")]
     public int? PartitionNumber { get; set; }
 
-    [CommandSwitch("--host-resource-group-arn")]
+    [CliOption("--host-resource-group-arn")]
     public string? HostResourceGroupArn { get; set; }
 
-    [CommandSwitch("--group-id")]
+    [CliOption("--group-id")]
     public string? GroupId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

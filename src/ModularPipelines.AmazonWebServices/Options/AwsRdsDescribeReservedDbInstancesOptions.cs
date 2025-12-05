@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "describe-reserved-db-instances")]
+[CliCommand("rds", "describe-reserved-db-instances")]
 public record AwsRdsDescribeReservedDbInstancesOptions : AwsOptions
 {
-    [CommandSwitch("--reserved-db-instance-id")]
+    [CliOption("--reserved-db-instance-id")]
     public string? ReservedDbInstanceId { get; set; }
 
-    [CommandSwitch("--reserved-db-instances-offering-id")]
+    [CliOption("--reserved-db-instances-offering-id")]
     public string? ReservedDbInstancesOfferingId { get; set; }
 
-    [CommandSwitch("--db-instance-class")]
+    [CliOption("--db-instance-class")]
     public string? DbInstanceClass { get; set; }
 
-    [CommandSwitch("--duration")]
+    [CliOption("--duration")]
     public string? Duration { get; set; }
 
-    [CommandSwitch("--product-description")]
+    [CliOption("--product-description")]
     public string? ProductDescription { get; set; }
 
-    [CommandSwitch("--offering-type")]
+    [CliOption("--offering-type")]
     public string? OfferingType { get; set; }
 
-    [CommandSwitch("--lease-id")]
+    [CliOption("--lease-id")]
     public string? LeaseId { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

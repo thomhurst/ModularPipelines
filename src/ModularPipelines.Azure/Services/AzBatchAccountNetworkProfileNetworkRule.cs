@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "account", "network-profile")]
+[CliCommand("batch", "account", "network-profile")]
 public class AzBatchAccountNetworkProfileNetworkRule
 {
     public AzBatchAccountNetworkProfileNetworkRule(

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("schemas", "get-discovered-schema")]
+[CliCommand("schemas", "get-discovered-schema")]
 public record AwsSchemasGetDiscoveredSchemaOptions(
-[property: CommandSwitch("--events")] string[] Events,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--events")] string[] Events,
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

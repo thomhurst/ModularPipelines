@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("endpoints", "services", "remove-iam-policy-binding")]
+[CliCommand("endpoints", "services", "remove-iam-policy-binding")]
 public record GcloudEndpointsServicesRemoveIamPolicyBindingOptions(
-[property: PositionalArgument] string Service,
-[property: CommandSwitch("--member")] string Member,
-[property: CommandSwitch("--role")] string Role
+[property: CliArgument] string Service,
+[property: CliOption("--member")] string Member,
+[property: CliOption("--role")] string Role
 ) : GcloudOptions;

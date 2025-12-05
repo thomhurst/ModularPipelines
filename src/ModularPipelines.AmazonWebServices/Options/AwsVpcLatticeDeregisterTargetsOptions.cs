@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vpc-lattice", "deregister-targets")]
+[CliCommand("vpc-lattice", "deregister-targets")]
 public record AwsVpcLatticeDeregisterTargetsOptions(
-[property: CommandSwitch("--target-group-identifier")] string TargetGroupIdentifier,
-[property: CommandSwitch("--targets")] string[] Targets
+[property: CliOption("--target-group-identifier")] string TargetGroupIdentifier,
+[property: CliOption("--targets")] string[] Targets
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

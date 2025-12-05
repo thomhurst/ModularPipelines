@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("applicationcostprofiler", "get-report-definition")]
+[CliCommand("applicationcostprofiler", "get-report-definition")]
 public record AwsApplicationcostprofilerGetReportDefinitionOptions(
-[property: CommandSwitch("--report-id")] string ReportId
+[property: CliOption("--report-id")] string ReportId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

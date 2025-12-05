@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "fleet", "memberships")]
+[CliCommand("container", "fleet", "memberships")]
 public class GcloudContainerFleetMembershipsBindings
 {
     public GcloudContainerFleetMembershipsBindings(

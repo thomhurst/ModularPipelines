@@ -5,23 +5,23 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codepipeline", "put-job-success-result")]
+[CliCommand("codepipeline", "put-job-success-result")]
 public record AwsCodepipelinePutJobSuccessResultOptions(
-[property: CommandSwitch("--job-id")] string JobId
+[property: CliOption("--job-id")] string JobId
 ) : AwsOptions
 {
-    [CommandSwitch("--current-revision")]
+    [CliOption("--current-revision")]
     public string? CurrentRevision { get; set; }
 
-    [CommandSwitch("--continuation-token")]
+    [CliOption("--continuation-token")]
     public string? ContinuationToken { get; set; }
 
-    [CommandSwitch("--execution-details")]
+    [CliOption("--execution-details")]
     public string? ExecutionDetails { get; set; }
 
-    [CommandSwitch("--output-variables")]
+    [CliOption("--output-variables")]
     public IEnumerable<KeyValue>? OutputVariables { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

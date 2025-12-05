@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("reservations", "reservation", "update")]
+[CliSubCommand("reservations", "reservation", "update")]
 public record AzReservationsReservationUpdateOptions(
-[property: CommandSwitch("--reservation-id")] string ReservationId,
-[property: CommandSwitch("--reservation-order-id")] string ReservationOrderId
+[property: CliOption("--reservation-id")] string ReservationId,
+[property: CliOption("--reservation-order-id")] string ReservationOrderId
 ) : AzOptions
 {
-    [CommandSwitch("--applied-scope-property")]
+    [CliOption("--applied-scope-property")]
     public string? AppliedScopeProperty { get; set; }
 
-    [CommandSwitch("--applied-scope-type")]
+    [CliOption("--applied-scope-type")]
     public string? AppliedScopeType { get; set; }
 
-    [CommandSwitch("--applied-scopes")]
+    [CliOption("--applied-scopes")]
     public string? AppliedScopes { get; set; }
 
-    [CommandSwitch("--instance-flexibility")]
+    [CliOption("--instance-flexibility")]
     public string? InstanceFlexibility { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--renew")]
+    [CliFlag("--renew")]
     public bool? Renew { get; set; }
 
-    [CommandSwitch("--renewal-properties")]
+    [CliOption("--renewal-properties")]
     public string? RenewalProperties { get; set; }
 }

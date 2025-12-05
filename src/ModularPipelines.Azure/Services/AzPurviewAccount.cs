@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("purview")]
+[CliCommand("purview")]
 public class AzPurviewAccount
 {
     public AzPurviewAccount(

@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm-contacts", "create-contact")]
+[CliCommand("ssm-contacts", "create-contact")]
 public record AwsSsmContactsCreateContactOptions(
-[property: CommandSwitch("--alias")] string Alias,
-[property: CommandSwitch("--type")] string Type,
-[property: CommandSwitch("--plan")] string Plan
+[property: CliOption("--alias")] string Alias,
+[property: CliOption("--type")] string Type,
+[property: CliOption("--plan")] string Plan
 ) : AwsOptions
 {
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--idempotency-token")]
+    [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

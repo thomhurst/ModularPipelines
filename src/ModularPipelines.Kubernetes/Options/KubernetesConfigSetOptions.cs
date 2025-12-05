@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("config", "set")]
+[CliCommand("config", "set")]
 [ExcludeFromCodeCoverage]
-public record KubernetesConfigSetOptions([property: PositionalArgument] string Property_name) : KubernetesOptions
+public record KubernetesConfigSetOptions([property: CliArgument] string Property_name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--set-raw-bytes")]
+    [CliFlag("--set-raw-bytes")]
     public virtual bool? SetRawBytes { get; set; }
 }

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wafv2", "list-mobile-sdk-releases")]
+[CliCommand("wafv2", "list-mobile-sdk-releases")]
 public record AwsWafv2ListMobileSdkReleasesOptions(
-[property: CommandSwitch("--platform")] string Platform
+[property: CliOption("--platform")] string Platform
 ) : AwsOptions
 {
-    [CommandSwitch("--next-marker")]
+    [CliOption("--next-marker")]
     public string? NextMarker { get; set; }
 
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public int? Limit { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

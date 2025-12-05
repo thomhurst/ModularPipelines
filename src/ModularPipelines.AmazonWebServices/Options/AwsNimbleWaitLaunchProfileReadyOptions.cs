@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("nimble", "wait", "launch-profile-ready")]
+[CliCommand("nimble", "wait", "launch-profile-ready")]
 public record AwsNimbleWaitLaunchProfileReadyOptions(
-[property: CommandSwitch("--launch-profile-id")] string LaunchProfileId,
-[property: CommandSwitch("--studio-id")] string StudioId
+[property: CliOption("--launch-profile-id")] string LaunchProfileId,
+[property: CliOption("--studio-id")] string StudioId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

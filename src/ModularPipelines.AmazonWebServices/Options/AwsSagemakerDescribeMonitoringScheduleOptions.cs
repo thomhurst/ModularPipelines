@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "describe-monitoring-schedule")]
+[CliCommand("sagemaker", "describe-monitoring-schedule")]
 public record AwsSagemakerDescribeMonitoringScheduleOptions(
-[property: CommandSwitch("--monitoring-schedule-name")] string MonitoringScheduleName
+[property: CliOption("--monitoring-schedule-name")] string MonitoringScheduleName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

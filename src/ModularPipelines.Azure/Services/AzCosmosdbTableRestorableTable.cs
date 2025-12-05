@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "table")]
+[CliCommand("cosmosdb", "table")]
 public class AzCosmosdbTableRestorableTable
 {
     public AzCosmosdbTableRestorableTable(

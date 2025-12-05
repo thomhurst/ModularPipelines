@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "certificate")]
+[CliCommand("keyvault", "certificate")]
 public class AzKeyvaultCertificateContact
 {
     public AzKeyvaultCertificateContact(

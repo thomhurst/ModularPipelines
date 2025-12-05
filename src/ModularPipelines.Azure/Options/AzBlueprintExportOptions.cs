@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("blueprint", "export")]
+[CliSubCommand("blueprint", "export")]
 public record AzBlueprintExportOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--output-path")] string OutputPath
+[property: CliOption("--name")] string Name,
+[property: CliOption("--output-path")] string OutputPath
 ) : AzOptions
 {
-    [CommandSwitch("--management-group")]
+    [CliOption("--management-group")]
     public string? ManagementGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

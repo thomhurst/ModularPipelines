@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ce", "update-anomaly-subscription")]
+[CliCommand("ce", "update-anomaly-subscription")]
 public record AwsCeUpdateAnomalySubscriptionOptions(
-[property: CommandSwitch("--subscription-arn")] string SubscriptionArn
+[property: CliOption("--subscription-arn")] string SubscriptionArn
 ) : AwsOptions
 {
-    [CommandSwitch("--threshold")]
+    [CliOption("--threshold")]
     public double? Threshold { get; set; }
 
-    [CommandSwitch("--frequency")]
+    [CliOption("--frequency")]
     public string? Frequency { get; set; }
 
-    [CommandSwitch("--monitor-arn-list")]
+    [CliOption("--monitor-arn-list")]
     public string[]? MonitorArnList { get; set; }
 
-    [CommandSwitch("--subscribers")]
+    [CliOption("--subscribers")]
     public string[]? Subscribers { get; set; }
 
-    [CommandSwitch("--subscription-name")]
+    [CliOption("--subscription-name")]
     public string? SubscriptionName { get; set; }
 
-    [CommandSwitch("--threshold-expression")]
+    [CliOption("--threshold-expression")]
     public string? ThresholdExpression { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("create")]
+[CliCommand("create")]
 [ExcludeFromCodeCoverage]
 public record HelmCreateOptions : HelmOptions
 {
-    [CommandEqualsSeparatorSwitch("--starter", SwitchValueSeparator = " ")]
-    public string? Starter { get; set; }
+    [CliOption("--starter")]
+    public virtual string? Starter { get; set; }
 }

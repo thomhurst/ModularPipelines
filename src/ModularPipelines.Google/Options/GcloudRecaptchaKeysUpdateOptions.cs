@@ -5,56 +5,56 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("recaptcha", "keys", "update")]
+[CliCommand("recaptcha", "keys", "update")]
 public record GcloudRecaptchaKeysUpdateOptions(
-[property: PositionalArgument] string Key
+[property: CliArgument] string Key
 ) : GcloudOptions
 {
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [BooleanCommandSwitch("--android")]
+    [CliFlag("--android")]
     public bool? Android { get; set; }
 
-    [BooleanCommandSwitch("--allow-all-package-names")]
+    [CliFlag("--allow-all-package-names")]
     public bool? AllowAllPackageNames { get; set; }
 
-    [CommandSwitch("--package-names")]
+    [CliOption("--package-names")]
     public string[]? PackageNames { get; set; }
 
-    [BooleanCommandSwitch("--ios")]
+    [CliFlag("--ios")]
     public bool? Ios { get; set; }
 
-    [BooleanCommandSwitch("--allow-all-bundle-ids")]
+    [CliFlag("--allow-all-bundle-ids")]
     public bool? AllowAllBundleIds { get; set; }
 
-    [CommandSwitch("--bundle-ids")]
+    [CliOption("--bundle-ids")]
     public string[]? BundleIds { get; set; }
 
-    [CommandSwitch("--key-id")]
+    [CliOption("--key-id")]
     public string? KeyId { get; set; }
 
-    [CommandSwitch("--private-key-file")]
+    [CliOption("--private-key-file")]
     public string? PrivateKeyFile { get; set; }
 
-    [CommandSwitch("--team-id")]
+    [CliOption("--team-id")]
     public string? TeamId { get; set; }
 
-    [BooleanCommandSwitch("--web")]
+    [CliFlag("--web")]
     public bool? Web { get; set; }
 
-    [BooleanCommandSwitch("--allow-amp-traffic")]
+    [CliFlag("--allow-amp-traffic")]
     public bool? AllowAmpTraffic { get; set; }
 
-    [CommandSwitch("--security-preference")]
+    [CliOption("--security-preference")]
     public string? SecurityPreference { get; set; }
 
-    [BooleanCommandSwitch("--allow-all-domains")]
+    [CliFlag("--allow-all-domains")]
     public bool? AllowAllDomains { get; set; }
 
-    [CommandSwitch("--domains")]
+    [CliOption("--domains")]
     public string[]? Domains { get; set; }
 }

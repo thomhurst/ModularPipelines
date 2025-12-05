@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datafactory", "integration-runtime", "linked-integration-runtime", "create")]
+[CliSubCommand("datafactory", "integration-runtime", "linked-integration-runtime", "create")]
 public record AzDatafactoryIntegrationRuntimeLinkedIntegrationRuntimeCreateOptions(
-[property: CommandSwitch("--factory-name")] string FactoryName,
-[property: CommandSwitch("--integration-runtime-name")] string IntegrationRuntimeName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--factory-name")] string FactoryName,
+[property: CliOption("--integration-runtime-name")] string IntegrationRuntimeName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--data-factory-name")]
+    [CliOption("--data-factory-name")]
     public string? DataFactoryName { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--subscription-id")]
+    [CliOption("--subscription-id")]
     public string? SubscriptionId { get; set; }
 }

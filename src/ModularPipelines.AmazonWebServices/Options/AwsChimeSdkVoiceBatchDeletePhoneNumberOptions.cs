@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-voice", "batch-delete-phone-number")]
+[CliCommand("chime-sdk-voice", "batch-delete-phone-number")]
 public record AwsChimeSdkVoiceBatchDeletePhoneNumberOptions(
-[property: CommandSwitch("--phone-number-ids")] string[] PhoneNumberIds
+[property: CliOption("--phone-number-ids")] string[] PhoneNumberIds
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,25 +5,25 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "update-answer")]
+[CliCommand("wellarchitected", "update-answer")]
 public record AwsWellarchitectedUpdateAnswerOptions(
-[property: CommandSwitch("--workload-id")] string WorkloadId,
-[property: CommandSwitch("--lens-alias")] string LensAlias,
-[property: CommandSwitch("--question-id")] string QuestionId
+[property: CliOption("--workload-id")] string WorkloadId,
+[property: CliOption("--lens-alias")] string LensAlias,
+[property: CliOption("--question-id")] string QuestionId
 ) : AwsOptions
 {
-    [CommandSwitch("--selected-choices")]
+    [CliOption("--selected-choices")]
     public string[]? SelectedChoices { get; set; }
 
-    [CommandSwitch("--choice-updates")]
+    [CliOption("--choice-updates")]
     public IEnumerable<KeyValue>? ChoiceUpdates { get; set; }
 
-    [CommandSwitch("--notes")]
+    [CliOption("--notes")]
     public string? Notes { get; set; }
 
-    [CommandSwitch("--reason")]
+    [CliOption("--reason")]
     public string? Reason { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

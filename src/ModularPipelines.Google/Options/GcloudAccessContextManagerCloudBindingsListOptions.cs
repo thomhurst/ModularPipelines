@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access-context-manager", "cloud-bindings", "list")]
+[CliCommand("access-context-manager", "cloud-bindings", "list")]
 public record GcloudAccessContextManagerCloudBindingsListOptions : GcloudOptions
 {
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string? Organization { get; set; }
 }

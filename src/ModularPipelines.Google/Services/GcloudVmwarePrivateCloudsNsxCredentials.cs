@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "private-clouds", "nsx")]
+[CliCommand("vmware", "private-clouds", "nsx")]
 public class GcloudVmwarePrivateCloudsNsxCredentials
 {
     public GcloudVmwarePrivateCloudsNsxCredentials(

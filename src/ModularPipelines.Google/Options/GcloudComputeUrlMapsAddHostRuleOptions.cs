@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "url-maps", "add-host-rule")]
+[CliCommand("compute", "url-maps", "add-host-rule")]
 public record GcloudComputeUrlMapsAddHostRuleOptions(
-[property: PositionalArgument] string UrlMap,
-[property: CommandSwitch("--hosts")] string[] Hosts,
-[property: CommandSwitch("--path-matcher-name")] string PathMatcherName
+[property: CliArgument] string UrlMap,
+[property: CliOption("--hosts")] string[] Hosts,
+[property: CliOption("--path-matcher-name")] string PathMatcherName
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

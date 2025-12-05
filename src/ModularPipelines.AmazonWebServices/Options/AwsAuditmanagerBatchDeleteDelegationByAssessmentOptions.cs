@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("auditmanager", "batch-delete-delegation-by-assessment")]
+[CliCommand("auditmanager", "batch-delete-delegation-by-assessment")]
 public record AwsAuditmanagerBatchDeleteDelegationByAssessmentOptions(
-[property: CommandSwitch("--delegation-ids")] string[] DelegationIds,
-[property: CommandSwitch("--assessment-id")] string AssessmentId
+[property: CliOption("--delegation-ids")] string[] DelegationIds,
+[property: CliOption("--assessment-id")] string AssessmentId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

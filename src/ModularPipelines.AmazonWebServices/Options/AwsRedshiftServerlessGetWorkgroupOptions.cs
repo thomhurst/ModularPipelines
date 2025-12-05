@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift-serverless", "get-workgroup")]
+[CliCommand("redshift-serverless", "get-workgroup")]
 public record AwsRedshiftServerlessGetWorkgroupOptions(
-[property: CommandSwitch("--workgroup-name")] string WorkgroupName
+[property: CliOption("--workgroup-name")] string WorkgroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

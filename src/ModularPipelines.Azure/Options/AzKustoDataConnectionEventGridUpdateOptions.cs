@@ -4,63 +4,63 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kusto", "data-connection", "event-grid", "update")]
+[CliSubCommand("kusto", "data-connection", "event-grid", "update")]
 public record AzKustoDataConnectionEventGridUpdateOptions : AzOptions
 {
-    [CommandSwitch("--blob-storage-event-type")]
+    [CliOption("--blob-storage-event-type")]
     public string? BlobStorageEventType { get; set; }
 
-    [CommandSwitch("--cluster-name")]
+    [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
-    [CommandSwitch("--consumer-group")]
+    [CliOption("--consumer-group")]
     public string? ConsumerGroup { get; set; }
 
-    [CommandSwitch("--data-connection-name")]
+    [CliOption("--data-connection-name")]
     public string? DataConnectionName { get; set; }
 
-    [CommandSwitch("--data-format")]
+    [CliOption("--data-format")]
     public string? DataFormat { get; set; }
 
-    [CommandSwitch("--database-name")]
+    [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [CommandSwitch("--database-routing")]
+    [CliOption("--database-routing")]
     public string? DatabaseRouting { get; set; }
 
-    [CommandSwitch("--event-grid-resource-id")]
+    [CliOption("--event-grid-resource-id")]
     public string? EventGridResourceId { get; set; }
 
-    [CommandSwitch("--event-hub-resource-id")]
+    [CliOption("--event-hub-resource-id")]
     public string? EventHubResourceId { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--ignore-first-record")]
+    [CliFlag("--ignore-first-record")]
     public bool? IgnoreFirstRecord { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--managed-identity")]
+    [CliOption("--managed-identity")]
     public string? ManagedIdentity { get; set; }
 
-    [CommandSwitch("--mapping-rule-name")]
+    [CliOption("--mapping-rule-name")]
     public string? MappingRuleName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--storage-account-resource-id")]
+    [CliOption("--storage-account-resource-id")]
     public int? StorageAccountResourceId { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--table-name")]
+    [CliOption("--table-name")]
     public string? TableName { get; set; }
 }

@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("swf", "list-open-workflow-executions")]
+[CliCommand("swf", "list-open-workflow-executions")]
 public record AwsSwfListOpenWorkflowExecutionsOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--start-time-filter")] string StartTimeFilter
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--start-time-filter")] string StartTimeFilter
 ) : AwsOptions
 {
-    [CommandSwitch("--type-filter")]
+    [CliOption("--type-filter")]
     public string? TypeFilter { get; set; }
 
-    [CommandSwitch("--tag-filter")]
+    [CliOption("--tag-filter")]
     public string? TagFilter { get; set; }
 
-    [CommandSwitch("--execution-filter")]
+    [CliOption("--execution-filter")]
     public string? ExecutionFilter { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

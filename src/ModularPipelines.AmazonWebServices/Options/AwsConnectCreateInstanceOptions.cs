@@ -5,23 +5,23 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "create-instance")]
+[CliCommand("connect", "create-instance")]
 public record AwsConnectCreateInstanceOptions(
-[property: CommandSwitch("--identity-management-type")] string IdentityManagementType
+[property: CliOption("--identity-management-type")] string IdentityManagementType
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--instance-alias")]
+    [CliOption("--instance-alias")]
     public string? InstanceAlias { get; set; }
 
-    [CommandSwitch("--directory-id")]
+    [CliOption("--directory-id")]
     public string? DirectoryId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

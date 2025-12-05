@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "describe-pending-maintenance-actions")]
+[CliCommand("dms", "describe-pending-maintenance-actions")]
 public record AwsDmsDescribePendingMaintenanceActionsOptions : AwsOptions
 {
-    [CommandSwitch("--replication-instance-arn")]
+    [CliOption("--replication-instance-arn")]
     public string? ReplicationInstanceArn { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--marker")]
+    [CliOption("--marker")]
     public string? Marker { get; set; }
 
-    [CommandSwitch("--max-records")]
+    [CliOption("--max-records")]
     public int? MaxRecords { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

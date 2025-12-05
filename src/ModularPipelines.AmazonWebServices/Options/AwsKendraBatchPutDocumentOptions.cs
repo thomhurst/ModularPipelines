@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kendra", "batch-put-document")]
+[CliCommand("kendra", "batch-put-document")]
 public record AwsKendraBatchPutDocumentOptions(
-[property: CommandSwitch("--index-id")] string IndexId,
-[property: CommandSwitch("--documents")] string[] Documents
+[property: CliOption("--index-id")] string IndexId,
+[property: CliOption("--documents")] string[] Documents
 ) : AwsOptions
 {
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--custom-document-enrichment-configuration")]
+    [CliOption("--custom-document-enrichment-configuration")]
     public string? CustomDocumentEnrichmentConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

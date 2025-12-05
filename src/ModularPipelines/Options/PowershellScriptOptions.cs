@@ -2,4 +2,4 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Options;
 
-public record PowershellScriptOptions([property: CommandSwitch("-Command")] string Script) : PowershellOptions;
+public record PowershellScriptOptions([property: CliOption("-Command")] string Script) : PowershellOptions;

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "data-collection", "rule", "log-analytics", "add")]
+[CliSubCommand("monitor", "data-collection", "rule", "log-analytics", "add")]
 public record AzMonitorDataCollectionRuleLogAnalyticsAddOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-id")] string ResourceId
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-id")] string ResourceId
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--rule-name")]
+    [CliOption("--rule-name")]
     public string? RuleName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

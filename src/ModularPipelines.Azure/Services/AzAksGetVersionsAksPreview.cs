@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "get-versions")]
+[CliCommand("aks", "get-versions")]
 public class AzAksGetVersionsAksPreview
 {
     public AzAksGetVersionsAksPreview(

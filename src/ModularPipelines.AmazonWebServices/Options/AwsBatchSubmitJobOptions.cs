@@ -5,46 +5,46 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "submit-job")]
+[CliCommand("batch", "submit-job")]
 public record AwsBatchSubmitJobOptions(
-[property: CommandSwitch("--job-name")] string JobName,
-[property: CommandSwitch("--job-queue")] string JobQueue,
-[property: CommandSwitch("--job-definition")] string JobDefinition
+[property: CliOption("--job-name")] string JobName,
+[property: CliOption("--job-queue")] string JobQueue,
+[property: CliOption("--job-definition")] string JobDefinition
 ) : AwsOptions
 {
-    [CommandSwitch("--share-identifier")]
+    [CliOption("--share-identifier")]
     public string? ShareIdentifier { get; set; }
 
-    [CommandSwitch("--scheduling-priority-override")]
+    [CliOption("--scheduling-priority-override")]
     public int? SchedulingPriorityOverride { get; set; }
 
-    [CommandSwitch("--array-properties")]
+    [CliOption("--array-properties")]
     public string? ArrayProperties { get; set; }
 
-    [CommandSwitch("--depends-on")]
+    [CliOption("--depends-on")]
     public string[]? DependsOn { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public IEnumerable<KeyValue>? Parameters { get; set; }
 
-    [CommandSwitch("--container-overrides")]
+    [CliOption("--container-overrides")]
     public string? ContainerOverrides { get; set; }
 
-    [CommandSwitch("--node-overrides")]
+    [CliOption("--node-overrides")]
     public string? NodeOverrides { get; set; }
 
-    [CommandSwitch("--retry-strategy")]
+    [CliOption("--retry-strategy")]
     public string? RetryStrategy { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--eks-properties-override")]
+    [CliOption("--eks-properties-override")]
     public string? EksPropertiesOverride { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

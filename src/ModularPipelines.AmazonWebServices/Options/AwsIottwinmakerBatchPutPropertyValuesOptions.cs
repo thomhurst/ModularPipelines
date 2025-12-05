@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iottwinmaker", "batch-put-property-values")]
+[CliCommand("iottwinmaker", "batch-put-property-values")]
 public record AwsIottwinmakerBatchPutPropertyValuesOptions(
-[property: CommandSwitch("--workspace-id")] string WorkspaceId,
-[property: CommandSwitch("--entries")] string[] Entries
+[property: CliOption("--workspace-id")] string WorkspaceId,
+[property: CliOption("--entries")] string[] Entries
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

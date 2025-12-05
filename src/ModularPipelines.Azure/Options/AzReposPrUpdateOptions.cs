@@ -4,47 +4,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repos", "pr", "update")]
+[CliSubCommand("repos", "pr", "update")]
 public record AzReposPrUpdateOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--auto-complete")]
+    [CliFlag("--auto-complete")]
     public bool? AutoComplete { get; set; }
 
-    [BooleanCommandSwitch("--bypass-policy")]
+    [CliFlag("--bypass-policy")]
     public bool? BypassPolicy { get; set; }
 
-    [CommandSwitch("--bypass-policy-reason")]
+    [CliOption("--bypass-policy-reason")]
     public string? BypassPolicyReason { get; set; }
 
-    [BooleanCommandSwitch("--delete-source-branch")]
+    [CliFlag("--delete-source-branch")]
     public bool? DeleteSourceBranch { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [BooleanCommandSwitch("--draft")]
+    [CliFlag("--draft")]
     public bool? Draft { get; set; }
 
-    [CommandSwitch("--merge-commit-message")]
+    [CliOption("--merge-commit-message")]
     public string? MergeCommitMessage { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [BooleanCommandSwitch("--squash")]
+    [CliFlag("--squash")]
     public bool? Squash { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--title")]
+    [CliOption("--title")]
     public string? Title { get; set; }
 
-    [BooleanCommandSwitch("--transition-work-items")]
+    [CliFlag("--transition-work-items")]
     public bool? TransitionWorkItems { get; set; }
 }

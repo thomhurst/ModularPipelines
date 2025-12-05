@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app")]
+[CliCommand("app")]
 public class GcloudAppLogs
 {
     public GcloudAppLogs(

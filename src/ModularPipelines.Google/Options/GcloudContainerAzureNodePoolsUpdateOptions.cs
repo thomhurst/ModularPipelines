@@ -4,37 +4,37 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "azure", "node-pools", "update")]
+[CliCommand("container", "azure", "node-pools", "update")]
 public record GcloudContainerAzureNodePoolsUpdateOptions(
-[property: PositionalArgument] string NodePool,
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Location
+[property: CliArgument] string NodePool,
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--enable-autorepair")]
+    [CliFlag("--enable-autorepair")]
     public bool? EnableAutorepair { get; set; }
 
-    [CommandSwitch("--node-version")]
+    [CliOption("--node-version")]
     public string? NodeVersion { get; set; }
 
-    [CommandSwitch("--ssh-public-key")]
+    [CliOption("--ssh-public-key")]
     public string? SshPublicKey { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
-    [CommandSwitch("--annotations")]
+    [CliOption("--annotations")]
     public string[]? Annotations { get; set; }
 
-    [BooleanCommandSwitch("--clear-annotations")]
+    [CliFlag("--clear-annotations")]
     public bool? ClearAnnotations { get; set; }
 
-    [CommandSwitch("--max-nodes")]
+    [CliOption("--max-nodes")]
     public string? MaxNodes { get; set; }
 
-    [CommandSwitch("--min-nodes")]
+    [CliOption("--min-nodes")]
     public string? MinNodes { get; set; }
 }

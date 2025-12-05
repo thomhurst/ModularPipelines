@@ -4,37 +4,37 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyspaces", "create-table")]
+[CliCommand("keyspaces", "create-table")]
 public record AwsKeyspacesCreateTableOptions(
-[property: CommandSwitch("--keyspace-name")] string KeyspaceName,
-[property: CommandSwitch("--table-name")] string TableName,
-[property: CommandSwitch("--schema-definition")] string SchemaDefinition
+[property: CliOption("--keyspace-name")] string KeyspaceName,
+[property: CliOption("--table-name")] string TableName,
+[property: CliOption("--schema-definition")] string SchemaDefinition
 ) : AwsOptions
 {
-    [CommandSwitch("--comment")]
+    [CliOption("--comment")]
     public string? Comment { get; set; }
 
-    [CommandSwitch("--capacity-specification")]
+    [CliOption("--capacity-specification")]
     public string? CapacitySpecification { get; set; }
 
-    [CommandSwitch("--encryption-specification")]
+    [CliOption("--encryption-specification")]
     public string? EncryptionSpecification { get; set; }
 
-    [CommandSwitch("--point-in-time-recovery")]
+    [CliOption("--point-in-time-recovery")]
     public string? PointInTimeRecovery { get; set; }
 
-    [CommandSwitch("--ttl")]
+    [CliOption("--ttl")]
     public string? Ttl { get; set; }
 
-    [CommandSwitch("--default-time-to-live")]
+    [CliOption("--default-time-to-live")]
     public int? DefaultTimeToLive { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--client-side-timestamps")]
+    [CliOption("--client-side-timestamps")]
     public string? ClientSideTimestamps { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

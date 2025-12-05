@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "restart")]
+[CliCommand("functionapp", "restart")]
 public class AzFunctionappRestartAppserviceKube
 {
     public AzFunctionappRestartAppserviceKube(

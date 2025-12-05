@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "nodepool", "stop")]
+[CliCommand("aks", "nodepool", "stop")]
 public class AzAksNodepoolStopAksPreview
 {
     public AzAksNodepoolStopAksPreview(

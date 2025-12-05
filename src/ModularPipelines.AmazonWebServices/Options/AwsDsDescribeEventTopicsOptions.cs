@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ds", "describe-event-topics")]
+[CliCommand("ds", "describe-event-topics")]
 public record AwsDsDescribeEventTopicsOptions : AwsOptions
 {
-    [CommandSwitch("--directory-id")]
+    [CliOption("--directory-id")]
     public string? DirectoryId { get; set; }
 
-    [CommandSwitch("--topic-names")]
+    [CliOption("--topic-names")]
     public string[]? TopicNames { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

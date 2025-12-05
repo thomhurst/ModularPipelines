@@ -5,15 +5,15 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("accessanalyzer", "create-access-preview")]
+[CliCommand("accessanalyzer", "create-access-preview")]
 public record AwsAccessanalyzerCreateAccessPreviewOptions(
-[property: CommandSwitch("--analyzer-arn")] string AnalyzerArn,
-[property: CommandSwitch("--configurations")] IEnumerable<KeyValue> Configurations
+[property: CliOption("--analyzer-arn")] string AnalyzerArn,
+[property: CliOption("--configurations")] IEnumerable<KeyValue> Configurations
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

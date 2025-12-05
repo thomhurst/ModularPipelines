@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("drs", "export-source-network-cfn-template")]
+[CliCommand("drs", "export-source-network-cfn-template")]
 public record AwsDrsExportSourceNetworkCfnTemplateOptions(
-[property: CommandSwitch("--source-network-id")] string SourceNetworkId
+[property: CliOption("--source-network-id")] string SourceNetworkId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "objects", "list")]
+[CliCommand("storage", "objects", "list")]
 public record GcloudStorageObjectsListOptions(
-[property: PositionalArgument] string Urls
+[property: CliArgument] string Urls
 ) : GcloudOptions
 {
-    [CommandSwitch("--additional-headers")]
+    [CliOption("--additional-headers")]
     public string? AdditionalHeaders { get; set; }
 
-    [BooleanCommandSwitch("--exhaustive")]
+    [CliFlag("--exhaustive")]
     public bool? Exhaustive { get; set; }
 
-    [BooleanCommandSwitch("--fetch-encrypted-object-hashes")]
+    [CliFlag("--fetch-encrypted-object-hashes")]
     public bool? FetchEncryptedObjectHashes { get; set; }
 
-    [CommandSwitch("--next-page-token")]
+    [CliOption("--next-page-token")]
     public string? NextPageToken { get; set; }
 
-    [BooleanCommandSwitch("--raw")]
+    [CliFlag("--raw")]
     public bool? Raw { get; set; }
 
-    [BooleanCommandSwitch("--soft-deleted")]
+    [CliFlag("--soft-deleted")]
     public bool? SoftDeleted { get; set; }
 
-    [BooleanCommandSwitch("--stat")]
+    [CliFlag("--stat")]
     public bool? Stat { get; set; }
 }

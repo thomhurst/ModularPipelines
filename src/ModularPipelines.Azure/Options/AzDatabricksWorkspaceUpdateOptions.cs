@@ -4,87 +4,87 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databricks", "workspace", "update")]
+[CliSubCommand("databricks", "workspace", "update")]
 public record AzDatabricksWorkspaceUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--disk-key-auto-rotation")]
+    [CliFlag("--disk-key-auto-rotation")]
     public bool? DiskKeyAutoRotation { get; set; }
 
-    [CommandSwitch("--disk-key-name")]
+    [CliOption("--disk-key-name")]
     public string? DiskKeyName { get; set; }
 
-    [CommandSwitch("--disk-key-vault")]
+    [CliOption("--disk-key-vault")]
     public string? DiskKeyVault { get; set; }
 
-    [CommandSwitch("--disk-key-version")]
+    [CliOption("--disk-key-version")]
     public string? DiskKeyVersion { get; set; }
 
-    [BooleanCommandSwitch("--enable-no-public-ip")]
+    [CliFlag("--enable-no-public-ip")]
     public bool? EnableNoPublicIp { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--key-name")]
+    [CliOption("--key-name")]
     public string? KeyName { get; set; }
 
-    [CommandSwitch("--key-source")]
+    [CliOption("--key-source")]
     public string? KeySource { get; set; }
 
-    [CommandSwitch("--key-vault")]
+    [CliOption("--key-vault")]
     public string? KeyVault { get; set; }
 
-    [CommandSwitch("--key-version")]
+    [CliOption("--key-version")]
     public string? KeyVersion { get; set; }
 
-    [CommandSwitch("--managed-services-key-name")]
+    [CliOption("--managed-services-key-name")]
     public string? ManagedServicesKeyName { get; set; }
 
-    [CommandSwitch("--managed-services-key-vault")]
+    [CliOption("--managed-services-key-vault")]
     public string? ManagedServicesKeyVault { get; set; }
 
-    [CommandSwitch("--managed-services-key-version")]
+    [CliOption("--managed-services-key-version")]
     public string? ManagedServicesKeyVersion { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--prepare-encryption")]
+    [CliFlag("--prepare-encryption")]
     public bool? PrepareEncryption { get; set; }
 
-    [CommandSwitch("--public-network-access")]
+    [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--required-nsg-rules")]
+    [CliOption("--required-nsg-rules")]
     public string? RequiredNsgRules { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--sa-sku-name")]
+    [CliOption("--sa-sku-name")]
     public string? SaSkuName { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "create-game-session-queue")]
+[CliCommand("gamelift", "create-game-session-queue")]
 public record AwsGameliftCreateGameSessionQueueOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--timeout-in-seconds")]
+    [CliOption("--timeout-in-seconds")]
     public int? TimeoutInSeconds { get; set; }
 
-    [CommandSwitch("--player-latency-policies")]
+    [CliOption("--player-latency-policies")]
     public string[]? PlayerLatencyPolicies { get; set; }
 
-    [CommandSwitch("--destinations")]
+    [CliOption("--destinations")]
     public string[]? Destinations { get; set; }
 
-    [CommandSwitch("--filter-configuration")]
+    [CliOption("--filter-configuration")]
     public string? FilterConfiguration { get; set; }
 
-    [CommandSwitch("--priority-configuration")]
+    [CliOption("--priority-configuration")]
     public string? PriorityConfiguration { get; set; }
 
-    [CommandSwitch("--custom-event-data")]
+    [CliOption("--custom-event-data")]
     public string? CustomEventData { get; set; }
 
-    [CommandSwitch("--notification-target")]
+    [CliOption("--notification-target")]
     public string? NotificationTarget { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

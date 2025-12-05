@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sig", "list-shared")]
+[CliSubCommand("sig", "list-shared")]
 public record AzSigListSharedOptions(
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--location")] string Location
 ) : AzOptions
 {
-    [CommandSwitch("--shared-to")]
+    [CliOption("--shared-to")]
     public string? SharedTo { get; set; }
 }

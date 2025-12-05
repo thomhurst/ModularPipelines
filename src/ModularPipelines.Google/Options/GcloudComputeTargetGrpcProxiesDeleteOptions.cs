@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "target-grpc-proxies", "delete")]
+[CliCommand("compute", "target-grpc-proxies", "delete")]
 public record GcloudComputeTargetGrpcProxiesDeleteOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions;

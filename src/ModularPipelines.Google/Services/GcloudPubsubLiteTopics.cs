@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub")]
+[CliCommand("pubsub")]
 public class GcloudPubsubLiteTopics
 {
     public GcloudPubsubLiteTopics(

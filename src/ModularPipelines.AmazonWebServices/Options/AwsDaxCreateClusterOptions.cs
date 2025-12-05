@@ -4,44 +4,44 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dax", "create-cluster")]
+[CliCommand("dax", "create-cluster")]
 public record AwsDaxCreateClusterOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--node-type")] string NodeType,
-[property: CommandSwitch("--replication-factor")] int ReplicationFactor,
-[property: CommandSwitch("--iam-role-arn")] string IamRoleArn
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--node-type")] string NodeType,
+[property: CliOption("--replication-factor")] int ReplicationFactor,
+[property: CliOption("--iam-role-arn")] string IamRoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--availability-zones")]
+    [CliOption("--availability-zones")]
     public string[]? AvailabilityZones { get; set; }
 
-    [CommandSwitch("--subnet-group-name")]
+    [CliOption("--subnet-group-name")]
     public string? SubnetGroupName { get; set; }
 
-    [CommandSwitch("--security-group-ids")]
+    [CliOption("--security-group-ids")]
     public string[]? SecurityGroupIds { get; set; }
 
-    [CommandSwitch("--preferred-maintenance-window")]
+    [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
-    [CommandSwitch("--notification-topic-arn")]
+    [CliOption("--notification-topic-arn")]
     public string? NotificationTopicArn { get; set; }
 
-    [CommandSwitch("--parameter-group-name")]
+    [CliOption("--parameter-group-name")]
     public string? ParameterGroupName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--sse-specification")]
+    [CliOption("--sse-specification")]
     public string? SseSpecification { get; set; }
 
-    [CommandSwitch("--cluster-endpoint-encryption-type")]
+    [CliOption("--cluster-endpoint-encryption-type")]
     public string? ClusterEndpointEncryptionType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

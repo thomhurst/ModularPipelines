@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functions")]
+[CliCommand("functions")]
 public class GcloudFunctionsEventTypes
 {
     public GcloudFunctionsEventTypes(

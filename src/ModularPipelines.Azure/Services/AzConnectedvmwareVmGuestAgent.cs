@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectedvmware", "vm")]
+[CliCommand("connectedvmware", "vm")]
 public class AzConnectedvmwareVmGuestAgent
 {
     public AzConnectedvmwareVmGuestAgent(

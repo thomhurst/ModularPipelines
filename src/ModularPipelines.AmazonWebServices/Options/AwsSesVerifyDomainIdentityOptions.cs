@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ses", "verify-domain-identity")]
+[CliCommand("ses", "verify-domain-identity")]
 public record AwsSesVerifyDomainIdentityOptions(
-[property: CommandSwitch("--domain")] string Domain
+[property: CliOption("--domain")] string Domain
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

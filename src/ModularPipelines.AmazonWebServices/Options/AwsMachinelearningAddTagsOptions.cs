@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("machinelearning", "add-tags")]
+[CliCommand("machinelearning", "add-tags")]
 public record AwsMachinelearningAddTagsOptions(
-[property: CommandSwitch("--tags")] string[] Tags,
-[property: CommandSwitch("--resource-id")] string ResourceId,
-[property: CommandSwitch("--resource-type")] string ResourceType
+[property: CliOption("--tags")] string[] Tags,
+[property: CliOption("--resource-id")] string ResourceId,
+[property: CliOption("--resource-type")] string ResourceType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

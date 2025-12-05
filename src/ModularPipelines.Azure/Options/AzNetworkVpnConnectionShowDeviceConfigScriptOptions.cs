@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vpn-connection", "show-device-config-script")]
+[CliSubCommand("network", "vpn-connection", "show-device-config-script")]
 public record AzNetworkVpnConnectionShowDeviceConfigScriptOptions(
-[property: CommandSwitch("--device-family")] string DeviceFamily,
-[property: CommandSwitch("--firmware-version")] string FirmwareVersion,
-[property: CommandSwitch("--vendor")] string Vendor
+[property: CliOption("--device-family")] string DeviceFamily,
+[property: CliOption("--firmware-version")] string FirmwareVersion,
+[property: CliOption("--vendor")] string Vendor
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

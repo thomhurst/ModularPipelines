@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "assessment", "create")]
+[CliSubCommand("security", "assessment", "create")]
 public record AzSecurityAssessmentCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--status-code")] string StatusCode
+[property: CliOption("--name")] string Name,
+[property: CliOption("--status-code")] string StatusCode
 ) : AzOptions
 {
-    [CommandSwitch("--additional-data")]
+    [CliOption("--additional-data")]
     public string? AdditionalData { get; set; }
 
-    [CommandSwitch("--assessed-resource-id")]
+    [CliOption("--assessed-resource-id")]
     public string? AssessedResourceId { get; set; }
 
-    [CommandSwitch("--status-cause")]
+    [CliOption("--status-cause")]
     public string? StatusCause { get; set; }
 
-    [CommandSwitch("--status-description")]
+    [CliOption("--status-description")]
     public string? StatusDescription { get; set; }
 }

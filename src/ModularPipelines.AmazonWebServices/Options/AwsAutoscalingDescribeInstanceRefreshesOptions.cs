@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("autoscaling", "describe-instance-refreshes")]
+[CliCommand("autoscaling", "describe-instance-refreshes")]
 public record AwsAutoscalingDescribeInstanceRefreshesOptions(
-[property: CommandSwitch("--auto-scaling-group-name")] string AutoScalingGroupName
+[property: CliOption("--auto-scaling-group-name")] string AutoScalingGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--instance-refresh-ids")]
+    [CliOption("--instance-refresh-ids")]
     public string[]? InstanceRefreshIds { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-records")]
+    [CliOption("--max-records")]
     public int? MaxRecords { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -3,88 +3,88 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("daemon")]
+[CliSubCommand("daemon")]
 [ExcludeFromCodeCoverage]
 public record GitDaemonOptions : GitOptions
 {
-    [BooleanCommandSwitch("--strict-paths")]
+    [CliFlag("--strict-paths")]
     public virtual bool? StrictPaths { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--base-path")]
-    public string? BasePath { get; set; }
+    [CliOption("--base-path", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? BasePath { get; set; }
 
-    [BooleanCommandSwitch("--base-path-relaxed")]
+    [CliFlag("--base-path-relaxed")]
     public virtual bool? BasePathRelaxed { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--interpolated-path")]
-    public string? InterpolatedPath { get; set; }
+    [CliOption("--interpolated-path", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? InterpolatedPath { get; set; }
 
-    [BooleanCommandSwitch("--export-all")]
+    [CliFlag("--export-all")]
     public virtual bool? ExportAll { get; set; }
 
-    [BooleanCommandSwitch("--inetd")]
+    [CliFlag("--inetd")]
     public virtual bool? Inetd { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--listen")]
-    public string? Listen { get; set; }
+    [CliOption("--listen", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Listen { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--port")]
-    public string? Port { get; set; }
+    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Port { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--init-timeout")]
-    public string? InitTimeout { get; set; }
+    [CliOption("--init-timeout", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? InitTimeout { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--timeout")]
-    public string? Timeout { get; set; }
+    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Timeout { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--max-connections")]
-    public string? MaxConnections { get; set; }
+    [CliOption("--max-connections", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? MaxConnections { get; set; }
 
-    [BooleanCommandSwitch("--syslog")]
+    [CliFlag("--syslog")]
     public virtual bool? Syslog { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--log-destination")]
-    public string? LogDestination { get; set; }
+    [CliOption("--log-destination", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? LogDestination { get; set; }
 
-    [BooleanCommandSwitch("--user-path")]
+    [CliFlag("--user-path")]
     public virtual bool? UserPath { get; set; }
 
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("--reuseaddr")]
+    [CliFlag("--reuseaddr")]
     public virtual bool? Reuseaddr { get; set; }
 
-    [BooleanCommandSwitch("--detach")]
+    [CliFlag("--detach")]
     public virtual bool? Detach { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--pid-file")]
-    public string? PidFile { get; set; }
+    [CliOption("--pid-file", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? PidFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--user")]
-    public string? User { get; set; }
+    [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? User { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--group")]
-    public string? Group { get; set; }
+    [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Group { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--enable")]
-    public string? Enable { get; set; }
+    [CliOption("--enable", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Enable { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--disable")]
-    public string? Disable { get; set; }
+    [CliOption("--disable", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Disable { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--allow-override")]
-    public string? AllowOverride { get; set; }
+    [CliOption("--allow-override", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? AllowOverride { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--forbid-override")]
-    public string? ForbidOverride { get; set; }
+    [CliOption("--forbid-override", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ForbidOverride { get; set; }
 
-    [BooleanCommandSwitch("--no-informative-errors")]
+    [CliFlag("--no-informative-errors")]
     public virtual bool? NoInformativeErrors { get; set; }
 
-    [BooleanCommandSwitch("--informative-errors")]
+    [CliFlag("--informative-errors")]
     public virtual bool? InformativeErrors { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--access-hook")]
-    public string? AccessHook { get; set; }
+    [CliOption("--access-hook", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? AccessHook { get; set; }
 }

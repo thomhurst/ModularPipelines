@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repostspace", "get-space")]
+[CliCommand("repostspace", "get-space")]
 public record AwsRepostspaceGetSpaceOptions(
-[property: CommandSwitch("--space-id")] string SpaceId
+[property: CliOption("--space-id")] string SpaceId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

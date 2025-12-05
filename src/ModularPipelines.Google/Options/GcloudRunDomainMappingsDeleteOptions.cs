@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("run", "domain-mappings", "delete")]
+[CliCommand("run", "domain-mappings", "delete")]
 public record GcloudRunDomainMappingsDeleteOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--namespace")] string Namespace
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--namespace")] string Namespace
 ) : GcloudOptions
 {
-    [CommandSwitch("--[no-]async")]
+    [CliOption("--[no-]async")]
     public string[]? NoAsync { get; set; }
 
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public string? Platform { get; set; }
 
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--cluster-location")]
+    [CliOption("--cluster-location")]
     public string? ClusterLocation { get; set; }
 
-    [CommandSwitch("--context")]
+    [CliOption("--context")]
     public string? Context { get; set; }
 
-    [CommandSwitch("--kubeconfig")]
+    [CliOption("--kubeconfig")]
     public string? Kubeconfig { get; set; }
 }

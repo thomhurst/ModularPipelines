@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("alloydb", "instances", "failover")]
+[CliCommand("alloydb", "instances", "failover")]
 public record GcloudAlloydbInstancesFailoverOptions(
-[property: PositionalArgument] string Instance,
-[property: CommandSwitch("--cluster")] string Cluster,
-[property: CommandSwitch("--region")] string Region
+[property: CliArgument] string Instance,
+[property: CliOption("--cluster")] string Cluster,
+[property: CliOption("--region")] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

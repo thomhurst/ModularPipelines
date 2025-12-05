@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devcenter", "dev")]
+[CliCommand("devcenter", "dev")]
 public class AzDevcenterDevEnvironment
 {
     public AzDevcenterDevEnvironment(

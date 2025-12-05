@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devcenter", "admin", "environment-definition", "get-error-detail")]
+[CliSubCommand("devcenter", "admin", "environment-definition", "get-error-detail")]
 public record AzDevcenterAdminEnvironmentDefinitionGetErrorDetailOptions : AzOptions
 {
-    [CommandSwitch("--catalog-name")]
+    [CliOption("--catalog-name")]
     public string? CatalogName { get; set; }
 
-    [CommandSwitch("--dev-center")]
+    [CliOption("--dev-center")]
     public string? DevCenter { get; set; }
 
-    [CommandSwitch("--environment-definition-name")]
+    [CliOption("--environment-definition-name")]
     public string? EnvironmentDefinitionName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -4,43 +4,43 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "system-topic", "event-subscription", "update")]
+[CliSubCommand("eventgrid", "system-topic", "event-subscription", "update")]
 public record AzEventgridSystemTopicEventSubscriptionUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--system-topic-name")] string SystemTopicName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--system-topic-name")] string SystemTopicName
 ) : AzOptions
 {
-    [CommandSwitch("--advanced-filter")]
+    [CliOption("--advanced-filter")]
     public string? AdvancedFilter { get; set; }
 
-    [CommandSwitch("--deadletter-endpoint")]
+    [CliOption("--deadletter-endpoint")]
     public string? DeadletterEndpoint { get; set; }
 
-    [CommandSwitch("--delivery-attribute-mapping")]
+    [CliOption("--delivery-attribute-mapping")]
     public string? DeliveryAttributeMapping { get; set; }
 
-    [BooleanCommandSwitch("--enable-advanced-filtering-on-arrays")]
+    [CliFlag("--enable-advanced-filtering-on-arrays")]
     public bool? EnableAdvancedFilteringOnArrays { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [CommandSwitch("--endpoint-type")]
+    [CliOption("--endpoint-type")]
     public string? EndpointType { get; set; }
 
-    [CommandSwitch("--included-event-types")]
+    [CliOption("--included-event-types")]
     public string? IncludedEventTypes { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 
-    [CommandSwitch("--qttl")]
+    [CliOption("--qttl")]
     public string? Qttl { get; set; }
 
-    [CommandSwitch("--subject-begins-with")]
+    [CliOption("--subject-begins-with")]
     public string? SubjectBeginsWith { get; set; }
 
-    [CommandSwitch("--subject-ends-with")]
+    [CliOption("--subject-ends-with")]
     public string? SubjectEndsWith { get; set; }
 }

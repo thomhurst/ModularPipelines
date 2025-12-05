@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dlm", "update-lifecycle-policy")]
+[CliCommand("dlm", "update-lifecycle-policy")]
 public record AwsDlmUpdateLifecyclePolicyOptions(
-[property: CommandSwitch("--policy-id")] string PolicyId
+[property: CliOption("--policy-id")] string PolicyId
 ) : AwsOptions
 {
-    [CommandSwitch("--execution-role-arn")]
+    [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--policy-details")]
+    [CliOption("--policy-details")]
     public string? PolicyDetails { get; set; }
 
-    [CommandSwitch("--create-interval")]
+    [CliOption("--create-interval")]
     public int? CreateInterval { get; set; }
 
-    [CommandSwitch("--retain-interval")]
+    [CliOption("--retain-interval")]
     public int? RetainInterval { get; set; }
 
-    [CommandSwitch("--cross-region-copy-targets")]
+    [CliOption("--cross-region-copy-targets")]
     public string[]? CrossRegionCopyTargets { get; set; }
 
-    [CommandSwitch("--exclusions")]
+    [CliOption("--exclusions")]
     public string? Exclusions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

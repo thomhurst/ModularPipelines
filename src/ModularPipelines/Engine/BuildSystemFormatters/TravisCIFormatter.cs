@@ -6,7 +6,7 @@ namespace ModularPipelines.Engine.BuildSystemFormatters;
 /// </summary>
 /// <remarks>
 /// Travis CI uses special commands for log folding.
-/// Documentation: https://docs.travis-ci.com/user/customizing-the-build/#customizing-the-build-step
+/// Documentation: https://docs.travis-ci.com/user/customizing-the-build/#customizing-the-build-step.
 /// </remarks>
 /// <example>
 /// <code>

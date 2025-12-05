@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognitiveservices", "account", "commitment-plan", "show")]
+[CliSubCommand("cognitiveservices", "account", "commitment-plan", "show")]
 public record AzCognitiveservicesAccountCommitmentPlanShowOptions(
-[property: CommandSwitch("--commitment-plan-name")] string CommitmentPlanName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--commitment-plan-name")] string CommitmentPlanName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

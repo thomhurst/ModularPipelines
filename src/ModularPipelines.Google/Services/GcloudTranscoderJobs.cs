@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transcoder")]
+[CliCommand("transcoder")]
 public class GcloudTranscoderJobs
 {
     public GcloudTranscoderJobs(

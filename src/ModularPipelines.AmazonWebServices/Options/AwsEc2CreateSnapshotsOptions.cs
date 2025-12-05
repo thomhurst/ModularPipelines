@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-snapshots")]
+[CliCommand("ec2", "create-snapshots")]
 public record AwsEc2CreateSnapshotsOptions(
-[property: CommandSwitch("--instance-specification")] string InstanceSpecification
+[property: CliOption("--instance-specification")] string InstanceSpecification
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--outpost-arn")]
+    [CliOption("--outpost-arn")]
     public string? OutpostArn { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--copy-tags-from-source")]
+    [CliOption("--copy-tags-from-source")]
     public string? CopyTagsFromSource { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

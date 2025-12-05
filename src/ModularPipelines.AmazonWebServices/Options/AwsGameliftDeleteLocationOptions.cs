@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "delete-location")]
+[CliCommand("gamelift", "delete-location")]
 public record AwsGameliftDeleteLocationOptions(
-[property: CommandSwitch("--location-name")] string LocationName
+[property: CliOption("--location-name")] string LocationName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

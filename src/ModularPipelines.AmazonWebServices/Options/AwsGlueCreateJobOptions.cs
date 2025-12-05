@@ -5,70 +5,70 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "create-job")]
+[CliCommand("glue", "create-job")]
 public record AwsGlueCreateJobOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--role")] string Role,
-[property: CommandSwitch("--command")] string Command
+[property: CliOption("--name")] string Name,
+[property: CliOption("--role")] string Role,
+[property: CliOption("--command")] string Command
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--log-uri")]
+    [CliOption("--log-uri")]
     public string? LogUri { get; set; }
 
-    [CommandSwitch("--execution-property")]
+    [CliOption("--execution-property")]
     public string? ExecutionProperty { get; set; }
 
-    [CommandSwitch("--default-arguments")]
+    [CliOption("--default-arguments")]
     public IEnumerable<KeyValue>? DefaultArguments { get; set; }
 
-    [CommandSwitch("--non-overridable-arguments")]
+    [CliOption("--non-overridable-arguments")]
     public IEnumerable<KeyValue>? NonOverridableArguments { get; set; }
 
-    [CommandSwitch("--connections")]
+    [CliOption("--connections")]
     public string? Connections { get; set; }
 
-    [CommandSwitch("--max-retries")]
+    [CliOption("--max-retries")]
     public int? MaxRetries { get; set; }
 
-    [CommandSwitch("--allocated-capacity")]
+    [CliOption("--allocated-capacity")]
     public int? AllocatedCapacity { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public int? Timeout { get; set; }
 
-    [CommandSwitch("--max-capacity")]
+    [CliOption("--max-capacity")]
     public double? MaxCapacity { get; set; }
 
-    [CommandSwitch("--security-configuration")]
+    [CliOption("--security-configuration")]
     public string? SecurityConfiguration { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--notification-property")]
+    [CliOption("--notification-property")]
     public string? NotificationProperty { get; set; }
 
-    [CommandSwitch("--glue-version")]
+    [CliOption("--glue-version")]
     public string? GlueVersion { get; set; }
 
-    [CommandSwitch("--number-of-workers")]
+    [CliOption("--number-of-workers")]
     public int? NumberOfWorkers { get; set; }
 
-    [CommandSwitch("--worker-type")]
+    [CliOption("--worker-type")]
     public string? WorkerType { get; set; }
 
-    [CommandSwitch("--code-gen-configuration-nodes")]
+    [CliOption("--code-gen-configuration-nodes")]
     public IEnumerable<KeyValue>? CodeGenConfigurationNodes { get; set; }
 
-    [CommandSwitch("--execution-class")]
+    [CliOption("--execution-class")]
     public string? ExecutionClass { get; set; }
 
-    [CommandSwitch("--source-control-details")]
+    [CliOption("--source-control-details")]
     public string? SourceControlDetails { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "account", "update")]
+[CliSubCommand("billing", "account", "update")]
 public record AzBillingAccountUpdateOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--billing-profiles-value")]
+    [CliOption("--billing-profiles-value")]
     public string? BillingProfilesValue { get; set; }
 
-    [CommandSwitch("--departments")]
+    [CliOption("--departments")]
     public string? Departments { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--enrollment-accounts")]
+    [CliOption("--enrollment-accounts")]
     public int? EnrollmentAccounts { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--sold-to")]
+    [CliOption("--sold-to")]
     public string? SoldTo { get; set; }
 }

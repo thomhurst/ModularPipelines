@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("privateca", "subordinates", "list")]
+[CliCommand("privateca", "subordinates", "list")]
 public record GcloudPrivatecaSubordinatesListOptions : GcloudOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--pool")]
+    [CliOption("--pool")]
     public string? Pool { get; set; }
 }

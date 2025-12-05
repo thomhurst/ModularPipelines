@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appsync", "update-api-key")]
+[CliCommand("appsync", "update-api-key")]
 public record AwsAppsyncUpdateApiKeyOptions(
-[property: CommandSwitch("--api-id")] string ApiId,
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--api-id")] string ApiId,
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--expires")]
+    [CliOption("--expires")]
     public long? Expires { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

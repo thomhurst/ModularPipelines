@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "delete-bucket-access-key")]
+[CliCommand("lightsail", "delete-bucket-access-key")]
 public record AwsLightsailDeleteBucketAccessKeyOptions(
-[property: CommandSwitch("--bucket-name")] string BucketName,
-[property: CommandSwitch("--access-key-id")] string AccessKeyId
+[property: CliOption("--bucket-name")] string BucketName,
+[property: CliOption("--access-key-id")] string AccessKeyId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

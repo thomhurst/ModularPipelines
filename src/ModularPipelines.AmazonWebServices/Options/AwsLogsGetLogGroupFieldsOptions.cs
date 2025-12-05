@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logs", "get-log-group-fields")]
+[CliCommand("logs", "get-log-group-fields")]
 public record AwsLogsGetLogGroupFieldsOptions : AwsOptions
 {
-    [CommandSwitch("--log-group-name")]
+    [CliOption("--log-group-name")]
     public string? LogGroupName { get; set; }
 
-    [CommandSwitch("--time")]
+    [CliOption("--time")]
     public long? Time { get; set; }
 
-    [CommandSwitch("--log-group-identifier")]
+    [CliOption("--log-group-identifier")]
     public string? LogGroupIdentifier { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

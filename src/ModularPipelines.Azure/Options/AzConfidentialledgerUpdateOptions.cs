@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("confidentialledger", "update")]
+[CliSubCommand("confidentialledger", "update")]
 public record AzConfidentialledgerUpdateOptions : AzOptions
 {
-    [CommandSwitch("--aad-based-security-principals")]
+    [CliOption("--aad-based-security-principals")]
     public string? AadBasedSecurityPrincipals { get; set; }
 
-    [CommandSwitch("--cert-based-security-principals")]
+    [CliOption("--cert-based-security-principals")]
     public string? CertBasedSecurityPrincipals { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--ledger-name")]
+    [CliOption("--ledger-name")]
     public string? LedgerName { get; set; }
 
-    [CommandSwitch("--ledger-type")]
+    [CliOption("--ledger-type")]
     public string? LedgerType { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

@@ -5,22 +5,22 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qconnect", "start-import-job")]
+[CliCommand("qconnect", "start-import-job")]
 public record AwsQconnectStartImportJobOptions(
-[property: CommandSwitch("--import-job-type")] string ImportJobType,
-[property: CommandSwitch("--knowledge-base-id")] string KnowledgeBaseId,
-[property: CommandSwitch("--upload-id")] string UploadId
+[property: CliOption("--import-job-type")] string ImportJobType,
+[property: CliOption("--knowledge-base-id")] string KnowledgeBaseId,
+[property: CliOption("--upload-id")] string UploadId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--external-source-configuration")]
+    [CliOption("--external-source-configuration")]
     public string? ExternalSourceConfiguration { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public IEnumerable<KeyValue>? Metadata { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

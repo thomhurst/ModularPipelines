@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkmanager", "get-links")]
+[CliCommand("networkmanager", "get-links")]
 public record AwsNetworkmanagerGetLinksOptions(
-[property: CommandSwitch("--global-network-id")] string GlobalNetworkId
+[property: CliOption("--global-network-id")] string GlobalNetworkId
 ) : AwsOptions
 {
-    [CommandSwitch("--link-ids")]
+    [CliOption("--link-ids")]
     public string[]? LinkIds { get; set; }
 
-    [CommandSwitch("--site-id")]
+    [CliOption("--site-id")]
     public string? SiteId { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--provider")]
+    [CliOption("--provider")]
     public string? Provider { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

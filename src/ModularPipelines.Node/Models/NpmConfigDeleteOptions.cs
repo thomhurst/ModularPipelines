@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("config", "delete")]
+[CliCommand("config", "delete")]
 public record NpmConfigDeleteOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Key
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Key
 ) : NpmOptions
 {
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public virtual bool? Global { get; set; }
 
-    [CommandSwitch("--editor")]
+    [CliOption("--editor")]
     public virtual string? Editor { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public virtual string? Location { get; set; }
 
-    [BooleanCommandSwitch("--long")]
+    [CliFlag("--long")]
     public virtual bool? Long { get; set; }
 }

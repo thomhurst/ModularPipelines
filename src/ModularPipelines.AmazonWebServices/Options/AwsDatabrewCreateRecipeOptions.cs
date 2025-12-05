@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databrew", "create-recipe")]
+[CliCommand("databrew", "create-recipe")]
 public record AwsDatabrewCreateRecipeOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--steps")] string[] Steps
+[property: CliOption("--name")] string Name,
+[property: CliOption("--steps")] string[] Steps
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

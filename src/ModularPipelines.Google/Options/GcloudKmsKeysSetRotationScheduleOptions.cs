@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "keys", "set-rotation-schedule")]
+[CliCommand("kms", "keys", "set-rotation-schedule")]
 public record GcloudKmsKeysSetRotationScheduleOptions(
-[property: PositionalArgument] string Key,
-[property: PositionalArgument] string Keyring,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Key,
+[property: CliArgument] string Keyring,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--next-rotation-time")]
+    [CliOption("--next-rotation-time")]
     public string? NextRotationTime { get; set; }
 
-    [CommandSwitch("--rotation-period")]
+    [CliOption("--rotation-period")]
     public string? RotationPeriod { get; set; }
 }

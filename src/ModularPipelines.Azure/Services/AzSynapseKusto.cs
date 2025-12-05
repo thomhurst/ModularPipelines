@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse")]
+[CliCommand("synapse")]
 public class AzSynapseKusto
 {
     public AzSynapseKusto(

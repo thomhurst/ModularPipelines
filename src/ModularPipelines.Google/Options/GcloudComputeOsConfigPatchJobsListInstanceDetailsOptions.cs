@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "os-config", "patch-jobs", "list-instance-details")]
+[CliCommand("compute", "os-config", "patch-jobs", "list-instance-details")]
 public record GcloudComputeOsConfigPatchJobsListInstanceDetailsOptions(
-[property: PositionalArgument] string PatchJob
+[property: CliArgument] string PatchJob
 ) : GcloudOptions;

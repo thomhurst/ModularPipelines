@@ -4,54 +4,54 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation", "create-change-set")]
+[CliCommand("cloudformation", "create-change-set")]
 public record AwsCloudformationCreateChangeSetOptions(
-[property: CommandSwitch("--stack-name")] string StackName,
-[property: CommandSwitch("--change-set-name")] string ChangeSetName
+[property: CliOption("--stack-name")] string StackName,
+[property: CliOption("--change-set-name")] string ChangeSetName
 ) : AwsOptions
 {
-    [CommandSwitch("--template-body")]
+    [CliOption("--template-body")]
     public string? TemplateBody { get; set; }
 
-    [CommandSwitch("--template-url")]
+    [CliOption("--template-url")]
     public string? TemplateUrl { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--capabilities")]
+    [CliOption("--capabilities")]
     public string[]? Capabilities { get; set; }
 
-    [CommandSwitch("--resource-types")]
+    [CliOption("--resource-types")]
     public string[]? ResourceTypes { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--rollback-configuration")]
+    [CliOption("--rollback-configuration")]
     public string? RollbackConfiguration { get; set; }
 
-    [CommandSwitch("--notification-arns")]
+    [CliOption("--notification-arns")]
     public string[]? NotificationArns { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--change-set-type")]
+    [CliOption("--change-set-type")]
     public string? ChangeSetType { get; set; }
 
-    [CommandSwitch("--resources-to-import")]
+    [CliOption("--resources-to-import")]
     public string[]? ResourcesToImport { get; set; }
 
-    [CommandSwitch("--on-stack-failure")]
+    [CliOption("--on-stack-failure")]
     public string? OnStackFailure { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

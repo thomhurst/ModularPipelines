@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-verified-access-group")]
+[CliCommand("ec2", "create-verified-access-group")]
 public record AwsEc2CreateVerifiedAccessGroupOptions(
-[property: CommandSwitch("--verified-access-instance-id")] string VerifiedAccessInstanceId
+[property: CliOption("--verified-access-instance-id")] string VerifiedAccessInstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--policy-document")]
+    [CliOption("--policy-document")]
     public string? PolicyDocument { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--sse-specification")]
+    [CliOption("--sse-specification")]
     public string? SseSpecification { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

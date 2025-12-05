@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datasync", "update-location-object-storage")]
+[CliCommand("datasync", "update-location-object-storage")]
 public record AwsDatasyncUpdateLocationObjectStorageOptions(
-[property: CommandSwitch("--location-arn")] string LocationArn
+[property: CliOption("--location-arn")] string LocationArn
 ) : AwsOptions
 {
-    [CommandSwitch("--server-port")]
+    [CliOption("--server-port")]
     public int? ServerPort { get; set; }
 
-    [CommandSwitch("--server-protocol")]
+    [CliOption("--server-protocol")]
     public string? ServerProtocol { get; set; }
 
-    [CommandSwitch("--subdirectory")]
+    [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
 
-    [CommandSwitch("--access-key")]
+    [CliOption("--access-key")]
     public string? AccessKey { get; set; }
 
-    [CommandSwitch("--secret-key")]
+    [CliOption("--secret-key")]
     public string? SecretKey { get; set; }
 
-    [CommandSwitch("--agent-arns")]
+    [CliOption("--agent-arns")]
     public string[]? AgentArns { get; set; }
 
-    [CommandSwitch("--server-certificate")]
+    [CliOption("--server-certificate")]
     public string? ServerCertificate { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

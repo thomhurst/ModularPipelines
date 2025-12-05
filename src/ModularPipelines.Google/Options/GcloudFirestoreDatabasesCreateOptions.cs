@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("firestore", "databases", "create")]
+[CliCommand("firestore", "databases", "create")]
 public record GcloudFirestoreDatabasesCreateOptions(
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--location")] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--database")]
+    [CliOption("--database")]
     public string? Database { get; set; }
 
-    [BooleanCommandSwitch("--delete-protection")]
+    [CliFlag("--delete-protection")]
     public bool? DeleteProtection { get; set; }
 
-    [BooleanCommandSwitch("--enable-pitr")]
+    [CliFlag("--enable-pitr")]
     public bool? EnablePitr { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 }

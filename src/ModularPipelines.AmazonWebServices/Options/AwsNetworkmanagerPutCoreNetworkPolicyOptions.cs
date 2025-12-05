@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkmanager", "put-core-network-policy")]
+[CliCommand("networkmanager", "put-core-network-policy")]
 public record AwsNetworkmanagerPutCoreNetworkPolicyOptions(
-[property: CommandSwitch("--core-network-id")] string CoreNetworkId,
-[property: CommandSwitch("--policy-document")] string PolicyDocument
+[property: CliOption("--core-network-id")] string CoreNetworkId,
+[property: CliOption("--policy-document")] string PolicyDocument
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--latest-version-id")]
+    [CliOption("--latest-version-id")]
     public int? LatestVersionId { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

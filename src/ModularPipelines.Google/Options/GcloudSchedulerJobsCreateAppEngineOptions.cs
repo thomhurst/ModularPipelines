@@ -5,55 +5,55 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scheduler", "jobs", "create", "app-engine")]
+[CliCommand("scheduler", "jobs", "create", "app-engine")]
 public record GcloudSchedulerJobsCreateAppEngineOptions(
-[property: PositionalArgument] string Job,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--schedule")] string Schedule
+[property: CliArgument] string Job,
+[property: CliArgument] string Location,
+[property: CliOption("--schedule")] string Schedule
 ) : GcloudOptions
 {
-    [CommandSwitch("--attempt-deadline")]
+    [CliOption("--attempt-deadline")]
     public string? AttemptDeadline { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--headers")]
+    [CliOption("--headers")]
     public IEnumerable<KeyValue>? Headers { get; set; }
 
-    [CommandSwitch("--http-method")]
+    [CliOption("--http-method")]
     public string? HttpMethod { get; set; }
 
-    [CommandSwitch("--max-backoff")]
+    [CliOption("--max-backoff")]
     public string? MaxBackoff { get; set; }
 
-    [CommandSwitch("--max-doublings")]
+    [CliOption("--max-doublings")]
     public string? MaxDoublings { get; set; }
 
-    [CommandSwitch("--max-retry-attempts")]
+    [CliOption("--max-retry-attempts")]
     public string? MaxRetryAttempts { get; set; }
 
-    [CommandSwitch("--max-retry-duration")]
+    [CliOption("--max-retry-duration")]
     public string? MaxRetryDuration { get; set; }
 
-    [CommandSwitch("--min-backoff")]
+    [CliOption("--min-backoff")]
     public string? MinBackoff { get; set; }
 
-    [CommandSwitch("--relative-url")]
+    [CliOption("--relative-url")]
     public string? RelativeUrl { get; set; }
 
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 
-    [CommandSwitch("--time-zone")]
+    [CliOption("--time-zone")]
     public string? TimeZone { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string? Version { get; set; }
 
-    [CommandSwitch("--message-body")]
+    [CliOption("--message-body")]
     public string? MessageBody { get; set; }
 
-    [CommandSwitch("--message-body-from-file")]
+    [CliOption("--message-body-from-file")]
     public string? MessageBodyFromFile { get; set; }
 }

@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("essential-contacts", "update")]
+[CliCommand("essential-contacts", "update")]
 public record GcloudEssentialContactsUpdateOptions(
-[property: PositionalArgument] string ContactId
+[property: CliArgument] string ContactId
 ) : GcloudOptions
 {
-    [CommandSwitch("--language")]
+    [CliOption("--language")]
     public string? Language { get; set; }
 
-    [CommandSwitch("--notification-categories")]
+    [CliOption("--notification-categories")]
     public string[]? NotificationCategories { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string? Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string? Organization { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public new string? Project { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "delete-space")]
+[CliCommand("sagemaker", "delete-space")]
 public record AwsSagemakerDeleteSpaceOptions(
-[property: CommandSwitch("--domain-id")] string DomainId,
-[property: CommandSwitch("--space-name")] string SpaceName
+[property: CliOption("--domain-id")] string DomainId,
+[property: CliOption("--space-name")] string SpaceName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

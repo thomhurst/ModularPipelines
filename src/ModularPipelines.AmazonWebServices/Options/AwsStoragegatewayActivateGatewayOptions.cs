@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "activate-gateway")]
+[CliCommand("storagegateway", "activate-gateway")]
 public record AwsStoragegatewayActivateGatewayOptions(
-[property: CommandSwitch("--activation-key")] string ActivationKey,
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--gateway-timezone")] string GatewayTimezone,
-[property: CommandSwitch("--gateway-region")] string GatewayRegion
+[property: CliOption("--activation-key")] string ActivationKey,
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--gateway-timezone")] string GatewayTimezone,
+[property: CliOption("--gateway-region")] string GatewayRegion
 ) : AwsOptions
 {
-    [CommandSwitch("--gateway-type")]
+    [CliOption("--gateway-type")]
     public string? GatewayType { get; set; }
 
-    [CommandSwitch("--tape-drive-type")]
+    [CliOption("--tape-drive-type")]
     public string? TapeDriveType { get; set; }
 
-    [CommandSwitch("--medium-changer-type")]
+    [CliOption("--medium-changer-type")]
     public string? MediumChangerType { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

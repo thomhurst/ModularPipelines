@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("plugin", "remove")]
+[CliCommand("plugin", "remove")]
 public record YarnPluginRemoveOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Name
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Name
 ) : YarnOptions;

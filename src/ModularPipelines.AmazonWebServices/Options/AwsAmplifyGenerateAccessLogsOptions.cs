@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amplify", "generate-access-logs")]
+[CliCommand("amplify", "generate-access-logs")]
 public record AwsAmplifyGenerateAccessLogsOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--app-id")] string AppId
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--app-id")] string AppId
 ) : AwsOptions
 {
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public long? StartTime { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public long? EndTime { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

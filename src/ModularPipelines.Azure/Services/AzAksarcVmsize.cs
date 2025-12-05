@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aksarc")]
+[CliCommand("aksarc")]
 public class AzAksarcVmsize
 {
     public AzAksarcVmsize(

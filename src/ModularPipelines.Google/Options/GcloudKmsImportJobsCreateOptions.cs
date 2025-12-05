@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "import-jobs", "create")]
+[CliCommand("kms", "import-jobs", "create")]
 public record GcloudKmsImportJobsCreateOptions(
-[property: PositionalArgument] string ImportJob,
-[property: CommandSwitch("--import-method")] string ImportMethod,
-[property: CommandSwitch("--protection-level")] string ProtectionLevel
+[property: CliArgument] string ImportJob,
+[property: CliOption("--import-method")] string ImportMethod,
+[property: CliOption("--protection-level")] string ProtectionLevel
 ) : GcloudOptions
 {
-    [CommandSwitch("--keyring")]
+    [CliOption("--keyring")]
     public string? Keyring { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

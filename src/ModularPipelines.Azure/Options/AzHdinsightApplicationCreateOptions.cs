@@ -4,57 +4,57 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hdinsight", "application", "create")]
+[CliSubCommand("hdinsight", "application", "create")]
 public record AzHdinsightApplicationCreateOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--script-action-name")] string ScriptActionName,
-[property: CommandSwitch("--script-uri")] string ScriptUri
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--script-action-name")] string ScriptActionName,
+[property: CliOption("--script-uri")] string ScriptUri
 ) : AzOptions
 {
-    [CommandSwitch("--access-mode")]
+    [CliOption("--access-mode")]
     public string? AccessMode { get; set; }
 
-    [CommandSwitch("--destination-port")]
+    [CliOption("--destination-port")]
     public string? DestinationPort { get; set; }
 
-    [BooleanCommandSwitch("--disable-gateway-auth")]
+    [CliFlag("--disable-gateway-auth")]
     public bool? DisableGatewayAuth { get; set; }
 
-    [CommandSwitch("--edgenode-size")]
+    [CliOption("--edgenode-size")]
     public string? EdgenodeSize { get; set; }
 
-    [CommandSwitch("--marketplace-id")]
+    [CliOption("--marketplace-id")]
     public string? MarketplaceId { get; set; }
 
-    [BooleanCommandSwitch("--no-validation-timeout")]
+    [CliFlag("--no-validation-timeout")]
     public bool? NoValidationTimeout { get; set; }
 
-    [CommandSwitch("--script-parameters")]
+    [CliOption("--script-parameters")]
     public string? ScriptParameters { get; set; }
 
-    [CommandSwitch("--ssh-password")]
+    [CliOption("--ssh-password")]
     public string? SshPassword { get; set; }
 
-    [CommandSwitch("--ssh-public-key")]
+    [CliOption("--ssh-public-key")]
     public string? SshPublicKey { get; set; }
 
-    [CommandSwitch("--ssh-user")]
+    [CliOption("--ssh-user")]
     public string? SshUser { get; set; }
 
-    [CommandSwitch("--sub-domain-suffix")]
+    [CliOption("--sub-domain-suffix")]
     public string? SubDomainSuffix { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--vnet-name")]
+    [CliOption("--vnet-name")]
     public string? VnetName { get; set; }
 }

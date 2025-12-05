@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "routers", "nats", "rules", "list")]
+[CliCommand("compute", "routers", "nats", "rules", "list")]
 public record GcloudComputeRoutersNatsRulesListOptions(
-[property: CommandSwitch("--nat")] string Nat,
-[property: CommandSwitch("--router")] string Router
+[property: CliOption("--nat")] string Nat,
+[property: CliOption("--router")] string Router
 ) : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

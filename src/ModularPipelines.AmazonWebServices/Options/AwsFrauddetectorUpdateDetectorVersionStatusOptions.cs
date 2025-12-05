@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("frauddetector", "update-detector-version-status")]
+[CliCommand("frauddetector", "update-detector-version-status")]
 public record AwsFrauddetectorUpdateDetectorVersionStatusOptions(
-[property: CommandSwitch("--detector-id")] string DetectorId,
-[property: CommandSwitch("--detector-version-id")] string DetectorVersionId,
-[property: CommandSwitch("--status")] string Status
+[property: CliOption("--detector-id")] string DetectorId,
+[property: CliOption("--detector-version-id")] string DetectorVersionId,
+[property: CliOption("--status")] string Status
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

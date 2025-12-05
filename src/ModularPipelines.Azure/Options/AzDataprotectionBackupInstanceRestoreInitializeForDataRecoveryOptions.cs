@@ -4,37 +4,37 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataprotection", "backup-instance", "restore", "initialize-for-data-recovery")]
+[CliSubCommand("dataprotection", "backup-instance", "restore", "initialize-for-data-recovery")]
 public record AzDataprotectionBackupInstanceRestoreInitializeForDataRecoveryOptions(
-[property: CommandSwitch("--datasource-type")] string DatasourceType,
-[property: CommandSwitch("--restore-location")] string RestoreLocation,
-[property: CommandSwitch("--source-datastore")] string SourceDatastore
+[property: CliOption("--datasource-type")] string DatasourceType,
+[property: CliOption("--restore-location")] string RestoreLocation,
+[property: CliOption("--source-datastore")] string SourceDatastore
 ) : AzOptions
 {
-    [CommandSwitch("--backup-instance-id")]
+    [CliOption("--backup-instance-id")]
     public string? BackupInstanceId { get; set; }
 
-    [CommandSwitch("--point-in-time")]
+    [CliOption("--point-in-time")]
     public string? PointInTime { get; set; }
 
-    [CommandSwitch("--recovery-point-id")]
+    [CliOption("--recovery-point-id")]
     public string? RecoveryPointId { get; set; }
 
-    [CommandSwitch("--rehydration-duration")]
+    [CliOption("--rehydration-duration")]
     public string? RehydrationDuration { get; set; }
 
-    [CommandSwitch("--rehydration-priority")]
+    [CliOption("--rehydration-priority")]
     public string? RehydrationPriority { get; set; }
 
-    [CommandSwitch("--restore-configuration")]
+    [CliOption("--restore-configuration")]
     public string? RestoreConfiguration { get; set; }
 
-    [CommandSwitch("--secret-store-type")]
+    [CliOption("--secret-store-type")]
     public string? SecretStoreType { get; set; }
 
-    [CommandSwitch("--secret-store-uri")]
+    [CliOption("--secret-store-uri")]
     public string? SecretStoreUri { get; set; }
 
-    [CommandSwitch("--target-resource-id")]
+    [CliOption("--target-resource-id")]
     public string? TargetResourceId { get; set; }
 }

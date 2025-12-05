@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "get-tables")]
+[CliCommand("glue", "get-tables")]
 public record AwsGlueGetTablesOptions(
-[property: CommandSwitch("--database-name")] string DatabaseName
+[property: CliOption("--database-name")] string DatabaseName
 ) : AwsOptions
 {
-    [CommandSwitch("--catalog-id")]
+    [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CommandSwitch("--expression")]
+    [CliOption("--expression")]
     public string? Expression { get; set; }
 
-    [CommandSwitch("--transaction-id")]
+    [CliOption("--transaction-id")]
     public string? TransactionId { get; set; }
 
-    [CommandSwitch("--query-as-of-time")]
+    [CliOption("--query-as-of-time")]
     public long? QueryAsOfTime { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

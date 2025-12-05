@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr", "add-instance-groups")]
+[CliCommand("emr", "add-instance-groups")]
 public record AwsEmrAddInstanceGroupsOptions(
-[property: CommandSwitch("--cluster-id")] string ClusterId,
-[property: CommandSwitch("--instance-groups")] string[] InstanceGroups
+[property: CliOption("--cluster-id")] string ClusterId,
+[property: CliOption("--instance-groups")] string[] InstanceGroups
 ) : AwsOptions;

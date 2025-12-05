@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pricing", "get-price-list-file-url")]
+[CliCommand("pricing", "get-price-list-file-url")]
 public record AwsPricingGetPriceListFileUrlOptions(
-[property: CommandSwitch("--price-list-arn")] string PriceListArn,
-[property: CommandSwitch("--file-format")] string FileFormat
+[property: CliOption("--price-list-arn")] string PriceListArn,
+[property: CliOption("--file-format")] string FileFormat
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

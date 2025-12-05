@@ -5,71 +5,71 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instances", "update-container")]
+[CliCommand("compute", "instances", "update-container")]
 public record GcloudComputeInstancesUpdateContainerOptions(
-[property: PositionalArgument] string InstanceName
+[property: CliArgument] string InstanceName
 ) : GcloudOptions
 {
-    [CommandSwitch("--container-image")]
+    [CliOption("--container-image")]
     public string? ContainerImage { get; set; }
 
-    [CommandSwitch("--container-mount-disk")]
+    [CliOption("--container-mount-disk")]
     public string[]? ContainerMountDisk { get; set; }
 
-    [BooleanCommandSwitch("--container-privileged")]
+    [CliFlag("--container-privileged")]
     public bool? ContainerPrivileged { get; set; }
 
-    [CommandSwitch("--container-restart-policy")]
+    [CliOption("--container-restart-policy")]
     public string? ContainerRestartPolicy { get; set; }
 
-    [BooleanCommandSwitch("--container-stdin")]
+    [CliFlag("--container-stdin")]
     public bool? ContainerStdin { get; set; }
 
-    [BooleanCommandSwitch("--container-tty")]
+    [CliFlag("--container-tty")]
     public bool? ContainerTty { get; set; }
 
-    [CommandSwitch("--[no-]shielded-integrity-monitoring")]
+    [CliOption("--[no-]shielded-integrity-monitoring")]
     public string[]? NoShieldedIntegrityMonitoring { get; set; }
 
-    [BooleanCommandSwitch("--shielded-learn-integrity-policy")]
+    [CliFlag("--shielded-learn-integrity-policy")]
     public bool? ShieldedLearnIntegrityPolicy { get; set; }
 
-    [CommandSwitch("--[no-]shielded-secure-boot")]
+    [CliOption("--[no-]shielded-secure-boot")]
     public string[]? NoShieldedSecureBoot { get; set; }
 
-    [CommandSwitch("--[no-]shielded-vtpm")]
+    [CliOption("--[no-]shielded-vtpm")]
     public string[]? NoShieldedVtpm { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [BooleanCommandSwitch("--clear-container-args")]
+    [CliFlag("--clear-container-args")]
     public bool? ClearContainerArgs { get; set; }
 
-    [CommandSwitch("--container-arg")]
+    [CliOption("--container-arg")]
     public string? ContainerArg { get; set; }
 
-    [BooleanCommandSwitch("--clear-container-command")]
+    [CliFlag("--clear-container-command")]
     public bool? ClearContainerCommand { get; set; }
 
-    [CommandSwitch("--container-command")]
+    [CliOption("--container-command")]
     public string? ContainerCommand { get; set; }
 
-    [CommandSwitch("--container-env")]
+    [CliOption("--container-env")]
     public IEnumerable<KeyValue>? ContainerEnv { get; set; }
 
-    [CommandSwitch("--container-env-file")]
+    [CliOption("--container-env-file")]
     public string? ContainerEnvFile { get; set; }
 
-    [CommandSwitch("--remove-container-env")]
+    [CliOption("--remove-container-env")]
     public string[]? RemoveContainerEnv { get; set; }
 
-    [CommandSwitch("--container-mount-host-path")]
+    [CliOption("--container-mount-host-path")]
     public string[]? ContainerMountHostPath { get; set; }
 
-    [CommandSwitch("--container-mount-tmpfs")]
+    [CliOption("--container-mount-tmpfs")]
     public string[]? ContainerMountTmpfs { get; set; }
 
-    [CommandSwitch("--remove-container-mounts")]
+    [CliOption("--remove-container-mounts")]
     public string[]? RemoveContainerMounts { get; set; }
 }

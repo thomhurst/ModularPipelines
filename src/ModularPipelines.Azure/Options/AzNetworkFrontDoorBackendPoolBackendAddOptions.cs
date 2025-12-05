@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "backend-pool", "backend", "add")]
+[CliSubCommand("network", "front-door", "backend-pool", "backend", "add")]
 public record AzNetworkFrontDoorBackendPoolBackendAddOptions(
-[property: CommandSwitch("--address")] string Address,
-[property: CommandSwitch("--front-door-name")] string FrontDoorName,
-[property: CommandSwitch("--pool-name")] string PoolName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--address")] string Address,
+[property: CliOption("--front-door-name")] string FrontDoorName,
+[property: CliOption("--pool-name")] string PoolName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--approval-message")]
+    [CliOption("--approval-message")]
     public string? ApprovalMessage { get; set; }
 
-    [CommandSwitch("--backend-host-header")]
+    [CliOption("--backend-host-header")]
     public string? BackendHostHeader { get; set; }
 
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CommandSwitch("--http-port")]
+    [CliOption("--http-port")]
     public string? HttpPort { get; set; }
 
-    [CommandSwitch("--https-port")]
+    [CliOption("--https-port")]
     public string? HttpsPort { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--private-link-alias")]
+    [CliOption("--private-link-alias")]
     public string? PrivateLinkAlias { get; set; }
 
-    [CommandSwitch("--private-link-location")]
+    [CliOption("--private-link-location")]
     public string? PrivateLinkLocation { get; set; }
 
-    [CommandSwitch("--private-link-resource-id")]
+    [CliOption("--private-link-resource-id")]
     public string? PrivateLinkResourceId { get; set; }
 
-    [CommandSwitch("--weight")]
+    [CliOption("--weight")]
     public string? Weight { get; set; }
 }

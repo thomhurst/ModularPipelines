@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectedvmware", "vcenter")]
+[CliCommand("connectedvmware", "vcenter")]
 public class AzConnectedvmwareVcenterInventoryItem
 {
     public AzConnectedvmwareVcenterInventoryItem(

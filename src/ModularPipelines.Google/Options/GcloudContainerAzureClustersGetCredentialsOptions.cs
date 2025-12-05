@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "azure", "clusters", "get-credentials")]
+[CliCommand("container", "azure", "clusters", "get-credentials")]
 public record GcloudContainerAzureClustersGetCredentialsOptions(
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--private-endpoint")]
+    [CliFlag("--private-endpoint")]
     public bool? PrivateEndpoint { get; set; }
 }

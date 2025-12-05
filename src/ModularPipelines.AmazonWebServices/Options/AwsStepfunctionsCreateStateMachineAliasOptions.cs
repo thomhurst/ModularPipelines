@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stepfunctions", "create-state-machine-alias")]
+[CliCommand("stepfunctions", "create-state-machine-alias")]
 public record AwsStepfunctionsCreateStateMachineAliasOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--routing-configuration")] string[] RoutingConfiguration
+[property: CliOption("--name")] string Name,
+[property: CliOption("--routing-configuration")] string[] RoutingConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("boards", "area")]
+[CliCommand("boards", "area")]
 public class AzBoardsAreaProject
 {
     public AzBoardsAreaProject(

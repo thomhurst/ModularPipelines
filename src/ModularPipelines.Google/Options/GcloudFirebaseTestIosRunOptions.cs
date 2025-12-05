@@ -5,35 +5,35 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("firebase", "test", "ios", "run")]
+[CliCommand("firebase", "test", "ios", "run")]
 public record GcloudFirebaseTestIosRunOptions(
-[property: PositionalArgument] string Argspec
+[property: CliArgument] string Argspec
 ) : GcloudOptions
 {
-    [CommandSwitch("--app")]
+    [CliOption("--app")]
     public string? App { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--client-details")]
+    [CliOption("--client-details")]
     public IEnumerable<KeyValue>? ClientDetails { get; set; }
 
-    [CommandSwitch("--num-flaky-test-attempts")]
+    [CliOption("--num-flaky-test-attempts")]
     public string? NumFlakyTestAttempts { get; set; }
 
-    [BooleanCommandSwitch("--record-video")]
+    [CliFlag("--record-video")]
     public bool? RecordVideo { get; set; }
 
-    [CommandSwitch("--results-bucket")]
+    [CliOption("--results-bucket")]
     public string? ResultsBucket { get; set; }
 
-    [CommandSwitch("--results-dir")]
+    [CliOption("--results-dir")]
     public string? ResultsDir { get; set; }
 
-    [CommandSwitch("--results-history-name")]
+    [CliOption("--results-history-name")]
     public string? ResultsHistoryName { get; set; }
 
-    [BooleanCommandSwitch("--test-special-entitlements")]
+    [CliFlag("--test-special-entitlements")]
     public bool? TestSpecialEntitlements { get; set; }
 }

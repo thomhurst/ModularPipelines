@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("macie2", "update-resource-profile-detections")]
+[CliCommand("macie2", "update-resource-profile-detections")]
 public record AwsMacie2UpdateResourceProfileDetectionsOptions(
-[property: CommandSwitch("--resource-arn")] string ResourceArn
+[property: CliOption("--resource-arn")] string ResourceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--suppress-data-identifiers")]
+    [CliOption("--suppress-data-identifiers")]
     public string[]? SuppressDataIdentifiers { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

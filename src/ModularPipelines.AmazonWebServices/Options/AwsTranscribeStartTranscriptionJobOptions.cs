@@ -5,62 +5,62 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transcribe", "start-transcription-job")]
+[CliCommand("transcribe", "start-transcription-job")]
 public record AwsTranscribeStartTranscriptionJobOptions(
-[property: CommandSwitch("--transcription-job-name")] string TranscriptionJobName
+[property: CliOption("--transcription-job-name")] string TranscriptionJobName
 ) : AwsOptions
 {
-    [CommandSwitch("--language-code")]
+    [CliOption("--language-code")]
     public string? LanguageCode { get; set; }
 
-    [CommandSwitch("--media-sample-rate-hertz")]
+    [CliOption("--media-sample-rate-hertz")]
     public int? MediaSampleRateHertz { get; set; }
 
-    [CommandSwitch("--media-format")]
+    [CliOption("--media-format")]
     public string? MediaFormat { get; set; }
 
-    [CommandSwitch("--media")]
+    [CliOption("--media")]
     public string? Media { get; set; }
 
-    [CommandSwitch("--output-bucket-name")]
+    [CliOption("--output-bucket-name")]
     public string? OutputBucketName { get; set; }
 
-    [CommandSwitch("--output-key")]
+    [CliOption("--output-key")]
     public string? OutputKey { get; set; }
 
-    [CommandSwitch("--output-encryption-kms-key-id")]
+    [CliOption("--output-encryption-kms-key-id")]
     public string? OutputEncryptionKmsKeyId { get; set; }
 
-    [CommandSwitch("--kms-encryption-context")]
+    [CliOption("--kms-encryption-context")]
     public IEnumerable<KeyValue>? KmsEncryptionContext { get; set; }
 
-    [CommandSwitch("--settings")]
+    [CliOption("--settings")]
     public string? Settings { get; set; }
 
-    [CommandSwitch("--model-settings")]
+    [CliOption("--model-settings")]
     public string? ModelSettings { get; set; }
 
-    [CommandSwitch("--job-execution-settings")]
+    [CliOption("--job-execution-settings")]
     public string? JobExecutionSettings { get; set; }
 
-    [CommandSwitch("--content-redaction")]
+    [CliOption("--content-redaction")]
     public string? ContentRedaction { get; set; }
 
-    [CommandSwitch("--language-options")]
+    [CliOption("--language-options")]
     public string[]? LanguageOptions { get; set; }
 
-    [CommandSwitch("--subtitles")]
+    [CliOption("--subtitles")]
     public string? Subtitles { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--language-id-settings")]
+    [CliOption("--language-id-settings")]
     public IEnumerable<KeyValue>? LanguageIdSettings { get; set; }
 
-    [CommandSwitch("--toxicity-detection")]
+    [CliOption("--toxicity-detection")]
     public string[]? ToxicityDetection { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

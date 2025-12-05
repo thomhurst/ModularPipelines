@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appsync", "list-resolvers-by-function")]
+[CliCommand("appsync", "list-resolvers-by-function")]
 public record AwsAppsyncListResolversByFunctionOptions(
-[property: CommandSwitch("--api-id")] string ApiId,
-[property: CommandSwitch("--function-id")] string FunctionId
+[property: CliOption("--api-id")] string ApiId,
+[property: CliOption("--function-id")] string FunctionId
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

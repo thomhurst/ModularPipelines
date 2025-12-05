@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "network-firewall-policies")]
+[CliCommand("compute", "network-firewall-policies")]
 public class GcloudComputeNetworkFirewallPoliciesAssociations
 {
     public GcloudComputeNetworkFirewallPoliciesAssociations(

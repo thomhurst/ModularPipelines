@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "device-identity", "import")]
+[CliSubCommand("iot", "hub", "device-identity", "import")]
 public record AzIotHubDeviceIdentityImportOptions : AzOptions
 {
-    [CommandSwitch("--auth-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [CommandSwitch("--hub-name")]
+    [CliOption("--hub-name")]
     public string? HubName { get; set; }
 
-    [CommandSwitch("--ibc")]
+    [CliOption("--ibc")]
     public string? Ibc { get; set; }
 
-    [CommandSwitch("--ibcu")]
+    [CliOption("--ibcu")]
     public string? Ibcu { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--input-storage-account")]
+    [CliOption("--input-storage-account")]
     public int? InputStorageAccount { get; set; }
 
-    [CommandSwitch("--login")]
+    [CliOption("--login")]
     public string? Login { get; set; }
 
-    [CommandSwitch("--obc")]
+    [CliOption("--obc")]
     public string? Obc { get; set; }
 
-    [CommandSwitch("--obcu")]
+    [CliOption("--obcu")]
     public string? Obcu { get; set; }
 
-    [CommandSwitch("--osa")]
+    [CliOption("--osa")]
     public string? Osa { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

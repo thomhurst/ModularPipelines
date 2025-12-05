@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kafka", "update-storage")]
+[CliCommand("kafka", "update-storage")]
 public record AwsKafkaUpdateStorageOptions(
-[property: CommandSwitch("--cluster-arn")] string ClusterArn,
-[property: CommandSwitch("--current-version")] string CurrentVersion
+[property: CliOption("--cluster-arn")] string ClusterArn,
+[property: CliOption("--current-version")] string CurrentVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--provisioned-throughput")]
+    [CliOption("--provisioned-throughput")]
     public string? ProvisionedThroughput { get; set; }
 
-    [CommandSwitch("--storage-mode")]
+    [CliOption("--storage-mode")]
     public string? StorageMode { get; set; }
 
-    [CommandSwitch("--volume-size-gb")]
+    [CliOption("--volume-size-gb")]
     public int? VolumeSizeGb { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

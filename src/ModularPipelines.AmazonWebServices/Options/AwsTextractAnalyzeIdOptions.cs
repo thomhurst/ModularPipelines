@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("textract", "analyze-id")]
+[CliCommand("textract", "analyze-id")]
 public record AwsTextractAnalyzeIdOptions(
-[property: CommandSwitch("--document-pages")] string[] DocumentPages
+[property: CliOption("--document-pages")] string[] DocumentPages
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("clouddirectory", "detach-typed-link")]
+[CliCommand("clouddirectory", "detach-typed-link")]
 public record AwsClouddirectoryDetachTypedLinkOptions(
-[property: CommandSwitch("--directory-arn")] string DirectoryArn,
-[property: CommandSwitch("--typed-link-specifier")] string TypedLinkSpecifier
+[property: CliOption("--directory-arn")] string DirectoryArn,
+[property: CliOption("--typed-link-specifier")] string TypedLinkSpecifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

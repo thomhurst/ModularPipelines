@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "get-relational-database-log-events")]
+[CliCommand("lightsail", "get-relational-database-log-events")]
 public record AwsLightsailGetRelationalDatabaseLogEventsOptions(
-[property: CommandSwitch("--relational-database-name")] string RelationalDatabaseName,
-[property: CommandSwitch("--log-stream-name")] string LogStreamName
+[property: CliOption("--relational-database-name")] string RelationalDatabaseName,
+[property: CliOption("--log-stream-name")] string LogStreamName
 ) : AwsOptions
 {
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public long? StartTime { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public long? EndTime { get; set; }
 
-    [CommandSwitch("--page-token")]
+    [CliOption("--page-token")]
     public string? PageToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

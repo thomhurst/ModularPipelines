@@ -15,6 +15,6 @@ public record DockerStackRmOptions : DockerOptions
         Stack = stack;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public IEnumerable<string>? Stack { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual IEnumerable<string>? Stack { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("groundstation", "describe-ephemeris")]
+[CliCommand("groundstation", "describe-ephemeris")]
 public record AwsGroundstationDescribeEphemerisOptions(
-[property: CommandSwitch("--ephemeris-id")] string EphemerisId
+[property: CliOption("--ephemeris-id")] string EphemerisId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

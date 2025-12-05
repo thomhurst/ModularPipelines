@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces", "delete-client-branding")]
+[CliCommand("workspaces", "delete-client-branding")]
 public record AwsWorkspacesDeleteClientBrandingOptions(
-[property: CommandSwitch("--resource-id")] string ResourceId,
-[property: CommandSwitch("--platforms")] string[] Platforms
+[property: CliOption("--resource-id")] string ResourceId,
+[property: CliOption("--platforms")] string[] Platforms
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

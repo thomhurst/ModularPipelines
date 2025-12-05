@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "delete-agreement")]
+[CliCommand("transfer", "delete-agreement")]
 public record AwsTransferDeleteAgreementOptions(
-[property: CommandSwitch("--agreement-id")] string AgreementId,
-[property: CommandSwitch("--server-id")] string ServerId
+[property: CliOption("--agreement-id")] string AgreementId,
+[property: CliOption("--server-id")] string ServerId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

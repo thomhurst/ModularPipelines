@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("docdb", "stop-db-cluster")]
+[CliCommand("docdb", "stop-db-cluster")]
 public record AwsDocdbStopDbClusterOptions(
-[property: CommandSwitch("--db-cluster-identifier")] string DbClusterIdentifier
+[property: CliOption("--db-cluster-identifier")] string DbClusterIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

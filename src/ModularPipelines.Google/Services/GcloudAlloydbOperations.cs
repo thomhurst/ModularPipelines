@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("alloydb")]
+[CliCommand("alloydb")]
 public class GcloudAlloydbOperations
 {
     public GcloudAlloydbOperations(

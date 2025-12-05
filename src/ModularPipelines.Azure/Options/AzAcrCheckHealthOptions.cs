@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "check-health")]
+[CliSubCommand("acr", "check-health")]
 public record AzAcrCheckHealthOptions : AzOptions
 {
-    [BooleanCommandSwitch("--ignore-errors")]
+    [CliFlag("--ignore-errors")]
     public bool? IgnoreErrors { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--vnet")]
+    [CliOption("--vnet")]
     public string? Vnet { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

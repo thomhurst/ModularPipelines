@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "entity-query")]
+[CliCommand("sentinel", "entity-query")]
 public class AzSentinelEntityQueryTemplate
 {
     public AzSentinelEntityQueryTemplate(

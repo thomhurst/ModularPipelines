@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "project", "task")]
+[CliCommand("dms", "project", "task")]
 public class AzDmsProjectTaskCreate
 {
     public AzDmsProjectTaskCreate(

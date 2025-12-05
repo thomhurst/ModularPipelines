@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "connection", "list-support-types")]
+[CliSubCommand("containerapp", "connection", "list-support-types")]
 public record AzContainerappConnectionListSupportTypesOptions : AzOptions
 {
-    [CommandSwitch("--target-type")]
+    [CliOption("--target-type")]
     public string? TargetType { get; set; }
 }

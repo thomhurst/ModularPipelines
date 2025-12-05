@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amplifyuibuilder", "refresh-token")]
+[CliCommand("amplifyuibuilder", "refresh-token")]
 public record AwsAmplifyuibuilderRefreshTokenOptions(
-[property: CommandSwitch("--provider")] string Provider,
-[property: CommandSwitch("--refresh-token-body")] string RefreshTokenBody
+[property: CliOption("--provider")] string Provider,
+[property: CliOption("--refresh-token-body")] string RefreshTokenBody
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

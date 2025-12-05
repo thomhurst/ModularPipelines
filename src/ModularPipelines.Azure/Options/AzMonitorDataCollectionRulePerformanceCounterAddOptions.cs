@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "data-collection", "rule", "performance-counter", "add")]
+[CliSubCommand("monitor", "data-collection", "rule", "performance-counter", "add")]
 public record AzMonitorDataCollectionRulePerformanceCounterAddOptions(
-[property: CommandSwitch("--counter-specifiers")] int CounterSpecifiers,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--sampling-frequency")] string SamplingFrequency,
-[property: CommandSwitch("--streams")] string Streams
+[property: CliOption("--counter-specifiers")] int CounterSpecifiers,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--sampling-frequency")] string SamplingFrequency,
+[property: CliOption("--streams")] string Streams
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--rule-name")]
+    [CliOption("--rule-name")]
     public string? RuleName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

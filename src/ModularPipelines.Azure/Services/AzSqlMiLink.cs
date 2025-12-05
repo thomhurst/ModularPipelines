@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "mi")]
+[CliCommand("sql", "mi")]
 public class AzSqlMiLink
 {
     public AzSqlMiLink(

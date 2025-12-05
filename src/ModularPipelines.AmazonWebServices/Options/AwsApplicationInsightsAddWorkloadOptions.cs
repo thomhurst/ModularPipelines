@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("application-insights", "add-workload")]
+[CliCommand("application-insights", "add-workload")]
 public record AwsApplicationInsightsAddWorkloadOptions(
-[property: CommandSwitch("--resource-group-name")] string ResourceGroupName,
-[property: CommandSwitch("--component-name")] string ComponentName,
-[property: CommandSwitch("--workload-configuration")] string WorkloadConfiguration
+[property: CliOption("--resource-group-name")] string ResourceGroupName,
+[property: CliOption("--component-name")] string ComponentName,
+[property: CliOption("--workload-configuration")] string WorkloadConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

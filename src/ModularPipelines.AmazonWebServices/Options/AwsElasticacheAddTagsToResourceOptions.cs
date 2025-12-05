@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticache", "add-tags-to-resource")]
+[CliCommand("elasticache", "add-tags-to-resource")]
 public record AwsElasticacheAddTagsToResourceOptions(
-[property: CommandSwitch("--resource-name")] string ResourceName,
-[property: CommandSwitch("--tags")] string[] Tags
+[property: CliOption("--resource-name")] string ResourceName,
+[property: CliOption("--tags")] string[] Tags
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

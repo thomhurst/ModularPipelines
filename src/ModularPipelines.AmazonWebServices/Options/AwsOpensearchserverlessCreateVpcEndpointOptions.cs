@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opensearchserverless", "create-vpc-endpoint")]
+[CliCommand("opensearchserverless", "create-vpc-endpoint")]
 public record AwsOpensearchserverlessCreateVpcEndpointOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--subnet-ids")] string[] SubnetIds,
-[property: CommandSwitch("--vpc-id")] string VpcId
+[property: CliOption("--name")] string Name,
+[property: CliOption("--subnet-ids")] string[] SubnetIds,
+[property: CliOption("--vpc-id")] string VpcId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--security-group-ids")]
+    [CliOption("--security-group-ids")]
     public string[]? SecurityGroupIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

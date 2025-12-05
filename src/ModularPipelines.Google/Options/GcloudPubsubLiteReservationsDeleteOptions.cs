@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub", "lite-reservations", "delete")]
+[CliCommand("pubsub", "lite-reservations", "delete")]
 public record GcloudPubsubLiteReservationsDeleteOptions(
-[property: PositionalArgument] string Reservation,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Reservation,
+[property: CliArgument] string Location
 ) : GcloudOptions;

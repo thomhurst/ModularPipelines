@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-transit-gateway-route-table-announcement")]
+[CliCommand("ec2", "create-transit-gateway-route-table-announcement")]
 public record AwsEc2CreateTransitGatewayRouteTableAnnouncementOptions(
-[property: CommandSwitch("--transit-gateway-route-table-id")] string TransitGatewayRouteTableId,
-[property: CommandSwitch("--peering-attachment-id")] string PeeringAttachmentId
+[property: CliOption("--transit-gateway-route-table-id")] string TransitGatewayRouteTableId,
+[property: CliOption("--peering-attachment-id")] string PeeringAttachmentId
 ) : AwsOptions
 {
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

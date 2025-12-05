@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("macie2", "update-allow-list")]
+[CliCommand("macie2", "update-allow-list")]
 public record AwsMacie2UpdateAllowListOptions(
-[property: CommandSwitch("--criteria")] string Criteria,
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--criteria")] string Criteria,
+[property: CliOption("--id")] string Id,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

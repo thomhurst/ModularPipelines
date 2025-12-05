@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr", "list-instances")]
+[CliCommand("emr", "list-instances")]
 public record AwsEmrListInstancesOptions(
-[property: CommandSwitch("--cluster-id")] string ClusterId
+[property: CliOption("--cluster-id")] string ClusterId
 ) : AwsOptions
 {
-    [CommandSwitch("--instance-group-id")]
+    [CliOption("--instance-group-id")]
     public string? InstanceGroupId { get; set; }
 
-    [CommandSwitch("--instance-group-types")]
+    [CliOption("--instance-group-types")]
     public string[]? InstanceGroupTypes { get; set; }
 
-    [CommandSwitch("--instance-fleet-id")]
+    [CliOption("--instance-fleet-id")]
     public string? InstanceFleetId { get; set; }
 
-    [CommandSwitch("--instance-fleet-type")]
+    [CliOption("--instance-fleet-type")]
     public string? InstanceFleetType { get; set; }
 
-    [CommandSwitch("--instance-states")]
+    [CliOption("--instance-states")]
     public string[]? InstanceStates { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

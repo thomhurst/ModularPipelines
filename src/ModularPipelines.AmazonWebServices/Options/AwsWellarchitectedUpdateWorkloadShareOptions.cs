@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "update-workload-share")]
+[CliCommand("wellarchitected", "update-workload-share")]
 public record AwsWellarchitectedUpdateWorkloadShareOptions(
-[property: CommandSwitch("--share-id")] string ShareId,
-[property: CommandSwitch("--workload-id")] string WorkloadId,
-[property: CommandSwitch("--permission-type")] string PermissionType
+[property: CliOption("--share-id")] string ShareId,
+[property: CliOption("--workload-id")] string WorkloadId,
+[property: CliOption("--permission-type")] string PermissionType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

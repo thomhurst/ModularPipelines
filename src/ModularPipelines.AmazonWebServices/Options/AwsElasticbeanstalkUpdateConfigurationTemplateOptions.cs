@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticbeanstalk", "update-configuration-template")]
+[CliCommand("elasticbeanstalk", "update-configuration-template")]
 public record AwsElasticbeanstalkUpdateConfigurationTemplateOptions(
-[property: CommandSwitch("--application-name")] string ApplicationName,
-[property: CommandSwitch("--template-name")] string TemplateName
+[property: CliOption("--application-name")] string ApplicationName,
+[property: CliOption("--template-name")] string TemplateName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--option-settings")]
+    [CliOption("--option-settings")]
     public string[]? OptionSettings { get; set; }
 
-    [CommandSwitch("--options-to-remove")]
+    [CliOption("--options-to-remove")]
     public string[]? OptionsToRemove { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

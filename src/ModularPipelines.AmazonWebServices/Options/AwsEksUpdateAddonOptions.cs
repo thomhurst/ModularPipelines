@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eks", "update-addon")]
+[CliCommand("eks", "update-addon")]
 public record AwsEksUpdateAddonOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--addon-name")] string AddonName
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--addon-name")] string AddonName
 ) : AwsOptions
 {
-    [CommandSwitch("--addon-version")]
+    [CliOption("--addon-version")]
     public string? AddonVersion { get; set; }
 
-    [CommandSwitch("--service-account-role-arn")]
+    [CliOption("--service-account-role-arn")]
     public string? ServiceAccountRoleArn { get; set; }
 
-    [CommandSwitch("--resolve-conflicts")]
+    [CliOption("--resolve-conflicts")]
     public string? ResolveConflicts { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--configuration-values")]
+    [CliOption("--configuration-values")]
     public string? ConfigurationValues { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

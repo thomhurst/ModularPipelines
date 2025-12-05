@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codepipeline", "put-third-party-job-success-result")]
+[CliCommand("codepipeline", "put-third-party-job-success-result")]
 public record AwsCodepipelinePutThirdPartyJobSuccessResultOptions(
-[property: CommandSwitch("--job-id")] string JobId,
-[property: CommandSwitch("--client-token")] string ClientToken
+[property: CliOption("--job-id")] string JobId,
+[property: CliOption("--client-token")] string ClientToken
 ) : AwsOptions
 {
-    [CommandSwitch("--current-revision")]
+    [CliOption("--current-revision")]
     public string? CurrentRevision { get; set; }
 
-    [CommandSwitch("--continuation-token")]
+    [CliOption("--continuation-token")]
     public string? ContinuationToken { get; set; }
 
-    [CommandSwitch("--execution-details")]
+    [CliOption("--execution-details")]
     public string? ExecutionDetails { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

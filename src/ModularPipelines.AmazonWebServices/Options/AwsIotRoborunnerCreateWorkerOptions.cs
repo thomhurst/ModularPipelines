@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot-roborunner", "create-worker")]
+[CliCommand("iot-roborunner", "create-worker")]
 public record AwsIotRoborunnerCreateWorkerOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--fleet")] string Fleet
+[property: CliOption("--name")] string Name,
+[property: CliOption("--fleet")] string Fleet
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--additional-transient-properties")]
+    [CliOption("--additional-transient-properties")]
     public string? AdditionalTransientProperties { get; set; }
 
-    [CommandSwitch("--additional-fixed-properties")]
+    [CliOption("--additional-fixed-properties")]
     public string? AdditionalFixedProperties { get; set; }
 
-    [CommandSwitch("--vendor-properties")]
+    [CliOption("--vendor-properties")]
     public string? VendorProperties { get; set; }
 
-    [CommandSwitch("--position")]
+    [CliOption("--position")]
     public string? Position { get; set; }
 
-    [CommandSwitch("--orientation")]
+    [CliOption("--orientation")]
     public string? Orientation { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

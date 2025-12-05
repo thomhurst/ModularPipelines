@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("guardduty", "get-usage-statistics")]
+[CliCommand("guardduty", "get-usage-statistics")]
 public record AwsGuarddutyGetUsageStatisticsOptions(
-[property: CommandSwitch("--detector-id")] string DetectorId,
-[property: CommandSwitch("--usage-statistic-type")] string UsageStatisticType,
-[property: CommandSwitch("--usage-criteria")] string UsageCriteria
+[property: CliOption("--detector-id")] string DetectorId,
+[property: CliOption("--usage-statistic-type")] string UsageStatisticType,
+[property: CliOption("--usage-criteria")] string UsageCriteria
 ) : AwsOptions
 {
-    [CommandSwitch("--unit")]
+    [CliOption("--unit")]
     public string? Unit { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

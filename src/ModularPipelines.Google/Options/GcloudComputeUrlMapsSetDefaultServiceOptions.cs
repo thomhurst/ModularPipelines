@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "url-maps", "set-default-service")]
+[CliCommand("compute", "url-maps", "set-default-service")]
 public record GcloudComputeUrlMapsSetDefaultServiceOptions(
-[property: PositionalArgument] string UrlMap,
-[property: CommandSwitch("--default-backend-bucket")] string DefaultBackendBucket,
-[property: CommandSwitch("--default-service")] string DefaultService
+[property: CliArgument] string UrlMap,
+[property: CliOption("--default-backend-bucket")] string DefaultBackendBucket,
+[property: CliOption("--default-service")] string DefaultService
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "deregister-container-instance")]
+[CliCommand("ecs", "deregister-container-instance")]
 public record AwsEcsDeregisterContainerInstanceOptions(
-[property: CommandSwitch("--container-instance")] string ContainerInstance
+[property: CliOption("--container-instance")] string ContainerInstance
 ) : AwsOptions
 {
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

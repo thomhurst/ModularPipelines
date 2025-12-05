@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logs", "describe-log-streams")]
+[CliCommand("logs", "describe-log-streams")]
 public record AwsLogsDescribeLogStreamsOptions : AwsOptions
 {
-    [CommandSwitch("--log-group-name")]
+    [CliOption("--log-group-name")]
     public string? LogGroupName { get; set; }
 
-    [CommandSwitch("--log-group-identifier")]
+    [CliOption("--log-group-identifier")]
     public string? LogGroupIdentifier { get; set; }
 
-    [CommandSwitch("--log-stream-name-prefix")]
+    [CliOption("--log-stream-name-prefix")]
     public string? LogStreamNamePrefix { get; set; }
 
-    [CommandSwitch("--order-by")]
+    [CliOption("--order-by")]
     public string? OrderBy { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspace-add-ons")]
+[CliCommand("workspace-add-ons")]
 public class GcloudWorkspaceAddOnsDeployments
 {
     public GcloudWorkspaceAddOnsDeployments(

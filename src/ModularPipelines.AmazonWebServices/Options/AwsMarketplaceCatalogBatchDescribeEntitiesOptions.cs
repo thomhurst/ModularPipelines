@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("marketplace-catalog", "batch-describe-entities")]
+[CliCommand("marketplace-catalog", "batch-describe-entities")]
 public record AwsMarketplaceCatalogBatchDescribeEntitiesOptions(
-[property: CommandSwitch("--entity-request-list")] string[] EntityRequestList
+[property: CliOption("--entity-request-list")] string[] EntityRequestList
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

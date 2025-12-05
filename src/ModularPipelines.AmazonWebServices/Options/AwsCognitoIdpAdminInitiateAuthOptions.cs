@@ -5,25 +5,25 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "admin-initiate-auth")]
+[CliCommand("cognito-idp", "admin-initiate-auth")]
 public record AwsCognitoIdpAdminInitiateAuthOptions(
-[property: CommandSwitch("--user-pool-id")] string UserPoolId,
-[property: CommandSwitch("--client-id")] string ClientId,
-[property: CommandSwitch("--auth-flow")] string AuthFlow
+[property: CliOption("--user-pool-id")] string UserPoolId,
+[property: CliOption("--client-id")] string ClientId,
+[property: CliOption("--auth-flow")] string AuthFlow
 ) : AwsOptions
 {
-    [CommandSwitch("--auth-parameters")]
+    [CliOption("--auth-parameters")]
     public IEnumerable<KeyValue>? AuthParameters { get; set; }
 
-    [CommandSwitch("--client-metadata")]
+    [CliOption("--client-metadata")]
     public IEnumerable<KeyValue>? ClientMetadata { get; set; }
 
-    [CommandSwitch("--analytics-metadata")]
+    [CliOption("--analytics-metadata")]
     public string? AnalyticsMetadata { get; set; }
 
-    [CommandSwitch("--context-data")]
+    [CliOption("--context-data")]
     public string? ContextData { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

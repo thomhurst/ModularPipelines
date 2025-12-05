@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-messaging", "create-channel-membership")]
+[CliCommand("chime-sdk-messaging", "create-channel-membership")]
 public record AwsChimeSdkMessagingCreateChannelMembershipOptions(
-[property: CommandSwitch("--channel-arn")] string ChannelArn,
-[property: CommandSwitch("--member-arn")] string MemberArn,
-[property: CommandSwitch("--type")] string Type,
-[property: CommandSwitch("--chime-bearer")] string ChimeBearer
+[property: CliOption("--channel-arn")] string ChannelArn,
+[property: CliOption("--member-arn")] string MemberArn,
+[property: CliOption("--type")] string Type,
+[property: CliOption("--chime-bearer")] string ChimeBearer
 ) : AwsOptions
 {
-    [CommandSwitch("--sub-channel-id")]
+    [CliOption("--sub-channel-id")]
     public string? SubChannelId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "create-snapshot")]
+[CliCommand("storagegateway", "create-snapshot")]
 public record AwsStoragegatewayCreateSnapshotOptions(
-[property: CommandSwitch("--volume-arn")] string VolumeArn,
-[property: CommandSwitch("--snapshot-description")] string SnapshotDescription
+[property: CliOption("--volume-arn")] string VolumeArn,
+[property: CliOption("--snapshot-description")] string SnapshotDescription
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

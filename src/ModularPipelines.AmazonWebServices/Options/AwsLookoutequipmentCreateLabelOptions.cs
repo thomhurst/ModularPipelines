@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutequipment", "create-label")]
+[CliCommand("lookoutequipment", "create-label")]
 public record AwsLookoutequipmentCreateLabelOptions(
-[property: CommandSwitch("--label-group-name")] string LabelGroupName,
-[property: CommandSwitch("--start-time")] long StartTime,
-[property: CommandSwitch("--end-time")] long EndTime,
-[property: CommandSwitch("--rating")] string Rating
+[property: CliOption("--label-group-name")] string LabelGroupName,
+[property: CliOption("--start-time")] long StartTime,
+[property: CliOption("--end-time")] long EndTime,
+[property: CliOption("--rating")] string Rating
 ) : AwsOptions
 {
-    [CommandSwitch("--fault-code")]
+    [CliOption("--fault-code")]
     public string? FaultCode { get; set; }
 
-    [CommandSwitch("--notes")]
+    [CliOption("--notes")]
     public string? Notes { get; set; }
 
-    [CommandSwitch("--equipment")]
+    [CliOption("--equipment")]
     public string? Equipment { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

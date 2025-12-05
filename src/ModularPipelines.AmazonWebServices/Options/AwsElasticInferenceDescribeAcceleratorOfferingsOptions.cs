@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elastic-inference", "describe-accelerator-offerings")]
+[CliCommand("elastic-inference", "describe-accelerator-offerings")]
 public record AwsElasticInferenceDescribeAcceleratorOfferingsOptions(
-[property: CommandSwitch("--location-type")] string LocationType
+[property: CliOption("--location-type")] string LocationType
 ) : AwsOptions
 {
-    [CommandSwitch("--accelerator-types")]
+    [CliOption("--accelerator-types")]
     public string[]? AcceleratorTypes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

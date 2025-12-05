@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sesv2", "get-blacklist-reports")]
+[CliCommand("sesv2", "get-blacklist-reports")]
 public record AwsSesv2GetBlacklistReportsOptions(
-[property: CommandSwitch("--blacklist-item-names")] string[] BlacklistItemNames
+[property: CliOption("--blacklist-item-names")] string[] BlacklistItemNames
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

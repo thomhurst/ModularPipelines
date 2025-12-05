@@ -4,4 +4,4 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Options;
 
 [ExcludeFromCodeCoverage]
-public record BashFileOptions([property: PositionalArgument(Position = Position.BeforeSwitches)] string FilePath) : BashOptions;
+public record BashFileOptions([property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string FilePath) : BashOptions;

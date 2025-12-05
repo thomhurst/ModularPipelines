@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "update-feature-metadata")]
+[CliCommand("sagemaker", "update-feature-metadata")]
 public record AwsSagemakerUpdateFeatureMetadataOptions(
-[property: CommandSwitch("--feature-group-name")] string FeatureGroupName,
-[property: CommandSwitch("--feature-name")] string FeatureName
+[property: CliOption("--feature-group-name")] string FeatureGroupName,
+[property: CliOption("--feature-name")] string FeatureName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--parameter-additions")]
+    [CliOption("--parameter-additions")]
     public string[]? ParameterAdditions { get; set; }
 
-    [CommandSwitch("--parameter-removals")]
+    [CliOption("--parameter-removals")]
     public string[]? ParameterRemovals { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

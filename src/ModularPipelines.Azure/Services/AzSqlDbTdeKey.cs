@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "db", "tde")]
+[CliCommand("sql", "db", "tde")]
 public class AzSqlDbTdeKey
 {
     public AzSqlDbTdeKey(

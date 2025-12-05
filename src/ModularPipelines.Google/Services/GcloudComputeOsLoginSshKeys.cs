@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "os-login")]
+[CliCommand("compute", "os-login")]
 public class GcloudComputeOsLoginSshKeys
 {
     public GcloudComputeOsLoginSshKeys(

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devicefarm", "update-device-instance")]
+[CliCommand("devicefarm", "update-device-instance")]
 public record AwsDevicefarmUpdateDeviceInstanceOptions(
-[property: CommandSwitch("--arn")] string Arn
+[property: CliOption("--arn")] string Arn
 ) : AwsOptions
 {
-    [CommandSwitch("--profile-arn")]
+    [CliOption("--profile-arn")]
     public string? ProfileArn { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string[]? Labels { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

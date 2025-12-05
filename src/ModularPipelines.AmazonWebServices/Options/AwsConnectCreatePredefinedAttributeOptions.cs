@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "create-predefined-attribute")]
+[CliCommand("connect", "create-predefined-attribute")]
 public record AwsConnectCreatePredefinedAttributeOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--values")] string Values
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--values")] string Values
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

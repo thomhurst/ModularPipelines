@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("controltower", "enable-control")]
+[CliCommand("controltower", "enable-control")]
 public record AwsControltowerEnableControlOptions(
-[property: CommandSwitch("--control-identifier")] string ControlIdentifier,
-[property: CommandSwitch("--target-identifier")] string TargetIdentifier
+[property: CliOption("--control-identifier")] string ControlIdentifier,
+[property: CliOption("--target-identifier")] string TargetIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

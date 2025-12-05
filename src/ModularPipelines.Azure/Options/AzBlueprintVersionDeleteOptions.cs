@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("blueprint", "version", "delete")]
+[CliSubCommand("blueprint", "version", "delete")]
 public record AzBlueprintVersionDeleteOptions(
-[property: CommandSwitch("--blueprint-name")] string BlueprintName,
-[property: CommandSwitch("--version")] string Version
+[property: CliOption("--blueprint-name")] string BlueprintName,
+[property: CliOption("--version")] string Version
 ) : AzOptions
 {
-    [CommandSwitch("--management-group")]
+    [CliOption("--management-group")]
     public string? ManagementGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

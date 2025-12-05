@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53", "disable-hosted-zone-dnssec")]
+[CliCommand("route53", "disable-hosted-zone-dnssec")]
 public record AwsRoute53DisableHostedZoneDnssecOptions(
-[property: CommandSwitch("--hosted-zone-id")] string HostedZoneId
+[property: CliOption("--hosted-zone-id")] string HostedZoneId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

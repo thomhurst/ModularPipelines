@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("proton", "create-environment")]
+[CliCommand("proton", "create-environment")]
 public record AwsProtonCreateEnvironmentOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--spec")] string Spec,
-[property: CommandSwitch("--template-major-version")] string TemplateMajorVersion,
-[property: CommandSwitch("--template-name")] string TemplateName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--spec")] string Spec,
+[property: CliOption("--template-major-version")] string TemplateMajorVersion,
+[property: CliOption("--template-name")] string TemplateName
 ) : AwsOptions
 {
-    [CommandSwitch("--codebuild-role-arn")]
+    [CliOption("--codebuild-role-arn")]
     public string? CodebuildRoleArn { get; set; }
 
-    [CommandSwitch("--component-role-arn")]
+    [CliOption("--component-role-arn")]
     public string? ComponentRoleArn { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--environment-account-connection-id")]
+    [CliOption("--environment-account-connection-id")]
     public string? EnvironmentAccountConnectionId { get; set; }
 
-    [CommandSwitch("--proton-service-role-arn")]
+    [CliOption("--proton-service-role-arn")]
     public string? ProtonServiceRoleArn { get; set; }
 
-    [CommandSwitch("--provisioning-repository")]
+    [CliOption("--provisioning-repository")]
     public string? ProvisioningRepository { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--template-minor-version")]
+    [CliOption("--template-minor-version")]
     public string? TemplateMinorVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

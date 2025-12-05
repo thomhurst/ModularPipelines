@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bigtable", "instances", "tables", "create")]
+[CliCommand("bigtable", "instances", "tables", "create")]
 public record GcloudBigtableInstancesTablesCreateOptions(
-[property: PositionalArgument] string Table,
-[property: PositionalArgument] string Instance,
-[property: CommandSwitch("--column-families")] string[] ColumnFamilies
+[property: CliArgument] string Table,
+[property: CliArgument] string Instance,
+[property: CliOption("--column-families")] string[] ColumnFamilies
 ) : GcloudOptions
 {
-    [CommandSwitch("--change-stream-retention-period")]
+    [CliOption("--change-stream-retention-period")]
     public string? ChangeStreamRetentionPeriod { get; set; }
 
-    [BooleanCommandSwitch("--deletion-protection")]
+    [CliFlag("--deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
-    [CommandSwitch("--splits")]
+    [CliOption("--splits")]
     public string[]? Splits { get; set; }
 }

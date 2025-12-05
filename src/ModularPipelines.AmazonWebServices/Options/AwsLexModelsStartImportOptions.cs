@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lex-models", "start-import")]
+[CliCommand("lex-models", "start-import")]
 public record AwsLexModelsStartImportOptions(
-[property: CommandSwitch("--payload")] string Payload,
-[property: CommandSwitch("--resource-type")] string ResourceType,
-[property: CommandSwitch("--merge-strategy")] string MergeStrategy
+[property: CliOption("--payload")] string Payload,
+[property: CliOption("--resource-type")] string ResourceType,
+[property: CliOption("--merge-strategy")] string MergeStrategy
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

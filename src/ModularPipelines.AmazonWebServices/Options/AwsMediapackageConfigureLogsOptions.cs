@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediapackage", "configure-logs")]
+[CliCommand("mediapackage", "configure-logs")]
 public record AwsMediapackageConfigureLogsOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--egress-access-logs")]
+    [CliOption("--egress-access-logs")]
     public string? EgressAccessLogs { get; set; }
 
-    [CommandSwitch("--ingress-access-logs")]
+    [CliOption("--ingress-access-logs")]
     public string? IngressAccessLogs { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

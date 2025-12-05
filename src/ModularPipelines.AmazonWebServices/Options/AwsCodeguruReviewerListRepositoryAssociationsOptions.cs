@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeguru-reviewer", "list-repository-associations")]
+[CliCommand("codeguru-reviewer", "list-repository-associations")]
 public record AwsCodeguruReviewerListRepositoryAssociationsOptions : AwsOptions
 {
-    [CommandSwitch("--provider-types")]
+    [CliOption("--provider-types")]
     public string[]? ProviderTypes { get; set; }
 
-    [CommandSwitch("--states")]
+    [CliOption("--states")]
     public string[]? States { get; set; }
 
-    [CommandSwitch("--names")]
+    [CliOption("--names")]
     public string[]? Names { get; set; }
 
-    [CommandSwitch("--owners")]
+    [CliOption("--owners")]
     public string[]? Owners { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("swf", "count-closed-workflow-executions")]
+[CliCommand("swf", "count-closed-workflow-executions")]
 public record AwsSwfCountClosedWorkflowExecutionsOptions(
-[property: CommandSwitch("--domain")] string Domain
+[property: CliOption("--domain")] string Domain
 ) : AwsOptions
 {
-    [CommandSwitch("--start-time-filter")]
+    [CliOption("--start-time-filter")]
     public string? StartTimeFilter { get; set; }
 
-    [CommandSwitch("--close-time-filter")]
+    [CliOption("--close-time-filter")]
     public string? CloseTimeFilter { get; set; }
 
-    [CommandSwitch("--execution-filter")]
+    [CliOption("--execution-filter")]
     public string? ExecutionFilter { get; set; }
 
-    [CommandSwitch("--type-filter")]
+    [CliOption("--type-filter")]
     public string? TypeFilter { get; set; }
 
-    [CommandSwitch("--tag-filter")]
+    [CliOption("--tag-filter")]
     public string? TagFilter { get; set; }
 
-    [CommandSwitch("--close-status-filter")]
+    [CliOption("--close-status-filter")]
     public string? CloseStatusFilter { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

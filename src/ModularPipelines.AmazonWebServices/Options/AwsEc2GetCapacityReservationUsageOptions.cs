@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "get-capacity-reservation-usage")]
+[CliCommand("ec2", "get-capacity-reservation-usage")]
 public record AwsEc2GetCapacityReservationUsageOptions(
-[property: CommandSwitch("--capacity-reservation-id")] string CapacityReservationId
+[property: CliOption("--capacity-reservation-id")] string CapacityReservationId
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

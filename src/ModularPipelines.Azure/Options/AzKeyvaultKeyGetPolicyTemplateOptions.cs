@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "key", "get-policy-template")]
+[CliSubCommand("keyvault", "key", "get-policy-template")]
 public record AzKeyvaultKeyGetPolicyTemplateOptions : AzOptions;

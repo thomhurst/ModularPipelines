@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "admin-get-device")]
+[CliCommand("cognito-idp", "admin-get-device")]
 public record AwsCognitoIdpAdminGetDeviceOptions(
-[property: CommandSwitch("--device-key")] string DeviceKey,
-[property: CommandSwitch("--user-pool-id")] string UserPoolId,
-[property: CommandSwitch("--username")] string Username
+[property: CliOption("--device-key")] string DeviceKey,
+[property: CliOption("--user-pool-id")] string UserPoolId,
+[property: CliOption("--username")] string Username
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

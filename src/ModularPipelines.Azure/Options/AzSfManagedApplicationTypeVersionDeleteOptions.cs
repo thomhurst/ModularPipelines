@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "managed-application-type", "version", "delete")]
+[CliSubCommand("sf", "managed-application-type", "version", "delete")]
 public record AzSfManagedApplicationTypeVersionDeleteOptions(
-[property: CommandSwitch("--application-type-name")] string ApplicationTypeName,
-[property: CommandSwitch("--application-type-version")] string ApplicationTypeVersion,
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--application-type-name")] string ApplicationTypeName,
+[property: CliOption("--application-type-version")] string ApplicationTypeVersion,
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "images", "describe-from-family")]
+[CliCommand("compute", "images", "describe-from-family")]
 public record GcloudComputeImagesDescribeFromFamilyOptions(
-[property: PositionalArgument] string ImageName
+[property: CliArgument] string ImageName
 ) : GcloudOptions
 {
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

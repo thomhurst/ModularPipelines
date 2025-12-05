@@ -4,129 +4,129 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "create")]
+[CliSubCommand("network", "application-gateway", "create")]
 public record AzNetworkApplicationGatewayCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--capacity")]
+    [CliOption("--capacity")]
     public string? Capacity { get; set; }
 
-    [CommandSwitch("--cert-file")]
+    [CliOption("--cert-file")]
     public string? CertFile { get; set; }
 
-    [CommandSwitch("--cert-password")]
+    [CliOption("--cert-password")]
     public string? CertPassword { get; set; }
 
-    [CommandSwitch("--connection-draining-timeout")]
+    [CliOption("--connection-draining-timeout")]
     public string? ConnectionDrainingTimeout { get; set; }
 
-    [CommandSwitch("--custom-error-pages")]
+    [CliOption("--custom-error-pages")]
     public string? CustomErrorPages { get; set; }
 
-    [BooleanCommandSwitch("--enable-private-link")]
+    [CliFlag("--enable-private-link")]
     public bool? EnablePrivateLink { get; set; }
 
-    [CommandSwitch("--frontend-port")]
+    [CliOption("--frontend-port")]
     public string? FrontendPort { get; set; }
 
-    [CommandSwitch("--http-settings-cookie-based-affinity")]
+    [CliOption("--http-settings-cookie-based-affinity")]
     public string? HttpSettingsCookieBasedAffinity { get; set; }
 
-    [CommandSwitch("--http-settings-port")]
+    [CliOption("--http-settings-port")]
     public string? HttpSettingsPort { get; set; }
 
-    [CommandSwitch("--http-settings-protocol")]
+    [CliOption("--http-settings-protocol")]
     public string? HttpSettingsProtocol { get; set; }
 
-    [CommandSwitch("--http2")]
+    [CliOption("--http2")]
     public string? Http2 { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--key-vault-secret-id")]
+    [CliOption("--key-vault-secret-id")]
     public string? KeyVaultSecretId { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--max-capacity")]
+    [CliOption("--max-capacity")]
     public string? MaxCapacity { get; set; }
 
-    [CommandSwitch("--min-capacity")]
+    [CliOption("--min-capacity")]
     public string? MinCapacity { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--private-ip-address")]
+    [CliOption("--private-ip-address")]
     public string? PrivateIpAddress { get; set; }
 
-    [CommandSwitch("--private-link-ip-address")]
+    [CliOption("--private-link-ip-address")]
     public string? PrivateLinkIpAddress { get; set; }
 
-    [BooleanCommandSwitch("--private-link-primary")]
+    [CliFlag("--private-link-primary")]
     public bool? PrivateLinkPrimary { get; set; }
 
-    [CommandSwitch("--private-link-subnet")]
+    [CliOption("--private-link-subnet")]
     public string? PrivateLinkSubnet { get; set; }
 
-    [CommandSwitch("--private-link-subnet-prefix")]
+    [CliOption("--private-link-subnet-prefix")]
     public string? PrivateLinkSubnetPrefix { get; set; }
 
-    [CommandSwitch("--public-ip-address")]
+    [CliOption("--public-ip-address")]
     public string? PublicIpAddress { get; set; }
 
-    [CommandSwitch("--public-ip-address-allocation")]
+    [CliOption("--public-ip-address-allocation")]
     public string? PublicIpAddressAllocation { get; set; }
 
-    [CommandSwitch("--routing-rule-type")]
+    [CliOption("--routing-rule-type")]
     public string? RoutingRuleType { get; set; }
 
-    [CommandSwitch("--servers")]
+    [CliOption("--servers")]
     public string? Servers { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--ssl-certificate-name")]
+    [CliOption("--ssl-certificate-name")]
     public string? SslCertificateName { get; set; }
 
-    [CommandSwitch("--ssl-profile")]
+    [CliOption("--ssl-profile")]
     public string? SslProfile { get; set; }
 
-    [CommandSwitch("--ssl-profile-id")]
+    [CliOption("--ssl-profile-id")]
     public string? SslProfileId { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--subnet-address-prefix")]
+    [CliOption("--subnet-address-prefix")]
     public string? SubnetAddressPrefix { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--trusted-client-cert")]
+    [CliOption("--trusted-client-cert")]
     public string? TrustedClientCert { get; set; }
 
-    [BooleanCommandSwitch("--validate")]
+    [CliFlag("--validate")]
     public bool? Validate { get; set; }
 
-    [CommandSwitch("--vnet-address-prefix")]
+    [CliOption("--vnet-address-prefix")]
     public string? VnetAddressPrefix { get; set; }
 
-    [CommandSwitch("--vnet-name")]
+    [CliOption("--vnet-name")]
     public string? VnetName { get; set; }
 
-    [CommandSwitch("--waf-policy")]
+    [CliOption("--waf-policy")]
     public string? WafPolicy { get; set; }
 
-    [CommandSwitch("--zones")]
+    [CliOption("--zones")]
     public string? Zones { get; set; }
 }

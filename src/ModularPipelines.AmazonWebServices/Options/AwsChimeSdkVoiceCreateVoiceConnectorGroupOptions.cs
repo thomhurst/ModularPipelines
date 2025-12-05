@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-voice", "create-voice-connector-group")]
+[CliCommand("chime-sdk-voice", "create-voice-connector-group")]
 public record AwsChimeSdkVoiceCreateVoiceConnectorGroupOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--voice-connector-items")]
+    [CliOption("--voice-connector-items")]
     public string[]? VoiceConnectorItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("groundstation", "wait", "contact-scheduled")]
+[CliCommand("groundstation", "wait", "contact-scheduled")]
 public record AwsGroundstationWaitContactScheduledOptions(
-[property: CommandSwitch("--contact-id")] string ContactId
+[property: CliOption("--contact-id")] string ContactId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

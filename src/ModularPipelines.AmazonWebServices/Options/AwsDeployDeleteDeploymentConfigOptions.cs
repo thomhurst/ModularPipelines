@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "delete-deployment-config")]
+[CliCommand("deploy", "delete-deployment-config")]
 public record AwsDeployDeleteDeploymentConfigOptions(
-[property: CommandSwitch("--deployment-config-name")] string DeploymentConfigName
+[property: CliOption("--deployment-config-name")] string DeploymentConfigName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

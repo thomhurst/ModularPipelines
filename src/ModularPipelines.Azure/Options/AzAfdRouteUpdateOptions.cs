@@ -4,69 +4,69 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("afd", "route", "update")]
+[CliSubCommand("afd", "route", "update")]
 public record AzAfdRouteUpdateOptions : AzOptions
 {
-    [CommandSwitch("--content-types-to-compress")]
+    [CliOption("--content-types-to-compress")]
     public string? ContentTypesToCompress { get; set; }
 
-    [CommandSwitch("--custom-domains")]
+    [CliOption("--custom-domains")]
     public string? CustomDomains { get; set; }
 
-    [BooleanCommandSwitch("--enable-caching")]
+    [CliFlag("--enable-caching")]
     public bool? EnableCaching { get; set; }
 
-    [BooleanCommandSwitch("--enable-compression")]
+    [CliFlag("--enable-compression")]
     public bool? EnableCompression { get; set; }
 
-    [BooleanCommandSwitch("--enabled-state")]
+    [CliFlag("--enabled-state")]
     public bool? EnabledState { get; set; }
 
-    [CommandSwitch("--endpoint-name")]
+    [CliOption("--endpoint-name")]
     public string? EndpointName { get; set; }
 
-    [CommandSwitch("--forwarding-protocol")]
+    [CliOption("--forwarding-protocol")]
     public string? ForwardingProtocol { get; set; }
 
-    [CommandSwitch("--https-redirect")]
+    [CliOption("--https-redirect")]
     public string? HttpsRedirect { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--link-to-default-domain")]
+    [CliOption("--link-to-default-domain")]
     public string? LinkToDefaultDomain { get; set; }
 
-    [CommandSwitch("--origin-group")]
+    [CliOption("--origin-group")]
     public string? OriginGroup { get; set; }
 
-    [CommandSwitch("--origin-path")]
+    [CliOption("--origin-path")]
     public string? OriginPath { get; set; }
 
-    [CommandSwitch("--patterns-to-match")]
+    [CliOption("--patterns-to-match")]
     public string? PatternsToMatch { get; set; }
 
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 
-    [CommandSwitch("--query-parameters")]
+    [CliOption("--query-parameters")]
     public string? QueryParameters { get; set; }
 
-    [CommandSwitch("--query-string-caching-behavior")]
+    [CliOption("--query-string-caching-behavior")]
     public string? QueryStringCachingBehavior { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--route-name")]
+    [CliOption("--route-name")]
     public string? RouteName { get; set; }
 
-    [CommandSwitch("--rule-sets")]
+    [CliOption("--rule-sets")]
     public string? RuleSets { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--supported-protocols")]
+    [CliOption("--supported-protocols")]
     public string? SupportedProtocols { get; set; }
 }

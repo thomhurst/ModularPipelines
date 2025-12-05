@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3control", "list-jobs")]
+[CliCommand("s3control", "list-jobs")]
 public record AwsS3controlListJobsOptions(
-[property: CommandSwitch("--account-id")] string AccountId
+[property: CliOption("--account-id")] string AccountId
 ) : AwsOptions
 {
-    [CommandSwitch("--job-statuses")]
+    [CliOption("--job-statuses")]
     public string[]? JobStatuses { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -3,37 +3,37 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("create", "job")]
+[CliCommand("create", "job")]
 [ExcludeFromCodeCoverage]
-public record KubernetesCreateJobOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesCreateJobOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--allow-missing-template-keys")]
+    [CliFlag("--allow-missing-template-keys")]
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
-    public string? DryRun { get; set; }
+    [CliOption("--dry-run")]
+    public virtual string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
-    public string? FieldManager { get; set; }
+    [CliOption("--field-manager")]
+    public virtual string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--from", SwitchValueSeparator = " ")]
-    public string? From { get; set; }
+    [CliOption("--from")]
+    public virtual string? From { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--image", SwitchValueSeparator = " ")]
-    public string? Image { get; set; }
+    [CliOption("--image")]
+    public virtual string? Image { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
-    public string? Output { get; set; }
+    [CliOption("--output")]
+    public virtual string? Output { get; set; }
 
-    [BooleanCommandSwitch("--save-config")]
+    [CliFlag("--save-config")]
     public virtual bool? SaveConfig { get; set; }
 
-    [BooleanCommandSwitch("--show-managed-fields")]
+    [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
-    public string? Template { get; set; }
+    [CliOption("--template")]
+    public virtual string? Template { get; set; }
 
-    [BooleanCommandSwitch("--validate")]
+    [CliFlag("--validate")]
     public virtual bool? Validate { get; set; }
 }

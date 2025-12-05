@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("b2bi", "update-profile")]
+[CliCommand("b2bi", "update-profile")]
 public record AwsB2biUpdateProfileOptions(
-[property: CommandSwitch("--profile-id")] string ProfileId
+[property: CliOption("--profile-id")] string ProfileId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--email")]
+    [CliOption("--email")]
     public string? Email { get; set; }
 
-    [CommandSwitch("--phone")]
+    [CliOption("--phone")]
     public string? Phone { get; set; }
 
-    [CommandSwitch("--business-name")]
+    [CliOption("--business-name")]
     public string? BusinessName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

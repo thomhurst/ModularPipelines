@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "automation-rule-set", "create")]
+[CliSubCommand("security", "automation-rule-set", "create")]
 public record AzSecurityAutomationRuleSetCreateOptions : AzOptions
 {
-    [CommandSwitch("--rules")]
+    [CliOption("--rules")]
     public string? Rules { get; set; }
 }

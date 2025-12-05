@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("license-manager", "update-license-configuration")]
+[CliCommand("license-manager", "update-license-configuration")]
 public record AwsLicenseManagerUpdateLicenseConfigurationOptions(
-[property: CommandSwitch("--license-configuration-arn")] string LicenseConfigurationArn
+[property: CliOption("--license-configuration-arn")] string LicenseConfigurationArn
 ) : AwsOptions
 {
-    [CommandSwitch("--license-configuration-status")]
+    [CliOption("--license-configuration-status")]
     public string? LicenseConfigurationStatus { get; set; }
 
-    [CommandSwitch("--license-rules")]
+    [CliOption("--license-rules")]
     public string[]? LicenseRules { get; set; }
 
-    [CommandSwitch("--license-count")]
+    [CliOption("--license-count")]
     public long? LicenseCount { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--product-information-list")]
+    [CliOption("--product-information-list")]
     public string[]? ProductInformationList { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

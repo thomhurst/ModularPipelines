@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("write-tree")]
+[CliSubCommand("write-tree")]
 [ExcludeFromCodeCoverage]
 public record GitWriteTreeOptions : GitOptions
 {
-    [BooleanCommandSwitch("--missing-ok")]
+    [CliFlag("--missing-ok")]
     public virtual bool? MissingOk { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--prefix")]
-    public string? Prefix { get; set; }
+    [CliOption("--prefix", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Prefix { get; set; }
 }

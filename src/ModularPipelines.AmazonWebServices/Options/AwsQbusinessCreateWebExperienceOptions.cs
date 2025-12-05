@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qbusiness", "create-web-experience")]
+[CliCommand("qbusiness", "create-web-experience")]
 public record AwsQbusinessCreateWebExperienceOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId
+[property: CliOption("--application-id")] string ApplicationId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--sample-prompts-control-mode")]
+    [CliOption("--sample-prompts-control-mode")]
     public string? SamplePromptsControlMode { get; set; }
 
-    [CommandSwitch("--subtitle")]
+    [CliOption("--subtitle")]
     public string? Subtitle { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--title")]
+    [CliOption("--title")]
     public string? Title { get; set; }
 
-    [CommandSwitch("--welcome-message")]
+    [CliOption("--welcome-message")]
     public string? WelcomeMessage { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

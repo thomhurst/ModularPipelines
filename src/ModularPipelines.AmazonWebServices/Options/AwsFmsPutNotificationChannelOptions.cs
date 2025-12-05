@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fms", "put-notification-channel")]
+[CliCommand("fms", "put-notification-channel")]
 public record AwsFmsPutNotificationChannelOptions(
-[property: CommandSwitch("--sns-topic-arn")] string SnsTopicArn,
-[property: CommandSwitch("--sns-role-name")] string SnsRoleName
+[property: CliOption("--sns-topic-arn")] string SnsTopicArn,
+[property: CliOption("--sns-role-name")] string SnsRoleName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

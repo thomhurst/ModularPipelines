@@ -5,48 +5,48 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("database-migration", "connection-profiles", "update")]
+[CliCommand("database-migration", "connection-profiles", "update")]
 public record GcloudDatabaseMigrationConnectionProfilesUpdateOptions(
-[property: PositionalArgument] string ConnectionProfile,
-[property: PositionalArgument] string Region
+[property: CliArgument] string ConnectionProfile,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [CommandSwitch("--ca-certificate")]
+    [CliOption("--ca-certificate")]
     public string? CaCertificate { get; set; }
 
-    [CommandSwitch("--client-certificate")]
+    [CliOption("--client-certificate")]
     public string? ClientCertificate { get; set; }
 
-    [CommandSwitch("--cloudsql-instance")]
+    [CliOption("--cloudsql-instance")]
     public string? CloudsqlInstance { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--host")]
+    [CliOption("--host")]
     public string? Host { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public string? Port { get; set; }
 
-    [CommandSwitch("--private-key")]
+    [CliOption("--private-key")]
     public string? PrivateKey { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [BooleanCommandSwitch("--prompt-for-password")]
+    [CliFlag("--prompt-for-password")]
     public bool? PromptForPassword { get; set; }
 }

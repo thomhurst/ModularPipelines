@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicediscovery", "get-instances-health-status")]
+[CliCommand("servicediscovery", "get-instances-health-status")]
 public record AwsServicediscoveryGetInstancesHealthStatusOptions(
-[property: CommandSwitch("--service-id")] string ServiceId
+[property: CliOption("--service-id")] string ServiceId
 ) : AwsOptions
 {
-    [CommandSwitch("--instances")]
+    [CliOption("--instances")]
     public string[]? Instances { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

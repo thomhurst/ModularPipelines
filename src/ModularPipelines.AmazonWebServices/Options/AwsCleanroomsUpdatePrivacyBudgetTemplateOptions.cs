@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cleanrooms", "update-privacy-budget-template")]
+[CliCommand("cleanrooms", "update-privacy-budget-template")]
 public record AwsCleanroomsUpdatePrivacyBudgetTemplateOptions(
-[property: CommandSwitch("--membership-identifier")] string MembershipIdentifier,
-[property: CommandSwitch("--privacy-budget-template-identifier")] string PrivacyBudgetTemplateIdentifier,
-[property: CommandSwitch("--privacy-budget-type")] string PrivacyBudgetType
+[property: CliOption("--membership-identifier")] string MembershipIdentifier,
+[property: CliOption("--privacy-budget-template-identifier")] string PrivacyBudgetTemplateIdentifier,
+[property: CliOption("--privacy-budget-type")] string PrivacyBudgetType
 ) : AwsOptions
 {
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string? Parameters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

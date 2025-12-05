@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecommit", "get-comments-for-compared-commit")]
+[CliCommand("codecommit", "get-comments-for-compared-commit")]
 public record AwsCodecommitGetCommentsForComparedCommitOptions(
-[property: CommandSwitch("--repository-name")] string RepositoryName,
-[property: CommandSwitch("--after-commit-id")] string AfterCommitId
+[property: CliOption("--repository-name")] string RepositoryName,
+[property: CliOption("--after-commit-id")] string AfterCommitId
 ) : AwsOptions
 {
-    [CommandSwitch("--before-commit-id")]
+    [CliOption("--before-commit-id")]
     public string? BeforeCommitId { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

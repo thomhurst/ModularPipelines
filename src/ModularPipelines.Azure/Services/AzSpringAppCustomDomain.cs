@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "app")]
+[CliCommand("spring", "app")]
 public class AzSpringAppCustomDomain
 {
     public AzSpringAppCustomDomain(

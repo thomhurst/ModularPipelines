@@ -5,19 +5,19 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("certificate-manager", "dns-authorizations", "create")]
+[CliCommand("certificate-manager", "dns-authorizations", "create")]
 public record GcloudCertificateManagerDnsAuthorizationsCreateOptions(
-[property: PositionalArgument] string DnsAuthorization,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--domain")] string Domain
+[property: CliArgument] string DnsAuthorization,
+[property: CliArgument] string Location,
+[property: CliOption("--domain")] string Domain
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 }

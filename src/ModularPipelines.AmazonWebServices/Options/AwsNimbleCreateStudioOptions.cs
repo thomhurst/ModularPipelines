@@ -5,23 +5,23 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("nimble", "create-studio")]
+[CliCommand("nimble", "create-studio")]
 public record AwsNimbleCreateStudioOptions(
-[property: CommandSwitch("--admin-role-arn")] string AdminRoleArn,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--studio-name")] string StudioName,
-[property: CommandSwitch("--user-role-arn")] string UserRoleArn
+[property: CliOption("--admin-role-arn")] string AdminRoleArn,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--studio-name")] string StudioName,
+[property: CliOption("--user-role-arn")] string UserRoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--studio-encryption-configuration")]
+    [CliOption("--studio-encryption-configuration")]
     public string? StudioEncryptionConfiguration { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

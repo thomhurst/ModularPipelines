@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "get-alarms")]
+[CliCommand("lightsail", "get-alarms")]
 public record AwsLightsailGetAlarmsOptions : AwsOptions
 {
-    [CommandSwitch("--alarm-name")]
+    [CliOption("--alarm-name")]
     public string? AlarmName { get; set; }
 
-    [CommandSwitch("--page-token")]
+    [CliOption("--page-token")]
     public string? PageToken { get; set; }
 
-    [CommandSwitch("--monitored-resource-name")]
+    [CliOption("--monitored-resource-name")]
     public string? MonitoredResourceName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

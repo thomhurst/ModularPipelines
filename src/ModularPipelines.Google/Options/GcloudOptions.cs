@@ -7,39 +7,39 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 public record GcloudOptions() : CommandLineToolOptions("gcloud")
 {
-    [CommandSwitch("--account")]
+    [CliOption("--account")]
     public string? Account { get; set; }
 
-    [CommandSwitch("--billing-project")]
+    [CliOption("--billing-project")]
     public string? BillingProject { get; set; }
 
-    [CommandSwitch("--configuration")]
+    [CliOption("--configuration")]
     public string? Configuration { get; set; }
 
-    [CommandSwitch("--flags-file")]
+    [CliOption("--flags-file")]
     public string? FlagsFile { get; set; }
 
-    [CommandSwitch("--flatten")]
+    [CliOption("--flatten")]
     public string[]? Flatten { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public string? Format { get; set; }
 
-    [BooleanCommandSwitch("--help")]
+    [CliFlag("--help")]
     public bool? Help { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public bool? Quiet { get; set; }
 
-    [CommandSwitch("--verbosity")]
+    [CliOption("--verbosity")]
     public string? Verbosity { get; set; }
 
-    [BooleanCommandSwitch("--version")]
+    [CliFlag("--version")]
     public bool? Version { get; set; }
 
-    [BooleanCommandSwitch("-h")]
+    [CliFlag("-h")]
     public bool? H { get; set; }
 }

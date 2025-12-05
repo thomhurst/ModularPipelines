@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-inference-component")]
+[CliCommand("sagemaker", "create-inference-component")]
 public record AwsSagemakerCreateInferenceComponentOptions(
-[property: CommandSwitch("--inference-component-name")] string InferenceComponentName,
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--variant-name")] string VariantName,
-[property: CommandSwitch("--specification")] string Specification,
-[property: CommandSwitch("--runtime-config")] string RuntimeConfig
+[property: CliOption("--inference-component-name")] string InferenceComponentName,
+[property: CliOption("--endpoint-name")] string EndpointName,
+[property: CliOption("--variant-name")] string VariantName,
+[property: CliOption("--specification")] string Specification,
+[property: CliOption("--runtime-config")] string RuntimeConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

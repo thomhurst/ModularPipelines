@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub", "topics", "set-iam-policy")]
+[CliCommand("pubsub", "topics", "set-iam-policy")]
 public record GcloudPubsubTopicsSetIamPolicyOptions(
-[property: PositionalArgument] string Topic,
-[property: PositionalArgument] string PolicyFile
+[property: CliArgument] string Topic,
+[property: CliArgument] string PolicyFile
 ) : GcloudOptions;

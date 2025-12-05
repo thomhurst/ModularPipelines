@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts", "docker", "images", "delete")]
+[CliCommand("artifacts", "docker", "images", "delete")]
 public record GcloudArtifactsDockerImagesDeleteOptions(
-[property: PositionalArgument] string Image
+[property: CliArgument] string Image
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--delete-tags")]
+    [CliFlag("--delete-tags")]
     public bool? DeleteTags { get; set; }
 }

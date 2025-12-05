@@ -4,57 +4,57 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediaconnect", "update-flow-output")]
+[CliCommand("mediaconnect", "update-flow-output")]
 public record AwsMediaconnectUpdateFlowOutputOptions(
-[property: CommandSwitch("--flow-arn")] string FlowArn,
-[property: CommandSwitch("--output-arn")] string OutputArn
+[property: CliOption("--flow-arn")] string FlowArn,
+[property: CliOption("--output-arn")] string OutputArn
 ) : AwsOptions
 {
-    [CommandSwitch("--cidr-allow-list")]
+    [CliOption("--cidr-allow-list")]
     public string[]? CidrAllowList { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--destination")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 
-    [CommandSwitch("--encryption")]
+    [CliOption("--encryption")]
     public string? Encryption { get; set; }
 
-    [CommandSwitch("--max-latency")]
+    [CliOption("--max-latency")]
     public int? MaxLatency { get; set; }
 
-    [CommandSwitch("--media-stream-output-configurations")]
+    [CliOption("--media-stream-output-configurations")]
     public string[]? MediaStreamOutputConfigurations { get; set; }
 
-    [CommandSwitch("--min-latency")]
+    [CliOption("--min-latency")]
     public int? MinLatency { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--remote-id")]
+    [CliOption("--remote-id")]
     public string? RemoteId { get; set; }
 
-    [CommandSwitch("--sender-control-port")]
+    [CliOption("--sender-control-port")]
     public int? SenderControlPort { get; set; }
 
-    [CommandSwitch("--sender-ip-address")]
+    [CliOption("--sender-ip-address")]
     public string? SenderIpAddress { get; set; }
 
-    [CommandSwitch("--smoothing-latency")]
+    [CliOption("--smoothing-latency")]
     public int? SmoothingLatency { get; set; }
 
-    [CommandSwitch("--stream-id")]
+    [CliOption("--stream-id")]
     public string? StreamId { get; set; }
 
-    [CommandSwitch("--vpc-interface-attachment")]
+    [CliOption("--vpc-interface-attachment")]
     public string? VpcInterfaceAttachment { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

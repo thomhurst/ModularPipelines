@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "routers", "update-interface")]
+[CliCommand("compute", "routers", "update-interface")]
 public record GcloudComputeRoutersUpdateInterfaceOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--interface-name")] string InterfaceName
+[property: CliArgument] string Name,
+[property: CliOption("--interface-name")] string InterfaceName
 ) : GcloudOptions
 {
-    [CommandSwitch("--ip-address")]
+    [CliOption("--ip-address")]
     public string? IpAddress { get; set; }
 
-    [CommandSwitch("--mask-length")]
+    [CliOption("--mask-length")]
     public string? MaskLength { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--interconnect-attachment")]
+    [CliOption("--interconnect-attachment")]
     public string? InterconnectAttachment { get; set; }
 
-    [CommandSwitch("--interconnect-attachment-region")]
+    [CliOption("--interconnect-attachment-region")]
     public string? InterconnectAttachmentRegion { get; set; }
 
-    [CommandSwitch("--vpn-tunnel")]
+    [CliOption("--vpn-tunnel")]
     public string? VpnTunnel { get; set; }
 
-    [CommandSwitch("--vpn-tunnel-region")]
+    [CliOption("--vpn-tunnel-region")]
     public string? VpnTunnelRegion { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lexv2-models", "describe-test-set")]
+[CliCommand("lexv2-models", "describe-test-set")]
 public record AwsLexv2ModelsDescribeTestSetOptions(
-[property: CommandSwitch("--test-set-id")] string TestSetId
+[property: CliOption("--test-set-id")] string TestSetId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

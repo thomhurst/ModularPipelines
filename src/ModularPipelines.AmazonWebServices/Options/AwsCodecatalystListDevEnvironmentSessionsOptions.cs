@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecatalyst", "list-dev-environment-sessions")]
+[CliCommand("codecatalyst", "list-dev-environment-sessions")]
 public record AwsCodecatalystListDevEnvironmentSessionsOptions(
-[property: CommandSwitch("--space-name")] string SpaceName,
-[property: CommandSwitch("--project-name")] string ProjectName,
-[property: CommandSwitch("--dev-environment-id")] string DevEnvironmentId
+[property: CliOption("--space-name")] string SpaceName,
+[property: CliOption("--project-name")] string ProjectName,
+[property: CliOption("--dev-environment-id")] string DevEnvironmentId
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

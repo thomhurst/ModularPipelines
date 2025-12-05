@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("support", "tickets", "communications", "list")]
+[CliSubCommand("support", "tickets", "communications", "list")]
 public record AzSupportTicketsCommunicationsListOptions(
-[property: CommandSwitch("--ticket-name")] string TicketName
+[property: CliOption("--ticket-name")] string TicketName
 ) : AzOptions
 {
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string? Filters { get; set; }
 }

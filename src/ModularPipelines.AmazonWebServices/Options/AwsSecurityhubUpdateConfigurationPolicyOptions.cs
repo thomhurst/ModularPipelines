@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securityhub", "update-configuration-policy")]
+[CliCommand("securityhub", "update-configuration-policy")]
 public record AwsSecurityhubUpdateConfigurationPolicyOptions(
-[property: CommandSwitch("--identifier")] string Identifier
+[property: CliOption("--identifier")] string Identifier
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--updated-reason")]
+    [CliOption("--updated-reason")]
     public string? UpdatedReason { get; set; }
 
-    [CommandSwitch("--configuration-policy")]
+    [CliOption("--configuration-policy")]
     public string? ConfigurationPolicy { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

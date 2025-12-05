@@ -3,16 +3,16 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("scout", "integration", "configure")]
+[CliCommand("scout", "integration", "configure")]
 [ExcludeFromCodeCoverage]
 public record DockerScoutIntegrationConfigureOptions : DockerOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public virtual string? Name { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public virtual string? Org { get; set; }
 
-    [CommandSwitch("--parameter")]
+    [CliOption("--parameter")]
     public virtual string? Parameter { get; set; }
 }

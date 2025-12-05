@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arcappliance", "troubleshoot")]
+[CliCommand("arcappliance", "troubleshoot")]
 public class AzArcapplianceTroubleshootCommand
 {
     public AzArcapplianceTroubleshootCommand(

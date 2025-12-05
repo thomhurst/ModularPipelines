@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "perimeter", "link-reference", "list")]
+[CliSubCommand("network", "perimeter", "link-reference", "list")]
 public record AzNetworkPerimeterLinkReferenceListOptions(
-[property: CommandSwitch("--perimeter-name")] string PerimeterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--perimeter-name")] string PerimeterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--skip-token")]
+    [CliOption("--skip-token")]
     public string? SkipToken { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 }

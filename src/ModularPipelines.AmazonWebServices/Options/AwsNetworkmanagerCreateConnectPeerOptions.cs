@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkmanager", "create-connect-peer")]
+[CliCommand("networkmanager", "create-connect-peer")]
 public record AwsNetworkmanagerCreateConnectPeerOptions(
-[property: CommandSwitch("--connect-attachment-id")] string ConnectAttachmentId,
-[property: CommandSwitch("--peer-address")] string PeerAddress
+[property: CliOption("--connect-attachment-id")] string ConnectAttachmentId,
+[property: CliOption("--peer-address")] string PeerAddress
 ) : AwsOptions
 {
-    [CommandSwitch("--core-network-address")]
+    [CliOption("--core-network-address")]
     public string? CoreNetworkAddress { get; set; }
 
-    [CommandSwitch("--bgp-options")]
+    [CliOption("--bgp-options")]
     public string? BgpOptions { get; set; }
 
-    [CommandSwitch("--inside-cidr-blocks")]
+    [CliOption("--inside-cidr-blocks")]
     public string[]? InsideCidrBlocks { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--subnet-arn")]
+    [CliOption("--subnet-arn")]
     public string? SubnetArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("shield", "update-application-layer-automatic-response")]
+[CliCommand("shield", "update-application-layer-automatic-response")]
 public record AwsShieldUpdateApplicationLayerAutomaticResponseOptions(
-[property: CommandSwitch("--resource-arn")] string ResourceArn,
-[property: CommandSwitch("--action")] string Action
+[property: CliOption("--resource-arn")] string ResourceArn,
+[property: CliOption("--action")] string Action
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

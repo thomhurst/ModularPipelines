@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "firewall", "policy", "rule-collection-group", "collection")]
+[CliCommand("network", "firewall", "policy", "rule-collection-group", "collection")]
 public class AzNetworkFirewallPolicyRuleCollectionGroupCollectionRule
 {
     public AzNetworkFirewallPolicyRuleCollectionGroupCollectionRule(

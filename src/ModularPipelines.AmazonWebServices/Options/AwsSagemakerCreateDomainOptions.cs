@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-domain")]
+[CliCommand("sagemaker", "create-domain")]
 public record AwsSagemakerCreateDomainOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--auth-mode")] string AuthMode,
-[property: CommandSwitch("--default-user-settings")] string DefaultUserSettings,
-[property: CommandSwitch("--subnet-ids")] string[] SubnetIds,
-[property: CommandSwitch("--vpc-id")] string VpcId
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--auth-mode")] string AuthMode,
+[property: CliOption("--default-user-settings")] string DefaultUserSettings,
+[property: CliOption("--subnet-ids")] string[] SubnetIds,
+[property: CliOption("--vpc-id")] string VpcId
 ) : AwsOptions
 {
-    [CommandSwitch("--domain-settings")]
+    [CliOption("--domain-settings")]
     public string? DomainSettings { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--app-network-access-type")]
+    [CliOption("--app-network-access-type")]
     public string? AppNetworkAccessType { get; set; }
 
-    [CommandSwitch("--home-efs-file-system-kms-key-id")]
+    [CliOption("--home-efs-file-system-kms-key-id")]
     public string? HomeEfsFileSystemKmsKeyId { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--app-security-group-management")]
+    [CliOption("--app-security-group-management")]
     public string? AppSecurityGroupManagement { get; set; }
 
-    [CommandSwitch("--default-space-settings")]
+    [CliOption("--default-space-settings")]
     public string? DefaultSpaceSettings { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

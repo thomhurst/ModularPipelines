@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-meetings", "create-attendee")]
+[CliCommand("chime-sdk-meetings", "create-attendee")]
 public record AwsChimeSdkMeetingsCreateAttendeeOptions(
-[property: CommandSwitch("--meeting-id")] string MeetingId,
-[property: CommandSwitch("--external-user-id")] string ExternalUserId
+[property: CliOption("--meeting-id")] string MeetingId,
+[property: CliOption("--external-user-id")] string ExternalUserId
 ) : AwsOptions
 {
-    [CommandSwitch("--capabilities")]
+    [CliOption("--capabilities")]
     public string? Capabilities { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

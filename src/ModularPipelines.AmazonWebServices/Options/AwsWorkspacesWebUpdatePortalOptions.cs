@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces-web", "update-portal")]
+[CliCommand("workspaces-web", "update-portal")]
 public record AwsWorkspacesWebUpdatePortalOptions(
-[property: CommandSwitch("--portal-arn")] string PortalArn
+[property: CliOption("--portal-arn")] string PortalArn
 ) : AwsOptions
 {
-    [CommandSwitch("--authentication-type")]
+    [CliOption("--authentication-type")]
     public string? AuthenticationType { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

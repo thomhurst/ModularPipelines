@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "disassociate-file-system")]
+[CliCommand("storagegateway", "disassociate-file-system")]
 public record AwsStoragegatewayDisassociateFileSystemOptions(
-[property: CommandSwitch("--file-system-association-arn")] string FileSystemAssociationArn
+[property: CliOption("--file-system-association-arn")] string FileSystemAssociationArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

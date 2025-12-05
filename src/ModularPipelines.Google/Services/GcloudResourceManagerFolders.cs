@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-manager")]
+[CliCommand("resource-manager")]
 public class GcloudResourceManagerFolders
 {
     public GcloudResourceManagerFolders(

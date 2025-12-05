@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "search-place-index-for-text")]
+[CliCommand("location", "search-place-index-for-text")]
 public record AwsLocationSearchPlaceIndexForTextOptions(
-[property: CommandSwitch("--index-name")] string IndexName,
-[property: CommandSwitch("--text")] string Text
+[property: CliOption("--index-name")] string IndexName,
+[property: CliOption("--text")] string Text
 ) : AwsOptions
 {
-    [CommandSwitch("--bias-position")]
+    [CliOption("--bias-position")]
     public string[]? BiasPosition { get; set; }
 
-    [CommandSwitch("--filter-b-box")]
+    [CliOption("--filter-b-box")]
     public string[]? FilterBBox { get; set; }
 
-    [CommandSwitch("--filter-categories")]
+    [CliOption("--filter-categories")]
     public string[]? FilterCategories { get; set; }
 
-    [CommandSwitch("--filter-countries")]
+    [CliOption("--filter-countries")]
     public string[]? FilterCountries { get; set; }
 
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 
-    [CommandSwitch("--language")]
+    [CliOption("--language")]
     public string? Language { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "invoke")]
+[CliCommand("lambda", "invoke")]
 public record AwsLambdaInvokeOptions(
-[property: CommandSwitch("--function-name")] string FunctionName
+[property: CliOption("--function-name")] string FunctionName
 ) : AwsOptions
 {
-    [CommandSwitch("--invocation-type")]
+    [CliOption("--invocation-type")]
     public string? InvocationType { get; set; }
 
-    [CommandSwitch("--log-type")]
+    [CliOption("--log-type")]
     public string? LogType { get; set; }
 
-    [CommandSwitch("--client-context")]
+    [CliOption("--client-context")]
     public string? ClientContext { get; set; }
 
-    [CommandSwitch("--payload")]
+    [CliOption("--payload")]
     public string? Payload { get; set; }
 
-    [CommandSwitch("--qualifier")]
+    [CliOption("--qualifier")]
     public string? Qualifier { get; set; }
 }

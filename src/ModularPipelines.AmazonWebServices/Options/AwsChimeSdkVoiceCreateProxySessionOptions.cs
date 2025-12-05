@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-voice", "create-proxy-session")]
+[CliCommand("chime-sdk-voice", "create-proxy-session")]
 public record AwsChimeSdkVoiceCreateProxySessionOptions(
-[property: CommandSwitch("--voice-connector-id")] string VoiceConnectorId,
-[property: CommandSwitch("--participant-phone-numbers")] string[] ParticipantPhoneNumbers,
-[property: CommandSwitch("--capabilities")] string[] Capabilities
+[property: CliOption("--voice-connector-id")] string VoiceConnectorId,
+[property: CliOption("--participant-phone-numbers")] string[] ParticipantPhoneNumbers,
+[property: CliOption("--capabilities")] string[] Capabilities
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--expiry-minutes")]
+    [CliOption("--expiry-minutes")]
     public int? ExpiryMinutes { get; set; }
 
-    [CommandSwitch("--number-selection-behavior")]
+    [CliOption("--number-selection-behavior")]
     public string? NumberSelectionBehavior { get; set; }
 
-    [CommandSwitch("--geo-match-level")]
+    [CliOption("--geo-match-level")]
     public string? GeoMatchLevel { get; set; }
 
-    [CommandSwitch("--geo-match-params")]
+    [CliOption("--geo-match-params")]
     public string? GeoMatchParams { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

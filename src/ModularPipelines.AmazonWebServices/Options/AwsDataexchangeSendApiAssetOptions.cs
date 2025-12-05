@@ -5,28 +5,28 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataexchange", "send-api-asset")]
+[CliCommand("dataexchange", "send-api-asset")]
 public record AwsDataexchangeSendApiAssetOptions(
-[property: CommandSwitch("--asset-id")] string AssetId,
-[property: CommandSwitch("--data-set-id")] string DataSetId,
-[property: CommandSwitch("--revision-id")] string RevisionId
+[property: CliOption("--asset-id")] string AssetId,
+[property: CliOption("--data-set-id")] string DataSetId,
+[property: CliOption("--revision-id")] string RevisionId
 ) : AwsOptions
 {
-    [CommandSwitch("--body")]
+    [CliOption("--body")]
     public string? Body { get; set; }
 
-    [CommandSwitch("--query-string-parameters")]
+    [CliOption("--query-string-parameters")]
     public IEnumerable<KeyValue>? QueryStringParameters { get; set; }
 
-    [CommandSwitch("--request-headers")]
+    [CliOption("--request-headers")]
     public IEnumerable<KeyValue>? RequestHeaders { get; set; }
 
-    [CommandSwitch("--method")]
+    [CliOption("--method")]
     public string? Method { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managedblockchain", "create-node")]
+[CliCommand("managedblockchain", "create-node")]
 public record AwsManagedblockchainCreateNodeOptions(
-[property: CommandSwitch("--network-id")] string NetworkId,
-[property: CommandSwitch("--node-configuration")] string NodeConfiguration
+[property: CliOption("--network-id")] string NetworkId,
+[property: CliOption("--node-configuration")] string NodeConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--member-id")]
+    [CliOption("--member-id")]
     public string? MemberId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

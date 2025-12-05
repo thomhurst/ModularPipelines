@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "start-ml-labeling-set-generation-task-run")]
+[CliCommand("glue", "start-ml-labeling-set-generation-task-run")]
 public record AwsGlueStartMlLabelingSetGenerationTaskRunOptions(
-[property: CommandSwitch("--transform-id")] string TransformId,
-[property: CommandSwitch("--output-s3-path")] string OutputS3Path
+[property: CliOption("--transform-id")] string TransformId,
+[property: CliOption("--output-s3-path")] string OutputS3Path
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

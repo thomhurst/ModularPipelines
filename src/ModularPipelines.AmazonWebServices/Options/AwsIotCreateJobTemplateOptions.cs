@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "create-job-template")]
+[CliCommand("iot", "create-job-template")]
 public record AwsIotCreateJobTemplateOptions(
-[property: CommandSwitch("--job-template-id")] string JobTemplateId,
-[property: CommandSwitch("--description")] string Description
+[property: CliOption("--job-template-id")] string JobTemplateId,
+[property: CliOption("--description")] string Description
 ) : AwsOptions
 {
-    [CommandSwitch("--job-arn")]
+    [CliOption("--job-arn")]
     public string? JobArn { get; set; }
 
-    [CommandSwitch("--document-source")]
+    [CliOption("--document-source")]
     public string? DocumentSource { get; set; }
 
-    [CommandSwitch("--document")]
+    [CliOption("--document")]
     public string? Document { get; set; }
 
-    [CommandSwitch("--presigned-url-config")]
+    [CliOption("--presigned-url-config")]
     public string? PresignedUrlConfig { get; set; }
 
-    [CommandSwitch("--job-executions-rollout-config")]
+    [CliOption("--job-executions-rollout-config")]
     public string? JobExecutionsRolloutConfig { get; set; }
 
-    [CommandSwitch("--abort-config")]
+    [CliOption("--abort-config")]
     public string? AbortConfig { get; set; }
 
-    [CommandSwitch("--timeout-config")]
+    [CliOption("--timeout-config")]
     public string? TimeoutConfig { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--job-executions-retry-config")]
+    [CliOption("--job-executions-retry-config")]
     public string? JobExecutionsRetryConfig { get; set; }
 
-    [CommandSwitch("--maintenance-windows")]
+    [CliOption("--maintenance-windows")]
     public string[]? MaintenanceWindows { get; set; }
 
-    [CommandSwitch("--destination-package-versions")]
+    [CliOption("--destination-package-versions")]
     public string[]? DestinationPackageVersions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

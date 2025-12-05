@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("outposts", "list-assets")]
+[CliCommand("outposts", "list-assets")]
 public record AwsOutpostsListAssetsOptions(
-[property: CommandSwitch("--outpost-identifier")] string OutpostIdentifier
+[property: CliOption("--outpost-identifier")] string OutpostIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--host-id-filter")]
+    [CliOption("--host-id-filter")]
     public string[]? HostIdFilter { get; set; }
 
-    [CommandSwitch("--status-filter")]
+    [CliOption("--status-filter")]
     public string[]? StatusFilter { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

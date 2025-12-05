@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("communication", "chat", "message")]
+[CliCommand("communication", "chat", "message")]
 public class AzCommunicationChatMessageReceipt
 {
     public AzCommunicationChatMessageReceipt(

@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("container", "diff")]
+[CliCommand("container", "diff")]
 [ExcludeFromCodeCoverage]
 public record DockerContainerDiffOptions : DockerOptions
 {

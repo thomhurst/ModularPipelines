@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "list-lens-reviews")]
+[CliCommand("wellarchitected", "list-lens-reviews")]
 public record AwsWellarchitectedListLensReviewsOptions(
-[property: CommandSwitch("--workload-id")] string WorkloadId
+[property: CliOption("--workload-id")] string WorkloadId
 ) : AwsOptions
 {
-    [CommandSwitch("--milestone-number")]
+    [CliOption("--milestone-number")]
     public int? MilestoneNumber { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

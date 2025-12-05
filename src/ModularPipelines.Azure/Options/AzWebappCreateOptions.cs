@@ -4,64 +4,64 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "create")]
+[CliSubCommand("webapp", "create")]
 public record AzWebappCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--plan")] string Plan,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--plan")] string Plan,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--assign-identity")]
+    [CliOption("--assign-identity")]
     public string? AssignIdentity { get; set; }
 
-    [CommandSwitch("--deployment-container-image-name")]
+    [CliOption("--deployment-container-image-name")]
     public string? DeploymentContainerImageName { get; set; }
 
-    [CommandSwitch("--deployment-local-git")]
+    [CliOption("--deployment-local-git")]
     public string? DeploymentLocalGit { get; set; }
 
-    [CommandSwitch("--deployment-source-branch")]
+    [CliOption("--deployment-source-branch")]
     public string? DeploymentSourceBranch { get; set; }
 
-    [CommandSwitch("--deployment-source-url")]
+    [CliOption("--deployment-source-url")]
     public string? DeploymentSourceUrl { get; set; }
 
-    [CommandSwitch("--docker-registry-server-password")]
+    [CliOption("--docker-registry-server-password")]
     public string? DockerRegistryServerPassword { get; set; }
 
-    [CommandSwitch("--docker-registry-server-user")]
+    [CliOption("--docker-registry-server-user")]
     public string? DockerRegistryServerUser { get; set; }
 
-    [BooleanCommandSwitch("--https-only")]
+    [CliFlag("--https-only")]
     public bool? HttpsOnly { get; set; }
 
-    [CommandSwitch("--multicontainer-config-file")]
+    [CliOption("--multicontainer-config-file")]
     public string? MulticontainerConfigFile { get; set; }
 
-    [CommandSwitch("--multicontainer-config-type")]
+    [CliOption("--multicontainer-config-type")]
     public string? MulticontainerConfigType { get; set; }
 
-    [CommandSwitch("--public-network-access")]
+    [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--runtime")]
+    [CliOption("--runtime")]
     public string? Runtime { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--startup-file")]
+    [CliOption("--startup-file")]
     public string? StartupFile { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--vnet")]
+    [CliOption("--vnet")]
     public string? Vnet { get; set; }
 }

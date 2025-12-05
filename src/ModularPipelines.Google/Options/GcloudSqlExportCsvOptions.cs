@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "export", "csv")]
+[CliCommand("sql", "export", "csv")]
 public record GcloudSqlExportCsvOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Uri,
-[property: CommandSwitch("--query")] string Query
+[property: CliArgument] string Instance,
+[property: CliArgument] string Uri,
+[property: CliOption("--query")] string Query
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--database")]
+    [CliOption("--database")]
     public string[]? Database { get; set; }
 
-    [CommandSwitch("--escape")]
+    [CliOption("--escape")]
     public string? Escape { get; set; }
 
-    [CommandSwitch("--fields-terminated-by")]
+    [CliOption("--fields-terminated-by")]
     public string? FieldsTerminatedBy { get; set; }
 
-    [CommandSwitch("--lines-terminated-by")]
+    [CliOption("--lines-terminated-by")]
     public string? LinesTerminatedBy { get; set; }
 
-    [BooleanCommandSwitch("--offload")]
+    [CliFlag("--offload")]
     public bool? Offload { get; set; }
 
-    [CommandSwitch("--quote")]
+    [CliOption("--quote")]
     public string? Quote { get; set; }
 }

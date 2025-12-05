@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "workforce-pools", "providers", "list")]
+[CliCommand("iam", "workforce-pools", "providers", "list")]
 public record GcloudIamWorkforcePoolsProvidersListOptions(
-[property: CommandSwitch("--workforce-pool")] string WorkforcePool,
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--workforce-pool")] string WorkforcePool,
+[property: CliOption("--location")] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--show-deleted")]
+    [CliFlag("--show-deleted")]
     public bool? ShowDeleted { get; set; }
 }

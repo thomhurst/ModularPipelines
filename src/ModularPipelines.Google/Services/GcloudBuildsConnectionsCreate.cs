@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("builds", "connections")]
+[CliCommand("builds", "connections")]
 public class GcloudBuildsConnectionsCreate
 {
     public GcloudBuildsConnectionsCreate(

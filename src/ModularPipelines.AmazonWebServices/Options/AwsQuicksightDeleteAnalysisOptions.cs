@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "delete-analysis")]
+[CliCommand("quicksight", "delete-analysis")]
 public record AwsQuicksightDeleteAnalysisOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--analysis-id")] string AnalysisId
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--analysis-id")] string AnalysisId
 ) : AwsOptions
 {
-    [CommandSwitch("--recovery-window-in-days")]
+    [CliOption("--recovery-window-in-days")]
     public long? RecoveryWindowInDays { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

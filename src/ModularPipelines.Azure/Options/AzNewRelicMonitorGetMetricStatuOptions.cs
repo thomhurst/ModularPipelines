@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("new-relic", "monitor", "get-metric-statu")]
+[CliSubCommand("new-relic", "monitor", "get-metric-statu")]
 public record AzNewRelicMonitorGetMetricStatuOptions(
-[property: CommandSwitch("--user-email")] string UserEmail
+[property: CliOption("--user-email")] string UserEmail
 ) : AzOptions
 {
-    [CommandSwitch("--azure-resource-ids")]
+    [CliOption("--azure-resource-ids")]
     public string? AzureResourceIds { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--monitor-name")]
+    [CliOption("--monitor-name")]
     public string? MonitorName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

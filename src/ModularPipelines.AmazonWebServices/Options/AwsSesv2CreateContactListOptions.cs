@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sesv2", "create-contact-list")]
+[CliCommand("sesv2", "create-contact-list")]
 public record AwsSesv2CreateContactListOptions(
-[property: CommandSwitch("--contact-list-name")] string ContactListName
+[property: CliOption("--contact-list-name")] string ContactListName
 ) : AwsOptions
 {
-    [CommandSwitch("--topics")]
+    [CliOption("--topics")]
     public string[]? Topics { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

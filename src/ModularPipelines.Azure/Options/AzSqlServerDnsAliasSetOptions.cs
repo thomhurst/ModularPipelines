@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "server", "dns-alias", "set")]
+[CliSubCommand("sql", "server", "dns-alias", "set")]
 public record AzSqlServerDnsAliasSetOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--original-server")] string OriginalServer
+[property: CliOption("--name")] string Name,
+[property: CliOption("--original-server")] string OriginalServer
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--original-resource-group")]
+    [CliOption("--original-resource-group")]
     public string? OriginalResourceGroup { get; set; }
 
-    [CommandSwitch("--original-subscription-id")]
+    [CliOption("--original-subscription-id")]
     public string? OriginalSubscriptionId { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--server")]
+    [CliOption("--server")]
     public string? Server { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

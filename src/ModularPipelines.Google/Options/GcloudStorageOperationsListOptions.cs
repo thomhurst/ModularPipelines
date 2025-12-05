@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "operations", "list")]
+[CliCommand("storage", "operations", "list")]
 public record GcloudStorageOperationsListOptions(
-[property: PositionalArgument] string ParentResourceName
+[property: CliArgument] string ParentResourceName
 ) : GcloudOptions
 {
-    [CommandSwitch("--server-filter")]
+    [CliOption("--server-filter")]
     public string? ServerFilter { get; set; }
 }

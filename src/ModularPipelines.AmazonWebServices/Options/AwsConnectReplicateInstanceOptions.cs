@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "replicate-instance")]
+[CliCommand("connect", "replicate-instance")]
 public record AwsConnectReplicateInstanceOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--replica-region")] string ReplicaRegion,
-[property: CommandSwitch("--replica-alias")] string ReplicaAlias
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--replica-region")] string ReplicaRegion,
+[property: CliOption("--replica-alias")] string ReplicaAlias
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

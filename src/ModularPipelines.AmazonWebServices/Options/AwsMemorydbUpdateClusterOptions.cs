@@ -4,50 +4,50 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("memorydb", "update-cluster")]
+[CliCommand("memorydb", "update-cluster")]
 public record AwsMemorydbUpdateClusterOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName
+[property: CliOption("--cluster-name")] string ClusterName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--security-group-ids")]
+    [CliOption("--security-group-ids")]
     public string[]? SecurityGroupIds { get; set; }
 
-    [CommandSwitch("--maintenance-window")]
+    [CliOption("--maintenance-window")]
     public string? MaintenanceWindow { get; set; }
 
-    [CommandSwitch("--sns-topic-arn")]
+    [CliOption("--sns-topic-arn")]
     public string? SnsTopicArn { get; set; }
 
-    [CommandSwitch("--sns-topic-status")]
+    [CliOption("--sns-topic-status")]
     public string? SnsTopicStatus { get; set; }
 
-    [CommandSwitch("--parameter-group-name")]
+    [CliOption("--parameter-group-name")]
     public string? ParameterGroupName { get; set; }
 
-    [CommandSwitch("--snapshot-window")]
+    [CliOption("--snapshot-window")]
     public string? SnapshotWindow { get; set; }
 
-    [CommandSwitch("--snapshot-retention-limit")]
+    [CliOption("--snapshot-retention-limit")]
     public int? SnapshotRetentionLimit { get; set; }
 
-    [CommandSwitch("--node-type")]
+    [CliOption("--node-type")]
     public string? NodeType { get; set; }
 
-    [CommandSwitch("--engine-version")]
+    [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CommandSwitch("--replica-configuration")]
+    [CliOption("--replica-configuration")]
     public string? ReplicaConfiguration { get; set; }
 
-    [CommandSwitch("--shard-configuration")]
+    [CliOption("--shard-configuration")]
     public string? ShardConfiguration { get; set; }
 
-    [CommandSwitch("--acl-name")]
+    [CliOption("--acl-name")]
     public string? AclName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

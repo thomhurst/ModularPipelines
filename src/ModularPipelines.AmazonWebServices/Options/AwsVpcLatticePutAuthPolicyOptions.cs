@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vpc-lattice", "put-auth-policy")]
+[CliCommand("vpc-lattice", "put-auth-policy")]
 public record AwsVpcLatticePutAuthPolicyOptions(
-[property: CommandSwitch("--policy")] string Policy,
-[property: CommandSwitch("--resource-identifier")] string ResourceIdentifier
+[property: CliOption("--policy")] string Policy,
+[property: CliOption("--resource-identifier")] string ResourceIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

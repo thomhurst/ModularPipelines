@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("discovery", "list-server-neighbors")]
+[CliCommand("discovery", "list-server-neighbors")]
 public record AwsDiscoveryListServerNeighborsOptions(
-[property: CommandSwitch("--configuration-id")] string ConfigurationId
+[property: CliOption("--configuration-id")] string ConfigurationId
 ) : AwsOptions
 {
-    [CommandSwitch("--neighbor-configuration-ids")]
+    [CliOption("--neighbor-configuration-ids")]
     public string[]? NeighborConfigurationIds { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

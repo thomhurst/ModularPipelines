@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "update-distribution")]
+[CliCommand("lightsail", "update-distribution")]
 public record AwsLightsailUpdateDistributionOptions(
-[property: CommandSwitch("--distribution-name")] string DistributionName
+[property: CliOption("--distribution-name")] string DistributionName
 ) : AwsOptions
 {
-    [CommandSwitch("--origin")]
+    [CliOption("--origin")]
     public string? Origin { get; set; }
 
-    [CommandSwitch("--default-cache-behavior")]
+    [CliOption("--default-cache-behavior")]
     public string? DefaultCacheBehavior { get; set; }
 
-    [CommandSwitch("--cache-behavior-settings")]
+    [CliOption("--cache-behavior-settings")]
     public string? CacheBehaviorSettings { get; set; }
 
-    [CommandSwitch("--cache-behaviors")]
+    [CliOption("--cache-behaviors")]
     public string[]? CacheBehaviors { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("autoscaling", "describe-lifecycle-hooks")]
+[CliCommand("autoscaling", "describe-lifecycle-hooks")]
 public record AwsAutoscalingDescribeLifecycleHooksOptions(
-[property: CommandSwitch("--auto-scaling-group-name")] string AutoScalingGroupName
+[property: CliOption("--auto-scaling-group-name")] string AutoScalingGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--lifecycle-hook-names")]
+    [CliOption("--lifecycle-hook-names")]
     public string[]? LifecycleHookNames { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

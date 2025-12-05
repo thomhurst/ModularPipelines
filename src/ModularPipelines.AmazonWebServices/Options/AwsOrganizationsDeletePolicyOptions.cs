@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("organizations", "delete-policy")]
+[CliCommand("organizations", "delete-policy")]
 public record AwsOrganizationsDeletePolicyOptions(
-[property: CommandSwitch("--policy-id")] string PolicyId
+[property: CliOption("--policy-id")] string PolicyId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

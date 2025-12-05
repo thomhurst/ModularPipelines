@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apim", "deletedservice", "purge")]
+[CliSubCommand("apim", "deletedservice", "purge")]
 public record AzApimDeletedservicePurgeOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--location")] string Location,
+[property: CliOption("--service-name")] string ServiceName
 ) : AzOptions;

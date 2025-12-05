@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("services", "vpc-peerings", "disable-vpc-service-controls")]
+[CliCommand("services", "vpc-peerings", "disable-vpc-service-controls")]
 public record GcloudServicesVpcPeeringsDisableVpcServiceControlsOptions(
-[property: CommandSwitch("--network")] string Network
+[property: CliOption("--network")] string Network
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 }

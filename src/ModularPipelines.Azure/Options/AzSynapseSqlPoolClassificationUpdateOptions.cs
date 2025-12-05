@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "sql", "pool", "classification", "update")]
+[CliSubCommand("synapse", "sql", "pool", "classification", "update")]
 public record AzSynapseSqlPoolClassificationUpdateOptions(
-[property: CommandSwitch("--column")] string Column,
-[property: CommandSwitch("--schema")] string Schema,
-[property: CommandSwitch("--table")] string Table
+[property: CliOption("--column")] string Column,
+[property: CliOption("--schema")] string Schema,
+[property: CliOption("--table")] string Table
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--information-type")]
+    [CliOption("--information-type")]
     public string? InformationType { get; set; }
 
-    [CommandSwitch("--label")]
+    [CliOption("--label")]
     public string? Label { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

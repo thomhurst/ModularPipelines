@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configservice", "start-resource-evaluation")]
+[CliCommand("configservice", "start-resource-evaluation")]
 public record AwsConfigserviceStartResourceEvaluationOptions(
-[property: CommandSwitch("--resource-details")] string ResourceDetails,
-[property: CommandSwitch("--evaluation-mode")] string EvaluationMode
+[property: CliOption("--resource-details")] string ResourceDetails,
+[property: CliOption("--evaluation-mode")] string EvaluationMode
 ) : AwsOptions
 {
-    [CommandSwitch("--evaluation-context")]
+    [CliOption("--evaluation-context")]
     public string? EvaluationContext { get; set; }
 
-    [CommandSwitch("--evaluation-timeout")]
+    [CliOption("--evaluation-timeout")]
     public int? EvaluationTimeout { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotsitewise", "update-asset-model")]
+[CliCommand("iotsitewise", "update-asset-model")]
 public record AwsIotsitewiseUpdateAssetModelOptions(
-[property: CommandSwitch("--asset-model-id")] string AssetModelId,
-[property: CommandSwitch("--asset-model-name")] string AssetModelName
+[property: CliOption("--asset-model-id")] string AssetModelId,
+[property: CliOption("--asset-model-name")] string AssetModelName
 ) : AwsOptions
 {
-    [CommandSwitch("--asset-model-description")]
+    [CliOption("--asset-model-description")]
     public string? AssetModelDescription { get; set; }
 
-    [CommandSwitch("--asset-model-properties")]
+    [CliOption("--asset-model-properties")]
     public string[]? AssetModelProperties { get; set; }
 
-    [CommandSwitch("--asset-model-hierarchies")]
+    [CliOption("--asset-model-hierarchies")]
     public string[]? AssetModelHierarchies { get; set; }
 
-    [CommandSwitch("--asset-model-composite-models")]
+    [CliOption("--asset-model-composite-models")]
     public string[]? AssetModelCompositeModels { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--asset-model-external-id")]
+    [CliOption("--asset-model-external-id")]
     public string? AssetModelExternalId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

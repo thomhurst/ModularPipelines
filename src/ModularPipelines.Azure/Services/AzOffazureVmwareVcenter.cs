@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("offure", "vmware")]
+[CliCommand("offure", "vmware")]
 public class AzOffazureVmwareVcenter
 {
     public AzOffazureVmwareVcenter(

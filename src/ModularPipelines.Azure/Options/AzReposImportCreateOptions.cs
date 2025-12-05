@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repos", "import", "create")]
+[CliSubCommand("repos", "import", "create")]
 public record AzReposImportCreateOptions(
-[property: CommandSwitch("--git-source-url")] string GitSourceUrl
+[property: CliOption("--git-source-url")] string GitSourceUrl
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--git-service-endpoint-id")]
+    [CliOption("--git-service-endpoint-id")]
     public string? GitServiceEndpointId { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [CommandSwitch("--repository")]
+    [CliOption("--repository")]
     public string? Repository { get; set; }
 
-    [BooleanCommandSwitch("--requires-authorization")]
+    [CliFlag("--requires-authorization")]
     public bool? RequiresAuthorization { get; set; }
 
-    [CommandSwitch("--user-name")]
+    [CliOption("--user-name")]
     public string? UserName { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netapp", "volumes", "snapshots", "delete")]
+[CliCommand("netapp", "volumes", "snapshots", "delete")]
 public record GcloudNetappVolumesSnapshotsDeleteOptions(
-[property: PositionalArgument] string Snapshot,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Snapshot,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--volume")]
+    [CliOption("--volume")]
     public string? Volume { get; set; }
 }

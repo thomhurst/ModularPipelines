@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("clouddirectory", "update-facet")]
+[CliCommand("clouddirectory", "update-facet")]
 public record AwsClouddirectoryUpdateFacetOptions(
-[property: CommandSwitch("--schema-arn")] string SchemaArn,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--schema-arn")] string SchemaArn,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--attribute-updates")]
+    [CliOption("--attribute-updates")]
     public string[]? AttributeUpdates { get; set; }
 
-    [CommandSwitch("--object-type")]
+    [CliOption("--object-type")]
     public string? ObjectType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

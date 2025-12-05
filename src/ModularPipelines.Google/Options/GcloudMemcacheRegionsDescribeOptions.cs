@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("memcache", "regions", "describe")]
+[CliCommand("memcache", "regions", "describe")]
 public record GcloudMemcacheRegionsDescribeOptions(
-[property: PositionalArgument] string Region
+[property: CliArgument] string Region
 ) : GcloudOptions;

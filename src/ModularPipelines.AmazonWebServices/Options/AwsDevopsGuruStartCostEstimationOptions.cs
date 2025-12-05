@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops-guru", "start-cost-estimation")]
+[CliCommand("devops-guru", "start-cost-estimation")]
 public record AwsDevopsGuruStartCostEstimationOptions(
-[property: CommandSwitch("--resource-collection")] string ResourceCollection
+[property: CliOption("--resource-collection")] string ResourceCollection
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

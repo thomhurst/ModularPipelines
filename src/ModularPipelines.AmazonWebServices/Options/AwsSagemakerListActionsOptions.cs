@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "list-actions")]
+[CliCommand("sagemaker", "list-actions")]
 public record AwsSagemakerListActionsOptions : AwsOptions
 {
-    [CommandSwitch("--source-uri")]
+    [CliOption("--source-uri")]
     public string? SourceUri { get; set; }
 
-    [CommandSwitch("--action-type")]
+    [CliOption("--action-type")]
     public string? ActionType { get; set; }
 
-    [CommandSwitch("--created-after")]
+    [CliOption("--created-after")]
     public long? CreatedAfter { get; set; }
 
-    [CommandSwitch("--created-before")]
+    [CliOption("--created-before")]
     public long? CreatedBefore { get; set; }
 
-    [CommandSwitch("--sort-by")]
+    [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
-    [CommandSwitch("--sort-order")]
+    [CliOption("--sort-order")]
     public string? SortOrder { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

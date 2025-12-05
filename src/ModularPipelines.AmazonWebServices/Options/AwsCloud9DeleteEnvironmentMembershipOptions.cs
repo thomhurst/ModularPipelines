@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloud9", "delete-environment-membership")]
+[CliCommand("cloud9", "delete-environment-membership")]
 public record AwsCloud9DeleteEnvironmentMembershipOptions(
-[property: CommandSwitch("--environment-id")] string EnvironmentId,
-[property: CommandSwitch("--user-arn")] string UserArn
+[property: CliOption("--environment-id")] string EnvironmentId,
+[property: CliOption("--user-arn")] string UserArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

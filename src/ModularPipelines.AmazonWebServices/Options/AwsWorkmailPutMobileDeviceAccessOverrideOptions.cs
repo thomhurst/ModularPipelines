@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workmail", "put-mobile-device-access-override")]
+[CliCommand("workmail", "put-mobile-device-access-override")]
 public record AwsWorkmailPutMobileDeviceAccessOverrideOptions(
-[property: CommandSwitch("--organization-id")] string OrganizationId,
-[property: CommandSwitch("--user-id")] string UserId,
-[property: CommandSwitch("--device-id")] string DeviceId,
-[property: CommandSwitch("--effect")] string Effect
+[property: CliOption("--organization-id")] string OrganizationId,
+[property: CliOption("--user-id")] string UserId,
+[property: CliOption("--device-id")] string DeviceId,
+[property: CliOption("--effect")] string Effect
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

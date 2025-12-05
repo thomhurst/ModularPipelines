@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "import", "sql")]
+[CliCommand("sql", "import", "sql")]
 public record GcloudSqlImportSqlOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Uri
+[property: CliArgument] string Instance,
+[property: CliArgument] string Uri
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--database")]
+    [CliOption("--database")]
     public string? Database { get; set; }
 
-    [CommandSwitch("--user")]
+    [CliOption("--user")]
     public string? User { get; set; }
 }

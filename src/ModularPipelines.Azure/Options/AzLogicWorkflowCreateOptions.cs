@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logic", "workflow", "create")]
+[CliSubCommand("logic", "workflow", "create")]
 public record AzLogicWorkflowCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--access-control")]
+    [CliOption("--access-control")]
     public string? AccessControl { get; set; }
 
-    [CommandSwitch("--definition")]
+    [CliOption("--definition")]
     public string? Definition { get; set; }
 
-    [CommandSwitch("--endpoints-configuration")]
+    [CliOption("--endpoints-configuration")]
     public string? EndpointsConfiguration { get; set; }
 
-    [CommandSwitch("--integration-account")]
+    [CliOption("--integration-account")]
     public int? IntegrationAccount { get; set; }
 
-    [CommandSwitch("--integration-service-environment")]
+    [CliOption("--integration-service-environment")]
     public string? IntegrationServiceEnvironment { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--mi-system-assigned")]
+    [CliFlag("--mi-system-assigned")]
     public bool? MiSystemAssigned { get; set; }
 
-    [CommandSwitch("--mi-user-assigned")]
+    [CliOption("--mi-user-assigned")]
     public string? MiUserAssigned { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

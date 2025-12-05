@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("controltower", "get-enabled-control")]
+[CliCommand("controltower", "get-enabled-control")]
 public record AwsControltowerGetEnabledControlOptions(
-[property: CommandSwitch("--enabled-control-identifier")] string EnabledControlIdentifier
+[property: CliOption("--enabled-control-identifier")] string EnabledControlIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

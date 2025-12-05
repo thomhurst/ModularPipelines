@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("version")]
+[CliCommand("version")]
 public record YarnVersionOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Strategy
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Strategy
 ) : YarnOptions
 {
-    [BooleanCommandSwitch("--deferred")]
+    [CliFlag("--deferred")]
     public virtual bool? Deferred { get; set; }
 
-    [BooleanCommandSwitch("--immediate")]
+    [CliFlag("--immediate")]
     public virtual bool? Immediate { get; set; }
 }

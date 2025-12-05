@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotwireless", "update-resource-event-configuration")]
+[CliCommand("iotwireless", "update-resource-event-configuration")]
 public record AwsIotwirelessUpdateResourceEventConfigurationOptions(
-[property: CommandSwitch("--identifier")] string Identifier,
-[property: CommandSwitch("--identifier-type")] string IdentifierType
+[property: CliOption("--identifier")] string Identifier,
+[property: CliOption("--identifier-type")] string IdentifierType
 ) : AwsOptions
 {
-    [CommandSwitch("--partner-type")]
+    [CliOption("--partner-type")]
     public string? PartnerType { get; set; }
 
-    [CommandSwitch("--device-registration-state")]
+    [CliOption("--device-registration-state")]
     public string? DeviceRegistrationState { get; set; }
 
-    [CommandSwitch("--proximity")]
+    [CliOption("--proximity")]
     public string? Proximity { get; set; }
 
-    [CommandSwitch("--join")]
+    [CliOption("--join")]
     public string? Join { get; set; }
 
-    [CommandSwitch("--connection-status")]
+    [CliOption("--connection-status")]
     public string? ConnectionStatus { get; set; }
 
-    [CommandSwitch("--message-delivery-status")]
+    [CliOption("--message-delivery-status")]
     public string? MessageDeliveryStatus { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "message", "delete")]
+[CliSubCommand("storage", "message", "delete")]
 public record AzStorageMessageDeleteOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--pop-receipt")] string PopReceipt,
-[property: CommandSwitch("--queue-name")] string QueueName
+[property: CliOption("--id")] string Id,
+[property: CliOption("--pop-receipt")] string PopReceipt,
+[property: CliOption("--queue-name")] string QueueName
 ) : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--queue-endpoint")]
+    [CliOption("--queue-endpoint")]
     public string? QueueEndpoint { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

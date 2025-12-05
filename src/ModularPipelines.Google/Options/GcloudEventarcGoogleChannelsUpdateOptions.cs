@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventarc", "google-channels", "update")]
+[CliCommand("eventarc", "google-channels", "update")]
 public record GcloudEventarcGoogleChannelsUpdateOptions : GcloudOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--clear-crypto-key")]
+    [CliFlag("--clear-crypto-key")]
     public bool? ClearCryptoKey { get; set; }
 
-    [CommandSwitch("--crypto-key")]
+    [CliOption("--crypto-key")]
     public string? CryptoKey { get; set; }
 }

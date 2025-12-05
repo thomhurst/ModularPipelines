@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "network", "private-endpoint")]
+[CliCommand("dt", "network", "private-endpoint")]
 public class AzDtNetworkPrivateEndpointConnection
 {
     public AzDtNetworkPrivateEndpointConnection(

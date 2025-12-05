@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("comprehend", "create-dataset")]
+[CliCommand("comprehend", "create-dataset")]
 public record AwsComprehendCreateDatasetOptions(
-[property: CommandSwitch("--flywheel-arn")] string FlywheelArn,
-[property: CommandSwitch("--dataset-name")] string DatasetName,
-[property: CommandSwitch("--input-data-config")] string InputDataConfig
+[property: CliOption("--flywheel-arn")] string FlywheelArn,
+[property: CliOption("--dataset-name")] string DatasetName,
+[property: CliOption("--input-data-config")] string InputDataConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--dataset-type")]
+    [CliOption("--dataset-type")]
     public string? DatasetType { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

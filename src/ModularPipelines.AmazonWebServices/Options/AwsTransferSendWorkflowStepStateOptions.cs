@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "send-workflow-step-state")]
+[CliCommand("transfer", "send-workflow-step-state")]
 public record AwsTransferSendWorkflowStepStateOptions(
-[property: CommandSwitch("--workflow-id")] string WorkflowId,
-[property: CommandSwitch("--execution-id")] string ExecutionId,
-[property: CommandSwitch("--token")] string Token,
-[property: CommandSwitch("--status")] string Status
+[property: CliOption("--workflow-id")] string WorkflowId,
+[property: CliOption("--execution-id")] string ExecutionId,
+[property: CliOption("--token")] string Token,
+[property: CliOption("--status")] string Status
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

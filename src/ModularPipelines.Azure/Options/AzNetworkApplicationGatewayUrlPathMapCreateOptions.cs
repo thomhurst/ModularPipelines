@@ -4,47 +4,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "url-path-map", "create")]
+[CliSubCommand("network", "application-gateway", "url-path-map", "create")]
 public record AzNetworkApplicationGatewayUrlPathMapCreateOptions(
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--paths")] string Paths,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--paths")] string Paths,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--address-pool")]
+    [CliOption("--address-pool")]
     public string? AddressPool { get; set; }
 
-    [CommandSwitch("--default-address-pool")]
+    [CliOption("--default-address-pool")]
     public string? DefaultAddressPool { get; set; }
 
-    [CommandSwitch("--default-http-settings")]
+    [CliOption("--default-http-settings")]
     public string? DefaultHttpSettings { get; set; }
 
-    [CommandSwitch("--default-redirect-config")]
+    [CliOption("--default-redirect-config")]
     public string? DefaultRedirectConfig { get; set; }
 
-    [CommandSwitch("--default-rewrite-rule-set")]
+    [CliOption("--default-rewrite-rule-set")]
     public string? DefaultRewriteRuleSet { get; set; }
 
-    [CommandSwitch("--http-settings")]
+    [CliOption("--http-settings")]
     public string? HttpSettings { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--redirect-config")]
+    [CliOption("--redirect-config")]
     public string? RedirectConfig { get; set; }
 
-    [CommandSwitch("--rewrite-rule-set")]
+    [CliOption("--rewrite-rule-set")]
     public string? RewriteRuleSet { get; set; }
 
-    [CommandSwitch("--rule-name")]
+    [CliOption("--rule-name")]
     public string? RuleName { get; set; }
 
-    [CommandSwitch("--rules")]
+    [CliOption("--rules")]
     public string? Rules { get; set; }
 
-    [CommandSwitch("--waf-policy")]
+    [CliOption("--waf-policy")]
     public string? WafPolicy { get; set; }
 }

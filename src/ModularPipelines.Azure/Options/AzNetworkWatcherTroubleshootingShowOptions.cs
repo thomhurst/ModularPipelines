@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "watcher", "troubleshooting", "show")]
+[CliSubCommand("network", "watcher", "troubleshooting", "show")]
 public record AzNetworkWatcherTroubleshootingShowOptions(
-[property: CommandSwitch("--resource")] string Resource
+[property: CliOption("--resource")] string Resource
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--watcher-rg")]
+    [CliOption("--watcher-rg")]
     public string? WatcherRg { get; set; }
 }

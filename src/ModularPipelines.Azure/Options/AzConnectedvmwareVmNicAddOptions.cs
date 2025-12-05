@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectedvmware", "vm", "nic", "add")]
+[CliSubCommand("connectedvmware", "vm", "nic", "add")]
 public record AzConnectedvmwareVmNicAddOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--network")] string Network,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vm-name")] string VmName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--network")] string Network,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vm-name")] string VmName
 ) : AzOptions
 {
-    [CommandSwitch("--nic-type")]
+    [CliOption("--nic-type")]
     public string? NicType { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--power-on-boot")]
+    [CliOption("--power-on-boot")]
     public string? PowerOnBoot { get; set; }
 }

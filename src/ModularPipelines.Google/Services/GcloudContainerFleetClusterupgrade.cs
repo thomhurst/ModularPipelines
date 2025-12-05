@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "fleet")]
+[CliCommand("container", "fleet")]
 public class GcloudContainerFleetClusterupgrade
 {
     public GcloudContainerFleetClusterupgrade(

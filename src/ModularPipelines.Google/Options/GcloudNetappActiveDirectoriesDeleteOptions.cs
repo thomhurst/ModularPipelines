@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netapp", "active-directories", "delete")]
+[CliCommand("netapp", "active-directories", "delete")]
 public record GcloudNetappActiveDirectoriesDeleteOptions(
-[property: PositionalArgument] string ActiveDirectory,
-[property: PositionalArgument] string Location
+[property: CliArgument] string ActiveDirectory,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("frauddetector", "update-rule-version")]
+[CliCommand("frauddetector", "update-rule-version")]
 public record AwsFrauddetectorUpdateRuleVersionOptions(
-[property: CommandSwitch("--rule")] string Rule,
-[property: CommandSwitch("--expression")] string Expression,
-[property: CommandSwitch("--language")] string Language,
-[property: CommandSwitch("--outcomes")] string[] Outcomes
+[property: CliOption("--rule")] string Rule,
+[property: CliOption("--expression")] string Expression,
+[property: CliOption("--language")] string Language,
+[property: CliOption("--outcomes")] string[] Outcomes
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

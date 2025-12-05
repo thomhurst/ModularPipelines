@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("alloydb", "operations", "delete")]
+[CliCommand("alloydb", "operations", "delete")]
 public record GcloudAlloydbOperationsDeleteOptions(
-[property: PositionalArgument] string Operation,
-[property: CommandSwitch("--region")] string Region
+[property: CliArgument] string Operation,
+[property: CliOption("--region")] string Region
 ) : GcloudOptions;

@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("filestore", "instances", "snapshots", "list")]
+[CliCommand("filestore", "instances", "snapshots", "list")]
 public record GcloudFilestoreInstancesSnapshotsListOptions(
-[property: CommandSwitch("--instance")] string Instance,
-[property: CommandSwitch("--instance-location")] string InstanceLocation,
-[property: CommandSwitch("--instance-region")] string InstanceRegion
+[property: CliOption("--instance")] string Instance,
+[property: CliOption("--instance-location")] string InstanceLocation,
+[property: CliOption("--instance-region")] string InstanceRegion
 ) : GcloudOptions;

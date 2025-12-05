@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("autoscaling", "delete-notification-configuration")]
+[CliCommand("autoscaling", "delete-notification-configuration")]
 public record AwsAutoscalingDeleteNotificationConfigurationOptions(
-[property: CommandSwitch("--auto-scaling-group-name")] string AutoScalingGroupName,
-[property: CommandSwitch("--topic-arn")] string TopicArn
+[property: CliOption("--auto-scaling-group-name")] string AutoScalingGroupName,
+[property: CliOption("--topic-arn")] string TopicArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

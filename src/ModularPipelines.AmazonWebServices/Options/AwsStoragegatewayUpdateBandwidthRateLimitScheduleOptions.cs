@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "update-bandwidth-rate-limit-schedule")]
+[CliCommand("storagegateway", "update-bandwidth-rate-limit-schedule")]
 public record AwsStoragegatewayUpdateBandwidthRateLimitScheduleOptions(
-[property: CommandSwitch("--gateway-arn")] string GatewayArn,
-[property: CommandSwitch("--bandwidth-rate-limit-intervals")] string[] BandwidthRateLimitIntervals
+[property: CliOption("--gateway-arn")] string GatewayArn,
+[property: CliOption("--bandwidth-rate-limit-intervals")] string[] BandwidthRateLimitIntervals
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

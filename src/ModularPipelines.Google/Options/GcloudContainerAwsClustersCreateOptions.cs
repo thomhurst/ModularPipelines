@@ -4,101 +4,101 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "aws", "clusters", "create")]
+[CliCommand("container", "aws", "clusters", "create")]
 public record GcloudContainerAwsClustersCreateOptions(
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--aws-region")] string AwsRegion,
-[property: CommandSwitch("--cluster-version")] string ClusterVersion,
-[property: CommandSwitch("--config-encryption-kms-key-arn")] string ConfigEncryptionKmsKeyArn,
-[property: CommandSwitch("--database-encryption-kms-key-arn")] string DatabaseEncryptionKmsKeyArn,
-[property: CommandSwitch("--fleet-project")] string FleetProject,
-[property: CommandSwitch("--iam-instance-profile")] string IamInstanceProfile,
-[property: CommandSwitch("--pod-address-cidr-blocks")] string PodAddressCidrBlocks,
-[property: CommandSwitch("--role-arn")] string RoleArn,
-[property: CommandSwitch("--service-address-cidr-blocks")] string ServiceAddressCidrBlocks,
-[property: CommandSwitch("--subnet-ids")] string[] SubnetIds,
-[property: CommandSwitch("--vpc-id")] string VpcId
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Location,
+[property: CliOption("--aws-region")] string AwsRegion,
+[property: CliOption("--cluster-version")] string ClusterVersion,
+[property: CliOption("--config-encryption-kms-key-arn")] string ConfigEncryptionKmsKeyArn,
+[property: CliOption("--database-encryption-kms-key-arn")] string DatabaseEncryptionKmsKeyArn,
+[property: CliOption("--fleet-project")] string FleetProject,
+[property: CliOption("--iam-instance-profile")] string IamInstanceProfile,
+[property: CliOption("--pod-address-cidr-blocks")] string PodAddressCidrBlocks,
+[property: CliOption("--role-arn")] string RoleArn,
+[property: CliOption("--service-address-cidr-blocks")] string ServiceAddressCidrBlocks,
+[property: CliOption("--subnet-ids")] string[] SubnetIds,
+[property: CliOption("--vpc-id")] string VpcId
 ) : GcloudOptions
 {
-    [CommandSwitch("--admin-groups")]
+    [CliOption("--admin-groups")]
     public string[]? AdminGroups { get; set; }
 
-    [CommandSwitch("--admin-users")]
+    [CliOption("--admin-users")]
     public string[]? AdminUsers { get; set; }
 
-    [CommandSwitch("--annotations")]
+    [CliOption("--annotations")]
     public string[]? Annotations { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--binauthz-evaluation-mode")]
+    [CliOption("--binauthz-evaluation-mode")]
     public string? BinauthzEvaluationMode { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--disable-per-node-pool-sg-rules")]
+    [CliFlag("--disable-per-node-pool-sg-rules")]
     public bool? DisablePerNodePoolSgRules { get; set; }
 
-    [BooleanCommandSwitch("--enable-managed-prometheus")]
+    [CliFlag("--enable-managed-prometheus")]
     public bool? EnableManagedPrometheus { get; set; }
 
-    [CommandSwitch("--instance-type")]
+    [CliOption("--instance-type")]
     public string? InstanceType { get; set; }
 
-    [CommandSwitch("--logging")]
+    [CliOption("--logging")]
     public string[]? Logging { get; set; }
 
-    [CommandSwitch("--main-volume-iops")]
+    [CliOption("--main-volume-iops")]
     public string? MainVolumeIops { get; set; }
 
-    [CommandSwitch("--main-volume-kms-key-arn")]
+    [CliOption("--main-volume-kms-key-arn")]
     public string? MainVolumeKmsKeyArn { get; set; }
 
-    [CommandSwitch("--main-volume-size")]
+    [CliOption("--main-volume-size")]
     public string? MainVolumeSize { get; set; }
 
-    [CommandSwitch("--main-volume-throughput")]
+    [CliOption("--main-volume-throughput")]
     public string? MainVolumeThroughput { get; set; }
 
-    [CommandSwitch("--main-volume-type")]
+    [CliOption("--main-volume-type")]
     public string? MainVolumeType { get; set; }
 
-    [CommandSwitch("--role-session-name")]
+    [CliOption("--role-session-name")]
     public string? RoleSessionName { get; set; }
 
-    [CommandSwitch("--root-volume-iops")]
+    [CliOption("--root-volume-iops")]
     public string? RootVolumeIops { get; set; }
 
-    [CommandSwitch("--root-volume-kms-key-arn")]
+    [CliOption("--root-volume-kms-key-arn")]
     public string? RootVolumeKmsKeyArn { get; set; }
 
-    [CommandSwitch("--root-volume-size")]
+    [CliOption("--root-volume-size")]
     public string? RootVolumeSize { get; set; }
 
-    [CommandSwitch("--root-volume-throughput")]
+    [CliOption("--root-volume-throughput")]
     public string? RootVolumeThroughput { get; set; }
 
-    [CommandSwitch("--root-volume-type")]
+    [CliOption("--root-volume-type")]
     public string? RootVolumeType { get; set; }
 
-    [CommandSwitch("--security-group-ids")]
+    [CliOption("--security-group-ids")]
     public string[]? SecurityGroupIds { get; set; }
 
-    [CommandSwitch("--ssh-ec2-key-pair")]
+    [CliOption("--ssh-ec2-key-pair")]
     public string? SshEc2KeyPair { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
-    [CommandSwitch("--proxy-secret-arn")]
+    [CliOption("--proxy-secret-arn")]
     public string? ProxySecretArn { get; set; }
 
-    [CommandSwitch("--proxy-secret-version-id")]
+    [CliOption("--proxy-secret-version-id")]
     public string? ProxySecretVersionId { get; set; }
 }

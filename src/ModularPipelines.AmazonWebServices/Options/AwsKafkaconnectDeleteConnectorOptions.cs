@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kafkaconnect", "delete-connector")]
+[CliCommand("kafkaconnect", "delete-connector")]
 public record AwsKafkaconnectDeleteConnectorOptions(
-[property: CommandSwitch("--connector-arn")] string ConnectorArn
+[property: CliOption("--connector-arn")] string ConnectorArn
 ) : AwsOptions
 {
-    [CommandSwitch("--current-version")]
+    [CliOption("--current-version")]
     public string? CurrentVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

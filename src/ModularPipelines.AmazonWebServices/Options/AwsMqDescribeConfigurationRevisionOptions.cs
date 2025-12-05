@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mq", "describe-configuration-revision")]
+[CliCommand("mq", "describe-configuration-revision")]
 public record AwsMqDescribeConfigurationRevisionOptions(
-[property: CommandSwitch("--configuration-id")] string ConfigurationId,
-[property: CommandSwitch("--configuration-revision")] string ConfigurationRevision
+[property: CliOption("--configuration-id")] string ConfigurationId,
+[property: CliOption("--configuration-revision")] string ConfigurationRevision
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

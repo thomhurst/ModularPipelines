@@ -5,69 +5,69 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("builds", "submit")]
+[CliCommand("builds", "submit")]
 public record GcloudBuildsSubmitOptions(
-[property: PositionalArgument] string Source,
-[property: PositionalArgument] string NoSource
+[property: CliArgument] string Source,
+[property: CliArgument] string NoSource
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--no-cache")]
+    [CliFlag("--no-cache")]
     public bool? NoCache { get; set; }
 
-    [CommandSwitch("--default-buckets-behavior")]
+    [CliOption("--default-buckets-behavior")]
     public string? DefaultBucketsBehavior { get; set; }
 
-    [CommandSwitch("--dir")]
+    [CliOption("--dir")]
     public string? Dir { get; set; }
 
-    [CommandSwitch("--disk-size")]
+    [CliOption("--disk-size")]
     public string? DiskSize { get; set; }
 
-    [CommandSwitch("--gcs-log-dir")]
+    [CliOption("--gcs-log-dir")]
     public string? GcsLogDir { get; set; }
 
-    [CommandSwitch("--gcs-source-staging-dir")]
+    [CliOption("--gcs-source-staging-dir")]
     public string? GcsSourceStagingDir { get; set; }
 
-    [CommandSwitch("--git-source-dir")]
+    [CliOption("--git-source-dir")]
     public string? GitSourceDir { get; set; }
 
-    [CommandSwitch("--git-source-revision")]
+    [CliOption("--git-source-revision")]
     public string? GitSourceRevision { get; set; }
 
-    [CommandSwitch("--ignore-file")]
+    [CliOption("--ignore-file")]
     public string? IgnoreFile { get; set; }
 
-    [CommandSwitch("--machine-type")]
+    [CliOption("--machine-type")]
     public string? MachineType { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--revision")]
+    [CliOption("--revision")]
     public string? Revision { get; set; }
 
-    [CommandSwitch("--substitutions")]
+    [CliOption("--substitutions")]
     public IEnumerable<KeyValue>? Substitutions { get; set; }
 
-    [BooleanCommandSwitch("--suppress-logs")]
+    [CliFlag("--suppress-logs")]
     public bool? SuppressLogs { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--worker-pool")]
+    [CliOption("--worker-pool")]
     public string? WorkerPool { get; set; }
 
-    [CommandSwitch("--config")]
+    [CliOption("--config")]
     public string? Config { get; set; }
 
-    [CommandSwitch("--pack")]
+    [CliOption("--pack")]
     public string[]? Pack { get; set; }
 
-    [CommandSwitch("--tag")]
+    [CliOption("--tag")]
     public string? Tag { get; set; }
 }

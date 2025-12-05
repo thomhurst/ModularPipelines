@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elb", "remove-tags")]
+[CliCommand("elb", "remove-tags")]
 public record AwsElbRemoveTagsOptions(
-[property: CommandSwitch("--load-balancer-names")] string[] LoadBalancerNames,
-[property: CommandSwitch("--tags")] string[] Tags
+[property: CliOption("--load-balancer-names")] string[] LoadBalancerNames,
+[property: CliOption("--tags")] string[] Tags
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

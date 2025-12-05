@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudfront", "update-realtime-log-config")]
+[CliCommand("cloudfront", "update-realtime-log-config")]
 public record AwsCloudfrontUpdateRealtimeLogConfigOptions : AwsOptions
 {
-    [CommandSwitch("--end-points")]
+    [CliOption("--end-points")]
     public string[]? EndPoints { get; set; }
 
-    [CommandSwitch("--fields")]
+    [CliOption("--fields")]
     public string[]? Fields { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--arn")]
+    [CliOption("--arn")]
     public string? Arn { get; set; }
 
-    [CommandSwitch("--sampling-rate")]
+    [CliOption("--sampling-rate")]
     public long? SamplingRate { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

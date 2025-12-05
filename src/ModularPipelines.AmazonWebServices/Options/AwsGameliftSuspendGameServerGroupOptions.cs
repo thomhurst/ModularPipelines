@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "suspend-game-server-group")]
+[CliCommand("gamelift", "suspend-game-server-group")]
 public record AwsGameliftSuspendGameServerGroupOptions(
-[property: CommandSwitch("--game-server-group-name")] string GameServerGroupName,
-[property: CommandSwitch("--suspend-actions")] string[] SuspendActions
+[property: CliOption("--game-server-group-name")] string GameServerGroupName,
+[property: CliOption("--suspend-actions")] string[] SuspendActions
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

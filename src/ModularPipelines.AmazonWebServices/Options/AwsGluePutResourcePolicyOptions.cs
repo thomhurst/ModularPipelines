@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "put-resource-policy")]
+[CliCommand("glue", "put-resource-policy")]
 public record AwsGluePutResourcePolicyOptions(
-[property: CommandSwitch("--policy-in-json")] string PolicyInJson
+[property: CliOption("--policy-in-json")] string PolicyInJson
 ) : AwsOptions
 {
-    [CommandSwitch("--resource-arn")]
+    [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
-    [CommandSwitch("--policy-hash-condition")]
+    [CliOption("--policy-hash-condition")]
     public string? PolicyHashCondition { get; set; }
 
-    [CommandSwitch("--policy-exists-condition")]
+    [CliOption("--policy-exists-condition")]
     public string? PolicyExistsCondition { get; set; }
 
-    [CommandSwitch("--enable-hybrid")]
+    [CliOption("--enable-hybrid")]
     public string? EnableHybrid { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

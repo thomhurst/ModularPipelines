@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("service-quotas", "get-service-quota")]
+[CliCommand("service-quotas", "get-service-quota")]
 public record AwsServiceQuotasGetServiceQuotaOptions(
-[property: CommandSwitch("--service-code")] string ServiceCode,
-[property: CommandSwitch("--quota-code")] string QuotaCode
+[property: CliOption("--service-code")] string ServiceCode,
+[property: CliOption("--quota-code")] string QuotaCode
 ) : AwsOptions
 {
-    [CommandSwitch("--context-id")]
+    [CliOption("--context-id")]
     public string? ContextId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,25 +5,25 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediatailor", "create-channel")]
+[CliCommand("mediatailor", "create-channel")]
 public record AwsMediatailorCreateChannelOptions(
-[property: CommandSwitch("--channel-name")] string ChannelName,
-[property: CommandSwitch("--outputs")] string[] Outputs,
-[property: CommandSwitch("--playback-mode")] string PlaybackMode
+[property: CliOption("--channel-name")] string ChannelName,
+[property: CliOption("--outputs")] string[] Outputs,
+[property: CliOption("--playback-mode")] string PlaybackMode
 ) : AwsOptions
 {
-    [CommandSwitch("--filler-slate")]
+    [CliOption("--filler-slate")]
     public string? FillerSlate { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 
-    [CommandSwitch("--time-shift-configuration")]
+    [CliOption("--time-shift-configuration")]
     public string? TimeShiftConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

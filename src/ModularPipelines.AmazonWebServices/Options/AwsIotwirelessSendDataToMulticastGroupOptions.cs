@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotwireless", "send-data-to-multicast-group")]
+[CliCommand("iotwireless", "send-data-to-multicast-group")]
 public record AwsIotwirelessSendDataToMulticastGroupOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--payload-data")] string PayloadData,
-[property: CommandSwitch("--wireless-metadata")] string WirelessMetadata
+[property: CliOption("--id")] string Id,
+[property: CliOption("--payload-data")] string PayloadData,
+[property: CliOption("--wireless-metadata")] string WirelessMetadata
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

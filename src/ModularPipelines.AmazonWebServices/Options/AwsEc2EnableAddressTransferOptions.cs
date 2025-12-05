@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "enable-address-transfer")]
+[CliCommand("ec2", "enable-address-transfer")]
 public record AwsEc2EnableAddressTransferOptions(
-[property: CommandSwitch("--allocation-id")] string AllocationId,
-[property: CommandSwitch("--transfer-account-id")] string TransferAccountId
+[property: CliOption("--allocation-id")] string AllocationId,
+[property: CliOption("--transfer-account-id")] string TransferAccountId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

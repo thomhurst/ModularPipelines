@@ -5,25 +5,25 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cleanrooms", "create-collaboration")]
+[CliCommand("cleanrooms", "create-collaboration")]
 public record AwsCleanroomsCreateCollaborationOptions(
-[property: CommandSwitch("--members")] string[] Members,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--creator-member-abilities")] string[] CreatorMemberAbilities,
-[property: CommandSwitch("--creator-display-name")] string CreatorDisplayName,
-[property: CommandSwitch("--query-log-status")] string QueryLogStatus
+[property: CliOption("--members")] string[] Members,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--description")] string Description,
+[property: CliOption("--creator-member-abilities")] string[] CreatorMemberAbilities,
+[property: CliOption("--creator-display-name")] string CreatorDisplayName,
+[property: CliOption("--query-log-status")] string QueryLogStatus
 ) : AwsOptions
 {
-    [CommandSwitch("--data-encryption-metadata")]
+    [CliOption("--data-encryption-metadata")]
     public string? DataEncryptionMetadata { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--creator-payment-configuration")]
+    [CliOption("--creator-payment-configuration")]
     public string? CreatorPaymentConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

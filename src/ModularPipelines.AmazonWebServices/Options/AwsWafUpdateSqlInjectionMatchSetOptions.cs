@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("waf", "update-sql-injection-match-set")]
+[CliCommand("waf", "update-sql-injection-match-set")]
 public record AwsWafUpdateSqlInjectionMatchSetOptions(
-[property: CommandSwitch("--sql-injection-match-set-id")] string SqlInjectionMatchSetId,
-[property: CommandSwitch("--change-token")] string ChangeToken,
-[property: CommandSwitch("--updates")] string[] Updates
+[property: CliOption("--sql-injection-match-set-id")] string SqlInjectionMatchSetId,
+[property: CliOption("--change-token")] string ChangeToken,
+[property: CliOption("--updates")] string[] Updates
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

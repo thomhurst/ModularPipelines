@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opensearch", "describe-reserved-instances")]
+[CliCommand("opensearch", "describe-reserved-instances")]
 public record AwsOpensearchDescribeReservedInstancesOptions : AwsOptions
 {
-    [CommandSwitch("--reserved-instance-id")]
+    [CliOption("--reserved-instance-id")]
     public string? ReservedInstanceId { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

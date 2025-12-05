@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apim")]
+[CliCommand("apim")]
 public class AzApimNv
 {
     public AzApimNv(

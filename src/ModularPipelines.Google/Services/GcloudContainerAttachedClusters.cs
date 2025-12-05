@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "attached")]
+[CliCommand("container", "attached")]
 public class GcloudContainerAttachedClusters
 {
     public GcloudContainerAttachedClusters(

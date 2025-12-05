@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apim", "api")]
+[CliCommand("apim", "api")]
 public class AzApimApiSchema
 {
     public AzApimApiSchema(

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("composer", "operations", "delete")]
+[CliCommand("composer", "operations", "delete")]
 public record GcloudComposerOperationsDeleteOptions(
-[property: PositionalArgument] string Operations,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Operations,
+[property: CliArgument] string Location
 ) : GcloudOptions;

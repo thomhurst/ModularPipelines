@@ -5,29 +5,29 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ids", "endpoints", "create")]
+[CliCommand("ids", "endpoints", "create")]
 public record GcloudIdsEndpointsCreateOptions(
-[property: PositionalArgument] string Endpoint,
-[property: PositionalArgument] string Zone,
-[property: CommandSwitch("--network")] string Network,
-[property: CommandSwitch("--severity")] string Severity
+[property: CliArgument] string Endpoint,
+[property: CliArgument] string Zone,
+[property: CliOption("--network")] string Network,
+[property: CliOption("--severity")] string Severity
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--enable-traffic-logs")]
+    [CliFlag("--enable-traffic-logs")]
     public bool? EnableTrafficLogs { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--max-wait")]
+    [CliOption("--max-wait")]
     public string? MaxWait { get; set; }
 
-    [CommandSwitch("--threat-exceptions")]
+    [CliOption("--threat-exceptions")]
     public string[]? ThreatExceptions { get; set; }
 }

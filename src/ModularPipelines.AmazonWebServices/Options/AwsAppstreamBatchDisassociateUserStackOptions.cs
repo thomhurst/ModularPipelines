@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appstream", "batch-disassociate-user-stack")]
+[CliCommand("appstream", "batch-disassociate-user-stack")]
 public record AwsAppstreamBatchDisassociateUserStackOptions(
-[property: CommandSwitch("--user-stack-associations")] string[] UserStackAssociations
+[property: CliOption("--user-stack-associations")] string[] UserStackAssociations
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

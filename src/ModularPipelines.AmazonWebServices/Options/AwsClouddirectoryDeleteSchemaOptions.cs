@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("clouddirectory", "delete-schema")]
+[CliCommand("clouddirectory", "delete-schema")]
 public record AwsClouddirectoryDeleteSchemaOptions(
-[property: CommandSwitch("--schema-arn")] string SchemaArn
+[property: CliOption("--schema-arn")] string SchemaArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

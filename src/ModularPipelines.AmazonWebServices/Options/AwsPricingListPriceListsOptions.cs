@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pricing", "list-price-lists")]
+[CliCommand("pricing", "list-price-lists")]
 public record AwsPricingListPriceListsOptions(
-[property: CommandSwitch("--service-code")] string ServiceCode,
-[property: CommandSwitch("--effective-date")] long EffectiveDate,
-[property: CommandSwitch("--currency-code")] string CurrencyCode
+[property: CliOption("--service-code")] string ServiceCode,
+[property: CliOption("--effective-date")] long EffectiveDate,
+[property: CliOption("--currency-code")] string CurrencyCode
 ) : AwsOptions
 {
-    [CommandSwitch("--region-code")]
+    [CliOption("--region-code")]
     public string? RegionCode { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

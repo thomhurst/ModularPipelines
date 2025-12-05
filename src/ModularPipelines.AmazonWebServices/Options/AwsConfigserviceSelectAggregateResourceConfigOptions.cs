@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configservice", "select-aggregate-resource-config")]
+[CliCommand("configservice", "select-aggregate-resource-config")]
 public record AwsConfigserviceSelectAggregateResourceConfigOptions(
-[property: CommandSwitch("--expression")] string Expression,
-[property: CommandSwitch("--configuration-aggregator-name")] string ConfigurationAggregatorName
+[property: CliOption("--expression")] string Expression,
+[property: CliOption("--configuration-aggregator-name")] string ConfigurationAggregatorName
 ) : AwsOptions
 {
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,47 +5,47 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "start-automation-execution")]
+[CliCommand("ssm", "start-automation-execution")]
 public record AwsSsmStartAutomationExecutionOptions(
-[property: CommandSwitch("--document-name")] string DocumentName
+[property: CliOption("--document-name")] string DocumentName
 ) : AwsOptions
 {
-    [CommandSwitch("--document-version")]
+    [CliOption("--document-version")]
     public string? DocumentVersion { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public IEnumerable<KeyValue>? Parameters { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--mode")]
+    [CliOption("--mode")]
     public string? Mode { get; set; }
 
-    [CommandSwitch("--target-parameter-name")]
+    [CliOption("--target-parameter-name")]
     public string? TargetParameterName { get; set; }
 
-    [CommandSwitch("--targets")]
+    [CliOption("--targets")]
     public string[]? Targets { get; set; }
 
-    [CommandSwitch("--target-maps")]
+    [CliOption("--target-maps")]
     public string[]? TargetMaps { get; set; }
 
-    [CommandSwitch("--max-concurrency")]
+    [CliOption("--max-concurrency")]
     public string? MaxConcurrency { get; set; }
 
-    [CommandSwitch("--max-errors")]
+    [CliOption("--max-errors")]
     public string? MaxErrors { get; set; }
 
-    [CommandSwitch("--target-locations")]
+    [CliOption("--target-locations")]
     public string[]? TargetLocations { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--alarm-configuration")]
+    [CliOption("--alarm-configuration")]
     public string? AlarmConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

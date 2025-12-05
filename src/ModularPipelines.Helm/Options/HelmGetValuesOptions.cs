@@ -3,16 +3,16 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("get", "values")]
+[CliCommand("get", "values")]
 [ExcludeFromCodeCoverage]
 public record HelmGetValuesOptions : HelmOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
-    public string? Output { get; set; }
+    [CliOption("--output")]
+    public virtual string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--revision", SwitchValueSeparator = " ")]
-    public int? Revision { get; set; }
+    [CliOption("--revision")]
+    public virtual int? Revision { get; set; }
 }

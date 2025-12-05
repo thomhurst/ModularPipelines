@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ams", "transform")]
+[CliCommand("ams", "transform")]
 public class AzAmsTransformOutput
 {
     public AzAmsTransformOutput(

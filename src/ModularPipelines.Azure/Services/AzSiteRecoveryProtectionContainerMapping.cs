@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("site-recovery", "protection-container")]
+[CliCommand("site-recovery", "protection-container")]
 public class AzSiteRecoveryProtectionContainerMapping
 {
     public AzSiteRecoveryProtectionContainerMapping(

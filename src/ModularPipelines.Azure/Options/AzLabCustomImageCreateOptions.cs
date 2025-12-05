@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lab", "custom-image", "create")]
+[CliSubCommand("lab", "custom-image", "create")]
 public record AzLabCustomImageCreateOptions(
-[property: CommandSwitch("--lab-name")] string LabName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--os-state")] string OsState,
-[property: CommandSwitch("--os-type")] string OsType,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--source-vm-id")] string SourceVmId
+[property: CliOption("--lab-name")] string LabName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--os-state")] string OsState,
+[property: CliOption("--os-type")] string OsType,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--source-vm-id")] string SourceVmId
 ) : AzOptions
 {
-    [CommandSwitch("--author")]
+    [CliOption("--author")]
     public string? Author { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 }

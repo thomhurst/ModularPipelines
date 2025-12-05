@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "create-document")]
+[CliCommand("ssm", "create-document")]
 public record AwsSsmCreateDocumentOptions(
-[property: CommandSwitch("--content")] string Content,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--content")] string Content,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--requires")]
+    [CliOption("--requires")]
     public string[]? Requires { get; set; }
 
-    [CommandSwitch("--attachments")]
+    [CliOption("--attachments")]
     public string[]? Attachments { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--version-name")]
+    [CliOption("--version-name")]
     public string? VersionName { get; set; }
 
-    [CommandSwitch("--document-type")]
+    [CliOption("--document-type")]
     public string? DocumentType { get; set; }
 
-    [CommandSwitch("--document-format")]
+    [CliOption("--document-format")]
     public string? DocumentFormat { get; set; }
 
-    [CommandSwitch("--target-type")]
+    [CliOption("--target-type")]
     public string? TargetType { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

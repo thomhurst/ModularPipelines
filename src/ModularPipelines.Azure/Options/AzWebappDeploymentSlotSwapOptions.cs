@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "deployment", "slot", "swap")]
+[CliSubCommand("webapp", "deployment", "slot", "swap")]
 public record AzWebappDeploymentSlotSwapOptions(
-[property: CommandSwitch("--slot")] string Slot
+[property: CliOption("--slot")] string Slot
 ) : AzOptions
 {
-    [CommandSwitch("--action")]
+    [CliOption("--action")]
     public string? Action { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--preserve-vnet")]
+    [CliFlag("--preserve-vnet")]
     public bool? PreserveVnet { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--target-slot")]
+    [CliOption("--target-slot")]
     public string? TargetSlot { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudwatch")]
+[CliCommand("cloudwatch")]
 public class AwsCloudwatchWait
 {
     public AwsCloudwatchWait(

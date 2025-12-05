@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("migrationhubstrategy", "stop-assessment")]
+[CliCommand("migrationhubstrategy", "stop-assessment")]
 public record AwsMigrationhubstrategyStopAssessmentOptions(
-[property: CommandSwitch("--assessment-id")] string AssessmentId
+[property: CliOption("--assessment-id")] string AssessmentId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

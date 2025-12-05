@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-firewall", "update-firewall-description")]
+[CliCommand("network-firewall", "update-firewall-description")]
 public record AwsNetworkFirewallUpdateFirewallDescriptionOptions : AwsOptions
 {
-    [CommandSwitch("--update-token")]
+    [CliOption("--update-token")]
     public string? UpdateToken { get; set; }
 
-    [CommandSwitch("--firewall-arn")]
+    [CliOption("--firewall-arn")]
     public string? FirewallArn { get; set; }
 
-    [CommandSwitch("--firewall-name")]
+    [CliOption("--firewall-name")]
     public string? FirewallName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

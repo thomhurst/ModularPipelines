@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudfront", "create-public-key")]
+[CliCommand("cloudfront", "create-public-key")]
 public record AwsCloudfrontCreatePublicKeyOptions(
-[property: CommandSwitch("--public-key-config")] string PublicKeyConfig
+[property: CliOption("--public-key-config")] string PublicKeyConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,47 +4,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "encryption", "enable")]
+[CliSubCommand("vm", "encryption", "enable")]
 public record AzVmEncryptionEnableOptions(
-[property: CommandSwitch("--disk-encryption-keyvault")] string DiskEncryptionKeyvault
+[property: CliOption("--disk-encryption-keyvault")] string DiskEncryptionKeyvault
 ) : AzOptions
 {
-    [CommandSwitch("--aad-client-cert-thumbprint")]
+    [CliOption("--aad-client-cert-thumbprint")]
     public string? AadClientCertThumbprint { get; set; }
 
-    [CommandSwitch("--aad-client-id")]
+    [CliOption("--aad-client-id")]
     public string? AadClientId { get; set; }
 
-    [CommandSwitch("--aad-client-secret")]
+    [CliOption("--aad-client-secret")]
     public string? AadClientSecret { get; set; }
 
-    [BooleanCommandSwitch("--encrypt-format-all")]
+    [CliFlag("--encrypt-format-all")]
     public bool? EncryptFormatAll { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--key-encryption-algorithm")]
+    [CliOption("--key-encryption-algorithm")]
     public string? KeyEncryptionAlgorithm { get; set; }
 
-    [CommandSwitch("--key-encryption-key")]
+    [CliOption("--key-encryption-key")]
     public string? KeyEncryptionKey { get; set; }
 
-    [CommandSwitch("--key-encryption-keyvault")]
+    [CliOption("--key-encryption-keyvault")]
     public string? KeyEncryptionKeyvault { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--volume-type")]
+    [CliOption("--volume-type")]
     public string? VolumeType { get; set; }
 }

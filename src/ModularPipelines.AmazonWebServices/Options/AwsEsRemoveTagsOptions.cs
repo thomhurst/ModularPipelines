@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("es", "remove-tags")]
+[CliCommand("es", "remove-tags")]
 public record AwsEsRemoveTagsOptions(
-[property: CommandSwitch("--arn")] string Arn,
-[property: CommandSwitch("--tag-keys")] string[] TagKeys
+[property: CliOption("--arn")] string Arn,
+[property: CliOption("--tag-keys")] string[] TagKeys
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

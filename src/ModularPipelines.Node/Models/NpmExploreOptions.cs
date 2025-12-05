@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("explore", "--")]
+[CliCommand("explore", "--")]
 public record NpmExploreOptions : NpmOptions
 {
-    [CommandSwitch("--shell")]
+    [CliOption("--shell")]
     public virtual string? Shell { get; set; }
 }

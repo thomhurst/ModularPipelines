@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm-contacts", "send-activation-code")]
+[CliCommand("ssm-contacts", "send-activation-code")]
 public record AwsSsmContactsSendActivationCodeOptions(
-[property: CommandSwitch("--contact-channel-id")] string ContactChannelId
+[property: CliOption("--contact-channel-id")] string ContactChannelId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

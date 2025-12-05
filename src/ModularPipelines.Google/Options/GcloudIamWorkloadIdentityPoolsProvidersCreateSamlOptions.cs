@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "workload-identity-pools", "providers", "create-saml")]
+[CliCommand("iam", "workload-identity-pools", "providers", "create-saml")]
 public record GcloudIamWorkloadIdentityPoolsProvidersCreateSamlOptions(
-[property: PositionalArgument] string Provider,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string WorkloadIdentityPool,
-[property: CommandSwitch("--attribute-mapping")] IEnumerable<KeyValue> AttributeMapping,
-[property: CommandSwitch("--idp-metadata-path")] string IdpMetadataPath
+[property: CliArgument] string Provider,
+[property: CliArgument] string Location,
+[property: CliArgument] string WorkloadIdentityPool,
+[property: CliOption("--attribute-mapping")] IEnumerable<KeyValue> AttributeMapping,
+[property: CliOption("--idp-metadata-path")] string IdpMetadataPath
 ) : GcloudOptions
 {
-    [CommandSwitch("--attribute-condition")]
+    [CliOption("--attribute-condition")]
     public string? AttributeCondition { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 }

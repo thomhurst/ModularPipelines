@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transcoder", "templates", "delete")]
+[CliCommand("transcoder", "templates", "delete")]
 public record GcloudTranscoderTemplatesDeleteOptions(
-[property: PositionalArgument] string TemplateId,
-[property: PositionalArgument] string Location
+[property: CliArgument] string TemplateId,
+[property: CliArgument] string Location
 ) : GcloudOptions;

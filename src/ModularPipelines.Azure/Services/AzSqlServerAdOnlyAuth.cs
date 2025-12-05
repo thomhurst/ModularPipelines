@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "server")]
+[CliCommand("sql", "server")]
 public class AzSqlServerAdOnlyAuth
 {
     public AzSqlServerAdOnlyAuth(

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "twin", "delete")]
+[CliSubCommand("dt", "twin", "delete")]
 public record AzDtTwinDeleteOptions(
-[property: CommandSwitch("--dt-name")] string DtName,
-[property: CommandSwitch("--twin-id")] string TwinId
+[property: CliOption("--dt-name")] string DtName,
+[property: CliOption("--twin-id")] string TwinId
 ) : AzOptions
 {
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

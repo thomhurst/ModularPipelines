@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "vault", "create")]
+[CliSubCommand("backup", "vault", "create")]
 public record AzBackupVaultCreateOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--location")] string Location,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--classic-alerts")]
+    [CliOption("--classic-alerts")]
     public string? ClassicAlerts { get; set; }
 
-    [CommandSwitch("--cross-subscription-restore-state")]
+    [CliOption("--cross-subscription-restore-state")]
     public string? CrossSubscriptionRestoreState { get; set; }
 
-    [CommandSwitch("--immutability-state")]
+    [CliOption("--immutability-state")]
     public string? ImmutabilityState { get; set; }
 
-    [CommandSwitch("--job-failure-alerts")]
+    [CliOption("--job-failure-alerts")]
     public string? JobFailureAlerts { get; set; }
 
-    [CommandSwitch("--public-network-access")]
+    [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

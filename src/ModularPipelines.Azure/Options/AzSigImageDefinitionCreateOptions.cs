@@ -4,71 +4,71 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sig", "image-definition", "create")]
+[CliSubCommand("sig", "image-definition", "create")]
 public record AzSigImageDefinitionCreateOptions(
-[property: CommandSwitch("--gallery-image-definition")] string GalleryImageDefinition,
-[property: CommandSwitch("--gallery-name")] string GalleryName,
-[property: CommandSwitch("--offer")] string Offer,
-[property: CommandSwitch("--os-type")] string OsType,
-[property: CommandSwitch("--publisher")] string Publisher,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sku")] string Sku
+[property: CliOption("--gallery-image-definition")] string GalleryImageDefinition,
+[property: CliOption("--gallery-name")] string GalleryName,
+[property: CliOption("--offer")] string Offer,
+[property: CliOption("--os-type")] string OsType,
+[property: CliOption("--publisher")] string Publisher,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sku")] string Sku
 ) : AzOptions
 {
-    [CommandSwitch("--architecture")]
+    [CliOption("--architecture")]
     public string? Architecture { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--disallowed-disk-types")]
+    [CliOption("--disallowed-disk-types")]
     public string? DisallowedDiskTypes { get; set; }
 
-    [CommandSwitch("--end-of-life-date")]
+    [CliOption("--end-of-life-date")]
     public string? EndOfLifeDate { get; set; }
 
-    [CommandSwitch("--eula")]
+    [CliOption("--eula")]
     public string? Eula { get; set; }
 
-    [CommandSwitch("--features")]
+    [CliOption("--features")]
     public string? Features { get; set; }
 
-    [CommandSwitch("--hyper-v-generation")]
+    [CliOption("--hyper-v-generation")]
     public string? HyperVGeneration { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--maximum-cpu-core")]
+    [CliOption("--maximum-cpu-core")]
     public string? MaximumCpuCore { get; set; }
 
-    [CommandSwitch("--maximum-memory")]
+    [CliOption("--maximum-memory")]
     public string? MaximumMemory { get; set; }
 
-    [CommandSwitch("--minimum-cpu-core")]
+    [CliOption("--minimum-cpu-core")]
     public string? MinimumCpuCore { get; set; }
 
-    [CommandSwitch("--minimum-memory")]
+    [CliOption("--minimum-memory")]
     public string? MinimumMemory { get; set; }
 
-    [CommandSwitch("--os-state")]
+    [CliOption("--os-state")]
     public string? OsState { get; set; }
 
-    [CommandSwitch("--plan-name")]
+    [CliOption("--plan-name")]
     public string? PlanName { get; set; }
 
-    [CommandSwitch("--plan-product")]
+    [CliOption("--plan-product")]
     public string? PlanProduct { get; set; }
 
-    [CommandSwitch("--plan-publisher")]
+    [CliOption("--plan-publisher")]
     public string? PlanPublisher { get; set; }
 
-    [CommandSwitch("--privacy-statement-uri")]
+    [CliOption("--privacy-statement-uri")]
     public string? PrivacyStatementUri { get; set; }
 
-    [CommandSwitch("--release-note-uri")]
+    [CliOption("--release-note-uri")]
     public string? ReleaseNoteUri { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

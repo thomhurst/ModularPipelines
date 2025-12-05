@@ -56,6 +56,7 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
             {
                 _typeCache.TryAdd(cacheKey, moduleFromMarker);
             }
+
             return moduleFromMarker;
         }
 
@@ -70,6 +71,7 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
             {
                 _typeCache.TryAdd(cacheKey, moduleFromBase);
             }
+
             return moduleFromBase;
         }
 
@@ -88,6 +90,7 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
                 {
                     _typeCache.TryAdd(cacheKey, type);
                 }
+
                 return type;
             }
         }
@@ -98,6 +101,7 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
         {
             _typeCache.TryAdd(cacheKey, callingType);
         }
+
         return callingType;
     }
 

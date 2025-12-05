@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "delete-schema")]
+[CliCommand("glue", "delete-schema")]
 public record AwsGlueDeleteSchemaOptions(
-[property: CommandSwitch("--schema-id")] string SchemaId
+[property: CliOption("--schema-id")] string SchemaId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

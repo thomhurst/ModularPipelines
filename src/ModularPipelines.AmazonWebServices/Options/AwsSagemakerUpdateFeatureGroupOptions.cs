@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "update-feature-group")]
+[CliCommand("sagemaker", "update-feature-group")]
 public record AwsSagemakerUpdateFeatureGroupOptions(
-[property: CommandSwitch("--feature-group-name")] string FeatureGroupName
+[property: CliOption("--feature-group-name")] string FeatureGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--feature-additions")]
+    [CliOption("--feature-additions")]
     public string[]? FeatureAdditions { get; set; }
 
-    [CommandSwitch("--online-store-config")]
+    [CliOption("--online-store-config")]
     public string? OnlineStoreConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

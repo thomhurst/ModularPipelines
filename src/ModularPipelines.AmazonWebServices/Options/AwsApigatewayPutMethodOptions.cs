@@ -5,32 +5,32 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "put-method")]
+[CliCommand("apigateway", "put-method")]
 public record AwsApigatewayPutMethodOptions(
-[property: CommandSwitch("--rest-api-id")] string RestApiId,
-[property: CommandSwitch("--resource-id")] string ResourceId,
-[property: CommandSwitch("--http-method")] string HttpMethod,
-[property: CommandSwitch("--authorization-type")] string AuthorizationType
+[property: CliOption("--rest-api-id")] string RestApiId,
+[property: CliOption("--resource-id")] string ResourceId,
+[property: CliOption("--http-method")] string HttpMethod,
+[property: CliOption("--authorization-type")] string AuthorizationType
 ) : AwsOptions
 {
-    [CommandSwitch("--authorizer-id")]
+    [CliOption("--authorizer-id")]
     public string? AuthorizerId { get; set; }
 
-    [CommandSwitch("--operation-name")]
+    [CliOption("--operation-name")]
     public string? OperationName { get; set; }
 
-    [CommandSwitch("--request-parameters")]
+    [CliOption("--request-parameters")]
     public IEnumerable<KeyValue>? RequestParameters { get; set; }
 
-    [CommandSwitch("--request-models")]
+    [CliOption("--request-models")]
     public IEnumerable<KeyValue>? RequestModels { get; set; }
 
-    [CommandSwitch("--request-validator-id")]
+    [CliOption("--request-validator-id")]
     public string? RequestValidatorId { get; set; }
 
-    [CommandSwitch("--authorization-scopes")]
+    [CliOption("--authorization-scopes")]
     public string[]? AuthorizationScopes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

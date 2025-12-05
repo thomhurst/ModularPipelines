@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("search")]
+[CliCommand("search")]
 public class AzSearchAdminKey
 {
     public AzSearchAdminKey(

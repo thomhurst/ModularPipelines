@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "module-identity", "create")]
+[CliSubCommand("iot", "hub", "module-identity", "create")]
 public record AzIotHubModuleIdentityCreateOptions(
-[property: CommandSwitch("--device-id")] string DeviceId,
-[property: CommandSwitch("--module-id")] string ModuleId
+[property: CliOption("--device-id")] string DeviceId,
+[property: CliOption("--module-id")] string ModuleId
 ) : AzOptions
 {
-    [CommandSwitch("--am")]
+    [CliOption("--am")]
     public string? Am { get; set; }
 
-    [CommandSwitch("--auth-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [CommandSwitch("--hub-name")]
+    [CliOption("--hub-name")]
     public string? HubName { get; set; }
 
-    [CommandSwitch("--login")]
+    [CliOption("--login")]
     public string? Login { get; set; }
 
-    [CommandSwitch("--od")]
+    [CliOption("--od")]
     public string? Od { get; set; }
 
-    [CommandSwitch("--pk")]
+    [CliOption("--pk")]
     public string? Pk { get; set; }
 
-    [CommandSwitch("--primary-thumbprint")]
+    [CliOption("--primary-thumbprint")]
     public string? PrimaryThumbprint { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--secondary-key")]
+    [CliOption("--secondary-key")]
     public string? SecondaryKey { get; set; }
 
-    [CommandSwitch("--secondary-thumbprint")]
+    [CliOption("--secondary-thumbprint")]
     public string? SecondaryThumbprint { get; set; }
 
-    [CommandSwitch("--valid-days")]
+    [CliOption("--valid-days")]
     public string? ValidDays { get; set; }
 }

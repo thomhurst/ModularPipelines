@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("migrationhuborchestrator", "get-template-step")]
+[CliCommand("migrationhuborchestrator", "get-template-step")]
 public record AwsMigrationhuborchestratorGetTemplateStepOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--template-id")] string TemplateId,
-[property: CommandSwitch("--step-group-id")] string StepGroupId
+[property: CliOption("--id")] string Id,
+[property: CliOption("--template-id")] string TemplateId,
+[property: CliOption("--step-group-id")] string StepGroupId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

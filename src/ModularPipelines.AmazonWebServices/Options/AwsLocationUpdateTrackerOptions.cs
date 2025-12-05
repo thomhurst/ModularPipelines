@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "update-tracker")]
+[CliCommand("location", "update-tracker")]
 public record AwsLocationUpdateTrackerOptions(
-[property: CommandSwitch("--tracker-name")] string TrackerName
+[property: CliOption("--tracker-name")] string TrackerName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--position-filtering")]
+    [CliOption("--position-filtering")]
     public string? PositionFiltering { get; set; }
 
-    [CommandSwitch("--pricing-plan")]
+    [CliOption("--pricing-plan")]
     public string? PricingPlan { get; set; }
 
-    [CommandSwitch("--pricing-plan-data-source")]
+    [CliOption("--pricing-plan-data-source")]
     public string? PricingPlanDataSource { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,19 +5,19 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amp", "create-rule-groups-namespace")]
+[CliCommand("amp", "create-rule-groups-namespace")]
 public record AwsAmpCreateRuleGroupsNamespaceOptions(
-[property: CommandSwitch("--workspace-id")] string WorkspaceId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--data")] string Data
+[property: CliOption("--workspace-id")] string WorkspaceId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--data")] string Data
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

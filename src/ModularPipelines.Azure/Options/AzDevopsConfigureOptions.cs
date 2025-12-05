@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops", "configure")]
+[CliSubCommand("devops", "configure")]
 public record AzDevopsConfigureOptions : AzOptions
 {
-    [CommandSwitch("--defaults")]
+    [CliOption("--defaults")]
     public string? Defaults { get; set; }
 
-    [BooleanCommandSwitch("--list")]
+    [CliFlag("--list")]
     public bool? List { get; set; }
 
-    [BooleanCommandSwitch("--use-git-aliases")]
+    [CliFlag("--use-git-aliases")]
     public bool? UseGitAliases { get; set; }
 }

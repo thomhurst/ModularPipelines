@@ -5,45 +5,45 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataplex", "datascans", "update", "data-profile")]
+[CliCommand("dataplex", "datascans", "update", "data-profile")]
 public record GcloudDataplexDatascansUpdateDataProfileOptions(
-[property: PositionalArgument] string Datascan,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Datascan,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
-    [CommandSwitch("--data-profile-spec-file")]
+    [CliOption("--data-profile-spec-file")]
     public string? DataProfileSpecFile { get; set; }
 
-    [CommandSwitch("--exclude-field-names")]
+    [CliOption("--exclude-field-names")]
     public string? ExcludeFieldNames { get; set; }
 
-    [CommandSwitch("--include-field-names")]
+    [CliOption("--include-field-names")]
     public string? IncludeFieldNames { get; set; }
 
-    [CommandSwitch("--row-filter")]
+    [CliOption("--row-filter")]
     public string? RowFilter { get; set; }
 
-    [CommandSwitch("--sampling-percent")]
+    [CliOption("--sampling-percent")]
     public string? SamplingPercent { get; set; }
 
-    [CommandSwitch("--on-demand")]
+    [CliOption("--on-demand")]
     public string? OnDemand { get; set; }
 
-    [CommandSwitch("--schedule")]
+    [CliOption("--schedule")]
     public string? Schedule { get; set; }
 }

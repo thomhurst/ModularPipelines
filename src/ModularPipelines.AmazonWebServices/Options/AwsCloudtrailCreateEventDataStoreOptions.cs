@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudtrail", "create-event-data-store")]
+[CliCommand("cloudtrail", "create-event-data-store")]
 public record AwsCloudtrailCreateEventDataStoreOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--advanced-event-selectors")]
+    [CliOption("--advanced-event-selectors")]
     public string[]? AdvancedEventSelectors { get; set; }
 
-    [CommandSwitch("--retention-period")]
+    [CliOption("--retention-period")]
     public int? RetentionPeriod { get; set; }
 
-    [CommandSwitch("--tags-list")]
+    [CliOption("--tags-list")]
     public string[]? TagsList { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--billing-mode")]
+    [CliOption("--billing-mode")]
     public string? BillingMode { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "replace-route-table-association")]
+[CliCommand("ec2", "replace-route-table-association")]
 public record AwsEc2ReplaceRouteTableAssociationOptions(
-[property: CommandSwitch("--association-id")] string AssociationId,
-[property: CommandSwitch("--route-table-id")] string RouteTableId
+[property: CliOption("--association-id")] string AssociationId,
+[property: CliOption("--route-table-id")] string RouteTableId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

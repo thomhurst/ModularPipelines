@@ -4,79 +4,79 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "routing-rule", "update")]
+[CliSubCommand("network", "front-door", "routing-rule", "update")]
 public record AzNetworkFrontDoorRoutingRuleUpdateOptions(
-[property: CommandSwitch("--front-door-name")] string FrontDoorName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--front-door-name")] string FrontDoorName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--accepted-protocols")]
+    [CliOption("--accepted-protocols")]
     public string? AcceptedProtocols { get; set; }
 
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--backend-pool")]
+    [CliOption("--backend-pool")]
     public string? BackendPool { get; set; }
 
-    [CommandSwitch("--cache-duration")]
+    [CliOption("--cache-duration")]
     public string? CacheDuration { get; set; }
 
-    [CommandSwitch("--caching")]
+    [CliOption("--caching")]
     public string? Caching { get; set; }
 
-    [CommandSwitch("--custom-forwarding-path")]
+    [CliOption("--custom-forwarding-path")]
     public string? CustomForwardingPath { get; set; }
 
-    [CommandSwitch("--custom-fragment")]
+    [CliOption("--custom-fragment")]
     public string? CustomFragment { get; set; }
 
-    [CommandSwitch("--custom-host")]
+    [CliOption("--custom-host")]
     public string? CustomHost { get; set; }
 
-    [CommandSwitch("--custom-path")]
+    [CliOption("--custom-path")]
     public string? CustomPath { get; set; }
 
-    [CommandSwitch("--custom-query-string")]
+    [CliOption("--custom-query-string")]
     public string? CustomQueryString { get; set; }
 
-    [CommandSwitch("--dynamic-compression")]
+    [CliOption("--dynamic-compression")]
     public string? DynamicCompression { get; set; }
 
-    [BooleanCommandSwitch("--enabled")]
+    [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--forwarding-protocol")]
+    [CliOption("--forwarding-protocol")]
     public string? ForwardingProtocol { get; set; }
 
-    [CommandSwitch("--frontend-endpoints")]
+    [CliOption("--frontend-endpoints")]
     public string? FrontendEndpoints { get; set; }
 
-    [CommandSwitch("--patterns")]
+    [CliOption("--patterns")]
     public string? Patterns { get; set; }
 
-    [CommandSwitch("--query-parameter-strip-directive")]
+    [CliOption("--query-parameter-strip-directive")]
     public string? QueryParameterStripDirective { get; set; }
 
-    [CommandSwitch("--query-parameters")]
+    [CliOption("--query-parameters")]
     public string? QueryParameters { get; set; }
 
-    [CommandSwitch("--redirect-protocol")]
+    [CliOption("--redirect-protocol")]
     public string? RedirectProtocol { get; set; }
 
-    [CommandSwitch("--redirect-type")]
+    [CliOption("--redirect-type")]
     public string? RedirectType { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--rules-engine")]
+    [CliOption("--rules-engine")]
     public string? RulesEngine { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 }

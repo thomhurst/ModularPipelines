@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "replication", "create")]
+[CliSubCommand("acr", "replication", "create")]
 public record AzAcrReplicationCreateOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--registry")] string Registry
+[property: CliOption("--location")] string Location,
+[property: CliOption("--registry")] string Registry
 ) : AzOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--region-endpoint-enabled")]
+    [CliFlag("--region-endpoint-enabled")]
     public bool? RegionEndpointEnabled { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--zone-redundancy")]
+    [CliOption("--zone-redundancy")]
     public string? ZoneRedundancy { get; set; }
 }

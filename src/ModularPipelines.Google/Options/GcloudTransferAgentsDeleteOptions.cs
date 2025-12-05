@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "agents", "delete")]
+[CliCommand("transfer", "agents", "delete")]
 public record GcloudTransferAgentsDeleteOptions : GcloudOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string[]? Ids { get; set; }
 
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public bool? All { get; set; }
 
-    [BooleanCommandSwitch("--uninstall")]
+    [CliFlag("--uninstall")]
     public bool? Uninstall { get; set; }
 }

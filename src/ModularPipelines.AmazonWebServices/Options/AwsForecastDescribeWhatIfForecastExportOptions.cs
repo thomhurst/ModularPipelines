@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("forecast", "describe-what-if-forecast-export")]
+[CliCommand("forecast", "describe-what-if-forecast-export")]
 public record AwsForecastDescribeWhatIfForecastExportOptions(
-[property: CommandSwitch("--what-if-forecast-export-arn")] string WhatIfForecastExportArn
+[property: CliOption("--what-if-forecast-export-arn")] string WhatIfForecastExportArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

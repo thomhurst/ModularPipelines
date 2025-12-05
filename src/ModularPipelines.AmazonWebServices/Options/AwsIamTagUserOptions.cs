@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "tag-user")]
+[CliCommand("iam", "tag-user")]
 public record AwsIamTagUserOptions(
-[property: CommandSwitch("--user-name")] string UserName,
-[property: CommandSwitch("--tags")] string[] Tags
+[property: CliOption("--user-name")] string UserName,
+[property: CliOption("--tags")] string[] Tags
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

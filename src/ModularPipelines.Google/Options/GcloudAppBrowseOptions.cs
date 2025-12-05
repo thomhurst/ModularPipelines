@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "browse")]
+[CliCommand("app", "browse")]
 public record GcloudAppBrowseOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--launch-browser")]
+    [CliFlag("--launch-browser")]
     public bool? LaunchBrowser { get; set; }
 
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string? Version { get; set; }
 }

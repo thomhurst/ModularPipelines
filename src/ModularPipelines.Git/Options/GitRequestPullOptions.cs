@@ -3,6 +3,6 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("request-pull")]
+[CliSubCommand("request-pull")]
 [ExcludeFromCodeCoverage]
 public record GitRequestPullOptions : GitOptions;

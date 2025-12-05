@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "auth", "openid-connect", "update")]
+[CliSubCommand("containerapp", "auth", "openid-connect", "update")]
 public record AzContainerappAuthOpenidConnectUpdateOptions(
-[property: CommandSwitch("--provider-name")] string ProviderName
+[property: CliOption("--provider-name")] string ProviderName
 ) : AzOptions
 {
-    [CommandSwitch("--client-id")]
+    [CliOption("--client-id")]
     public string? ClientId { get; set; }
 
-    [CommandSwitch("--client-secret")]
+    [CliOption("--client-secret")]
     public string? ClientSecret { get; set; }
 
-    [CommandSwitch("--client-secret-name")]
+    [CliOption("--client-secret-name")]
     public string? ClientSecretName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--openid-configuration")]
+    [CliOption("--openid-configuration")]
     public string? OpenidConfiguration { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--scopes")]
+    [CliOption("--scopes")]
     public string? Scopes { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

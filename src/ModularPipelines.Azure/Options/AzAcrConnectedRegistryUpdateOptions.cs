@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "connected-registry", "update")]
+[CliSubCommand("acr", "connected-registry", "update")]
 public record AzAcrConnectedRegistryUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--registry")] string Registry
+[property: CliOption("--name")] string Name,
+[property: CliOption("--registry")] string Registry
 ) : AzOptions
 {
-    [CommandSwitch("--add-client-tokens")]
+    [CliOption("--add-client-tokens")]
     public string? AddClientTokens { get; set; }
 
-    [CommandSwitch("--add-notifications")]
+    [CliOption("--add-notifications")]
     public string? AddNotifications { get; set; }
 
-    [CommandSwitch("--log-level")]
+    [CliOption("--log-level")]
     public string? LogLevel { get; set; }
 
-    [CommandSwitch("--remove-client-tokens")]
+    [CliOption("--remove-client-tokens")]
     public string? RemoveClientTokens { get; set; }
 
-    [CommandSwitch("--remove-notifications")]
+    [CliOption("--remove-notifications")]
     public string? RemoveNotifications { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--sync-message-ttl")]
+    [CliOption("--sync-message-ttl")]
     public string? SyncMessageTtl { get; set; }
 
-    [CommandSwitch("--sync-schedule")]
+    [CliOption("--sync-schedule")]
     public string? SyncSchedule { get; set; }
 
-    [CommandSwitch("--sync-window")]
+    [CliOption("--sync-window")]
     public string? SyncWindow { get; set; }
 }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "buckets", "notifications", "list")]
+[CliCommand("storage", "buckets", "notifications", "list")]
 public record GcloudStorageBucketsNotificationsListOptions(
-[property: PositionalArgument] string Urls
+[property: CliArgument] string Urls
 ) : GcloudOptions;

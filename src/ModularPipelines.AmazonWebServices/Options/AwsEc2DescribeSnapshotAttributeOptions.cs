@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "describe-snapshot-attribute")]
+[CliCommand("ec2", "describe-snapshot-attribute")]
 public record AwsEc2DescribeSnapshotAttributeOptions(
-[property: CommandSwitch("--attribute")] string Attribute,
-[property: CommandSwitch("--snapshot-id")] string SnapshotId
+[property: CliOption("--attribute")] string Attribute,
+[property: CliOption("--snapshot-id")] string SnapshotId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

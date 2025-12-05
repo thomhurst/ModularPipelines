@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cleanroomsml", "create-audience-model")]
+[CliCommand("cleanroomsml", "create-audience-model")]
 public record AwsCleanroomsmlCreateAudienceModelOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--training-dataset-arn")] string TrainingDatasetArn
+[property: CliOption("--name")] string Name,
+[property: CliOption("--training-dataset-arn")] string TrainingDatasetArn
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--kms-key-arn")]
+    [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--training-data-end-time")]
+    [CliOption("--training-data-end-time")]
     public long? TrainingDataEndTime { get; set; }
 
-    [CommandSwitch("--training-data-start-time")]
+    [CliOption("--training-data-start-time")]
     public long? TrainingDataStartTime { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

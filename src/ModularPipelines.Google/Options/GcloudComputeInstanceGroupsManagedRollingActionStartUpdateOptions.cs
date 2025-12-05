@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instance-groups", "managed", "rolling-action", "start-update")]
+[CliCommand("compute", "instance-groups", "managed", "rolling-action", "start-update")]
 public record GcloudComputeInstanceGroupsManagedRollingActionStartUpdateOptions : GcloudOptions
 {
     public GcloudComputeInstanceGroupsManagedRollingActionStartUpdateOptions(
@@ -16,9 +16,9 @@ public record GcloudComputeInstanceGroupsManagedRollingActionStartUpdateOptions 
         Version = version;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Name { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string[] Version { get; set; }
 }

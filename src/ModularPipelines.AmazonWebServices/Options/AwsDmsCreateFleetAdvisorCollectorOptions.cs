@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "create-fleet-advisor-collector")]
+[CliCommand("dms", "create-fleet-advisor-collector")]
 public record AwsDmsCreateFleetAdvisorCollectorOptions(
-[property: CommandSwitch("--collector-name")] string CollectorName,
-[property: CommandSwitch("--service-access-role-arn")] string ServiceAccessRoleArn,
-[property: CommandSwitch("--s3-bucket-name")] string S3BucketName
+[property: CliOption("--collector-name")] string CollectorName,
+[property: CliOption("--service-access-role-arn")] string ServiceAccessRoleArn,
+[property: CliOption("--s3-bucket-name")] string S3BucketName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

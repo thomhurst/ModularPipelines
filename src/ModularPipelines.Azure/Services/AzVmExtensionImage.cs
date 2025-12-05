@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "extension")]
+[CliCommand("vm", "extension")]
 public class AzVmExtensionImage
 {
     public AzVmExtensionImage(

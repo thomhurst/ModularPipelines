@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops", "extension", "uninstall")]
+[CliSubCommand("devops", "extension", "uninstall")]
 public record AzDevopsExtensionUninstallOptions(
-[property: CommandSwitch("--extension-id")] string ExtensionId,
-[property: CommandSwitch("--publisher-id")] string PublisherId
+[property: CliOption("--extension-id")] string ExtensionId,
+[property: CliOption("--publisher-id")] string PublisherId
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

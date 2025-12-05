@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "sole-tenancy", "node-templates", "remove-iam-policy-binding")]
+[CliCommand("compute", "sole-tenancy", "node-templates", "remove-iam-policy-binding")]
 public record GcloudComputeSoleTenancyNodeTemplatesRemoveIamPolicyBindingOptions(
-[property: PositionalArgument] string NodeTemplate,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--member")] string Member,
-[property: CommandSwitch("--role")] string Role
+[property: CliArgument] string NodeTemplate,
+[property: CliArgument] string Region,
+[property: CliOption("--member")] string Member,
+[property: CliOption("--role")] string Role
 ) : GcloudOptions;

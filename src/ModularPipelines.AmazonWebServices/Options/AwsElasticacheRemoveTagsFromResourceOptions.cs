@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticache", "remove-tags-from-resource")]
+[CliCommand("elasticache", "remove-tags-from-resource")]
 public record AwsElasticacheRemoveTagsFromResourceOptions(
-[property: CommandSwitch("--resource-name")] string ResourceName,
-[property: CommandSwitch("--tag-keys")] string[] TagKeys
+[property: CliOption("--resource-name")] string ResourceName,
+[property: CliOption("--tag-keys")] string[] TagKeys
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

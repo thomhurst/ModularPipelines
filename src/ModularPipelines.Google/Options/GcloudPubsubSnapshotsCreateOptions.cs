@@ -5,15 +5,15 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub", "snapshots", "create")]
+[CliCommand("pubsub", "snapshots", "create")]
 public record GcloudPubsubSnapshotsCreateOptions(
-[property: PositionalArgument] string Snapshot,
-[property: CommandSwitch("--subscription")] string Subscription
+[property: CliArgument] string Snapshot,
+[property: CliOption("--subscription")] string Subscription
 ) : GcloudOptions
 {
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--subscription-project")]
+    [CliOption("--subscription-project")]
     public string? SubscriptionProject { get; set; }
 }

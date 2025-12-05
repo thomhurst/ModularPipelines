@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "update-contact-routing-data")]
+[CliCommand("connect", "update-contact-routing-data")]
 public record AwsConnectUpdateContactRoutingDataOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--contact-id")] string ContactId
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--contact-id")] string ContactId
 ) : AwsOptions
 {
-    [CommandSwitch("--queue-time-adjustment-seconds")]
+    [CliOption("--queue-time-adjustment-seconds")]
     public int? QueueTimeAdjustmentSeconds { get; set; }
 
-    [CommandSwitch("--queue-priority")]
+    [CliOption("--queue-priority")]
     public long? QueuePriority { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -15,9 +15,9 @@ public record DockerTrustKeyLoadOptions : DockerOptions
         Keyfile = keyfile;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Keyfile { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Keyfile { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public virtual string? Name { get; set; }
 }

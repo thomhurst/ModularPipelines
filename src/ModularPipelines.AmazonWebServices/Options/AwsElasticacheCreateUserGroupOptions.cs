@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticache", "create-user-group")]
+[CliCommand("elasticache", "create-user-group")]
 public record AwsElasticacheCreateUserGroupOptions(
-[property: CommandSwitch("--user-group-id")] string UserGroupId,
-[property: CommandSwitch("--engine")] string Engine
+[property: CliOption("--user-group-id")] string UserGroupId,
+[property: CliOption("--engine")] string Engine
 ) : AwsOptions
 {
-    [CommandSwitch("--user-ids")]
+    [CliOption("--user-ids")]
     public string[]? UserIds { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

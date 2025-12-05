@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("builds", "worker-pools", "list")]
+[CliCommand("builds", "worker-pools", "list")]
 public record GcloudBuildsWorkerPoolsListOptions(
-[property: CommandSwitch("--region")] string Region
+[property: CliOption("--region")] string Region
 ) : GcloudOptions;

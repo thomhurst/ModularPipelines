@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("license-manager", "get-license-conversion-task")]
+[CliCommand("license-manager", "get-license-conversion-task")]
 public record AwsLicenseManagerGetLicenseConversionTaskOptions(
-[property: CommandSwitch("--license-conversion-task-id")] string LicenseConversionTaskId
+[property: CliOption("--license-conversion-task-id")] string LicenseConversionTaskId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

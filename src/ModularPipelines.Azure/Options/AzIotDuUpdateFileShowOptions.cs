@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "du", "update", "file", "show")]
+[CliSubCommand("iot", "du", "update", "file", "show")]
 public record AzIotDuUpdateFileShowOptions(
-[property: CommandSwitch("--account")] int Account,
-[property: CommandSwitch("--instance")] string Instance,
-[property: CommandSwitch("--ufid")] string Ufid,
-[property: CommandSwitch("--un")] string Un,
-[property: CommandSwitch("--up")] string Up,
-[property: CommandSwitch("--update-version")] string UpdateVersion
+[property: CliOption("--account")] int Account,
+[property: CliOption("--instance")] string Instance,
+[property: CliOption("--ufid")] string Ufid,
+[property: CliOption("--un")] string Un,
+[property: CliOption("--up")] string Up,
+[property: CliOption("--update-version")] string UpdateVersion
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

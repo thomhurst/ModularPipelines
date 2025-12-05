@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ce", "get-savings-plan-purchase-recommendation-details")]
+[CliCommand("ce", "get-savings-plan-purchase-recommendation-details")]
 public record AwsCeGetSavingsPlanPurchaseRecommendationDetailsOptions(
-[property: CommandSwitch("--recommendation-detail-id")] string RecommendationDetailId
+[property: CliOption("--recommendation-detail-id")] string RecommendationDetailId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

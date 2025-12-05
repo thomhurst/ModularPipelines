@@ -4,50 +4,50 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53", "update-health-check")]
+[CliCommand("route53", "update-health-check")]
 public record AwsRoute53UpdateHealthCheckOptions(
-[property: CommandSwitch("--health-check-id")] string HealthCheckId
+[property: CliOption("--health-check-id")] string HealthCheckId
 ) : AwsOptions
 {
-    [CommandSwitch("--health-check-version")]
+    [CliOption("--health-check-version")]
     public long? HealthCheckVersion { get; set; }
 
-    [CommandSwitch("--ip-address")]
+    [CliOption("--ip-address")]
     public string? IpAddress { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--resource-path")]
+    [CliOption("--resource-path")]
     public string? ResourcePath { get; set; }
 
-    [CommandSwitch("--fully-qualified-domain-name")]
+    [CliOption("--fully-qualified-domain-name")]
     public string? FullyQualifiedDomainName { get; set; }
 
-    [CommandSwitch("--search-string")]
+    [CliOption("--search-string")]
     public string? SearchString { get; set; }
 
-    [CommandSwitch("--failure-threshold")]
+    [CliOption("--failure-threshold")]
     public int? FailureThreshold { get; set; }
 
-    [CommandSwitch("--health-threshold")]
+    [CliOption("--health-threshold")]
     public int? HealthThreshold { get; set; }
 
-    [CommandSwitch("--child-health-checks")]
+    [CliOption("--child-health-checks")]
     public string[]? ChildHealthChecks { get; set; }
 
-    [CommandSwitch("--regions")]
+    [CliOption("--regions")]
     public string[]? Regions { get; set; }
 
-    [CommandSwitch("--alarm-identifier")]
+    [CliOption("--alarm-identifier")]
     public string? AlarmIdentifier { get; set; }
 
-    [CommandSwitch("--insufficient-data-health-status")]
+    [CliOption("--insufficient-data-health-status")]
     public string? InsufficientDataHealthStatus { get; set; }
 
-    [CommandSwitch("--reset-elements")]
+    [CliOption("--reset-elements")]
     public string[]? ResetElements { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

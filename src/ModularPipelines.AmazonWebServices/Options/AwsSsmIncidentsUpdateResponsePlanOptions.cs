@@ -5,47 +5,47 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm-incidents", "update-response-plan")]
+[CliCommand("ssm-incidents", "update-response-plan")]
 public record AwsSsmIncidentsUpdateResponsePlanOptions(
-[property: CommandSwitch("--arn")] string Arn
+[property: CliOption("--arn")] string Arn
 ) : AwsOptions
 {
-    [CommandSwitch("--actions")]
+    [CliOption("--actions")]
     public string[]? Actions { get; set; }
 
-    [CommandSwitch("--chat-channel")]
+    [CliOption("--chat-channel")]
     public string? ChatChannel { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--engagements")]
+    [CliOption("--engagements")]
     public string[]? Engagements { get; set; }
 
-    [CommandSwitch("--incident-template-dedupe-string")]
+    [CliOption("--incident-template-dedupe-string")]
     public string? IncidentTemplateDedupeString { get; set; }
 
-    [CommandSwitch("--incident-template-impact")]
+    [CliOption("--incident-template-impact")]
     public int? IncidentTemplateImpact { get; set; }
 
-    [CommandSwitch("--incident-template-notification-targets")]
+    [CliOption("--incident-template-notification-targets")]
     public string[]? IncidentTemplateNotificationTargets { get; set; }
 
-    [CommandSwitch("--incident-template-summary")]
+    [CliOption("--incident-template-summary")]
     public string? IncidentTemplateSummary { get; set; }
 
-    [CommandSwitch("--incident-template-tags")]
+    [CliOption("--incident-template-tags")]
     public IEnumerable<KeyValue>? IncidentTemplateTags { get; set; }
 
-    [CommandSwitch("--incident-template-title")]
+    [CliOption("--incident-template-title")]
     public string? IncidentTemplateTitle { get; set; }
 
-    [CommandSwitch("--integrations")]
+    [CliOption("--integrations")]
     public string[]? Integrations { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

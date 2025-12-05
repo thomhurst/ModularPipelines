@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns-resolver")]
+[CliCommand("dns-resolver")]
 public class AzDnsResolverVnetLink
 {
     public AzDnsResolverVnetLink(

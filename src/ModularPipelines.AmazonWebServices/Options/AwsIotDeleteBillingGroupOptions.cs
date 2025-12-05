@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "delete-billing-group")]
+[CliCommand("iot", "delete-billing-group")]
 public record AwsIotDeleteBillingGroupOptions(
-[property: CommandSwitch("--billing-group-name")] string BillingGroupName
+[property: CliOption("--billing-group-name")] string BillingGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--expected-version")]
+    [CliOption("--expected-version")]
     public long? ExpectedVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

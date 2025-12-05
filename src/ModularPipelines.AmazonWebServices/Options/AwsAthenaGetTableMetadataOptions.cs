@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("athena", "get-table-metadata")]
+[CliCommand("athena", "get-table-metadata")]
 public record AwsAthenaGetTableMetadataOptions(
-[property: CommandSwitch("--catalog-name")] string CatalogName,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--table-name")] string TableName
+[property: CliOption("--catalog-name")] string CatalogName,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--table-name")] string TableName
 ) : AwsOptions
 {
-    [CommandSwitch("--work-group")]
+    [CliOption("--work-group")]
     public string? WorkGroup { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

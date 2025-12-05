@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("portal", "dashboard", "update")]
+[CliSubCommand("portal", "dashboard", "update")]
 public record AzPortalDashboardUpdateOptions(
-[property: CommandSwitch("--input-path")] string InputPath,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--input-path")] string InputPath,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

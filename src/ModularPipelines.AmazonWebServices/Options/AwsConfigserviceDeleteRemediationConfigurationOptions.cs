@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configservice", "delete-remediation-configuration")]
+[CliCommand("configservice", "delete-remediation-configuration")]
 public record AwsConfigserviceDeleteRemediationConfigurationOptions(
-[property: CommandSwitch("--config-rule-name")] string ConfigRuleName
+[property: CliOption("--config-rule-name")] string ConfigRuleName
 ) : AwsOptions
 {
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

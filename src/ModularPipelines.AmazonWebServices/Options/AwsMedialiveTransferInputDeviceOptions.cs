@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("medialive", "transfer-input-device")]
+[CliCommand("medialive", "transfer-input-device")]
 public record AwsMedialiveTransferInputDeviceOptions(
-[property: CommandSwitch("--input-device-id")] string InputDeviceId
+[property: CliOption("--input-device-id")] string InputDeviceId
 ) : AwsOptions
 {
-    [CommandSwitch("--target-customer-id")]
+    [CliOption("--target-customer-id")]
     public string? TargetCustomerId { get; set; }
 
-    [CommandSwitch("--target-region")]
+    [CliOption("--target-region")]
     public string? TargetRegion { get; set; }
 
-    [CommandSwitch("--transfer-message")]
+    [CliOption("--transfer-message")]
     public string? TransferMessage { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

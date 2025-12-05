@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "update-identity-propagation-config")]
+[CliCommand("quicksight", "update-identity-propagation-config")]
 public record AwsQuicksightUpdateIdentityPropagationConfigOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--service")] string Service
 ) : AwsOptions
 {
-    [CommandSwitch("--authorized-targets")]
+    [CliOption("--authorized-targets")]
     public string[]? AuthorizedTargets { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

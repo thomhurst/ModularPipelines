@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "roles", "undelete")]
+[CliCommand("iam", "roles", "undelete")]
 public record GcloudIamRolesUndeleteOptions : GcloudOptions
 {
     public GcloudIamRolesUndeleteOptions(
@@ -18,9 +18,9 @@ public record GcloudIamRolesUndeleteOptions : GcloudOptions
         Project = project;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string RoleId { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 }

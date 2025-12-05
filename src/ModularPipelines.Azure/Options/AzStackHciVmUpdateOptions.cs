@@ -4,57 +4,57 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stack-hci-vm", "update")]
+[CliSubCommand("stack-hci-vm", "update")]
 public record AzStackHciVmUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--computer-name")]
+    [CliOption("--computer-name")]
     public string? ComputerName { get; set; }
 
-    [BooleanCommandSwitch("--enable-agent")]
+    [CliFlag("--enable-agent")]
     public bool? EnableAgent { get; set; }
 
-    [BooleanCommandSwitch("--enable-vm-config-agent")]
+    [CliFlag("--enable-vm-config-agent")]
     public bool? EnableVmConfigAgent { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--memory-mb")]
+    [CliOption("--memory-mb")]
     public string? MemoryMb { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--nics")]
+    [CliOption("--nics")]
     public string? Nics { get; set; }
 
-    [CommandSwitch("--polling-interval")]
+    [CliOption("--polling-interval")]
     public string? PollingInterval { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--v-cpus-available")]
+    [CliOption("--v-cpus-available")]
     public string? VCpusAvailable { get; set; }
 
-    [CommandSwitch("--vhds")]
+    [CliOption("--vhds")]
     public string? Vhds { get; set; }
 }

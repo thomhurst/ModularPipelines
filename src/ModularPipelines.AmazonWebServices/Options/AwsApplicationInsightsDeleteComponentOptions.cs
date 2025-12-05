@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("application-insights", "delete-component")]
+[CliCommand("application-insights", "delete-component")]
 public record AwsApplicationInsightsDeleteComponentOptions(
-[property: CommandSwitch("--resource-group-name")] string ResourceGroupName,
-[property: CommandSwitch("--component-name")] string ComponentName
+[property: CliOption("--resource-group-name")] string ResourceGroupName,
+[property: CliOption("--component-name")] string ComponentName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

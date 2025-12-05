@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sphere", "device")]
+[CliCommand("sphere", "device")]
 public class AzSphereDeviceCertificate
 {
     public AzSphereDeviceCertificate(

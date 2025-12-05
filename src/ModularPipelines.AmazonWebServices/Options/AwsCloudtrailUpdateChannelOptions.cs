@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudtrail", "update-channel")]
+[CliCommand("cloudtrail", "update-channel")]
 public record AwsCloudtrailUpdateChannelOptions(
-[property: CommandSwitch("--channel")] string Channel
+[property: CliOption("--channel")] string Channel
 ) : AwsOptions
 {
-    [CommandSwitch("--destinations")]
+    [CliOption("--destinations")]
     public string[]? Destinations { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

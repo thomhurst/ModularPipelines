@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eks", "delete-pod-identity-association")]
+[CliCommand("eks", "delete-pod-identity-association")]
 public record AwsEksDeletePodIdentityAssociationOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--association-id")] string AssociationId
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--association-id")] string AssociationId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

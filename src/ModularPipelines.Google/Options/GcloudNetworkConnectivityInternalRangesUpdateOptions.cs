@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-connectivity", "internal-ranges", "update")]
+[CliCommand("network-connectivity", "internal-ranges", "update")]
 public record GcloudNetworkConnectivityInternalRangesUpdateOptions(
-[property: PositionalArgument] string InternalRange,
-[property: PositionalArgument] string Region
+[property: CliArgument] string InternalRange,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--clear-overlaps")]
+    [CliFlag("--clear-overlaps")]
     public bool? ClearOverlaps { get; set; }
 
-    [CommandSwitch("--overlaps")]
+    [CliOption("--overlaps")]
     public string[]? Overlaps { get; set; }
 
-    [BooleanCommandSwitch("overlap-existing-subnet-range")]
+    [CliFlag("overlap-existing-subnet-range")]
     public bool? OverlapExistingSubnetRange { get; set; }
 
-    [BooleanCommandSwitch("overlap-route-range")]
+    [CliFlag("overlap-route-range")]
     public bool? OverlapRouteRange { get; set; }
 
-    [CommandSwitch("--ip-cidr-range")]
+    [CliOption("--ip-cidr-range")]
     public string? IpCidrRange { get; set; }
 
-    [CommandSwitch("--prefix-length")]
+    [CliOption("--prefix-length")]
     public string? PrefixLength { get; set; }
 }

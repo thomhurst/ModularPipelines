@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workmail", "create-user")]
+[CliCommand("workmail", "create-user")]
 public record AwsWorkmailCreateUserOptions(
-[property: CommandSwitch("--organization-id")] string OrganizationId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--display-name")] string DisplayName
+[property: CliOption("--organization-id")] string OrganizationId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--display-name")] string DisplayName
 ) : AwsOptions
 {
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--first-name")]
+    [CliOption("--first-name")]
     public string? FirstName { get; set; }
 
-    [CommandSwitch("--last-name")]
+    [CliOption("--last-name")]
     public string? LastName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

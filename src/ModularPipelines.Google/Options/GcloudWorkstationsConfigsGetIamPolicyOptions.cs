@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workstations", "configs", "get-iam-policy")]
+[CliCommand("workstations", "configs", "get-iam-policy")]
 public record GcloudWorkstationsConfigsGetIamPolicyOptions(
-[property: PositionalArgument] string Config,
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Config,
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Region
 ) : GcloudOptions;

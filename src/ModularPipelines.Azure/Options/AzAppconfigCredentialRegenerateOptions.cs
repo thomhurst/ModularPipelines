@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appconfig", "credential", "regenerate")]
+[CliSubCommand("appconfig", "credential", "regenerate")]
 public record AzAppconfigCredentialRegenerateOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--id")] string Id,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

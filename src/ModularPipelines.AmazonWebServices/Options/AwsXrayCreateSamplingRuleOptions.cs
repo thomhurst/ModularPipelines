@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("xray", "create-sampling-rule")]
+[CliCommand("xray", "create-sampling-rule")]
 public record AwsXrayCreateSamplingRuleOptions(
-[property: CommandSwitch("--sampling-rule")] string SamplingRule
+[property: CliOption("--sampling-rule")] string SamplingRule
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

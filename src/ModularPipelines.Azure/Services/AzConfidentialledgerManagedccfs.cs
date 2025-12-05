@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("confidentialledger")]
+[CliCommand("confidentialledger")]
 public class AzConfidentialledgerManagedccfs
 {
     public AzConfidentialledgerManagedccfs(

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("evidently", "get-project")]
+[CliCommand("evidently", "get-project")]
 public record AwsEvidentlyGetProjectOptions(
-[property: CommandSwitch("--project")] string Project
+[property: CliOption("--project")] string Project
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

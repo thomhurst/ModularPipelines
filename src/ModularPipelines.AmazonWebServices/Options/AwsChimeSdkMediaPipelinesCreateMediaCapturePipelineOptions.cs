@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-media-pipelines", "create-media-capture-pipeline")]
+[CliCommand("chime-sdk-media-pipelines", "create-media-capture-pipeline")]
 public record AwsChimeSdkMediaPipelinesCreateMediaCapturePipelineOptions(
-[property: CommandSwitch("--source-type")] string SourceType,
-[property: CommandSwitch("--source-arn")] string SourceArn,
-[property: CommandSwitch("--sink-type")] string SinkType,
-[property: CommandSwitch("--sink-arn")] string SinkArn
+[property: CliOption("--source-type")] string SourceType,
+[property: CliOption("--source-arn")] string SourceArn,
+[property: CliOption("--sink-type")] string SinkType,
+[property: CliOption("--sink-arn")] string SinkArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--chime-sdk-meeting-configuration")]
+    [CliOption("--chime-sdk-meeting-configuration")]
     public string? ChimeSdkMeetingConfiguration { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

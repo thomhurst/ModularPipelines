@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "services", "set-traffic")]
+[CliCommand("app", "services", "set-traffic")]
 public record GcloudAppServicesSetTrafficOptions(
-[property: PositionalArgument] string Services,
-[property: CommandSwitch("--splits")] string[] Splits
+[property: CliArgument] string Services,
+[property: CliOption("--splits")] string[] Splits
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--migrate")]
+    [CliFlag("--migrate")]
     public bool? Migrate { get; set; }
 
-    [CommandSwitch("--split-by")]
+    [CliOption("--split-by")]
     public string? SplitBy { get; set; }
 }

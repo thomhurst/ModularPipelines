@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netapp", "active-directories", "describe")]
+[CliCommand("netapp", "active-directories", "describe")]
 public record GcloudNetappActiveDirectoriesDescribeOptions(
-[property: PositionalArgument] string ActiveDirectory,
-[property: PositionalArgument] string Location
+[property: CliArgument] string ActiveDirectory,
+[property: CliArgument] string Location
 ) : GcloudOptions;

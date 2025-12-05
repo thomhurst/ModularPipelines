@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amplifyuibuilder", "get-metadata")]
+[CliCommand("amplifyuibuilder", "get-metadata")]
 public record AwsAmplifyuibuilderGetMetadataOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--environment-name")] string EnvironmentName
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--environment-name")] string EnvironmentName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

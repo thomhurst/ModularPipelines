@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutvision", "start-model-packaging-job")]
+[CliCommand("lookoutvision", "start-model-packaging-job")]
 public record AwsLookoutvisionStartModelPackagingJobOptions(
-[property: CommandSwitch("--project-name")] string ProjectName,
-[property: CommandSwitch("--model-version")] string ModelVersion,
-[property: CommandSwitch("--configuration")] string Configuration
+[property: CliOption("--project-name")] string ProjectName,
+[property: CliOption("--model-version")] string ModelVersion,
+[property: CliOption("--configuration")] string Configuration
 ) : AwsOptions
 {
-    [CommandSwitch("--job-name")]
+    [CliOption("--job-name")]
     public string? JobName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

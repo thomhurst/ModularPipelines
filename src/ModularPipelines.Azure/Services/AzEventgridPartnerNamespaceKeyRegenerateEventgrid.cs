@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "partner", "namespace", "key", "regenerate")]
+[CliCommand("eventgrid", "partner", "namespace", "key", "regenerate")]
 public class AzEventgridPartnerNamespaceKeyRegenerateEventgrid
 {
     public AzEventgridPartnerNamespaceKeyRegenerateEventgrid(

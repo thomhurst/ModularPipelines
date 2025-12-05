@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticache", "revoke-cache-security-group-ingress")]
+[CliCommand("elasticache", "revoke-cache-security-group-ingress")]
 public record AwsElasticacheRevokeCacheSecurityGroupIngressOptions(
-[property: CommandSwitch("--cache-security-group-name")] string CacheSecurityGroupName,
-[property: CommandSwitch("--ec2-security-group-name")] string Ec2SecurityGroupName,
-[property: CommandSwitch("--ec2-security-group-owner-id")] string Ec2SecurityGroupOwnerId
+[property: CliOption("--cache-security-group-name")] string CacheSecurityGroupName,
+[property: CliOption("--ec2-security-group-name")] string Ec2SecurityGroupName,
+[property: CliOption("--ec2-security-group-owner-id")] string Ec2SecurityGroupOwnerId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

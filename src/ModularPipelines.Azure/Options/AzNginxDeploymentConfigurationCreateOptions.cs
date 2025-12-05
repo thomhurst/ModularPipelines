@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("nginx", "deployment", "configuration", "create")]
+[CliSubCommand("nginx", "deployment", "configuration", "create")]
 public record AzNginxDeploymentConfigurationCreateOptions(
-[property: CommandSwitch("--configuration-name")] string ConfigurationName,
-[property: CommandSwitch("--deployment-name")] string DeploymentName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--configuration-name")] string ConfigurationName,
+[property: CliOption("--deployment-name")] string DeploymentName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--files")]
+    [CliOption("--files")]
     public string? Files { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--package")]
+    [CliOption("--package")]
     public string? Package { get; set; }
 
-    [CommandSwitch("--protected-files")]
+    [CliOption("--protected-files")]
     public string? ProtectedFiles { get; set; }
 
-    [CommandSwitch("--provisioning-state")]
+    [CliOption("--provisioning-state")]
     public string? ProvisioningState { get; set; }
 
-    [CommandSwitch("--root-file")]
+    [CliOption("--root-file")]
     public string? RootFile { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

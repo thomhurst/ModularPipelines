@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift-serverless", "get-scheduled-action")]
+[CliCommand("redshift-serverless", "get-scheduled-action")]
 public record AwsRedshiftServerlessGetScheduledActionOptions(
-[property: CommandSwitch("--scheduled-action-name")] string ScheduledActionName
+[property: CliOption("--scheduled-action-name")] string ScheduledActionName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

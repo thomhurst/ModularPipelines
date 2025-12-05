@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigee", "deployments", "describe")]
+[CliCommand("apigee", "deployments", "describe")]
 public record GcloudApigeeDeploymentsDescribeOptions : GcloudOptions;

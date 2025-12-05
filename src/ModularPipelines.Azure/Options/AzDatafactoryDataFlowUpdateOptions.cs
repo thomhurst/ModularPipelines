@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datafactory", "data-flow", "update")]
+[CliSubCommand("datafactory", "data-flow", "update")]
 public record AzDatafactoryDataFlowUpdateOptions(
-[property: CommandSwitch("--properties")] string Properties
+[property: CliOption("--properties")] string Properties
 ) : AzOptions
 {
-    [CommandSwitch("--data-flow-name")]
+    [CliOption("--data-flow-name")]
     public string? DataFlowName { get; set; }
 
-    [CommandSwitch("--factory-name")]
+    [CliOption("--factory-name")]
     public string? FactoryName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

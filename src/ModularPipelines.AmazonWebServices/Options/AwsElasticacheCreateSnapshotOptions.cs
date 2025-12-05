@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticache", "create-snapshot")]
+[CliCommand("elasticache", "create-snapshot")]
 public record AwsElasticacheCreateSnapshotOptions(
-[property: CommandSwitch("--snapshot-name")] string SnapshotName
+[property: CliOption("--snapshot-name")] string SnapshotName
 ) : AwsOptions
 {
-    [CommandSwitch("--replication-group-id")]
+    [CliOption("--replication-group-id")]
     public string? ReplicationGroupId { get; set; }
 
-    [CommandSwitch("--cache-cluster-id")]
+    [CliOption("--cache-cluster-id")]
     public string? CacheClusterId { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

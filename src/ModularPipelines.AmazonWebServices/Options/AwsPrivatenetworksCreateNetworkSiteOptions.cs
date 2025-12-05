@@ -5,30 +5,30 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("privatenetworks", "create-network-site")]
+[CliCommand("privatenetworks", "create-network-site")]
 public record AwsPrivatenetworksCreateNetworkSiteOptions(
-[property: CommandSwitch("--network-arn")] string NetworkArn,
-[property: CommandSwitch("--network-site-name")] string NetworkSiteName
+[property: CliOption("--network-arn")] string NetworkArn,
+[property: CliOption("--network-site-name")] string NetworkSiteName
 ) : AwsOptions
 {
-    [CommandSwitch("--availability-zone")]
+    [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
-    [CommandSwitch("--availability-zone-id")]
+    [CliOption("--availability-zone-id")]
     public string? AvailabilityZoneId { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--pending-plan")]
+    [CliOption("--pending-plan")]
     public string? PendingPlan { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

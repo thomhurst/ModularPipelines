@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("secrets", "versions", "access")]
+[CliCommand("secrets", "versions", "access")]
 public record GcloudSecretsVersionsAccessOptions : GcloudOptions
 {
     public GcloudSecretsVersionsAccessOptions(
@@ -16,12 +16,12 @@ public record GcloudSecretsVersionsAccessOptions : GcloudOptions
         Secret = secret;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string GcloudSecretsVersionsAccessOptionsVersion { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Secret { get; set; }
 
-    [CommandSwitch("--out-file")]
+    [CliOption("--out-file")]
     public string? OutFile { get; set; }
 }

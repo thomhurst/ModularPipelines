@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr-containers", "create-job-template")]
+[CliCommand("emr-containers", "create-job-template")]
 public record AwsEmrContainersCreateJobTemplateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--job-template-data")] string JobTemplateData
+[property: CliOption("--name")] string Name,
+[property: CliOption("--job-template-data")] string JobTemplateData
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--kms-key-arn")]
+    [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

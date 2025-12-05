@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "update-file-system-association")]
+[CliCommand("storagegateway", "update-file-system-association")]
 public record AwsStoragegatewayUpdateFileSystemAssociationOptions(
-[property: CommandSwitch("--file-system-association-arn")] string FileSystemAssociationArn
+[property: CliOption("--file-system-association-arn")] string FileSystemAssociationArn
 ) : AwsOptions
 {
-    [CommandSwitch("--user-name")]
+    [CliOption("--user-name")]
     public string? UserName { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--audit-destination-arn")]
+    [CliOption("--audit-destination-arn")]
     public string? AuditDestinationArn { get; set; }
 
-    [CommandSwitch("--cache-attributes")]
+    [CliOption("--cache-attributes")]
     public string? CacheAttributes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

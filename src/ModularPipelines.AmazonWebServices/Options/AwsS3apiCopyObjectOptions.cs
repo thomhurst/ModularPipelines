@@ -5,124 +5,124 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3api", "copy-object")]
+[CliCommand("s3api", "copy-object")]
 public record AwsS3apiCopyObjectOptions(
-[property: CommandSwitch("--bucket")] string Bucket,
-[property: CommandSwitch("--copy-source")] string CopySource,
-[property: CommandSwitch("--key")] string Key
+[property: CliOption("--bucket")] string Bucket,
+[property: CliOption("--copy-source")] string CopySource,
+[property: CliOption("--key")] string Key
 ) : AwsOptions
 {
-    [CommandSwitch("--acl")]
+    [CliOption("--acl")]
     public string? Acl { get; set; }
 
-    [CommandSwitch("--cache-control")]
+    [CliOption("--cache-control")]
     public string? CacheControl { get; set; }
 
-    [CommandSwitch("--checksum-algorithm")]
+    [CliOption("--checksum-algorithm")]
     public string? ChecksumAlgorithm { get; set; }
 
-    [CommandSwitch("--content-disposition")]
+    [CliOption("--content-disposition")]
     public string? ContentDisposition { get; set; }
 
-    [CommandSwitch("--content-encoding")]
+    [CliOption("--content-encoding")]
     public string? ContentEncoding { get; set; }
 
-    [CommandSwitch("--content-language")]
+    [CliOption("--content-language")]
     public string? ContentLanguage { get; set; }
 
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
-    [CommandSwitch("--copy-source-if-match")]
+    [CliOption("--copy-source-if-match")]
     public string? CopySourceIfMatch { get; set; }
 
-    [CommandSwitch("--copy-source-if-modified-since")]
+    [CliOption("--copy-source-if-modified-since")]
     public long? CopySourceIfModifiedSince { get; set; }
 
-    [CommandSwitch("--copy-source-if-none-match")]
+    [CliOption("--copy-source-if-none-match")]
     public string? CopySourceIfNoneMatch { get; set; }
 
-    [CommandSwitch("--copy-source-if-unmodified-since")]
+    [CliOption("--copy-source-if-unmodified-since")]
     public long? CopySourceIfUnmodifiedSince { get; set; }
 
-    [CommandSwitch("--expires")]
+    [CliOption("--expires")]
     public long? Expires { get; set; }
 
-    [CommandSwitch("--grant-full-control")]
+    [CliOption("--grant-full-control")]
     public string? GrantFullControl { get; set; }
 
-    [CommandSwitch("--grant-read")]
+    [CliOption("--grant-read")]
     public string? GrantRead { get; set; }
 
-    [CommandSwitch("--grant-read-acp")]
+    [CliOption("--grant-read-acp")]
     public string? GrantReadAcp { get; set; }
 
-    [CommandSwitch("--grant-write-acp")]
+    [CliOption("--grant-write-acp")]
     public string? GrantWriteAcp { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public IEnumerable<KeyValue>? Metadata { get; set; }
 
-    [CommandSwitch("--metadata-directive")]
+    [CliOption("--metadata-directive")]
     public string? MetadataDirective { get; set; }
 
-    [CommandSwitch("--tagging-directive")]
+    [CliOption("--tagging-directive")]
     public string? TaggingDirective { get; set; }
 
-    [CommandSwitch("--server-side-encryption")]
+    [CliOption("--server-side-encryption")]
     public string? ServerSideEncryption { get; set; }
 
-    [CommandSwitch("--storage-class")]
+    [CliOption("--storage-class")]
     public string? StorageClass { get; set; }
 
-    [CommandSwitch("--website-redirect-location")]
+    [CliOption("--website-redirect-location")]
     public string? WebsiteRedirectLocation { get; set; }
 
-    [CommandSwitch("--sse-customer-algorithm")]
+    [CliOption("--sse-customer-algorithm")]
     public string? SseCustomerAlgorithm { get; set; }
 
-    [CommandSwitch("--sse-customer-key")]
+    [CliOption("--sse-customer-key")]
     public string? SseCustomerKey { get; set; }
 
-    [CommandSwitch("--sse-customer-key-md5")]
+    [CliOption("--sse-customer-key-md5")]
     public string? SseCustomerKeyMd5 { get; set; }
 
-    [CommandSwitch("--ssekms-key-id")]
+    [CliOption("--ssekms-key-id")]
     public string? SsekmsKeyId { get; set; }
 
-    [CommandSwitch("--ssekms-encryption-context")]
+    [CliOption("--ssekms-encryption-context")]
     public string? SsekmsEncryptionContext { get; set; }
 
-    [CommandSwitch("--copy-source-sse-customer-algorithm")]
+    [CliOption("--copy-source-sse-customer-algorithm")]
     public string? CopySourceSseCustomerAlgorithm { get; set; }
 
-    [CommandSwitch("--copy-source-sse-customer-key")]
+    [CliOption("--copy-source-sse-customer-key")]
     public string? CopySourceSseCustomerKey { get; set; }
 
-    [CommandSwitch("--copy-source-sse-customer-key-md5")]
+    [CliOption("--copy-source-sse-customer-key-md5")]
     public string? CopySourceSseCustomerKeyMd5 { get; set; }
 
-    [CommandSwitch("--request-payer")]
+    [CliOption("--request-payer")]
     public string? RequestPayer { get; set; }
 
-    [CommandSwitch("--tagging")]
+    [CliOption("--tagging")]
     public string? Tagging { get; set; }
 
-    [CommandSwitch("--object-lock-mode")]
+    [CliOption("--object-lock-mode")]
     public string? ObjectLockMode { get; set; }
 
-    [CommandSwitch("--object-lock-retain-until-date")]
+    [CliOption("--object-lock-retain-until-date")]
     public long? ObjectLockRetainUntilDate { get; set; }
 
-    [CommandSwitch("--object-lock-legal-hold-status")]
+    [CliOption("--object-lock-legal-hold-status")]
     public string? ObjectLockLegalHoldStatus { get; set; }
 
-    [CommandSwitch("--expected-bucket-owner")]
+    [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
-    [CommandSwitch("--expected-source-bucket-owner")]
+    [CliOption("--expected-source-bucket-owner")]
     public string? ExpectedSourceBucketOwner { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

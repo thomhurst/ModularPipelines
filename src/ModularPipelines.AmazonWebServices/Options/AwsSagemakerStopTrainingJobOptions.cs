@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "stop-training-job")]
+[CliCommand("sagemaker", "stop-training-job")]
 public record AwsSagemakerStopTrainingJobOptions(
-[property: CommandSwitch("--training-job-name")] string TrainingJobName
+[property: CliOption("--training-job-name")] string TrainingJobName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

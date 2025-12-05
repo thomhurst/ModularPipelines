@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("desktopvirtualization", "hostpool", "list")]
+[CliSubCommand("desktopvirtualization", "hostpool", "list")]
 public record AzDesktopvirtualizationHostpoolListOptions : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

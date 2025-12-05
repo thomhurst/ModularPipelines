@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation", "wait", "stack-delete-complete")]
+[CliCommand("cloudformation", "wait", "stack-delete-complete")]
 public record AwsCloudformationWaitStackDeleteCompleteOptions : AwsOptions
 {
-    [CommandSwitch("--stack-name")]
+    [CliOption("--stack-name")]
     public string? StackName { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

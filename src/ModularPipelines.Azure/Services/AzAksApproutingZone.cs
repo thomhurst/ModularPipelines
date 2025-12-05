@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "approuting")]
+[CliCommand("aks", "approuting")]
 public class AzAksApproutingZone
 {
     public AzAksApproutingZone(

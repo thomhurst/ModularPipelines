@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "dns-bind-permission", "revoke")]
+[CliCommand("vmware", "dns-bind-permission", "revoke")]
 public record GcloudVmwareDnsBindPermissionRevokeOptions(
-[property: CommandSwitch("--service-account")] string ServiceAccount,
-[property: CommandSwitch("--user")] string User
+[property: CliOption("--service-account")] string ServiceAccount,
+[property: CliOption("--user")] string User
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

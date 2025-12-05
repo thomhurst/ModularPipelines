@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "integration-runtime")]
+[CliCommand("synapse", "integration-runtime")]
 public class AzSynapseIntegrationRuntimeSelfHosted
 {
     public AzSynapseIntegrationRuntimeSelfHosted(

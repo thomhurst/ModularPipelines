@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "target-tcp-proxies", "update")]
+[CliCommand("compute", "target-tcp-proxies", "update")]
 public record GcloudComputeTargetTcpProxiesUpdateOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--backend-service")]
+    [CliOption("--backend-service")]
     public string? BackendService { get; set; }
 
-    [CommandSwitch("--proxy-header")]
+    [CliOption("--proxy-header")]
     public string? ProxyHeader { get; set; }
 }

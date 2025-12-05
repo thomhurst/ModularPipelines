@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mturk", "create-worker-block")]
+[CliCommand("mturk", "create-worker-block")]
 public record AwsMturkCreateWorkerBlockOptions(
-[property: CommandSwitch("--worker-id")] string WorkerId,
-[property: CommandSwitch("--reason")] string Reason
+[property: CliOption("--worker-id")] string WorkerId,
+[property: CliOption("--reason")] string Reason
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

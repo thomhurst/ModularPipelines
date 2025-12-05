@@ -4,103 +4,103 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "mi", "create")]
+[CliSubCommand("sql", "mi", "create")]
 public record AzSqlMiCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--subnet")] string Subnet
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--subnet")] string Subnet
 ) : AzOptions
 {
-    [CommandSwitch("--admin-password")]
+    [CliOption("--admin-password")]
     public string? AdminPassword { get; set; }
 
-    [CommandSwitch("--admin-user")]
+    [CliOption("--admin-user")]
     public string? AdminUser { get; set; }
 
-    [BooleanCommandSwitch("--assign-identity")]
+    [CliFlag("--assign-identity")]
     public bool? AssignIdentity { get; set; }
 
-    [CommandSwitch("--backup-storage-redundancy")]
+    [CliOption("--backup-storage-redundancy")]
     public string? BackupStorageRedundancy { get; set; }
 
-    [CommandSwitch("--capacity")]
+    [CliOption("--capacity")]
     public string? Capacity { get; set; }
 
-    [CommandSwitch("--collation")]
+    [CliOption("--collation")]
     public string? Collation { get; set; }
 
-    [CommandSwitch("--edition")]
+    [CliOption("--edition")]
     public string? Edition { get; set; }
 
-    [BooleanCommandSwitch("--enable-ad-only-auth")]
+    [CliFlag("--enable-ad-only-auth")]
     public bool? EnableAdOnlyAuth { get; set; }
 
-    [CommandSwitch("--external-admin-name")]
+    [CliOption("--external-admin-name")]
     public string? ExternalAdminName { get; set; }
 
-    [CommandSwitch("--external-admin-principal-type")]
+    [CliOption("--external-admin-principal-type")]
     public string? ExternalAdminPrincipalType { get; set; }
 
-    [CommandSwitch("--external-admin-sid")]
+    [CliOption("--external-admin-sid")]
     public string? ExternalAdminSid { get; set; }
 
-    [CommandSwitch("--family")]
+    [CliOption("--family")]
     public string? Family { get; set; }
 
-    [CommandSwitch("--identity-type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
-    [CommandSwitch("--instance-pool-name")]
+    [CliOption("--instance-pool-name")]
     public string? InstancePoolName { get; set; }
 
-    [CommandSwitch("--key-id")]
+    [CliOption("--key-id")]
     public string? KeyId { get; set; }
 
-    [CommandSwitch("--license-type")]
+    [CliOption("--license-type")]
     public string? LicenseType { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--maint-config-id")]
+    [CliOption("--maint-config-id")]
     public string? MaintConfigId { get; set; }
 
-    [CommandSwitch("--minimal-tls-version")]
+    [CliOption("--minimal-tls-version")]
     public string? MinimalTlsVersion { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--pid")]
+    [CliOption("--pid")]
     public string? Pid { get; set; }
 
-    [CommandSwitch("--proxy-override")]
+    [CliOption("--proxy-override")]
     public string? ProxyOverride { get; set; }
 
-    [BooleanCommandSwitch("--public-data-endpoint-enabled")]
+    [CliFlag("--public-data-endpoint-enabled")]
     public bool? PublicDataEndpointEnabled { get; set; }
 
-    [CommandSwitch("--service-principal-type")]
+    [CliOption("--service-principal-type")]
     public string? ServicePrincipalType { get; set; }
 
-    [CommandSwitch("--storage")]
+    [CliOption("--storage")]
     public string? Storage { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--timezone-id")]
+    [CliOption("--timezone-id")]
     public string? TimezoneId { get; set; }
 
-    [CommandSwitch("--user-assigned-identity-id")]
+    [CliOption("--user-assigned-identity-id")]
     public string? UserAssignedIdentityId { get; set; }
 
-    [CommandSwitch("--vnet-name")]
+    [CliOption("--vnet-name")]
     public string? VnetName { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 
-    [BooleanCommandSwitch("--zone-redundant")]
+    [CliFlag("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 }

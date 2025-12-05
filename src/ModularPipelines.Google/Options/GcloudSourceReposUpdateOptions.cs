@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("source", "repos", "update")]
+[CliCommand("source", "repos", "update")]
 public record GcloudSourceReposUpdateOptions(
-[property: PositionalArgument] string Repo,
-[property: CommandSwitch("--message-format")] string MessageFormat,
-[property: CommandSwitch("--service-account")] string ServiceAccount,
-[property: CommandSwitch("--topic-project")] string TopicProject,
-[property: CommandSwitch("--add-topic")] string AddTopic,
-[property: CommandSwitch("--remove-topic")] string RemoveTopic,
-[property: CommandSwitch("--update-topic")] string UpdateTopic
+[property: CliArgument] string Repo,
+[property: CliOption("--message-format")] string MessageFormat,
+[property: CliOption("--service-account")] string ServiceAccount,
+[property: CliOption("--topic-project")] string TopicProject,
+[property: CliOption("--add-topic")] string AddTopic,
+[property: CliOption("--remove-topic")] string RemoveTopic,
+[property: CliOption("--update-topic")] string UpdateTopic
 ) : GcloudOptions;

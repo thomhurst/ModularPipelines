@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kendra", "describe-principal-mapping")]
+[CliCommand("kendra", "describe-principal-mapping")]
 public record AwsKendraDescribePrincipalMappingOptions(
-[property: CommandSwitch("--index-id")] string IndexId,
-[property: CommandSwitch("--group-id")] string GroupId
+[property: CliOption("--index-id")] string IndexId,
+[property: CliOption("--group-id")] string GroupId
 ) : AwsOptions
 {
-    [CommandSwitch("--data-source-id")]
+    [CliOption("--data-source-id")]
     public string? DataSourceId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

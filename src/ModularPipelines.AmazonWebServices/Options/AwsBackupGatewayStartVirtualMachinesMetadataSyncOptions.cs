@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup-gateway", "start-virtual-machines-metadata-sync")]
+[CliCommand("backup-gateway", "start-virtual-machines-metadata-sync")]
 public record AwsBackupGatewayStartVirtualMachinesMetadataSyncOptions(
-[property: CommandSwitch("--hypervisor-arn")] string HypervisorArn
+[property: CliOption("--hypervisor-arn")] string HypervisorArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -3,118 +3,118 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("clone")]
+[CliSubCommand("clone")]
 [ExcludeFromCodeCoverage]
 public record GitCloneOptions : GitOptions
 {
-    [BooleanCommandSwitch("--local")]
+    [CliFlag("--local")]
     public virtual bool? Local { get; set; }
 
-    [BooleanCommandSwitch("--no-hardlinks")]
+    [CliFlag("--no-hardlinks")]
     public virtual bool? NoHardlinks { get; set; }
 
-    [BooleanCommandSwitch("--shared")]
+    [CliFlag("--shared")]
     public virtual bool? Shared { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--reference-if-able")]
-    public string? ReferenceIfAble { get; set; }
+    [CliOption("--reference-if-able", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ReferenceIfAble { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--reference")]
-    public string? Reference { get; set; }
+    [CliOption("--reference", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Reference { get; set; }
 
-    [BooleanCommandSwitch("--dissociate")]
+    [CliFlag("--dissociate")]
     public virtual bool? Dissociate { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("--progress")]
+    [CliFlag("--progress")]
     public virtual bool? Progress { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--server-option")]
-    public string? ServerOption { get; set; }
+    [CliOption("--server-option", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ServerOption { get; set; }
 
-    [BooleanCommandSwitch("--no-checkout")]
+    [CliFlag("--no-checkout")]
     public virtual bool? NoCheckout { get; set; }
 
-    [BooleanCommandSwitch("--no-reject-shallow")]
+    [CliFlag("--no-reject-shallow")]
     public virtual bool? NoRejectShallow { get; set; }
 
-    [BooleanCommandSwitch("--reject-shallow")]
+    [CliFlag("--reject-shallow")]
     public virtual bool? RejectShallow { get; set; }
 
-    [BooleanCommandSwitch("--bare")]
+    [CliFlag("--bare")]
     public virtual bool? Bare { get; set; }
 
-    [BooleanCommandSwitch("--sparse")]
+    [CliFlag("--sparse")]
     public virtual bool? Sparse { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filter")]
-    public string? Filter { get; set; }
+    [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Filter { get; set; }
 
-    [BooleanCommandSwitch("--also-filter-submodules")]
+    [CliFlag("--also-filter-submodules")]
     public virtual bool? AlsoFilterSubmodules { get; set; }
 
-    [BooleanCommandSwitch("--mirror")]
+    [CliFlag("--mirror")]
     public virtual bool? Mirror { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--origin")]
-    public string? Origin { get; set; }
+    [CliOption("--origin", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Origin { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--branch")]
-    public string? Branch { get; set; }
+    [CliOption("--branch", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Branch { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--upload-pack")]
-    public string? UploadPack { get; set; }
+    [CliOption("--upload-pack", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? UploadPack { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template")]
-    public string? Template { get; set; }
+    [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Template { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--config")]
-    public string? Config { get; set; }
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Config { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--depth")]
-    public string? Depth { get; set; }
+    [CliOption("--depth", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Depth { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--shallow-since")]
-    public string? ShallowSince { get; set; }
+    [CliOption("--shallow-since", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ShallowSince { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--shallow-exclude")]
-    public string? ShallowExclude { get; set; }
+    [CliOption("--shallow-exclude", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ShallowExclude { get; set; }
 
-    [BooleanCommandSwitch("--no-single-branch")]
+    [CliFlag("--no-single-branch")]
     public virtual bool? NoSingleBranch { get; set; }
 
-    [BooleanCommandSwitch("--single-branch")]
+    [CliFlag("--single-branch")]
     public virtual bool? SingleBranch { get; set; }
 
-    [BooleanCommandSwitch("--no-tags")]
+    [CliFlag("--no-tags")]
     public virtual bool? NoTags { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--recurse-submodules")]
-    public string? RecurseSubmodules { get; set; }
+    [CliOption("--recurse-submodules", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? RecurseSubmodules { get; set; }
 
-    [BooleanCommandSwitch("--no-shallow-submodules")]
+    [CliFlag("--no-shallow-submodules")]
     public virtual bool? NoShallowSubmodules { get; set; }
 
-    [BooleanCommandSwitch("--shallow-submodules")]
+    [CliFlag("--shallow-submodules")]
     public virtual bool? ShallowSubmodules { get; set; }
 
-    [BooleanCommandSwitch("--no-remote-submodules")]
+    [CliFlag("--no-remote-submodules")]
     public virtual bool? NoRemoteSubmodules { get; set; }
 
-    [BooleanCommandSwitch("--remote-submodules")]
+    [CliFlag("--remote-submodules")]
     public virtual bool? RemoteSubmodules { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--separate-git-dir")]
-    public string? SeparateGitDir { get; set; }
+    [CliOption("--separate-git-dir", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? SeparateGitDir { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--jobs")]
-    public string? Jobs { get; set; }
+    [CliOption("--jobs", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Jobs { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--bundle-uri")]
-    public string? BundleUri { get; set; }
+    [CliOption("--bundle-uri", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? BundleUri { get; set; }
 }

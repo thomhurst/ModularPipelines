@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker-featurestore-runtime", "put-record")]
+[CliCommand("sagemaker-featurestore-runtime", "put-record")]
 public record AwsSagemakerFeaturestoreRuntimePutRecordOptions(
-[property: CommandSwitch("--feature-group-name")] string FeatureGroupName,
-[property: CommandSwitch("--record")] string[] Record
+[property: CliOption("--feature-group-name")] string FeatureGroupName,
+[property: CliOption("--record")] string[] Record
 ) : AwsOptions
 {
-    [CommandSwitch("--target-stores")]
+    [CliOption("--target-stores")]
     public string[]? TargetStores { get; set; }
 
-    [CommandSwitch("--ttl-duration")]
+    [CliOption("--ttl-duration")]
     public string? TtlDuration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

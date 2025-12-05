@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("auditmanager", "get-insights-by-assessment")]
+[CliCommand("auditmanager", "get-insights-by-assessment")]
 public record AwsAuditmanagerGetInsightsByAssessmentOptions(
-[property: CommandSwitch("--assessment-id")] string AssessmentId
+[property: CliOption("--assessment-id")] string AssessmentId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

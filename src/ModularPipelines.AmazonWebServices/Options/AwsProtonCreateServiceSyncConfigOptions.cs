@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("proton", "create-service-sync-config")]
+[CliCommand("proton", "create-service-sync-config")]
 public record AwsProtonCreateServiceSyncConfigOptions(
-[property: CommandSwitch("--branch")] string Branch,
-[property: CommandSwitch("--file-path")] string FilePath,
-[property: CommandSwitch("--repository-name")] string RepositoryName,
-[property: CommandSwitch("--repository-provider")] string RepositoryProvider,
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--branch")] string Branch,
+[property: CliOption("--file-path")] string FilePath,
+[property: CliOption("--repository-name")] string RepositoryName,
+[property: CliOption("--repository-provider")] string RepositoryProvider,
+[property: CliOption("--service-name")] string ServiceName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

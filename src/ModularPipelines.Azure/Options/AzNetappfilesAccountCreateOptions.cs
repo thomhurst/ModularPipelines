@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "account", "create")]
+[CliSubCommand("netappfiles", "account", "create")]
 public record AzNetappfilesAccountCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--identity-type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
-    [CommandSwitch("--key-name")]
+    [CliOption("--key-name")]
     public string? KeyName { get; set; }
 
-    [CommandSwitch("--key-source")]
+    [CliOption("--key-source")]
     public string? KeySource { get; set; }
 
-    [CommandSwitch("--key-vault-uri")]
+    [CliOption("--key-vault-uri")]
     public string? KeyVaultUri { get; set; }
 
-    [CommandSwitch("--keyvault-resource-id")]
+    [CliOption("--keyvault-resource-id")]
     public string? KeyvaultResourceId { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--user-assigned-identity")]
+    [CliOption("--user-assigned-identity")]
     public string? UserAssignedIdentity { get; set; }
 }

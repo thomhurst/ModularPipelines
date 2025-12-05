@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("waf", "create-regex-match-set")]
+[CliCommand("waf", "create-regex-match-set")]
 public record AwsWafCreateRegexMatchSetOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--change-token")] string ChangeToken
+[property: CliOption("--name")] string Name,
+[property: CliOption("--change-token")] string ChangeToken
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

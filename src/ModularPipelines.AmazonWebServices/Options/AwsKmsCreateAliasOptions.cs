@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "create-alias")]
+[CliCommand("kms", "create-alias")]
 public record AwsKmsCreateAliasOptions(
-[property: CommandSwitch("--alias-name")] string AliasName,
-[property: CommandSwitch("--target-key-id")] string TargetKeyId
+[property: CliOption("--alias-name")] string AliasName,
+[property: CliOption("--target-key-id")] string TargetKeyId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

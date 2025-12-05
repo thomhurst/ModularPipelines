@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing-benefits")]
+[CliCommand("billing-benefits")]
 public class AzBillingBenefitsSavingsPlanOrder
 {
     public AzBillingBenefitsSavingsPlanOrder(

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("medical-imaging", "get-dicom-import-job")]
+[CliCommand("medical-imaging", "get-dicom-import-job")]
 public record AwsMedicalImagingGetDicomImportJobOptions(
-[property: CommandSwitch("--datastore-id")] string DatastoreId,
-[property: CommandSwitch("--job-id")] string JobId
+[property: CliOption("--datastore-id")] string DatastoreId,
+[property: CliOption("--job-id")] string JobId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

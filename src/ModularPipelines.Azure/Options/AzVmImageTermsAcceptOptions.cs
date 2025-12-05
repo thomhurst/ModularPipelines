@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "image", "terms", "accept")]
+[CliSubCommand("vm", "image", "terms", "accept")]
 public record AzVmImageTermsAcceptOptions : AzOptions
 {
-    [CommandSwitch("--offer")]
+    [CliOption("--offer")]
     public string? Offer { get; set; }
 
-    [CommandSwitch("--plan")]
+    [CliOption("--plan")]
     public string? Plan { get; set; }
 
-    [CommandSwitch("--publisher")]
+    [CliOption("--publisher")]
     public string? Publisher { get; set; }
 
-    [CommandSwitch("--urn")]
+    [CliOption("--urn")]
     public string? Urn { get; set; }
 }

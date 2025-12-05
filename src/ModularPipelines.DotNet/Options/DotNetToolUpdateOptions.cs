@@ -26,48 +26,48 @@ public record DotNetToolUpdateOptions : DotNetOptions
         PackageId = packageId;
     }
 
-    [PositionalArgument(PlaceholderName = "<PACKAGE_ID>")]
-    public string? PackageId { get; set; }
+    [CliArgument(Name = "<PACKAGE_ID>")]
+    public virtual string? PackageId { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public virtual bool? Global { get; set; }
 
-    [CommandSwitch("--add-source")]
+    [CliOption("--add-source")]
     public virtual string? AddSource { get; set; }
 
-    [CommandSwitch("--configfile")]
+    [CliOption("--configfile")]
     public virtual string? Configfile { get; set; }
 
-    [BooleanCommandSwitch("--disable-parallel")]
+    [CliFlag("--disable-parallel")]
     public virtual bool? DisableParallel { get; set; }
 
-    [CommandSwitch("--framework")]
+    [CliOption("--framework")]
     public virtual string? Framework { get; set; }
 
-    [BooleanCommandSwitch("--ignore-failed-sources")]
+    [CliFlag("--ignore-failed-sources")]
     public virtual bool? IgnoreFailedSources { get; set; }
 
-    [BooleanCommandSwitch("--interactive")]
+    [CliFlag("--interactive")]
     public virtual bool? Interactive { get; set; }
 
-    [BooleanCommandSwitch("--no-cache")]
+    [CliFlag("--no-cache")]
     public virtual bool? NoCache { get; set; }
 
-    [BooleanCommandSwitch("--prerelease")]
+    [CliFlag("--prerelease")]
     public virtual bool? Prerelease { get; set; }
 
-    [CommandSwitch("--verbosity")]
+    [CliOption("--verbosity")]
     public virtual string? Verbosity { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public virtual string? Version { get; set; }
 
-    [BooleanCommandSwitch("--tool-path")]
+    [CliFlag("--tool-path")]
     public virtual string? ToolPath { get; set; }
 
-    [BooleanCommandSwitch("--local")]
+    [CliFlag("--local")]
     public virtual bool? Local { get; set; }
 
-    [CommandSwitch("--tool-manifest")]
+    [CliOption("--tool-manifest")]
     public virtual string? ToolManifest { get; set; }
 }

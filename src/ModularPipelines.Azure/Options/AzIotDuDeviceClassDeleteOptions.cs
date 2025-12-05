@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "du", "device", "class", "delete")]
+[CliSubCommand("iot", "du", "device", "class", "delete")]
 public record AzIotDuDeviceClassDeleteOptions(
-[property: CommandSwitch("--account")] int Account,
-[property: CommandSwitch("--cid")] string Cid,
-[property: CommandSwitch("--instance")] string Instance
+[property: CliOption("--account")] int Account,
+[property: CliOption("--cid")] string Cid,
+[property: CliOption("--instance")] string Instance
 ) : AzOptions
 {
-    [CommandSwitch("--gid")]
+    [CliOption("--gid")]
     public string? Gid { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

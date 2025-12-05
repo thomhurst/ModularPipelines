@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("autoscaling", "create-or-update-tags")]
+[CliCommand("autoscaling", "create-or-update-tags")]
 public record AwsAutoscalingCreateOrUpdateTagsOptions(
-[property: CommandSwitch("--tags")] string[] Tags
+[property: CliOption("--tags")] string[] Tags
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

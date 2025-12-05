@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("communication", "rooms")]
+[CliCommand("communication", "rooms")]
 public class AzCommunicationRoomsParticipant
 {
     public AzCommunicationRoomsParticipant(

@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "locations", "list")]
+[CliCommand("kms", "locations", "list")]
 public record GcloudKmsLocationsListOptions : GcloudOptions;

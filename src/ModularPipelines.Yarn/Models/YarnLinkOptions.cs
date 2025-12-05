@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("link")]
+[CliCommand("link")]
 public record YarnLinkOptions : YarnOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [BooleanCommandSwitch("--private")]
+    [CliFlag("--private")]
     public virtual bool? Private { get; set; }
 
-    [BooleanCommandSwitch("--relative")]
+    [CliFlag("--relative")]
     public virtual bool? Relative { get; set; }
 }

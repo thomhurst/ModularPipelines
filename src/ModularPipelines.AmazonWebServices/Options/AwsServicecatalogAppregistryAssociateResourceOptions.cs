@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicecatalog-appregistry", "associate-resource")]
+[CliCommand("servicecatalog-appregistry", "associate-resource")]
 public record AwsServicecatalogAppregistryAssociateResourceOptions(
-[property: CommandSwitch("--application")] string Application,
-[property: CommandSwitch("--resource-type")] string ResourceType,
-[property: CommandSwitch("--resource")] string Resource
+[property: CliOption("--application")] string Application,
+[property: CliOption("--resource-type")] string ResourceType,
+[property: CliOption("--resource")] string Resource
 ) : AwsOptions
 {
-    [CommandSwitch("--options")]
+    [CliOption("--options")]
     public string[]? Options { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

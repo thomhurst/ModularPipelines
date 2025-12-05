@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "start-asset-bundle-export-job")]
+[CliCommand("quicksight", "start-asset-bundle-export-job")]
 public record AwsQuicksightStartAssetBundleExportJobOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--asset-bundle-export-job-id")] string AssetBundleExportJobId,
-[property: CommandSwitch("--resource-arns")] string[] ResourceArns,
-[property: CommandSwitch("--export-format")] string ExportFormat
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--asset-bundle-export-job-id")] string AssetBundleExportJobId,
+[property: CliOption("--resource-arns")] string[] ResourceArns,
+[property: CliOption("--export-format")] string ExportFormat
 ) : AwsOptions
 {
-    [CommandSwitch("--cloud-formation-override-property-configuration")]
+    [CliOption("--cloud-formation-override-property-configuration")]
     public string? CloudFormationOverridePropertyConfiguration { get; set; }
 
-    [CommandSwitch("--validation-strategy")]
+    [CliOption("--validation-strategy")]
     public string? ValidationStrategy { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

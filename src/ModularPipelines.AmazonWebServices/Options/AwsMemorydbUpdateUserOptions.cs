@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("memorydb", "update-user")]
+[CliCommand("memorydb", "update-user")]
 public record AwsMemorydbUpdateUserOptions(
-[property: CommandSwitch("--user-name")] string UserName
+[property: CliOption("--user-name")] string UserName
 ) : AwsOptions
 {
-    [CommandSwitch("--authentication-mode")]
+    [CliOption("--authentication-mode")]
     public string? AuthenticationMode { get; set; }
 
-    [CommandSwitch("--access-string")]
+    [CliOption("--access-string")]
     public string? AccessString { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

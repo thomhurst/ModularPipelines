@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "batch-start-recommendations")]
+[CliCommand("dms", "batch-start-recommendations")]
 public record AwsDmsBatchStartRecommendationsOptions : AwsOptions
 {
-    [CommandSwitch("--data")]
+    [CliOption("--data")]
     public string[]? Data { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

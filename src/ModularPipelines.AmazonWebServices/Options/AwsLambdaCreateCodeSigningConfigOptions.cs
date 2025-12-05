@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "create-code-signing-config")]
+[CliCommand("lambda", "create-code-signing-config")]
 public record AwsLambdaCreateCodeSigningConfigOptions(
-[property: CommandSwitch("--allowed-publishers")] string AllowedPublishers
+[property: CliOption("--allowed-publishers")] string AllowedPublishers
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--code-signing-policies")]
+    [CliOption("--code-signing-policies")]
     public string? CodeSigningPolicies { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

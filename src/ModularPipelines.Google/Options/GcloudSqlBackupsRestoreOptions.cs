@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "backups", "restore")]
+[CliCommand("sql", "backups", "restore")]
 public record GcloudSqlBackupsRestoreOptions(
-[property: PositionalArgument] string Id,
-[property: CommandSwitch("--restore-instance")] string RestoreInstance
+[property: CliArgument] string Id,
+[property: CliOption("--restore-instance")] string RestoreInstance
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--backup-instance")]
+    [CliOption("--backup-instance")]
     public string? BackupInstance { get; set; }
 }

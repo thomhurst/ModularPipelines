@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "list-attributes")]
+[CliCommand("ecs", "list-attributes")]
 public record AwsEcsListAttributesOptions(
-[property: CommandSwitch("--target-type")] string TargetType
+[property: CliOption("--target-type")] string TargetType
 ) : AwsOptions
 {
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--attribute-name")]
+    [CliOption("--attribute-name")]
     public string? AttributeName { get; set; }
 
-    [CommandSwitch("--attribute-value")]
+    [CliOption("--attribute-value")]
     public string? AttributeValue { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

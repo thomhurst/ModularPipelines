@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redis", "patch-schedule", "update")]
+[CliSubCommand("redis", "patch-schedule", "update")]
 public record AzRedisPatchScheduleUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--schedule-entries")] string ScheduleEntries
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--schedule-entries")] string ScheduleEntries
 ) : AzOptions;

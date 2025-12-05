@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("medialive", "update-multiplex")]
+[CliCommand("medialive", "update-multiplex")]
 public record AwsMedialiveUpdateMultiplexOptions(
-[property: CommandSwitch("--multiplex-id")] string MultiplexId
+[property: CliOption("--multiplex-id")] string MultiplexId
 ) : AwsOptions
 {
-    [CommandSwitch("--multiplex-settings")]
+    [CliOption("--multiplex-settings")]
     public string? MultiplexSettings { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "certificate", "issuer", "admin", "add")]
+[CliSubCommand("keyvault", "certificate", "issuer", "admin", "add")]
 public record AzKeyvaultCertificateIssuerAdminAddOptions(
-[property: CommandSwitch("--email")] string Email,
-[property: CommandSwitch("--issuer-name")] string IssuerName,
-[property: CommandSwitch("--vault-name")] string VaultName
+[property: CliOption("--email")] string Email,
+[property: CliOption("--issuer-name")] string IssuerName,
+[property: CliOption("--vault-name")] string VaultName
 ) : AzOptions
 {
-    [CommandSwitch("--first-name")]
+    [CliOption("--first-name")]
     public string? FirstName { get; set; }
 
-    [CommandSwitch("--last-name")]
+    [CliOption("--last-name")]
     public string? LastName { get; set; }
 
-    [CommandSwitch("--phone")]
+    [CliOption("--phone")]
     public string? Phone { get; set; }
 }

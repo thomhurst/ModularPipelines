@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databoxedge")]
+[CliCommand("databoxedge")]
 public class AzDataboxedgeAlert
 {
     public AzDataboxedgeAlert(

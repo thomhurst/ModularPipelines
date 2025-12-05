@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-traffic-mirror-filter-rule")]
+[CliCommand("ec2", "create-traffic-mirror-filter-rule")]
 public record AwsEc2CreateTrafficMirrorFilterRuleOptions(
-[property: CommandSwitch("--traffic-mirror-filter-id")] string TrafficMirrorFilterId,
-[property: CommandSwitch("--traffic-direction")] string TrafficDirection,
-[property: CommandSwitch("--rule-number")] int RuleNumber,
-[property: CommandSwitch("--rule-action")] string RuleAction,
-[property: CommandSwitch("--destination-cidr-block")] string DestinationCidrBlock,
-[property: CommandSwitch("--source-cidr-block")] string SourceCidrBlock
+[property: CliOption("--traffic-mirror-filter-id")] string TrafficMirrorFilterId,
+[property: CliOption("--traffic-direction")] string TrafficDirection,
+[property: CliOption("--rule-number")] int RuleNumber,
+[property: CliOption("--rule-action")] string RuleAction,
+[property: CliOption("--destination-cidr-block")] string DestinationCidrBlock,
+[property: CliOption("--source-cidr-block")] string SourceCidrBlock
 ) : AwsOptions
 {
-    [CommandSwitch("--destination-port-range")]
+    [CliOption("--destination-port-range")]
     public string? DestinationPortRange { get; set; }
 
-    [CommandSwitch("--source-port-range")]
+    [CliOption("--source-port-range")]
     public string? SourcePortRange { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public int? Protocol { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

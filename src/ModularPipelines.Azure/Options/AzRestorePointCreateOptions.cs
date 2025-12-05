@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("restore-point", "create")]
+[CliSubCommand("restore-point", "create")]
 public record AzRestorePointCreateOptions(
-[property: CommandSwitch("--collection-name")] string CollectionName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--collection-name")] string CollectionName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--consistency-mode")]
+    [CliOption("--consistency-mode")]
     public string? ConsistencyMode { get; set; }
 
-    [CommandSwitch("--data-disk-restore-point-encryption-set")]
+    [CliOption("--data-disk-restore-point-encryption-set")]
     public string? DataDiskRestorePointEncryptionSet { get; set; }
 
-    [CommandSwitch("--data-disk-restore-point-encryption-type")]
+    [CliOption("--data-disk-restore-point-encryption-type")]
     public string? DataDiskRestorePointEncryptionType { get; set; }
 
-    [CommandSwitch("--exclude-disks")]
+    [CliOption("--exclude-disks")]
     public string? ExcludeDisks { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--os-restore-point-encryption-set")]
+    [CliOption("--os-restore-point-encryption-set")]
     public string? OsRestorePointEncryptionSet { get; set; }
 
-    [CommandSwitch("--os-restore-point-encryption-type")]
+    [CliOption("--os-restore-point-encryption-type")]
     public string? OsRestorePointEncryptionType { get; set; }
 
-    [CommandSwitch("--source-data-disk-resource")]
+    [CliOption("--source-data-disk-resource")]
     public string? SourceDataDiskResource { get; set; }
 
-    [CommandSwitch("--source-os-resource")]
+    [CliOption("--source-os-resource")]
     public string? SourceOsResource { get; set; }
 
-    [CommandSwitch("--source-restore-point")]
+    [CliOption("--source-restore-point")]
     public string? SourceRestorePoint { get; set; }
 }

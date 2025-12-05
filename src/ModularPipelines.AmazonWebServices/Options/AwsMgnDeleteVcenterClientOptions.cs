@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mgn", "delete-vcenter-client")]
+[CliCommand("mgn", "delete-vcenter-client")]
 public record AwsMgnDeleteVcenterClientOptions(
-[property: CommandSwitch("--vcenter-client-id")] string VcenterClientId
+[property: CliOption("--vcenter-client-id")] string VcenterClientId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

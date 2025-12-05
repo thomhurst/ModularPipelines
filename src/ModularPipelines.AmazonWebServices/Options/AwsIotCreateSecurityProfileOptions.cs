@@ -5,32 +5,32 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "create-security-profile")]
+[CliCommand("iot", "create-security-profile")]
 public record AwsIotCreateSecurityProfileOptions(
-[property: CommandSwitch("--security-profile-name")] string SecurityProfileName
+[property: CliOption("--security-profile-name")] string SecurityProfileName
 ) : AwsOptions
 {
-    [CommandSwitch("--security-profile-description")]
+    [CliOption("--security-profile-description")]
     public string? SecurityProfileDescription { get; set; }
 
-    [CommandSwitch("--behaviors")]
+    [CliOption("--behaviors")]
     public string[]? Behaviors { get; set; }
 
-    [CommandSwitch("--alert-targets")]
+    [CliOption("--alert-targets")]
     public IEnumerable<KeyValue>? AlertTargets { get; set; }
 
-    [CommandSwitch("--additional-metrics-to-retain")]
+    [CliOption("--additional-metrics-to-retain")]
     public string[]? AdditionalMetricsToRetain { get; set; }
 
-    [CommandSwitch("--additional-metrics-to-retain-v2")]
+    [CliOption("--additional-metrics-to-retain-v2")]
     public string[]? AdditionalMetricsToRetainV2 { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--metrics-export-config")]
+    [CliOption("--metrics-export-config")]
     public string? MetricsExportConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

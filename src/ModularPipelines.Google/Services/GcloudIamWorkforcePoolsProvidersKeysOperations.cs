@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "workforce-pools", "providers", "keys")]
+[CliCommand("iam", "workforce-pools", "providers", "keys")]
 public class GcloudIamWorkforcePoolsProvidersKeysOperations
 {
     public GcloudIamWorkforcePoolsProvidersKeysOperations(

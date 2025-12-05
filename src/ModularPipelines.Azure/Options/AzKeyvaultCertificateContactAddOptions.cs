@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "certificate", "contact", "add")]
+[CliSubCommand("keyvault", "certificate", "contact", "add")]
 public record AzKeyvaultCertificateContactAddOptions(
-[property: CommandSwitch("--email")] string Email,
-[property: CommandSwitch("--vault-name")] string VaultName
+[property: CliOption("--email")] string Email,
+[property: CliOption("--vault-name")] string VaultName
 ) : AzOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--phone")]
+    [CliOption("--phone")]
     public string? Phone { get; set; }
 }

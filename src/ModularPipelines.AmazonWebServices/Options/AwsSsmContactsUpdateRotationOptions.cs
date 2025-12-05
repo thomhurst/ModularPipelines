@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm-contacts", "update-rotation")]
+[CliCommand("ssm-contacts", "update-rotation")]
 public record AwsSsmContactsUpdateRotationOptions(
-[property: CommandSwitch("--rotation-id")] string RotationId,
-[property: CommandSwitch("--recurrence")] string Recurrence
+[property: CliOption("--rotation-id")] string RotationId,
+[property: CliOption("--recurrence")] string Recurrence
 ) : AwsOptions
 {
-    [CommandSwitch("--contact-ids")]
+    [CliOption("--contact-ids")]
     public string[]? ContactIds { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public long? StartTime { get; set; }
 
-    [CommandSwitch("--time-zone-id")]
+    [CliOption("--time-zone-id")]
     public string? TimeZoneId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

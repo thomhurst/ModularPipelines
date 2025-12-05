@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage-mover")]
+[CliCommand("storage-mover")]
 public class AzStorageMoverJobRun
 {
     public AzStorageMoverJobRun(

@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns-resolver", "forwarding-rule", "update")]
+[CliSubCommand("dns-resolver", "forwarding-rule", "update")]
 public record AzDnsResolverForwardingRuleUpdateOptions : AzOptions
 {
-    [CommandSwitch("--forwarding-rule-name")]
+    [CliOption("--forwarding-rule-name")]
     public string? ForwardingRuleName { get; set; }
 
-    [CommandSwitch("--forwarding-rule-state")]
+    [CliOption("--forwarding-rule-state")]
     public string? ForwardingRuleState { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public string? Metadata { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--ruleset-name")]
+    [CliOption("--ruleset-name")]
     public string? RulesetName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--target-dns-servers")]
+    [CliOption("--target-dns-servers")]
     public string? TargetDnsServers { get; set; }
 }

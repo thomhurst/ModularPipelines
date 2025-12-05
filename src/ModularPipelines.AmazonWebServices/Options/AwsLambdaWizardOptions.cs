@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "wizard")]
+[CliCommand("lambda", "wizard")]
 public record AwsLambdaWizardOptions : AwsOptions;
