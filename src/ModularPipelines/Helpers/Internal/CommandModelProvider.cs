@@ -5,7 +5,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Helpers.Internal;
 
 /// <inheritdoc/>
-internal sealed class CommandModelProvider : ICommandModelProvider
+public sealed class CommandModelProvider : ICommandModelProvider
 {
     private readonly ConcurrentDictionary<Type, IReadOnlyList<PropertyCommandLinePart>> _cache = new();
 

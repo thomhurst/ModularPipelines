@@ -20,7 +20,7 @@ public sealed class Command : ICommand
     private readonly ICommandModelProvider _commandModelProvider;
     private readonly ICommandArgumentBuilder _commandArgumentBuilder;
 
-    internal Command(
+    public Command(
         ICommandLogger commandLogger,
         ICommandModelProvider commandModelProvider,
         ICommandArgumentBuilder commandArgumentBuilder)
