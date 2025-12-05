@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Reflection;
@@ -6,29 +7,47 @@ using CliWrap;
 using CliWrap.Exceptions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Exceptions;
-using ModularPipelines.Helpers;
+using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using CommandResult = ModularPipelines.Models.CommandResult;
 
 namespace ModularPipelines.Context;
 
-public sealed class Command(ICommandLogger commandLogger) : ICommand
+public sealed class Command : ICommand
 {
-    private readonly ICommandLogger _commandLogger = commandLogger;
+    private readonly ICommandLogger _commandLogger;
+    private readonly ICommandModelProvider _commandModelProvider;
+    private readonly ICommandArgumentBuilder _commandArgumentBuilder;
+
+    internal Command(
+        ICommandLogger commandLogger,
+        ICommandModelProvider commandModelProvider,
+        ICommandArgumentBuilder commandArgumentBuilder)
+    {
+        _commandLogger = commandLogger;
+        _commandModelProvider = commandModelProvider;
+        _commandArgumentBuilder = commandArgumentBuilder;
+    }
 
     public async Task<CommandResult> ExecuteCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default)
     {
         var optionsObject = GetOptionsObject(options);
 
+        // Get subcommand parts and handle placeholder replacement
         var precedingArgs = GetPrecedingArguments(optionsObject);
 
-        CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(precedingArgs, optionsObject);
+        // Build arguments from the command model using the new services
+        var commandModel = _commandModelProvider.GetCommandModel(optionsObject.GetType());
+        var propertyArgs = _commandArgumentBuilder.BuildArguments(commandModel, optionsObject);
 
-        var parsedArgs = (string.Equals(options.Arguments?.ElementAtOrDefault(0), options.Tool)
+        // Combine: preceding args (subcommands) + property args
+        var parsedArgs = precedingArgs.Concat(propertyArgs).ToList();
+
+        // Add any manual arguments passed via options.Arguments
+        var manualArgs = (string.Equals(options.Arguments?.ElementAtOrDefault(0), options.Tool)
             ? options.Arguments?.Skip(1).ToList() : options.Arguments?.ToList()) ?? new List<string>();
-
-        parsedArgs = precedingArgs.Concat(parsedArgs).ToList();
+        parsedArgs.AddRange(manualArgs);
 
         if (options.RunSettings != null)
         {
@@ -47,7 +66,7 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
             tool = options.Tool;
         }
 
-        var command = Cli.Wrap(tool).WithArguments(SantiseArguments(parsedArgs));
+        var command = Cli.Wrap(tool).WithArguments(parsedArgs);
 
         if (options.WorkingDirectory != null)
         {
@@ -76,15 +95,16 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
         return await Of(command, options, cancellationToken);
     }
 
-    private List<string> SantiseArguments(List<string> parsedArgs)
-    {
-        // Remove placeholder arguments like "<PROJECT>" or "[<PROJECT>|<SOLUTION>]"
-        parsedArgs.RemoveAll(x => x.StartsWith("<") || x.StartsWith("[<"));
-
-        return parsedArgs;
-    }
+    // Note: Placeholder sanitization is no longer needed since ReplacePlaceholders
+    // now handles placeholder replacement inline using CliArgumentAttribute.Name matching.
 
     private static List<string> GetPrecedingArguments(object optionsObject)
+    {
+        var rawCommandParts = GetRawCommandParts(optionsObject);
+        return ReplacePlaceholders(rawCommandParts, optionsObject);
+    }
+
+    private static List<string> GetRawCommandParts(object optionsObject)
     {
         if (optionsObject is CommandLineToolOptions { CommandParts: not null } commandLineToolOptions)
         {
@@ -119,6 +139,115 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
         }
 
         return new List<string>();
+    }
+
+    /// <summary>
+    /// Replaces placeholder strings in command parts with actual argument values.
+    /// Placeholders are matched to properties via CliArgumentAttribute.Name.
+    /// </summary>
+    private static List<string> ReplacePlaceholders(List<string> commandParts, object optionsObject)
+    {
+        if (commandParts.Count == 0)
+        {
+            return commandParts;
+        }
+
+        // Build a lookup of placeholder name -> property value
+        var placeholderValues = BuildPlaceholderValueLookup(optionsObject);
+
+        var result = new List<string>();
+        foreach (var part in commandParts)
+        {
+            // Check if this is a placeholder (starts with < or [<)
+            if (IsPlaceholder(part))
+            {
+                // Try to find a matching argument value
+                if (placeholderValues.TryGetValue(part, out var values) && values.Count > 0)
+                {
+                    result.AddRange(values);
+                }
+                // If no value found, skip the placeholder (it's optional)
+            }
+            else
+            {
+                // Literal command part, add as-is
+                result.Add(part);
+            }
+        }
+
+        return result;
+    }
+
+    private static bool IsPlaceholder(string part)
+    {
+        return part.StartsWith('<') || part.StartsWith("[<");
+    }
+
+    private static Dictionary<string, List<string>> BuildPlaceholderValueLookup(object optionsObject)
+    {
+        var lookup = new Dictionary<string, List<string>>(StringComparer.Ordinal);
+        var type = optionsObject.GetType();
+        var properties = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+        foreach (var property in properties)
+        {
+            var cliArgument = property.GetCustomAttribute<CliArgumentAttribute>();
+            if (cliArgument?.Name is null)
+            {
+                continue;
+            }
+
+            var rawValue = property.GetValue(optionsObject);
+            if (rawValue is null)
+            {
+                continue;
+            }
+
+            var values = GetArgumentValues(rawValue);
+            if (values.Count > 0)
+            {
+                lookup[cliArgument.Name] = values;
+            }
+        }
+
+        return lookup;
+    }
+
+    private static List<string> GetArgumentValues(object rawValue)
+    {
+        var result = new List<string>();
+
+        if (rawValue is string stringValue)
+        {
+            if (!string.IsNullOrEmpty(stringValue))
+            {
+                result.Add(stringValue);
+            }
+        }
+        else if (rawValue is IEnumerable enumerable and not IEnumerable<char>)
+        {
+            foreach (var item in enumerable)
+            {
+                if (item is not null)
+                {
+                    var itemStr = item.ToString();
+                    if (!string.IsNullOrEmpty(itemStr))
+                    {
+                        result.Add(itemStr);
+                    }
+                }
+            }
+        }
+        else
+        {
+            var str = rawValue.ToString();
+            if (!string.IsNullOrEmpty(str))
+            {
+                result.Add(str);
+            }
+        }
+
+        return result;
     }
 
     private static object GetOptionsObject(CommandLineToolOptions options)

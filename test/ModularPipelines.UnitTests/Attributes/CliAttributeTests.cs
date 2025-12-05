@@ -1,10 +1,19 @@
 using ModularPipelines.Attributes;
-using ModularPipelines.Helpers;
+using ModularPipelines.Helpers.Internal;
 
 namespace ModularPipelines.UnitTests.Attributes;
 
 public class CliAttributeTests
 {
+    private readonly CommandModelProvider _modelProvider = new();
+    private readonly CommandArgumentBuilder _argumentBuilder = new();
+
+    private List<string> BuildArguments(object optionsObject)
+    {
+        var model = _modelProvider.GetCommandModel(optionsObject.GetType());
+        return _argumentBuilder.BuildArguments(model, optionsObject);
+    }
+
     [Test]
     public async Task CliCommand_Returns_Tool_And_SubCommands()
     {
@@ -116,9 +125,7 @@ public class CliAttributeTests
     public async Task Parser_Handles_CliFlag()
     {
         var options = new TestCliOptionsWithFlag { Debug = true };
-        var list = new List<string>();
-
-        CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(list, options);
+        var list = BuildArguments(options);
 
         await Assert.That(list).IsEquivalentTo(new[] { "--debug" });
     }
@@ -127,31 +134,25 @@ public class CliAttributeTests
     public async Task Parser_Omits_CliFlag_When_False()
     {
         var options = new TestCliOptionsWithFlag { Debug = false };
-        var list = new List<string>();
+        var list = BuildArguments(options);
 
-        CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(list, options);
-
-        await Assert.That(list).HasCount().EqualTo(0);
+        await Assert.That(list).Count().IsEqualTo(0);
     }
 
     [Test]
     public async Task Parser_Omits_CliFlag_When_Null()
     {
         var options = new TestCliOptionsWithFlag { Debug = null };
-        var list = new List<string>();
+        var list = BuildArguments(options);
 
-        CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(list, options);
-
-        await Assert.That(list).HasCount().EqualTo(0);
+        await Assert.That(list).Count().IsEqualTo(0);
     }
 
     [Test]
     public async Task Parser_Handles_CliOption_With_Space_Separator()
     {
         var options = new TestCliOptionsWithOption { Namespace = "default" };
-        var list = new List<string>();
-
-        CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(list, options);
+        var list = BuildArguments(options);
 
         await Assert.That(list).IsEquivalentTo(new[] { "--namespace", "default" });
     }
@@ -160,9 +161,7 @@ public class CliAttributeTests
     public async Task Parser_Handles_CliOption_With_Equals_Separator()
     {
         var options = new TestCliOptionsWithEqualsSeparator { Set = "key=value" };
-        var list = new List<string>();
-
-        CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(list, options);
+        var list = BuildArguments(options);
 
         await Assert.That(list).IsEquivalentTo(new[] { "--set=key=value" });
     }
@@ -171,9 +170,7 @@ public class CliAttributeTests
     public async Task Parser_Handles_CliOption_With_Multiple_Values()
     {
         var options = new TestCliOptionsWithMultipleValues { Values = ["file1.yaml", "file2.yaml"] };
-        var list = new List<string>();
-
-        CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(list, options);
+        var list = BuildArguments(options);
 
         await Assert.That(list).IsEquivalentTo(new[] { "--values", "file1.yaml", "--values", "file2.yaml" });
     }
@@ -186,9 +183,7 @@ public class CliAttributeTests
             ReleaseName = "myrelease",
             Debug = true,
         };
-        var list = new List<string>();
-
-        CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(list, options);
+        var list = BuildArguments(options);
 
         await Assert.That(list).IsEquivalentTo(new[] { "--debug", "myrelease" });
     }
@@ -201,9 +196,7 @@ public class CliAttributeTests
             Path = "/some/path",
             Debug = true,
         };
-        var list = new List<string>();
-
-        CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(list, options);
+        var list = BuildArguments(options);
 
         await Assert.That(list).IsEquivalentTo(new[] { "/some/path", "--debug" });
     }
@@ -212,9 +205,7 @@ public class CliAttributeTests
     public async Task Parser_Omits_Null_CliArgument()
     {
         var options = new TestCliOptionsWithOptionalArgument { ReleaseName = null, Debug = true };
-        var list = new List<string>();
-
-        CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(list, options);
+        var list = BuildArguments(options);
 
         await Assert.That(list).IsEquivalentTo(new[] { "--debug" });
     }
@@ -227,9 +218,7 @@ public class CliAttributeTests
             ReleaseName = "myrelease",
             ChartReference = "bitnami/nginx",
         };
-        var list = new List<string>();
-
-        CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(list, options);
+        var list = BuildArguments(options);
 
         await Assert.That(list).IsEquivalentTo(new[] { "myrelease", "bitnami/nginx" });
     }
@@ -245,9 +234,7 @@ public class CliAttributeTests
             Debug = true,
             Set = ["key1=val1", "key2=val2"],
         };
-        var list = new List<string>();
-
-        CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(list, options);
+        var list = BuildArguments(options);
 
         await Assert.That(list[0]).IsEqualTo("--debug");
         await Assert.That(list).Contains("--namespace");

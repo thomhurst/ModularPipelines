@@ -9,6 +9,7 @@ using ModularPipelines.Engine.Executors;
 using ModularPipelines.Events;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
+using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Http;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
@@ -157,6 +158,8 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IEnvironmentVariables, EnvironmentVariables>()
             .AddSingleton<IParallelLimitProvider, ParallelLimitProvider>()
             .AddSingleton<IFormattedLogValuesObfuscator, FormattedLogValuesObfuscator>()
-            .AddSingleton<IDependencyTreeFormatter, DependencyTreeFormatter>();
+            .AddSingleton<IDependencyTreeFormatter, DependencyTreeFormatter>()
+            .AddSingleton<ICommandModelProvider, CommandModelProvider>()
+            .AddSingleton<ICommandArgumentBuilder, CommandArgumentBuilder>();
     }
 }
