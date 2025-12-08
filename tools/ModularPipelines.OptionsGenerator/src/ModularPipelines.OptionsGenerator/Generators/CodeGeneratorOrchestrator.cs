@@ -153,6 +153,90 @@ public class CodeGeneratorOrchestrator
             }
         }
 
+        // Process CLI-only scrapers (tools that have no HTML scraper)
+        if (useCliFirst)
+        {
+            foreach (var cliScraper in _cliScrapers)
+            {
+                if (processedTools.Contains(cliScraper.ToolName))
+                {
+                    continue;
+                }
+
+                if (!ShouldProcess(cliScraper.ToolName, toolList))
+                {
+                    _logger.LogInformation("Skipping CLI-only tool {Tool}", cliScraper.ToolName);
+                    continue;
+                }
+
+                _logger.LogInformation("Processing CLI-only tool {Tool}...", cliScraper.ToolName);
+
+                try
+                {
+                    if (!await cliScraper.IsAvailableAsync(cancellationToken))
+                    {
+                        _logger.LogWarning("{Tool} CLI not available, skipping", cliScraper.ToolName);
+                        continue;
+                    }
+
+                    var toolDefinition = await cliScraper.ScrapeAsync(cancellationToken);
+
+                    processedTools.Add(cliScraper.ToolName);
+                    result.ToolsProcessed.Add(cliScraper.ToolName);
+
+                    if (toolDefinition.Errors.Count > 0)
+                    {
+                        result.Errors.AddRange(toolDefinition.Errors);
+                        _logger.LogWarning("Encountered {Count} errors while scraping {Tool}",
+                            toolDefinition.Errors.Count, cliScraper.ToolName);
+                    }
+
+                    _logger.LogInformation("Scraped {Count} commands for {Tool}",
+                        toolDefinition.Commands.Count, cliScraper.ToolName);
+
+                    // Enhance types if enhancer is available
+                    if (_typeEnhancer is not null)
+                    {
+                        _logger.LogInformation("Enhancing types for {Tool} using CLI help...", cliScraper.ToolName);
+                        try
+                        {
+                            toolDefinition = await _typeEnhancer.EnhanceAsync(toolDefinition, cancellationToken);
+                            _logger.LogInformation("Type enhancement complete for {Tool}", cliScraper.ToolName);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogWarning(ex, "Type enhancement failed for {Tool}, using scraped types", cliScraper.ToolName);
+                        }
+                    }
+
+                    // Generate code using all generators
+                    foreach (var generator in _generators)
+                    {
+                        var files = await generator.GenerateAsync(toolDefinition, cancellationToken);
+
+                        foreach (var file in files)
+                        {
+                            var fullPath = Path.Combine(outputDirectory, file.RelativePath);
+                            await WriteFileAsync(fullPath, file.Content, cancellationToken);
+                            result.FilesGenerated.Add(file.RelativePath);
+                        }
+                    }
+
+                    _logger.LogInformation("Generated files for {Tool}", cliScraper.ToolName);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to process CLI-only tool {Tool}", cliScraper.ToolName);
+                    result.Errors.Add(new ScrapingError
+                    {
+                        Source = cliScraper.ToolName,
+                        Message = ex.Message,
+                        Exception = ex
+                    });
+                }
+            }
+        }
+
         return result;
     }
 
