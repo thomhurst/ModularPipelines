@@ -86,6 +86,9 @@ public class CodeGeneratorOrchestrator
                         _logger.LogInformation("Using CLI scraper for {Tool}", htmlScraper.ToolName);
 
                         var toolDefinition = cliScraper.CreateToolDefinition();
+
+                        // Clean up old generated files before generating new ones
+                        CleanupGeneratedFiles(outputDirectory, toolDefinition.OutputDirectory);
                         var allCommands = new List<CliCommandDefinition>();
 
                         // Collect all commands first
@@ -130,6 +133,10 @@ public class CodeGeneratorOrchestrator
 
                 // Fall back to HTML scraper (batch mode)
                 _logger.LogInformation("Using HTML scraper for {Tool}", htmlScraper.ToolName);
+
+                // Clean up old generated files before generating new ones
+                CleanupGeneratedFiles(outputDirectory, htmlScraper.OutputDirectory);
+
                 var htmlToolDefinition = await htmlScraper.ScrapeAsync(cancellationToken);
 
                 if (htmlToolDefinition.Errors.Count > 0)
@@ -211,6 +218,10 @@ public class CodeGeneratorOrchestrator
                     }
 
                     var toolDefinition = cliScraper.CreateToolDefinition();
+
+                    // Clean up old generated files before generating new ones
+                    CleanupGeneratedFiles(outputDirectory, toolDefinition.OutputDirectory);
+
                     var allCommands = new List<CliCommandDefinition>();
 
                     processedTools.Add(cliScraper.ToolName);
@@ -298,6 +309,67 @@ public class CodeGeneratorOrchestrator
         }
 
         await File.WriteAllTextAsync(path, content, cancellationToken);
+    }
+
+    /// <summary>
+    /// Cleans up old generated files before regenerating.
+    /// Only deletes .Generated.cs files in known output subdirectories to avoid
+    /// accidentally deleting hand-written code.
+    /// </summary>
+    private void CleanupGeneratedFiles(string outputDirectory, string toolOutputDirectory)
+    {
+        var toolPath = Path.Combine(outputDirectory, toolOutputDirectory);
+        if (!Directory.Exists(toolPath))
+        {
+            return;
+        }
+
+        // Subdirectories that contain generated code
+        var generatedSubdirectories = new[] { "Options", "Services", "Extensions", "Enums" };
+
+        foreach (var subDir in generatedSubdirectories)
+        {
+            var subDirPath = Path.Combine(toolPath, subDir);
+            if (!Directory.Exists(subDirPath))
+            {
+                continue;
+            }
+
+            // Delete all .Generated.cs files in this directory
+            var generatedFiles = Directory.GetFiles(subDirPath, "*.Generated.cs", SearchOption.TopDirectoryOnly);
+            foreach (var file in generatedFiles)
+            {
+                try
+                {
+                    File.Delete(file);
+                    _logger.LogDebug("Deleted old generated file: {File}", file);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Failed to delete old generated file: {File}", file);
+                }
+            }
+
+            // Also delete any .cs files in the Enums directory (all enum files are generated)
+            if (subDir == "Enums")
+            {
+                var enumFiles = Directory.GetFiles(subDirPath, "*.cs", SearchOption.TopDirectoryOnly);
+                foreach (var file in enumFiles)
+                {
+                    try
+                    {
+                        File.Delete(file);
+                        _logger.LogDebug("Deleted old enum file: {File}", file);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning(ex, "Failed to delete old enum file: {File}", file);
+                    }
+                }
+            }
+        }
+
+        _logger.LogInformation("Cleaned up old generated files in {Path}", toolPath);
     }
 }
 

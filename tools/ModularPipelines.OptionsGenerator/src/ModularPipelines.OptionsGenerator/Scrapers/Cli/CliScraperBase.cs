@@ -393,6 +393,13 @@ public abstract partial class CliScraperBase : ICliScraper
     /// </summary>
     protected virtual bool IsSkippableSubcommand(string subcommand)
     {
+        // Skip flag-like names (e.g., "--tls", "--tlsverify", "-h")
+        // These are CLI flags that sometimes appear in help output sections
+        if (subcommand.StartsWith('-'))
+        {
+            return true;
+        }
+
         var lowerName = subcommand.ToLowerInvariant();
         return lowerName is "help" or "completion" or "version" or "__complete" or "__completenoDesc";
     }

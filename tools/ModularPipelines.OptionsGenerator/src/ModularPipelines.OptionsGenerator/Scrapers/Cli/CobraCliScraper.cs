@@ -92,6 +92,20 @@ public abstract partial class CobraCliScraper : CliScraperBase
             return Task.FromResult<CliCommandDefinition?>(null);
         }
 
+        // Skip commands with invalid parts (e.g., "docker --tlsverify container", "docker run HEALTHCHECK")
+        if (commandParts.Any(part => part.StartsWith("--") || !IsValidCommandPart(part)))
+        {
+            Logger.LogDebug("Skipping invalid command path: {Command}", string.Join(" ", commandPath));
+            return Task.FromResult<CliCommandDefinition?>(null);
+        }
+
+        // Validate that help output represents a real command (not an error or wrong command)
+        if (!IsValidCommandHelp(helpText, commandParts))
+        {
+            Logger.LogDebug("Skipping command with invalid help output: {Command}", string.Join(" ", commandPath));
+            return Task.FromResult<CliCommandDefinition?>(null);
+        }
+
         // Get the first subcommand for grouping
         var subDomain = commandParts.Length > 1 ? ToPascalCase(commandParts[0]) : null;
 
@@ -414,8 +428,26 @@ public abstract partial class CobraCliScraper : CliScraperBase
 
     private static bool IsValidEnumValue(string value)
     {
-        return !string.IsNullOrWhiteSpace(value) &&
-               value.All(c => char.IsLetterOrDigit(c) || c == '-' || c == '_');
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return false;
+        }
+
+        // Reject purely numeric values or ranges (e.g., "0", "0-3", "1,2,3")
+        // These are typically examples for numeric inputs, not enum choices
+        if (value.All(c => char.IsDigit(c) || c == '-' || c == ',' || c == '.'))
+        {
+            return false;
+        }
+
+        // Must start with a letter to be a valid enum name
+        // (after normalization, leading digits would create invalid identifiers)
+        if (!char.IsLetter(value[0]))
+        {
+            return false;
+        }
+
+        return value.All(c => char.IsLetterOrDigit(c) || c == '-' || c == '_');
     }
 
     private static CliEnumDefinition CreateEnumDefinition(
@@ -538,9 +570,10 @@ public abstract partial class CobraCliScraper : CliScraperBase
     // Regex patterns
 
     /// <summary>
-    /// Matches "Available Commands:" or "Commands:" section headers.
+    /// Matches command section headers like "Available Commands:", "Commands:",
+    /// "Common Commands:", "Management Commands:", "Swarm Commands:", etc.
     /// </summary>
-    [GeneratedRegex(@"(?:Available\s+)?Commands?:\s*\n", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"(?:Available\s+|Common\s+|Management\s+|Swarm\s+)?Commands?:\s*\n", RegexOptions.IgnoreCase)]
     private static partial Regex CommandsSectionPattern();
 
     /// <summary>
@@ -609,4 +642,73 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// </summary>
     [GeneratedRegex(@"[\[<](?<name>[A-Z_-]+)(?:\.\.\.)?[\]>]")]
     private static partial Regex PositionalArgPattern();
+
+    /// <summary>
+    /// Validates that a command part looks like a real CLI command/subcommand.
+    /// Uses structural validation - real Cobra subcommands follow consistent naming conventions.
+    /// </summary>
+    private static bool IsValidCommandPart(string part)
+    {
+        if (string.IsNullOrWhiteSpace(part) || part.Length < 2)
+        {
+            return false;
+        }
+
+        // Cobra CLIs use lowercase subcommand names (uppercase = not a command)
+        // This filters: HEALTHCHECK, ENTRYPOINT, ENV, ARG, etc.
+        if (part.Any(char.IsUpper))
+        {
+            return false;
+        }
+
+        // Valid subcommands only contain letters, digits, and hyphens
+        // This filters: --flags, special chars, etc.
+        return part.All(c => char.IsLetter(c) || char.IsDigit(c) || c == '-');
+    }
+
+    /// <summary>
+    /// Checks if help text represents a valid Cobra command (not an error or wrong command).
+    /// Validates that the help output is actually for the expected command.
+    /// </summary>
+    protected static bool IsValidCommandHelp(string helpText, string[] expectedCommandParts)
+    {
+        if (string.IsNullOrWhiteSpace(helpText))
+        {
+            return false;
+        }
+
+        // Valid Cobra command help always has "Usage:" section
+        if (!helpText.Contains("Usage:"))
+        {
+            return false;
+        }
+
+        // Error messages typically contain these patterns
+        if (helpText.Contains("unknown command") ||
+            helpText.Contains("Error:") ||
+            helpText.Contains("unknown flag") ||
+            helpText.Contains("invalid argument"))
+        {
+            return false;
+        }
+
+        // Verify the Usage line contains the expected command (not a parent command's help)
+        // This catches garbage like "docker ps templates" which returns "docker ps" help
+        if (expectedCommandParts.Length > 0)
+        {
+            var lastPart = expectedCommandParts[^1];
+            var usageLineMatch = UsageLinePattern().Match(helpText);
+            if (usageLineMatch.Success)
+            {
+                var usageLine = usageLineMatch.Groups["usage"].Value;
+                // The last command part should appear in the usage line
+                if (!usageLine.Contains(lastPart, StringComparison.OrdinalIgnoreCase))
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 }

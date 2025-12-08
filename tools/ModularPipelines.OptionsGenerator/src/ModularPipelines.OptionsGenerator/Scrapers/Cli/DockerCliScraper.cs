@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -7,8 +8,10 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// CLI-first scraper for Docker.
 /// Docker is a Cobra-based CLI with consistent help formatting.
 /// </summary>
-public class DockerCliScraper : CobraCliScraper
+public partial class DockerCliScraper : CobraCliScraper
 {
+    private readonly HashSet<string> _extensionCommands = new(StringComparer.OrdinalIgnoreCase);
+
     public override string ToolName => "docker";
     public override string NamespacePrefix => "Docker";
     public override string TargetNamespace => "ModularPipelines.Docker";
@@ -20,7 +23,41 @@ public class DockerCliScraper : CobraCliScraper
     }
 
     /// <summary>
-    /// Docker has some additional skip patterns.
+    /// Extract subcommands and detect which ones are third-party extensions.
+    /// Docker marks extensions with an asterisk (*) in the help output:
+    /// "  buildx*     Docker Buildx"
+    /// </summary>
+    protected override IEnumerable<string> ExtractSubcommands(string helpText)
+    {
+        var subcommands = new List<string>();
+        _extensionCommands.Clear();
+
+        // Match command lines that may have an asterisk marker
+        // Format: "  command*    Description" or "  command    Description"
+        var matches = DockerSubcommandPattern().Matches(helpText);
+
+        foreach (Match match in matches)
+        {
+            var commandName = match.Groups["name"].Value.Trim();
+            var isExtension = match.Groups["star"].Success;
+
+            if (!string.IsNullOrEmpty(commandName) && !commandName.Contains(' '))
+            {
+                subcommands.Add(commandName);
+
+                if (isExtension)
+                {
+                    _extensionCommands.Add(commandName);
+                    Logger.LogDebug("Detected third-party extension: {Command}", commandName);
+                }
+            }
+        }
+
+        return subcommands;
+    }
+
+    /// <summary>
+    /// Skip third-party extensions (detected by asterisk marker in help output).
     /// </summary>
     protected override bool IsSkippableSubcommand(string subcommand)
     {
@@ -29,9 +66,16 @@ public class DockerCliScraper : CobraCliScraper
             return true;
         }
 
-        // Docker has some management commands that just group others
-        var lowerName = subcommand.ToLowerInvariant();
-        return lowerName is "app" or "buildx" or "compose" or "context" or "manifest" or
-               "plugin" or "sbom" or "scan" or "scout" or "stack" or "swarm" or "trust";
+        // Skip commands that were marked with * in the help output
+        return _extensionCommands.Contains(subcommand);
     }
+
+    /// <summary>
+    /// Matches Docker subcommand lines, capturing the asterisk if present.
+    /// Examples:
+    ///   "  build       Build an image from a Dockerfile"
+    ///   "  buildx*     Docker Buildx"
+    /// </summary>
+    [GeneratedRegex(@"^\s{2,}(?<name>[\w-]+)(?<star>\*)?\s{2,}", RegexOptions.Multiline)]
+    private static partial Regex DockerSubcommandPattern();
 }
