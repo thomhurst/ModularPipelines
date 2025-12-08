@@ -53,28 +53,28 @@ public record KubernetesRunOptions([property: CliArgument] string Name) : Kubern
     public virtual string? ImagePullPolicy { get; set; }
 
     [CliOption("--kustomize")]
-    public string? Kustomize { get; set; }
+    public virtual string? Kustomize { get; set; }
 
     [CliOption("--labels")]
-    public string? Labels { get; set; }
+    public virtual string? Labels { get; set; }
 
     [CliFlag("--leave-stdin-open")]
     public virtual bool? LeaveStdinOpen { get; set; }
 
     [CliOption("--limits")]
-    public string? Limits { get; set; }
+    public virtual string? Limits { get; set; }
 
     [CliOption("--output")]
     public virtual string? Output { get; set; }
 
     [CliOption("--overrides")]
-    public string? Overrides { get; set; }
+    public virtual string? Overrides { get; set; }
 
     [CliOption("--pod-running-timeout")]
-    public string? PodRunningTimeout { get; set; }
+    public virtual string? PodRunningTimeout { get; set; }
 
     [CliOption("--port")]
-    public string? Port { get; set; }
+    public virtual string? Port { get; set; }
 
     [CliFlag("--privileged")]
     public virtual bool? Privileged { get; set; }
@@ -89,10 +89,10 @@ public record KubernetesRunOptions([property: CliArgument] string Name) : Kubern
     public virtual bool? Recursive { get; set; }
 
     [CliOption("--requests")]
-    public string? Requests { get; set; }
+    public virtual string? Requests { get; set; }
 
     [CliOption("--restart")]
-    public string? Restart { get; set; }
+    public virtual string? Restart { get; set; }
 
     [CliFlag("--rm")]
     public virtual bool? Rm { get; set; }
@@ -101,7 +101,7 @@ public record KubernetesRunOptions([property: CliArgument] string Name) : Kubern
     public virtual bool? SaveConfig { get; set; }
 
     [CliOption("--serviceaccount")]
-    public string? Serviceaccount { get; set; }
+    public virtual string? Serviceaccount { get; set; }
 
     [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
@@ -110,10 +110,10 @@ public record KubernetesRunOptions([property: CliArgument] string Name) : Kubern
     public virtual bool? Stdin { get; set; }
 
     [CliOption("--template")]
-    public string? Template { get; set; }
+    public virtual string? Template { get; set; }
 
     [CliOption("--timeout")]
-    public string? Timeout { get; set; }
+    public virtual string? Timeout { get; set; }
 
     [CliFlag("--tty")]
     public virtual bool? Tty { get; set; }

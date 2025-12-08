@@ -21,7 +21,7 @@ internal interface IModuleScheduler : IDisposable
     /// <summary>
     /// Starts the scheduler loop that continuously queues ready modules.
     /// </summary>
-    /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     Task RunSchedulerAsync(CancellationToken cancellationToken);
 
     /// <summary>
@@ -38,7 +38,7 @@ internal interface IModuleScheduler : IDisposable
     /// <summary>
     /// Gets the completion task for a specific module.
     /// </summary>
-    /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     Task<IModule>? GetModuleCompletionTask(Type moduleType);
 
     /// <summary>
