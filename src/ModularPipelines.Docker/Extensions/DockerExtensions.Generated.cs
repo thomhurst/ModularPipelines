@@ -33,6 +33,25 @@ public static class DockerExtensions
     public static IServiceCollection RegisterDockerContext(this IServiceCollection services)
     {
         services.TryAddScoped<IDocker, Services.Docker>();
+        services.TryAddScoped<DockerAi>();
+        services.TryAddScoped<DockerBuilder>();
+        services.TryAddScoped<DockerBuildx>();
+        services.TryAddScoped<DockerCloud>();
+        services.TryAddScoped<DockerCompose>();
+        services.TryAddScoped<DockerContainer>();
+        services.TryAddScoped<DockerContext>();
+        services.TryAddScoped<DockerDesktop>();
+        services.TryAddScoped<DockerExtension>();
+        services.TryAddScoped<DockerImage>();
+        services.TryAddScoped<DockerManifest>();
+        services.TryAddScoped<DockerMcp>();
+        services.TryAddScoped<DockerModel>();
+        services.TryAddScoped<DockerNetwork>();
+        services.TryAddScoped<DockerPlugin>();
+        services.TryAddScoped<DockerSwarm>();
+        services.TryAddScoped<DockerSystem>();
+        services.TryAddScoped<DockerTrust>();
+        services.TryAddScoped<DockerVolume>();
         return services;
     }
 
