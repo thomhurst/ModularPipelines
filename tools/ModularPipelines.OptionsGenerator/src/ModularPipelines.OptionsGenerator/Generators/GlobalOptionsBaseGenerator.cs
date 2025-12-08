@@ -11,12 +11,7 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
 {
     public Task<IReadOnlyList<GeneratedFile>> GenerateAsync(CliToolDefinition tool, CancellationToken cancellationToken = default)
     {
-        // Only generate if there are global options
-        if (tool.GlobalOptions.Count == 0)
-        {
-            return Task.FromResult<IReadOnlyList<GeneratedFile>>([]);
-        }
-
+        // Always generate a base class - it's needed even without global options
         var content = GenerateBaseOptionsClass(tool);
         var fileName = $"{tool.NamespacePrefix}Options.Generated.cs";
         var relativePath = Path.Combine(tool.OutputDirectory, "Options", fileName);

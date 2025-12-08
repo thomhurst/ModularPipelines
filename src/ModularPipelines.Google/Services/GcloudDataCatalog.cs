@@ -25,13 +25,13 @@ public class GcloudDataCatalog
     }
 
     /// <summary>
-    /// remove an IAM policy binding from a Data Catalog policy tag
+    /// manage taxonomies in Data Catalog
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudDataCatalogTaxonomiesPolicyTagsRemoveIamPolicyBindingOptions options,
+    public virtual async Task<CommandResult> Taxonomies(
+        GcloudDataCatalogTaxonomiesOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

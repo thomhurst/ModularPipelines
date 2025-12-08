@@ -25,13 +25,13 @@ public class GcloudAsset
     }
 
     /// <summary>
-    /// describe a Cloud Asset Inventory      operation
+    /// query the Cloud assets
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudAssetOperationsDescribeOptions options,
+    public virtual async Task<CommandResult> Query(
+        GcloudAssetQueryOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

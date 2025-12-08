@@ -25,13 +25,13 @@ public class GcloudContainer
     }
 
     /// <summary>
-    /// update a node pool in an Anthos      cluster on VMware
+    /// deploy and manage Anthos clusters on VMware for      running containers
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudContainerVmwareNodePoolsUpdateOptions options,
+    public virtual async Task<CommandResult> Vmware(
+        GcloudContainerVmwareOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

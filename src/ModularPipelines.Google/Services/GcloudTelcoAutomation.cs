@@ -25,13 +25,13 @@ public class GcloudTelcoAutomation
     }
 
     /// <summary>
-    /// create a telco      automation orchestration cluster
+    /// manage telco automation      orchestration cluster instances
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudTelcoAutomationOrchestrationClusterCreateOptions options,
+    public virtual async Task<CommandResult> OrchestrationCluster(
+        GcloudTelcoAutomationOrchestrationClusterOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

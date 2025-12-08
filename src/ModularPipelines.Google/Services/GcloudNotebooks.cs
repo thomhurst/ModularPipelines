@@ -25,13 +25,13 @@ public class GcloudNotebooks
     }
 
     /// <summary>
-    /// request for creating an instance
+    /// notebooks Instances command group
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudNotebooksInstancesCreateOptions options,
+    public virtual async Task<CommandResult> Instances(
+        GcloudNotebooksInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

@@ -25,13 +25,13 @@ public class GcloudDesignCenter
     }
 
     /// <summary>
-    /// update an application
+    /// manage space resources
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudDesignCenterSpacesApplicationsUpdateOptions options,
+    public virtual async Task<CommandResult> Spaces(
+        GcloudDesignCenterSpacesOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

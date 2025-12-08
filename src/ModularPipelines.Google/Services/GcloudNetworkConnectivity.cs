@@ -25,13 +25,13 @@ public class GcloudNetworkConnectivity
     }
 
     /// <summary>
-    /// update a VPN      spoke
+    /// manage Service      Connection Policies
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudNetworkConnectivitySpokesLinkedVpnTunnelsUpdateOptions options,
+    public virtual async Task<CommandResult> ServiceConnectionPolicies(
+        GcloudNetworkConnectivityServiceConnectionPoliciesOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

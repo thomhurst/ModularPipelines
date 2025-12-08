@@ -25,13 +25,13 @@ public class GcloudDataflow
     }
 
     /// <summary>
-    /// builds a flex template file from the      specified parameters
+    /// a group of subcommands for launching Beam YAML jobs      on Dataflow
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Build(
-        GcloudDataflowFlexTemplateBuildOptions options,
+    public virtual async Task<CommandResult> Yaml(
+        GcloudDataflowYamlOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

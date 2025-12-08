@@ -25,13 +25,13 @@ public class GcloudDatabaseMigration
     }
 
     /// <summary>
-    /// create a      Database Migration Service connection profile for Cloud SQL
+    /// manage Database Migration      Service migration jobs
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Cloudsql(
-        GcloudDatabaseMigrationConnectionProfilesCreateCloudsqlOptions options,
+    public virtual async Task<CommandResult> MigrationJobs(
+        GcloudDatabaseMigrationMigrationJobsOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

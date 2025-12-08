@@ -25,13 +25,13 @@ public class GcloudPubsub
     }
 
     /// <summary>
-    /// updates an existing Cloud Pub/Sub topic
+    /// manage Cloud Pub/Sub topics
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudPubsubTopicsUpdateOptions options,
+    public virtual async Task<CommandResult> Topics(
+        GcloudPubsubTopicsOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

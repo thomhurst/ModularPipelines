@@ -25,13 +25,13 @@ public class GcloudSecrets
     }
 
     /// <summary>
-    /// destroy a secret version's metadata and      secret data
+    /// set the IAM policy binding for a secret
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Destroy(
-        GcloudSecretsVersionsDestroyOptions options,
+    public virtual async Task<CommandResult> SetIamPolicy(
+        GcloudSecretsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

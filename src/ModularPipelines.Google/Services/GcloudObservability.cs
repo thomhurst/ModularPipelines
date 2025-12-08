@@ -25,13 +25,13 @@ public class GcloudObservability
     }
 
     /// <summary>
-    /// update scopes
+    /// manage Scope resources
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudObservabilityScopesUpdateOptions options,
+    public virtual async Task<CommandResult> Scopes(
+        GcloudObservabilityScopesOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

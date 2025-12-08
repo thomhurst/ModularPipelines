@@ -25,13 +25,13 @@ public class GcloudTasks
     }
 
     /// <summary>
-    /// update a Cloud Tasks queue
+    /// force a task to run now
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudTasksQueuesUpdateOptions options,
+    public virtual async Task<CommandResult> Run(
+        GcloudTasksRunOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

@@ -25,13 +25,13 @@ public class GcloudMigration
     }
 
     /// <summary>
-    /// import machine images      to Google Compute Engine
+    /// provides Migrate to Virtual Machines (VM migration)      service functionality
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudMigrationVmsMachineImageImportsCreateOptions options,
+    public virtual async Task<CommandResult> Vms(
+        GcloudMigrationVmsOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

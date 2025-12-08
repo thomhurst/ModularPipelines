@@ -25,13 +25,13 @@ public class GcloudTransfer
     }
 
     /// <summary>
-    /// update a Transfer Service transfer job
+    /// manage Transfer Service agents
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudTransferJobsUpdateOptions options,
+    public virtual async Task<CommandResult> Agents(
+        GcloudTransferAgentsOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

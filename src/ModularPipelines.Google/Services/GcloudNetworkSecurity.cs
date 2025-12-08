@@ -25,13 +25,13 @@ public class GcloudNetworkSecurity
     }
 
     /// <summary>
-    /// override      - update Overrides of Threat Prevention Profile
+    /// manage Network Security Url Lists
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateOverride(
-        GcloudNetworkSecuritySecurityProfilesThreatPreventionUpdateOverrideOptions options,
+    public virtual async Task<CommandResult> UrlLists(
+        GcloudNetworkSecurityUrlListsOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

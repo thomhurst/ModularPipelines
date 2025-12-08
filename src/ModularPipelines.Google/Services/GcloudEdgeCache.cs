@@ -25,13 +25,13 @@ public class GcloudEdgeCache
     }
 
     /// <summary>
-    /// update an EdgeCacheService resource
+    /// interact with and manage EdgeCacheService      resources
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudEdgeCacheServicesUpdateOptions options,
+    public virtual async Task<CommandResult> Services(
+        GcloudEdgeCacheServicesOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

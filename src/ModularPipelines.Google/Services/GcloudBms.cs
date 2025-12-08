@@ -25,13 +25,13 @@ public class GcloudBms
     }
 
     /// <summary>
-    /// describe a Bare Metal Solution boot      volume snapshot
+    /// manage SSH keys for Bare Metal Solution
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudBmsVolumesSnapshotsDescribeOptions options,
+    public virtual async Task<CommandResult> SshKeys(
+        GcloudBmsSshKeysOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

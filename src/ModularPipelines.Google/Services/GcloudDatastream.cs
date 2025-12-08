@@ -25,13 +25,13 @@ public class GcloudDatastream
     }
 
     /// <summary>
-    /// updates a Datastream stream
+    /// manage Datastream stream resources
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudDatastreamStreamsUpdateOptions options,
+    public virtual async Task<CommandResult> Streams(
+        GcloudDatastreamStreamsOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

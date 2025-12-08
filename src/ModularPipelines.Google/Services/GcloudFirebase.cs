@@ -25,13 +25,13 @@ public class GcloudFirebase
     }
 
     /// <summary>
-    /// invoke a test in Firebase Test Lab for      Android and view test results
+    /// interact with Firebase Test Lab
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Run(
-        GcloudFirebaseTestAndroidRunOptions options,
+    public virtual async Task<CommandResult> Test(
+        GcloudFirebaseTestOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

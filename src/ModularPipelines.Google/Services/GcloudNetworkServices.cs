@@ -25,13 +25,13 @@ public class GcloudNetworkServices
     }
 
     /// <summary>
-    /// import tcp route
+    /// manage Network Services      ServiceLbPolicies
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Import(
-        GcloudNetworkServicesTcpRoutesImportOptions options,
+    public virtual async Task<CommandResult> ServiceLbPolicies(
+        GcloudNetworkServicesServiceLbPoliciesOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

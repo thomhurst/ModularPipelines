@@ -25,13 +25,13 @@ public class GcloudVmware
     }
 
     /// <summary>
-    /// update a Google Cloud      VMware Engine logging-server
+    /// manage private clouds in Google Cloud VMware      Engine
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudVmwarePrivateCloudsLoggingServersUpdateOptions options,
+    public virtual async Task<CommandResult> PrivateClouds(
+        GcloudVmwarePrivateCloudsOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

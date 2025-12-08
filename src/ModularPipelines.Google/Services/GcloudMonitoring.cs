@@ -25,13 +25,13 @@ public class GcloudMonitoring
     }
 
     /// <summary>
-    /// create a new uptime check or synthetic      monitor
+    /// manage Cloud Monitoring uptime checks and      synthetic monitors
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudMonitoringUptimeCreateOptions options,
+    public virtual async Task<CommandResult> Uptime(
+        GcloudMonitoringUptimeOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

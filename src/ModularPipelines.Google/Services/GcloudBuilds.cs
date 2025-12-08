@@ -25,13 +25,13 @@ public class GcloudBuilds
     }
 
     /// <summary>
-    /// update GitHub trigger used by Cloud      Build
+    /// submit a build using Cloud Build
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Github(
-        GcloudBuildsTriggersUpdateGithubOptions options,
+    public virtual async Task<CommandResult> Submit(
+        GcloudBuildsSubmitOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

@@ -25,13 +25,13 @@ public class GcloudComplianceManager
     }
 
     /// <summary>
-    /// get a cloud control
+    /// manage Operation resources
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComplianceManagerCloudControlsDescribeOptions options,
+    public virtual async Task<CommandResult> Operations(
+        GcloudComplianceManagerOperationsOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

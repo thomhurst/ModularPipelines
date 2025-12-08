@@ -25,13 +25,13 @@ public class GcloudDns
     }
 
     /// <summary>
-    /// updates a new Cloud DNS      response policy rule
+    /// manage your Cloud DNS response policy
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudDnsResponsePoliciesRulesUpdateOptions options,
+    public virtual async Task<CommandResult> ResponsePolicies(
+        GcloudDnsResponsePoliciesOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

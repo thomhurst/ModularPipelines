@@ -25,13 +25,13 @@ public class GcloudDomains
     }
 
     /// <summary>
-    /// configure management      settings of a Cloud Domains registration
+    /// lists the user's verified domains
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Management(
-        GcloudDomainsRegistrationsConfigureManagementOptions options,
+    public virtual async Task<CommandResult> ListUserVerified(
+        GcloudDomainsListUserVerifiedOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

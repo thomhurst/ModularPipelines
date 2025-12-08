@@ -25,13 +25,13 @@ public class GcloudDeploy
     }
 
     /// <summary>
-    /// creates a new release, delivery pipeline      qualified
+    /// deletes Delivery Pipeline(s), Target(s), Custom      Target Type(s), and Automation(s) in a yaml configuration
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudDeployReleasesCreateOptions options,
+    public virtual async Task<CommandResult> Delete(
+        GcloudDeployDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

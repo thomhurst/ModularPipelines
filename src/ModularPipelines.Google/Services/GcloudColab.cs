@@ -25,13 +25,13 @@ public class GcloudColab
     }
 
     /// <summary>
-    /// resume a schedule
+    /// manage Colab Enterprise notebook execution      schedules
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Resume(
-        GcloudColabSchedulesResumeOptions options,
+    public virtual async Task<CommandResult> Schedules(
+        GcloudColabSchedulesOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

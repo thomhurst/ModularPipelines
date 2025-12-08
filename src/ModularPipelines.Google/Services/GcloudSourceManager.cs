@@ -25,13 +25,13 @@ public class GcloudSourceManager
     }
 
     /// <summary>
-    /// update a Secure Source Manager      repository
+    /// manage Secure Source Manager repositories
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudSourceManagerReposUpdateOptions options,
+    public virtual async Task<CommandResult> Repos(
+        GcloudSourceManagerReposOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

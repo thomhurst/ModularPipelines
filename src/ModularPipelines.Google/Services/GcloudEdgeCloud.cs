@@ -25,13 +25,13 @@ public class GcloudEdgeCloud
     }
 
     /// <summary>
-    /// list Distributed Cloud Edge      Network subnets
+    /// manage Edge Container resources
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudEdgeCloudNetworkingSubnetsListOptions options,
+    public virtual async Task<CommandResult> Container(
+        GcloudEdgeCloudContainerOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

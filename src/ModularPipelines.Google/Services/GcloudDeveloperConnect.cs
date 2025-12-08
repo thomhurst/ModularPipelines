@@ -25,13 +25,13 @@ public class GcloudDeveloperConnect
     }
 
     /// <summary>
-    /// token      - fetch the read token of a given gitRepositoryLink
+    /// manage connection resources
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> FetchReadToken(
-        GcloudDeveloperConnectConnectionsGitRepositoryLinksFetchReadTokenOptions options,
+    public virtual async Task<CommandResult> Connections(
+        GcloudDeveloperConnectConnectionsOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

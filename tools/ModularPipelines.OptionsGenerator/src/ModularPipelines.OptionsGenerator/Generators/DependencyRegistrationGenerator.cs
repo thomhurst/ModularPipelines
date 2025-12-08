@@ -78,7 +78,8 @@ public class DependencyRegistrationGenerator : ICodeGenerator
         sb.AppendLine("    {");
 
         // Register main service
-        sb.AppendLine($"        services.TryAddScoped<{interfaceName}, {serviceName}>();");
+        // Use Services.{serviceName} to avoid ambiguity with namespace (e.g., ModularPipelines.Helm vs Helm class)
+        sb.AppendLine($"        services.TryAddScoped<{interfaceName}, Services.{serviceName}>();");
 
         // Register sub-domain services
         var subDomains = tool.SubDomainGroups.OrderBy(s => s).ToList();

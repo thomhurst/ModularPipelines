@@ -25,13 +25,13 @@ public class GcloudIam
     }
 
     /// <summary>
-    /// update an AWS      workload identity pool provider
+    /// manage IAM workload identity pools
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateAws(
-        GcloudIamWorkloadIdentityPoolsProvidersUpdateAwsOptions options,
+    public virtual async Task<CommandResult> WorkloadIdentityPools(
+        GcloudIamWorkloadIdentityPoolsOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

@@ -25,13 +25,13 @@ public class GcloudTranscoder
     }
 
     /// <summary>
-    /// describe transcoder job templates
+    /// manage Cloud Transcoder job templates
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudTranscoderTemplatesDescribeOptions options,
+    public virtual async Task<CommandResult> Templates(
+        GcloudTranscoderTemplatesOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

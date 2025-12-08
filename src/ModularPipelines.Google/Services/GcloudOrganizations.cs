@@ -25,13 +25,13 @@ public class GcloudOrganizations
     }
 
     /// <summary>
-    /// add IAM policy binding for an      organization
+    /// remove IAM policy binding      for an organization
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudOrganizationsAddIamPolicyBindingOptions options,
+    public virtual async Task<CommandResult> RemoveIamPolicyBinding(
+        GcloudOrganizationsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

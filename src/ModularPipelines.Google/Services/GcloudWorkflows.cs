@@ -25,13 +25,13 @@ public class GcloudWorkflows
     }
 
     /// <summary>
-    /// wait for an execution to complete
+    /// execute a workflow and wait for the execution to      complete
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Wait(
-        GcloudWorkflowsExecutionsWaitOptions options,
+    public virtual async Task<CommandResult> Run(
+        GcloudWorkflowsRunOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

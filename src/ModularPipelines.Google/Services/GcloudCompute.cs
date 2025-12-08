@@ -25,13 +25,13 @@ public class GcloudCompute
     }
 
     /// <summary>
-    /// SSH into a Cloud TPU Queued      Resource's node(s)
+    /// SSH into a virtual machine instance
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ssh(
-        GcloudComputeTpusQueuedResourcesSshOptions options,
+        GcloudComputeSshOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

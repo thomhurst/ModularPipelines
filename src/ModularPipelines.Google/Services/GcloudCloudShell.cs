@@ -25,13 +25,13 @@ public class GcloudCloudShell
     }
 
     /// <summary>
-    /// allows you to establish an interactive SSH session      with Cloud Shell
+    /// prints a command to mount the Cloud      Shell home directory via sshfs
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Ssh(
-        GcloudCloudShellSshOptions options,
+    public virtual async Task<CommandResult> GetMountCommand(
+        GcloudCloudShellGetMountCommandOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

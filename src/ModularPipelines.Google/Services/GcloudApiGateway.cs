@@ -25,13 +25,13 @@ public class GcloudApiGateway
     }
 
     /// <summary>
-    /// get the IAM policy for an API
+    /// manage operations for Cloud API Gateways
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudApiGatewayApisGetIamPolicyOptions options,
+    public virtual async Task<CommandResult> Operations(
+        GcloudApiGatewayOperationsOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

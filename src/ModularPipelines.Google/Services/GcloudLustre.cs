@@ -25,13 +25,13 @@ public class GcloudLustre
     }
 
     /// <summary>
-    /// updates the parameters of a single Managed      Lustre instance
+    /// manage Instance resources
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudLustreInstancesUpdateOptions options,
+    public virtual async Task<CommandResult> Instances(
+        GcloudLustreInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

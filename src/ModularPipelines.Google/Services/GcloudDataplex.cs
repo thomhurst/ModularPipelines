@@ -25,13 +25,13 @@ public class GcloudDataplex
     }
 
     /// <summary>
-    /// list job runs of a Dataplex task resource
+    /// manage Dataplex Zone resources
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudDataplexTasksJobsListOptions options,
+    public virtual async Task<CommandResult> Zones(
+        GcloudDataplexZonesOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

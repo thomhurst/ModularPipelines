@@ -25,13 +25,13 @@ public class GcloudManagedKafka
     }
 
     /// <summary>
-    /// update a Managed Service for Apache      Kafka topic
+    /// administer Managed Service for Apache Kafka      topics
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudManagedKafkaTopicsUpdateOptions options,
+    public virtual async Task<CommandResult> Topics(
+        GcloudManagedKafkaTopicsOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

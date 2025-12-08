@@ -25,13 +25,13 @@ public class GcloudScheduler
     }
 
     /// <summary>
-    /// create a Cloud Scheduler job that      triggers an action via HTTP
+    /// get information about Cloud Scheduler      locations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Http(
-        GcloudSchedulerJobsCreateHttpOptions options,
+    public virtual async Task<CommandResult> Locations(
+        GcloudSchedulerLocationsOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

@@ -25,13 +25,13 @@ public class GcloudBatch
     }
 
     /// <summary>
-    /// show details of a task
+    /// manage Batch task resources
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudBatchTasksDescribeOptions options,
+    public virtual async Task<CommandResult> Tasks(
+        GcloudBatchTasksOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

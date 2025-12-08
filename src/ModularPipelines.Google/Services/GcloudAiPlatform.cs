@@ -25,13 +25,13 @@ public class GcloudAiPlatform
     }
 
     /// <summary>
-    /// submit an AI Platform training      job
+    /// run AI Platform online prediction
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Training(
-        GcloudAiPlatformJobsSubmitTrainingOptions options,
+    public virtual async Task<CommandResult> Predict(
+        GcloudAiPlatformPredictOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

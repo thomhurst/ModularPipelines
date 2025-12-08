@@ -25,13 +25,13 @@ public class GcloudWorkspaceAddOns
     }
 
     /// <summary>
-    /// ons      deployments
+    /// ons      Deployments
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudWorkspaceAddOnsDeploymentsListOptions options,
+    public virtual async Task<CommandResult> Deployments(
+        GcloudWorkspaceAddOnsDeploymentsOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

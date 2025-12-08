@@ -25,13 +25,13 @@ public class GcloudAnthos
     }
 
     /// <summary>
-    /// create Anthos Config Controller      instances
+    /// generates a login configuration file
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudAnthosConfigControllerCreateOptions options,
+    public virtual async Task<CommandResult> CreateLoginConfig(
+        GcloudAnthosCreateLoginConfigOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

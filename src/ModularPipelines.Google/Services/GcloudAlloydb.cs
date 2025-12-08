@@ -25,13 +25,13 @@ public class GcloudAlloydb
     }
 
     /// <summary>
-    /// update an AlloyDB user's database roles      within a given cluster and region
+    /// lists AlloyDB backups in a given project
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetRoles(
-        GcloudAlloydbUsersSetRolesOptions options,
+    public virtual async Task<CommandResult> List(
+        GcloudAlloydbBackupsListOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

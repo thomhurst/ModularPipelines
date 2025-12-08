@@ -25,13 +25,13 @@ public class GcloudArtifacts
     }
 
     /// <summary>
-    /// list Artifact Registry container      images
+    /// manage Artifact Registry tags
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudArtifactsDockerImagesListOptions options,
+    public virtual async Task<CommandResult> Tags(
+        GcloudArtifactsTagsOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

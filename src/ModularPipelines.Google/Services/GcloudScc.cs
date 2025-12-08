@@ -25,13 +25,13 @@ public class GcloudScc
     }
 
     /// <summary>
-    /// update a Security Command Center      service
+    /// manage Cloud SCC (Security Command Center) finding      sources
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudSccManageServicesUpdateOptions options,
+    public virtual async Task<CommandResult> Sources(
+        GcloudSccSourcesOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

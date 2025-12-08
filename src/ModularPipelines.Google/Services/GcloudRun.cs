@@ -25,13 +25,13 @@ public class GcloudRun
     }
 
     /// <summary>
-    /// read logs for a Cloud Run service
+    /// create or update a Cloud Run service
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Read(
-        GcloudRunServicesLogsReadOptions options,
+    public virtual async Task<CommandResult> Deploy(
+        GcloudRunDeployOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

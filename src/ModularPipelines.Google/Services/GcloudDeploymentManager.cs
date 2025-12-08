@@ -25,13 +25,13 @@ public class GcloudDeploymentManager
     }
 
     /// <summary>
-    /// list types in a project
+    /// commands for Deployment Manager types
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudDeploymentManagerTypesListOptions options,
+    public virtual async Task<CommandResult> Types(
+        GcloudDeploymentManagerTypesOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

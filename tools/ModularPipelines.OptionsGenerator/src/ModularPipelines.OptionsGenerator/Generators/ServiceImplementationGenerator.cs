@@ -129,12 +129,21 @@ public class ServiceImplementationGenerator : ICodeGenerator
         }
 
         // Root-level command methods
-        if (rootCommands.Count > 0)
+        // Skip commands that would collide with sub-domain property names
+        var subDomainNames = new HashSet<string>(
+            subDomains.Select(s => GeneratorUtils.ToPascalCase(s)),
+            StringComparer.OrdinalIgnoreCase);
+
+        var nonCollidingRootCommands = rootCommands
+            .Where(c => !subDomainNames.Contains(GenerateMethodName(c)))
+            .ToList();
+
+        if (nonCollidingRootCommands.Count > 0)
         {
             sb.AppendLine("    #region Commands");
             sb.AppendLine();
 
-            foreach (var command in rootCommands.OrderBy(c => c.ClassName))
+            foreach (var command in nonCollidingRootCommands.OrderBy(c => c.ClassName))
             {
                 GenerateMethod(sb, command, tool);
                 sb.AppendLine();

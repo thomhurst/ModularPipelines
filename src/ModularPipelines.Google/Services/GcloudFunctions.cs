@@ -25,13 +25,13 @@ public class GcloudFunctions
     }
 
     /// <summary>
-    /// list runtimes available to Google Cloud      Functions
+    /// create or update a Google Cloud Function
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudFunctionsRuntimesListOptions options,
+    public virtual async Task<CommandResult> Deploy(
+        GcloudFunctionsDeployOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

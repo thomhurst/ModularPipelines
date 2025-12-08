@@ -25,13 +25,13 @@ public class GcloudFilestore
     }
 
     /// <summary>
-    /// update the description or      labels of a Filestore snapshot
+    /// list zones where Filestore is available
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudFilestoreInstancesSnapshotsUpdateOptions options,
+    public virtual async Task<CommandResult> Zones(
+        GcloudFilestoreZonesOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

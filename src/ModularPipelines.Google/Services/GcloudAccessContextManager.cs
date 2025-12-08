@@ -25,13 +25,13 @@ public class GcloudAccessContextManager
     }
 
     /// <summary>
-    /// update the      dry-run mode configuration for a Service Perimeter
+    /// manage Access Context Manager      policies
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudAccessContextManagerPerimetersDryRunUpdateOptions options,
+    public virtual async Task<CommandResult> Policies(
+        GcloudAccessContextManagerPoliciesOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

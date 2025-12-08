@@ -25,13 +25,13 @@ public class GcloudPolicyIntelligence
     }
 
     /// <summary>
-    /// understand how changes to      organization policies could affect your resources
+    /// query activities on cloud      resource
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Orgpolicy(
-        GcloudPolicyIntelligenceSimulateOrgpolicyOptions options,
+    public virtual async Task<CommandResult> QueryActivity(
+        GcloudPolicyIntelligenceQueryActivityOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

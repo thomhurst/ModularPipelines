@@ -25,13 +25,13 @@ public class GcloudEndpoints
     }
 
     /// <summary>
-    /// remove IAM policy      binding from a service
+    /// manage Operation for various services
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudEndpointsServicesRemoveIamPolicyBindingOptions options,
+    public virtual async Task<CommandResult> Operations(
+        GcloudEndpointsOperationsOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

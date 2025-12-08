@@ -25,13 +25,13 @@ public class GcloudEmulators
     }
 
     /// <summary>
-    /// start a local Firestore emulator
+    /// manage your local Spanner emulator
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Start(
-        GcloudEmulatorsFirestoreStartOptions options,
+    public virtual async Task<CommandResult> Spanner(
+        GcloudEmulatorsSpannerOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

@@ -25,13 +25,13 @@ public class GcloudRedis
     }
 
     /// <summary>
-    /// export a Redis cluster backup to a      Google Cloud Storage bucket
+    /// manage Cloud Memorystore Redis zones
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Export(
-        GcloudRedisClustersBackupsExportOptions options,
+    public virtual async Task<CommandResult> Zones(
+        GcloudRedisZonesOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

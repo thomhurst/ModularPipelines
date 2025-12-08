@@ -25,13 +25,13 @@ public class GcloudParametermanager
     }
 
     /// <summary>
-    /// updates the properties      of a single Parameter Manager parameter version
+    /// manage Parameter Manager parameter      resources
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudParametermanagerParametersVersionsUpdateOptions options,
+    public virtual async Task<CommandResult> Parameters(
+        GcloudParametermanagerParametersOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

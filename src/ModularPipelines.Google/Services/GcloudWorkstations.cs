@@ -25,13 +25,13 @@ public class GcloudWorkstations
     }
 
     /// <summary>
-    /// updates a workstation configuration
+    /// start a tunnel through which a local      process can forward TCP traffic to the workstation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudWorkstationsConfigsUpdateOptions options,
+    public virtual async Task<CommandResult> StartTcpTunnel(
+        GcloudWorkstationsStartTcpTunnelOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

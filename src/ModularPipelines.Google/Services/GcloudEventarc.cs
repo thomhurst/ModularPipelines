@@ -25,13 +25,13 @@ public class GcloudEventarc
     }
 
     /// <summary>
-    /// list values for      the serviceName attribute for event type      google.cloud.audit.log.v1.written
+    /// explore event providers available in Eventarc
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudEventarcAuditLogsProviderServiceNamesListOptions options,
+    public virtual async Task<CommandResult> Providers(
+        GcloudEventarcProvidersOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

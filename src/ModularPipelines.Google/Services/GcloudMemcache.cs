@@ -25,13 +25,13 @@ public class GcloudMemcache
     }
 
     /// <summary>
-    /// list Memorystore Memcached regions
+    /// manage Cloud Memorystore Memcached regions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudMemcacheRegionsListOptions options,
+    public virtual async Task<CommandResult> Regions(
+        GcloudMemcacheRegionsOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

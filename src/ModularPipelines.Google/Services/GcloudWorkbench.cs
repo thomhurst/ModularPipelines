@@ -25,13 +25,13 @@ public class GcloudWorkbench
     }
 
     /// <summary>
-    /// updates a workbench instance
+    /// workbench Instances command group
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudWorkbenchInstancesUpdateOptions options,
+    public virtual async Task<CommandResult> Instances(
+        GcloudWorkbenchInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

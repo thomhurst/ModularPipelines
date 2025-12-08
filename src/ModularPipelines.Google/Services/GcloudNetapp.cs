@@ -25,13 +25,13 @@ public class GcloudNetapp
     }
 
     /// <summary>
-    /// update a Cloud NetApp Volume      Replication
+    /// create and manage Cloud NetApp Storage Pools
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudNetappVolumesReplicationsUpdateOptions options,
+    public virtual async Task<CommandResult> StoragePools(
+        GcloudNetappStoragePoolsOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

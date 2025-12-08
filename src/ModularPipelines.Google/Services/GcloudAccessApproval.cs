@@ -25,13 +25,13 @@ public class GcloudAccessApproval
     }
 
     /// <summary>
-    /// update Access Approval settings
+    /// manage Access Approval settings
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudAccessApprovalSettingsUpdateOptions options,
+    public virtual async Task<CommandResult> Settings(
+        GcloudAccessApprovalSettingsOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

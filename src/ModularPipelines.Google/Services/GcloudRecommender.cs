@@ -25,13 +25,13 @@ public class GcloudRecommender
     }
 
     /// <summary>
-    /// mark a recommendation's      state as SUCCEEDED
+    /// manage Cloud resource recommender      configuration
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> MarkSucceeded(
-        GcloudRecommenderRecommendationsMarkSucceededOptions options,
+    public virtual async Task<CommandResult> RecommenderConfig(
+        GcloudRecommenderRecommenderConfigOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

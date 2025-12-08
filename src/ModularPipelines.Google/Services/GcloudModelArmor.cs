@@ -25,13 +25,13 @@ public class GcloudModelArmor
     }
 
     /// <summary>
-    /// update Model Armor Template
+    /// manage Template resources
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudModelArmorTemplatesUpdateOptions options,
+    public virtual async Task<CommandResult> Templates(
+        GcloudModelArmorTemplatesOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);

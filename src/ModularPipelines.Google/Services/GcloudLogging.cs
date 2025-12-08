@@ -25,13 +25,13 @@ public class GcloudLogging
     }
 
     /// <summary>
-    /// remove IAM policy binding      to a log view
+    /// read log entries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudLoggingViewsRemoveIamPolicyBindingOptions options,
+    public virtual async Task<CommandResult> Read(
+        GcloudLoggingReadOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, cancellationToken);
