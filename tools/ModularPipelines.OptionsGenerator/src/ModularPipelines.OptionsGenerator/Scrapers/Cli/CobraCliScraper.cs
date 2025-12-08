@@ -34,41 +34,47 @@ public abstract partial class CobraCliScraper : CliScraperBase
 
     /// <summary>
     /// Extracts subcommand names from Cobra-style help text.
+    /// Handles multiple command sections (Common Commands, Management Commands, etc.)
     /// </summary>
     protected override IEnumerable<string> ExtractSubcommands(string helpText)
     {
         var subcommands = new List<string>();
+        var seenCommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        // Find the "Available Commands:" or "Commands:" section
-        var commandsSectionMatch = CommandsSectionPattern().Match(helpText);
-        if (!commandsSectionMatch.Success)
+        // Find ALL command sections (Common Commands, Management Commands, Swarm Commands, Commands)
+        var commandsSectionMatches = CommandsSectionPattern().Matches(helpText);
+        if (commandsSectionMatches.Count == 0)
         {
             return subcommands;
         }
 
-        var sectionStart = commandsSectionMatch.Index + commandsSectionMatch.Length;
-
-        // Find where this section ends (next section header or end of text)
-        var sectionEnd = helpText.Length;
-        var nextSectionMatch = SectionHeaderPattern().Match(helpText, sectionStart);
-        if (nextSectionMatch.Success)
+        foreach (Match commandsSectionMatch in commandsSectionMatches)
         {
-            sectionEnd = nextSectionMatch.Index;
-        }
+            var sectionStart = commandsSectionMatch.Index + commandsSectionMatch.Length;
 
-        var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
-
-        // Parse command lines: "  command    description"
-        var lines = section.Split('\n');
-        foreach (var line in lines)
-        {
-            var match = SubcommandLinePattern().Match(line);
-            if (match.Success)
+            // Find where this section ends (next section header or end of text)
+            var sectionEnd = helpText.Length;
+            var nextSectionMatch = SectionHeaderPattern().Match(helpText, sectionStart);
+            if (nextSectionMatch.Success)
             {
-                var commandName = match.Groups["name"].Value.Trim();
-                if (!string.IsNullOrEmpty(commandName) && !commandName.Contains(' '))
+                sectionEnd = nextSectionMatch.Index;
+            }
+
+            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+
+            // Parse command lines: "  command    description"
+            var lines = section.Split('\n');
+            foreach (var line in lines)
+            {
+                var match = SubcommandLinePattern().Match(line);
+                if (match.Success)
                 {
-                    subcommands.Add(commandName);
+                    var commandName = match.Groups["name"].Value.Trim();
+                    if (!string.IsNullOrEmpty(commandName) && !commandName.Contains(' ') &&
+                        seenCommands.Add(commandName))
+                    {
+                        subcommands.Add(commandName);
+                    }
                 }
             }
         }
@@ -584,8 +590,9 @@ public abstract partial class CobraCliScraper : CliScraperBase
 
     /// <summary>
     /// Matches subcommand lines: "  command    description"
+    /// Also handles Docker's asterisk markers for extensions: "  buildx*    description"
     /// </summary>
-    [GeneratedRegex(@"^\s{2,}(?<name>[\w-]+)\s{2,}", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s{2,}(?<name>[\w-]+)\*?\s{2,}", RegexOptions.Multiline)]
     private static partial Regex SubcommandLinePattern();
 
     /// <summary>
