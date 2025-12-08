@@ -96,7 +96,6 @@ public sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     private static void AddOption(List<string> args, OptionPart optionPart, object rawValue)
     {
         var values = GetValues(rawValue);
-        var addedCount = 0;
 
         foreach (var value in values)
         {
@@ -116,14 +115,6 @@ public sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             else
             {
                 args.Add($"{optionName}{separator}{value}");
-            }
-
-            addedCount++;
-
-            // If AllowMultiple is false, only add the first value
-            if (!optionPart.Attribute.AllowMultiple)
-            {
-                break;
             }
         }
     }
