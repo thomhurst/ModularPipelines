@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Docker.Extensions;
+using ModularPipelines.Docker.Options;
 using ModularPipelines.Extensions;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
@@ -21,18 +22,19 @@ public class DockerTests : TestBase
                 .GetFolder("MyApp")
                 .GetFile("Dockerfile");
 
-            return await context.Docker().DockerImage.Build(new(pretendPath)
+            return await context.Docker().Image.Build(new DockerImageBuildOptions
             {
                 InternalDryRun = true,
-                BuildArg = new List<KeyValue>
+                BuildArg = new List<string>
                 {
-                    ("Arg1", "Value1"),
-                    ("Arg2", "Value2"),
-                    ("Arg3", "Value3"),
+                    "Arg1=Value1",
+                    "Arg2=Value2",
+                    "Arg3=Value3",
                 },
-                Tag = "mytaggedimage",
+                Tag = new[] { "mytaggedimage" },
                 Target = "build-env",
-            }, token: cancellationToken);
+                Arguments = [pretendPath.Path],
+            }, cancellationToken);
         }
     }
 
@@ -56,6 +58,6 @@ public class DockerTests : TestBase
             .GetFolder("MyApp")
             .GetFile("Dockerfile").Path;
 
-        await Assert.That(result.Value!.CommandInput).IsEqualTo($"docker image build --build-arg Arg1=Value1 --build-arg Arg2=Value2 --build-arg Arg3=Value3 --tag mytaggedimage --target build-env {dockerfilePath}");
+        await Assert.That(result.Value!.CommandInput).IsEqualTo($"docker image build --build-arg=Arg1=Value1 --build-arg=Arg2=Value2 --build-arg=Arg3=Value3 --tag=mytaggedimage --target=build-env {dockerfilePath}");
     }
 }

@@ -54,4 +54,10 @@ public record GitDiffOptions : GitOptions
     [CliOption("--abbrev=<n>")]
     public int? Abbrev { get; set; }
 
+    /// <summary>
+    /// Disable all output of the program. Implies --exit-code.
+    /// </summary>
+    [CliFlag("--quiet")]
+    public bool? Quiet { get; set; }
+
 }
