@@ -31,7 +31,7 @@ public record DockerNetworkConnectOptions : DockerOptions
     public IEnumerable<string>? DriverOpt { get; set; }
 
     /// <summary>
-    /// Highest gw-priority provides the default
+    /// Highest gw-priority provides the default gateway. Accepts positive and negative values.
     /// </summary>
     [CliOption("--gw-priority", Format = OptionFormat.EqualsSeparated)]
     public int? GwPriority { get; set; }

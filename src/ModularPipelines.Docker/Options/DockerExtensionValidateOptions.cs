@@ -19,25 +19,25 @@ namespace ModularPipelines.Docker.Options;
 public record DockerExtensionValidateOptions : DockerOptions
 {
     /// <summary>
-    /// Use the greatest semver tag
+    /// Use the greatest semver tag available in the DockerHub repository (overrides the tag specified, if any)
     /// </summary>
     [CliFlag("--auto-resolve-tag", ShortForm = "-a")]
     public bool? AutoResolveTag { get; set; }
 
     /// <summary>
-    /// Only outputs validation errors (no
+    /// Only outputs validation errors (no log or debug messages). Can't be set alongside verbose flag.
     /// </summary>
     [CliFlag("--errors-only", ShortForm = "-e")]
     public bool? ErrorsOnly { get; set; }
 
     /// <summary>
-    /// Validate the extension is compatible
+    /// Validate the extension is compatible with the SDK version (requires having Docker Desktop running)
     /// </summary>
     [CliFlag("--sdk-compatibility", ShortForm = "-s")]
     public bool? SdkCompatibility { get; set; }
 
     /// <summary>
-    /// Validate the installation and
+    /// Validate the installation and uninstallation process
     /// </summary>
     [CliFlag("--validate-install-uninstall", ShortForm = "-i")]
     public bool? ValidateInstallUninstall { get; set; }

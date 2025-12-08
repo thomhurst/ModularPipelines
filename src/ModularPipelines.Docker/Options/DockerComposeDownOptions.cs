@@ -25,13 +25,13 @@ public record DockerComposeDownOptions : DockerOptions
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Remove containers for services not defined in
+    /// Remove containers for services not defined in the Compose file
     /// </summary>
     [CliFlag("--remove-orphans")]
     public bool? RemoveOrphans { get; set; }
 
     /// <summary>
-    /// Remove images used by services. "local" remove
+    /// Remove images used by services. "local" remove only images that don't have a custom tag ("local"|"all")
     /// </summary>
     [CliOption("--rmi", Format = OptionFormat.EqualsSeparated)]
     public string? Rmi { get; set; }
@@ -43,7 +43,7 @@ public record DockerComposeDownOptions : DockerOptions
     public int? Timeout { get; set; }
 
     /// <summary>
-    /// Remove named volumes declared in the "volumes"
+    /// Remove named volumes declared in the "volumes" section of the Compose file and anonymous volumes attached to containers
     /// </summary>
     [CliFlag("--volumes", ShortForm = "-v")]
     public bool? Volumes { get; set; }

@@ -19,37 +19,37 @@ namespace ModularPipelines.Docker.Options;
 public record DockerDesktopLogsOptions : DockerOptions
 {
     /// <summary>
-    /// Show logs from a specified boot. Zero means
+    /// Show logs from a specified boot. Zero means the current or boot, one the second last boot, and so on.
     /// </summary>
     [CliOption("--boot", ShortForm = "-b", Format = OptionFormat.EqualsSeparated)]
     public int? Boot { get; set; }
 
     /// <summary>
-    /// Enable colored output. Priority levels are
+    /// Enable colored output. Priority levels are highlighted.
     /// </summary>
     [CliFlag("--color", ShortForm = "-c")]
     public bool? Color { get; set; }
 
     /// <summary>
-    /// Color mode to use. Can be 'default' or
+    /// Color mode to use. Can be 'default' or 'priority' (default "default")
     /// </summary>
     [CliOption("--color-mode", ShortForm = "-m", Format = OptionFormat.EqualsSeparated)]
     public string? ColorMode { get; set; }
 
     /// <summary>
-    /// Specifies a custom directory to search for
+    /// Specifies a custom directory to search for log entries.
     /// </summary>
     [CliOption("--directory", ShortForm = "-D", Format = OptionFormat.EqualsSeparated)]
     public string? Directory { get; set; }
 
     /// <summary>
-    /// Filter output by log priorities. -1 (default)
+    /// Filter output by log priorities. -1 (default) is all, 0 is info or above, 1 warnings or above, 2 errors. (default -1)
     /// </summary>
     [CliOption("--priority", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public int? Priority { get; set; }
 
     /// <summary>
-    /// Start showing entries on or newer than the
+    /// Start showing entries on or newer than the specified date and time. Uses the systemd.time(7) format.
     /// </summary>
     [CliOption("--since", ShortForm = "-S", Format = OptionFormat.EqualsSeparated)]
     public string? Since { get; set; }
@@ -61,7 +61,7 @@ public record DockerDesktopLogsOptions : DockerOptions
     public IEnumerable<string>? Unit { get; set; }
 
     /// <summary>
-    /// Start showing entries on or before than the
+    /// Start showing entries on or before than the specified date and time. Uses the systemd.time(7) format.
     /// </summary>
     [CliOption("--until", ShortForm = "-U", Format = OptionFormat.EqualsSeparated)]
     public string? Until { get; set; }

@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeAttachOptions : DockerOptions
 {
     /// <summary>
-    /// Override the key sequence for detaching from
+    /// Override the key sequence for detaching from a container.
     /// </summary>
     [CliOption("--detach-keys", Format = OptionFormat.EqualsSeparated)]
     public string? DetachKeys { get; set; }
@@ -31,7 +31,7 @@ public record DockerComposeAttachOptions : DockerOptions
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// index of the container if service has
+    /// index of the container if service has multiple replicas.
     /// </summary>
     [CliOption("--index", Format = OptionFormat.EqualsSeparated)]
     public int? Index { get; set; }
@@ -43,7 +43,7 @@ public record DockerComposeAttachOptions : DockerOptions
     public bool? NoStdin { get; set; }
 
     /// <summary>
-    /// Proxy all received signals to the process
+    /// Proxy all received signals to the process (default true)
     /// </summary>
     [CliFlag("--sig-proxy")]
     public bool? SigProxy { get; set; }

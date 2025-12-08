@@ -25,7 +25,7 @@ public record DockerModelRequestsOptions : DockerOptions
     public bool? Follow { get; set; }
 
     /// <summary>
-    /// Include existing requests when starting to
+    /// Include existing requests when starting to follow (only available with --follow)
     /// </summary>
     [CliFlag("--include-existing")]
     public bool? IncludeExisting { get; set; }

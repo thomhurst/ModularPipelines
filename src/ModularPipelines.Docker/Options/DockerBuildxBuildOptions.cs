@@ -19,13 +19,13 @@ namespace ModularPipelines.Docker.Options;
 public record DockerBuildxBuildOptions : DockerOptions
 {
     /// <summary>
-    /// Add a custom host-to-IP mapping
+    /// Add a custom host-to-IP mapping (format: "host:ip")
     /// </summary>
     [CliOption("--add-host", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? AddHost { get; set; }
 
     /// <summary>
-    /// Allow extra privileged entitlement
+    /// Allow extra privileged entitlement (e.g., "network.host", "security.insecure")
     /// </summary>
     [CliOption("--allow", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Allow { get; set; }
@@ -37,7 +37,7 @@ public record DockerBuildxBuildOptions : DockerOptions
     public IEnumerable<string>? Annotation { get; set; }
 
     /// <summary>
-    /// Attestation parameters (format:
+    /// Attestation parameters (format: "type=sbom,generator=image")
     /// </summary>
     [CliOption("--attest", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Attest { get; set; }
@@ -49,7 +49,7 @@ public record DockerBuildxBuildOptions : DockerOptions
     public IEnumerable<string>? BuildArg { get; set; }
 
     /// <summary>
-    /// Additional build contexts (e.g.,
+    /// Additional build contexts (e.g., name=path)
     /// </summary>
     [CliOption("--build-context", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? BuildContext { get; set; }
@@ -61,25 +61,25 @@ public record DockerBuildxBuildOptions : DockerOptions
     public string? Builder { get; set; }
 
     /// <summary>
-    /// External cache sources (e.g.,
+    /// External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
     /// </summary>
     [CliOption("--cache-from", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? CacheFrom { get; set; }
 
     /// <summary>
-    /// Cache export destinations (e.g.,
+    /// Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
     /// </summary>
     [CliOption("--cache-to", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? CacheTo { get; set; }
 
     /// <summary>
-    /// Set method for evaluating build
+    /// Set method for evaluating build ("check", "outline", "targets") (default "build")
     /// </summary>
     [CliOption("--call", Format = OptionFormat.EqualsSeparated)]
     public string? Call { get; set; }
 
     /// <summary>
-    /// Set the parent cgroup for the "RUN"
+    /// Set the parent cgroup for the "RUN" instructions during build
     /// </summary>
     [CliOption("--cgroup-parent", Format = OptionFormat.EqualsSeparated)]
     public string? CgroupParent { get; set; }
@@ -97,7 +97,7 @@ public record DockerBuildxBuildOptions : DockerOptions
     public bool? Debug { get; set; }
 
     /// <summary>
-    /// Name of the Dockerfile (default:
+    /// Name of the Dockerfile (default: "PATH/Dockerfile")
     /// </summary>
     [CliOption("--file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? File { get; set; }
@@ -127,7 +127,7 @@ public record DockerBuildxBuildOptions : DockerOptions
     public string? MetadataFile { get; set; }
 
     /// <summary>
-    /// Set the networking mode for the
+    /// Set the networking mode for the "RUN" instructions during build (default "default")
     /// </summary>
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public string? Network { get; set; }
@@ -145,7 +145,7 @@ public record DockerBuildxBuildOptions : DockerOptions
     public IEnumerable<string>? NoCacheFilter { get; set; }
 
     /// <summary>
-    /// Output destination (format:
+    /// Output destination (format: "type=local,dest=path")
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Output { get; set; }
@@ -157,7 +157,7 @@ public record DockerBuildxBuildOptions : DockerOptions
     public IEnumerable<string>? Platform { get; set; }
 
     /// <summary>
-    /// Set type of progress output
+    /// Set type of progress output ("auto", "quiet", "plain", "tty", "rawjson"). Use plain to show container output (default "auto")
     /// </summary>
     [CliOption("--progress", Format = OptionFormat.EqualsSeparated)]
     public string? Progress { get; set; }
@@ -169,7 +169,7 @@ public record DockerBuildxBuildOptions : DockerOptions
     public string? Provenance { get; set; }
 
     /// <summary>
-    /// Always attempt to pull all
+    /// Always attempt to pull all referenced images
     /// </summary>
     [CliFlag("--pull")]
     public bool? Pull { get; set; }
@@ -181,7 +181,7 @@ public record DockerBuildxBuildOptions : DockerOptions
     public bool? Push { get; set; }
 
     /// <summary>
-    /// Suppress the build output and print
+    /// Suppress the build output and print image ID on success
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
@@ -211,7 +211,7 @@ public record DockerBuildxBuildOptions : DockerOptions
     public IEnumerable<string>? Ssh { get; set; }
 
     /// <summary>
-    /// Name and optionally a tag (format:
+    /// Name and optionally a tag (format: "name:tag")
     /// </summary>
     [CliOption("--tag", ShortForm = "-t", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Tag { get; set; }

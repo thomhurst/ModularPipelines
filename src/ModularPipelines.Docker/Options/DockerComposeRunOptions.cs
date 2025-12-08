@@ -37,7 +37,7 @@ public record DockerComposeRunOptions : DockerOptions
     public IEnumerable<string>? CapDrop { get; set; }
 
     /// <summary>
-    /// Run container in background and print
+    /// Run container in background and print container ID
     /// </summary>
     [CliFlag("--detach", ShortForm = "-d")]
     public bool? Detach { get; set; }
@@ -67,7 +67,7 @@ public record DockerComposeRunOptions : DockerOptions
     public IEnumerable<string>? EnvFromFile { get; set; }
 
     /// <summary>
-    /// Keep STDIN open even if not attached
+    /// Keep STDIN open even if not attached (default true)
     /// </summary>
     [CliFlag("--interactive", ShortForm = "-i")]
     public bool? Interactive { get; set; }
@@ -85,7 +85,7 @@ public record DockerComposeRunOptions : DockerOptions
     public string? Name { get; set; }
 
     /// <summary>
-    /// Disable pseudo-TTY allocation
+    /// Disable pseudo-TTY allocation (default: auto-detected) (default true)
     /// </summary>
     [CliFlag("--no-TTY", ShortForm = "-T")]
     public bool? NoTty { get; set; }
@@ -103,7 +103,7 @@ public record DockerComposeRunOptions : DockerOptions
     public IEnumerable<string>? Publish { get; set; }
 
     /// <summary>
-    /// Pull image before running
+    /// Pull image before running ("always"|"missing"|"never") (default "policy")
     /// </summary>
     [CliOption("--pull", Format = OptionFormat.EqualsSeparated)]
     public string? Pull { get; set; }
@@ -115,7 +115,7 @@ public record DockerComposeRunOptions : DockerOptions
     public bool? Quiet { get; set; }
 
     /// <summary>
-    /// Suppress progress output from the
+    /// Suppress progress output from the build process
     /// </summary>
     [CliFlag("--quiet-build")]
     public bool? QuietBuild { get; set; }
@@ -127,25 +127,25 @@ public record DockerComposeRunOptions : DockerOptions
     public bool? QuietPull { get; set; }
 
     /// <summary>
-    /// Remove containers for services not
+    /// Remove containers for services not defined in the Compose file
     /// </summary>
     [CliFlag("--remove-orphans")]
     public bool? RemoveOrphans { get; set; }
 
     /// <summary>
-    /// Automatically remove the container
+    /// Automatically remove the container when it exits
     /// </summary>
     [CliFlag("--rm")]
     public bool? Rm { get; set; }
 
     /// <summary>
-    /// Run command with all service's ports
+    /// Run command with all service's ports enabled and mapped to the host
     /// </summary>
     [CliFlag("--service-ports", ShortForm = "-P")]
     public bool? ServicePorts { get; set; }
 
     /// <summary>
-    /// Use the service's network useAliases
+    /// Use the service's network useAliases in the network(s) the container connects to
     /// </summary>
     [CliFlag("--use-aliases")]
     public bool? UseAliases { get; set; }

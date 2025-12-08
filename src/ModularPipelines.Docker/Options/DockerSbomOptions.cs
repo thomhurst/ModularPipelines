@@ -25,31 +25,31 @@ public record DockerSbomOptions : DockerOptions
     public bool? Debug { get; set; }
 
     /// <summary>
-    /// exclude paths from being scanned using a
+    /// exclude paths from being scanned using a glob expression
     /// </summary>
     [CliOption("--exclude", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Exclude { get; set; }
 
     /// <summary>
-    /// report output format, options=[syft-json
+    /// report output format, options=[syft-json cyclonedx-xml cyclonedx-json github-0-json spdx-tag-value spdx-json table text] (default "table")
     /// </summary>
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
     /// <summary>
-    /// [experimental] selection of layers to
+    /// [experimental] selection of layers to catalog, options=[squashed all] (default "squashed")
     /// </summary>
     [CliOption("--layers", Format = OptionFormat.EqualsSeparated)]
     public string? Layers { get; set; }
 
     /// <summary>
-    /// file to write the default report output to
+    /// file to write the default report output to (default is STDOUT)
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public string? Output { get; set; }
 
     /// <summary>
-    /// an optional platform specifier for
+    /// an optional platform specifier for container image sources (e.g. 'linux/arm64', 'linux/arm64/v8', 'arm64', 'linux')
     /// </summary>
     [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
     public string? Platform { get; set; }

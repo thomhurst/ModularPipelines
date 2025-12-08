@@ -37,7 +37,7 @@ public record DockerBuildxDialStdioOptions : DockerOptions
     public string? Platform { get; set; }
 
     /// <summary>
-    /// Set type of progress output ("auto", "plain",
+    /// Set type of progress output ("auto", "plain", "tty", "rawjson"). Use plain to show container output (default "quiet")
     /// </summary>
     [CliOption("--progress", Format = OptionFormat.EqualsSeparated)]
     public string? Progress { get; set; }

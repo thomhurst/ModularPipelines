@@ -25,7 +25,7 @@ public record DockerContainerStartOptions : DockerOptions
     public bool? Attach { get; set; }
 
     /// <summary>
-    /// Override the key sequence for detaching a
+    /// Override the key sequence for detaching a container
     /// </summary>
     [CliOption("--detach-keys", Format = OptionFormat.EqualsSeparated)]
     public string? DetachKeys { get; set; }

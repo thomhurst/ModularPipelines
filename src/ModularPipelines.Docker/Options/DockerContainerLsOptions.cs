@@ -31,19 +31,19 @@ public record DockerContainerLsOptions : DockerOptions
     public string? Filter { get; set; }
 
     /// <summary>
-    /// Format output using a custom template:
+    /// Format output using a custom template: 'table':            Print output in table format with column headers (default) 'table TEMPLATE':   Print output in table format using the given Go template 'json':             Print in JSON format 'TEMPLATE':         Print output using the given Go template. Refer to https://docs.docker.com/go/formatting/ for more information about formatting output with templates
     /// </summary>
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
     /// <summary>
-    /// Show n last created containers (includes all
+    /// Show n last created containers (includes all states) (default -1)
     /// </summary>
     [CliOption("--last", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
     public int? Last { get; set; }
 
     /// <summary>
-    /// Show the latest created container (includes all
+    /// Show the latest created container (includes all states)
     /// </summary>
     [CliFlag("--latest", ShortForm = "-l")]
     public bool? Latest { get; set; }

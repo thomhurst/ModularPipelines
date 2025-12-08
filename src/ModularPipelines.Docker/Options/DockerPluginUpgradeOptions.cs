@@ -25,13 +25,13 @@ public record DockerPluginUpgradeOptions : DockerOptions
     public bool? DisableContentTrust { get; set; }
 
     /// <summary>
-    /// Grant all permissions necessary to run
+    /// Grant all permissions necessary to run the plugin
     /// </summary>
     [CliFlag("--grant-all-permissions")]
     public bool? GrantAllPermissions { get; set; }
 
     /// <summary>
-    /// Do not check if specified remote plugin
+    /// Do not check if specified remote plugin matches existing plugin image
     /// </summary>
     [CliFlag("--skip-remote-check")]
     public bool? SkipRemoteCheck { get; set; }

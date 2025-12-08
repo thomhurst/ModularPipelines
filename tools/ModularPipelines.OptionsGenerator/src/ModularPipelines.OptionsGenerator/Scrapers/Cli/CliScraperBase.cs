@@ -73,6 +73,30 @@ public abstract partial class CliScraperBase : ICliScraper
     /// </summary>
     protected virtual string BaseOptionsClassName => $"{NamespacePrefix}Options";
 
+    /// <summary>
+    /// Whether to skip deprecated commands (identified by "DEPRECATED" in help text).
+    /// Defaults to false (include deprecated commands).
+    /// </summary>
+    protected virtual bool SkipDeprecatedCommands => false;
+
+    /// <summary>
+    /// Whether to skip experimental commands (identified by "EXPERIMENTAL" or "BETA" in help text).
+    /// Defaults to false (include experimental commands).
+    /// </summary>
+    protected virtual bool SkipExperimentalCommands => false;
+
+    /// <summary>
+    /// Additional subcommand names to skip (case-insensitive).
+    /// Override to add CLI-specific skip patterns.
+    /// </summary>
+    protected virtual IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>
+    /// Regex patterns to match against command descriptions for skipping.
+    /// Commands matching any pattern will be skipped.
+    /// </summary>
+    protected virtual IReadOnlyList<string> SkipDescriptionPatterns => [];
+
     #endregion
 
     protected CliScraperBase(ICliCommandExecutor executor, ILogger logger)
@@ -260,6 +284,14 @@ public abstract partial class CliScraperBase : ICliScraper
             return;
         }
 
+        // Check if this command should be skipped based on help text content
+        if (ShouldSkipBasedOnHelpText(helpText))
+        {
+            var cmdPath = string.Join(" ", path);
+            Logger.LogDebug("Skipping command based on help text filter: {Command}", cmdPath);
+            return;
+        }
+
         // If this command has options, parse and write to channel
         if (HasOptions(helpText) && path.Length > 1)
         {
@@ -388,6 +420,14 @@ public abstract partial class CliScraperBase : ICliScraper
     }
 
     /// <summary>
+    /// Default subcommands to always skip.
+    /// </summary>
+    private static readonly HashSet<string> DefaultSkipSubcommands = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "help", "completion", "version", "__complete", "__completeNoDesc"
+    };
+
+    /// <summary>
     /// Checks if a subcommand should be skipped (e.g., "help", "completion").
     /// Override to add CLI-specific skip patterns.
     /// </summary>
@@ -400,8 +440,64 @@ public abstract partial class CliScraperBase : ICliScraper
             return true;
         }
 
-        var lowerName = subcommand.ToLowerInvariant();
-        return lowerName is "help" or "completion" or "version" or "__complete" or "__completenoDesc";
+        // Check default skip list
+        if (DefaultSkipSubcommands.Contains(subcommand))
+        {
+            return true;
+        }
+
+        // Check additional skip list from derived class
+        if (AdditionalSkipSubcommands.Contains(subcommand))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Checks if a command should be skipped based on its help text content.
+    /// Looks for deprecated/experimental markers based on configuration.
+    /// </summary>
+    protected virtual bool ShouldSkipBasedOnHelpText(string helpText)
+    {
+        if (string.IsNullOrWhiteSpace(helpText))
+        {
+            return false;
+        }
+
+        // Check for deprecated commands
+        if (SkipDeprecatedCommands)
+        {
+            if (helpText.Contains("DEPRECATED", StringComparison.OrdinalIgnoreCase) ||
+                helpText.Contains("deprecated", StringComparison.Ordinal))
+            {
+                return true;
+            }
+        }
+
+        // Check for experimental/beta commands
+        if (SkipExperimentalCommands)
+        {
+            if (helpText.Contains("EXPERIMENTAL", StringComparison.OrdinalIgnoreCase) ||
+                helpText.Contains("BETA", StringComparison.OrdinalIgnoreCase) ||
+                helpText.Contains("experimental", StringComparison.Ordinal) ||
+                helpText.Contains("(beta)", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+        }
+
+        // Check custom skip patterns
+        foreach (var pattern in SkipDescriptionPatterns)
+        {
+            if (Regex.IsMatch(helpText, pattern, RegexOptions.IgnoreCase))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     #endregion

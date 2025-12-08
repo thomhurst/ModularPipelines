@@ -240,16 +240,9 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 var typeHint = match.Groups["type"].Value.Trim();
                 var description = match.Groups["desc"].Value.Trim();
 
-                // For kubectl format, description might be on next line
-                if (string.IsNullOrEmpty(description) && i + 1 < lines.Length)
-                {
-                    var nextLine = lines[i + 1].Trim();
-                    if (!nextLine.StartsWith('-') && !string.IsNullOrEmpty(nextLine))
-                    {
-                        description = nextLine;
-                        i++; // Skip the description line
-                    }
-                }
+                // Accumulate multi-line descriptions
+                // Look ahead for continuation lines that are indented but don't start with a dash
+                i = AccumulateMultiLineDescription(lines, i, ref description);
 
                 if (string.IsNullOrEmpty(longForm))
                 {
@@ -291,14 +284,16 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 }
 
                 var isFlag = string.IsNullOrEmpty(actualType) || IsKnownBooleanType(actualType);
-                var isNumeric = IsKnownNumericType(actualType);
+                var isInteger = IsKnownIntegerType(actualType);
+                var isFloat = IsKnownFloatType(actualType);
+                var isDuration = IsKnownDurationType(actualType);
                 var isArray = IsKnownArrayType(actualType);
                 var isKeyValue = IsKnownKeyValueType(actualType);
 
                 // Try to detect enum values
                 var enumDef = TryDetectEnumFromDescription(propertyName, className, actualType, description);
 
-                var csharpType = DetermineCSharpType(isFlag, isArray, isKeyValue, isNumeric, enumDef);
+                var csharpType = DetermineCSharpType(isFlag, isArray, isKeyValue, isInteger, isFloat, isDuration, enumDef);
                 var separator = isFlag ? " " : "=";
 
                 options.Add(new CliOptionDefinition
@@ -312,7 +307,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
                     IsRequired = false,
                     AcceptsMultipleValues = isArray,
                     IsKeyValue = isKeyValue,
-                    IsNumeric = isNumeric,
+                    IsNumeric = isInteger || isFloat,
                     ValueSeparator = separator,
                     EnumDefinition = enumDef
                 });
@@ -374,6 +369,73 @@ public abstract partial class CobraCliScraper : CliScraperBase
         }
 
         return sections;
+    }
+
+    /// <summary>
+    /// Accumulates multi-line descriptions by looking ahead for continuation lines.
+    /// Continuation lines are identified as:
+    /// - Indented lines that don't start with a dash (not a new option)
+    /// - Not empty lines (stop at blank lines)
+    /// - Not section headers (lines ending with ':')
+    /// </summary>
+    /// <param name="lines">All lines in the section.</param>
+    /// <param name="currentIndex">Current line index.</param>
+    /// <param name="description">Description to accumulate into (ref).</param>
+    /// <returns>The new line index after consuming continuation lines.</returns>
+    private static int AccumulateMultiLineDescription(string[] lines, int currentIndex, ref string description)
+    {
+        var descriptionParts = new List<string>();
+        if (!string.IsNullOrEmpty(description))
+        {
+            descriptionParts.Add(description);
+        }
+
+        // Look ahead for continuation lines
+        var nextIndex = currentIndex + 1;
+        while (nextIndex < lines.Length)
+        {
+            var nextLine = lines[nextIndex];
+            var trimmedNext = nextLine.Trim();
+
+            // Stop conditions:
+            // 1. Empty line (paragraph break)
+            if (string.IsNullOrWhiteSpace(trimmedNext))
+            {
+                break;
+            }
+
+            // 2. New option line (starts with dash)
+            if (trimmedNext.StartsWith('-'))
+            {
+                break;
+            }
+
+            // 3. Section header (ends with ':' and is relatively short)
+            if (trimmedNext.EndsWith(':') && trimmedNext.Length < 50)
+            {
+                break;
+            }
+
+            // 4. Line is not indented enough (less than ~20 spaces means it's likely a new element)
+            // Continuation lines in Cobra help are typically deeply indented
+            var leadingSpaces = nextLine.Length - nextLine.TrimStart().Length;
+            if (leadingSpaces < 20 && !string.IsNullOrEmpty(description))
+            {
+                // If we already have a description and this line is not deeply indented,
+                // it might be a new option without dashes or something else
+                break;
+            }
+
+            // This is a continuation line - add it to the description
+            descriptionParts.Add(trimmedNext);
+            nextIndex++;
+        }
+
+        // Join all parts with space
+        description = string.Join(" ", descriptionParts);
+
+        // Return the last consumed index (loop will increment by 1)
+        return nextIndex - 1;
     }
 
     /// <summary>
@@ -534,42 +596,104 @@ public abstract partial class CobraCliScraper : CliScraperBase
         return args;
     }
 
+    #region Type Detection - HashSet-based for extensibility
+
+    /// <summary>
+    /// Known boolean type hints.
+    /// </summary>
+    private static readonly HashSet<string> KnownBooleanTypes = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "bool", "boolean"
+    };
+
+    /// <summary>
+    /// Known integer type hints.
+    /// </summary>
+    private static readonly HashSet<string> KnownIntegerTypes = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "int", "int32", "int64", "uint", "uint32", "uint64", "integer", "number", "count"
+    };
+
+    /// <summary>
+    /// Known floating-point type hints.
+    /// </summary>
+    private static readonly HashSet<string> KnownFloatTypes = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "float", "float32", "float64", "double", "decimal", "number64", "real"
+    };
+
+    /// <summary>
+    /// Known duration/time type hints.
+    /// </summary>
+    private static readonly HashSet<string> KnownDurationTypes = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "duration", "time", "timeout", "interval"
+    };
+
+    /// <summary>
+    /// Known array/list type hints.
+    /// </summary>
+    private static readonly HashSet<string> KnownArrayTypes = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "list", "array", "strings", "stringarray", "stringslice", "slice"
+    };
+
+    /// <summary>
+    /// Known key-value/map type hints.
+    /// </summary>
+    private static readonly HashSet<string> KnownKeyValueTypes = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "map", "stringtostring", "keyvalue", "dict", "dictionary", "mapping"
+    };
+
     private static bool IsKnownBooleanType(string typeHint)
     {
-        var lower = typeHint.ToLowerInvariant();
-        return lower is "bool" or "boolean" or "";
+        return string.IsNullOrEmpty(typeHint) || KnownBooleanTypes.Contains(typeHint);
     }
 
-    private static bool IsKnownNumericType(string typeHint)
+    private static bool IsKnownIntegerType(string typeHint)
     {
-        var lower = typeHint.ToLowerInvariant();
-        return lower is "int" or "int32" or "int64" or "uint" or "integer" or "number";
+        return KnownIntegerTypes.Contains(typeHint);
+    }
+
+    private static bool IsKnownFloatType(string typeHint)
+    {
+        return KnownFloatTypes.Contains(typeHint);
+    }
+
+    private static bool IsKnownDurationType(string typeHint)
+    {
+        return KnownDurationTypes.Contains(typeHint);
     }
 
     private static bool IsKnownArrayType(string typeHint)
     {
-        var lower = typeHint.ToLowerInvariant();
-        return lower is "list" or "array" or "strings" or "stringarray" or "stringslice";
+        return KnownArrayTypes.Contains(typeHint);
     }
 
     private static bool IsKnownKeyValueType(string typeHint)
     {
-        var lower = typeHint.ToLowerInvariant();
-        return lower is "map" or "stringtostring" or "keyvalue";
+        return KnownKeyValueTypes.Contains(typeHint);
     }
+
+    #endregion
 
     private static string DetermineCSharpType(
         bool isFlag,
         bool isArray,
         bool isKeyValue,
-        bool isNumeric,
+        bool isInteger,
+        bool isFloat,
+        bool isDuration,
         CliEnumDefinition? enumDef)
     {
         if (isFlag) return "bool?";
         if (enumDef is not null) return $"{enumDef.EnumName}?";
         if (isKeyValue) return "KeyValue[]?";
         if (isArray) return "IEnumerable<string>?";
-        if (isNumeric) return "int?";
+        if (isInteger) return "int?";
+        if (isFloat) return "double?";
+        if (isDuration) return "string?"; // Duration as string (e.g., "30s", "5m") - CLI handles parsing
         return "string?";
     }
 

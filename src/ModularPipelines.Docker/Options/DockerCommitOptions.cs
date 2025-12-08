@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerCommitOptions : DockerOptions
 {
     /// <summary>
-    /// Author (e.g., "John Hannibal Smith
+    /// Author (e.g., "John Hannibal Smith &lt;hannibal@a-team.com&gt;")
     /// </summary>
     [CliOption("--author", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
     public string? Author { get; set; }

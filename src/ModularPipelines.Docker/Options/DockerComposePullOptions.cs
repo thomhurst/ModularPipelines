@@ -31,7 +31,7 @@ public record DockerComposePullOptions : DockerOptions
     public bool? IgnoreBuildable { get; set; }
 
     /// <summary>
-    /// Pull what it can and ignores images with
+    /// Pull what it can and ignores images with pull failures
     /// </summary>
     [CliFlag("--ignore-pull-failures")]
     public bool? IgnorePullFailures { get; set; }

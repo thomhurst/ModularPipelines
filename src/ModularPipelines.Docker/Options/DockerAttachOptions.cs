@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerAttachOptions : DockerOptions
 {
     /// <summary>
-    /// Override the key sequence for detaching a
+    /// Override the key sequence for detaching a container
     /// </summary>
     [CliOption("--detach-keys", Format = OptionFormat.EqualsSeparated)]
     public string? DetachKeys { get; set; }
@@ -31,7 +31,7 @@ public record DockerAttachOptions : DockerOptions
     public bool? NoStdin { get; set; }
 
     /// <summary>
-    /// Proxy all received signals to the process
+    /// Proxy all received signals to the process (default true)
     /// </summary>
     [CliFlag("--sig-proxy")]
     public bool? SigProxy { get; set; }

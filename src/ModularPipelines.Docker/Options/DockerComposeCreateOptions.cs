@@ -31,7 +31,7 @@ public record DockerComposeCreateOptions : DockerOptions
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Recreate containers even if their configuration
+    /// Recreate containers even if their configuration and image haven't changed
     /// </summary>
     [CliFlag("--force-recreate")]
     public bool? ForceRecreate { get; set; }
@@ -43,13 +43,13 @@ public record DockerComposeCreateOptions : DockerOptions
     public bool? NoBuild { get; set; }
 
     /// <summary>
-    /// If containers already exist, don't recreate
+    /// If containers already exist, don't recreate them. Incompatible with --force-recreate.
     /// </summary>
     [CliFlag("--no-recreate")]
     public bool? NoRecreate { get; set; }
 
     /// <summary>
-    /// Pull image before running
+    /// Pull image before running ("always"|"missing"|"never"|"build") (default "policy")
     /// </summary>
     [CliOption("--pull", Format = OptionFormat.EqualsSeparated)]
     public string? Pull { get; set; }
@@ -61,19 +61,19 @@ public record DockerComposeCreateOptions : DockerOptions
     public bool? QuietPull { get; set; }
 
     /// <summary>
-    /// Remove containers for services not defined in
+    /// Remove containers for services not defined in the Compose file
     /// </summary>
     [CliFlag("--remove-orphans")]
     public bool? RemoveOrphans { get; set; }
 
     /// <summary>
-    /// Scale SERVICE to NUM instances. Overrides the
+    /// Scale SERVICE to NUM instances. Overrides the scale setting in the Compose file if present.
     /// </summary>
     [CliOption("--scale", Format = OptionFormat.EqualsSeparated)]
     public string? Scale { get; set; }
 
     /// <summary>
-    /// Assume "yes" as answer to all prompts and run
+    /// Assume "yes" as answer to all prompts and run non-interactively
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }

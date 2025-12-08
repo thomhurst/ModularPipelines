@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerModelPullOptions : DockerOptions
 {
     /// <summary>
-    /// Do not block pull if estimated
+    /// Do not block pull if estimated runtime memory for model exceeds system resources.
     /// </summary>
     [CliFlag("--ignore-runtime-memory-check")]
     public bool? IgnoreRuntimeMemoryCheck { get; set; }

@@ -31,7 +31,7 @@ public record DockerPullOptions : DockerOptions
     public bool? DisableContentTrust { get; set; }
 
     /// <summary>
-    /// Set platform if server is multi-platform
+    /// Set platform if server is multi-platform capable
     /// </summary>
     [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
     public string? Platform { get; set; }

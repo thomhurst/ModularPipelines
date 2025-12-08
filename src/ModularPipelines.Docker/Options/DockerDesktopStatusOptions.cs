@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerDesktopStatusOptions : DockerOptions
 {
     /// <summary>
-    /// Format the output. Accepted values are: pretty,
+    /// Format the output. Accepted values are: pretty, json (default "pretty")
     /// </summary>
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }

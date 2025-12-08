@@ -25,7 +25,7 @@ public record DockerAiOptions : DockerOptions
     public bool? SendFiles { get; set; }
 
     /// <summary>
-    /// Send project structure when asked to
+    /// Send project structure when asked to (default true)
     /// </summary>
     [CliFlag("--send-project-structure")]
     public bool? SendProjectStructure { get; set; }

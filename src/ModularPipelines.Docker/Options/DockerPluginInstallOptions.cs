@@ -37,7 +37,7 @@ public record DockerPluginInstallOptions : DockerOptions
     public bool? DisableContentTrust { get; set; }
 
     /// <summary>
-    /// Grant all permissions necessary to run
+    /// Grant all permissions necessary to run the plugin
     /// </summary>
     [CliFlag("--grant-all-permissions")]
     public bool? GrantAllPermissions { get; set; }

@@ -19,31 +19,31 @@ namespace ModularPipelines.Docker.Options;
 public record DockerDebugOptions : DockerOptions
 {
     /// <summary>
-    /// Evaluate the specified commands instead, passing
+    /// Evaluate the specified commands instead, passing additional positional arguments through $argv.
     /// </summary>
     [CliOption("--command", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public string? Command { get; set; }
 
     /// <summary>
-    /// Daemon docker socket to connect to. E.g.:
+    /// Daemon docker socket to connect to. E.g.: 'ssh://root@example.org', 'unix:///some/path/docker.sock'
     /// </summary>
     [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
     public string? Host { get; set; }
 
     /// <summary>
-    /// Running containers only: Use same user as the
+    /// Running containers only: Use same user as the running container. Default is root.
     /// </summary>
     [CliFlag("--preserve-user")]
     public bool? PreserveUser { get; set; }
 
     /// <summary>
-    /// Running containers only: Give privileges to the
+    /// Running containers only: Give privileges to the shell (all capabilities).
     /// </summary>
     [CliFlag("--privileged")]
     public bool? Privileged { get; set; }
 
     /// <summary>
-    /// Select a shell. Supported: "bash", "fish",
+    /// Select a shell. Supported: "bash", "fish", "zsh", "auto". (default auto)
     /// </summary>
     [CliOption("--shell", Format = OptionFormat.EqualsSeparated)]
     public string? Shell { get; set; }

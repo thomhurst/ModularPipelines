@@ -25,7 +25,7 @@ public record DockerComposePortOptions : DockerOptions
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Index of the container if service has multiple
+    /// Index of the container if service has multiple replicas
     /// </summary>
     [CliOption("--index", Format = OptionFormat.EqualsSeparated)]
     public int? Index { get; set; }

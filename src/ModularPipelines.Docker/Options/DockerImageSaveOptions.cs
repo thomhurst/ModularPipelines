@@ -25,7 +25,7 @@ public record DockerImageSaveOptions : DockerOptions
     public string? Output { get; set; }
 
     /// <summary>
-    /// Save only the given platform variant. Formatted
+    /// Save only the given platform variant. Formatted as "os[/arch[/variant]]" (e.g., "linux/amd64")
     /// </summary>
     [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
     public string? Platform { get; set; }

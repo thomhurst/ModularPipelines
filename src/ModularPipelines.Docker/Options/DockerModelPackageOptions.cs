@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerModelPackageOptions : DockerOptions
 {
     /// <summary>
-    /// absolute path to chat template file (must
+    /// absolute path to chat template file (must be Jinja format)
     /// </summary>
     [CliOption("--chat-template", Format = OptionFormat.EqualsSeparated)]
     public string? ChatTemplate { get; set; }
@@ -43,7 +43,7 @@ public record DockerModelPackageOptions : DockerOptions
     public IEnumerable<string>? License { get; set; }
 
     /// <summary>
-    /// push to registry (if not set, the model is
+    /// push to registry (if not set, the model is loaded into the Model Runner content store)
     /// </summary>
     [CliFlag("--push")]
     public bool? Push { get; set; }

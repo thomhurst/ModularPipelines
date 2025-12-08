@@ -31,13 +31,13 @@ public record DockerContainerLogsOptions : DockerOptions
     public bool? Follow { get; set; }
 
     /// <summary>
-    /// Show logs since timestamp (e.g.
+    /// Show logs since timestamp (e.g. "2013-01-02T13:23:37Z") or relative (e.g. "42m" for 42 minutes)
     /// </summary>
     [CliOption("--since", Format = OptionFormat.EqualsSeparated)]
     public string? Since { get; set; }
 
     /// <summary>
-    /// Number of lines to show from the end of the logs
+    /// Number of lines to show from the end of the logs (default "all")
     /// </summary>
     [CliOption("--tail", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
     public string? Tail { get; set; }
@@ -49,7 +49,7 @@ public record DockerContainerLogsOptions : DockerOptions
     public bool? Timestamps { get; set; }
 
     /// <summary>
-    /// Show logs before a timestamp (e.g.
+    /// Show logs before a timestamp (e.g. "2013-01-02T13:23:37Z") or relative (e.g. "42m" for 42 minutes)
     /// </summary>
     [CliOption("--until", Format = OptionFormat.EqualsSeparated)]
     public string? Until { get; set; }

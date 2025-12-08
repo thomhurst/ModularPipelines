@@ -31,7 +31,7 @@ public record DockerPushOptions : DockerOptions
     public bool? DisableContentTrust { get; set; }
 
     /// <summary>
-    /// Push a platform-specific manifest as a
+    /// Push a platform-specific manifest as a single-platform image to the registry. Image index won't be pushed, meaning that other manifests, including attestations won't be preserved. 'os[/arch[/variant]]': Explicit platform (eg. linux/amd64)
     /// </summary>
     [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
     public string? Platform { get; set; }

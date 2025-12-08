@@ -25,7 +25,7 @@ public record DockerBuilderRmOptions : DockerOptions
     public bool? AllInactive { get; set; }
 
     /// <summary>
-    /// Override the configured builder instance
+    /// Override the configured builder instance (default "desktop-linux")
     /// </summary>
     [CliOption("--builder", Format = OptionFormat.EqualsSeparated)]
     public string? Builder { get; set; }

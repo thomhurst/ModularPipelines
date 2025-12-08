@@ -25,7 +25,7 @@ public record DockerImageLoadOptions : DockerOptions
     public string? Input { get; set; }
 
     /// <summary>
-    /// Load only the given platform variant. Formatted
+    /// Load only the given platform variant. Formatted as "os[/arch[/variant]]" (e.g., "linux/amd64")
     /// </summary>
     [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
     public string? Platform { get; set; }

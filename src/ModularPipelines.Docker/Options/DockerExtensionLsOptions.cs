@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerExtensionLsOptions : DockerOptions
 {
     /// <summary>
-    /// Format the output. Values: [pretty | json].
+    /// Format the output. Values: [pretty | json]. (default "pretty")
     /// </summary>
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }

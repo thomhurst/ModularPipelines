@@ -25,7 +25,7 @@ public record DockerSystemEventsOptions : DockerOptions
     public string? Filter { get; set; }
 
     /// <summary>
-    /// Format output using a custom template:
+    /// Format output using a custom template: 'json':             Print in JSON format 'TEMPLATE':         Print output using the given Go template. Refer to https://docs.docker.com/go/formatting/ for more information about formatting output with templates
     /// </summary>
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }

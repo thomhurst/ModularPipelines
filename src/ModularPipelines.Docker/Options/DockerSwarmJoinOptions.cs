@@ -19,25 +19,25 @@ namespace ModularPipelines.Docker.Options;
 public record DockerSwarmJoinOptions : DockerOptions
 {
     /// <summary>
-    /// Advertised address (format:
+    /// Advertised address (format: "&lt;ip|interface&gt;[:port]")
     /// </summary>
     [CliOption("--advertise-addr", Format = OptionFormat.EqualsSeparated)]
     public string? AdvertiseAddr { get; set; }
 
     /// <summary>
-    /// Availability of the node ("active",
+    /// Availability of the node ("active", "pause", "drain") (default "active")
     /// </summary>
     [CliOption("--availability", Format = OptionFormat.EqualsSeparated)]
     public string? Availability { get; set; }
 
     /// <summary>
-    /// Address or interface to use for data path
+    /// Address or interface to use for data path traffic (format: "&lt;ip|interface&gt;")
     /// </summary>
     [CliOption("--data-path-addr", Format = OptionFormat.EqualsSeparated)]
     public string? DataPathAddr { get; set; }
 
     /// <summary>
-    /// Listen address (format:
+    /// Listen address (format: "&lt;ip|interface&gt;[:port]") (default 0.0.0.0:2377)
     /// </summary>
     [CliOption("--listen-addr", Format = OptionFormat.EqualsSeparated)]
     public string? ListenAddr { get; set; }

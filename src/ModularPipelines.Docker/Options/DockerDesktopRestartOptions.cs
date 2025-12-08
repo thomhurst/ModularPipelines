@@ -19,13 +19,13 @@ namespace ModularPipelines.Docker.Options;
 public record DockerDesktopRestartOptions : DockerOptions
 {
     /// <summary>
-    /// Do not synchronously wait for the requested
+    /// Do not synchronously wait for the requested operation to complete.
     /// </summary>
     [CliFlag("--detach", ShortForm = "-d")]
     public bool? Detach { get; set; }
 
     /// <summary>
-    /// Terminate the running command after the
+    /// Terminate the running command after the specified timeout with a non-zero exit code. A value of zero (the default) or -1 means no timeout.
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
     public string? Timeout { get; set; }

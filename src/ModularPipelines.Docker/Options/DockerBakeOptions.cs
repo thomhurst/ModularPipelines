@@ -25,13 +25,13 @@ public record DockerBakeOptions : DockerOptions
     public IEnumerable<string>? Allow { get; set; }
 
     /// <summary>
-    /// Override the configured builder instance
+    /// Override the configured builder instance (default "desktop-linux")
     /// </summary>
     [CliOption("--builder", Format = OptionFormat.EqualsSeparated)]
     public string? Builder { get; set; }
 
     /// <summary>
-    /// Set method for evaluating build ("check",
+    /// Set method for evaluating build ("check", "outline", "targets") (default "build")
     /// </summary>
     [CliOption("--call", Format = OptionFormat.EqualsSeparated)]
     public string? Call { get; set; }
@@ -85,7 +85,7 @@ public record DockerBakeOptions : DockerOptions
     public bool? Print { get; set; }
 
     /// <summary>
-    /// Set type of progress output ("auto",
+    /// Set type of progress output ("auto", "quiet", "plain", "tty", "rawjson"). Use plain to show container output (default "auto")
     /// </summary>
     [CliOption("--progress", Format = OptionFormat.EqualsSeparated)]
     public string? Progress { get; set; }
@@ -115,7 +115,7 @@ public record DockerBakeOptions : DockerOptions
     public string? Sbom { get; set; }
 
     /// <summary>
-    /// Override target value (e.g.,
+    /// Override target value (e.g., "targetpattern.key=value")
     /// </summary>
     [CliOption("--set", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Set { get; set; }

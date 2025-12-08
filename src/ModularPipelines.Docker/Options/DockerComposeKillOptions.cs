@@ -25,7 +25,7 @@ public record DockerComposeKillOptions : DockerOptions
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Remove containers for services not defined in
+    /// Remove containers for services not defined in the Compose file
     /// </summary>
     [CliFlag("--remove-orphans")]
     public bool? RemoveOrphans { get; set; }

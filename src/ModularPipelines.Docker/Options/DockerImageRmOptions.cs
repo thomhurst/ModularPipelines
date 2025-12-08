@@ -31,7 +31,7 @@ public record DockerImageRmOptions : DockerOptions
     public bool? NoPrune { get; set; }
 
     /// <summary>
-    /// Remove only the given platform variant.
+    /// Remove only the given platform variant. Formatted as "os[/arch[/variant]]" (e.g., "linux/amd64")
     /// </summary>
     [CliOption("--platform", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Platform { get; set; }

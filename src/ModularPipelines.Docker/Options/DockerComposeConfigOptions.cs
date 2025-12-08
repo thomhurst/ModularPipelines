@@ -67,7 +67,7 @@ public record DockerComposeConfigOptions : DockerOptions
     public bool? Networks { get; set; }
 
     /// <summary>
-    /// Don't check model consistency - warning:
+    /// Don't check model consistency - warning: may produce invalid Compose output
     /// </summary>
     [CliFlag("--no-consistency")]
     public bool? NoConsistency { get; set; }
@@ -109,7 +109,7 @@ public record DockerComposeConfigOptions : DockerOptions
     public bool? Profiles { get; set; }
 
     /// <summary>
-    /// Only validate the configuration, don't
+    /// Only validate the configuration, don't print anything
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }

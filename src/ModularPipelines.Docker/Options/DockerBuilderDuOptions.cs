@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerBuilderDuOptions : DockerOptions
 {
     /// <summary>
-    /// Override the configured builder instance
+    /// Override the configured builder instance (default "desktop-linux")
     /// </summary>
     [CliOption("--builder", Format = OptionFormat.EqualsSeparated)]
     public string? Builder { get; set; }

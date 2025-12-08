@@ -9,6 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Docker.Options;
 using ModularPipelines.Models;
+using ModularPipelines.Docker.Enums;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -20,13 +21,13 @@ namespace ModularPipelines.Docker.Options;
 public record DockerRunOptions : DockerOptions
 {
     /// <summary>
-    /// Add a custom host-to-IP mapping
+    /// Add a custom host-to-IP mapping (host:ip)
     /// </summary>
     [CliOption("--add-host", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? AddHost { get; set; }
 
     /// <summary>
-    /// Add an annotation to the
+    /// Add an annotation to the container (passed through to the OCI runtime) (default map[])
     /// </summary>
     [CliOption("--annotation", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Annotation { get; set; }
@@ -38,13 +39,13 @@ public record DockerRunOptions : DockerOptions
     public IEnumerable<string>? Attach { get; set; }
 
     /// <summary>
-    /// Block IO (relative weight),
+    /// Block IO (relative weight), between 10 and 1000, or 0 to disable (default 0)
     /// </summary>
     [CliOption("--blkio-weight", Format = OptionFormat.EqualsSeparated)]
     public string? BlkioWeight { get; set; }
 
     /// <summary>
-    /// Block IO weight (relative device
+    /// Block IO weight (relative device weight) (default [])
     /// </summary>
     [CliOption("--blkio-weight-device", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? BlkioWeightDevice { get; set; }
@@ -62,16 +63,16 @@ public record DockerRunOptions : DockerOptions
     public IEnumerable<string>? CapDrop { get; set; }
 
     /// <summary>
-    /// Optional parent cgroup for the
+    /// Optional parent cgroup for the container
     /// </summary>
     [CliOption("--cgroup-parent", Format = OptionFormat.EqualsSeparated)]
     public string? CgroupParent { get; set; }
 
     /// <summary>
-    /// Cgroup namespace to use
+    /// Cgroup namespace to use (host|private) 'host':    Run the container in the Docker host's cgroup namespace 'private': Run the container in its own private cgroup namespace '':        Use the cgroup namespace as configured by the default-cgroupns-mode option on the daemon (default)
     /// </summary>
     [CliOption("--cgroupns", Format = OptionFormat.EqualsSeparated)]
-    public string? Cgroupns { get; set; }
+    public DockerRunCgroupns? Cgroupns { get; set; }
 
     /// <summary>
     /// Write the container ID to the file
@@ -80,25 +81,25 @@ public record DockerRunOptions : DockerOptions
     public string? Cidfile { get; set; }
 
     /// <summary>
-    /// Limit CPU CFS (Completely Fair
+    /// Limit CPU CFS (Completely Fair Scheduler) period
     /// </summary>
     [CliOption("--cpu-period", Format = OptionFormat.EqualsSeparated)]
     public int? CpuPeriod { get; set; }
 
     /// <summary>
-    /// Limit CPU CFS (Completely Fair
+    /// Limit CPU CFS (Completely Fair Scheduler) quota
     /// </summary>
     [CliOption("--cpu-quota", Format = OptionFormat.EqualsSeparated)]
     public int? CpuQuota { get; set; }
 
     /// <summary>
-    /// Limit CPU real-time period in
+    /// Limit CPU real-time period in microseconds
     /// </summary>
     [CliOption("--cpu-rt-period", Format = OptionFormat.EqualsSeparated)]
     public int? CpuRtPeriod { get; set; }
 
     /// <summary>
-    /// Limit CPU real-time runtime in
+    /// Limit CPU real-time runtime in microseconds
     /// </summary>
     [CliOption("--cpu-rt-runtime", Format = OptionFormat.EqualsSeparated)]
     public int? CpuRtRuntime { get; set; }
@@ -113,28 +114,28 @@ public record DockerRunOptions : DockerOptions
     /// Number of CPUs
     /// </summary>
     [CliOption("--cpus", Format = OptionFormat.EqualsSeparated)]
-    public string? Cpus { get; set; }
+    public double? Cpus { get; set; }
 
     /// <summary>
-    /// CPUs in which to allow execution
+    /// CPUs in which to allow execution (0-3, 0,1)
     /// </summary>
     [CliOption("--cpuset-cpus", Format = OptionFormat.EqualsSeparated)]
     public string? CpusetCpus { get; set; }
 
     /// <summary>
-    /// MEMs in which to allow execution
+    /// MEMs in which to allow execution (0-3, 0,1)
     /// </summary>
     [CliOption("--cpuset-mems", Format = OptionFormat.EqualsSeparated)]
     public string? CpusetMems { get; set; }
 
     /// <summary>
-    /// Run container in background and
+    /// Run container in background and print container ID
     /// </summary>
     [CliFlag("--detach", ShortForm = "-d")]
     public bool? Detach { get; set; }
 
     /// <summary>
-    /// Override the key sequence for
+    /// Override the key sequence for detaching a container
     /// </summary>
     [CliOption("--detach-keys", Format = OptionFormat.EqualsSeparated)]
     public string? DetachKeys { get; set; }
@@ -146,37 +147,37 @@ public record DockerRunOptions : DockerOptions
     public IEnumerable<string>? Device { get; set; }
 
     /// <summary>
-    /// Add a rule to the cgroup allowed
+    /// Add a rule to the cgroup allowed devices list
     /// </summary>
     [CliOption("--device-cgroup-rule", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? DeviceCgroupRule { get; set; }
 
     /// <summary>
-    /// Limit read rate (bytes per
+    /// Limit read rate (bytes per second) from a device (default [])
     /// </summary>
     [CliOption("--device-read-bps", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? DeviceReadBps { get; set; }
 
     /// <summary>
-    /// Limit read rate (IO per second)
+    /// Limit read rate (IO per second) from a device (default [])
     /// </summary>
     [CliOption("--device-read-iops", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? DeviceReadIops { get; set; }
 
     /// <summary>
-    /// Limit write rate (bytes per
+    /// Limit write rate (bytes per second) to a device (default [])
     /// </summary>
     [CliOption("--device-write-bps", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? DeviceWriteBps { get; set; }
 
     /// <summary>
-    /// Limit write rate (IO per second)
+    /// Limit write rate (IO per second) to a device (default [])
     /// </summary>
     [CliOption("--device-write-iops", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? DeviceWriteIops { get; set; }
 
     /// <summary>
-    /// Skip image verification (default
+    /// Skip image verification (default true)
     /// </summary>
     [CliFlag("--disable-content-trust")]
     public bool? DisableContentTrust { get; set; }
@@ -206,7 +207,7 @@ public record DockerRunOptions : DockerOptions
     public string? Domainname { get; set; }
 
     /// <summary>
-    /// Overwrite the default ENTRYPOINT
+    /// Overwrite the default ENTRYPOINT of the image
     /// </summary>
     [CliOption("--entrypoint", Format = OptionFormat.EqualsSeparated)]
     public string? Entrypoint { get; set; }
@@ -218,7 +219,7 @@ public record DockerRunOptions : DockerOptions
     public IEnumerable<string>? Env { get; set; }
 
     /// <summary>
-    /// Read in a file of environment
+    /// Read in a file of environment variables
     /// </summary>
     [CliOption("--env-file", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? EnvFile { get; set; }
@@ -230,7 +231,7 @@ public record DockerRunOptions : DockerOptions
     public IEnumerable<string>? Expose { get; set; }
 
     /// <summary>
-    /// GPU devices to add to the
+    /// GPU devices to add to the container ('all' to pass all GPUs)
     /// </summary>
     [CliOption("--gpus", Format = OptionFormat.EqualsSeparated)]
     public string? Gpus { get; set; }
@@ -248,34 +249,34 @@ public record DockerRunOptions : DockerOptions
     public string? HealthCmd { get; set; }
 
     /// <summary>
-    /// Time between running the check
+    /// Time between running the check (ms|s|m|h) (default 0s)
     /// </summary>
     [CliOption("--health-interval", Format = OptionFormat.EqualsSeparated)]
-    public string? HealthInterval { get; set; }
+    public DockerRunHealthInterval? HealthInterval { get; set; }
 
     /// <summary>
-    /// Consecutive failures needed to
+    /// Consecutive failures needed to report unhealthy
     /// </summary>
     [CliOption("--health-retries", Format = OptionFormat.EqualsSeparated)]
     public int? HealthRetries { get; set; }
 
     /// <summary>
-    /// Time between running the check
+    /// Time between running the check during the start period (ms|s|m|h) (default 0s)
     /// </summary>
     [CliOption("--health-start-interval", Format = OptionFormat.EqualsSeparated)]
-    public string? HealthStartInterval { get; set; }
+    public DockerRunHealthStartInterval? HealthStartInterval { get; set; }
 
     /// <summary>
-    /// Start period for the container
+    /// Start period for the container to initialize before starting health-retries countdown (ms|s|m|h) (default 0s)
     /// </summary>
     [CliOption("--health-start-period", Format = OptionFormat.EqualsSeparated)]
-    public string? HealthStartPeriod { get; set; }
+    public DockerRunHealthStartPeriod? HealthStartPeriod { get; set; }
 
     /// <summary>
-    /// Maximum time to allow one check
+    /// Maximum time to allow one check to run (ms|s|m|h) (default 0s)
     /// </summary>
     [CliOption("--health-timeout", Format = OptionFormat.EqualsSeparated)]
-    public string? HealthTimeout { get; set; }
+    public DockerRunHealthTimeout? HealthTimeout { get; set; }
 
     /// <summary>
     /// Print usage
@@ -290,7 +291,7 @@ public record DockerRunOptions : DockerOptions
     public string? Hostname { get; set; }
 
     /// <summary>
-    /// Run an init inside the container
+    /// Run an init inside the container that forwards signals and reaps processes
     /// </summary>
     [CliFlag("--init")]
     public bool? Init { get; set; }
@@ -338,7 +339,7 @@ public record DockerRunOptions : DockerOptions
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>
-    /// Read in a line delimited file of
+    /// Read in a line delimited file of labels
     /// </summary>
     [CliOption("--label-file", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? LabelFile { get; set; }
@@ -350,7 +351,7 @@ public record DockerRunOptions : DockerOptions
     public IEnumerable<string>? Link { get; set; }
 
     /// <summary>
-    /// Container IPv4/IPv6 link-local
+    /// Container IPv4/IPv6 link-local addresses
     /// </summary>
     [CliOption("--link-local-ip", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? LinkLocalIp { get; set; }
@@ -368,7 +369,7 @@ public record DockerRunOptions : DockerOptions
     public IEnumerable<string>? LogOpt { get; set; }
 
     /// <summary>
-    /// Container MAC address (e.g.,
+    /// Container MAC address (e.g., 92:d0:c6:0a:29:33)
     /// </summary>
     [CliOption("--mac-address", Format = OptionFormat.EqualsSeparated)]
     public string? MacAddress { get; set; }
@@ -386,19 +387,19 @@ public record DockerRunOptions : DockerOptions
     public string? MemoryReservation { get; set; }
 
     /// <summary>
-    /// Swap limit equal to memory plus
+    /// Swap limit equal to memory plus swap: '-1' to enable unlimited swap
     /// </summary>
     [CliOption("--memory-swap", Format = OptionFormat.EqualsSeparated)]
     public string? MemorySwap { get; set; }
 
     /// <summary>
-    /// Tune container memory swappiness
+    /// Tune container memory swappiness (0 to 100) (default -1)
     /// </summary>
     [CliOption("--memory-swappiness", Format = OptionFormat.EqualsSeparated)]
     public int? MemorySwappiness { get; set; }
 
     /// <summary>
-    /// Attach a filesystem mount to the
+    /// Attach a filesystem mount to the container
     /// </summary>
     [CliOption("--mount", Format = OptionFormat.EqualsSeparated)]
     public string? Mount { get; set; }
@@ -416,13 +417,13 @@ public record DockerRunOptions : DockerOptions
     public string? Network { get; set; }
 
     /// <summary>
-    /// Add network-scoped alias for the
+    /// Add network-scoped alias for the container
     /// </summary>
     [CliOption("--network-alias", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? NetworkAlias { get; set; }
 
     /// <summary>
-    /// Disable any container-specified
+    /// Disable any container-specified HEALTHCHECK
     /// </summary>
     [CliFlag("--no-healthcheck")]
     public bool? NoHealthcheck { get; set; }
@@ -434,7 +435,7 @@ public record DockerRunOptions : DockerOptions
     public bool? OomKillDisable { get; set; }
 
     /// <summary>
-    /// Tune host's OOM preferences
+    /// Tune host's OOM preferences (-1000 to 1000)
     /// </summary>
     [CliOption("--oom-score-adj", Format = OptionFormat.EqualsSeparated)]
     public int? OomScoreAdj { get; set; }
@@ -452,31 +453,31 @@ public record DockerRunOptions : DockerOptions
     public int? PidsLimit { get; set; }
 
     /// <summary>
-    /// Set platform if server is
+    /// Set platform if server is multi-platform capable
     /// </summary>
     [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
     public string? Platform { get; set; }
 
     /// <summary>
-    /// Give extended privileges to this
+    /// Give extended privileges to this container
     /// </summary>
     [CliFlag("--privileged")]
     public bool? Privileged { get; set; }
 
     /// <summary>
-    /// Publish a container's port(s) to
+    /// Publish a container's port(s) to the host
     /// </summary>
     [CliOption("--publish", ShortForm = "-p", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Publish { get; set; }
 
     /// <summary>
-    /// Publish all exposed ports to
+    /// Publish all exposed ports to random ports
     /// </summary>
     [CliFlag("--publish-all", ShortForm = "-P")]
     public bool? PublishAll { get; set; }
 
     /// <summary>
-    /// Pull image before running
+    /// Pull image before running ("always", "missing", "never") (default "missing")
     /// </summary>
     [CliOption("--pull", Format = OptionFormat.EqualsSeparated)]
     public string? Pull { get; set; }
@@ -488,19 +489,19 @@ public record DockerRunOptions : DockerOptions
     public bool? Quiet { get; set; }
 
     /// <summary>
-    /// Mount the container's root
+    /// Mount the container's root filesystem as read only
     /// </summary>
     [CliFlag("--read-only")]
     public bool? ReadOnly { get; set; }
 
     /// <summary>
-    /// Restart policy to apply when a
+    /// Restart policy to apply when a container exits (default "no")
     /// </summary>
     [CliOption("--restart", Format = OptionFormat.EqualsSeparated)]
     public string? Restart { get; set; }
 
     /// <summary>
-    /// Automatically remove the
+    /// Automatically remove the container and its associated anonymous volumes when it exits
     /// </summary>
     [CliFlag("--rm")]
     public bool? Rm { get; set; }
@@ -524,7 +525,7 @@ public record DockerRunOptions : DockerOptions
     public string? ShmSize { get; set; }
 
     /// <summary>
-    /// Proxy received signals to the
+    /// Proxy received signals to the process (default true)
     /// </summary>
     [CliFlag("--sig-proxy")]
     public bool? SigProxy { get; set; }
@@ -536,13 +537,13 @@ public record DockerRunOptions : DockerOptions
     public string? StopSignal { get; set; }
 
     /// <summary>
-    /// Timeout (in seconds) to stop a
+    /// Timeout (in seconds) to stop a container
     /// </summary>
     [CliOption("--stop-timeout", Format = OptionFormat.EqualsSeparated)]
     public int? StopTimeout { get; set; }
 
     /// <summary>
-    /// Storage driver options for the
+    /// Storage driver options for the container
     /// </summary>
     [CliOption("--storage-opt", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? StorageOpt { get; set; }
@@ -572,13 +573,13 @@ public record DockerRunOptions : DockerOptions
     public string? Ulimit { get; set; }
 
     /// <summary>
-    /// Bind mount Docker API socket and
+    /// Bind mount Docker API socket and required auth
     /// </summary>
     [CliFlag("--use-api-socket")]
     public bool? UseApiSocket { get; set; }
 
     /// <summary>
-    /// Username or UID (format:
+    /// Username or UID (format: &lt;name|uid&gt;[:&lt;group|gid&gt;])
     /// </summary>
     [CliOption("--user", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
     public string? User { get; set; }
@@ -602,19 +603,19 @@ public record DockerRunOptions : DockerOptions
     public IEnumerable<string>? Volume { get; set; }
 
     /// <summary>
-    /// Optional volume driver for the
+    /// Optional volume driver for the container
     /// </summary>
     [CliOption("--volume-driver", Format = OptionFormat.EqualsSeparated)]
     public string? VolumeDriver { get; set; }
 
     /// <summary>
-    /// Mount volumes from the specified
+    /// Mount volumes from the specified container(s)
     /// </summary>
     [CliOption("--volumes-from", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? VolumesFrom { get; set; }
 
     /// <summary>
-    /// Working directory inside the
+    /// Working directory inside the container
     /// </summary>
     [CliOption("--workdir", ShortForm = "-w", Format = OptionFormat.EqualsSeparated)]
     public string? Workdir { get; set; }

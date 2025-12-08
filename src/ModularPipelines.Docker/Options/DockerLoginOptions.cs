@@ -25,7 +25,7 @@ public record DockerLoginOptions : DockerOptions
     public string? Password { get; set; }
 
     /// <summary>
-    /// Take the Password or Personal Access Token
+    /// Take the Password or Personal Access Token (PAT) from stdin
     /// </summary>
     [CliFlag("--password-stdin")]
     public bool? PasswordStdin { get; set; }

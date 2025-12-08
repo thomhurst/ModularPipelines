@@ -31,7 +31,7 @@ public record DockerComposeStatsOptions : DockerOptions
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Format output using a custom template:
+    /// Format output using a custom template: 'table':            Print output in table format with column headers (default) 'table TEMPLATE':   Print output in table format using the given Go template 'json':             Print in JSON format 'TEMPLATE':         Print output using the given Go template. Refer to https://docs.docker.com/engine/cli/formatting/ for more information about formatting output with templates
     /// </summary>
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }

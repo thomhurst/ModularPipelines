@@ -25,7 +25,7 @@ public record DockerComposePublishOptions : DockerOptions
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// OCI image/artifact specification version
+    /// OCI image/artifact specification version (automatically determined by default)
     /// </summary>
     [CliOption("--oci-version", Format = OptionFormat.EqualsSeparated)]
     public string? OciVersion { get; set; }
@@ -37,7 +37,7 @@ public record DockerComposePublishOptions : DockerOptions
     public bool? ResolveImageDigests { get; set; }
 
     /// <summary>
-    /// Include environment variables in the
+    /// Include environment variables in the published OCI artifact
     /// </summary>
     [CliFlag("--with-env")]
     public bool? WithEnv { get; set; }

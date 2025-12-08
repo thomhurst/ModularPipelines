@@ -19,31 +19,31 @@ namespace ModularPipelines.Docker.Options;
 public record DockerUpdateOptions : DockerOptions
 {
     /// <summary>
-    /// Block IO (relative weight), between 10
+    /// Block IO (relative weight), between 10 and 1000, or 0 to disable (default 0)
     /// </summary>
     [CliOption("--blkio-weight", Format = OptionFormat.EqualsSeparated)]
     public string? BlkioWeight { get; set; }
 
     /// <summary>
-    /// Limit CPU CFS (Completely Fair
+    /// Limit CPU CFS (Completely Fair Scheduler) period
     /// </summary>
     [CliOption("--cpu-period", Format = OptionFormat.EqualsSeparated)]
     public int? CpuPeriod { get; set; }
 
     /// <summary>
-    /// Limit CPU CFS (Completely Fair
+    /// Limit CPU CFS (Completely Fair Scheduler) quota
     /// </summary>
     [CliOption("--cpu-quota", Format = OptionFormat.EqualsSeparated)]
     public int? CpuQuota { get; set; }
 
     /// <summary>
-    /// Limit the CPU real-time period in
+    /// Limit the CPU real-time period in microseconds
     /// </summary>
     [CliOption("--cpu-rt-period", Format = OptionFormat.EqualsSeparated)]
     public int? CpuRtPeriod { get; set; }
 
     /// <summary>
-    /// Limit the CPU real-time runtime in
+    /// Limit the CPU real-time runtime in microseconds
     /// </summary>
     [CliOption("--cpu-rt-runtime", Format = OptionFormat.EqualsSeparated)]
     public int? CpuRtRuntime { get; set; }
@@ -58,7 +58,7 @@ public record DockerUpdateOptions : DockerOptions
     /// Number of CPUs
     /// </summary>
     [CliOption("--cpus", Format = OptionFormat.EqualsSeparated)]
-    public string? Cpus { get; set; }
+    public double? Cpus { get; set; }
 
     /// <summary>
     /// CPUs in which to allow execution (0-3, 0,1)
@@ -91,13 +91,13 @@ public record DockerUpdateOptions : DockerOptions
     public string? MemorySwap { get; set; }
 
     /// <summary>
-    /// Tune container pids limit (set -1 for
+    /// Tune container pids limit (set -1 for unlimited)
     /// </summary>
     [CliOption("--pids-limit", Format = OptionFormat.EqualsSeparated)]
     public int? PidsLimit { get; set; }
 
     /// <summary>
-    /// Restart policy to apply when a
+    /// Restart policy to apply when a container exits
     /// </summary>
     [CliOption("--restart", Format = OptionFormat.EqualsSeparated)]
     public string? Restart { get; set; }

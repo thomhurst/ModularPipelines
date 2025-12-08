@@ -25,13 +25,13 @@ public record DockerComposePushOptions : DockerOptions
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Push what it can and ignores images with
+    /// Push what it can and ignores images with push failures
     /// </summary>
     [CliFlag("--ignore-push-failures")]
     public bool? IgnorePushFailures { get; set; }
 
     /// <summary>
-    /// Also push images of services declared as
+    /// Also push images of services declared as dependencies
     /// </summary>
     [CliFlag("--include-deps")]
     public bool? IncludeDeps { get; set; }

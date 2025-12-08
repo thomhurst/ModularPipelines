@@ -25,7 +25,7 @@ public record DockerBuilderPruneOptions : DockerOptions
     public bool? All { get; set; }
 
     /// <summary>
-    /// Override the configured builder instance
+    /// Override the configured builder instance (default "desktop-linux")
     /// </summary>
     [CliOption("--builder", Format = OptionFormat.EqualsSeparated)]
     public string? Builder { get; set; }
@@ -49,7 +49,7 @@ public record DockerBuilderPruneOptions : DockerOptions
     public bool? Force { get; set; }
 
     /// <summary>
-    /// Maximum amount of disk space allowed to
+    /// Maximum amount of disk space allowed to keep for cache
     /// </summary>
     [CliOption("--max-used-space", Format = OptionFormat.EqualsSeparated)]
     public string? MaxUsedSpace { get; set; }
@@ -61,7 +61,7 @@ public record DockerBuilderPruneOptions : DockerOptions
     public string? MinFreeSpace { get; set; }
 
     /// <summary>
-    /// Amount of disk space always allowed to
+    /// Amount of disk space always allowed to keep for cache
     /// </summary>
     [CliOption("--reserved-space", Format = OptionFormat.EqualsSeparated)]
     public string? ReservedSpace { get; set; }

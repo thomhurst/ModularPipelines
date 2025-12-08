@@ -25,7 +25,7 @@ public record DockerContainerExecOptions : DockerOptions
     public bool? Detach { get; set; }
 
     /// <summary>
-    /// Override the key sequence for detaching a
+    /// Override the key sequence for detaching a container
     /// </summary>
     [CliOption("--detach-keys", Format = OptionFormat.EqualsSeparated)]
     public string? DetachKeys { get; set; }
@@ -61,7 +61,7 @@ public record DockerContainerExecOptions : DockerOptions
     public bool? Tty { get; set; }
 
     /// <summary>
-    /// Username or UID (format:
+    /// Username or UID (format: "&lt;name|uid&gt;[:&lt;group|gid&gt;]")
     /// </summary>
     [CliOption("--user", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
     public string? User { get; set; }

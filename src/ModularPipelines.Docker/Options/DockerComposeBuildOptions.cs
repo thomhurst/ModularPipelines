@@ -43,7 +43,7 @@ public record DockerComposeBuildOptions : DockerOptions
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Set memory limit for the build container.
+    /// Set memory limit for the build container. Not supported by BuildKit.
     /// </summary>
     [CliOption("--memory", ShortForm = "-m", Format = OptionFormat.EqualsSeparated)]
     public string? Memory { get; set; }
@@ -67,7 +67,7 @@ public record DockerComposeBuildOptions : DockerOptions
     public string? Provenance { get; set; }
 
     /// <summary>
-    /// Always attempt to pull a newer version of
+    /// Always attempt to pull a newer version of the image
     /// </summary>
     [CliFlag("--pull")]
     public bool? Pull { get; set; }
@@ -91,7 +91,7 @@ public record DockerComposeBuildOptions : DockerOptions
     public string? Sbom { get; set; }
 
     /// <summary>
-    /// Set SSH authentications used when
+    /// Set SSH authentications used when building service images. (use 'default' for using your default SSH Agent)
     /// </summary>
     [CliOption("--ssh", Format = OptionFormat.EqualsSeparated)]
     public string? Ssh { get; set; }

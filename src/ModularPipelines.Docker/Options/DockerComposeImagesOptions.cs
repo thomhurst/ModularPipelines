@@ -25,7 +25,7 @@ public record DockerComposeImagesOptions : DockerOptions
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Format the output. Values: [table | json]
+    /// Format the output. Values: [table | json] (default "table")
     /// </summary>
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }

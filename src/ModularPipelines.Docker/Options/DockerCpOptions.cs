@@ -31,7 +31,7 @@ public record DockerCpOptions : DockerOptions
     public bool? FollowLink { get; set; }
 
     /// <summary>
-    /// Suppress progress output during copy. Progress
+    /// Suppress progress output during copy. Progress output is automatically suppressed if no terminal is attached
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }

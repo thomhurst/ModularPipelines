@@ -8,6 +8,7 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Docker.Options;
+using ModularPipelines.Docker.Enums;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -19,13 +20,13 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeOptions : DockerOptions
 {
     /// <summary>
-    /// Include all resources, even those not
+    /// Include all resources, even those not used by services
     /// </summary>
     [CliFlag("--all-resources")]
     public bool? AllResources { get; set; }
 
     /// <summary>
-    /// Control when to print ANSI control
+    /// Control when to print ANSI control characters ("never"|"always"|"auto") (default "auto")
     /// </summary>
     [CliOption("--ansi", Format = OptionFormat.EqualsSeparated)]
     public string? Ansi { get; set; }
@@ -55,7 +56,7 @@ public record DockerComposeOptions : DockerOptions
     public IEnumerable<string>? File { get; set; }
 
     /// <summary>
-    /// Control max parallelism, -1 for
+    /// Control max parallelism, -1 for unlimited (default -1)
     /// </summary>
     [CliOption("--parallel", Format = OptionFormat.EqualsSeparated)]
     public int? Parallel { get; set; }
@@ -67,13 +68,13 @@ public record DockerComposeOptions : DockerOptions
     public IEnumerable<string>? Profile { get; set; }
 
     /// <summary>
-    /// Set type of progress output (auto,
+    /// Set type of progress output (auto, tty, plain, json, quiet)
     /// </summary>
     [CliOption("--progress", Format = OptionFormat.EqualsSeparated)]
-    public string? Progress { get; set; }
+    public DockerComposeProgress? Progress { get; set; }
 
     /// <summary>
-    /// Specify an alternate working directory
+    /// Specify an alternate working directory (default: the path of the, first specified, Compose file)
     /// </summary>
     [CliOption("--project-directory", Format = OptionFormat.EqualsSeparated)]
     public string? ProjectDirectory { get; set; }

@@ -19,25 +19,25 @@ namespace ModularPipelines.Docker.Options;
 public record DockerExtensionInitOptions : DockerOptions
 {
     /// <summary>
-    /// Image Repository where the extension will be
+    /// Image Repository where the extension will be pushed (required with --quiet)
     /// </summary>
     [CliOption("--image-repo", Format = OptionFormat.EqualsSeparated)]
     public string? ImageRepo { get; set; }
 
     /// <summary>
-    /// Use quiet to not prompt questions and use
+    /// Use quiet to not prompt questions and use default values as answers.
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
 
     /// <summary>
-    /// Title of your extension as it will appear in
+    /// Title of your extension as it will appear in the Marketplace (required with --quiet)
     /// </summary>
     [CliOption("--title", Format = OptionFormat.EqualsSeparated)]
     public string? Title { get; set; }
 
     /// <summary>
-    /// Minimum extension SDK version the extension
+    /// Minimum extension SDK version the extension is compatible with
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }

@@ -32,7 +32,7 @@ public record DockerModelInstallRunnerOptions : DockerOptions
     public DockerModelInstallRunnerGpu? Gpu { get; set; }
 
     /// <summary>
-    /// Docker container port for Docker Model Runner
+    /// Docker container port for Docker Model Runner (default 12434)
     /// </summary>
     [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
     public string? Port { get; set; }

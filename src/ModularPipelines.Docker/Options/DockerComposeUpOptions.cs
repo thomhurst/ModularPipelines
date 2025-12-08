@@ -19,31 +19,31 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeUpOptions : DockerOptions
 {
     /// <summary>
-    /// Stops all containers if any
+    /// Stops all containers if any container was stopped. Incompatible with -d
     /// </summary>
     [CliFlag("--abort-on-container-exit")]
     public bool? AbortOnContainerExit { get; set; }
 
     /// <summary>
-    /// Stops all containers if any
+    /// Stops all containers if any container exited with failure. Incompatible with -d
     /// </summary>
     [CliFlag("--abort-on-container-failure")]
     public bool? AbortOnContainerFailure { get; set; }
 
     /// <summary>
-    /// Recreate dependent containers.
+    /// Recreate dependent containers. Incompatible with --no-recreate.
     /// </summary>
     [CliFlag("--always-recreate-deps")]
     public bool? AlwaysRecreateDeps { get; set; }
 
     /// <summary>
-    /// Restrict attaching to the specified
+    /// Restrict attaching to the specified services. Incompatible with
     /// </summary>
     [CliOption("--attach", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Attach { get; set; }
 
     /// <summary>
-    /// Automatically attach to log output
+    /// Automatically attach to log output of dependent services
     /// </summary>
     [CliFlag("--attach-dependencies")]
     public bool? AttachDependencies { get; set; }
@@ -55,7 +55,7 @@ public record DockerComposeUpOptions : DockerOptions
     public bool? Build { get; set; }
 
     /// <summary>
-    /// Detached mode: Run containers in the
+    /// Detached mode: Run containers in the background
     /// </summary>
     [CliFlag("--detach", ShortForm = "-d")]
     public bool? Detach { get; set; }
@@ -67,25 +67,25 @@ public record DockerComposeUpOptions : DockerOptions
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Return the exit code of the selected
+    /// Return the exit code of the selected service container. Implies
     /// </summary>
     [CliOption("--exit-code-from", Format = OptionFormat.EqualsSeparated)]
     public string? ExitCodeFrom { get; set; }
 
     /// <summary>
-    /// Recreate containers even if their
+    /// Recreate containers even if their configuration and image haven't changed
     /// </summary>
     [CliFlag("--force-recreate")]
     public bool? ForceRecreate { get; set; }
 
     /// <summary>
-    /// Enable interactive shortcuts when
+    /// Enable interactive shortcuts when running attached. Incompatible with
     /// </summary>
     [CliFlag("--menu")]
     public bool? Menu { get; set; }
 
     /// <summary>
-    /// Do not attach (stream logs) to the
+    /// Do not attach (stream logs) to the specified services
     /// </summary>
     [CliOption("--no-attach", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? NoAttach { get; set; }
@@ -115,19 +115,19 @@ public record DockerComposeUpOptions : DockerOptions
     public bool? NoLogPrefix { get; set; }
 
     /// <summary>
-    /// If containers already exist, don't
+    /// If containers already exist, don't recreate them. Incompatible with
     /// </summary>
     [CliFlag("--no-recreate")]
     public bool? NoRecreate { get; set; }
 
     /// <summary>
-    /// Don't start the services after
+    /// Don't start the services after creating them
     /// </summary>
     [CliFlag("--no-start")]
     public bool? NoStart { get; set; }
 
     /// <summary>
-    /// Pull image before running
+    /// Pull image before running ("always"|"missing"|"never") (default "policy")
     /// </summary>
     [CliOption("--pull", Format = OptionFormat.EqualsSeparated)]
     public string? Pull { get; set; }
@@ -139,31 +139,31 @@ public record DockerComposeUpOptions : DockerOptions
     public bool? QuietBuild { get; set; }
 
     /// <summary>
-    /// Pull without printing progress
+    /// Pull without printing progress information
     /// </summary>
     [CliFlag("--quiet-pull")]
     public bool? QuietPull { get; set; }
 
     /// <summary>
-    /// Remove containers for services not
+    /// Remove containers for services not defined in the Compose file
     /// </summary>
     [CliFlag("--remove-orphans")]
     public bool? RemoveOrphans { get; set; }
 
     /// <summary>
-    /// Recreate anonymous volumes instead
+    /// Recreate anonymous volumes instead of retrieving data from the previous containers
     /// </summary>
     [CliFlag("--renew-anon-volumes", ShortForm = "-V")]
     public bool? RenewAnonVolumes { get; set; }
 
     /// <summary>
-    /// Scale SERVICE to NUM instances.
+    /// Scale SERVICE to NUM instances. Overrides the scale setting in the Compose file if present.
     /// </summary>
     [CliOption("--scale", Format = OptionFormat.EqualsSeparated)]
     public string? Scale { get; set; }
 
     /// <summary>
-    /// Use this timeout in seconds for
+    /// Use this timeout in seconds for container shutdown when attached or when containers are already running
     /// </summary>
     [CliOption("--timeout", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public int? Timeout { get; set; }
@@ -175,25 +175,25 @@ public record DockerComposeUpOptions : DockerOptions
     public bool? Timestamps { get; set; }
 
     /// <summary>
-    /// Wait for services to be
+    /// Wait for services to be running|healthy. Implies detached mode.
     /// </summary>
     [CliFlag("--wait")]
     public bool? Wait { get; set; }
 
     /// <summary>
-    /// Maximum duration in seconds to wait
+    /// Maximum duration in seconds to wait for the project to be running|healthy
     /// </summary>
     [CliOption("--wait-timeout", Format = OptionFormat.EqualsSeparated)]
     public int? WaitTimeout { get; set; }
 
     /// <summary>
-    /// Watch source code and
+    /// Watch source code and rebuild/refresh containers when files are updated.
     /// </summary>
     [CliFlag("--watch", ShortForm = "-w")]
     public bool? Watch { get; set; }
 
     /// <summary>
-    /// Assume "yes" as answer to all
+    /// Assume "yes" as answer to all prompts and run non-interactively
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }

@@ -31,7 +31,7 @@ public record DockerCloudStartOptions : DockerOptions
     public bool? Gpu { get; set; }
 
     /// <summary>
-    /// How long to wait for the engine to be ready
+    /// How long to wait for the engine to be ready (default 10s)
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
     public string? Timeout { get; set; }

@@ -26,7 +26,7 @@ public record DockerNetworkCreateOptions : DockerOptions
     public bool? Attachable { get; set; }
 
     /// <summary>
-    /// Auxiliary IPv4 or IPv6 addresses used by
+    /// Auxiliary IPv4 or IPv6 addresses used by Network driver (default map[])
     /// </summary>
     [CliOption("--aux-address", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? AuxAddress { get; set; }
@@ -86,7 +86,7 @@ public record DockerNetworkCreateOptions : DockerOptions
     public KeyValue[]? IpamOpt { get; set; }
 
     /// <summary>
-    /// Enable or disable IPv4 address assignment
+    /// Enable or disable IPv4 address assignment (default true)
     /// </summary>
     [CliFlag("--ipv4")]
     public bool? Ipv4 { get; set; }
@@ -116,7 +116,7 @@ public record DockerNetworkCreateOptions : DockerOptions
     public string? Scope { get; set; }
 
     /// <summary>
-    /// Subnet in CIDR format that represents a
+    /// Subnet in CIDR format that represents a network segment
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Subnet { get; set; }

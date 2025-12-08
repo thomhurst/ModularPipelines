@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerBuilderCreateOptions : DockerOptions
 {
     /// <summary>
-    /// Append a node to builder instead of
+    /// Append a node to builder instead of changing it
     /// </summary>
     [CliFlag("--append")]
     public bool? Append { get; set; }
@@ -49,7 +49,7 @@ public record DockerBuilderCreateOptions : DockerOptions
     public bool? Debug { get; set; }
 
     /// <summary>
-    /// Driver to use (available: "cloud",
+    /// Driver to use (available: "cloud", "docker-container", "kubernetes", "remote")
     /// </summary>
     [CliOption("--driver", Format = OptionFormat.EqualsSeparated)]
     public string? Driver { get; set; }
@@ -61,7 +61,7 @@ public record DockerBuilderCreateOptions : DockerOptions
     public IEnumerable<string>? DriverOpt { get; set; }
 
     /// <summary>
-    /// Remove a node from builder instead of
+    /// Remove a node from builder instead of changing it
     /// </summary>
     [CliFlag("--leave")]
     public bool? Leave { get; set; }

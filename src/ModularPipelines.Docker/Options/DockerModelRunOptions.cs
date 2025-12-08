@@ -20,7 +20,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerModelRunOptions : DockerOptions
 {
     /// <summary>
-    /// Use colored output (auto|yes|no)
+    /// Use colored output (auto|yes|no) (default "auto")
     /// </summary>
     [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
     public DockerModelRunColor? Color { get; set; }
@@ -32,7 +32,7 @@ public record DockerModelRunOptions : DockerOptions
     public bool? Debug { get; set; }
 
     /// <summary>
-    /// Do not block pull if estimated
+    /// Do not block pull if estimated runtime memory for model exceeds system resources.
     /// </summary>
     [CliFlag("--ignore-runtime-memory-check")]
     public bool? IgnoreRuntimeMemoryCheck { get; set; }

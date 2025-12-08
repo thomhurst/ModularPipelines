@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeExecOptions : DockerOptions
 {
     /// <summary>
-    /// Detached mode: Run command in the
+    /// Detached mode: Run command in the background
     /// </summary>
     [CliFlag("--detach", ShortForm = "-d")]
     public bool? Detach { get; set; }
@@ -37,7 +37,7 @@ public record DockerComposeExecOptions : DockerOptions
     public IEnumerable<string>? Env { get; set; }
 
     /// <summary>
-    /// Index of the container if service
+    /// Index of the container if service has multiple replicas
     /// </summary>
     [CliOption("--index", Format = OptionFormat.EqualsSeparated)]
     public int? Index { get; set; }
@@ -55,7 +55,7 @@ public record DockerComposeExecOptions : DockerOptions
     public string? User { get; set; }
 
     /// <summary>
-    /// Path to workdir directory for this
+    /// Path to workdir directory for this command
     /// </summary>
     [CliOption("--workdir", ShortForm = "-w", Format = OptionFormat.EqualsSeparated)]
     public string? Workdir { get; set; }
