@@ -13,7 +13,7 @@ public class DependencyRegistrationGenerator : ICodeGenerator
     {
         var content = GenerateExtensionsClass(tool);
         var fileName = $"{tool.NamespacePrefix}Extensions.Generated.cs";
-        var relativePath = Path.Combine(tool.OutputDirectory, "Generated", "Extensions", fileName);
+        var relativePath = Path.Combine(tool.OutputDirectory, "Extensions", fileName);
 
         var files = new List<GeneratedFile>
         {
@@ -40,11 +40,11 @@ public class DependencyRegistrationGenerator : ICodeGenerator
         sb.AppendLine("using Microsoft.Extensions.DependencyInjection.Extensions;");
         sb.AppendLine("using ModularPipelines.Context;");
         sb.AppendLine("using ModularPipelines.Engine;");
-        sb.AppendLine($"using {tool.TargetNamespace}.Generated.Services;");
+        sb.AppendLine($"using {tool.TargetNamespace}.Services;");
         sb.AppendLine();
 
         // Namespace
-        sb.AppendLine($"namespace {tool.TargetNamespace}.Generated.Extensions;");
+        sb.AppendLine($"namespace {tool.TargetNamespace}.Extensions;");
         sb.AppendLine();
 
         var className = $"{tool.NamespacePrefix}Extensions";
@@ -84,7 +84,8 @@ public class DependencyRegistrationGenerator : ICodeGenerator
         var subDomains = tool.SubDomainGroups.OrderBy(s => s).ToList();
         foreach (var subDomain in subDomains)
         {
-            var subDomainClassName = $"{tool.NamespacePrefix}{subDomain}";
+            var pascalSubDomain = GeneratorUtils.ToPascalCase(subDomain);
+            var subDomainClassName = $"{tool.NamespacePrefix}{pascalSubDomain}";
             sb.AppendLine($"        services.TryAddScoped<{subDomainClassName}>();");
         }
 

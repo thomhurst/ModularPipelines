@@ -19,7 +19,7 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
 
         var content = GenerateBaseOptionsClass(tool);
         var fileName = $"{tool.NamespacePrefix}Options.Generated.cs";
-        var relativePath = Path.Combine(tool.OutputDirectory, "Generated", "Options", fileName);
+        var relativePath = Path.Combine(tool.OutputDirectory, "Options", fileName);
 
         var files = new List<GeneratedFile>
         {
@@ -57,13 +57,13 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
 
         if (tool.GlobalOptions.Any(o => o.EnumDefinition is not null))
         {
-            sb.AppendLine($"using {tool.TargetNamespace}.Generated.Enums;");
+            sb.AppendLine($"using {tool.TargetNamespace}.Enums;");
         }
 
         sb.AppendLine();
 
         // Namespace
-        sb.AppendLine($"namespace {tool.TargetNamespace}.Generated.Options;");
+        sb.AppendLine($"namespace {tool.TargetNamespace}.Options;");
         sb.AppendLine();
 
         // Class documentation

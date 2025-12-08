@@ -334,12 +334,12 @@ public partial class GcloudCliScraper : CliScraperBase
             return null;
         }
 
-        // Pattern: "VERBOSITY must be one of: debug, info, warning"
-        var match = Regex.Match(description, @"must be (?:one of:?\s*)?([a-z][a-z0-9,\s\-_]+)", RegexOptions.IgnoreCase);
+        // Pattern 1: "OPTION must be one of: value1, value2, value3" (comma-separated list)
+        var match = Regex.Match(description, @"must be (?:one of:?\s*)([a-zA-Z][a-zA-Z0-9_-]*(?:,\s*[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase);
         if (match.Success)
         {
             var values = match.Groups[1].Value
-                .Split([',', ' '], StringSplitOptions.RemoveEmptyEntries)
+                .Split(',', StringSplitOptions.RemoveEmptyEntries)
                 .Select(v => v.Trim().TrimEnd('.'))
                 .Where(v => v.Length > 0 && v.Length < 25 && v.All(c => char.IsLetterOrDigit(c) || c == '-' || c == '_'))
                 .Distinct()
@@ -347,16 +347,34 @@ public partial class GcloudCliScraper : CliScraperBase
 
             if (values.Length >= 2 && values.Length <= 12)
             {
-                return CreateEnumDefinition(propertyName, className, values);
+                return CreateEnumDefinition(propertyName, values);
+            }
+        }
+
+        // Pattern 2: "; one of value1, value2" at end of description
+        match = Regex.Match(description, @";\s*one of\s+([a-zA-Z][a-zA-Z0-9_-]*(?:,\s*[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase);
+        if (match.Success)
+        {
+            var values = match.Groups[1].Value
+                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(v => v.Trim().TrimEnd('.'))
+                .Where(v => v.Length > 0 && v.Length < 25)
+                .Distinct()
+                .ToArray();
+
+            if (values.Length >= 2 && values.Length <= 12)
+            {
+                return CreateEnumDefinition(propertyName, values);
             }
         }
 
         return null;
     }
 
-    private static CliEnumDefinition CreateEnumDefinition(string propertyName, string className, string[] values)
+    private static CliEnumDefinition CreateEnumDefinition(string propertyName, string[] values)
     {
-        var enumName = $"{className.Replace("Options", "")}{propertyName}";
+        // Use just the namespace prefix + property name for shorter enum names
+        var enumName = $"Gcloud{propertyName}";
 
         return new CliEnumDefinition
         {

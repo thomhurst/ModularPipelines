@@ -30,6 +30,7 @@ jobs:
           - docker
           - az
           - dotnet
+          - gcloud
 
     steps:
       - name: Check if tool should run
@@ -81,6 +82,13 @@ jobs:
         run: |
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
+      - name: Install Google Cloud CLI
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'gcloud'
+        run: |
+          echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+          curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+          sudo apt-get update && sudo apt-get install -y google-cloud-cli
+
       # Docker is pre-installed on ubuntu-latest
       # .NET CLI is installed via setup-dotnet
 
@@ -103,8 +111,10 @@ jobs:
         with:
           name: generated-${{ matrix.tool }}
           path: |
-            src/ModularPipelines.*/Generated/**
             src/ModularPipelines.*/Options/**
+            src/ModularPipelines.*/Enums/**
+            src/ModularPipelines.*/Services/**
+            src/ModularPipelines.*/Extensions/**
           if-no-files-found: ignore
           retention-days: 1
 
@@ -168,6 +178,7 @@ jobs:
             - Docker (docs.docker.com)
             - Azure CLI (learn.microsoft.com)
             - .NET CLI (learn.microsoft.com)
+            - Google Cloud CLI (cloud.google.com)
 
             ## Changes
             - Updated options classes to reflect latest CLI documentation

@@ -15,9 +15,10 @@ public class SubDomainClassGenerator : ICodeGenerator
         foreach (var subDomain in tool.SubDomainGroups)
         {
             var commands = tool.Commands.Where(c => c.SubDomainGroup == subDomain).ToList();
-            var content = GenerateSubDomainClass(subDomain, commands, tool);
-            var fileName = $"{tool.NamespacePrefix}{subDomain}.cs";
-            var relativePath = Path.Combine(tool.OutputDirectory, "Generated", "Services", fileName);
+            var pascalSubDomain = GeneratorUtils.ToPascalCase(subDomain);
+            var content = GenerateSubDomainClass(subDomain, pascalSubDomain, commands, tool);
+            var fileName = $"{tool.NamespacePrefix}{pascalSubDomain}.cs";
+            var relativePath = Path.Combine(tool.OutputDirectory, "Services", fileName);
 
             files.Add(new GeneratedFile
             {
@@ -29,7 +30,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         return Task.FromResult<IReadOnlyList<GeneratedFile>>(files);
     }
 
-    private static string GenerateSubDomainClass(string subDomain, IReadOnlyList<CliCommandDefinition> commands, CliToolDefinition tool)
+    private static string GenerateSubDomainClass(string subDomain, string pascalSubDomain, IReadOnlyList<CliCommandDefinition> commands, CliToolDefinition tool)
     {
         var sb = new StringBuilder();
 
@@ -38,14 +39,14 @@ public class SubDomainClassGenerator : ICodeGenerator
 
         sb.AppendLine("using ModularPipelines.Context;");
         sb.AppendLine("using ModularPipelines.Models;");
-        sb.AppendLine($"using {tool.TargetNamespace}.Generated.Options;");
+        sb.AppendLine($"using {tool.TargetNamespace}.Options;");
         sb.AppendLine();
 
         // Namespace
-        sb.AppendLine($"namespace {tool.TargetNamespace}.Generated.Services;");
+        sb.AppendLine($"namespace {tool.TargetNamespace}.Services;");
         sb.AppendLine();
 
-        var className = $"{tool.NamespacePrefix}{subDomain}";
+        var className = $"{tool.NamespacePrefix}{pascalSubDomain}";
 
         // Class documentation
         sb.AppendLine($"/// <summary>");

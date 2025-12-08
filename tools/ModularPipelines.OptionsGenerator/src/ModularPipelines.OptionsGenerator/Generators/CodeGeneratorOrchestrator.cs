@@ -75,41 +75,69 @@ public class CodeGeneratorOrchestrator
 
             try
             {
-                CliToolDefinition toolDefinition;
+                processedTools.Add(htmlScraper.ToolName);
+                result.ToolsProcessed.Add(htmlScraper.ToolName);
 
-                // Try CLI scraper first if enabled
+                // Try CLI scraper first if enabled (streaming)
                 if (useCliFirst && cliScrapersByTool.TryGetValue(htmlScraper.ToolName, out var cliScraper))
                 {
                     if (await cliScraper.IsAvailableAsync(cancellationToken))
                     {
-                        _logger.LogInformation("Using CLI-first scraper for {Tool} (CLI available)", htmlScraper.ToolName);
-                        toolDefinition = await cliScraper.ScrapeAsync(cancellationToken);
+                        _logger.LogInformation("Using CLI-first scraper for {Tool} (streaming)", htmlScraper.ToolName);
+
+                        var toolDefinition = cliScraper.CreateToolDefinition();
+                        var commandCount = 0;
+
+                        // Stream commands and generate files incrementally
+                        await foreach (var command in cliScraper.ScrapeAsync(cancellationToken))
+                        {
+                            commandCount++;
+
+                            foreach (var generator in _generators)
+                            {
+                                var singleCommandTool = new CliToolDefinition
+                                {
+                                    ToolName = toolDefinition.ToolName,
+                                    NamespacePrefix = toolDefinition.NamespacePrefix,
+                                    TargetNamespace = toolDefinition.TargetNamespace,
+                                    OutputDirectory = toolDefinition.OutputDirectory,
+                                    Commands = [command],
+                                    Errors = []
+                                };
+
+                                var files = await generator.GenerateAsync(singleCommandTool, cancellationToken);
+
+                                foreach (var file in files)
+                                {
+                                    var fullPath = Path.Combine(outputDirectory, file.RelativePath);
+                                    await WriteFileAsync(fullPath, file.Content, cancellationToken);
+                                    result.FilesGenerated.Add(file.RelativePath);
+                                    _logger.LogInformation("Generated: {File}", file.RelativePath);
+                                }
+                            }
+                        }
+
+                        _logger.LogInformation("Finished {Tool}. Generated files for {Count} commands.",
+                            htmlScraper.ToolName, commandCount);
+                        continue;
                     }
-                    else
-                    {
-                        _logger.LogWarning("{Tool} CLI not available, falling back to HTML scraper", htmlScraper.ToolName);
-                        toolDefinition = await htmlScraper.ScrapeAsync(cancellationToken);
-                    }
-                }
-                else
-                {
-                    // Use HTML scraper
-                    _logger.LogInformation("Using HTML scraper for {Tool}", htmlScraper.ToolName);
-                    toolDefinition = await htmlScraper.ScrapeAsync(cancellationToken);
+
+                    _logger.LogWarning("{Tool} CLI not available, falling back to HTML scraper", htmlScraper.ToolName);
                 }
 
-                processedTools.Add(htmlScraper.ToolName);
-                result.ToolsProcessed.Add(htmlScraper.ToolName);
+                // Fall back to HTML scraper (batch mode)
+                _logger.LogInformation("Using HTML scraper for {Tool}", htmlScraper.ToolName);
+                var htmlToolDefinition = await htmlScraper.ScrapeAsync(cancellationToken);
 
-                if (toolDefinition.Errors.Count > 0)
+                if (htmlToolDefinition.Errors.Count > 0)
                 {
-                    result.Errors.AddRange(toolDefinition.Errors);
+                    result.Errors.AddRange(htmlToolDefinition.Errors);
                     _logger.LogWarning("Encountered {Count} errors while scraping {Tool}",
-                        toolDefinition.Errors.Count, htmlScraper.ToolName);
+                        htmlToolDefinition.Errors.Count, htmlScraper.ToolName);
                 }
 
                 _logger.LogInformation("Scraped {Count} commands for {Tool}",
-                    toolDefinition.Commands.Count, htmlScraper.ToolName);
+                    htmlToolDefinition.Commands.Count, htmlScraper.ToolName);
 
                 // Enhance types if enhancer is available
                 if (_typeEnhancer is not null)
@@ -117,7 +145,7 @@ public class CodeGeneratorOrchestrator
                     _logger.LogInformation("Enhancing types for {Tool} using CLI help...", htmlScraper.ToolName);
                     try
                     {
-                        toolDefinition = await _typeEnhancer.EnhanceAsync(toolDefinition, cancellationToken);
+                        htmlToolDefinition = await _typeEnhancer.EnhanceAsync(htmlToolDefinition, cancellationToken);
                         _logger.LogInformation("Type enhancement complete for {Tool}", htmlScraper.ToolName);
                     }
                     catch (Exception ex)
@@ -129,7 +157,7 @@ public class CodeGeneratorOrchestrator
                 // Generate code using all generators
                 foreach (var generator in _generators)
                 {
-                    var files = await generator.GenerateAsync(toolDefinition, cancellationToken);
+                    var files = await generator.GenerateAsync(htmlToolDefinition, cancellationToken);
 
                     foreach (var file in files)
                     {
@@ -153,7 +181,7 @@ public class CodeGeneratorOrchestrator
             }
         }
 
-        // Process CLI-only scrapers (tools that have no HTML scraper)
+        // Process CLI-only scrapers (tools that have no HTML scraper) - STREAMING
         if (useCliFirst)
         {
             foreach (var cliScraper in _cliScrapers)
@@ -169,7 +197,7 @@ public class CodeGeneratorOrchestrator
                     continue;
                 }
 
-                _logger.LogInformation("Processing CLI-only tool {Tool}...", cliScraper.ToolName);
+                _logger.LogInformation("Processing CLI-only tool {Tool} (streaming)...", cliScraper.ToolName);
 
                 try
                 {
@@ -179,50 +207,46 @@ public class CodeGeneratorOrchestrator
                         continue;
                     }
 
-                    var toolDefinition = await cliScraper.ScrapeAsync(cancellationToken);
+                    // Get tool metadata for generators
+                    var toolDefinition = cliScraper.CreateToolDefinition();
+                    var commandCount = 0;
 
                     processedTools.Add(cliScraper.ToolName);
                     result.ToolsProcessed.Add(cliScraper.ToolName);
 
-                    if (toolDefinition.Errors.Count > 0)
+                    // Stream commands and generate files incrementally
+                    await foreach (var command in cliScraper.ScrapeAsync(cancellationToken))
                     {
-                        result.Errors.AddRange(toolDefinition.Errors);
-                        _logger.LogWarning("Encountered {Count} errors while scraping {Tool}",
-                            toolDefinition.Errors.Count, cliScraper.ToolName);
-                    }
+                        commandCount++;
 
-                    _logger.LogInformation("Scraped {Count} commands for {Tool}",
-                        toolDefinition.Commands.Count, cliScraper.ToolName);
-
-                    // Enhance types if enhancer is available
-                    if (_typeEnhancer is not null)
-                    {
-                        _logger.LogInformation("Enhancing types for {Tool} using CLI help...", cliScraper.ToolName);
-                        try
+                        // Generate files for this single command immediately
+                        foreach (var generator in _generators)
                         {
-                            toolDefinition = await _typeEnhancer.EnhanceAsync(toolDefinition, cancellationToken);
-                            _logger.LogInformation("Type enhancement complete for {Tool}", cliScraper.ToolName);
-                        }
-                        catch (Exception ex)
-                        {
-                            _logger.LogWarning(ex, "Type enhancement failed for {Tool}, using scraped types", cliScraper.ToolName);
-                        }
-                    }
+                            // Create a single-command tool definition for this command
+                            var singleCommandTool = new CliToolDefinition
+                            {
+                                ToolName = toolDefinition.ToolName,
+                                NamespacePrefix = toolDefinition.NamespacePrefix,
+                                TargetNamespace = toolDefinition.TargetNamespace,
+                                OutputDirectory = toolDefinition.OutputDirectory,
+                                Commands = [command],
+                                Errors = []
+                            };
 
-                    // Generate code using all generators
-                    foreach (var generator in _generators)
-                    {
-                        var files = await generator.GenerateAsync(toolDefinition, cancellationToken);
+                            var files = await generator.GenerateAsync(singleCommandTool, cancellationToken);
 
-                        foreach (var file in files)
-                        {
-                            var fullPath = Path.Combine(outputDirectory, file.RelativePath);
-                            await WriteFileAsync(fullPath, file.Content, cancellationToken);
-                            result.FilesGenerated.Add(file.RelativePath);
+                            foreach (var file in files)
+                            {
+                                var fullPath = Path.Combine(outputDirectory, file.RelativePath);
+                                await WriteFileAsync(fullPath, file.Content, cancellationToken);
+                                result.FilesGenerated.Add(file.RelativePath);
+                                _logger.LogInformation("Generated: {File}", file.RelativePath);
+                            }
                         }
                     }
 
-                    _logger.LogInformation("Generated files for {Tool}", cliScraper.ToolName);
+                    _logger.LogInformation("Finished {Tool}. Generated files for {Count} commands.",
+                        cliScraper.ToolName, commandCount);
                 }
                 catch (Exception ex)
                 {

@@ -16,7 +16,7 @@ public class OptionsClassGenerator : ICodeGenerator
         {
             var content = GenerateOptionsClass(command, tool);
             var fileName = $"{command.ClassName}.cs";
-            var relativePath = Path.Combine(tool.OutputDirectory, "Generated", "Options", fileName);
+            var relativePath = Path.Combine(tool.OutputDirectory, "Options", fileName);
 
             files.Add(new GeneratedFile
             {
@@ -55,13 +55,13 @@ public class OptionsClassGenerator : ICodeGenerator
         // Include enums namespace if any options use enum types
         if (command.Options.Any(o => o.EnumDefinition is not null))
         {
-            sb.AppendLine($"using {tool.TargetNamespace}.Generated.Enums;");
+            sb.AppendLine($"using {tool.TargetNamespace}.Enums;");
         }
 
         sb.AppendLine();
 
         // Namespace
-        sb.AppendLine($"namespace {tool.TargetNamespace}.Generated.Options;");
+        sb.AppendLine($"namespace {tool.TargetNamespace}.Options;");
         sb.AppendLine();
 
         // XML documentation
@@ -75,12 +75,11 @@ public class OptionsClassGenerator : ICodeGenerator
         // Class attributes
         sb.AppendLine("[ExcludeFromCodeCoverage]");
 
-        // New CliCommand attribute - includes tool name and command parts
+        // CliSubCommand attribute - contains only the subcommand parts (tool name comes from base class)
+        if (command.CommandParts.Length > 0)
         {
-            var allParts = new List<string> { tool.ToolName };
-            allParts.AddRange(command.CommandParts);
-            var args = string.Join(", ", allParts.Select(p => $"\"{p}\""));
-            sb.AppendLine($"[CliCommand({args})]");
+            var args = string.Join(", ", command.CommandParts.Select(p => $"\"{p}\""));
+            sb.AppendLine($"[CliSubCommand({args})]");
         }
 
         // Class declaration

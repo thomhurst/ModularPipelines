@@ -4,5 +4,5 @@ namespace ModularPipelines.Google;
 
 public interface IGoogle
 {
-    Gcloud Gcloud { get; }
+    IGcloud Gcloud { get; }
 }

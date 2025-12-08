@@ -34,7 +34,13 @@ public interface ICliScraper
     Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Scrapes the CLI by parsing --help output and returns a complete tool definition.
+    /// Scrapes the CLI by parsing --help output, yielding commands as they are discovered.
+    /// This enables incremental file generation instead of waiting for all commands.
     /// </summary>
-    Task<CliToolDefinition> ScrapeAsync(CancellationToken cancellationToken = default);
+    IAsyncEnumerable<CliCommandDefinition> ScrapeAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Creates a tool definition with metadata (for generators that need tool-level info).
+    /// </summary>
+    CliToolDefinition CreateToolDefinition();
 }

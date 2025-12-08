@@ -12,7 +12,7 @@ public class ServiceInterfaceGenerator : ICodeGenerator
     {
         var content = GenerateInterface(tool);
         var fileName = $"I{tool.NamespacePrefix}.Generated.cs";
-        var relativePath = Path.Combine(tool.OutputDirectory, "Generated", "Services", fileName);
+        var relativePath = Path.Combine(tool.OutputDirectory, "Services", fileName);
 
         var files = new List<GeneratedFile>
         {
@@ -34,11 +34,11 @@ public class ServiceInterfaceGenerator : ICodeGenerator
         GeneratorUtils.GenerateFileHeader(sb);
 
         sb.AppendLine("using ModularPipelines.Models;");
-        sb.AppendLine($"using {tool.TargetNamespace}.Generated.Options;");
+        sb.AppendLine($"using {tool.TargetNamespace}.Options;");
         sb.AppendLine();
 
         // Namespace
-        sb.AppendLine($"namespace {tool.TargetNamespace}.Generated.Services;");
+        sb.AppendLine($"namespace {tool.TargetNamespace}.Services;");
         sb.AppendLine();
 
         // Interface declaration
@@ -57,11 +57,12 @@ public class ServiceInterfaceGenerator : ICodeGenerator
 
             foreach (var subDomain in subDomains)
             {
-                var subDomainClassName = $"{tool.NamespacePrefix}{subDomain}";
+                var pascalSubDomain = GeneratorUtils.ToPascalCase(subDomain);
+                var subDomainClassName = $"{tool.NamespacePrefix}{pascalSubDomain}";
                 sb.AppendLine($"    /// <summary>");
                 sb.AppendLine($"    /// Gets the {subDomain.ToLowerInvariant()} sub-domain service.");
                 sb.AppendLine($"    /// </summary>");
-                sb.AppendLine($"    {subDomainClassName} {subDomain} {{ get; }}");
+                sb.AppendLine($"    {subDomainClassName} {pascalSubDomain} {{ get; }}");
                 sb.AppendLine();
             }
 

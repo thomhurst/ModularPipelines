@@ -16,7 +16,7 @@ public class EnumGenerator : ICodeGenerator
         {
             var content = GenerateEnum(enumDef, tool);
             var fileName = $"{enumDef.EnumName}.cs";
-            var relativePath = Path.Combine(tool.OutputDirectory, "Generated", "Enums", fileName);
+            var relativePath = Path.Combine(tool.OutputDirectory, "Enums", fileName);
 
             files.Add(new GeneratedFile
             {
@@ -39,7 +39,7 @@ public class EnumGenerator : ICodeGenerator
         sb.AppendLine();
 
         // Namespace
-        sb.AppendLine($"namespace {tool.TargetNamespace}.Generated.Enums;");
+        sb.AppendLine($"namespace {tool.TargetNamespace}.Enums;");
         sb.AppendLine();
 
         // XML documentation

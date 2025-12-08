@@ -180,8 +180,22 @@ public class ScrapingOrchestrator
             };
         }
 
-        // Step 1: Scrape using CLI help
-        var toolDefinition = await scraper.ScrapeAsync(cancellationToken);
+        // Step 1: Scrape using CLI help (streaming - collect all commands)
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync(cancellationToken))
+        {
+            commands.Add(command);
+        }
+
+        var toolDefinition = new CliToolDefinition
+        {
+            ToolName = scraper.ToolName,
+            NamespacePrefix = scraper.NamespacePrefix,
+            TargetNamespace = scraper.TargetNamespace,
+            OutputDirectory = scraper.OutputDirectory,
+            Commands = commands,
+            Errors = []
+        };
 
         _logger.LogInformation(
             "Scraped {CommandCount} commands for {Tool} via CLI",

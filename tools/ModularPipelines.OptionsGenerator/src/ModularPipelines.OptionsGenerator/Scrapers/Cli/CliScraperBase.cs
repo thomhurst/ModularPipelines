@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
+using System.Threading.Channels;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -62,6 +63,12 @@ public abstract partial class CliScraperBase : ICliScraper
     protected virtual int MaxDiscoveryDepth => 3;
 
     /// <summary>
+    /// Maximum parallelism for concurrent command discovery.
+    /// Defaults to Environment.ProcessorCount.
+    /// </summary>
+    protected virtual int MaxParallelism => Environment.ProcessorCount;
+
+    /// <summary>
     /// The base options class name (e.g., "HelmOptions", "GcloudOptions").
     /// </summary>
     protected virtual string BaseOptionsClassName => $"{NamespacePrefix}Options";
@@ -89,92 +96,207 @@ public abstract partial class CliScraperBase : ICliScraper
     }
 
     /// <summary>
-    /// Main scraping orchestration - Template Method pattern.
-    /// Provides the algorithm structure; derived classes implement parsing details.
+    /// Tracks state for parallel scraping workers.
     /// </summary>
-    public virtual async Task<CliToolDefinition> ScrapeAsync(CancellationToken cancellationToken = default)
+    private sealed class WorkerState
     {
-        var commands = new List<CliCommandDefinition>();
-        var errors = new List<ScrapingError>();
+        public int ActiveWorkers;
+        public int PendingWork;
+        public readonly object Lock = new();
+    }
 
-        Logger.LogInformation("Discovering {Tool} commands via CLI (executable: {Path})...",
-            ToolName, ExecutablePath);
+    /// <summary>
+    /// Main scraping orchestration - streams commands as they are discovered.
+    /// Uses parallel discovery with configurable concurrency for faster scraping.
+    /// </summary>
+    public virtual async IAsyncEnumerable<CliCommandDefinition> ScrapeAsync(
+        [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        Logger.LogInformation("Discovering {Tool} commands via CLI (executable: {Path}, parallelism: {Parallelism})...",
+            ToolName, ExecutablePath, MaxParallelism);
 
-        // Step 1: Check availability
+        // Check availability first
         if (!await IsAvailableAsync(cancellationToken))
         {
             Logger.LogError("{Tool} is not available on this system (tried: {Path})",
                 ToolName, ExecutablePath);
-            errors.Add(new ScrapingError
-            {
-                Source = ToolName,
-                Message = $"{ToolName} is not available. Tried executable: {ExecutablePath}"
-            });
-            return CreateToolDefinition(commands, errors);
+            yield break;
         }
 
-        try
+        // Channel for discovered commands to be yielded
+        var commandChannel = Channel.CreateUnbounded<CliCommandDefinition>(new UnboundedChannelOptions
         {
-            // Step 2: Discover all commands recursively
-            var commandPaths = await DiscoverCommandsAsync(
-                [ToolName], cancellationToken, MaxDiscoveryDepth);
-            Logger.LogInformation("Discovered {Count} commands for {Tool}",
-                commandPaths.Count, ToolName);
+            SingleReader = true,
+            SingleWriter = false
+        });
 
-            // Step 3: Parse each command
-            foreach (var commandPath in commandPaths)
-            {
-                try
-                {
-                    var helpText = await GetHelpTextAsync(commandPath, cancellationToken);
-                    if (string.IsNullOrEmpty(helpText))
-                    {
-                        continue;
-                    }
-
-                    var command = await ParseCommandAsync(commandPath, helpText, cancellationToken);
-                    if (command is not null)
-                    {
-                        commands.Add(command);
-                        Logger.LogDebug("Parsed command: {Command}", command.FullCommand);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    var cmdPath = string.Join(" ", commandPath);
-                    Logger.LogWarning(ex, "Failed to parse command: {Command}", cmdPath);
-                    errors.Add(new ScrapingError
-                    {
-                        Source = cmdPath,
-                        Message = ex.Message,
-                        Exception = ex
-                    });
-                }
-            }
-        }
-        catch (Exception ex)
+        // Channel for paths to explore (work queue)
+        var workChannel = Channel.CreateUnbounded<string[]>(new UnboundedChannelOptions
         {
-            Logger.LogError(ex, "Failed to discover {Tool} commands", ToolName);
-            errors.Add(new ScrapingError
-            {
-                Source = ToolName,
-                Message = ex.Message,
-                Exception = ex
-            });
+            SingleReader = false,
+            SingleWriter = false
+        });
+
+        // Track worker state
+        var state = new WorkerState();
+
+        // Start discovery with root path
+        await workChannel.Writer.WriteAsync([ToolName], cancellationToken);
+        Interlocked.Increment(ref state.PendingWork);
+
+        // Start worker tasks
+        var workerTasks = Enumerable.Range(0, MaxParallelism)
+            .Select(_ => ProcessWorkQueueAsync(workChannel, commandChannel, state, cancellationToken))
+            .ToList();
+
+        // Background task to complete channels when all work is done
+        _ = Task.Run(async () =>
+        {
+            await Task.WhenAll(workerTasks);
+            commandChannel.Writer.Complete();
+        }, cancellationToken);
+
+        // Yield commands as they're discovered
+        var commandCount = 0;
+        await foreach (var command in commandChannel.Reader.ReadAllAsync(cancellationToken))
+        {
+            commandCount++;
+            Logger.LogInformation("Yielding command {Count}: {Command}", commandCount, command.FullCommand);
+            yield return command;
         }
 
-        Logger.LogInformation("Scraped {Count} commands for {Tool} with {Errors} errors",
-            commands.Count, ToolName, errors.Count);
-
-        return CreateToolDefinition(commands, errors);
+        Logger.LogInformation("Finished scraping {Tool}. Total commands: {Count}", ToolName, commandCount);
     }
 
     /// <summary>
-    /// Creates the final tool definition with all discovered commands.
+    /// Worker that processes paths from the work queue in parallel.
     /// </summary>
-    protected virtual CliToolDefinition CreateToolDefinition(
-        List<CliCommandDefinition> commands,
-        List<ScrapingError> errors)
+    private async Task ProcessWorkQueueAsync(
+        Channel<string[]> workChannel,
+        Channel<CliCommandDefinition> commandChannel,
+        WorkerState state,
+        CancellationToken cancellationToken)
+    {
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            string[]? path;
+
+            // Try to get work from the queue
+            lock (state.Lock)
+            {
+                if (state.PendingWork == 0 && state.ActiveWorkers == 0)
+                {
+                    // No more work and no active workers - we're done
+                    workChannel.Writer.TryComplete();
+                    return;
+                }
+            }
+
+            try
+            {
+                // Wait for work with a timeout to check completion condition
+                using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                cts.CancelAfter(TimeSpan.FromMilliseconds(100));
+
+                if (!await workChannel.Reader.WaitToReadAsync(cts.Token))
+                {
+                    // Channel completed
+                    return;
+                }
+
+                if (!workChannel.Reader.TryRead(out path))
+                {
+                    continue;
+                }
+            }
+            catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
+            {
+                // Timeout - check if we should exit
+                lock (state.Lock)
+                {
+                    if (state.PendingWork == 0 && state.ActiveWorkers == 0)
+                    {
+                        workChannel.Writer.TryComplete();
+                        return;
+                    }
+                }
+                continue;
+            }
+
+            Interlocked.Increment(ref state.ActiveWorkers);
+
+            try
+            {
+                await ProcessPathAsync(path, workChannel, commandChannel, state, cancellationToken);
+            }
+            finally
+            {
+                Interlocked.Decrement(ref state.ActiveWorkers);
+                Interlocked.Decrement(ref state.PendingWork);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Processes a single path - gets help, parses command, enqueues subcommands.
+    /// </summary>
+    private async Task ProcessPathAsync(
+        string[] path,
+        Channel<string[]> workChannel,
+        Channel<CliCommandDefinition> commandChannel,
+        WorkerState state,
+        CancellationToken cancellationToken)
+    {
+        var currentDepth = path.Length - 1; // -1 because tool name is at position 0
+
+        if (currentDepth >= MaxDiscoveryDepth)
+        {
+            return;
+        }
+
+        var helpText = await GetHelpTextAsync(path, cancellationToken);
+        if (string.IsNullOrEmpty(helpText))
+        {
+            return;
+        }
+
+        // If this command has options, parse and write to channel
+        if (HasOptions(helpText) && path.Length > 1)
+        {
+            try
+            {
+                var command = await ParseCommandAsync(path, helpText, cancellationToken);
+                if (command is not null)
+                {
+                    await commandChannel.Writer.WriteAsync(command, cancellationToken);
+                }
+            }
+            catch (Exception ex)
+            {
+                var cmdPath = string.Join(" ", path);
+                Logger.LogWarning(ex, "Failed to parse command: {Command}", cmdPath);
+            }
+        }
+
+        // Enqueue subcommands for parallel processing
+        var subcommands = ExtractSubcommands(helpText);
+        foreach (var subcommand in subcommands)
+        {
+            if (IsSkippableSubcommand(subcommand))
+            {
+                continue;
+            }
+
+            var childPath = path.Append(subcommand).ToArray();
+            Interlocked.Increment(ref state.PendingWork);
+            await workChannel.Writer.WriteAsync(childPath, cancellationToken);
+        }
+    }
+
+    /// <summary>
+    /// Creates a tool definition for metadata purposes (used by generators).
+    /// </summary>
+    public virtual CliToolDefinition CreateToolDefinition()
     {
         return new CliToolDefinition
         {
@@ -182,8 +304,8 @@ public abstract partial class CliScraperBase : ICliScraper
             NamespacePrefix = NamespacePrefix,
             TargetNamespace = TargetNamespace,
             OutputDirectory = OutputDirectory,
-            Commands = commands,
-            Errors = errors
+            Commands = [],
+            Errors = []
         };
     }
 
@@ -227,55 +349,6 @@ public abstract partial class CliScraperBase : ICliScraper
 
         Logger.LogWarning("No help text for command: {Command}", cacheKey);
         return null;
-    }
-
-    /// <summary>
-    /// Discovers all subcommands by recursively parsing help output.
-    /// </summary>
-    protected virtual async Task<List<string[]>> DiscoverCommandsAsync(
-        string[] parentPath,
-        CancellationToken cancellationToken,
-        int maxDepth)
-    {
-        var commands = new List<string[]>();
-        var currentDepth = parentPath.Length - 1; // -1 because tool name is at position 0
-
-        if (currentDepth >= maxDepth)
-        {
-            return commands;
-        }
-
-        var helpText = await GetHelpTextAsync(parentPath, cancellationToken);
-        if (string.IsNullOrEmpty(helpText))
-        {
-            return commands;
-        }
-
-        // Check if this command has options (is a leaf command)
-        if (HasOptions(helpText))
-        {
-            commands.Add(parentPath);
-        }
-
-        // Find subcommands
-        var subcommands = ExtractSubcommands(helpText);
-
-        foreach (var subcommand in subcommands)
-        {
-            // Skip common non-command entries
-            if (IsSkippableSubcommand(subcommand))
-            {
-                continue;
-            }
-
-            var childPath = parentPath.Append(subcommand).ToArray();
-
-            // Recursively discover child commands
-            var childCommands = await DiscoverCommandsAsync(childPath, cancellationToken, maxDepth);
-            commands.AddRange(childCommands);
-        }
-
-        return commands;
     }
 
     #endregion
