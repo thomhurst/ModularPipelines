@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("kustomize")]
+[CliSubCommand("kustomize")]
 [ExcludeFromCodeCoverage]
 public record KubernetesKustomizeOptions([property: CliArgument] string Dir) : KubernetesOptions
 {

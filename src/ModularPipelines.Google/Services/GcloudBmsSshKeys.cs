@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("bms")]
+[CliSubCommand("bms")]
 public class GcloudBmsSshKeys
 {
     public GcloudBmsSshKeys(

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr")]
+[CliSubCommand("acr")]
 public class AzAcrConfig
 {
     public AzAcrConfig(

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("peering")]
+[CliSubCommand("peering")]
 public class AzPeeringRegisteredAsn
 {
     public AzPeeringRegisteredAsn(

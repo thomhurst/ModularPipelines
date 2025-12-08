@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CliCommand("trust")]
+[CliSubCommand("trust")]
 [ExcludeFromCodeCoverage]
 public record DockerTrustOptions : DockerOptions
 {

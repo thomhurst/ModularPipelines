@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp")]
+[CliSubCommand("functionapp")]
 public class AzFunctionappRestart
 {
     public AzFunctionappRestart(

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.WinGet.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("configure")]
+[CliSubCommand("configure")]
 public record ConfigureOptions(
     [property: CliOption("--file")] string File
 ) : WingetOptions;

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("convert")]
+[CliSubCommand("convert")]
 public record ConvertOptions(
     [property: CliArgument] string Pkg
 ) : ChocoOptions

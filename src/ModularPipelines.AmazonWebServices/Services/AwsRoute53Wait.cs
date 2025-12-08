@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("route53")]
+[CliSubCommand("route53")]
 public class AwsRoute53Wait
 {
     public AwsRoute53Wait(

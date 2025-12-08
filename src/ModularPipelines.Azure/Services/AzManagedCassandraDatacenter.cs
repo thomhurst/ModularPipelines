@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("managed-cassandra")]
+[CliSubCommand("managed-cassandra")]
 public class AzManagedCassandraDatacenter
 {
     public AzManagedCassandraDatacenter(

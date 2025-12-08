@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network")]
+[CliSubCommand("network")]
 public class AzNetworkRouteTable
 {
     public AzNetworkRouteTable(

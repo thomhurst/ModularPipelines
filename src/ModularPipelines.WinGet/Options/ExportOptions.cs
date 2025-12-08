@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.WinGet.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("export")]
+[CliSubCommand("export")]
 public record ExportOptions(
     [property: CliOption("--output")] string Output
 ) : WingetOptions

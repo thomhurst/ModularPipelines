@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.WinGet.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("install")]
+[CliSubCommand("install")]
 public record InstallOptions(
     [property: CliOption("--query")] string Query
 ) : WingetOptions

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("self-help")]
+[CliSubCommand("self-help")]
 public class AzSelfHelpDiagnostic
 {
     public AzSelfHelpDiagnostic(

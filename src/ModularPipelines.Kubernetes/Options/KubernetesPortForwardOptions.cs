@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("port-forward")]
+[CliSubCommand("port-forward")]
 [ExcludeFromCodeCoverage]
 public record KubernetesPortForwardOptions([property: CliArgument] string Name) : KubernetesOptions
 {

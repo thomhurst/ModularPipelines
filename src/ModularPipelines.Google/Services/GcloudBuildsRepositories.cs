@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("builds")]
+[CliSubCommand("builds")]
 public class GcloudBuildsRepositories
 {
     public GcloudBuildsRepositories(

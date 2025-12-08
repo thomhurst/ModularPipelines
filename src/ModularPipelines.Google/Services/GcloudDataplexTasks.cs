@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataplex")]
+[CliSubCommand("dataplex")]
 public class GcloudDataplexTasks
 {
     public GcloudDataplexTasks(

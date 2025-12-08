@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb")]
+[CliSubCommand("cosmosdb")]
 public class AzCosmosdbIdentity
 {
     public AzCosmosdbIdentity(

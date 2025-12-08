@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("unpublish")]
+[CliSubCommand("unpublish")]
 public record NpmUnpublishOptions : NpmOptions
 {
     [CliFlag("--dry-run")]

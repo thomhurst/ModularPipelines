@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("rebuild")]
+[CliSubCommand("rebuild")]
 public record NpmRebuildOptions : NpmOptions
 {
     [CliFlag("--global")]

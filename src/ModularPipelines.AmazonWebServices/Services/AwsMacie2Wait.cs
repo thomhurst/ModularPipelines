@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("macie2")]
+[CliSubCommand("macie2")]
 public class AwsMacie2Wait
 {
     public AwsMacie2Wait(

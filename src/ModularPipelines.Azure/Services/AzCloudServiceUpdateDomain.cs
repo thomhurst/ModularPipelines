@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cloud-service")]
+[CliSubCommand("cloud-service")]
 public class AzCloudServiceUpdateDomain
 {
     public AzCloudServiceUpdateDomain(

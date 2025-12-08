@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("desktopvirtualization")]
+[CliSubCommand("desktopvirtualization")]
 public class AzDesktopvirtualizationApplicationgroup
 {
     public AzDesktopvirtualizationApplicationgroup(

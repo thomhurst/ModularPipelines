@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redis")]
+[CliSubCommand("redis")]
 public class GcloudRedisInstances
 {
     public GcloudRedisInstances(

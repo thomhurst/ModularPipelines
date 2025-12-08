@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("signalr")]
+[CliSubCommand("signalr")]
 public class AzSignalrCors
 {
     public AzSignalrCors(

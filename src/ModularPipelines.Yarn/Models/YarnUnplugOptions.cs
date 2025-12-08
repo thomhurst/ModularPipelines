@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("unplug")]
+[CliSubCommand("unplug")]
 public record YarnUnplugOptions : YarnOptions
 {
     [CliFlag("--all")]

@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cheat-sheet")]
+[CliSubCommand("cheat-sheet")]
 public record GcloudCheatSheetOptions : GcloudOptions;

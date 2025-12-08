@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm")]
+[CliSubCommand("vm")]
 public class AzVmMonitor
 {
     public AzVmMonitor(

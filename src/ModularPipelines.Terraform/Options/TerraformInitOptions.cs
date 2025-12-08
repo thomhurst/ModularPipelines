@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("init")]
+[CliSubCommand("init")]
 [ExcludeFromCodeCoverage]
 public record TerraformInitOptions : TerraformOptions
 {

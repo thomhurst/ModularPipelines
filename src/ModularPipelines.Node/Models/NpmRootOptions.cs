@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("root")]
+[CliSubCommand("root")]
 public record NpmRootOptions : NpmOptions
 {
     [CliFlag("--global")]

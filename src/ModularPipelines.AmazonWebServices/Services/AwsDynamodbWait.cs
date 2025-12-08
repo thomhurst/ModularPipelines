@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dynamodb")]
+[CliSubCommand("dynamodb")]
 public class AwsDynamodbWait
 {
     public AwsDynamodbWait(

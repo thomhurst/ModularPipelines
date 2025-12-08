@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("taint")]
+[CliSubCommand("taint")]
 [ExcludeFromCodeCoverage]
 public record TerraformTaintOptions : TerraformOptions
 {

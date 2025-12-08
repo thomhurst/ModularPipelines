@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stop")]
+[CliSubCommand("stop")]
 public record NpmStopOptions(
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Args
 ) : NpmOptions

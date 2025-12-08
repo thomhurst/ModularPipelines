@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb")]
+[CliSubCommand("cosmosdb")]
 public class AzCosmosdbRestore
 {
     public AzCosmosdbRestore(

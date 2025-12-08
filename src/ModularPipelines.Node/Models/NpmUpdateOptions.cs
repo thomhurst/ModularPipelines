@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("update")]
+[CliSubCommand("update")]
 public record NpmUpdateOptions : NpmOptions
 {
     [CliFlag("--save")]

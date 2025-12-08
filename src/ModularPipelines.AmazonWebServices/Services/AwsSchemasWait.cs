@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("schemas")]
+[CliSubCommand("schemas")]
 public class AwsSchemasWait
 {
     public AwsSchemasWait(

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("deprecate")]
+[CliSubCommand("deprecate")]
 public record NpmDeprecateOptions(
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Message
 ) : NpmOptions

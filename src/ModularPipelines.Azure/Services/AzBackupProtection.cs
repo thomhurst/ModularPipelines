@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup")]
+[CliSubCommand("backup")]
 public class AzBackupProtection
 {
     public AzBackupProtection(

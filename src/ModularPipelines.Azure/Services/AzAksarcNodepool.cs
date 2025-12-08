@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aksarc")]
+[CliSubCommand("aksarc")]
 public class AzAksarcNodepool
 {
     public AzAksarcNodepool(

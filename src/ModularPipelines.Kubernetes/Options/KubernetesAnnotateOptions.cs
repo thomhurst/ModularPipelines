@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("annotate")]
+[CliSubCommand("annotate")]
 [ExcludeFromCodeCoverage]
 public record KubernetesAnnotateOptions : KubernetesOptions
 {

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("publicca")]
+[CliSubCommand("publicca")]
 public class GcloudPubliccaExternalAccountKeys
 {
     public GcloudPubliccaExternalAccountKeys(

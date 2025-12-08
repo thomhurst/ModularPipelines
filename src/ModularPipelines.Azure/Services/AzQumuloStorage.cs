@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("qumulo")]
+[CliSubCommand("qumulo")]
 public class AzQumuloStorage
 {
     public AzQumuloStorage(

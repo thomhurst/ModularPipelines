@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("feedback")]
+[CliSubCommand("feedback")]
 public record GcloudFeedbackOptions : GcloudOptions
 {
     [CliOption("--log-file")]

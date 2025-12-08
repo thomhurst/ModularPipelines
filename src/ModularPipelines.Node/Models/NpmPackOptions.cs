@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pack")]
+[CliSubCommand("pack")]
 public record NpmPackOptions : NpmOptions
 {
     [CliFlag("--dry-run")]

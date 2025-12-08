@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitoring")]
+[CliSubCommand("monitoring")]
 public class GcloudMonitoringDashboards
 {
     public GcloudMonitoringDashboards(

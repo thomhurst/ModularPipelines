@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("healthcare")]
+[CliSubCommand("healthcare")]
 public class GcloudHealthcareOperations
 {
     public GcloudHealthcareOperations(

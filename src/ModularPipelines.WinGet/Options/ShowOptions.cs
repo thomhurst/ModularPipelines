@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.WinGet.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("show")]
+[CliSubCommand("show")]
 public record ShowOptions(
     [property: CliOption("--query")] string Query
 ) : WingetOptions

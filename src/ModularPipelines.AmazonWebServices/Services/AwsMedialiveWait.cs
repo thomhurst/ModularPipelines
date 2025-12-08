@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("medialive")]
+[CliSubCommand("medialive")]
 public class AwsMedialiveWait
 {
     public AwsMedialiveWait(

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("install")]
+[CliSubCommand("install")]
 public record YarnInstallOptions : YarnOptions
 {
     [CliFlag("--json")]

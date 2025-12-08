@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("run")]
+[CliSubCommand("run")]
 public record YarnRunOptions(
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string ScriptName
 ) : YarnOptions

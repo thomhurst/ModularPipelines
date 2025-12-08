@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("debug")]
+[CliSubCommand("debug")]
 [ExcludeFromCodeCoverage]
 public record KubernetesDebugOptions([property: CliArgument] string Name) : KubernetesOptions
 {

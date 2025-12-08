@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("install")]
+[CliSubCommand("install")]
 public record InstallOptions(
     [property: CliArgument] string Pkg
 ) : ChocoOptions

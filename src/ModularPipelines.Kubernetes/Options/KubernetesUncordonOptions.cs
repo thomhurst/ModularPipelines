@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("uncordon")]
+[CliSubCommand("uncordon")]
 [ExcludeFromCodeCoverage]
 public record KubernetesUncordonOptions([property: CliArgument] string Node) : KubernetesOptions
 {

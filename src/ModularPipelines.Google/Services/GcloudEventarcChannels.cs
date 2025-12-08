@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventarc")]
+[CliSubCommand("eventarc")]
 public class GcloudEventarcChannels
 {
     public GcloudEventarcChannels(

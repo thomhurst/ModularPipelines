@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams")]
+[CliSubCommand("ams")]
 public class AzAmsStreamingLocator
 {
     public AzAmsStreamingLocator(

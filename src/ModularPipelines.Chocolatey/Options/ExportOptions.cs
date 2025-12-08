@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("export")]
+[CliSubCommand("export")]
 public record ExportOptions : ChocoOptions
 {
     [CliOption("--output-file-path")]

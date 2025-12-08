@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt")]
+[CliSubCommand("dt")]
 public class AzDtDataHistory
 {
     public AzDtDataHistory(

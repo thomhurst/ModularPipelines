@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("urestackhci")]
+[CliSubCommand("urestackhci")]
 public class AzAzurestackhciVirtualnetwork
 {
     public AzAzurestackhciVirtualnetwork(

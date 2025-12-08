@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dnc")]
+[CliSubCommand("dnc")]
 public class AzDncDelegatedSubnetService
 {
     public AzDncDelegatedSubnetService(

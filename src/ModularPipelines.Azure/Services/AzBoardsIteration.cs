@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("boards")]
+[CliSubCommand("boards")]
 public class AzBoardsIteration
 {
     public AzBoardsIteration(

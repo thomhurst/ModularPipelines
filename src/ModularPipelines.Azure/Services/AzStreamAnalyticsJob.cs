@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stream-analytics")]
+[CliSubCommand("stream-analytics")]
 public class AzStreamAnalyticsJob
 {
     public AzStreamAnalyticsJob(

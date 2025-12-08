@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("codeguru-reviewer")]
+[CliSubCommand("codeguru-reviewer")]
 public class AwsCodeguruReviewerWait
 {
     public AwsCodeguruReviewerWait(

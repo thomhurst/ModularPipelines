@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("adduser")]
+[CliSubCommand("adduser")]
 public record NpmAdduserOptions : NpmOptions
 {
     [CliOption("--registry")]

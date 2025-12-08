@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("version")]
+[CliSubCommand("version")]
 [ExcludeFromCodeCoverage]
 public record TerraformVersionOptions : TerraformOptions
 {

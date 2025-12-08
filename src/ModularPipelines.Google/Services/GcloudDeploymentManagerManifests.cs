@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("deployment-manager")]
+[CliSubCommand("deployment-manager")]
 public class GcloudDeploymentManagerManifests
 {
     public GcloudDeploymentManagerManifests(

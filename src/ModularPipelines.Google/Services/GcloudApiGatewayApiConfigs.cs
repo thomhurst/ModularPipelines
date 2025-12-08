@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("api-gateway")]
+[CliSubCommand("api-gateway")]
 public class GcloudApiGatewayApiConfigs
 {
     public GcloudApiGatewayApiConfigs(

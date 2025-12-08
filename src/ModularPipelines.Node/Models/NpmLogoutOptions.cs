@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logout")]
+[CliSubCommand("logout")]
 public record NpmLogoutOptions : NpmOptions
 {
     [CliOption("--registry")]

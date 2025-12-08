@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("container")]
+[CliSubCommand("container")]
 public class GcloudContainerOperations
 {
     public GcloudContainerOperations(

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql")]
+[CliSubCommand("sql")]
 public class GcloudSqlBackups
 {
     public GcloudSqlBackups(

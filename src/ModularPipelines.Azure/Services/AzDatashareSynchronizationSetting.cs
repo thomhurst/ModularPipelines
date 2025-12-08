@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datashare")]
+[CliSubCommand("datashare")]
 public class AzDatashareSynchronizationSetting
 {
     public AzDatashareSynchronizationSetting(

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("prefix")]
+[CliSubCommand("prefix")]
 public record NpmPrefixOptions : NpmOptions
 {
     [CliFlag("--global")]

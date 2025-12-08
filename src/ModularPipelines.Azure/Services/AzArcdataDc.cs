@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcdata")]
+[CliSubCommand("arcdata")]
 public class AzArcdataDc
 {
     public AzArcdataDc(

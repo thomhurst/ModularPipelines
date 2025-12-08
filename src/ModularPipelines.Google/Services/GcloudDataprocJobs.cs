@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataproc")]
+[CliSubCommand("dataproc")]
 public class GcloudDataprocJobs
 {
     public GcloudDataprocJobs(

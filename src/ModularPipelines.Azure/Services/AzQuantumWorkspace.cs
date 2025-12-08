@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("quantum")]
+[CliSubCommand("quantum")]
 public class AzQuantumWorkspace
 {
     public AzQuantumWorkspace(

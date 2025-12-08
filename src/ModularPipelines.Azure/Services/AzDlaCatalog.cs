@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla")]
+[CliSubCommand("dla")]
 public class AzDlaCatalog
 {
     public AzDlaCatalog(

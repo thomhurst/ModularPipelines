@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("identity")]
+[CliSubCommand("identity")]
 public class AzIdentityFederatedCredential
 {
     public AzIdentityFederatedCredential(

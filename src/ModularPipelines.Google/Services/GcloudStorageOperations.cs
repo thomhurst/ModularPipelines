@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage")]
+[CliSubCommand("storage")]
 public class GcloudStorageOperations
 {
     public GcloudStorageOperations(

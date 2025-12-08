@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("link")]
+[CliSubCommand("link")]
 public record NpmLinkOptions : NpmOptions
 {
     [CliFlag("--save")]

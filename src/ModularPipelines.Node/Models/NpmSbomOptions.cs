@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sbom")]
+[CliSubCommand("sbom")]
 public record NpmSbomOptions : NpmOptions
 {
     [CliOption("--omit")]

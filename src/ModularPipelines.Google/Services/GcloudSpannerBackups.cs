@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spanner")]
+[CliSubCommand("spanner")]
 public class GcloudSpannerBackups
 {
     public GcloudSpannerBackups(

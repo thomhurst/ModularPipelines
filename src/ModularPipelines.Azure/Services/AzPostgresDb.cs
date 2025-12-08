@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres")]
+[CliSubCommand("postgres")]
 public class AzPostgresDb
 {
     public AzPostgresDb(

@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("refresh")]
+[CliSubCommand("refresh")]
 [ExcludeFromCodeCoverage]
 public record TerraformRefreshOptions : TerraformOptions
 {

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("prune")]
+[CliSubCommand("prune")]
 public record NpmPruneOptions : NpmOptions
 {
     [CliOption("--omit")]

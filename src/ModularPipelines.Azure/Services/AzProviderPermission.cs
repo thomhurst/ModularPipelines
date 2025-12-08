@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("provider")]
+[CliSubCommand("provider")]
 public class AzProviderPermission
 {
     public AzProviderPermission(

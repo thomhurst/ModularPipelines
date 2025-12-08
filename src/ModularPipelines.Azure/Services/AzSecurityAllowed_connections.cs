@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security")]
+[CliSubCommand("security")]
 public class AzSecurityAllowed_connections
 {
     public AzSecurityAllowed_connections(

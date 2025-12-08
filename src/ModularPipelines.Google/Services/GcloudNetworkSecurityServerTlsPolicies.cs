@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network-security")]
+[CliSubCommand("network-security")]
 public class GcloudNetworkSecurityServerTlsPolicies
 {
     public GcloudNetworkSecurityServerTlsPolicies(

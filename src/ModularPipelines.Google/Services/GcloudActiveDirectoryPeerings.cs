@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("active-directory")]
+[CliSubCommand("active-directory")]
 public class GcloudActiveDirectoryPeerings
 {
     public GcloudActiveDirectoryPeerings(

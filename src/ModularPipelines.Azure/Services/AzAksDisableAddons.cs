@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks")]
+[CliSubCommand("aks")]
 public class AzAksDisableAddons
 {
     public AzAksDisableAddons(

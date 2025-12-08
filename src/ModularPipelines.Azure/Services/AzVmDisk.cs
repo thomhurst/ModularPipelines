@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm")]
+[CliSubCommand("vm")]
 public class AzVmDisk
 {
     public AzVmDisk(

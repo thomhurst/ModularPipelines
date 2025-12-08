@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("auth")]
+[CliSubCommand("auth")]
 [ExcludeFromCodeCoverage]
 public record KubernetesAuthOptions : KubernetesOptions
 {

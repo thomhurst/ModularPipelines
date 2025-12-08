@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt")]
+[CliSubCommand("dt")]
 public class AzDtRoute
 {
     public AzDtRoute(

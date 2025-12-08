@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("app")]
+[CliSubCommand("app")]
 public class GcloudAppOperations
 {
     public GcloudAppOperations(

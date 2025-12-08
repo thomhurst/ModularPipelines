@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apic")]
+[CliSubCommand("apic")]
 public class AzApicWorkspace
 {
     public AzApicWorkspace(

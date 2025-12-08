@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd")]
+[CliSubCommand("afd")]
 public class AzAfdOrigin
 {
     public AzAfdOrigin(

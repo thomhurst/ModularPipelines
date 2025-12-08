@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("terraform providers schema")]
+[CliSubCommand("terraform providers schema")]
 [ExcludeFromCodeCoverage]
 public record TerraformTerraformProvidersSchemaOptions : TerraformOptions
 {

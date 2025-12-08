@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml-engine")]
+[CliSubCommand("ml-engine")]
 public class GcloudMlEngineOperations
 {
     public GcloudMlEngineOperations(

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("tasks")]
+[CliSubCommand("tasks")]
 public class GcloudTasksCmekConfig
 {
     public GcloudTasksCmekConfig(

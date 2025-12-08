@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("policy")]
+[CliSubCommand("policy")]
 public class AzPolicyEvent
 {
     public AzPolicyEvent(

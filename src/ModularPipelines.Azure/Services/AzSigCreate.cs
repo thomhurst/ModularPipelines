@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sig")]
+[CliSubCommand("sig")]
 public class AzSigCreate
 {
     public AzSigCreate(

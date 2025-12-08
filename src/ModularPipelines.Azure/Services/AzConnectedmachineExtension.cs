@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedmachine")]
+[CliSubCommand("connectedmachine")]
 public class AzConnectedmachineExtension
 {
     public AzConnectedmachineExtension(

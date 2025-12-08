@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CliCommand("version")]
+[CliSubCommand("version")]
 [ExcludeFromCodeCoverage]
 public record DockerVersionOptions : DockerOptions
 {

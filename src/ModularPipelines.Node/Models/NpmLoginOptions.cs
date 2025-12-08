@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("login")]
+[CliSubCommand("login")]
 public record NpmLoginOptions : NpmOptions
 {
     [CliOption("--registry")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("audit")]
+[CliSubCommand("audit")]
 public record NpmAuditOptions : NpmOptions
 {
     [CliOption("--audit-level")]

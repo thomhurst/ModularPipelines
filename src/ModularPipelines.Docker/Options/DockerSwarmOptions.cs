@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CliCommand("swarm")]
+[CliSubCommand("swarm")]
 [ExcludeFromCodeCoverage]
 public record DockerSwarmOptions : DockerOptions
 {

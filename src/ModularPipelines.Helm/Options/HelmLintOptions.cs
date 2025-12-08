@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CliCommand("lint")]
+[CliSubCommand("lint")]
 [ExcludeFromCodeCoverage]
 public record HelmLintOptions : HelmOptions
 {

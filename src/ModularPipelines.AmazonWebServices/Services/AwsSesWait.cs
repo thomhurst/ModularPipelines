@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ses")]
+[CliSubCommand("ses")]
 public class AwsSesWait
 {
     public AwsSesWait(

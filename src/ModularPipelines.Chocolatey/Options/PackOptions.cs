@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pack")]
+[CliSubCommand("pack")]
 public record PackOptions(
     [property: CliArgument] string Path
 ) : ChocoOptions;

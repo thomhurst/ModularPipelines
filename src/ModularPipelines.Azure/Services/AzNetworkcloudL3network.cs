@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud")]
+[CliSubCommand("networkcloud")]
 public class AzNetworkcloudL3network
 {
     public AzNetworkcloudL3network(

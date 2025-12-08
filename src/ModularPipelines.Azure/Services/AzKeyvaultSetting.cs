@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault")]
+[CliSubCommand("keyvault")]
 public class AzKeyvaultSetting
 {
     public AzKeyvaultSetting(

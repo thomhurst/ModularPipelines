@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("up")]
+[CliSubCommand("up")]
 public record YarnUpOptions : YarnOptions
 {
     [CliFlag("--interactive")]

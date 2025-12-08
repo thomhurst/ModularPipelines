@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("bugs")]
+[CliSubCommand("bugs")]
 public record NpmBugsOptions : NpmOptions
 {
     [CliOption("--browser")]

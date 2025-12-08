@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("version")]
+[CliSubCommand("version")]
 public record YarnVersionOptions(
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Strategy
 ) : YarnOptions

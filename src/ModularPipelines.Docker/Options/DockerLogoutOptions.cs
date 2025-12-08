@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CliCommand("logout")]
+[CliSubCommand("logout")]
 [ExcludeFromCodeCoverage]
 public record DockerLogoutOptions : DockerOptions
 {

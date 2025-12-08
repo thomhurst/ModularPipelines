@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("taint")]
+[CliSubCommand("taint")]
 [ExcludeFromCodeCoverage]
 public record KubernetesTaintOptions([property: CliArgument] string Node) : KubernetesOptions
 {

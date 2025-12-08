@@ -4,7 +4,7 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("plan")]
+[CliSubCommand("plan")]
 [ExcludeFromCodeCoverage]
 public record TerraformPlanOptions : TerraformOptions
 {

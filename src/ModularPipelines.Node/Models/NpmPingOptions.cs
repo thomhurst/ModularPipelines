@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ping")]
+[CliSubCommand("ping")]
 public record NpmPingOptions : NpmOptions
 {
     [CliOption("--registry")]

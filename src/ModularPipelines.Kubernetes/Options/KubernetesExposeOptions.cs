@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("expose")]
+[CliSubCommand("expose")]
 [ExcludeFromCodeCoverage]
 public record KubernetesExposeOptions : KubernetesOptions
 {

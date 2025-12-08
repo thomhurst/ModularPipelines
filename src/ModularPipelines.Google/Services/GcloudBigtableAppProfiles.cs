@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("bigtable")]
+[CliSubCommand("bigtable")]
 public class GcloudBigtableAppProfiles
 {
     public GcloudBigtableAppProfiles(

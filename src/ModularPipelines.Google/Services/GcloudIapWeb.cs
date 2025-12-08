@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iap")]
+[CliSubCommand("iap")]
 public class GcloudIapWeb
 {
     public GcloudIapWeb(

@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("proxy")]
+[CliSubCommand("proxy")]
 [ExcludeFromCodeCoverage]
 public record KubernetesProxyOptions : KubernetesOptions
 {

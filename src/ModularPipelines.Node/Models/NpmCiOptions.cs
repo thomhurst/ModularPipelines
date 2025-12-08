@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ci")]
+[CliSubCommand("ci")]
 public record NpmCiOptions : NpmOptions
 {
     [CliOption("--install-strategy")]

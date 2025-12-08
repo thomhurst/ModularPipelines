@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("signer")]
+[CliSubCommand("signer")]
 public class AwsSignerWait
 {
     public AwsSignerWait(

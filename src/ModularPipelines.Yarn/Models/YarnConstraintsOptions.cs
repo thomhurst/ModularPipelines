@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("constraints")]
+[CliSubCommand("constraints")]
 public record YarnConstraintsOptions : YarnOptions
 {
     [CliFlag("--fix")]

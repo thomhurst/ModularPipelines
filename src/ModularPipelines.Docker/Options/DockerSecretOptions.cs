@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CliCommand("secret")]
+[CliSubCommand("secret")]
 [ExcludeFromCodeCoverage]
 public record DockerSecretOptions : DockerOptions
 {

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eks")]
+[CliSubCommand("eks")]
 public class AwsEksWait
 {
     public AwsEksWait(

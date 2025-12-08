@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.WinGet.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hash")]
+[CliSubCommand("hash")]
 public record HashOptions(
     [property: CliOption("--file")] string File
 ) : WingetOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sync")]
+[CliSubCommand("sync")]
 public record SyncOptions : ChocoOptions
 {
     [CliOption("--id")]

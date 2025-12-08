@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.WinGet.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("import")]
+[CliSubCommand("import")]
 public record ImportOptions(
     [property: CliOption("--import-file")] string ImportFile
 ) : WingetOptions

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dynatrace")]
+[CliSubCommand("dynatrace")]
 public class AzDynatraceMonitor
 {
     public AzDynatraceMonitor(

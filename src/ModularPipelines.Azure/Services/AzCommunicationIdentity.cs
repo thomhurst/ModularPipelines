@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("communication")]
+[CliSubCommand("communication")]
 public class AzCommunicationIdentity
 {
     public AzCommunicationIdentity(

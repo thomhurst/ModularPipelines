@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CliCommand("checkpoint")]
+[CliSubCommand("checkpoint")]
 [ExcludeFromCodeCoverage]
 public record DockerCheckpointOptions : DockerOptions
 {

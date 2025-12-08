@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("rollout")]
+[CliSubCommand("rollout")]
 [ExcludeFromCodeCoverage]
 public record KubernetesRolloutOptions([property: CliArgument] string Subcommand) : KubernetesOptions
 {

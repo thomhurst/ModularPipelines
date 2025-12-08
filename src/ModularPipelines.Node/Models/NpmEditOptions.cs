@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("edit")]
+[CliSubCommand("edit")]
 public record NpmEditOptions : NpmOptions
 {
     [CliOption("--editor")]

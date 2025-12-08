@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stars")]
+[CliSubCommand("stars")]
 public record NpmStarsOptions : NpmOptions
 {
     [CliOption("--registry")]

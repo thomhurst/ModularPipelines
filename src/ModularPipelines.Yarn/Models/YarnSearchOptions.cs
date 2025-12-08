@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("search")]
+[CliSubCommand("search")]
 public record YarnSearchOptions : YarnOptions;

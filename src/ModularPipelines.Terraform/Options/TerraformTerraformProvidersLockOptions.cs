@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("terraform providers lock")]
+[CliSubCommand("terraform providers lock")]
 [ExcludeFromCodeCoverage]
 public record TerraformTerraformProvidersLockOptions : TerraformOptions
 {

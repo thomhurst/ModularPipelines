@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm")]
+[CliSubCommand("scvmm")]
 public class AzScvmmVm
 {
     public AzScvmmVm(

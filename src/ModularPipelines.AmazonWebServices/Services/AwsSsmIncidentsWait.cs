@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ssm-incidents")]
+[CliSubCommand("ssm-incidents")]
 public class AwsSsmIncidentsWait
 {
     public AwsSsmIncidentsWait(

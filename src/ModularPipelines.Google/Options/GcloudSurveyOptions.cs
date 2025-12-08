@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("survey")]
+[CliSubCommand("survey")]
 public record GcloudSurveyOptions : GcloudOptions;

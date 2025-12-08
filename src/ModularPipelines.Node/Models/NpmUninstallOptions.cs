@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("uninstall")]
+[CliSubCommand("uninstall")]
 public record NpmUninstallOptions : NpmOptions
 {
     [CliFlag("--save")]

@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("wait")]
+[CliSubCommand("wait")]
 [ExcludeFromCodeCoverage]
 public record KubernetesWaitOptions([property: CliArgument] string Name) : KubernetesOptions
 {

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("restart")]
+[CliSubCommand("restart")]
 public record NpmRestartOptions(
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Args
 ) : NpmOptions

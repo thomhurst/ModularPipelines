@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("memcache")]
+[CliSubCommand("memcache")]
 public class GcloudMemcacheOperations
 {
     public GcloudMemcacheOperations(

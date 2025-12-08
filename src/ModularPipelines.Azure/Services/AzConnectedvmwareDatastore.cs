@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedvmware")]
+[CliSubCommand("connectedvmware")]
 public class AzConnectedvmwareDatastore
 {
     public AzConnectedvmwareDatastore(

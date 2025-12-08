@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("boards")]
+[CliSubCommand("boards")]
 public class AzBoardsWorkItem
 {
     public AzBoardsWorkItem(

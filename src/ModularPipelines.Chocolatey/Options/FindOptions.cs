@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("find")]
+[CliSubCommand("find")]
 public record FindOptions(
     [property: CliArgument] string Filter
 ) : ChocoOptions

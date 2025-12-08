@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs")]
+[CliSubCommand("eventhubs")]
 public class AzEventhubsEventhub
 {
     public AzEventhubsEventhub(

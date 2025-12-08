@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hpc-cache")]
+[CliSubCommand("hpc-cache")]
 public class AzHpcCacheUsageModel
 {
     public AzHpcCacheUsageModel(

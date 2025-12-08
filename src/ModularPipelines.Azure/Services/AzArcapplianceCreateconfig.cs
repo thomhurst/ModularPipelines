@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcappliance")]
+[CliSubCommand("arcappliance")]
 public class AzArcapplianceCreateconfig
 {
     public AzArcapplianceCreateconfig(

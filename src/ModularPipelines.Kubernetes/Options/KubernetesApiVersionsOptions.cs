@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("api-versions")]
+[CliSubCommand("api-versions")]
 [ExcludeFromCodeCoverage]
 public record KubernetesApiVersionsOptions : KubernetesOptions
 {

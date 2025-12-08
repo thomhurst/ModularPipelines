@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("view")]
+[CliSubCommand("view")]
 public record NpmViewOptions : NpmOptions
 {
     [CliFlag("--json")]

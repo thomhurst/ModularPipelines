@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("compute")]
+[CliSubCommand("compute")]
 public class GcloudComputeTargetTcpProxies
 {
     public GcloudComputeTargetTcpProxies(

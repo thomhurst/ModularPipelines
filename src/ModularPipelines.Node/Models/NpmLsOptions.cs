@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ls")]
+[CliSubCommand("ls")]
 public record NpmLsOptions : NpmOptions
 {
     [CliFlag("--all")]

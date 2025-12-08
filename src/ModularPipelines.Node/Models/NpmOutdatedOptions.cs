@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("outdated")]
+[CliSubCommand("outdated")]
 public record NpmOutdatedOptions : NpmOptions
 {
     [CliFlag("--all")]

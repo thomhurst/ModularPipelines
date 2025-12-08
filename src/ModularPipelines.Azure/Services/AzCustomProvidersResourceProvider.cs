@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("custom-providers")]
+[CliSubCommand("custom-providers")]
 public class AzCustomProvidersResourceProvider
 {
     public AzCustomProvidersResourceProvider(

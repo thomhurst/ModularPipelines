@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci")]
+[CliSubCommand("stack-hci")]
 public class AzStackHciCluster
 {
     public AzStackHciCluster(

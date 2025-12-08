@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("lab")]
+[CliSubCommand("lab")]
 public class AzLabArtifactSource
 {
     public AzLabArtifactSource(

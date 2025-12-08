@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.WinGet.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("uninstall")]
+[CliSubCommand("uninstall")]
 public record UninstallOptions(
     [property: CliOption("--query")] string Query
 ) : WingetOptions

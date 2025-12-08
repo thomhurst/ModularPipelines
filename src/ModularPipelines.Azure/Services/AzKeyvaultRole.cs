@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault")]
+[CliSubCommand("keyvault")]
 public class AzKeyvaultRole
 {
     public AzKeyvaultRole(

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datamigration")]
+[CliSubCommand("datamigration")]
 public class AzDatamigrationSqlService
 {
     public AzDatamigrationSqlService(

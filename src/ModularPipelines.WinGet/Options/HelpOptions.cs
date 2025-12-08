@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.WinGet.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("help")]
+[CliSubCommand("help")]
 public record HelpOptions : WingetOptions;

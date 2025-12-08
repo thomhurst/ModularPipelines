@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("test")]
+[CliSubCommand("test")]
 public record NpmTestOptions(
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Args
 ) : NpmOptions

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("certificate-manager")]
+[CliSubCommand("certificate-manager")]
 public class GcloudCertificateManagerOperations
 {
     public GcloudCertificateManagerOperations(

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("upgrade")]
+[CliSubCommand("upgrade")]
 public record UpgradeOptions(
     [property: CliArgument] string Pkg
 ) : ChocoOptions

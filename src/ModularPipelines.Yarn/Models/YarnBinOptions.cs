@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("bin")]
+[CliSubCommand("bin")]
 public record YarnBinOptions : YarnOptions
 {
     [CliFlag("--verbose")]

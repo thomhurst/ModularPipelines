@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("explain")]
+[CliSubCommand("explain")]
 public record YarnExplainOptions : YarnOptions
 {
     [CliFlag("--json")]

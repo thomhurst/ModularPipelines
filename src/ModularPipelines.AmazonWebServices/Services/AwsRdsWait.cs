@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("rds")]
+[CliSubCommand("rds")]
 public class AwsRdsWait
 {
     public AwsRdsWait(

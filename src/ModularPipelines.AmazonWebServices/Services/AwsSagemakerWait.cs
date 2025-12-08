@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sagemaker")]
+[CliSubCommand("sagemaker")]
 public class AwsSagemakerWait
 {
     public AwsSagemakerWait(

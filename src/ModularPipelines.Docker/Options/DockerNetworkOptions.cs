@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CliCommand("network")]
+[CliSubCommand("network")]
 [ExcludeFromCodeCoverage]
 public record DockerNetworkOptions : DockerOptions
 {

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stage")]
+[CliSubCommand("stage")]
 public record YarnStageOptions : YarnOptions
 {
     [CliFlag("--commit")]

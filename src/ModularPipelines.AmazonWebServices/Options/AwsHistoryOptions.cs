@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("history")]
+[CliSubCommand("history")]
 public record AwsHistoryOptions : AwsOptions;

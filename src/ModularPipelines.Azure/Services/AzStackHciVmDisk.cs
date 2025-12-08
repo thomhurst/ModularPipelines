@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci-vm")]
+[CliSubCommand("stack-hci-vm")]
 public class AzStackHciVmDisk
 {
     public AzStackHciVmDisk(

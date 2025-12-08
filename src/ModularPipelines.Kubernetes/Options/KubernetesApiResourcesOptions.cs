@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("api-resources")]
+[CliSubCommand("api-resources")]
 [ExcludeFromCodeCoverage]
 public record KubernetesApiResourcesOptions : KubernetesOptions
 {

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dedupe")]
+[CliSubCommand("dedupe")]
 public record NpmDedupeOptions : NpmOptions
 {
     [CliOption("--install-strategy")]

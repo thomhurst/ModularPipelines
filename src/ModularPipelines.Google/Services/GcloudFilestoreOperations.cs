@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("filestore")]
+[CliSubCommand("filestore")]
 public class GcloudFilestoreOperations
 {
     public GcloudFilestoreOperations(

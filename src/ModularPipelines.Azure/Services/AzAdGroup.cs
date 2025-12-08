@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ad")]
+[CliSubCommand("ad")]
 public class AzAdGroup
 {
     public AzAdGroup(

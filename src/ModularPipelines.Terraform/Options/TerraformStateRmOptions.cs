@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("state rm")]
+[CliSubCommand("state rm")]
 [ExcludeFromCodeCoverage]
 public record TerraformStateRmOptions([property: CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     IEnumerable<string> Address) : TerraformOptions

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring")]
+[CliSubCommand("spring")]
 public class AzSpringApplicationAccelerator
 {
     public AzSpringApplicationAccelerator(

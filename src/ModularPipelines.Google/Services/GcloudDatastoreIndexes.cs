@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datastore")]
+[CliSubCommand("datastore")]
 public class GcloudDatastoreIndexes
 {
     public GcloudDatastoreIndexes(

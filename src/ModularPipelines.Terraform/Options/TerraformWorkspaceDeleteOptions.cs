@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("workspace delete")]
+[CliSubCommand("workspace delete")]
 [ExcludeFromCodeCoverage]
 public record TerraformWorkspaceDeleteOptions([property: CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     string Name) : TerraformOptions

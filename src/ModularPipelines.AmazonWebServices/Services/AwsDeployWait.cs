@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("deploy")]
+[CliSubCommand("deploy")]
 public class AwsDeployWait
 {
     public AwsDeployWait(

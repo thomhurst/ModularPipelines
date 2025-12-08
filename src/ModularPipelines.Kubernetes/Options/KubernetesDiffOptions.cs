@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("diff")]
+[CliSubCommand("diff")]
 [ExcludeFromCodeCoverage]
 public record KubernetesDiffOptions : KubernetesOptions
 {

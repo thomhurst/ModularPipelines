@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("billing")]
+[CliSubCommand("billing")]
 public class AzBillingCustomer
 {
     public AzBillingCustomer(

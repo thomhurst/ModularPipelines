@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apikey")]
+[CliSubCommand("apikey")]
 public record ApiKeyOptions : ChocoOptions
 {
     [CliOption("--source")]

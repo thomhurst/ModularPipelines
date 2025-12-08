@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection")]
+[CliSubCommand("connection")]
 public class AzConnectionPreviewConfiguration
 {
     public AzConnectionPreviewConfiguration(

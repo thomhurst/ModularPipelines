@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("get")]
+[CliSubCommand("get")]
 [ExcludeFromCodeCoverage]
 public record TerraformGetOptions([property: CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     string Path) : TerraformOptions

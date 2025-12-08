@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("replace")]
+[CliSubCommand("replace")]
 [ExcludeFromCodeCoverage]
 public record KubernetesReplaceOptions : KubernetesOptions
 {

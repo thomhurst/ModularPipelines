@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.WinGet.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pin")]
+[CliSubCommand("pin")]
 public record PinOptions : WingetOptions
 {
     [CliFlag("--wait")]

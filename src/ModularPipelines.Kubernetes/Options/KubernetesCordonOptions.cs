@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("cordon")]
+[CliSubCommand("cordon")]
 [ExcludeFromCodeCoverage]
 public record KubernetesCordonOptions([property: CliArgument] string Node) : KubernetesOptions
 {

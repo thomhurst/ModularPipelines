@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("drain")]
+[CliSubCommand("drain")]
 [ExcludeFromCodeCoverage]
 public record KubernetesDrainOptions([property: CliArgument] string Node) : KubernetesOptions
 {

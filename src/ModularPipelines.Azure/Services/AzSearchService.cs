@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("search")]
+[CliSubCommand("search")]
 public class AzSearchService
 {
     public AzSearchService(

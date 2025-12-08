@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kinesis")]
+[CliSubCommand("kinesis")]
 public class AwsKinesisWait
 {
     public AwsKinesisWait(

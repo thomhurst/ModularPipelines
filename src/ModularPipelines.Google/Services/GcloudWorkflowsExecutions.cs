@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("workflows")]
+[CliSubCommand("workflows")]
 public class GcloudWorkflowsExecutions
 {
     public GcloudWorkflowsExecutions(

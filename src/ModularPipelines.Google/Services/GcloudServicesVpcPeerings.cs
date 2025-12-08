@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("services")]
+[CliSubCommand("services")]
 public class GcloudServicesVpcPeerings
 {
     public GcloudServicesVpcPeerings(

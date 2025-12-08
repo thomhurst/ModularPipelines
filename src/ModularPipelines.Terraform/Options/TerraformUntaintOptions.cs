@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("untaint")]
+[CliSubCommand("untaint")]
 [ExcludeFromCodeCoverage]
 public record TerraformUntaintOptions : TerraformOptions
 {

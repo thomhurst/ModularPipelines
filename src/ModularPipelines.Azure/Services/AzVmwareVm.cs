@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware")]
+[CliSubCommand("vmware")]
 public class AzVmwareVm
 {
     public AzVmwareVm(

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("remote-rendering-account")]
+[CliSubCommand("remote-rendering-account")]
 public class AzRemoteRenderingAccountKey
 {
     public AzRemoteRenderingAccountKey(

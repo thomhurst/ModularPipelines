@@ -1,10 +1,10 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("run")]
+[CliSubCommand("run")]
 public record NpmRunOptions(
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string ScriptName
 ) : NpmOptions;

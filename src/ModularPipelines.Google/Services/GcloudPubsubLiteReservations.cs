@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pubsub")]
+[CliSubCommand("pubsub")]
 public class GcloudPubsubLiteReservations
 {
     public GcloudPubsubLiteReservations(

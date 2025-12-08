@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("edge-cloud")]
+[CliSubCommand("edge-cloud")]
 public class GcloudEdgeCloudNetworking
 {
     public GcloudEdgeCloudNetworking(

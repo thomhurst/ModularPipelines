@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("state push")]
+[CliSubCommand("state push")]
 [ExcludeFromCodeCoverage]
 public record TerraformStatePushOptions([property: CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     string Path) : TerraformOptions

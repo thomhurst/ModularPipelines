@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("firebase")]
+[CliSubCommand("firebase")]
 public class GcloudFirebaseTest
 {
     public GcloudFirebaseTest(

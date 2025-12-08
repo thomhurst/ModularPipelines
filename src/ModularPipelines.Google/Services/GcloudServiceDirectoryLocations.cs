@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("service-directory")]
+[CliSubCommand("service-directory")]
 public class GcloudServiceDirectoryLocations
 {
     public GcloudServiceDirectoryLocations(

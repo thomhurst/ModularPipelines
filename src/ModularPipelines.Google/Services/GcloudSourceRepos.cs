@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("source")]
+[CliSubCommand("source")]
 public class GcloudSourceRepos
 {
     public GcloudSourceRepos(

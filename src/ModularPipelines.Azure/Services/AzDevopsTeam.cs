@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops")]
+[CliSubCommand("devops")]
 public class AzDevopsTeam
 {
     public AzDevopsTeam(

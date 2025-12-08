@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("providerhub")]
+[CliSubCommand("providerhub")]
 public class AzProviderhubManifest
 {
     public AzProviderhubManifest(

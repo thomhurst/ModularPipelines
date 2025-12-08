@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datastream")]
+[CliSubCommand("datastream")]
 public class GcloudDatastreamConnectionProfiles
 {
     public GcloudDatastreamConnectionProfiles(

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("metastore")]
+[CliSubCommand("metastore")]
 public class GcloudMetastoreOperations
 {
     public GcloudMetastoreOperations(

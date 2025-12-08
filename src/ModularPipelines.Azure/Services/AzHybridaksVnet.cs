@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hybridaks")]
+[CliSubCommand("hybridaks")]
 public class AzHybridaksVnet
 {
     public AzHybridaksVnet(

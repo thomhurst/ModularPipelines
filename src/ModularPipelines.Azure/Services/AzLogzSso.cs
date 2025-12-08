@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logz")]
+[CliSubCommand("logz")]
 public class AzLogzSso
 {
     public AzLogzSso(

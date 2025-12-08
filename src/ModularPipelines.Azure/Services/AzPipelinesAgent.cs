@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines")]
+[CliSubCommand("pipelines")]
 public class AzPipelinesAgent
 {
     public AzPipelinesAgent(

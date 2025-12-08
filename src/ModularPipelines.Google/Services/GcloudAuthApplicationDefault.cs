@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("auth")]
+[CliSubCommand("auth")]
 public class GcloudAuthApplicationDefault
 {
     public GcloudAuthApplicationDefault(

@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CliCommand("rollback")]
+[CliSubCommand("rollback")]
 [ExcludeFromCodeCoverage]
 public record HelmRollbackOptions : HelmOptions
 {

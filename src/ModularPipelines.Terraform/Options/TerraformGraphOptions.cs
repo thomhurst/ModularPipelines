@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("graph")]
+[CliSubCommand("graph")]
 [ExcludeFromCodeCoverage]
 public record TerraformGraphOptions : TerraformOptions
 {

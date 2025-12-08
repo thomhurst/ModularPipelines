@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("whoami")]
+[CliSubCommand("whoami")]
 public record NpmWhoamiOptions : NpmOptions
 {
     [CliOption("--registry")]

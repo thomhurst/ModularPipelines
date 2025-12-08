@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("destroy")]
+[CliSubCommand("destroy")]
 [ExcludeFromCodeCoverage]
 public record TerraformDestroyOptions : TerraformOptions
 {

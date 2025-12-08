@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CliCommand("uninstall")]
+[CliSubCommand("uninstall")]
 [ExcludeFromCodeCoverage]
 public record HelmUninstallOptions : HelmOptions
 {

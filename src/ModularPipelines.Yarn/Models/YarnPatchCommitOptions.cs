@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("patch-commit")]
+[CliSubCommand("patch-commit")]
 public record YarnPatchCommitOptions(
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string PatchFolder
 ) : YarnOptions

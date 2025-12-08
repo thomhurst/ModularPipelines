@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apigee")]
+[CliSubCommand("apigee")]
 public class GcloudApigeeDeployments
 {
     public GcloudApigeeDeployments(

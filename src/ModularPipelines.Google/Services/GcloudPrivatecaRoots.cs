@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("privateca")]
+[CliSubCommand("privateca")]
 public class GcloudPrivatecaRoots
 {
     public GcloudPrivatecaRoots(

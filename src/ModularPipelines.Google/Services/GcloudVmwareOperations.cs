@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware")]
+[CliSubCommand("vmware")]
 public class GcloudVmwareOperations
 {
     public GcloudVmwareOperations(

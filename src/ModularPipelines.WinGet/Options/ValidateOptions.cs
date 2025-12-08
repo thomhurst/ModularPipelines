@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.WinGet.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("validate")]
+[CliSubCommand("validate")]
 public record ValidateOptions(
     [property: CliOption("--manifest")] string Manifest
 ) : WingetOptions

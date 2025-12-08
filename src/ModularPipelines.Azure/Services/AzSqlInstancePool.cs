@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql")]
+[CliSubCommand("sql")]
 public class AzSqlInstancePool
 {
     public AzSqlInstancePool(

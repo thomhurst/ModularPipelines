@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("config")]
+[CliSubCommand("config")]
 public record ConfigOptions : ChocoOptions
 {
     [CliOption("--name")]

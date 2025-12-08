@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("nimble")]
+[CliSubCommand("nimble")]
 public class AwsNimbleWait
 {
     public AwsNimbleWait(

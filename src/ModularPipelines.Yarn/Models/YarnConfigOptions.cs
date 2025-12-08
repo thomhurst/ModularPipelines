@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("config")]
+[CliSubCommand("config")]
 public record YarnConfigOptions : YarnOptions
 {
     [CliFlag("--no-defaults")]

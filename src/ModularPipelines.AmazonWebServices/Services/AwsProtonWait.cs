@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("proton")]
+[CliSubCommand("proton")]
 public class AwsProtonWait
 {
     public AwsProtonWait(

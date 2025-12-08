@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("account")]
+[CliSubCommand("account")]
 public class AzAccountAlias
 {
     public AzAccountAlias(

@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("support")]
+[CliSubCommand("support")]
 public record SupportOptions : ChocoOptions;

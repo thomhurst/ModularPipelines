@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("info")]
+[CliSubCommand("info")]
 public record YarnInfoOptions : YarnOptions
 {
     [CliFlag("--all")]

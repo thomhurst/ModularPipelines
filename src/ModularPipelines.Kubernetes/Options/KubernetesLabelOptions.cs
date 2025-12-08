@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("label")]
+[CliSubCommand("label")]
 [ExcludeFromCodeCoverage]
 public record KubernetesLabelOptions : KubernetesOptions
 {

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("maintenance")]
+[CliSubCommand("maintenance")]
 public class AzMaintenanceApplyupdate
 {
     public AzMaintenanceApplyupdate(

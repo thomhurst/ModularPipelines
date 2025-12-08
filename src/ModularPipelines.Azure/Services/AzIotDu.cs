@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot")]
+[CliSubCommand("iot")]
 public class AzIotDu
 {
     public AzIotDu(

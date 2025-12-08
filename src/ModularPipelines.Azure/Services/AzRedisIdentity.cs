@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redis")]
+[CliSubCommand("redis")]
 public class AzRedisIdentity
 {
     public AzRedisIdentity(

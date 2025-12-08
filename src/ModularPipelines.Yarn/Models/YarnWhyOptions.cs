@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("why")]
+[CliSubCommand("why")]
 public record YarnWhyOptions(
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Package
 ) : YarnOptions

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cloudfront")]
+[CliSubCommand("cloudfront")]
 public class AwsCloudfrontWait
 {
     public AwsCloudfrontWait(

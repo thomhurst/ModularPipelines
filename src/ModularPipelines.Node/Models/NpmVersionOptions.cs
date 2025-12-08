@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("version")]
+[CliSubCommand("version")]
 public record NpmVersionOptions(
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Value
 ) : NpmOptions

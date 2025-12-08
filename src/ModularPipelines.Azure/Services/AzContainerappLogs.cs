@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp")]
+[CliSubCommand("containerapp")]
 public class AzContainerappLogs
 {
     public AzContainerappLogs(

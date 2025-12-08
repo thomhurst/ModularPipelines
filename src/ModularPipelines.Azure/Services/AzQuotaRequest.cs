@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("quota")]
+[CliSubCommand("quota")]
 public class AzQuotaRequest
 {
     public AzQuotaRequest(

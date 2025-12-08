@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("info")]
+[CliSubCommand("info")]
 public record GcloudInfoOptions : GcloudOptions
 {
     [CliFlag("--anonymize")]

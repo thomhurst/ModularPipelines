@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dedupe")]
+[CliSubCommand("dedupe")]
 public record YarnDedupeOptions : YarnOptions
 {
     [CliOption("--strategy")]

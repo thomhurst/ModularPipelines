@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("telco-automation")]
+[CliSubCommand("telco-automation")]
 public class GcloudTelcoAutomationOperations
 {
     public GcloudTelcoAutomationOperations(

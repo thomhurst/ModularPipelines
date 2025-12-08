@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dlx")]
+[CliSubCommand("dlx")]
 public record YarnDlxOptions(
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Command
 ) : YarnOptions

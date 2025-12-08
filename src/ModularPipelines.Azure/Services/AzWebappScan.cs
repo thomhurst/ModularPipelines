@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp")]
+[CliSubCommand("webapp")]
 public class AzWebappScan
 {
     public AzWebappScan(

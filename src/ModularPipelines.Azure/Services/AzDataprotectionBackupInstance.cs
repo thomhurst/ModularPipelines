@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection")]
+[CliSubCommand("dataprotection")]
 public class AzDataprotectionBackupInstance
 {
     public AzDataprotectionBackupInstance(

@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("state mv")]
+[CliSubCommand("state mv")]
 [ExcludeFromCodeCoverage]
 public record TerraformStateMvOptions([property: CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     string Source, [property: CliArgument(Placement = ArgumentPlacement.AfterOptions)]

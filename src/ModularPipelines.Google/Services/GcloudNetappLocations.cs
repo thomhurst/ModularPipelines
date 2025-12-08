@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netapp")]
+[CliSubCommand("netapp")]
 public class GcloudNetappLocations
 {
     public GcloudNetappLocations(

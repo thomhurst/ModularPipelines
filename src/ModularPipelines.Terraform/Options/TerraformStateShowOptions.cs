@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("state show")]
+[CliSubCommand("state show")]
 [ExcludeFromCodeCoverage]
 public record TerraformStateShowOptions([property: CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     string Address) : TerraformOptions

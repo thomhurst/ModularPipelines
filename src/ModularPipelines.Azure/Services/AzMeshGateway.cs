@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mesh")]
+[CliSubCommand("mesh")]
 public class AzMeshGateway
 {
     public AzMeshGateway(

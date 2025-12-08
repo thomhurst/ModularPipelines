@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("firestore")]
+[CliSubCommand("firestore")]
 public class GcloudFirestoreIndexes
 {
     public GcloudFirestoreIndexes(

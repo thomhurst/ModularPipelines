@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("init")]
+[CliSubCommand("init")]
 public record YarnInitOptions : YarnOptions
 {
     [CliFlag("--private")]

@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("validate")]
+[CliSubCommand("validate")]
 [ExcludeFromCodeCoverage]
 public record TerraformValidateOptions : TerraformOptions
 {

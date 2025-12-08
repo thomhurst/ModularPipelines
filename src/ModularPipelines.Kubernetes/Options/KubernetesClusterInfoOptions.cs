@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("cluster-info")]
+[CliSubCommand("cluster-info")]
 [ExcludeFromCodeCoverage]
 public record KubernetesClusterInfoOptions : KubernetesOptions
 {

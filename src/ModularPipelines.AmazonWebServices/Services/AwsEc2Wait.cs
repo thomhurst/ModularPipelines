@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ec2")]
+[CliSubCommand("ec2")]
 public class AwsEc2Wait
 {
     public AwsEc2Wait(

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("footprint")]
+[CliSubCommand("footprint")]
 public class AzFootprintMeasurementEndpoint
 {
     public AzFootprintMeasurementEndpoint(

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("docs")]
+[CliSubCommand("docs")]
 public record NpmDocsOptions : NpmOptions
 {
     [CliOption("--browser")]

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere")]
+[CliSubCommand("sphere")]
 public class AzSphereCatalog
 {
     public AzSphereCatalog(

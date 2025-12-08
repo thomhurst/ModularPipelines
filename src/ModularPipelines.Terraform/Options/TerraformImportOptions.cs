@@ -4,7 +4,7 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("import")]
+[CliSubCommand("import")]
 [ExcludeFromCodeCoverage]
 public record TerraformImportOptions([property: CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     string Address, [property: CliArgument(Placement = ArgumentPlacement.AfterOptions)]

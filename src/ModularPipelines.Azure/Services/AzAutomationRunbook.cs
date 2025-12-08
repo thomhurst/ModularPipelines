@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automation")]
+[CliSubCommand("automation")]
 public class AzAutomationRunbook
 {
     public AzAutomationRunbook(

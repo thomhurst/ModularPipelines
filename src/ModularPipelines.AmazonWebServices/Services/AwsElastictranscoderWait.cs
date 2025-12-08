@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("elastictranscoder")]
+[CliSubCommand("elastictranscoder")]
 public class AwsElastictranscoderWait
 {
     public AwsElastictranscoderWait(

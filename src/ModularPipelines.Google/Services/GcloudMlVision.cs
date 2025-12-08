@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml")]
+[CliSubCommand("ml")]
 public class GcloudMlVision
 {
     public GcloudMlVision(

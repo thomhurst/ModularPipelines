@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("state replace-provider")]
+[CliSubCommand("state replace-provider")]
 [ExcludeFromCodeCoverage]
 public record TerraformStateReplaceProviderOptions(
     [property: CliArgument(Placement = ArgumentPlacement.AfterOptions)]

@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("certificate")]
+[CliSubCommand("certificate")]
 [ExcludeFromCodeCoverage]
 public record KubernetesCertificateOptions([property: CliArgument] string Subcommand) : KubernetesOptions
 {

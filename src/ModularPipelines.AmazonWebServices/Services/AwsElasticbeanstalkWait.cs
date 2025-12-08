@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("elasticbeanstalk")]
+[CliSubCommand("elasticbeanstalk")]
 public class AwsElasticbeanstalkWait
 {
     public AwsElasticbeanstalkWait(

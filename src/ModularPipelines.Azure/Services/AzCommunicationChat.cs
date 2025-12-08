@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("communication")]
+[CliSubCommand("communication")]
 public class AzCommunicationChat
 {
     public AzCommunicationChat(

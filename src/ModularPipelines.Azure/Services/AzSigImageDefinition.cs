@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sig")]
+[CliSubCommand("sig")]
 public class AzSigImageDefinition
 {
     public AzSigImageDefinition(

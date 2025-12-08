@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CliCommand("push")]
+[CliSubCommand("push")]
 [ExcludeFromCodeCoverage]
 public record HelmPushOptions : HelmOptions
 {

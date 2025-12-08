@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("managedservices")]
+[CliSubCommand("managedservices")]
 public class AzManagedservicesAssignment
 {
     public AzManagedservicesAssignment(

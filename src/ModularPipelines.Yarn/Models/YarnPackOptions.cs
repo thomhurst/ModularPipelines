@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pack")]
+[CliSubCommand("pack")]
 public record YarnPackOptions : YarnOptions
 {
     [CliFlag("--install-if-needed")]

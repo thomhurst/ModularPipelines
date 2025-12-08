@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("graph-services")]
+[CliSubCommand("graph-services")]
 public class AzGraphServicesAccount
 {
     public AzGraphServicesAccount(

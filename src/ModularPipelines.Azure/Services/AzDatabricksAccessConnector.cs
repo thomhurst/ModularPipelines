@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databricks")]
+[CliSubCommand("databricks")]
 public class AzDatabricksAccessConnector
 {
     public AzDatabricksAccessConnector(

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sapmonitor")]
+[CliSubCommand("sapmonitor")]
 public class AzSapmonitorProviderInstance
 {
     public AzSapmonitorProviderInstance(

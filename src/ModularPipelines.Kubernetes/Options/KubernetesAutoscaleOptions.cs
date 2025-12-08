@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("autoscale")]
+[CliSubCommand("autoscale")]
 [ExcludeFromCodeCoverage]
 public record KubernetesAutoscaleOptions : KubernetesOptions
 {

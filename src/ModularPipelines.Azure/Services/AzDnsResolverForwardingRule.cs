@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dns-resolver")]
+[CliSubCommand("dns-resolver")]
 public class AzDnsResolverForwardingRule
 {
     public AzDnsResolverForwardingRule(

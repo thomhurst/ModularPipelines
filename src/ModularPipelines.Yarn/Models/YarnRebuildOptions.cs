@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("rebuild")]
+[CliSubCommand("rebuild")]
 public record YarnRebuildOptions : YarnOptions;

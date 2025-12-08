@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redshift")]
+[CliSubCommand("redshift")]
 public class AwsRedshiftWait
 {
     public AwsRedshiftWait(

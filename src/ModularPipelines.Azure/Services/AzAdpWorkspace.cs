@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("adp")]
+[CliSubCommand("adp")]
 public class AzAdpWorkspace
 {
     public AzAdpWorkspace(

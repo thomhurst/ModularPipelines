@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("install")]
+[CliSubCommand("install")]
 public record NpmInstallOptions : NpmOptions
 {
     [CliFlag("--save")]

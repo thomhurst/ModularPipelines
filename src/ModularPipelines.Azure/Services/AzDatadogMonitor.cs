@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datadog")]
+[CliSubCommand("datadog")]
 public class AzDatadogMonitor
 {
     public AzDatadogMonitor(

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ai")]
+[CliSubCommand("ai")]
 public class GcloudAiEndpoints
 {
     public GcloudAiEndpoints(

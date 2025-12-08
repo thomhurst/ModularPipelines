@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("delete")]
+[CliSubCommand("delete")]
 [ExcludeFromCodeCoverage]
 public record KubernetesDeleteOptions([property: CliArgument] string Name) : KubernetesOptions
 {

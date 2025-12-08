@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("force-unlock")]
+[CliSubCommand("force-unlock")]
 [ExcludeFromCodeCoverage]
 public record TerraformForceUnlockOptions([property: CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     string Lockid) : TerraformOptions

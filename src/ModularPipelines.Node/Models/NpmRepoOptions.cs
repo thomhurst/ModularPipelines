@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repo")]
+[CliSubCommand("repo")]
 public record NpmRepoOptions : NpmOptions
 {
     [CliOption("--browser")]

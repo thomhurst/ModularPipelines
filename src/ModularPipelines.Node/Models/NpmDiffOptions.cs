@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("diff")]
+[CliSubCommand("diff")]
 public record NpmDiffOptions : NpmOptions
 {
     [CliOption("--diff")]

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("reservations")]
+[CliSubCommand("reservations")]
 public class AzReservationsCatalog
 {
     public AzReservationsCatalog(

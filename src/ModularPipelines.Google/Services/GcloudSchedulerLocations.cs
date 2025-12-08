@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scheduler")]
+[CliSubCommand("scheduler")]
 public class GcloudSchedulerLocations
 {
     public GcloudSchedulerLocations(

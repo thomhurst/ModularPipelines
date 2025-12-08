@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("emulators")]
+[CliSubCommand("emulators")]
 public class GcloudEmulatorsSpanner
 {
     public GcloudEmulatorsSpanner(

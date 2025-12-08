@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("help")]
+[CliSubCommand("help")]
 public record NpmHelpOptions(
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Term
 ) : NpmOptions

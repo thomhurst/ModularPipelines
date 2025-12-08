@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("State Command")]
+[CliSubCommand("State Command")]
 [ExcludeFromCodeCoverage]
 public record TerraformStateCommandOptions : TerraformOptions
 {

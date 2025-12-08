@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("query")]
+[CliSubCommand("query")]
 public record NpmQueryOptions(
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Selector
 ) : NpmOptions

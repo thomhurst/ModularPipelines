@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CliCommand("pull")]
+[CliSubCommand("pull")]
 [ExcludeFromCodeCoverage]
 public record HelmPullOptions : HelmOptions
 {

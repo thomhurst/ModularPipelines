@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("optimize")]
+[CliSubCommand("optimize")]
 public record OptimizeOptions : ChocoOptions
 {
     [CliFlag("--deflate-nupkg-only")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("info")]
+[CliSubCommand("info")]
 public record InfoOptions : ChocoOptions
 {
     [CliOption("--source")]

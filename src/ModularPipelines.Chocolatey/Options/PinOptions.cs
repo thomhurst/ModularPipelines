@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pin")]
+[CliSubCommand("pin")]
 public record PinOptions : ChocoOptions
 {
     [CliOption("--name")]

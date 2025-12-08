@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CliCommand("completion")]
+[CliSubCommand("completion")]
 [ExcludeFromCodeCoverage]
 public record KubernetesCompletionOptions([property: CliArgument] string Shell) : KubernetesOptions
 {

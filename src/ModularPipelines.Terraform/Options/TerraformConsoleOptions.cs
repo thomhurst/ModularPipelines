@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("console")]
+[CliSubCommand("console")]
 [ExcludeFromCodeCoverage]
 public record TerraformConsoleOptions : TerraformOptions
 {

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appservice")]
+[CliSubCommand("appservice")]
 public class AzAppserviceKube
 {
     public AzAppserviceKube(

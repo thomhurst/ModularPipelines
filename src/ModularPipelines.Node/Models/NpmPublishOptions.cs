@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("publish")]
+[CliSubCommand("publish")]
 public record NpmPublishOptions : NpmOptions
 {
     [CliOption("--tag")]

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("recommender")]
+[CliSubCommand("recommender")]
 public class GcloudRecommenderRecommendations
 {
     public GcloudRecommenderRecommendations(

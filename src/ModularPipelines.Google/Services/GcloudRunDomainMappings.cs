@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("run")]
+[CliSubCommand("run")]
 public class GcloudRunDomainMappings
 {
     public GcloudRunDomainMappings(

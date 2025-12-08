@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("workspace list")]
+[CliSubCommand("workspace list")]
 [ExcludeFromCodeCoverage]
 public record TerraformWorkspaceListOptions : TerraformOptions
 {

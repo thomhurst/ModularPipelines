@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.WinGet.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("download")]
+[CliSubCommand("download")]
 public record DownloadOptions(
     [property: CliOption("--query")] string Query
 ) : WingetOptions

@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CliCommand("apply")]
+[CliSubCommand("apply")]
 [ExcludeFromCodeCoverage]
 public record TerraformApplyOptions : TerraformOptions
 {

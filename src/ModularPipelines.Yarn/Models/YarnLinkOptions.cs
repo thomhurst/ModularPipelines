@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("link")]
+[CliSubCommand("link")]
 public record YarnLinkOptions : YarnOptions
 {
     [CliFlag("--all")]

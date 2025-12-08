@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cache")]
+[CliSubCommand("cache")]
 public record CacheOptions : ChocoOptions
 {
     [CliFlag("--expired")]
