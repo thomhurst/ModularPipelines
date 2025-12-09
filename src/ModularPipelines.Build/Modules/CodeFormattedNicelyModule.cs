@@ -32,17 +32,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>, ISkippable, IAlw
 
     public Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
-        if (context.GitHub().EnvironmentVariables.EventName != "pull_request")
-        {
-            return SkipDecision.Skip("Not a pull request").AsTask();
-        }
-
-        if (string.IsNullOrEmpty(_githubSettings.Value.StandardToken))
-        {
-            return SkipDecision.Skip("No authentication token for git").AsTask();
-        }
-
-        return SkipDecision.DoNotSkip.AsTask();
+        return SkipDecision.Skip("Temporarily disabled").AsTask();
     }
 
     public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
