@@ -18,7 +18,7 @@ on:
         type: boolean
 
 jobs:
-  # Generate options for each tool in parallel
+  # Generate options for each tool in parallel (Linux)
   generate:
     runs-on: ubuntu-latest
     strategy:
@@ -31,6 +31,9 @@ jobs:
           - az
           - dotnet
           - gcloud
+          - terraform
+          - yarn
+          - aws
 
     steps:
       - name: Check if tool should run
@@ -89,6 +92,26 @@ jobs:
           curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
           sudo apt-get update && sudo apt-get install -y google-cloud-cli
 
+      - name: Install Terraform
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'terraform'
+        run: |
+          wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+          sudo apt-get update && sudo apt-get install -y terraform
+
+      - name: Install Yarn
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'yarn'
+        run: |
+          corepack enable
+          corepack prepare yarn@stable --activate
+
+      - name: Install AWS CLI
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'aws'
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip -q awscliv2.zip
+          sudo ./aws/install
+
       # Docker is pre-installed on ubuntu-latest
       # .NET CLI is installed via setup-dotnet
 
@@ -118,9 +141,94 @@ jobs:
           if-no-files-found: ignore
           retention-days: 1
 
+  # Generate options for Windows-only tools
+  generate-windows:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        tool:
+          - choco
+          - winget
+
+    steps:
+      - name: Check if tool should run
+        id: should-run
+        shell: pwsh
+        run: |
+          $tools = "${{ github.event.inputs.tools }}"
+          if ([string]::IsNullOrEmpty($tools)) { $tools = "all" }
+          if ($tools -eq "all" -or $tools -match "${{ matrix.tool }}") {
+            "run=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          } else {
+            "run=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          }
+
+      - name: Checkout
+        if: steps.should-run.outputs.run == 'true'
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        if: steps.should-run.outputs.run == 'true'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Cache NuGet
+        if: steps.should-run.outputs.run == 'true'
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Install Chocolatey
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'choco'
+        shell: pwsh
+        run: |
+          # Chocolatey is pre-installed on windows-latest
+          choco --version
+
+      - name: Install WinGet
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'winget'
+        shell: pwsh
+        run: |
+          # WinGet is pre-installed on windows-latest (Windows Server 2022)
+          winget --version
+
+      - name: Build Generator
+        if: steps.should-run.outputs.run == 'true'
+        run: dotnet build -c Release
+        working-directory: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator
+
+      - name: Run Generator for ${{ matrix.tool }}
+        if: steps.should-run.outputs.run == 'true'
+        shell: pwsh
+        run: |
+          dotnet run -c Release -- `
+            --tools "${{ matrix.tool }}" `
+            --output-dir "${{ github.workspace }}"
+        working-directory: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator
+
+      - name: Upload generated files
+        if: steps.should-run.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-${{ matrix.tool }}
+          path: |
+            src/ModularPipelines.*/Options/**
+            src/ModularPipelines.*/Enums/**
+            src/ModularPipelines.*/Services/**
+            src/ModularPipelines.*/Extensions/**
+          if-no-files-found: ignore
+          retention-days: 1
+
   # Combine all generated files and create PR
   create-pr:
-    needs: generate
+    needs: [generate, generate-windows]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -172,13 +280,18 @@ jobs:
             ## Summary
             This PR contains automatically generated updates to CLI options classes.
 
-            The generator scraped the latest documentation from:
+            The generator scraped the latest CLI help from:
             - Helm (helm.sh)
             - kubectl (kubernetes.io)
             - Docker (docs.docker.com)
             - Azure CLI (learn.microsoft.com)
             - .NET CLI (learn.microsoft.com)
             - Google Cloud CLI (cloud.google.com)
+            - Terraform (terraform.io)
+            - Yarn (yarnpkg.com)
+            - AWS CLI (docs.aws.amazon.com)
+            - Chocolatey (chocolatey.org) [Windows]
+            - WinGet (microsoft.com) [Windows]
 
             ## Changes
             - Updated options classes to reflect latest CLI documentation

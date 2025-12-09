@@ -57,6 +57,13 @@ rootCommand.SetHandler(async (tools, outputDir, useCliFirst, enhanceTypes) =>
     builder.Services.AddSingleton<ICliScraper, GcloudCliScraper>();
     builder.Services.AddSingleton<ICliScraper, GitCliScraper>();
 
+    // Register additional CLI scrapers
+    builder.Services.AddSingleton<ICliScraper, TerraformCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, WinGetCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, ChocolateyCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, YarnCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, AwsCliScraper>();
+
     // Register HTML scrapers (used as fallback or for non-Cobra CLIs)
     builder.Services.AddSingleton<ICliDocumentationScraper, HelmDocumentationScraper>();
     builder.Services.AddSingleton<ICliDocumentationScraper, KubectlDocumentationScraper>();
