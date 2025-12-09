@@ -47,7 +47,16 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             var stdoutTask = process.StandardOutput.ReadToEndAsync(cts.Token);
             var stderrTask = process.StandardError.ReadToEndAsync(cts.Token);
 
-            await process.WaitForExitAsync(cts.Token);
+            try
+            {
+                await process.WaitForExitAsync(cts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                // Kill the process to prevent resource leak
+                TryKillProcess(process, command, arguments);
+                throw;
+            }
 
             var stdout = await stdoutTask;
             var stderr = await stderrTask;
@@ -63,11 +72,11 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         }
         catch (OperationCanceledException)
         {
-            _logger.LogWarning("Command timed out: {Command} {Arguments}", command, arguments);
+            _logger.LogWarning("Command timed out or cancelled: {Command} {Arguments}", command, arguments);
             return new CliCommandResult
             {
                 StandardOutput = string.Empty,
-                StandardError = "Command timed out",
+                StandardError = "Command timed out or cancelled",
                 ExitCode = -1
             };
         }
@@ -99,6 +108,27 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         catch
         {
             return false;
+        }
+    }
+
+    /// <summary>
+    /// Attempts to kill a process gracefully, falling back to force kill.
+    /// Logs but swallows exceptions to prevent masking the original error.
+    /// </summary>
+    private void TryKillProcess(Process process, string command, string arguments)
+    {
+        try
+        {
+            if (!process.HasExited)
+            {
+                _logger.LogDebug("Killing timed-out process: {Command} {Arguments}", command, arguments);
+                process.Kill(entireProcessTree: true);
+            }
+        }
+        catch (Exception ex)
+        {
+            // Log but don't throw - we don't want to mask the original timeout exception
+            _logger.LogWarning(ex, "Failed to kill process: {Command} {Arguments}", command, arguments);
         }
     }
 }

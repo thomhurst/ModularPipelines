@@ -532,6 +532,11 @@ public abstract partial class CliScraperBase : ICliScraper
             return input;
         }
 
+        if (input.Length == 1)
+        {
+            return char.ToUpperInvariant(input[0]).ToString();
+        }
+
         return char.ToUpperInvariant(input[0]) + input[1..].ToLowerInvariant();
     }
 
