@@ -130,7 +130,7 @@ jobs:
 
       - name: Upload generated files
         if: steps.should-run.outputs.run == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: generated-${{ matrix.tool }}
           path: |
@@ -215,7 +215,7 @@ jobs:
 
       - name: Upload generated files
         if: steps.should-run.outputs.run == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: generated-${{ matrix.tool }}
           path: |
@@ -242,7 +242,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download all artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           pattern: generated-*
           merge-multiple: true
