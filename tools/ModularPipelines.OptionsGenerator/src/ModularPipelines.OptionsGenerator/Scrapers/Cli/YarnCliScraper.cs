@@ -37,8 +37,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class YarnCliScraper : CliScraperBase
 {
-    public YarnCliScraper(ICliCommandExecutor executor, ILogger<YarnCliScraper> logger)
-        : base(executor, logger)
+    public YarnCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<YarnCliScraper> logger)
+        : base(executor, helpCache, logger)
     {
     }
 
@@ -50,10 +50,6 @@ public partial class YarnCliScraper : CliScraperBase
 
     public override string OutputDirectory => "src/ModularPipelines.Yarn";
 
-    /// <summary>
-    /// Yarn has mostly flat structure with some nesting (npm/*, plugin/*, workspace/*).
-    /// </summary>
-    protected override int MaxDiscoveryDepth => 2;
 
     /// <summary>
     /// Skip utility commands.

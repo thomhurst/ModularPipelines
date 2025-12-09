@@ -54,8 +54,17 @@ rootCommand.SetAction(async (parseResult, cancellationToken) =>
     // Configure HTTP client (for HTML scrapers as fallback)
     builder.Services.AddHttpClient();
 
-    // Register CLI command executor (needed for CLI scrapers and type enhancement)
-    builder.Services.AddSingleton<ICliCommandExecutor, ProcessCliCommandExecutor>();
+    // Register CLI command executor with resilience patterns (retry + circuit breaker)
+    builder.Services.AddSingleton<ProcessCliCommandExecutor>();
+    builder.Services.AddSingleton<ICliCommandExecutor>(sp =>
+    {
+        var inner = sp.GetRequiredService<ProcessCliCommandExecutor>();
+        var logger = sp.GetRequiredService<ILogger<ResilientCliCommandExecutor>>();
+        return new ResilientCliCommandExecutor(inner, logger);
+    });
+
+    // Register help text cache with TTL and size limits
+    builder.Services.AddSingleton<IHelpTextCache, HelpTextCache>();
 
     // Register CLI-first scrapers for Cobra-based CLIs
     builder.Services.AddSingleton<ICliScraper, HelmCliScraper>();
@@ -70,6 +79,8 @@ rootCommand.SetAction(async (parseResult, cancellationToken) =>
     builder.Services.AddSingleton<ICliScraper, ChocolateyCliScraper>();
     builder.Services.AddSingleton<ICliScraper, YarnCliScraper>();
     builder.Services.AddSingleton<ICliScraper, AwsCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, AzCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, DotNetCliScraper>();
 
     // Register HTML scrapers (used as fallback or for non-Cobra CLIs)
     builder.Services.AddSingleton<ICliDocumentationScraper, HelmDocumentationScraper>();

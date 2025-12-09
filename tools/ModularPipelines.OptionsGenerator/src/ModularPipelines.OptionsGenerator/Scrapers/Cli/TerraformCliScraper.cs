@@ -35,8 +35,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class TerraformCliScraper : CliScraperBase
 {
-    public TerraformCliScraper(ICliCommandExecutor executor, ILogger<TerraformCliScraper> logger)
-        : base(executor, logger)
+    public TerraformCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<TerraformCliScraper> logger)
+        : base(executor, helpCache, logger)
     {
     }
 
@@ -48,10 +48,6 @@ public partial class TerraformCliScraper : CliScraperBase
 
     public override string OutputDirectory => "src/ModularPipelines.Terraform";
 
-    /// <summary>
-    /// Terraform has limited nesting: terraform -> command (or workspace/state -> subcommand).
-    /// </summary>
-    protected override int MaxDiscoveryDepth => 2;
 
     /// <summary>
     /// Skip less useful commands.

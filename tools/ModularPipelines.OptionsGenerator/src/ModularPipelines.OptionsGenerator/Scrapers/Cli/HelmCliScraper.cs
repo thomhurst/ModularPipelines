@@ -14,8 +14,8 @@ public class HelmCliScraper : CobraCliScraper
     public override string TargetNamespace => "ModularPipelines.Helm";
     public override string OutputDirectory => "src/ModularPipelines.Helm";
 
-    public HelmCliScraper(ICliCommandExecutor executor, ILogger<HelmCliScraper> logger)
-        : base(executor, logger)
+    public HelmCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<HelmCliScraper> logger)
+        : base(executor, helpCache, logger)
     {
     }
 }

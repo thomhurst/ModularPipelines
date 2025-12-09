@@ -39,8 +39,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class ChocolateyCliScraper : CliScraperBase
 {
-    public ChocolateyCliScraper(ICliCommandExecutor executor, ILogger<ChocolateyCliScraper> logger)
-        : base(executor, logger)
+    public ChocolateyCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<ChocolateyCliScraper> logger)
+        : base(executor, helpCache, logger)
     {
     }
 
@@ -52,10 +52,6 @@ public partial class ChocolateyCliScraper : CliScraperBase
 
     public override string OutputDirectory => "src/ModularPipelines.Chocolatey";
 
-    /// <summary>
-    /// Chocolatey has flat command structure.
-    /// </summary>
-    protected override int MaxDiscoveryDepth => 2;
 
     /// <summary>
     /// Skip utility commands.

@@ -57,8 +57,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class AwsCliScraper : CliScraperBase
 {
-    public AwsCliScraper(ICliCommandExecutor executor, ILogger<AwsCliScraper> logger)
-        : base(executor, logger)
+    public AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<AwsCliScraper> logger)
+        : base(executor, helpCache, logger)
     {
     }
 
@@ -70,10 +70,6 @@ public partial class AwsCliScraper : CliScraperBase
 
     public override string OutputDirectory => "src/ModularPipelines.AmazonWebServices";
 
-    /// <summary>
-    /// AWS CLI has 3-level nesting: aws -> service -> command.
-    /// </summary>
-    protected override int MaxDiscoveryDepth => 3;
 
     /// <summary>
     /// AWS CLI has 350+ services - use higher parallelism for faster discovery.

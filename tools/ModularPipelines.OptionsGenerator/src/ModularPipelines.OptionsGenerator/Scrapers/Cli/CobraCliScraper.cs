@@ -25,8 +25,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public abstract partial class CobraCliScraper : CliScraperBase
 {
-    protected CobraCliScraper(ICliCommandExecutor executor, ILogger logger)
-        : base(executor, logger)
+    protected CobraCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger logger)
+        : base(executor, helpCache, logger)
     {
     }
 

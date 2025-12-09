@@ -38,8 +38,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class WinGetCliScraper : CliScraperBase
 {
-    public WinGetCliScraper(ICliCommandExecutor executor, ILogger<WinGetCliScraper> logger)
-        : base(executor, logger)
+    public WinGetCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<WinGetCliScraper> logger)
+        : base(executor, helpCache, logger)
     {
     }
 
@@ -51,10 +51,6 @@ public partial class WinGetCliScraper : CliScraperBase
 
     public override string OutputDirectory => "src/ModularPipelines.WinGet";
 
-    /// <summary>
-    /// WinGet has flat command structure with no deep nesting.
-    /// </summary>
-    protected override int MaxDiscoveryDepth => 2;
 
     /// <summary>
     /// Skip utility commands.

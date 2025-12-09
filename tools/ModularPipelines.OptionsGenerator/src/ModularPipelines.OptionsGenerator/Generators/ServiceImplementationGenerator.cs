@@ -75,7 +75,8 @@ public class ServiceImplementationGenerator : ICodeGenerator
             {
                 var pascalSubDomain = GeneratorUtils.ToPascalCase(subDomain);
                 var subDomainClassName = $"{tool.NamespacePrefix}{pascalSubDomain}";
-                var paramName = char.ToLowerInvariant(pascalSubDomain[0]) + pascalSubDomain[1..];
+                var rawParamName = char.ToLowerInvariant(pascalSubDomain[0]) + pascalSubDomain[1..];
+                var paramName = GeneratorUtils.EscapeIdentifier(rawParamName);
                 constructorParams.Add($"        {subDomainClassName} {paramName}");
             }
             constructorParams.Add("        ICommand command");
@@ -88,7 +89,8 @@ public class ServiceImplementationGenerator : ICodeGenerator
             foreach (var subDomain in subDomains.OrderBy(s => s))
             {
                 var pascalSubDomain = GeneratorUtils.ToPascalCase(subDomain);
-                var paramName = char.ToLowerInvariant(pascalSubDomain[0]) + pascalSubDomain[1..];
+                var rawParamName = char.ToLowerInvariant(pascalSubDomain[0]) + pascalSubDomain[1..];
+                var paramName = GeneratorUtils.EscapeIdentifier(rawParamName);
                 sb.AppendLine($"        {pascalSubDomain} = {paramName};");
             }
 

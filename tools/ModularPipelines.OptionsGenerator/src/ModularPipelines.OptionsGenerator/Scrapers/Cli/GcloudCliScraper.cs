@@ -27,15 +27,10 @@ public partial class GcloudCliScraper : CliScraperBase
     /// </summary>
     protected override string ExecutablePath { get; }
 
-    /// <summary>
-    /// gcloud has deep nesting (e.g., gcloud compute instances create), allow 5 levels.
-    /// </summary>
-    protected override int MaxDiscoveryDepth => 5;
-
     #endregion
 
-    public GcloudCliScraper(ICliCommandExecutor executor, ILogger<GcloudCliScraper> logger)
-        : base(executor, logger)
+    public GcloudCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<GcloudCliScraper> logger)
+        : base(executor, helpCache, logger)
     {
         ExecutablePath = ResolveGcloudPath();
         Logger.LogInformation("Resolved gcloud path: {Path}", ExecutablePath);

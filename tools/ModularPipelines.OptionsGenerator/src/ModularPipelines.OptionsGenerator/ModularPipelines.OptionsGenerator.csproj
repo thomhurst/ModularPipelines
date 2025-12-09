@@ -9,9 +9,11 @@
 
   <ItemGroup>
     <PackageReference Include="AngleSharp" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />
     <PackageReference Include="Microsoft.Extensions.Http" />
     <PackageReference Include="Microsoft.Playwright" />
+    <PackageReference Include="Polly" />
     <PackageReference Include="System.CommandLine" />
   </ItemGroup>
 

@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
 using System.Threading.Channels;
 using Microsoft.Extensions.Logging;
@@ -15,12 +14,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 public abstract partial class CliScraperBase : ICliScraper
 {
     protected readonly ICliCommandExecutor Executor;
+    protected readonly IHelpTextCache HelpCache;
     protected readonly ILogger Logger;
-
-    /// <summary>
-    /// Cache for help text output to avoid redundant CLI calls.
-    /// </summary>
-    private readonly ConcurrentDictionary<string, string> _helpCache = new();
 
     #region Abstract Properties - Must Implement
 
@@ -54,13 +49,6 @@ public abstract partial class CliScraperBase : ICliScraper
     /// Defaults to ToolName.
     /// </summary>
     protected virtual string ExecutablePath => ToolName;
-
-    /// <summary>
-    /// Maximum depth for recursive command discovery.
-    /// Override for CLIs with deeper nesting (e.g., gcloud = 5).
-    /// Defaults to 3.
-    /// </summary>
-    protected virtual int MaxDiscoveryDepth => 3;
 
     /// <summary>
     /// Maximum parallelism for concurrent command discovery.
@@ -99,12 +87,14 @@ public abstract partial class CliScraperBase : ICliScraper
 
     #endregion
 
-    protected CliScraperBase(ICliCommandExecutor executor, ILogger logger)
+    protected CliScraperBase(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger logger)
     {
         ArgumentNullException.ThrowIfNull(executor);
+        ArgumentNullException.ThrowIfNull(helpCache);
         ArgumentNullException.ThrowIfNull(logger);
 
         Executor = executor;
+        HelpCache = helpCache;
         Logger = logger;
     }
 
@@ -120,13 +110,53 @@ public abstract partial class CliScraperBase : ICliScraper
     }
 
     /// <summary>
-    /// Tracks state for parallel scraping workers.
+    /// Tracks state for parallel scraping workers using a countdown pattern.
+    /// Thread-safe without locks by using atomic operations and a completion signal.
     /// </summary>
-    private sealed class WorkerState
+    private sealed class WorkCoordinator
     {
-        public int ActiveWorkers;
-        public int PendingWork;
-        public readonly object Lock = new();
+        private int _outstandingWork;
+        private readonly Channel<string[]> _workChannel;
+        private readonly TaskCompletionSource _completionSignal = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public WorkCoordinator(Channel<string[]> workChannel)
+        {
+            _workChannel = workChannel;
+        }
+
+        /// <summary>
+        /// Increments the outstanding work counter.
+        /// Call this BEFORE adding work to the channel.
+        /// </summary>
+        public void IncrementWork()
+        {
+            Interlocked.Increment(ref _outstandingWork);
+        }
+
+        /// <summary>
+        /// Decrements the outstanding work counter.
+        /// When it reaches 0, signals completion and closes the work channel.
+        /// Call this AFTER the work item has been fully processed.
+        /// </summary>
+        public void DecrementWork()
+        {
+            var remaining = Interlocked.Decrement(ref _outstandingWork);
+            if (remaining == 0)
+            {
+                _workChannel.Writer.TryComplete();
+                _completionSignal.TrySetResult();
+            }
+        }
+
+        /// <summary>
+        /// Gets a task that completes when all work is done.
+        /// </summary>
+        public Task CompletionTask => _completionSignal.Task;
+
+        /// <summary>
+        /// Current count of outstanding work items (for diagnostics).
+        /// </summary>
+        public int OutstandingWork => Volatile.Read(ref _outstandingWork);
     }
 
     /// <summary>
@@ -161,19 +191,19 @@ public abstract partial class CliScraperBase : ICliScraper
             SingleWriter = false
         });
 
-        // Track worker state
-        var state = new WorkerState();
+        // Coordinator handles completion signaling atomically
+        var coordinator = new WorkCoordinator(workChannel);
 
-        // Start discovery with root path
+        // Start discovery with root path - increment BEFORE adding to channel
+        coordinator.IncrementWork();
         await workChannel.Writer.WriteAsync([ToolName], cancellationToken);
-        Interlocked.Increment(ref state.PendingWork);
 
         // Start worker tasks
         var workerTasks = Enumerable.Range(0, MaxParallelism)
-            .Select(_ => ProcessWorkQueueAsync(workChannel, commandChannel, state, cancellationToken))
+            .Select(_ => ProcessWorkQueueAsync(workChannel, commandChannel, coordinator, cancellationToken))
             .ToList();
 
-        // Background task to complete channels when all work is done
+        // Background task to complete command channel when all work is done
         _ = Task.Run(async () =>
         {
             await Task.WhenAll(workerTasks);
@@ -194,69 +224,25 @@ public abstract partial class CliScraperBase : ICliScraper
 
     /// <summary>
     /// Worker that processes paths from the work queue in parallel.
+    /// Exits cleanly when the work channel is completed.
     /// </summary>
     private async Task ProcessWorkQueueAsync(
         Channel<string[]> workChannel,
         Channel<CliCommandDefinition> commandChannel,
-        WorkerState state,
+        WorkCoordinator coordinator,
         CancellationToken cancellationToken)
     {
-        while (!cancellationToken.IsCancellationRequested)
+        // ReadAllAsync handles channel completion cleanly - no polling needed
+        await foreach (var path in workChannel.Reader.ReadAllAsync(cancellationToken))
         {
-            string[]? path;
-
-            // Try to get work from the queue
-            lock (state.Lock)
-            {
-                if (state.PendingWork == 0 && state.ActiveWorkers == 0)
-                {
-                    // No more work and no active workers - we're done
-                    workChannel.Writer.TryComplete();
-                    return;
-                }
-            }
-
             try
             {
-                // Wait for work with a timeout to check completion condition
-                using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-                cts.CancelAfter(TimeSpan.FromMilliseconds(100));
-
-                if (!await workChannel.Reader.WaitToReadAsync(cts.Token))
-                {
-                    // Channel completed
-                    return;
-                }
-
-                if (!workChannel.Reader.TryRead(out path))
-                {
-                    continue;
-                }
-            }
-            catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
-            {
-                // Timeout - check if we should exit
-                lock (state.Lock)
-                {
-                    if (state.PendingWork == 0 && state.ActiveWorkers == 0)
-                    {
-                        workChannel.Writer.TryComplete();
-                        return;
-                    }
-                }
-                continue;
-            }
-
-            Interlocked.Increment(ref state.ActiveWorkers);
-
-            try
-            {
-                await ProcessPathAsync(path, workChannel, commandChannel, state, cancellationToken);
+                await ProcessPathAsync(path, workChannel, commandChannel, coordinator, cancellationToken);
             }
             finally
             {
-                Interlocked.Decrement(ref state.ActiveWorkers);
-                Interlocked.Decrement(ref state.PendingWork);
+                // Decrement AFTER fully processing (including enqueueing children)
+                coordinator.DecrementWork();
             }
         }
     }
@@ -268,16 +254,9 @@ public abstract partial class CliScraperBase : ICliScraper
         string[] path,
         Channel<string[]> workChannel,
         Channel<CliCommandDefinition> commandChannel,
-        WorkerState state,
+        WorkCoordinator coordinator,
         CancellationToken cancellationToken)
     {
-        var currentDepth = path.Length - 1; // -1 because tool name is at position 0
-
-        if (currentDepth >= MaxDiscoveryDepth)
-        {
-            return;
-        }
-
         var helpText = await GetHelpTextAsync(path, cancellationToken);
         if (string.IsNullOrEmpty(helpText))
         {
@@ -311,6 +290,7 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         // Enqueue subcommands for parallel processing
+        // IMPORTANT: Increment BEFORE adding to channel to avoid race conditions
         var subcommands = ExtractSubcommands(helpText);
         foreach (var subcommand in subcommands)
         {
@@ -320,7 +300,7 @@ public abstract partial class CliScraperBase : ICliScraper
             }
 
             var childPath = path.Append(subcommand).ToArray();
-            Interlocked.Increment(ref state.PendingWork);
+            coordinator.IncrementWork();
             await workChannel.Writer.WriteAsync(childPath, cancellationToken);
         }
     }
@@ -355,9 +335,8 @@ public abstract partial class CliScraperBase : ICliScraper
     {
         var cacheKey = string.Join(" ", commandPath);
 
-        if (_helpCache.TryGetValue(cacheKey, out var cached))
+        if (HelpCache.TryGet(cacheKey, out var cached))
         {
-            Logger.LogDebug("Using cached help for: {Command}", cacheKey);
             return cached;
         }
 
@@ -375,7 +354,7 @@ public abstract partial class CliScraperBase : ICliScraper
 
         if (!string.IsNullOrWhiteSpace(helpText))
         {
-            _helpCache[cacheKey] = helpText;
+            HelpCache.Set(cacheKey, helpText);
             return helpText;
         }
 

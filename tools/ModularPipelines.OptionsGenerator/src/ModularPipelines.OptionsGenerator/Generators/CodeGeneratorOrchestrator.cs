@@ -88,7 +88,7 @@ public class CodeGeneratorOrchestrator
                         var toolDefinition = cliScraper.CreateToolDefinition();
 
                         // Clean up old generated files before generating new ones
-                        CleanupGeneratedFiles(outputDirectory, toolDefinition.OutputDirectory);
+                        CleanupGeneratedFiles(outputDirectory, toolDefinition.OutputDirectory, toolDefinition.NamespacePrefix);
                         var allCommands = new List<CliCommandDefinition>();
 
                         // Collect all commands first
@@ -135,7 +135,7 @@ public class CodeGeneratorOrchestrator
                 _logger.LogInformation("Using HTML scraper for {Tool}", htmlScraper.ToolName);
 
                 // Clean up old generated files before generating new ones
-                CleanupGeneratedFiles(outputDirectory, htmlScraper.OutputDirectory);
+                CleanupGeneratedFiles(outputDirectory, htmlScraper.OutputDirectory, htmlScraper.NamespacePrefix);
 
                 var htmlToolDefinition = await htmlScraper.ScrapeAsync(cancellationToken);
 
@@ -220,7 +220,7 @@ public class CodeGeneratorOrchestrator
                     var toolDefinition = cliScraper.CreateToolDefinition();
 
                     // Clean up old generated files before generating new ones
-                    CleanupGeneratedFiles(outputDirectory, toolDefinition.OutputDirectory);
+                    CleanupGeneratedFiles(outputDirectory, toolDefinition.OutputDirectory, toolDefinition.NamespacePrefix);
 
                     var allCommands = new List<CliCommandDefinition>();
 
@@ -313,10 +313,9 @@ public class CodeGeneratorOrchestrator
 
     /// <summary>
     /// Cleans up old generated files before regenerating.
-    /// Only deletes .Generated.cs files in known output subdirectories to avoid
-    /// accidentally deleting hand-written code.
+    /// Deletes .Generated.cs files and specific hand-written files that will be replaced.
     /// </summary>
-    private void CleanupGeneratedFiles(string outputDirectory, string toolOutputDirectory)
+    private void CleanupGeneratedFiles(string outputDirectory, string toolOutputDirectory, string namespacePrefix)
     {
         var toolPath = Path.Combine(outputDirectory, toolOutputDirectory);
         if (!Directory.Exists(toolPath))
@@ -349,22 +348,29 @@ public class CodeGeneratorOrchestrator
                     _logger.LogWarning(ex, "Failed to delete old generated file: {File}", file);
                 }
             }
+        }
 
-            // Also delete any .cs files in the Enums directory (all enum files are generated)
-            if (subDir == "Enums")
+        // Delete specific hand-written files that will be replaced by generated versions
+        var handWrittenFilesToDelete = new[]
+        {
+            Path.Combine(toolPath, "Options", $"{namespacePrefix}Options.cs"),
+            Path.Combine(toolPath, "Extensions", $"{namespacePrefix}Extensions.cs"),
+            Path.Combine(toolPath, "Services", $"I{namespacePrefix}.cs"),
+            Path.Combine(toolPath, "Services", $"{namespacePrefix}.cs")
+        };
+
+        foreach (var file in handWrittenFilesToDelete)
+        {
+            if (File.Exists(file))
             {
-                var enumFiles = Directory.GetFiles(subDirPath, "*.cs", SearchOption.TopDirectoryOnly);
-                foreach (var file in enumFiles)
+                try
                 {
-                    try
-                    {
-                        File.Delete(file);
-                        _logger.LogDebug("Deleted old enum file: {File}", file);
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogWarning(ex, "Failed to delete old enum file: {File}", file);
-                    }
+                    File.Delete(file);
+                    _logger.LogInformation("Deleted hand-written file that will be replaced: {File}", file);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Failed to delete hand-written file: {File}", file);
                 }
             }
         }

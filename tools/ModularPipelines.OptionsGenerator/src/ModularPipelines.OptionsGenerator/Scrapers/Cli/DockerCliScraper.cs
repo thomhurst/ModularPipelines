@@ -14,8 +14,8 @@ public class DockerCliScraper : CobraCliScraper
     public override string TargetNamespace => "ModularPipelines.Docker";
     public override string OutputDirectory => "src/ModularPipelines.Docker";
 
-    public DockerCliScraper(ICliCommandExecutor executor, ILogger<DockerCliScraper> logger)
-        : base(executor, logger)
+    public DockerCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<DockerCliScraper> logger)
+        : base(executor, helpCache, logger)
     {
     }
 }
