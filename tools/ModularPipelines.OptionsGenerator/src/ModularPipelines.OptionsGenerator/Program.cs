@@ -8,36 +8,43 @@ using ModularPipelines.OptionsGenerator.Scrapers.Base;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
-var toolsOption = new Option<string>(
-    name: "--tools",
-    description: "Comma-separated list of tools to generate, or 'all'",
-    getDefaultValue: () => "all");
-
-var outputOption = new Option<string>(
-    name: "--output-dir",
-    description: "Output directory (repository root)",
-    getDefaultValue: () => ".");
-
-var useCliFirstOption = new Option<bool>(
-    name: "--use-cli-first",
-    description: "Use CLI --help parsing instead of HTML scraping (requires CLI tools to be installed). Recommended for Cobra CLIs (helm, docker, kubectl).",
-    getDefaultValue: () => true);
-
-var enhanceTypesOption = new Option<bool>(
-    name: "--enhance-types",
-    description: "Use CLI --help output to enhance type detection after scraping",
-    getDefaultValue: () => true);
-
-var rootCommand = new RootCommand("ModularPipelines CLI Options Generator")
+var toolsOption = new Option<string>("--tools", "-t")
 {
-    toolsOption,
-    outputOption,
-    useCliFirstOption,
-    enhanceTypesOption
+    Description = "Comma-separated list of tools to generate, or 'all'",
+    DefaultValueFactory = _ => "all"
 };
 
-rootCommand.SetHandler(async (tools, outputDir, useCliFirst, enhanceTypes) =>
+var outputOption = new Option<string>("--output-dir", "-o")
 {
+    Description = "Output directory (repository root)",
+    DefaultValueFactory = _ => "."
+};
+
+var useCliFirstOption = new Option<bool>("--use-cli-first")
+{
+    Description = "Use CLI --help parsing instead of HTML scraping (requires CLI tools to be installed). Recommended for Cobra CLIs (helm, docker, kubectl).",
+    DefaultValueFactory = _ => true
+};
+
+var enhanceTypesOption = new Option<bool>("--enhance-types")
+{
+    Description = "Use CLI --help output to enhance type detection after scraping",
+    DefaultValueFactory = _ => true
+};
+
+var rootCommand = new RootCommand("ModularPipelines CLI Options Generator");
+rootCommand.Options.Add(toolsOption);
+rootCommand.Options.Add(outputOption);
+rootCommand.Options.Add(useCliFirstOption);
+rootCommand.Options.Add(enhanceTypesOption);
+
+rootCommand.SetAction(async (parseResult, cancellationToken) =>
+{
+    var tools = parseResult.GetValue(toolsOption) ?? "all";
+    var outputDir = parseResult.GetValue(outputOption) ?? ".";
+    var useCliFirst = parseResult.GetValue(useCliFirstOption);
+    var enhanceTypes = parseResult.GetValue(enhanceTypesOption);
+
     var builder = Host.CreateApplicationBuilder();
 
     // Configure logging
@@ -116,14 +123,11 @@ rootCommand.SetHandler(async (tools, outputDir, useCliFirst, enhanceTypes) =>
             Console.WriteLine($"  - [{error.Source}] {error.Message}");
         }
 
-        // Exit with error code but don't fail completely (continue on failure)
-        Environment.ExitCode = 1;
-    }
-    else
-    {
-        Environment.ExitCode = 0;
+        return 1;
     }
 
-}, toolsOption, outputOption, useCliFirstOption, enhanceTypesOption);
+    return 0;
+});
 
-await rootCommand.InvokeAsync(args);
+var parseResult = rootCommand.Parse(args);
+return await parseResult.InvokeAsync();
