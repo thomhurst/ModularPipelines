@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "aem", "set")]
+[CliSubCommand("vm", "aem", "set")]
 public record AzVmAemSetOptions : AzOptions
 {
-    [BooleanCommandSwitch("--debug-extension")]
+    [CliFlag("--debug-extension")]
     public bool? DebugExtension { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--install-new-extension")]
+    [CliFlag("--install-new-extension")]
     public bool? InstallNewExtension { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--proxy-uri")]
+    [CliOption("--proxy-uri")]
     public string? ProxyUri { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--set-access-to-individual-resources")]
+    [CliFlag("--set-access-to-individual-resources")]
     public bool? SetAccessToIndividualResources { get; set; }
 
-    [BooleanCommandSwitch("--skip-storage-analytics")]
+    [CliFlag("--skip-storage-analytics")]
     public bool? SkipStorageAnalytics { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

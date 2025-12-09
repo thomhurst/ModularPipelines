@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workdocs", "describe-users")]
+[CliCommand("workdocs", "describe-users")]
 public record AwsWorkdocsDescribeUsersOptions : AwsOptions
 {
-    [CommandSwitch("--authentication-token")]
+    [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
-    [CommandSwitch("--organization-id")]
+    [CliOption("--organization-id")]
     public string? OrganizationId { get; set; }
 
-    [CommandSwitch("--user-ids")]
+    [CliOption("--user-ids")]
     public string? UserIds { get; set; }
 
-    [CommandSwitch("--include")]
+    [CliOption("--include")]
     public string? Include { get; set; }
 
-    [CommandSwitch("--order")]
+    [CliOption("--order")]
     public string? Order { get; set; }
 
-    [CommandSwitch("--sort")]
+    [CliOption("--sort")]
     public string? Sort { get; set; }
 
-    [CommandSwitch("--fields")]
+    [CliOption("--fields")]
     public string? Fields { get; set; }
 
-    [CommandSwitch("--user-query")]
+    [CliOption("--user-query")]
     public string? UserQuery { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

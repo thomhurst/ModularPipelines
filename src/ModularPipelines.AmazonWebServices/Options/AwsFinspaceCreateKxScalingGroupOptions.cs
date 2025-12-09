@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("finspace", "create-kx-scaling-group")]
+[CliCommand("finspace", "create-kx-scaling-group")]
 public record AwsFinspaceCreateKxScalingGroupOptions(
-[property: CommandSwitch("--environment-id")] string EnvironmentId,
-[property: CommandSwitch("--scaling-group-name")] string ScalingGroupName,
-[property: CommandSwitch("--host-type")] string HostType,
-[property: CommandSwitch("--availability-zone-id")] string AvailabilityZoneId
+[property: CliOption("--environment-id")] string EnvironmentId,
+[property: CliOption("--scaling-group-name")] string ScalingGroupName,
+[property: CliOption("--host-type")] string HostType,
+[property: CliOption("--availability-zone-id")] string AvailabilityZoneId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

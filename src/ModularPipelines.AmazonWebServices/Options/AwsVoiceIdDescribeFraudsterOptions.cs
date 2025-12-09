@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("voice-id", "describe-fraudster")]
+[CliCommand("voice-id", "describe-fraudster")]
 public record AwsVoiceIdDescribeFraudsterOptions(
-[property: CommandSwitch("--domain-id")] string DomainId,
-[property: CommandSwitch("--fraudster-id")] string FraudsterId
+[property: CliOption("--domain-id")] string DomainId,
+[property: CliOption("--fraudster-id")] string FraudsterId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

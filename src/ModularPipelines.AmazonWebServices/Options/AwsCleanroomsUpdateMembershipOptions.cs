@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cleanrooms", "update-membership")]
+[CliCommand("cleanrooms", "update-membership")]
 public record AwsCleanroomsUpdateMembershipOptions(
-[property: CommandSwitch("--membership-identifier")] string MembershipIdentifier
+[property: CliOption("--membership-identifier")] string MembershipIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--query-log-status")]
+    [CliOption("--query-log-status")]
     public string? QueryLogStatus { get; set; }
 
-    [CommandSwitch("--default-result-configuration")]
+    [CliOption("--default-result-configuration")]
     public string? DefaultResultConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

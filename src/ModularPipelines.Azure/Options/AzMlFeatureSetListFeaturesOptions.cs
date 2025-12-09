@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "feature-set", "list-features")]
+[CliSubCommand("ml", "feature-set", "list-features")]
 public record AzMlFeatureSetListFeaturesOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--version")] string Version
+[property: CliOption("--name")] string Name,
+[property: CliOption("--version")] string Version
 ) : AzOptions
 {
-    [CommandSwitch("--feature-name")]
+    [CliOption("--feature-name")]
     public string? FeatureName { get; set; }
 
-    [CommandSwitch("--feature-store-name")]
+    [CliOption("--feature-store-name")]
     public string? FeatureStoreName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53", "create-cidr-collection")]
+[CliCommand("route53", "create-cidr-collection")]
 public record AwsRoute53CreateCidrCollectionOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--caller-reference")] string CallerReference
+[property: CliOption("--name")] string Name,
+[property: CliOption("--caller-reference")] string CallerReference
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

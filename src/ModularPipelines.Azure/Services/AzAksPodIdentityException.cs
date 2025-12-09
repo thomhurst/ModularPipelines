@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "pod-identity")]
+[CliCommand("aks", "pod-identity")]
 public class AzAksPodIdentityException
 {
     public AzAksPodIdentityException(

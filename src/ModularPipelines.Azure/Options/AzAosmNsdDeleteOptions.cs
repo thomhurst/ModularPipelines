@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aosm", "nsd", "delete")]
+[CliSubCommand("aosm", "nsd", "delete")]
 public record AzAosmNsdDeleteOptions(
-[property: CommandSwitch("--config-file")] string ConfigFile
+[property: CliOption("--config-file")] string ConfigFile
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--clean")]
+    [CliFlag("--clean")]
     public bool? Clean { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 }

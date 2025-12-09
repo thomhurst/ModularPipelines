@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "message-enrichment", "create")]
+[CliSubCommand("iot", "hub", "message-enrichment", "create")]
 public record AzIotHubMessageEnrichmentCreateOptions(
-[property: CommandSwitch("--endpoints")] string Endpoints,
-[property: CommandSwitch("--key")] string Key,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--value")] string Value
+[property: CliOption("--endpoints")] string Endpoints,
+[property: CliOption("--key")] string Key,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--value")] string Value
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

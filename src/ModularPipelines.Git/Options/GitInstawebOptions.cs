@@ -3,31 +3,31 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("instaweb")]
+[CliSubCommand("instaweb")]
 [ExcludeFromCodeCoverage]
 public record GitInstawebOptions : GitOptions
 {
-    [BooleanCommandSwitch("--local")]
+    [CliFlag("--local")]
     public virtual bool? Local { get; set; }
 
-    [BooleanCommandSwitch("--httpd")]
+    [CliFlag("--httpd")]
     public virtual bool? Httpd { get; set; }
 
-    [BooleanCommandSwitch("--module-path")]
+    [CliFlag("--module-path")]
     public virtual bool? ModulePath { get; set; }
 
-    [BooleanCommandSwitch("--port")]
+    [CliFlag("--port")]
     public virtual bool? Port { get; set; }
 
-    [BooleanCommandSwitch("--browser")]
+    [CliFlag("--browser")]
     public virtual bool? Browser { get; set; }
 
-    [BooleanCommandSwitch("--start")]
+    [CliFlag("--start")]
     public virtual bool? Start { get; set; }
 
-    [BooleanCommandSwitch("--stop")]
+    [CliFlag("--stop")]
     public virtual bool? Stop { get; set; }
 
-    [BooleanCommandSwitch("--restart")]
+    [CliFlag("--restart")]
     public virtual bool? Restart { get; set; }
 }

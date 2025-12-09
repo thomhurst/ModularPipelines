@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bot", "prepare-deploy")]
+[CliSubCommand("bot", "prepare-deploy")]
 public record AzBotPrepareDeployOptions(
-[property: CommandSwitch("--lang")] string Lang
+[property: CliOption("--lang")] string Lang
 ) : AzOptions
 {
-    [CommandSwitch("--code-dir")]
+    [CliOption("--code-dir")]
     public string? CodeDir { get; set; }
 
-    [CommandSwitch("--proj-file-path")]
+    [CliOption("--proj-file-path")]
     public string? ProjFilePath { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("capacity", "reservation", "group", "list")]
+[CliSubCommand("capacity", "reservation", "group", "list")]
 public record AzCapacityReservationGroupListOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--vm-instance")]
+    [CliOption("--vm-instance")]
     public string? VmInstance { get; set; }
 
-    [CommandSwitch("--vmss-instance")]
+    [CliOption("--vmss-instance")]
     public string? VmssInstance { get; set; }
 }

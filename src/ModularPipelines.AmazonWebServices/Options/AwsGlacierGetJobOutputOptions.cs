@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glacier", "get-job-output")]
+[CliCommand("glacier", "get-job-output")]
 public record AwsGlacierGetJobOutputOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--vault-name")] string VaultName,
-[property: CommandSwitch("--job-id")] string JobId
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--vault-name")] string VaultName,
+[property: CliOption("--job-id")] string JobId
 ) : AwsOptions
 {
-    [CommandSwitch("--range")]
+    [CliOption("--range")]
     public string? Range { get; set; }
 }

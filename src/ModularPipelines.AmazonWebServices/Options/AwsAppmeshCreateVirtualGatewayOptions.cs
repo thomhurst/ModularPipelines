@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appmesh", "create-virtual-gateway")]
+[CliCommand("appmesh", "create-virtual-gateway")]
 public record AwsAppmeshCreateVirtualGatewayOptions(
-[property: CommandSwitch("--mesh-name")] string MeshName,
-[property: CommandSwitch("--spec")] string Spec,
-[property: CommandSwitch("--virtual-gateway-name")] string VirtualGatewayName
+[property: CliOption("--mesh-name")] string MeshName,
+[property: CliOption("--spec")] string Spec,
+[property: CliOption("--virtual-gateway-name")] string VirtualGatewayName
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--mesh-owner")]
+    [CliOption("--mesh-owner")]
     public string? MeshOwner { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

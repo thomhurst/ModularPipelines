@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("waf", "delete-xss-match-set")]
+[CliCommand("waf", "delete-xss-match-set")]
 public record AwsWafDeleteXssMatchSetOptions(
-[property: CommandSwitch("--xss-match-set-id")] string XssMatchSetId,
-[property: CommandSwitch("--change-token")] string ChangeToken
+[property: CliOption("--xss-match-set-id")] string XssMatchSetId,
+[property: CliOption("--change-token")] string ChangeToken
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

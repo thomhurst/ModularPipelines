@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworkscm", "start-maintenance")]
+[CliCommand("opsworkscm", "start-maintenance")]
 public record AwsOpsworkscmStartMaintenanceOptions(
-[property: CommandSwitch("--server-name")] string ServerName
+[property: CliOption("--server-name")] string ServerName
 ) : AwsOptions
 {
-    [CommandSwitch("--engine-attributes")]
+    [CliOption("--engine-attributes")]
     public string[]? EngineAttributes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

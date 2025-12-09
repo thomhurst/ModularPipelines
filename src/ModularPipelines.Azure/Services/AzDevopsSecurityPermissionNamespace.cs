@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops", "security", "permission")]
+[CliCommand("devops", "security", "permission")]
 public class AzDevopsSecurityPermissionNamespace
 {
     public AzDevopsSecurityPermissionNamespace(

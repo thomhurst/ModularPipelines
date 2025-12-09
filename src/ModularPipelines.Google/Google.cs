@@ -4,10 +4,10 @@ namespace ModularPipelines.Google;
 
 internal class Google : IGoogle
 {
-    public Google(Gcloud gcloud)
+    public Google(IGcloud gcloud)
     {
         Gcloud = gcloud;
     }
 
-    public Gcloud Gcloud { get; }
+    public IGcloud Gcloud { get; }
 }

@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fleet", "create")]
+[CliSubCommand("fleet", "create")]
 public record AzFleetCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--agent-subnet-id")]
+    [CliOption("--agent-subnet-id")]
     public string? AgentSubnetId { get; set; }
 
-    [CommandSwitch("--apiserver-subnet-id")]
+    [CliOption("--apiserver-subnet-id")]
     public string? ApiserverSubnetId { get; set; }
 
-    [CommandSwitch("--assign-identity")]
+    [CliOption("--assign-identity")]
     public string? AssignIdentity { get; set; }
 
-    [CommandSwitch("--dns-name-prefix")]
+    [CliOption("--dns-name-prefix")]
     public string? DnsNamePrefix { get; set; }
 
-    [BooleanCommandSwitch("--enable-hub")]
+    [CliFlag("--enable-hub")]
     public bool? EnableHub { get; set; }
 
-    [BooleanCommandSwitch("--enable-managed-identity")]
+    [CliFlag("--enable-managed-identity")]
     public bool? EnableManagedIdentity { get; set; }
 
-    [BooleanCommandSwitch("--enable-private-cluster")]
+    [CliFlag("--enable-private-cluster")]
     public bool? EnablePrivateCluster { get; set; }
 
-    [BooleanCommandSwitch("--enable-vnet-integration")]
+    [CliFlag("--enable-vnet-integration")]
     public bool? EnableVnetIntegration { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--vm-size")]
+    [CliOption("--vm-size")]
     public string? VmSize { get; set; }
 }

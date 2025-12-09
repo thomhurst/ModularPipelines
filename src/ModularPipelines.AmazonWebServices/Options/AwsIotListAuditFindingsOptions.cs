@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "list-audit-findings")]
+[CliCommand("iot", "list-audit-findings")]
 public record AwsIotListAuditFindingsOptions : AwsOptions
 {
-    [CommandSwitch("--task-id")]
+    [CliOption("--task-id")]
     public string? TaskId { get; set; }
 
-    [CommandSwitch("--check-name")]
+    [CliOption("--check-name")]
     public string? CheckName { get; set; }
 
-    [CommandSwitch("--resource-identifier")]
+    [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public long? StartTime { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public long? EndTime { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

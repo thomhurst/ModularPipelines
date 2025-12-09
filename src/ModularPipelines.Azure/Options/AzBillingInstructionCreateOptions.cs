@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "instruction", "create")]
+[CliSubCommand("billing", "instruction", "create")]
 public record AzBillingInstructionCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--profile-name")] string ProfileName
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--profile-name")] string ProfileName
 ) : AzOptions
 {
-    [CommandSwitch("--amount")]
+    [CliOption("--amount")]
     public string? Amount { get; set; }
 
-    [CommandSwitch("--creation-date")]
+    [CliOption("--creation-date")]
     public string? CreationDate { get; set; }
 
-    [CommandSwitch("--end-date")]
+    [CliOption("--end-date")]
     public string? EndDate { get; set; }
 
-    [CommandSwitch("--start-date")]
+    [CliOption("--start-date")]
     public string? StartDate { get; set; }
 }

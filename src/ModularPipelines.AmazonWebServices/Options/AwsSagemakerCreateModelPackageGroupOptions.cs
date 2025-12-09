@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-model-package-group")]
+[CliCommand("sagemaker", "create-model-package-group")]
 public record AwsSagemakerCreateModelPackageGroupOptions(
-[property: CommandSwitch("--model-package-group-name")] string ModelPackageGroupName
+[property: CliOption("--model-package-group-name")] string ModelPackageGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--model-package-group-description")]
+    [CliOption("--model-package-group-description")]
     public string? ModelPackageGroupDescription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

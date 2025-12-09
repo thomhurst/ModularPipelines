@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("init")]
+[CliSubCommand("init")]
 public record YarnInitOptions : YarnOptions
 {
-    [BooleanCommandSwitch("--private")]
+    [CliFlag("--private")]
     public virtual bool? Private { get; set; }
 
-    [BooleanCommandSwitch("--workspace")]
+    [CliFlag("--workspace")]
     public virtual bool? Workspace { get; set; }
 
-    [BooleanCommandSwitch("--install")]
+    [CliFlag("--install")]
     public virtual bool? Install { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public virtual string? Name { get; set; }
 }

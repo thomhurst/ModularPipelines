@@ -3,55 +3,55 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("init")]
+[CliSubCommand("init")]
 [ExcludeFromCodeCoverage]
 public record TerraformInitOptions : TerraformOptions
 {
-    [BooleanCommandSwitch("-input")]
+    [CliFlag("-input")]
     public virtual bool? Input { get; set; }
 
-    [BooleanCommandSwitch("-lock")]
+    [CliFlag("-lock")]
     public virtual bool? Lock { get; set; }
 
-    [CommandSwitch("-lock-timeout")]
+    [CliOption("-lock-timeout")]
     public virtual string? LockTimeout { get; set; }
 
-    [BooleanCommandSwitch("-no-color")]
+    [CliFlag("-no-color")]
     public virtual bool? NoColor { get; set; }
 
-    [BooleanCommandSwitch("-upgrade")]
+    [CliFlag("-upgrade")]
     public virtual bool? Upgrade { get; set; }
 
-    [CommandSwitch("-from-module")]
+    [CliOption("-from-module")]
     public virtual string? FromModule { get; set; }
 
-    [BooleanCommandSwitch("-reconfigure")]
+    [CliFlag("-reconfigure")]
     public virtual bool? Reconfigure { get; set; }
 
-    [BooleanCommandSwitch("-migrate-state")]
+    [CliFlag("-migrate-state")]
     public virtual bool? MigrateState { get; set; }
 
-    [BooleanCommandSwitch("-force-copy")]
+    [CliFlag("-force-copy")]
     public virtual bool? ForceCopy { get; set; }
 
-    [BooleanCommandSwitch("-backend")]
+    [CliFlag("-backend")]
     public virtual bool? Backend { get; set; }
 
-    [CommandSwitch("-backend-config")]
+    [CliOption("-backend-config")]
     public virtual string? BackendConfig { get; set; }
 
-    [BooleanCommandSwitch("-get")]
+    [CliFlag("-get")]
     public virtual bool? Get { get; set; }
 
-    [BooleanCommandSwitch("-get-plugins")]
+    [CliFlag("-get-plugins")]
     public virtual bool? GetPlugins { get; set; }
 
-    [CommandSwitch("-plugin-dir")]
+    [CliOption("-plugin-dir")]
     public virtual string? PluginDir { get; set; }
 
-    [CommandSwitch("-lockfile")]
+    [CliOption("-lockfile")]
     public virtual string? Lockfile { get; set; }
 
-    [BooleanCommandSwitch("-chdir")]
+    [CliFlag("-chdir")]
     public virtual bool? Chdir { get; set; }
 }

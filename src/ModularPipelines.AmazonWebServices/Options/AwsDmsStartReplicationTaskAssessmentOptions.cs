@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "start-replication-task-assessment")]
+[CliCommand("dms", "start-replication-task-assessment")]
 public record AwsDmsStartReplicationTaskAssessmentOptions(
-[property: CommandSwitch("--replication-task-arn")] string ReplicationTaskArn
+[property: CliOption("--replication-task-arn")] string ReplicationTaskArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

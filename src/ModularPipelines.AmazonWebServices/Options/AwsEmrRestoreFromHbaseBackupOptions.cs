@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr", "restore-from-hbase-backup")]
+[CliCommand("emr", "restore-from-hbase-backup")]
 public record AwsEmrRestoreFromHbaseBackupOptions(
-[property: CommandSwitch("--cluster-id")] string ClusterId,
-[property: CommandSwitch("--dir")] string Dir
+[property: CliOption("--cluster-id")] string ClusterId,
+[property: CliOption("--dir")] string Dir
 ) : AwsOptions
 {
-    [CommandSwitch("--backup-version")]
+    [CliOption("--backup-version")]
     public string? BackupVersion { get; set; }
 }

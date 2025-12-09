@@ -4,61 +4,61 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "datastore", "attach-sqldb")]
+[CliSubCommand("ml", "datastore", "attach-sqldb")]
 public record AzMlDatastoreAttachSqldbOptions(
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--server-name")] string ServerName
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--server-name")] string ServerName
 ) : AzOptions
 {
-    [CommandSwitch("--authority-url")]
+    [CliOption("--authority-url")]
     public string? AuthorityUrl { get; set; }
 
-    [CommandSwitch("--client-id")]
+    [CliOption("--client-id")]
     public string? ClientId { get; set; }
 
-    [CommandSwitch("--client-secret")]
+    [CliOption("--client-secret")]
     public string? ClientSecret { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [CommandSwitch("--grant-workspace-msi-access")]
+    [CliOption("--grant-workspace-msi-access")]
     public string? GrantWorkspaceMsiAccess { get; set; }
 
-    [CommandSwitch("--include-secret")]
+    [CliOption("--include-secret")]
     public string? IncludeSecret { get; set; }
 
-    [CommandSwitch("--output-metadata-file")]
+    [CliOption("--output-metadata-file")]
     public string? OutputMetadataFile { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-url")]
+    [CliOption("--resource-url")]
     public string? ResourceUrl { get; set; }
 
-    [CommandSwitch("--sql-resource-group")]
+    [CliOption("--sql-resource-group")]
     public string? SqlResourceGroup { get; set; }
 
-    [CommandSwitch("--sql-subscription-id")]
+    [CliOption("--sql-subscription-id")]
     public string? SqlSubscriptionId { get; set; }
 
-    [CommandSwitch("--subscription-id")]
+    [CliOption("--subscription-id")]
     public string? SubscriptionId { get; set; }
 
-    [CommandSwitch("--tenant-id")]
+    [CliOption("--tenant-id")]
     public string? TenantId { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

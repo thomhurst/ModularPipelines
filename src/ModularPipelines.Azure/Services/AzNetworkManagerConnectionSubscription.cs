@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "manager", "connection")]
+[CliCommand("network", "manager", "connection")]
 public class AzNetworkManagerConnectionSubscription
 {
     public AzNetworkManagerConnectionSubscription(

@@ -3,40 +3,40 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("read-tree")]
+[CliSubCommand("read-tree")]
 [ExcludeFromCodeCoverage]
 public record GitReadTreeOptions : GitOptions
 {
-    [BooleanCommandSwitch("--reset")]
+    [CliFlag("--reset")]
     public virtual bool? Reset { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("--trivial")]
+    [CliFlag("--trivial")]
     public virtual bool? Trivial { get; set; }
 
-    [BooleanCommandSwitch("--aggressive")]
+    [CliFlag("--aggressive")]
     public virtual bool? Aggressive { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--prefix")]
-    public string? Prefix { get; set; }
+    [CliOption("--prefix", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Prefix { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--index-output")]
-    public string? IndexOutput { get; set; }
+    [CliOption("--index-output", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? IndexOutput { get; set; }
 
-    [BooleanCommandSwitch("--no-recurse-submodules")]
+    [CliFlag("--no-recurse-submodules")]
     public virtual bool? NoRecurseSubmodules { get; set; }
 
-    [BooleanCommandSwitch("--recurse-submodules")]
+    [CliFlag("--recurse-submodules")]
     public virtual bool? RecurseSubmodules { get; set; }
 
-    [BooleanCommandSwitch("--no-sparse-checkout")]
+    [CliFlag("--no-sparse-checkout")]
     public virtual bool? NoSparseCheckout { get; set; }
 
-    [BooleanCommandSwitch("--empty")]
+    [CliFlag("--empty")]
     public virtual bool? Empty { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 }

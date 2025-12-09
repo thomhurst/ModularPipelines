@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "firewall")]
+[CliCommand("network", "firewall")]
 public class AzNetworkFirewallPolicy
 {
     public AzNetworkFirewallPolicy(

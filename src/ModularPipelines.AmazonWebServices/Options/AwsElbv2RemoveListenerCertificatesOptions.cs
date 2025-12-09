@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elbv2", "remove-listener-certificates")]
+[CliCommand("elbv2", "remove-listener-certificates")]
 public record AwsElbv2RemoveListenerCertificatesOptions(
-[property: CommandSwitch("--listener-arn")] string ListenerArn,
-[property: CommandSwitch("--certificates")] string[] Certificates
+[property: CliOption("--listener-arn")] string ListenerArn,
+[property: CliOption("--certificates")] string[] Certificates
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

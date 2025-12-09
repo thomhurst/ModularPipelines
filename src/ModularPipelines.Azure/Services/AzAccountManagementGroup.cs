@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("account")]
+[CliSubCommand("account")]
 public class AzAccountManagementGroup
 {
     public AzAccountManagementGroup(

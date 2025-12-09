@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amplifybackend", "get-backend-api")]
+[CliCommand("amplifybackend", "get-backend-api")]
 public record AwsAmplifybackendGetBackendApiOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--backend-environment-name")] string BackendEnvironmentName,
-[property: CommandSwitch("--resource-name")] string ResourceName
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--backend-environment-name")] string BackendEnvironmentName,
+[property: CliOption("--resource-name")] string ResourceName
 ) : AwsOptions
 {
-    [CommandSwitch("--resource-config")]
+    [CliOption("--resource-config")]
     public string? ResourceConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

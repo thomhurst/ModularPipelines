@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("waf", "delete-ip-set")]
+[CliCommand("waf", "delete-ip-set")]
 public record AwsWafDeleteIpSetOptions(
-[property: CommandSwitch("--ip-set-id")] string IpSetId,
-[property: CommandSwitch("--change-token")] string ChangeToken
+[property: CliOption("--ip-set-id")] string IpSetId,
+[property: CliOption("--change-token")] string ChangeToken
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

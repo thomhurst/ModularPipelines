@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53", "list-hosted-zones")]
+[CliCommand("route53", "list-hosted-zones")]
 public record AwsRoute53ListHostedZonesOptions : AwsOptions
 {
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--delegation-set-id")]
+    [CliOption("--delegation-set-id")]
     public string? DelegationSetId { get; set; }
 
-    [CommandSwitch("--hosted-zone-type")]
+    [CliOption("--hosted-zone-type")]
     public string? HostedZoneType { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public string? PageSize { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

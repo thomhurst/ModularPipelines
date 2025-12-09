@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "advertise-byoip-cidr")]
+[CliCommand("ec2", "advertise-byoip-cidr")]
 public record AwsEc2AdvertiseByoipCidrOptions(
-[property: CommandSwitch("--cidr")] string Cidr
+[property: CliOption("--cidr")] string Cidr
 ) : AwsOptions
 {
-    [CommandSwitch("--asn")]
+    [CliOption("--asn")]
     public string? Asn { get; set; }
 
-    [CommandSwitch("--network-border-group")]
+    [CliOption("--network-border-group")]
     public string? NetworkBorderGroup { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

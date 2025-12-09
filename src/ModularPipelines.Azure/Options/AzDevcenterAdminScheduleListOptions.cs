@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devcenter", "admin", "schedule", "list")]
+[CliSubCommand("devcenter", "admin", "schedule", "list")]
 public record AzDevcenterAdminScheduleListOptions(
-[property: CommandSwitch("--pool-name")] string PoolName,
-[property: CommandSwitch("--project")] string Project,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--pool-name")] string PoolName,
+[property: CliOption("--project")] string Project,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 }

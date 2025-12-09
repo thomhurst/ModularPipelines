@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "batch-delete-cluster-snapshots")]
+[CliCommand("redshift", "batch-delete-cluster-snapshots")]
 public record AwsRedshiftBatchDeleteClusterSnapshotsOptions(
-[property: CommandSwitch("--identifiers")] string[] Identifiers
+[property: CliOption("--identifiers")] string[] Identifiers
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

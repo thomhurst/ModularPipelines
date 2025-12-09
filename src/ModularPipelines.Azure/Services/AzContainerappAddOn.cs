@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp")]
+[CliSubCommand("containerapp")]
 public class AzContainerappAddOn
 {
     public AzContainerappAddOn(

@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appconfig", "update-configuration-profile")]
+[CliCommand("appconfig", "update-configuration-profile")]
 public record AwsAppconfigUpdateConfigurationProfileOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--configuration-profile-id")] string ConfigurationProfileId
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--configuration-profile-id")] string ConfigurationProfileId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--retrieval-role-arn")]
+    [CliOption("--retrieval-role-arn")]
     public string? RetrievalRoleArn { get; set; }
 
-    [CommandSwitch("--validators")]
+    [CliOption("--validators")]
     public string[]? Validators { get; set; }
 
-    [CommandSwitch("--kms-key-identifier")]
+    [CliOption("--kms-key-identifier")]
     public string? KmsKeyIdentifier { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

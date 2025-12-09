@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cdn")]
+[CliSubCommand("cdn")]
 public class AzCdnOriginGroup
 {
     public AzCdnOriginGroup(

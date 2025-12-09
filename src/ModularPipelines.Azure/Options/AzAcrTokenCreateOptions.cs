@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "token", "create")]
+[CliSubCommand("acr", "token", "create")]
 public record AzAcrTokenCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--registry")] string Registry
+[property: CliOption("--name")] string Name,
+[property: CliOption("--registry")] string Registry
 ) : AzOptions
 {
-    [CommandSwitch("--expiration")]
+    [CliOption("--expiration")]
     public string? Expiration { get; set; }
 
-    [CommandSwitch("--expiration-in-days")]
+    [CliOption("--expiration-in-days")]
     public string? ExpirationInDays { get; set; }
 
-    [CommandSwitch("--gateway")]
+    [CliOption("--gateway")]
     public string? Gateway { get; set; }
 
-    [BooleanCommandSwitch("--no-passwords")]
+    [CliFlag("--no-passwords")]
     public bool? NoPasswords { get; set; }
 
-    [CommandSwitch("--repository")]
+    [CliOption("--repository")]
     public string? Repository { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--scope-map")]
+    [CliOption("--scope-map")]
     public string? ScopeMap { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 }

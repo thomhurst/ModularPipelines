@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rest")]
+[CliSubCommand("rest")]
 public record AzRestOptions(
-[property: CommandSwitch("--uri")] string Uri
+[property: CliOption("--uri")] string Uri
 ) : AzOptions
 {
-    [CommandSwitch("--body")]
+    [CliOption("--body")]
     public string? Body { get; set; }
 
-    [CommandSwitch("--headers")]
+    [CliOption("--headers")]
     public string? Headers { get; set; }
 
-    [CommandSwitch("--method")]
+    [CliOption("--method")]
     public string? Method { get; set; }
 
-    [CommandSwitch("--output-file")]
+    [CliOption("--output-file")]
     public string? OutputFile { get; set; }
 
-    [CommandSwitch("--resource")]
+    [CliOption("--resource")]
     public string? Resource { get; set; }
 
-    [BooleanCommandSwitch("--skip-authorization-header")]
+    [CliFlag("--skip-authorization-header")]
     public bool? SkipAuthorizationHeader { get; set; }
 
-    [CommandSwitch("--uri-parameters")]
+    [CliOption("--uri-parameters")]
     public string? UriParameters { get; set; }
 }

@@ -4,37 +4,37 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudsearch", "define-index-field")]
+[CliCommand("cloudsearch", "define-index-field")]
 public record AwsCloudsearchDefineIndexFieldOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--default-value")]
+    [CliOption("--default-value")]
     public string? DefaultValue { get; set; }
 
-    [BooleanCommandSwitch("--facet-enabled")]
+    [CliFlag("--facet-enabled")]
     public bool? FacetEnabled { get; set; }
 
-    [BooleanCommandSwitch("--search-enabled")]
+    [CliFlag("--search-enabled")]
     public bool? SearchEnabled { get; set; }
 
-    [BooleanCommandSwitch("--return-enabled")]
+    [CliFlag("--return-enabled")]
     public bool? ReturnEnabled { get; set; }
 
-    [BooleanCommandSwitch("--sort-enabled")]
+    [CliFlag("--sort-enabled")]
     public bool? SortEnabled { get; set; }
 
-    [CommandSwitch("--source-field")]
+    [CliOption("--source-field")]
     public string? SourceField { get; set; }
 
-    [BooleanCommandSwitch("--highlight-enabled")]
+    [CliFlag("--highlight-enabled")]
     public bool? HighlightEnabled { get; set; }
 
-    [CommandSwitch("--analysis-scheme")]
+    [CliOption("--analysis-scheme")]
     public string? AnalysisScheme { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

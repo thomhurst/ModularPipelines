@@ -4,63 +4,63 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "blob", "copy", "start-batch")]
+[CliSubCommand("storage", "blob", "copy", "start-batch")]
 public record AzStorageBlobCopyStartBatchOptions : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--blob-endpoint")]
+    [CliOption("--blob-endpoint")]
     public string? BlobEndpoint { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--destination-blob-type")]
+    [CliOption("--destination-blob-type")]
     public string? DestinationBlobType { get; set; }
 
-    [CommandSwitch("--destination-container")]
+    [CliOption("--destination-container")]
     public string? DestinationContainer { get; set; }
 
-    [CommandSwitch("--destination-path")]
+    [CliOption("--destination-path")]
     public string? DestinationPath { get; set; }
 
-    [BooleanCommandSwitch("--dryrun")]
+    [CliFlag("--dryrun")]
     public bool? Dryrun { get; set; }
 
-    [CommandSwitch("--pattern")]
+    [CliOption("--pattern")]
     public string? Pattern { get; set; }
 
-    [CommandSwitch("--rehydrate-priority")]
+    [CliOption("--rehydrate-priority")]
     public string? RehydratePriority { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--source-account-key")]
+    [CliOption("--source-account-key")]
     public int? SourceAccountKey { get; set; }
 
-    [CommandSwitch("--source-account-name")]
+    [CliOption("--source-account-name")]
     public int? SourceAccountName { get; set; }
 
-    [CommandSwitch("--source-container")]
+    [CliOption("--source-container")]
     public string? SourceContainer { get; set; }
 
-    [CommandSwitch("--source-sas")]
+    [CliOption("--source-sas")]
     public string? SourceSas { get; set; }
 
-    [CommandSwitch("--source-share")]
+    [CliOption("--source-share")]
     public string? SourceShare { get; set; }
 
-    [CommandSwitch("--source-uri")]
+    [CliOption("--source-uri")]
     public string? SourceUri { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 }

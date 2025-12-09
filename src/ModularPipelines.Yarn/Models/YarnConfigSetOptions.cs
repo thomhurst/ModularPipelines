@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("config", "set")]
+[CliCommand("config", "set")]
 public record YarnConfigSetOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Name,
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Value
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Name,
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Value
 ) : YarnOptions
 {
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 
-    [BooleanCommandSwitch("--home")]
+    [CliFlag("--home")]
     public virtual bool? Home { get; set; }
 }

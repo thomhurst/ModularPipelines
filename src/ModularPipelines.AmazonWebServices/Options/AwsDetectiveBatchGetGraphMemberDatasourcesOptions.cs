@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("detective", "batch-get-graph-member-datasources")]
+[CliCommand("detective", "batch-get-graph-member-datasources")]
 public record AwsDetectiveBatchGetGraphMemberDatasourcesOptions(
-[property: CommandSwitch("--graph-arn")] string GraphArn,
-[property: CommandSwitch("--account-ids")] string[] AccountIds
+[property: CliOption("--graph-arn")] string GraphArn,
+[property: CliOption("--account-ids")] string[] AccountIds
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

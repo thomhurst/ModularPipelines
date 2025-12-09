@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectcases", "update-layout")]
+[CliCommand("connectcases", "update-layout")]
 public record AwsConnectcasesUpdateLayoutOptions(
-[property: CommandSwitch("--domain-id")] string DomainId,
-[property: CommandSwitch("--layout-id")] string LayoutId
+[property: CliOption("--domain-id")] string DomainId,
+[property: CliOption("--layout-id")] string LayoutId
 ) : AwsOptions
 {
-    [CommandSwitch("--content")]
+    [CliOption("--content")]
     public string? Content { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

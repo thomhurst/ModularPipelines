@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appservice", "plan", "update")]
+[CliCommand("appservice", "plan", "update")]
 public class AzAppservicePlanUpdateAppserviceKube
 {
     public AzAppservicePlanUpdateAppserviceKube(

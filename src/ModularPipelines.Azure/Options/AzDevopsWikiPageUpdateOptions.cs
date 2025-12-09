@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops", "wiki", "page", "update")]
+[CliSubCommand("devops", "wiki", "page", "update")]
 public record AzDevopsWikiPageUpdateOptions(
-[property: CommandSwitch("--path")] string Path,
-[property: CommandSwitch("--version")] string Version,
-[property: CommandSwitch("--wiki")] string Wiki
+[property: CliOption("--path")] string Path,
+[property: CliOption("--version")] string Version,
+[property: CliOption("--wiki")] string Wiki
 ) : AzOptions
 {
-    [CommandSwitch("--comment")]
+    [CliOption("--comment")]
     public string? Comment { get; set; }
 
-    [CommandSwitch("--content")]
+    [CliOption("--content")]
     public string? Content { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--encoding")]
+    [CliOption("--encoding")]
     public string? Encoding { get; set; }
 
-    [CommandSwitch("--file-path")]
+    [CliOption("--file-path")]
     public string? FilePath { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 }

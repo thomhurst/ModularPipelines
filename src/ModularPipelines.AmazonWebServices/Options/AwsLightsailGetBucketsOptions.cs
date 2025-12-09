@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "get-buckets")]
+[CliCommand("lightsail", "get-buckets")]
 public record AwsLightsailGetBucketsOptions : AwsOptions
 {
-    [CommandSwitch("--bucket-name")]
+    [CliOption("--bucket-name")]
     public string? BucketName { get; set; }
 
-    [CommandSwitch("--page-token")]
+    [CliOption("--page-token")]
     public string? PageToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

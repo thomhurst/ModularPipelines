@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "cassandra", "table", "create")]
+[CliSubCommand("cosmosdb", "cassandra", "table", "create")]
 public record AzCosmosdbCassandraTableCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--keyspace-name")] string KeyspaceName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--schema")] string Schema
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--keyspace-name")] string KeyspaceName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--schema")] string Schema
 ) : AzOptions
 {
-    [CommandSwitch("--analytical-storage-ttl")]
+    [CliOption("--analytical-storage-ttl")]
     public string? AnalyticalStorageTtl { get; set; }
 
-    [CommandSwitch("--max-throughput")]
+    [CliOption("--max-throughput")]
     public string? MaxThroughput { get; set; }
 
-    [CommandSwitch("--throughput")]
+    [CliOption("--throughput")]
     public string? Throughput { get; set; }
 
-    [CommandSwitch("--ttl")]
+    [CliOption("--ttl")]
     public string? Ttl { get; set; }
 }

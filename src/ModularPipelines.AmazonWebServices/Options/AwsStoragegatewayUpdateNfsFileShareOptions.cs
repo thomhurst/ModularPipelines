@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "update-nfs-file-share")]
+[CliCommand("storagegateway", "update-nfs-file-share")]
 public record AwsStoragegatewayUpdateNfsFileShareOptions(
-[property: CommandSwitch("--file-share-arn")] string FileShareArn
+[property: CliOption("--file-share-arn")] string FileShareArn
 ) : AwsOptions
 {
-    [CommandSwitch("--kms-key")]
+    [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [CommandSwitch("--nfs-file-share-defaults")]
+    [CliOption("--nfs-file-share-defaults")]
     public string? NfsFileShareDefaults { get; set; }
 
-    [CommandSwitch("--default-storage-class")]
+    [CliOption("--default-storage-class")]
     public string? DefaultStorageClass { get; set; }
 
-    [CommandSwitch("--object-acl")]
+    [CliOption("--object-acl")]
     public string? ObjectAcl { get; set; }
 
-    [CommandSwitch("--client-list")]
+    [CliOption("--client-list")]
     public string[]? ClientList { get; set; }
 
-    [CommandSwitch("--squash")]
+    [CliOption("--squash")]
     public string? Squash { get; set; }
 
-    [CommandSwitch("--file-share-name")]
+    [CliOption("--file-share-name")]
     public string? FileShareName { get; set; }
 
-    [CommandSwitch("--cache-attributes")]
+    [CliOption("--cache-attributes")]
     public string? CacheAttributes { get; set; }
 
-    [CommandSwitch("--notification-policy")]
+    [CliOption("--notification-policy")]
     public string? NotificationPolicy { get; set; }
 
-    [CommandSwitch("--audit-destination-arn")]
+    [CliOption("--audit-destination-arn")]
     public string? AuditDestinationArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

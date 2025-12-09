@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "update-resource-data-sync")]
+[CliCommand("ssm", "update-resource-data-sync")]
 public record AwsSsmUpdateResourceDataSyncOptions(
-[property: CommandSwitch("--sync-name")] string SyncName,
-[property: CommandSwitch("--sync-type")] string SyncType,
-[property: CommandSwitch("--sync-source")] string SyncSource
+[property: CliOption("--sync-name")] string SyncName,
+[property: CliOption("--sync-type")] string SyncType,
+[property: CliOption("--sync-source")] string SyncSource
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

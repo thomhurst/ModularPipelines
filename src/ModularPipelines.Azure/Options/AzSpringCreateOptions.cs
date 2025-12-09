@@ -4,114 +4,114 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "create")]
+[CliSubCommand("spring", "create")]
 public record AzSpringCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--acs-gen")]
+    [CliOption("--acs-gen")]
     public string? AcsGen { get; set; }
 
-    [CommandSwitch("--ap-instance")]
+    [CliOption("--ap-instance")]
     public string? ApInstance { get; set; }
 
-    [CommandSwitch("--app-insights")]
+    [CliOption("--app-insights")]
     public string? AppInsights { get; set; }
 
-    [CommandSwitch("--app-insights-key")]
+    [CliOption("--app-insights-key")]
     public string? AppInsightsKey { get; set; }
 
-    [CommandSwitch("--app-network-resource-group")]
+    [CliOption("--app-network-resource-group")]
     public string? AppNetworkResourceGroup { get; set; }
 
-    [CommandSwitch("--app-subnet")]
+    [CliOption("--app-subnet")]
     public string? AppSubnet { get; set; }
 
-    [CommandSwitch("--build-pool-size")]
+    [CliOption("--build-pool-size")]
     public string? BuildPoolSize { get; set; }
 
-    [BooleanCommandSwitch("--disable-app-insights")]
+    [CliFlag("--disable-app-insights")]
     public bool? DisableAppInsights { get; set; }
 
-    [BooleanCommandSwitch("--disable-build-service")]
+    [CliFlag("--disable-build-service")]
     public bool? DisableBuildService { get; set; }
 
-    [BooleanCommandSwitch("--enable-acs")]
+    [CliFlag("--enable-acs")]
     public bool? EnableAcs { get; set; }
 
-    [BooleanCommandSwitch("--enable-alv")]
+    [CliFlag("--enable-alv")]
     public bool? EnableAlv { get; set; }
 
-    [BooleanCommandSwitch("--enable-api-portal")]
+    [CliFlag("--enable-api-portal")]
     public bool? EnableApiPortal { get; set; }
 
-    [BooleanCommandSwitch("--enable-app-acc")]
+    [CliFlag("--enable-app-acc")]
     public bool? EnableAppAcc { get; set; }
 
-    [BooleanCommandSwitch("--enable-dataplane-public-endpoint")]
+    [CliFlag("--enable-dataplane-public-endpoint")]
     public bool? EnableDataplanePublicEndpoint { get; set; }
 
-    [BooleanCommandSwitch("--enable-gateway")]
+    [CliFlag("--enable-gateway")]
     public bool? EnableGateway { get; set; }
 
-    [BooleanCommandSwitch("--enable-service-registry")]
+    [CliFlag("--enable-service-registry")]
     public bool? EnableServiceRegistry { get; set; }
 
-    [CommandSwitch("--gateway-instance-count")]
+    [CliOption("--gateway-instance-count")]
     public int? GatewayInstanceCount { get; set; }
 
-    [CommandSwitch("--infra-resource-group")]
+    [CliOption("--infra-resource-group")]
     public string? InfraResourceGroup { get; set; }
 
-    [CommandSwitch("--ingress-read-timeout")]
+    [CliOption("--ingress-read-timeout")]
     public string? IngressReadTimeout { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--managed-environment")]
+    [CliOption("--managed-environment")]
     public string? ManagedEnvironment { get; set; }
 
-    [CommandSwitch("--marketplace-plan-id")]
+    [CliOption("--marketplace-plan-id")]
     public string? MarketplacePlanId { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--outbound-type")]
+    [CliOption("--outbound-type")]
     public string? OutboundType { get; set; }
 
-    [CommandSwitch("--registry-password")]
+    [CliOption("--registry-password")]
     public string? RegistryPassword { get; set; }
 
-    [CommandSwitch("--registry-server")]
+    [CliOption("--registry-server")]
     public string? RegistryServer { get; set; }
 
-    [CommandSwitch("--registry-username")]
+    [CliOption("--registry-username")]
     public string? RegistryUsername { get; set; }
 
-    [CommandSwitch("--reserved-cidr-range")]
+    [CliOption("--reserved-cidr-range")]
     public string? ReservedCidrRange { get; set; }
 
-    [CommandSwitch("--sampling-rate")]
+    [CliOption("--sampling-rate")]
     public string? SamplingRate { get; set; }
 
-    [CommandSwitch("--service-runtime-network-resource-group")]
+    [CliOption("--service-runtime-network-resource-group")]
     public string? ServiceRuntimeNetworkResourceGroup { get; set; }
 
-    [CommandSwitch("--service-runtime-subnet")]
+    [CliOption("--service-runtime-subnet")]
     public string? ServiceRuntimeSubnet { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--vnet")]
+    [CliOption("--vnet")]
     public string? Vnet { get; set; }
 
-    [BooleanCommandSwitch("--zone-redundant")]
+    [CliFlag("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 }

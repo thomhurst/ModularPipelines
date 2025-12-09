@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("communication", "user-identity", "token", "get-for-teams-user")]
+[CliSubCommand("communication", "user-identity", "token", "get-for-teams-user")]
 public record AzCommunicationUserIdentityTokenGetForTeamsUserOptions(
-[property: CommandSwitch("--aad-token")] string AadToken,
-[property: CommandSwitch("--aad-user")] string AadUser,
-[property: CommandSwitch("--client")] string Client
+[property: CliOption("--aad-token")] string AadToken,
+[property: CliOption("--aad-user")] string AadUser,
+[property: CliOption("--client")] string Client
 ) : AzOptions
 {
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 }

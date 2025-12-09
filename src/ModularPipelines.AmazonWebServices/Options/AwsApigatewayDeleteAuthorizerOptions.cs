@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "delete-authorizer")]
+[CliCommand("apigateway", "delete-authorizer")]
 public record AwsApigatewayDeleteAuthorizerOptions(
-[property: CommandSwitch("--rest-api-id")] string RestApiId,
-[property: CommandSwitch("--authorizer-id")] string AuthorizerId
+[property: CliOption("--rest-api-id")] string RestApiId,
+[property: CliOption("--authorizer-id")] string AuthorizerId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

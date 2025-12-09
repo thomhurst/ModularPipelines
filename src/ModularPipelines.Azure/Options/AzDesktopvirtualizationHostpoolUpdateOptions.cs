@@ -4,69 +4,69 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("desktopvirtualization", "hostpool", "update")]
+[CliSubCommand("desktopvirtualization", "hostpool", "update")]
 public record AzDesktopvirtualizationHostpoolUpdateOptions : AzOptions
 {
-    [CommandSwitch("--custom-rdp-property")]
+    [CliOption("--custom-rdp-property")]
     public string? CustomRdpProperty { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--friendly-name")]
+    [CliOption("--friendly-name")]
     public string? FriendlyName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--load-balancer-type")]
+    [CliOption("--load-balancer-type")]
     public string? LoadBalancerType { get; set; }
 
-    [CommandSwitch("--max-session-limit")]
+    [CliOption("--max-session-limit")]
     public string? MaxSessionLimit { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--personal-desktop-assignment-type")]
+    [CliOption("--personal-desktop-assignment-type")]
     public string? PersonalDesktopAssignmentType { get; set; }
 
-    [CommandSwitch("--preferred-app-group-type")]
+    [CliOption("--preferred-app-group-type")]
     public string? PreferredAppGroupType { get; set; }
 
-    [CommandSwitch("--registration-info")]
+    [CliOption("--registration-info")]
     public string? RegistrationInfo { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--ring")]
+    [CliOption("--ring")]
     public string? Ring { get; set; }
 
-    [CommandSwitch("--sso-client-id")]
+    [CliOption("--sso-client-id")]
     public string? SsoClientId { get; set; }
 
-    [CommandSwitch("--sso-client-secret-key-vault-path")]
+    [CliOption("--sso-client-secret-key-vault-path")]
     public string? SsoClientSecretKeyVaultPath { get; set; }
 
-    [CommandSwitch("--sso-secret-type")]
+    [CliOption("--sso-secret-type")]
     public string? SsoSecretType { get; set; }
 
-    [CommandSwitch("--ssoadfs-authority")]
+    [CliOption("--ssoadfs-authority")]
     public string? SsoadfsAuthority { get; set; }
 
-    [BooleanCommandSwitch("--start-vm-on-connect")]
+    [CliFlag("--start-vm-on-connect")]
     public bool? StartVmOnConnect { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [BooleanCommandSwitch("--validation-environment")]
+    [CliFlag("--validation-environment")]
     public bool? ValidationEnvironment { get; set; }
 
-    [CommandSwitch("--vm-template")]
+    [CliOption("--vm-template")]
     public string? VmTemplate { get; set; }
 }

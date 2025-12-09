@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("graph")]
+[CliSubCommand("graph")]
 public class AzGraphSharedQuery
 {
     public AzGraphSharedQuery(

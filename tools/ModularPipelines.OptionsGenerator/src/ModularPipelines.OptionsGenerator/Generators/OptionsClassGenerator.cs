@@ -1,0 +1,287 @@
+using System.Text;
+using ModularPipelines.OptionsGenerator.Models;
+
+namespace ModularPipelines.OptionsGenerator.Generators;
+
+/// <summary>
+/// Generates strongly-typed C# options classes using the new CLI attribute system.
+/// </summary>
+public class OptionsClassGenerator : ICodeGenerator
+{
+    public Task<IReadOnlyList<GeneratedFile>> GenerateAsync(CliToolDefinition tool, CancellationToken cancellationToken = default)
+    {
+        var files = new List<GeneratedFile>();
+
+        foreach (var command in tool.Commands)
+        {
+            var content = GenerateOptionsClass(command, tool);
+            var fileName = $"{command.ClassName}.cs";
+            var relativePath = Path.Combine(tool.OutputDirectory, "Options", fileName);
+
+            files.Add(new GeneratedFile
+            {
+                RelativePath = relativePath,
+                Content = content
+            });
+        }
+
+        return Task.FromResult<IReadOnlyList<GeneratedFile>>(files);
+    }
+
+    private static string GenerateOptionsClass(CliCommandDefinition command, CliToolDefinition tool)
+    {
+        var sb = new StringBuilder();
+
+        // File header
+        GenerateFileHeader(sb, command.DocumentationUrl);
+
+        // Usings
+        sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
+        sb.AppendLine("using ModularPipelines.Attributes;");
+
+        // Include the existing Options namespace where the base class lives
+        sb.AppendLine($"using {tool.TargetNamespace}.Options;");
+
+        if (command.Options.Any(o => o.IsKeyValue))
+        {
+            sb.AppendLine("using ModularPipelines.Models;");
+        }
+
+        if (command.Options.Any(o => o.ValidationConstraints is not null))
+        {
+            sb.AppendLine("using System.ComponentModel.DataAnnotations;");
+        }
+
+        // Include enums namespace if any options use enum types
+        if (command.Options.Any(o => o.EnumDefinition is not null))
+        {
+            sb.AppendLine($"using {tool.TargetNamespace}.Enums;");
+        }
+
+        sb.AppendLine();
+
+        // Namespace
+        sb.AppendLine($"namespace {tool.TargetNamespace}.Options;");
+        sb.AppendLine();
+
+        // XML documentation
+        if (!string.IsNullOrEmpty(command.Description))
+        {
+            sb.AppendLine("/// <summary>");
+            sb.AppendLine($"/// {EscapeXmlComment(command.Description)}");
+            sb.AppendLine("/// </summary>");
+        }
+
+        // Class attributes
+        sb.AppendLine("[ExcludeFromCodeCoverage]");
+
+        // CliSubCommand attribute - contains only the subcommand parts (tool name comes from base class)
+        if (command.CommandParts.Length > 0)
+        {
+            var args = string.Join(", ", command.CommandParts.Select(p => $"\"{p}\""));
+            sb.AppendLine($"[CliSubCommand({args})]");
+        }
+
+        // Class declaration
+        GenerateClassDeclaration(sb, command);
+
+        sb.AppendLine("{");
+
+        // Collect existing property names to avoid duplicates
+        var existingPropertyNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        // Properties for non-required options
+        foreach (var option in command.Options.Where(o => !o.IsRequired))
+        {
+            GenerateProperty(sb, option);
+            existingPropertyNames.Add(option.PropertyName);
+            sb.AppendLine();
+        }
+
+        // Positional arguments - skip duplicates
+        foreach (var positional in command.PositionalArguments.Where(p => !p.IsRequired))
+        {
+            if (existingPropertyNames.Contains(positional.PropertyName))
+            {
+                continue; // Skip duplicates
+            }
+            GeneratePositionalArgument(sb, positional);
+            existingPropertyNames.Add(positional.PropertyName);
+            sb.AppendLine();
+        }
+
+        sb.AppendLine("}");
+
+        return sb.ToString();
+    }
+
+    private static void GenerateFileHeader(StringBuilder sb, string? documentationUrl)
+    {
+        GeneratorUtils.GenerateFileHeaderWithNullable(sb, documentationUrl);
+    }
+
+    private static void GenerateClassDeclaration(StringBuilder sb, CliCommandDefinition command)
+    {
+        var requiredOptions = command.RequiredOptions;
+        var requiredPositionals = command.PositionalArguments.Where(p => p.IsRequired).ToList();
+
+        if (requiredOptions.Count > 0 || requiredPositionals.Count > 0)
+        {
+            // Use primary constructor for required parameters
+            var parameters = new List<string>();
+            var existingNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            foreach (var opt in requiredOptions)
+            {
+                var attr = GetAttributeString(opt);
+                parameters.Add($"    [property: {attr}] {opt.CSharpType.TrimEnd('?')} {opt.PropertyName}");
+                existingNames.Add(opt.PropertyName);
+            }
+
+            foreach (var pos in requiredPositionals)
+            {
+                if (existingNames.Contains(pos.PropertyName))
+                {
+                    continue; // Skip duplicate
+                }
+                var posAttr = GetPositionalAttributeString(pos);
+                parameters.Add($"    [property: {posAttr}] {pos.CSharpType.TrimEnd('?')} {pos.PropertyName}");
+                existingNames.Add(pos.PropertyName);
+            }
+
+            sb.AppendLine($"public record {command.ClassName}(");
+            sb.AppendLine(string.Join(",\n", parameters));
+            sb.AppendLine($") : {command.ParentClassName}");
+        }
+        else
+        {
+            sb.AppendLine($"public record {command.ClassName} : {command.ParentClassName}");
+        }
+    }
+
+    private static void GenerateProperty(StringBuilder sb, CliOptionDefinition option)
+    {
+        // XML documentation
+        if (!string.IsNullOrEmpty(option.Description))
+        {
+            sb.AppendLine("    /// <summary>");
+            sb.AppendLine($"    /// {EscapeXmlComment(option.Description)}");
+            sb.AppendLine("    /// </summary>");
+        }
+
+        // Validation attributes
+        if (option.ValidationConstraints is not null)
+        {
+            GenerateValidationAttributes(sb, option.ValidationConstraints);
+        }
+
+        // Command attribute
+        var attribute = GetAttributeString(option);
+        sb.AppendLine($"    [{attribute}]");
+
+        // Property
+        sb.AppendLine($"    public {option.CSharpType} {option.PropertyName} {{ get; set; }}");
+    }
+
+    private static void GenerateValidationAttributes(StringBuilder sb, CliValidationConstraints constraints)
+    {
+        if (constraints.MinValue.HasValue || constraints.MaxValue.HasValue)
+        {
+            var min = constraints.MinValue ?? int.MinValue;
+            var max = constraints.MaxValue ?? int.MaxValue;
+            sb.AppendLine($"    [Range({min}, {max})]");
+        }
+
+        if (!string.IsNullOrEmpty(constraints.Pattern))
+        {
+            sb.AppendLine($"    [RegularExpression(@\"{constraints.Pattern}\")]");
+        }
+    }
+
+    private static string GetAttributeString(CliOptionDefinition option)
+    {
+        if (option.IsFlag)
+        {
+            // Use CliFlag for boolean flags
+            var parts = new List<string> { $"\"{option.SwitchName}\"" };
+
+            if (!string.IsNullOrEmpty(option.ShortForm))
+            {
+                parts.Add($"ShortForm = \"{option.ShortForm}\"");
+            }
+
+            return $"CliFlag({string.Join(", ", parts)})";
+        }
+
+        // Use CliOption for value options
+        var optionParts = new List<string> { $"\"{option.SwitchName}\"" };
+
+        if (!string.IsNullOrEmpty(option.ShortForm))
+        {
+            optionParts.Add($"ShortForm = \"{option.ShortForm}\"");
+        }
+
+        if (option.ValueSeparator == "=")
+        {
+            optionParts.Add("Format = OptionFormat.EqualsSeparated");
+        }
+        else if (option.ValueSeparator == ":")
+        {
+            optionParts.Add("Format = OptionFormat.ColonSeparated");
+        }
+        else if (option.ValueSeparator != " " && !string.IsNullOrEmpty(option.ValueSeparator))
+        {
+            optionParts.Add($"CustomSeparator = \"{option.ValueSeparator}\"");
+        }
+
+        if (option.AcceptsMultipleValues)
+        {
+            optionParts.Add("AllowMultiple = true");
+        }
+
+        return $"CliOption({string.Join(", ", optionParts)})";
+    }
+
+    private static void GeneratePositionalArgument(StringBuilder sb, CliPositionalArgument positional)
+    {
+        if (!string.IsNullOrEmpty(positional.Description))
+        {
+            sb.AppendLine("    /// <summary>");
+            sb.AppendLine($"    /// {EscapeXmlComment(positional.Description)}");
+            sb.AppendLine("    /// </summary>");
+        }
+
+        var attrString = GetPositionalAttributeString(positional);
+        sb.AppendLine($"    [{attrString}]");
+        sb.AppendLine($"    public {positional.CSharpType} {positional.PropertyName} {{ get; set; }}");
+    }
+
+    private static string GetPositionalAttributeString(CliPositionalArgument positional)
+    {
+        var parts = new List<string> { positional.PositionIndex.ToString() };
+
+        // Map to ArgumentPlacement enum
+        var placement = positional.Placement switch
+        {
+            PositionalArgumentPosition.BeforeOptions or PositionalArgumentPosition.BeforeSwitches =>
+                "ArgumentPlacement.BeforeOptions",
+            PositionalArgumentPosition.ImmediatelyAfterCommand =>
+                "ArgumentPlacement.ImmediatelyAfterCommand",
+            _ => null // AfterOptions is the default, no need to specify
+        };
+
+        if (placement is not null)
+        {
+            parts.Add($"Placement = {placement}");
+        }
+
+        if (!string.IsNullOrEmpty(positional.PlaceholderName))
+        {
+            parts.Add($"Name = \"{positional.PlaceholderName}\"");
+        }
+
+        return $"CliArgument({string.Join(", ", parts)})";
+    }
+
+    private static string EscapeXmlComment(string text) => GeneratorUtils.EscapeXmlComment(text);
+}

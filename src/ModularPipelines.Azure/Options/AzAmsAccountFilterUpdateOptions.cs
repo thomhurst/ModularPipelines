@@ -4,57 +4,57 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ams", "account-filter", "update")]
+[CliSubCommand("ams", "account-filter", "update")]
 public record AzAmsAccountFilterUpdateOptions : AzOptions
 {
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--end-timestamp")]
+    [CliOption("--end-timestamp")]
     public string? EndTimestamp { get; set; }
 
-    [CommandSwitch("--first-quality")]
+    [CliOption("--first-quality")]
     public string? FirstQuality { get; set; }
 
-    [BooleanCommandSwitch("--force-end-timestamp")]
+    [CliFlag("--force-end-timestamp")]
     public bool? ForceEndTimestamp { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--live-backoff-duration")]
+    [CliOption("--live-backoff-duration")]
     public string? LiveBackoffDuration { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--presentation-window-duration")]
+    [CliOption("--presentation-window-duration")]
     public string? PresentationWindowDuration { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--start-timestamp")]
+    [CliOption("--start-timestamp")]
     public string? StartTimestamp { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--timescale")]
+    [CliOption("--timescale")]
     public string? Timescale { get; set; }
 
-    [CommandSwitch("--tracks")]
+    [CliOption("--tracks")]
     public string? Tracks { get; set; }
 }

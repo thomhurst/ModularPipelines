@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appconfig")]
+[CliSubCommand("appconfig")]
 public class AzAppconfigCredential
 {
     public AzAppconfigCredential(

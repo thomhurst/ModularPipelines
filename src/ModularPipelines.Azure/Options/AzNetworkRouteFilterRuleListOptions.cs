@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "route-filter", "rule", "list")]
+[CliSubCommand("network", "route-filter", "rule", "list")]
 public record AzNetworkRouteFilterRuleListOptions(
-[property: CommandSwitch("--filter-name")] string FilterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--filter-name")] string FilterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

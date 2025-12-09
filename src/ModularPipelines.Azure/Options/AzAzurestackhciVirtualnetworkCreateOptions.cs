@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("urestackhci", "virtualnetwork", "create")]
+[CliSubCommand("urestackhci", "virtualnetwork", "create")]
 public record AzAzurestackhciVirtualnetworkCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--address-prefix")]
+    [CliOption("--address-prefix")]
     public string? AddressPrefix { get; set; }
 
-    [CommandSwitch("--dns-servers")]
+    [CliOption("--dns-servers")]
     public string? DnsServers { get; set; }
 
-    [CommandSwitch("--extended-location")]
+    [CliOption("--extended-location")]
     public string? ExtendedLocation { get; set; }
 
-    [CommandSwitch("--gateway")]
+    [CliOption("--gateway")]
     public string? Gateway { get; set; }
 
-    [CommandSwitch("--ip-allocation-method")]
+    [CliOption("--ip-allocation-method")]
     public string? IpAllocationMethod { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--network-type")]
+    [CliOption("--network-type")]
     public string? NetworkType { get; set; }
 
-    [CommandSwitch("--routes")]
+    [CliOption("--routes")]
     public string? Routes { get; set; }
 
-    [CommandSwitch("--subnets")]
+    [CliOption("--subnets")]
     public string? Subnets { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--vlan")]
+    [CliOption("--vlan")]
     public string? Vlan { get; set; }
 
-    [CommandSwitch("--vm-switch-name")]
+    [CliOption("--vm-switch-name")]
     public string? VmSwitchName { get; set; }
 }

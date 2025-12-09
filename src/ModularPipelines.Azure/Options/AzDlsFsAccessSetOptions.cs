@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dls", "fs", "access", "set")]
+[CliSubCommand("dls", "fs", "access", "set")]
 public record AzDlsFsAccessSetOptions(
-[property: CommandSwitch("--acl-spec")] string AclSpec,
-[property: CommandSwitch("--path")] string Path
+[property: CliOption("--acl-spec")] string AclSpec,
+[property: CliOption("--path")] string Path
 ) : AzOptions
 {
-    [CommandSwitch("--account")]
+    [CliOption("--account")]
     public int? Account { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

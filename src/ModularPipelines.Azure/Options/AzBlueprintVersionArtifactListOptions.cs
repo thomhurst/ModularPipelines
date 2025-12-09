@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("blueprint", "version", "artifact", "list")]
+[CliSubCommand("blueprint", "version", "artifact", "list")]
 public record AzBlueprintVersionArtifactListOptions(
-[property: CommandSwitch("--blueprint-name")] string BlueprintName,
-[property: CommandSwitch("--version")] string Version
+[property: CliOption("--blueprint-name")] string BlueprintName,
+[property: CliOption("--version")] string Version
 ) : AzOptions
 {
-    [CommandSwitch("--management-group")]
+    [CliOption("--management-group")]
     public string? ManagementGroup { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

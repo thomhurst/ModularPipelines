@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datazone", "create-data-source")]
+[CliCommand("datazone", "create-data-source")]
 public record AwsDatazoneCreateDataSourceOptions(
-[property: CommandSwitch("--domain-identifier")] string DomainIdentifier,
-[property: CommandSwitch("--environment-identifier")] string EnvironmentIdentifier,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--project-identifier")] string ProjectIdentifier,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--domain-identifier")] string DomainIdentifier,
+[property: CliOption("--environment-identifier")] string EnvironmentIdentifier,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--project-identifier")] string ProjectIdentifier,
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--asset-forms-input")]
+    [CliOption("--asset-forms-input")]
     public string[]? AssetFormsInput { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--configuration")]
+    [CliOption("--configuration")]
     public string? Configuration { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--enable-setting")]
+    [CliOption("--enable-setting")]
     public string? EnableSetting { get; set; }
 
-    [CommandSwitch("--recommendation")]
+    [CliOption("--recommendation")]
     public string? Recommendation { get; set; }
 
-    [CommandSwitch("--schedule")]
+    [CliOption("--schedule")]
     public string? Schedule { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

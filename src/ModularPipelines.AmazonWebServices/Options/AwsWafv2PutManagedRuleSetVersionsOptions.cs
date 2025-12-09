@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wafv2", "put-managed-rule-set-versions")]
+[CliCommand("wafv2", "put-managed-rule-set-versions")]
 public record AwsWafv2PutManagedRuleSetVersionsOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--scope")] string Scope,
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--lock-token")] string LockToken
+[property: CliOption("--name")] string Name,
+[property: CliOption("--scope")] string Scope,
+[property: CliOption("--id")] string Id,
+[property: CliOption("--lock-token")] string LockToken
 ) : AwsOptions
 {
-    [CommandSwitch("--recommended-version")]
+    [CliOption("--recommended-version")]
     public string? RecommendedVersion { get; set; }
 
-    [CommandSwitch("--versions-to-publish")]
+    [CliOption("--versions-to-publish")]
     public IEnumerable<KeyValue>? VersionsToPublish { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

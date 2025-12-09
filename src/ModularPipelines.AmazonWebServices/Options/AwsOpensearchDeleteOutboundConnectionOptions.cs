@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opensearch", "delete-outbound-connection")]
+[CliCommand("opensearch", "delete-outbound-connection")]
 public record AwsOpensearchDeleteOutboundConnectionOptions(
-[property: CommandSwitch("--connection-id")] string ConnectionId
+[property: CliOption("--connection-id")] string ConnectionId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

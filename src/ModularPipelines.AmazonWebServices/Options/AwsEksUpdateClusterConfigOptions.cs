@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eks", "update-cluster-config")]
+[CliCommand("eks", "update-cluster-config")]
 public record AwsEksUpdateClusterConfigOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--resources-vpc-config")]
+    [CliOption("--resources-vpc-config")]
     public string? ResourcesVpcConfig { get; set; }
 
-    [CommandSwitch("--logging")]
+    [CliOption("--logging")]
     public string? Logging { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--access-config")]
+    [CliOption("--access-config")]
     public string? AccessConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

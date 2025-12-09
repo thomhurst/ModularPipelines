@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesisanalyticsv2", "start-application")]
+[CliCommand("kinesisanalyticsv2", "start-application")]
 public record AwsKinesisanalyticsv2StartApplicationOptions(
-[property: CommandSwitch("--application-name")] string ApplicationName
+[property: CliOption("--application-name")] string ApplicationName
 ) : AwsOptions
 {
-    [CommandSwitch("--run-configuration")]
+    [CliOption("--run-configuration")]
     public string? RunConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

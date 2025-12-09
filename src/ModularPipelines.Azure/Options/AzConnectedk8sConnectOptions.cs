@@ -4,72 +4,72 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectedk8s", "connect")]
+[CliSubCommand("connectedk8s", "connect")]
 public record AzConnectedk8sConnectOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--azure-hybrid-benefit")]
+    [CliFlag("--azure-hybrid-benefit")]
     public bool? AzureHybridBenefit { get; set; }
 
-    [CommandSwitch("--container-log-path")]
+    [CliOption("--container-log-path")]
     public string? ContainerLogPath { get; set; }
 
-    [CommandSwitch("--correlation-id")]
+    [CliOption("--correlation-id")]
     public string? CorrelationId { get; set; }
 
-    [CommandSwitch("--custom-ca-cert")]
+    [CliOption("--custom-ca-cert")]
     public string? CustomCaCert { get; set; }
 
-    [CommandSwitch("--custom-locations-oid")]
+    [CliOption("--custom-locations-oid")]
     public string? CustomLocationsOid { get; set; }
 
-    [BooleanCommandSwitch("--disable-auto-upgrade")]
+    [CliFlag("--disable-auto-upgrade")]
     public bool? DisableAutoUpgrade { get; set; }
 
-    [CommandSwitch("--distribution")]
+    [CliOption("--distribution")]
     public string? Distribution { get; set; }
 
-    [CommandSwitch("--distribution-version")]
+    [CliOption("--distribution-version")]
     public string? DistributionVersion { get; set; }
 
-    [BooleanCommandSwitch("--enable-private-link")]
+    [CliFlag("--enable-private-link")]
     public bool? EnablePrivateLink { get; set; }
 
-    [CommandSwitch("--infrastructure")]
+    [CliOption("--infrastructure")]
     public string? Infrastructure { get; set; }
 
-    [CommandSwitch("--kube-config")]
+    [CliOption("--kube-config")]
     public string? KubeConfig { get; set; }
 
-    [CommandSwitch("--kube-context")]
+    [CliOption("--kube-context")]
     public string? KubeContext { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--onboarding-timeout")]
+    [CliOption("--onboarding-timeout")]
     public string? OnboardingTimeout { get; set; }
 
-    [CommandSwitch("--pls-arm-id")]
+    [CliOption("--pls-arm-id")]
     public string? PlsArmId { get; set; }
 
-    [CommandSwitch("--proxy-http")]
+    [CliOption("--proxy-http")]
     public string? ProxyHttp { get; set; }
 
-    [CommandSwitch("--proxy-https")]
+    [CliOption("--proxy-https")]
     public string? ProxyHttps { get; set; }
 
-    [CommandSwitch("--proxy-skip-range")]
+    [CliOption("--proxy-skip-range")]
     public string? ProxySkipRange { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

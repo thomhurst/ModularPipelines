@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sqs", "change-message-visibility-batch")]
+[CliCommand("sqs", "change-message-visibility-batch")]
 public record AwsSqsChangeMessageVisibilityBatchOptions(
-[property: CommandSwitch("--queue-url")] string QueueUrl,
-[property: CommandSwitch("--entries")] string[] Entries
+[property: CliOption("--queue-url")] string QueueUrl,
+[property: CliOption("--entries")] string[] Entries
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deployment", "mg", "validate")]
+[CliSubCommand("deployment", "mg", "validate")]
 public record AzDeploymentMgValidateOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--management-group-id")] string ManagementGroupId
+[property: CliOption("--location")] string Location,
+[property: CliOption("--management-group-id")] string ManagementGroupId
 ) : AzOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-prompt")]
+    [CliFlag("--no-prompt")]
     public bool? NoPrompt { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--query-string")]
+    [CliOption("--query-string")]
     public string? QueryString { get; set; }
 
-    [CommandSwitch("--template-file")]
+    [CliOption("--template-file")]
     public string? TemplateFile { get; set; }
 
-    [CommandSwitch("--template-spec")]
+    [CliOption("--template-spec")]
     public string? TemplateSpec { get; set; }
 
-    [CommandSwitch("--template-uri")]
+    [CliOption("--template-uri")]
     public string? TemplateUri { get; set; }
 }

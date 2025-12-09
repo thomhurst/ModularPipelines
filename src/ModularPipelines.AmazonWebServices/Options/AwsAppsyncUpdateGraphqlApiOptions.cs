@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appsync", "update-graphql-api")]
+[CliCommand("appsync", "update-graphql-api")]
 public record AwsAppsyncUpdateGraphqlApiOptions(
-[property: CommandSwitch("--api-id")] string ApiId,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--api-id")] string ApiId,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--log-config")]
+    [CliOption("--log-config")]
     public string? LogConfig { get; set; }
 
-    [CommandSwitch("--authentication-type")]
+    [CliOption("--authentication-type")]
     public string? AuthenticationType { get; set; }
 
-    [CommandSwitch("--user-pool-config")]
+    [CliOption("--user-pool-config")]
     public string? UserPoolConfig { get; set; }
 
-    [CommandSwitch("--open-id-connect-config")]
+    [CliOption("--open-id-connect-config")]
     public string? OpenIdConnectConfig { get; set; }
 
-    [CommandSwitch("--additional-authentication-providers")]
+    [CliOption("--additional-authentication-providers")]
     public string[]? AdditionalAuthenticationProviders { get; set; }
 
-    [CommandSwitch("--lambda-authorizer-config")]
+    [CliOption("--lambda-authorizer-config")]
     public string? LambdaAuthorizerConfig { get; set; }
 
-    [CommandSwitch("--merged-api-execution-role-arn")]
+    [CliOption("--merged-api-execution-role-arn")]
     public string? MergedApiExecutionRoleArn { get; set; }
 
-    [CommandSwitch("--owner-contact")]
+    [CliOption("--owner-contact")]
     public string? OwnerContact { get; set; }
 
-    [CommandSwitch("--introspection-config")]
+    [CliOption("--introspection-config")]
     public string? IntrospectionConfig { get; set; }
 
-    [CommandSwitch("--query-depth-limit")]
+    [CliOption("--query-depth-limit")]
     public int? QueryDepthLimit { get; set; }
 
-    [CommandSwitch("--resolver-count-limit")]
+    [CliOption("--resolver-count-limit")]
     public int? ResolverCountLimit { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

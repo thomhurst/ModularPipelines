@@ -6,6 +6,6 @@ namespace ModularPipelines.Options.Linux.AptGet;
 [ExcludeFromCodeCoverage]
 public record AptGetSourceOptions : AptGetOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string CommandName { get; } = "source";
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string CommandName { get; } = "source";
 }

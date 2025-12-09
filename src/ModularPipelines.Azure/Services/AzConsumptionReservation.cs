@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("consumption")]
+[CliSubCommand("consumption")]
 public class AzConsumptionReservation
 {
     public AzConsumptionReservation(

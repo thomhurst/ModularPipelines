@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securityhub", "create-action-target")]
+[CliCommand("securityhub", "create-action-target")]
 public record AwsSecurityhubCreateActionTargetOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--name")] string Name,
+[property: CliOption("--description")] string Description,
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

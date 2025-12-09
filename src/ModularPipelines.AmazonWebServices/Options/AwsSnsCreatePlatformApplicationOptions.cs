@@ -5,13 +5,13 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sns", "create-platform-application")]
+[CliCommand("sns", "create-platform-application")]
 public record AwsSnsCreatePlatformApplicationOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--platform")] string Platform,
-[property: CommandSwitch("--attributes")] IEnumerable<KeyValue> Attributes
+[property: CliOption("--name")] string Name,
+[property: CliOption("--platform")] string Platform,
+[property: CliOption("--attributes")] IEnumerable<KeyValue> Attributes
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

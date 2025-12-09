@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataprotection", "backup-instance", "restore", "initialize-for-item-recovery")]
+[CliSubCommand("dataprotection", "backup-instance", "restore", "initialize-for-item-recovery")]
 public record AzDataprotectionBackupInstanceRestoreInitializeForItemRecoveryOptions(
-[property: CommandSwitch("--datasource-type")] string DatasourceType,
-[property: CommandSwitch("--restore-location")] string RestoreLocation,
-[property: CommandSwitch("--source-datastore")] string SourceDatastore
+[property: CliOption("--datasource-type")] string DatasourceType,
+[property: CliOption("--restore-location")] string RestoreLocation,
+[property: CliOption("--source-datastore")] string SourceDatastore
 ) : AzOptions
 {
-    [CommandSwitch("--backup-instance-id")]
+    [CliOption("--backup-instance-id")]
     public string? BackupInstanceId { get; set; }
 
-    [CommandSwitch("--container-list")]
+    [CliOption("--container-list")]
     public string? ContainerList { get; set; }
 
-    [CommandSwitch("--from-prefix-pattern")]
+    [CliOption("--from-prefix-pattern")]
     public string? FromPrefixPattern { get; set; }
 
-    [CommandSwitch("--point-in-time")]
+    [CliOption("--point-in-time")]
     public string? PointInTime { get; set; }
 
-    [CommandSwitch("--recovery-point-id")]
+    [CliOption("--recovery-point-id")]
     public string? RecoveryPointId { get; set; }
 
-    [CommandSwitch("--restore-configuration")]
+    [CliOption("--restore-configuration")]
     public string? RestoreConfiguration { get; set; }
 
-    [CommandSwitch("--target-resource-id")]
+    [CliOption("--target-resource-id")]
     public string? TargetResourceId { get; set; }
 
-    [CommandSwitch("--to-prefix-pattern")]
+    [CliOption("--to-prefix-pattern")]
     public string? ToPrefixPattern { get; set; }
 }

@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-verified-access-trust-provider")]
+[CliCommand("ec2", "modify-verified-access-trust-provider")]
 public record AwsEc2ModifyVerifiedAccessTrustProviderOptions(
-[property: CommandSwitch("--verified-access-trust-provider-id")] string VerifiedAccessTrustProviderId
+[property: CliOption("--verified-access-trust-provider-id")] string VerifiedAccessTrustProviderId
 ) : AwsOptions
 {
-    [CommandSwitch("--oidc-options")]
+    [CliOption("--oidc-options")]
     public string? OidcOptions { get; set; }
 
-    [CommandSwitch("--device-options")]
+    [CliOption("--device-options")]
     public string? DeviceOptions { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--sse-specification")]
+    [CliOption("--sse-specification")]
     public string? SseSpecification { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

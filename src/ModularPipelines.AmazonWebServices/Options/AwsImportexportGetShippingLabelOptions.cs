@@ -4,44 +4,44 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("importexport", "get-shipping-label")]
+[CliCommand("importexport", "get-shipping-label")]
 public record AwsImportexportGetShippingLabelOptions(
-[property: CommandSwitch("--job-ids")] string[] JobIds
+[property: CliOption("--job-ids")] string[] JobIds
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--company")]
+    [CliOption("--company")]
     public string? Company { get; set; }
 
-    [CommandSwitch("--phone-number")]
+    [CliOption("--phone-number")]
     public string? PhoneNumber { get; set; }
 
-    [CommandSwitch("--country")]
+    [CliOption("--country")]
     public string? Country { get; set; }
 
-    [CommandSwitch("--state-or-province")]
+    [CliOption("--state-or-province")]
     public string? StateOrProvince { get; set; }
 
-    [CommandSwitch("--city")]
+    [CliOption("--city")]
     public string? City { get; set; }
 
-    [CommandSwitch("--postal-code")]
+    [CliOption("--postal-code")]
     public string? PostalCode { get; set; }
 
-    [CommandSwitch("--street1")]
+    [CliOption("--street1")]
     public string? Street1 { get; set; }
 
-    [CommandSwitch("--street2")]
+    [CliOption("--street2")]
     public string? Street2 { get; set; }
 
-    [CommandSwitch("--street3")]
+    [CliOption("--street3")]
     public string? Street3 { get; set; }
 
-    [CommandSwitch("--api-version")]
+    [CliOption("--api-version")]
     public string? ApiVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

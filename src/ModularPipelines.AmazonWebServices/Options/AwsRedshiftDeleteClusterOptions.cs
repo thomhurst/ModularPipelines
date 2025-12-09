@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "delete-cluster")]
+[CliCommand("redshift", "delete-cluster")]
 public record AwsRedshiftDeleteClusterOptions(
-[property: CommandSwitch("--cluster-identifier")] string ClusterIdentifier
+[property: CliOption("--cluster-identifier")] string ClusterIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--final-cluster-snapshot-identifier")]
+    [CliOption("--final-cluster-snapshot-identifier")]
     public string? FinalClusterSnapshotIdentifier { get; set; }
 
-    [CommandSwitch("--final-cluster-snapshot-retention-period")]
+    [CliOption("--final-cluster-snapshot-retention-period")]
     public int? FinalClusterSnapshotRetentionPeriod { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

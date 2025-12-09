@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "batch-put-geofence")]
+[CliCommand("location", "batch-put-geofence")]
 public record AwsLocationBatchPutGeofenceOptions(
-[property: CommandSwitch("--collection-name")] string CollectionName,
-[property: CommandSwitch("--entries")] string[] Entries
+[property: CliOption("--collection-name")] string CollectionName,
+[property: CliOption("--entries")] string[] Entries
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

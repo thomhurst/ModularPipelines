@@ -5,16 +5,16 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "create-use-case")]
+[CliCommand("connect", "create-use-case")]
 public record AwsConnectCreateUseCaseOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--integration-association-id")] string IntegrationAssociationId,
-[property: CommandSwitch("--use-case-type")] string UseCaseType
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--integration-association-id")] string IntegrationAssociationId,
+[property: CliOption("--use-case-type")] string UseCaseType
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

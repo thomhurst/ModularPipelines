@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-placement-group")]
+[CliCommand("ec2", "create-placement-group")]
 public record AwsEc2CreatePlacementGroupOptions : AwsOptions
 {
-    [CommandSwitch("--group-name")]
+    [CliOption("--group-name")]
     public string? GroupName { get; set; }
 
-    [CommandSwitch("--strategy")]
+    [CliOption("--strategy")]
     public string? Strategy { get; set; }
 
-    [CommandSwitch("--partition-count")]
+    [CliOption("--partition-count")]
     public int? PartitionCount { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--spread-level")]
+    [CliOption("--spread-level")]
     public string? SpreadLevel { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

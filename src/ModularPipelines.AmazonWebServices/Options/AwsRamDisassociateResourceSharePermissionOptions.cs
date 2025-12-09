@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ram", "disassociate-resource-share-permission")]
+[CliCommand("ram", "disassociate-resource-share-permission")]
 public record AwsRamDisassociateResourceSharePermissionOptions(
-[property: CommandSwitch("--resource-share-arn")] string ResourceShareArn,
-[property: CommandSwitch("--permission-arn")] string PermissionArn
+[property: CliOption("--resource-share-arn")] string ResourceShareArn,
+[property: CliOption("--permission-arn")] string PermissionArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

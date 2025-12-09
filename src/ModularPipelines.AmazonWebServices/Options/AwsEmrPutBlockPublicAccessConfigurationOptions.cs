@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr", "put-block-public-access-configuration")]
+[CliCommand("emr", "put-block-public-access-configuration")]
 public record AwsEmrPutBlockPublicAccessConfigurationOptions(
-[property: CommandSwitch("--block-public-access-configuration")] string BlockPublicAccessConfiguration
+[property: CliOption("--block-public-access-configuration")] string BlockPublicAccessConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("inspector", "update-assessment-target")]
+[CliCommand("inspector", "update-assessment-target")]
 public record AwsInspectorUpdateAssessmentTargetOptions(
-[property: CommandSwitch("--assessment-target-arn")] string AssessmentTargetArn,
-[property: CommandSwitch("--assessment-target-name")] string AssessmentTargetName
+[property: CliOption("--assessment-target-arn")] string AssessmentTargetArn,
+[property: CliOption("--assessment-target-name")] string AssessmentTargetName
 ) : AwsOptions
 {
-    [CommandSwitch("--resource-group-arn")]
+    [CliOption("--resource-group-arn")]
     public string? ResourceGroupArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

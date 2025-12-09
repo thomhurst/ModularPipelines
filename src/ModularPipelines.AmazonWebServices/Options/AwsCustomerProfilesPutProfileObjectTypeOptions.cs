@@ -5,34 +5,34 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("customer-profiles", "put-profile-object-type")]
+[CliCommand("customer-profiles", "put-profile-object-type")]
 public record AwsCustomerProfilesPutProfileObjectTypeOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--object-type-name")] string ObjectTypeName,
-[property: CommandSwitch("--description")] string Description
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--object-type-name")] string ObjectTypeName,
+[property: CliOption("--description")] string Description
 ) : AwsOptions
 {
-    [CommandSwitch("--template-id")]
+    [CliOption("--template-id")]
     public string? TemplateId { get; set; }
 
-    [CommandSwitch("--expiration-days")]
+    [CliOption("--expiration-days")]
     public int? ExpirationDays { get; set; }
 
-    [CommandSwitch("--encryption-key")]
+    [CliOption("--encryption-key")]
     public string? EncryptionKey { get; set; }
 
-    [CommandSwitch("--source-last-updated-timestamp-format")]
+    [CliOption("--source-last-updated-timestamp-format")]
     public string? SourceLastUpdatedTimestampFormat { get; set; }
 
-    [CommandSwitch("--fields")]
+    [CliOption("--fields")]
     public IEnumerable<KeyValue>? Fields { get; set; }
 
-    [CommandSwitch("--keys")]
+    [CliOption("--keys")]
     public IEnumerable<KeyValue>? Keys { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

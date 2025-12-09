@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fms", "put-admin-account")]
+[CliCommand("fms", "put-admin-account")]
 public record AwsFmsPutAdminAccountOptions(
-[property: CommandSwitch("--admin-account")] string AdminAccount
+[property: CliOption("--admin-account")] string AdminAccount
 ) : AwsOptions
 {
-    [CommandSwitch("--admin-scope")]
+    [CliOption("--admin-scope")]
     public string? AdminScope { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

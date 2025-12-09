@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworks", "attach-elastic-load-balancer")]
+[CliCommand("opsworks", "attach-elastic-load-balancer")]
 public record AwsOpsworksAttachElasticLoadBalancerOptions(
-[property: CommandSwitch("--elastic-load-balancer-name")] string ElasticLoadBalancerName,
-[property: CommandSwitch("--layer-id")] string LayerId
+[property: CliOption("--elastic-load-balancer-name")] string ElasticLoadBalancerName,
+[property: CliOption("--layer-id")] string LayerId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

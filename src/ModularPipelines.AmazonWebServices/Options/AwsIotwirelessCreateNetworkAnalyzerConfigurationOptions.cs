@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotwireless", "create-network-analyzer-configuration")]
+[CliCommand("iotwireless", "create-network-analyzer-configuration")]
 public record AwsIotwirelessCreateNetworkAnalyzerConfigurationOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--trace-content")]
+    [CliOption("--trace-content")]
     public string? TraceContent { get; set; }
 
-    [CommandSwitch("--wireless-devices")]
+    [CliOption("--wireless-devices")]
     public string[]? WirelessDevices { get; set; }
 
-    [CommandSwitch("--wireless-gateways")]
+    [CliOption("--wireless-gateways")]
     public string[]? WirelessGateways { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--multicast-groups")]
+    [CliOption("--multicast-groups")]
     public string[]? MulticastGroups { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

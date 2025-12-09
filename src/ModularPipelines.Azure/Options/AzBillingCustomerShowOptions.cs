@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "customer", "show")]
+[CliSubCommand("billing", "customer", "show")]
 public record AzBillingCustomerShowOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--customer-name")] string CustomerName
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--customer-name")] string CustomerName
 ) : AzOptions
 {
-    [CommandSwitch("--expand")]
+    [CliOption("--expand")]
     public string? Expand { get; set; }
 }

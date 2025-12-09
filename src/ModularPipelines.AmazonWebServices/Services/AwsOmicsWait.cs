@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("omics")]
+[CliSubCommand("omics")]
 public class AwsOmicsWait
 {
     public AwsOmicsWait(

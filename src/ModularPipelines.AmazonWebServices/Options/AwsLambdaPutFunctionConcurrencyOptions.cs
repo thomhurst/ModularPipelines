@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "put-function-concurrency")]
+[CliCommand("lambda", "put-function-concurrency")]
 public record AwsLambdaPutFunctionConcurrencyOptions(
-[property: CommandSwitch("--function-name")] string FunctionName,
-[property: CommandSwitch("--reserved-concurrent-executions")] int ReservedConcurrentExecutions
+[property: CliOption("--function-name")] string FunctionName,
+[property: CliOption("--reserved-concurrent-executions")] int ReservedConcurrentExecutions
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

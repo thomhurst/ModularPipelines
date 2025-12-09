@@ -4,69 +4,69 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "nsg", "rule", "update")]
+[CliSubCommand("network", "nsg", "rule", "update")]
 public record AzNetworkNsgRuleUpdateOptions : AzOptions
 {
-    [CommandSwitch("--access")]
+    [CliOption("--access")]
     public string? Access { get; set; }
 
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--destination-address-prefixes")]
+    [CliOption("--destination-address-prefixes")]
     public string? DestinationAddressPrefixes { get; set; }
 
-    [CommandSwitch("--destination-asgs")]
+    [CliOption("--destination-asgs")]
     public string? DestinationAsgs { get; set; }
 
-    [CommandSwitch("--destination-port-ranges")]
+    [CliOption("--destination-port-ranges")]
     public string? DestinationPortRanges { get; set; }
 
-    [CommandSwitch("--direction")]
+    [CliOption("--direction")]
     public string? Direction { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--nsg-name")]
+    [CliOption("--nsg-name")]
     public string? NsgName { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--source-address-prefixes")]
+    [CliOption("--source-address-prefixes")]
     public string? SourceAddressPrefixes { get; set; }
 
-    [CommandSwitch("--source-asgs")]
+    [CliOption("--source-asgs")]
     public string? SourceAsgs { get; set; }
 
-    [CommandSwitch("--source-port-ranges")]
+    [CliOption("--source-port-ranges")]
     public string? SourcePortRanges { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

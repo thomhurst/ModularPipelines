@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognitiveservices", "account", "commitment-plan", "create")]
+[CliSubCommand("cognitiveservices", "account", "commitment-plan", "create")]
 public record AzCognitiveservicesAccountCommitmentPlanCreateOptions(
-[property: BooleanCommandSwitch("--auto-renew")] bool AutoRenew,
-[property: CommandSwitch("--commitment-plan-name")] string CommitmentPlanName,
-[property: CommandSwitch("--hosting-model")] string HostingModel,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--plan-type")] string PlanType,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliFlag("--auto-renew")] bool AutoRenew,
+[property: CliOption("--commitment-plan-name")] string CommitmentPlanName,
+[property: CliOption("--hosting-model")] string HostingModel,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--plan-type")] string PlanType,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--current-count")]
+    [CliOption("--current-count")]
     public int? CurrentCount { get; set; }
 
-    [CommandSwitch("--current-tier")]
+    [CliOption("--current-tier")]
     public string? CurrentTier { get; set; }
 
-    [CommandSwitch("--next-count")]
+    [CliOption("--next-count")]
     public int? NextCount { get; set; }
 
-    [CommandSwitch("--next-tier")]
+    [CliOption("--next-tier")]
     public string? NextTier { get; set; }
 }

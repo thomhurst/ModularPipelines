@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "search-game-sessions")]
+[CliCommand("gamelift", "search-game-sessions")]
 public record AwsGameliftSearchGameSessionsOptions : AwsOptions
 {
-    [CommandSwitch("--fleet-id")]
+    [CliOption("--fleet-id")]
     public string? FleetId { get; set; }
 
-    [CommandSwitch("--alias-id")]
+    [CliOption("--alias-id")]
     public string? AliasId { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--filter-expression")]
+    [CliOption("--filter-expression")]
     public string? FilterExpression { get; set; }
 
-    [CommandSwitch("--sort-expression")]
+    [CliOption("--sort-expression")]
     public string? SortExpression { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

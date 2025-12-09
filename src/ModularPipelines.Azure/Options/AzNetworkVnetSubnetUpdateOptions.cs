@@ -4,66 +4,66 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vnet", "subnet", "update")]
+[CliSubCommand("network", "vnet", "subnet", "update")]
 public record AzNetworkVnetSubnetUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--address-prefixes")]
+    [CliOption("--address-prefixes")]
     public string? AddressPrefixes { get; set; }
 
-    [BooleanCommandSwitch("--default-outbound")]
+    [CliFlag("--default-outbound")]
     public bool? DefaultOutbound { get; set; }
 
-    [CommandSwitch("--delegations")]
+    [CliOption("--delegations")]
     public string? Delegations { get; set; }
 
-    [BooleanCommandSwitch("--disable-private-endpoint-network-policies")]
+    [CliFlag("--disable-private-endpoint-network-policies")]
     public bool? DisablePrivateEndpointNetworkPolicies { get; set; }
 
-    [BooleanCommandSwitch("--disable-private-link-service-network-policies")]
+    [CliFlag("--disable-private-link-service-network-policies")]
     public bool? DisablePrivateLinkServiceNetworkPolicies { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--nat-gateway")]
+    [CliOption("--nat-gateway")]
     public string? NatGateway { get; set; }
 
-    [CommandSwitch("--network-security-group")]
+    [CliOption("--network-security-group")]
     public string? NetworkSecurityGroup { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--route-table")]
+    [CliOption("--route-table")]
     public string? RouteTable { get; set; }
 
-    [CommandSwitch("--service-endpoint-policy")]
+    [CliOption("--service-endpoint-policy")]
     public string? ServiceEndpointPolicy { get; set; }
 
-    [CommandSwitch("--service-endpoints")]
+    [CliOption("--service-endpoints")]
     public string? ServiceEndpoints { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--vnet-name")]
+    [CliOption("--vnet-name")]
     public string? VnetName { get; set; }
 }

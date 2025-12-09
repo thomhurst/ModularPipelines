@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("console")]
+[CliSubCommand("console")]
 [ExcludeFromCodeCoverage]
 public record TerraformConsoleOptions : TerraformOptions
 {
-    [BooleanCommandSwitch("-state")]
+    [CliFlag("-state")]
     public virtual bool? State { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops", "security", "group")]
+[CliCommand("devops", "security", "group")]
 public class AzDevopsSecurityGroupMembership
 {
     public AzDevopsSecurityGroupMembership(

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "delete-traffic-mirror-filter-rule")]
+[CliCommand("ec2", "delete-traffic-mirror-filter-rule")]
 public record AwsEc2DeleteTrafficMirrorFilterRuleOptions(
-[property: CommandSwitch("--traffic-mirror-filter-rule-id")] string TrafficMirrorFilterRuleId
+[property: CliOption("--traffic-mirror-filter-rule-id")] string TrafficMirrorFilterRuleId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "manager", "group", "static-member", "create")]
+[CliSubCommand("network", "manager", "group", "static-member", "create")]
 public record AzNetworkManagerGroupStaticMemberCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--network-group")] string NetworkGroup,
-[property: CommandSwitch("--network-manager")] string NetworkManager,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--resource-id")] string ResourceId
+[property: CliOption("--name")] string Name,
+[property: CliOption("--network-group")] string NetworkGroup,
+[property: CliOption("--network-manager")] string NetworkManager,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--resource-id")] string ResourceId
 ) : AzOptions;

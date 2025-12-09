@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("frauddetector", "delete-external-model")]
+[CliCommand("frauddetector", "delete-external-model")]
 public record AwsFrauddetectorDeleteExternalModelOptions(
-[property: CommandSwitch("--model-endpoint")] string ModelEndpoint
+[property: CliOption("--model-endpoint")] string ModelEndpoint
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

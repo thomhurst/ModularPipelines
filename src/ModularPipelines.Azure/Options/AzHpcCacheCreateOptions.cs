@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hpc-cache", "create")]
+[CliSubCommand("hpc-cache", "create")]
 public record AzHpcCacheCreateOptions(
-[property: CommandSwitch("--cache-size-gb")] string CacheSizeGb,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sku-name")] string SkuName,
-[property: CommandSwitch("--subnet")] string Subnet
+[property: CliOption("--cache-size-gb")] string CacheSizeGb,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sku-name")] string SkuName,
+[property: CliOption("--subnet")] string Subnet
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

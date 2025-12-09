@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ad", "group", "member", "check")]
+[CliSubCommand("ad", "group", "member", "check")]
 public record AzAdGroupMemberCheckOptions(
-[property: CommandSwitch("--group")] string Group,
-[property: CommandSwitch("--member-id")] string MemberId
+[property: CliOption("--group")] string Group,
+[property: CliOption("--member-id")] string MemberId
 ) : AzOptions;

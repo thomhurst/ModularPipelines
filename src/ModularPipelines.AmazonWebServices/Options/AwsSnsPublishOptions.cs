@@ -5,35 +5,35 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sns", "publish")]
+[CliCommand("sns", "publish")]
 public record AwsSnsPublishOptions(
-[property: CommandSwitch("--message")] string Message
+[property: CliOption("--message")] string Message
 ) : AwsOptions
 {
-    [CommandSwitch("--topic-arn")]
+    [CliOption("--topic-arn")]
     public string? TopicArn { get; set; }
 
-    [CommandSwitch("--target-arn")]
+    [CliOption("--target-arn")]
     public string? TargetArn { get; set; }
 
-    [CommandSwitch("--phone-number")]
+    [CliOption("--phone-number")]
     public string? PhoneNumber { get; set; }
 
-    [CommandSwitch("--subject")]
+    [CliOption("--subject")]
     public string? Subject { get; set; }
 
-    [CommandSwitch("--message-structure")]
+    [CliOption("--message-structure")]
     public string? MessageStructure { get; set; }
 
-    [CommandSwitch("--message-attributes")]
+    [CliOption("--message-attributes")]
     public IEnumerable<KeyValue>? MessageAttributes { get; set; }
 
-    [CommandSwitch("--message-deduplication-id")]
+    [CliOption("--message-deduplication-id")]
     public string? MessageDeduplicationId { get; set; }
 
-    [CommandSwitch("--message-group-id")]
+    [CliOption("--message-group-id")]
     public string? MessageGroupId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

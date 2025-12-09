@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloud-service")]
+[CliSubCommand("cloud-service")]
 public class AzCloudServiceRole
 {
     public AzCloudServiceRole(

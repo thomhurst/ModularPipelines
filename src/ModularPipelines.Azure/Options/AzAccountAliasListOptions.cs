@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("account", "alias", "list")]
+[CliSubCommand("account", "alias", "list")]
 public record AzAccountAliasListOptions : AzOptions;

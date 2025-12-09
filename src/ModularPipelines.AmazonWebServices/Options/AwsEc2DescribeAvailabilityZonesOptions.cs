@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "describe-availability-zones")]
+[CliCommand("ec2", "describe-availability-zones")]
 public record AwsEc2DescribeAvailabilityZonesOptions : AwsOptions
 {
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--zone-names")]
+    [CliOption("--zone-names")]
     public string[]? ZoneNames { get; set; }
 
-    [CommandSwitch("--zone-ids")]
+    [CliOption("--zone-ids")]
     public string[]? ZoneIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("blueprint", "publish")]
+[CliSubCommand("blueprint", "publish")]
 public record AzBlueprintPublishOptions(
-[property: CommandSwitch("--blueprint-name")] string BlueprintName,
-[property: CommandSwitch("--version")] string Version
+[property: CliOption("--blueprint-name")] string BlueprintName,
+[property: CliOption("--version")] string Version
 ) : AzOptions
 {
-    [CommandSwitch("--change-notes")]
+    [CliOption("--change-notes")]
     public string? ChangeNotes { get; set; }
 
-    [CommandSwitch("--management-group")]
+    [CliOption("--management-group")]
     public string? ManagementGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

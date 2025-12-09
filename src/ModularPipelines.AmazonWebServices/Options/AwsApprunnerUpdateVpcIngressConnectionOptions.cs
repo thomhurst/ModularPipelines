@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apprunner", "update-vpc-ingress-connection")]
+[CliCommand("apprunner", "update-vpc-ingress-connection")]
 public record AwsApprunnerUpdateVpcIngressConnectionOptions(
-[property: CommandSwitch("--vpc-ingress-connection-arn")] string VpcIngressConnectionArn,
-[property: CommandSwitch("--ingress-vpc-configuration")] string IngressVpcConfiguration
+[property: CliOption("--vpc-ingress-connection-arn")] string VpcIngressConnectionArn,
+[property: CliOption("--ingress-vpc-configuration")] string IngressVpcConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

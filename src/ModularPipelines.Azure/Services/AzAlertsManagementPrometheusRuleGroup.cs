@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("alerts-management")]
+[CliSubCommand("alerts-management")]
 public class AzAlertsManagementPrometheusRuleGroup
 {
     public AzAlertsManagementPrometheusRuleGroup(

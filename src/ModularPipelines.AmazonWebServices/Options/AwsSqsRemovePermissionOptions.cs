@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sqs", "remove-permission")]
+[CliCommand("sqs", "remove-permission")]
 public record AwsSqsRemovePermissionOptions(
-[property: CommandSwitch("--queue-url")] string QueueUrl,
-[property: CommandSwitch("--label")] string Label
+[property: CliOption("--queue-url")] string QueueUrl,
+[property: CliOption("--label")] string Label
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

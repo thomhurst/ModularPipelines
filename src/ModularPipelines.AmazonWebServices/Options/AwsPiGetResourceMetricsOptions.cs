@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pi", "get-resource-metrics")]
+[CliCommand("pi", "get-resource-metrics")]
 public record AwsPiGetResourceMetricsOptions(
-[property: CommandSwitch("--service-type")] string ServiceType,
-[property: CommandSwitch("--identifier")] string Identifier,
-[property: CommandSwitch("--metric-queries")] string[] MetricQueries,
-[property: CommandSwitch("--start-time")] long StartTime,
-[property: CommandSwitch("--end-time")] long EndTime
+[property: CliOption("--service-type")] string ServiceType,
+[property: CliOption("--identifier")] string Identifier,
+[property: CliOption("--metric-queries")] string[] MetricQueries,
+[property: CliOption("--start-time")] long StartTime,
+[property: CliOption("--end-time")] long EndTime
 ) : AwsOptions
 {
-    [CommandSwitch("--period-in-seconds")]
+    [CliOption("--period-in-seconds")]
     public int? PeriodInSeconds { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--period-alignment")]
+    [CliOption("--period-alignment")]
     public string? PeriodAlignment { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

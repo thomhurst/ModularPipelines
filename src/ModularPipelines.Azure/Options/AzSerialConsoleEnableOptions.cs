@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("serial-console", "enable")]
+[CliSubCommand("serial-console", "enable")]
 public record AzSerialConsoleEnableOptions : AzOptions;

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("providerhub")]
+[CliSubCommand("providerhub")]
 public class AzProviderhubCustomRollout
 {
     public AzProviderhubCustomRollout(

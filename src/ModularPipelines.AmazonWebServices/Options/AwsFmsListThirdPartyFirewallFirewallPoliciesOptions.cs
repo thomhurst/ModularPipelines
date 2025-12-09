@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fms", "list-third-party-firewall-firewall-policies")]
+[CliCommand("fms", "list-third-party-firewall-firewall-policies")]
 public record AwsFmsListThirdPartyFirewallFirewallPoliciesOptions(
-[property: CommandSwitch("--third-party-firewall")] string ThirdPartyFirewall
+[property: CliOption("--third-party-firewall")] string ThirdPartyFirewall
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

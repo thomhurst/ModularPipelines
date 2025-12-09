@@ -4,54 +4,54 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "edge", "devices", "create")]
+[CliSubCommand("iot", "edge", "devices", "create")]
 public record AzIotEdgeDevicesCreateOptions : AzOptions
 {
-    [CommandSwitch("--auth-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [CommandSwitch("--cfg")]
+    [CliOption("--cfg")]
     public string? Cfg { get; set; }
 
-    [BooleanCommandSwitch("--clean")]
+    [CliFlag("--clean")]
     public bool? Clean { get; set; }
 
-    [CommandSwitch("--dct")]
+    [CliOption("--dct")]
     public string? Dct { get; set; }
 
-    [CommandSwitch("--dea")]
+    [CliOption("--dea")]
     public string? Dea { get; set; }
 
-    [CommandSwitch("--device")]
+    [CliOption("--device")]
     public string? Device { get; set; }
 
-    [CommandSwitch("--device-auth")]
+    [CliOption("--device-auth")]
     public string? DeviceAuth { get; set; }
 
-    [CommandSwitch("--hub-name")]
+    [CliOption("--hub-name")]
     public string? HubName { get; set; }
 
-    [CommandSwitch("--login")]
+    [CliOption("--login")]
     public string? Login { get; set; }
 
-    [CommandSwitch("--out")]
+    [CliOption("--out")]
     public string? Out { get; set; }
 
-    [CommandSwitch("--rc")]
+    [CliOption("--rc")]
     public string? Rc { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--rk")]
+    [CliOption("--rk")]
     public string? Rk { get; set; }
 
-    [CommandSwitch("--root-pass")]
+    [CliOption("--root-pass")]
     public string? RootPass { get; set; }
 
-    [BooleanCommandSwitch("--vis")]
+    [CliFlag("--vis")]
     public bool? Vis { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

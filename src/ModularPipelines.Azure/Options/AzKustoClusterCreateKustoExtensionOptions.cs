@@ -4,85 +4,85 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kusto", "cluster", "create", "(kusto", "extension)")]
+[CliSubCommand("kusto", "cluster", "create", "(kusto", "extension)")]
 public record AzKustoClusterCreateKustoExtensionOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sku")] string Sku
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sku")] string Sku
 ) : AzOptions
 {
-    [CommandSwitch("--accepted-audiences")]
+    [CliOption("--accepted-audiences")]
     public string? AcceptedAudiences { get; set; }
 
-    [BooleanCommandSwitch("--allowed-fqdn-list")]
+    [CliFlag("--allowed-fqdn-list")]
     public bool? AllowedFqdnList { get; set; }
 
-    [BooleanCommandSwitch("--allowed-ip-range-list")]
+    [CliFlag("--allowed-ip-range-list")]
     public bool? AllowedIpRangeList { get; set; }
 
-    [BooleanCommandSwitch("--enable-auto-stop")]
+    [CliFlag("--enable-auto-stop")]
     public bool? EnableAutoStop { get; set; }
 
-    [BooleanCommandSwitch("--enable-disk-encryption")]
+    [CliFlag("--enable-disk-encryption")]
     public bool? EnableDiskEncryption { get; set; }
 
-    [BooleanCommandSwitch("--enable-double-encryption")]
+    [CliFlag("--enable-double-encryption")]
     public bool? EnableDoubleEncryption { get; set; }
 
-    [BooleanCommandSwitch("--enable-purge")]
+    [CliFlag("--enable-purge")]
     public bool? EnablePurge { get; set; }
 
-    [BooleanCommandSwitch("--enable-streaming-ingest")]
+    [CliFlag("--enable-streaming-ingest")]
     public bool? EnableStreamingIngest { get; set; }
 
-    [CommandSwitch("--engine-type")]
+    [CliOption("--engine-type")]
     public string? EngineType { get; set; }
 
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--if-none-match")]
+    [CliOption("--if-none-match")]
     public string? IfNoneMatch { get; set; }
 
-    [CommandSwitch("--key-vault-properties")]
+    [CliOption("--key-vault-properties")]
     public string? KeyVaultProperties { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--optimized-autoscale")]
+    [CliOption("--optimized-autoscale")]
     public string? OptimizedAutoscale { get; set; }
 
-    [CommandSwitch("--outbound-net-access")]
+    [CliOption("--outbound-net-access")]
     public string? OutboundNetAccess { get; set; }
 
-    [CommandSwitch("--public-ip-type")]
+    [CliOption("--public-ip-type")]
     public string? PublicIpType { get; set; }
 
-    [CommandSwitch("--public-network-access")]
+    [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--trusted-external-tenants")]
+    [CliOption("--trusted-external-tenants")]
     public string? TrustedExternalTenants { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--user-assigned")]
+    [CliOption("--user-assigned")]
     public string? UserAssigned { get; set; }
 
-    [CommandSwitch("--vcluster-graduation")]
+    [CliOption("--vcluster-graduation")]
     public string? VclusterGraduation { get; set; }
 
-    [CommandSwitch("--virtual-network-configuration")]
+    [CliOption("--virtual-network-configuration")]
     public string? VirtualNetworkConfiguration { get; set; }
 
-    [CommandSwitch("--zones")]
+    [CliOption("--zones")]
     public string? Zones { get; set; }
 }

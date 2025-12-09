@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("palo-alto")]
+[CliSubCommand("palo-alto")]
 public class AzPaloAltoCloudngfw
 {
     public AzPaloAltoCloudngfw(

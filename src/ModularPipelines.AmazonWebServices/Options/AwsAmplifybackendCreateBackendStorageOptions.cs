@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amplifybackend", "create-backend-storage")]
+[CliCommand("amplifybackend", "create-backend-storage")]
 public record AwsAmplifybackendCreateBackendStorageOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--backend-environment-name")] string BackendEnvironmentName,
-[property: CommandSwitch("--resource-config")] string ResourceConfig,
-[property: CommandSwitch("--resource-name")] string ResourceName
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--backend-environment-name")] string BackendEnvironmentName,
+[property: CliOption("--resource-config")] string ResourceConfig,
+[property: CliOption("--resource-name")] string ResourceName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,51 +4,51 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lexv2-models", "update-intent")]
+[CliCommand("lexv2-models", "update-intent")]
 public record AwsLexv2ModelsUpdateIntentOptions(
-[property: CommandSwitch("--intent-id")] string IntentId,
-[property: CommandSwitch("--intent-name")] string IntentName,
-[property: CommandSwitch("--bot-id")] string BotId,
-[property: CommandSwitch("--bot-version")] string BotVersion,
-[property: CommandSwitch("--locale-id")] string LocaleId
+[property: CliOption("--intent-id")] string IntentId,
+[property: CliOption("--intent-name")] string IntentName,
+[property: CliOption("--bot-id")] string BotId,
+[property: CliOption("--bot-version")] string BotVersion,
+[property: CliOption("--locale-id")] string LocaleId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--parent-intent-signature")]
+    [CliOption("--parent-intent-signature")]
     public string? ParentIntentSignature { get; set; }
 
-    [CommandSwitch("--sample-utterances")]
+    [CliOption("--sample-utterances")]
     public string[]? SampleUtterances { get; set; }
 
-    [CommandSwitch("--dialog-code-hook")]
+    [CliOption("--dialog-code-hook")]
     public string? DialogCodeHook { get; set; }
 
-    [CommandSwitch("--fulfillment-code-hook")]
+    [CliOption("--fulfillment-code-hook")]
     public string? FulfillmentCodeHook { get; set; }
 
-    [CommandSwitch("--slot-priorities")]
+    [CliOption("--slot-priorities")]
     public string[]? SlotPriorities { get; set; }
 
-    [CommandSwitch("--intent-confirmation-setting")]
+    [CliOption("--intent-confirmation-setting")]
     public string? IntentConfirmationSetting { get; set; }
 
-    [CommandSwitch("--intent-closing-setting")]
+    [CliOption("--intent-closing-setting")]
     public string? IntentClosingSetting { get; set; }
 
-    [CommandSwitch("--input-contexts")]
+    [CliOption("--input-contexts")]
     public string[]? InputContexts { get; set; }
 
-    [CommandSwitch("--output-contexts")]
+    [CliOption("--output-contexts")]
     public string[]? OutputContexts { get; set; }
 
-    [CommandSwitch("--kendra-configuration")]
+    [CliOption("--kendra-configuration")]
     public string? KendraConfiguration { get; set; }
 
-    [CommandSwitch("--initial-response-setting")]
+    [CliOption("--initial-response-setting")]
     public string? InitialResponseSetting { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

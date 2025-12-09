@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "create-route-calculator")]
+[CliCommand("location", "create-route-calculator")]
 public record AwsLocationCreateRouteCalculatorOptions(
-[property: CommandSwitch("--calculator-name")] string CalculatorName,
-[property: CommandSwitch("--data-source")] string DataSource
+[property: CliOption("--calculator-name")] string CalculatorName,
+[property: CliOption("--data-source")] string DataSource
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--pricing-plan")]
+    [CliOption("--pricing-plan")]
     public string? PricingPlan { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

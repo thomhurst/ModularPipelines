@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "lb", "list-mapping")]
+[CliSubCommand("network", "lb", "list-mapping")]
 public record AzNetworkLbListMappingOptions(
-[property: CommandSwitch("--backend-pool-name")] string BackendPoolName,
-[property: CommandSwitch("--request")] string Request
+[property: CliOption("--backend-pool-name")] string BackendPoolName,
+[property: CliOption("--request")] string Request
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

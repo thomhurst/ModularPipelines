@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("honeycode", "describe-table-data-import-job")]
+[CliCommand("honeycode", "describe-table-data-import-job")]
 public record AwsHoneycodeDescribeTableDataImportJobOptions(
-[property: CommandSwitch("--workbook-id")] string WorkbookId,
-[property: CommandSwitch("--table-id")] string TableId,
-[property: CommandSwitch("--job-id")] string JobId
+[property: CliOption("--workbook-id")] string WorkbookId,
+[property: CliOption("--table-id")] string TableId,
+[property: CliOption("--job-id")] string JobId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

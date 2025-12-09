@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elastic-san", "volume", "delete")]
+[CliSubCommand("elastic-san", "volume", "delete")]
 public record AzElasticSanVolumeDeleteOptions : AzOptions
 {
-    [CommandSwitch("--elastic-san")]
+    [CliOption("--elastic-san")]
     public string? ElasticSan { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--volume-group")]
+    [CliOption("--volume-group")]
     public string? VolumeGroup { get; set; }
 
-    [BooleanCommandSwitch("--x-ms-delete-snapshots")]
+    [CliFlag("--x-ms-delete-snapshots")]
     public bool? XMsDeleteSnapshots { get; set; }
 
-    [BooleanCommandSwitch("--x-ms-force-delete")]
+    [CliFlag("--x-ms-force-delete")]
     public bool? XMsForceDelete { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

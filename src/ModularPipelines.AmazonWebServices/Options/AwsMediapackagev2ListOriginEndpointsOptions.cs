@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediapackagev2", "list-origin-endpoints")]
+[CliCommand("mediapackagev2", "list-origin-endpoints")]
 public record AwsMediapackagev2ListOriginEndpointsOptions(
-[property: CommandSwitch("--channel-group-name")] string ChannelGroupName,
-[property: CommandSwitch("--channel-name")] string ChannelName
+[property: CliOption("--channel-group-name")] string ChannelGroupName,
+[property: CliOption("--channel-name")] string ChannelName
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

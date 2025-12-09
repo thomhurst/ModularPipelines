@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mobile-network")]
+[CliSubCommand("mobile-network")]
 public class AzMobileNetworkAttachedDataNetwork
 {
     public AzMobileNetworkAttachedDataNetwork(

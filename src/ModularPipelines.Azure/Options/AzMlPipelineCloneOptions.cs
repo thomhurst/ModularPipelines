@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "pipeline", "clone")]
+[CliSubCommand("ml", "pipeline", "clone")]
 public record AzMlPipelineCloneOptions(
-[property: CommandSwitch("--path")] string Path,
-[property: CommandSwitch("--pipeline-run-id")] string PipelineRunId
+[property: CliOption("--path")] string Path,
+[property: CliOption("--pipeline-run-id")] string PipelineRunId
 ) : AzOptions
 {
-    [CommandSwitch("--output-file")]
+    [CliOption("--output-file")]
     public string? OutputFile { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

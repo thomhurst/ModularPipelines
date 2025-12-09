@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("maps")]
+[CliSubCommand("maps")]
 public class AzMapsAccount
 {
     public AzMapsAccount(

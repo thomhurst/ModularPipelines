@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "put-scaling-policy")]
+[CliCommand("gamelift", "put-scaling-policy")]
 public record AwsGameliftPutScalingPolicyOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--fleet-id")] string FleetId,
-[property: CommandSwitch("--metric-name")] string MetricName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--fleet-id")] string FleetId,
+[property: CliOption("--metric-name")] string MetricName
 ) : AwsOptions
 {
-    [CommandSwitch("--scaling-adjustment")]
+    [CliOption("--scaling-adjustment")]
     public int? ScalingAdjustment { get; set; }
 
-    [CommandSwitch("--scaling-adjustment-type")]
+    [CliOption("--scaling-adjustment-type")]
     public string? ScalingAdjustmentType { get; set; }
 
-    [CommandSwitch("--threshold")]
+    [CliOption("--threshold")]
     public double? Threshold { get; set; }
 
-    [CommandSwitch("--comparison-operator")]
+    [CliOption("--comparison-operator")]
     public string? ComparisonOperator { get; set; }
 
-    [CommandSwitch("--evaluation-periods")]
+    [CliOption("--evaluation-periods")]
     public int? EvaluationPeriods { get; set; }
 
-    [CommandSwitch("--policy-type")]
+    [CliOption("--policy-type")]
     public string? PolicyType { get; set; }
 
-    [CommandSwitch("--target-configuration")]
+    [CliOption("--target-configuration")]
     public string? TargetConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

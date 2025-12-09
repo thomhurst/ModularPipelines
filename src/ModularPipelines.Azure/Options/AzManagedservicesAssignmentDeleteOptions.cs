@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managedservices", "assignment", "delete")]
+[CliSubCommand("managedservices", "assignment", "delete")]
 public record AzManagedservicesAssignmentDeleteOptions(
-[property: CommandSwitch("--assignment")] string Assignment
+[property: CliOption("--assignment")] string Assignment
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

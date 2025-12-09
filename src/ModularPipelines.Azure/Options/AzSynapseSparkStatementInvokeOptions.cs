@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "spark", "statement", "invoke")]
+[CliSubCommand("synapse", "spark", "statement", "invoke")]
 public record AzSynapseSparkStatementInvokeOptions(
-[property: CommandSwitch("--code")] string Code,
-[property: CommandSwitch("--language")] string Language,
-[property: CommandSwitch("--session-id")] string SessionId,
-[property: CommandSwitch("--spark-pool-name")] string SparkPoolName,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--code")] string Code,
+[property: CliOption("--language")] string Language,
+[property: CliOption("--session-id")] string SessionId,
+[property: CliOption("--spark-pool-name")] string SparkPoolName,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions;

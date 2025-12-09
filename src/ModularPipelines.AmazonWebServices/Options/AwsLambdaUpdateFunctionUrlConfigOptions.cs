@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "update-function-url-config")]
+[CliCommand("lambda", "update-function-url-config")]
 public record AwsLambdaUpdateFunctionUrlConfigOptions(
-[property: CommandSwitch("--function-name")] string FunctionName
+[property: CliOption("--function-name")] string FunctionName
 ) : AwsOptions
 {
-    [CommandSwitch("--qualifier")]
+    [CliOption("--qualifier")]
     public string? Qualifier { get; set; }
 
-    [CommandSwitch("--auth-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [CommandSwitch("--cors")]
+    [CliOption("--cors")]
     public string? Cors { get; set; }
 
-    [CommandSwitch("--invoke-mode")]
+    [CliOption("--invoke-mode")]
     public string? InvokeMode { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

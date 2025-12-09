@@ -4,42 +4,63 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Google.Options;
 
+/// <summary>
+/// Base options class for gcloud CLI commands.
+/// </summary>
 [ExcludeFromCodeCoverage]
 public record GcloudOptions() : CommandLineToolOptions("gcloud")
 {
-    [CommandSwitch("--account")]
-    public string? Account { get; set; }
+    /// <summary>
+    /// Gets or sets disable all interactive prompts when running gcloud commands.
+    /// </summary>
+    [CliOption("--quiet")]
+    public virtual bool? Quiet { get; set; }
 
-    [CommandSwitch("--billing-project")]
-    public string? BillingProject { get; set; }
+    /// <summary>
+    /// Gets or sets override the default verbosity for this command.
+    /// </summary>
+    [CliOption("--verbosity")]
+    public virtual string? Verbosity { get; set; }
 
-    [CommandSwitch("--configuration")]
-    public string? Configuration { get; set; }
+    /// <summary>
+    /// Gets or sets format the output.
+    /// </summary>
+    [CliOption("--format")]
+    public virtual string? Format { get; set; }
 
-    [CommandSwitch("--flags-file")]
-    public string? FlagsFile { get; set; }
+    /// <summary>
+    /// Gets or sets the Google Cloud project ID to use for this invocation.
+    /// </summary>
+    [CliOption("--project")]
+    public virtual string? Project { get; set; }
 
-    [CommandSwitch("--flatten")]
-    public string[]? Flatten { get; set; }
+    /// <summary>
+    /// Gets or sets google Cloud user account to use for invocation.
+    /// </summary>
+    [CliOption("--account")]
+    public virtual string? Account { get; set; }
 
-    [CommandSwitch("--format")]
-    public string? Format { get; set; }
+    /// <summary>
+    /// Gets or sets named configuration to use for this command invocation.
+    /// </summary>
+    [CliOption("--configuration")]
+    public virtual string? Configuration { get; set; }
 
-    [BooleanCommandSwitch("--help")]
-    public bool? Help { get; set; }
+    /// <summary>
+    /// Gets or sets print user intended output to the console.
+    /// </summary>
+    [CliOption("--user-output-enabled")]
+    public virtual bool? UserOutputEnabled { get; set; }
 
-    [CommandSwitch("--project")]
-    public string? Project { get; set; }
+    /// <summary>
+    /// Gets or sets token used to route traces of service requests for investigation of issues.
+    /// </summary>
+    [CliOption("--trace-token")]
+    public virtual string? TraceToken { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
-
-    [CommandSwitch("--verbosity")]
-    public string? Verbosity { get; set; }
-
-    [BooleanCommandSwitch("--version")]
-    public bool? Version { get; set; }
-
-    [BooleanCommandSwitch("-h")]
-    public bool? H { get; set; }
+    /// <summary>
+    /// Gets or sets log all HTTP server requests and responses to stderr.
+    /// </summary>
+    [CliOption("--log-http")]
+    public virtual bool? LogHttp { get; set; }
 }

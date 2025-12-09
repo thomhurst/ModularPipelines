@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("docdb", "modify-db-instance")]
+[CliCommand("docdb", "modify-db-instance")]
 public record AwsDocdbModifyDbInstanceOptions(
-[property: CommandSwitch("--db-instance-identifier")] string DbInstanceIdentifier
+[property: CliOption("--db-instance-identifier")] string DbInstanceIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--db-instance-class")]
+    [CliOption("--db-instance-class")]
     public string? DbInstanceClass { get; set; }
 
-    [CommandSwitch("--preferred-maintenance-window")]
+    [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
-    [CommandSwitch("--new-db-instance-identifier")]
+    [CliOption("--new-db-instance-identifier")]
     public string? NewDbInstanceIdentifier { get; set; }
 
-    [CommandSwitch("--ca-certificate-identifier")]
+    [CliOption("--ca-certificate-identifier")]
     public string? CaCertificateIdentifier { get; set; }
 
-    [CommandSwitch("--promotion-tier")]
+    [CliOption("--promotion-tier")]
     public int? PromotionTier { get; set; }
 
-    [CommandSwitch("--performance-insights-kms-key-id")]
+    [CliOption("--performance-insights-kms-key-id")]
     public string? PerformanceInsightsKmsKeyId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

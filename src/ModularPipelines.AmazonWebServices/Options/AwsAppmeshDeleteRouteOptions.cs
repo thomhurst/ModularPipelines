@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appmesh", "delete-route")]
+[CliCommand("appmesh", "delete-route")]
 public record AwsAppmeshDeleteRouteOptions(
-[property: CommandSwitch("--mesh-name")] string MeshName,
-[property: CommandSwitch("--route-name")] string RouteName,
-[property: CommandSwitch("--virtual-router-name")] string VirtualRouterName
+[property: CliOption("--mesh-name")] string MeshName,
+[property: CliOption("--route-name")] string RouteName,
+[property: CliOption("--virtual-router-name")] string VirtualRouterName
 ) : AwsOptions
 {
-    [CommandSwitch("--mesh-owner")]
+    [CliOption("--mesh-owner")]
     public string? MeshOwner { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("node")]
+[CliSubCommand("node")]
 public record YarnNodeOptions : YarnOptions;

@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edgeorder", "order-item", "return")]
+[CliSubCommand("edgeorder", "order-item", "return")]
 public record AzEdgeorderOrderItemReturnOptions(
-[property: CommandSwitch("--return-reason")] string ReturnReason
+[property: CliOption("--return-reason")] string ReturnReason
 ) : AzOptions
 {
-    [CommandSwitch("--contact-details")]
+    [CliOption("--contact-details")]
     public string? ContactDetails { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--service-tag")]
+    [CliOption("--service-tag")]
     public string? ServiceTag { get; set; }
 
-    [CommandSwitch("--shipping-address")]
+    [CliOption("--shipping-address")]
     public string? ShippingAddress { get; set; }
 
-    [BooleanCommandSwitch("--shipping-box-required")]
+    [CliFlag("--shipping-box-required")]
     public bool? ShippingBoxRequired { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

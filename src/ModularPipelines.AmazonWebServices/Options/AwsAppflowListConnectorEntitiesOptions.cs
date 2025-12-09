@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appflow", "list-connector-entities")]
+[CliCommand("appflow", "list-connector-entities")]
 public record AwsAppflowListConnectorEntitiesOptions : AwsOptions
 {
-    [CommandSwitch("--connector-profile-name")]
+    [CliOption("--connector-profile-name")]
     public string? ConnectorProfileName { get; set; }
 
-    [CommandSwitch("--connector-type")]
+    [CliOption("--connector-type")]
     public string? ConnectorType { get; set; }
 
-    [CommandSwitch("--entities-path")]
+    [CliOption("--entities-path")]
     public string? EntitiesPath { get; set; }
 
-    [CommandSwitch("--api-version")]
+    [CliOption("--api-version")]
     public string? ApiVersion { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

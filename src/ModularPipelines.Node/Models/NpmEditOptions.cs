@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edit")]
+[CliSubCommand("edit")]
 public record NpmEditOptions : NpmOptions
 {
-    [CommandSwitch("--editor")]
+    [CliOption("--editor")]
     public virtual string? Editor { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
-    public string? Pkg { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    public virtual string? Pkg { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
-    public string? Subpkg { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    public virtual string? Subpkg { get; set; }
 }

@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("upgrade-interactive")]
+[CliSubCommand("upgrade-interactive")]
 public record YarnUpgradeInteractiveOptions : YarnOptions;

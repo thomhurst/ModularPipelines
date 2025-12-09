@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "delete-route")]
+[CliCommand("ec2", "delete-route")]
 public record AwsEc2DeleteRouteOptions(
-[property: CommandSwitch("--route-table-id")] string RouteTableId
+[property: CliOption("--route-table-id")] string RouteTableId
 ) : AwsOptions
 {
-    [CommandSwitch("--destination-cidr-block")]
+    [CliOption("--destination-cidr-block")]
     public string? DestinationCidrBlock { get; set; }
 
-    [CommandSwitch("--destination-ipv6-cidr-block")]
+    [CliOption("--destination-ipv6-cidr-block")]
     public string? DestinationIpv6CidrBlock { get; set; }
 
-    [CommandSwitch("--destination-prefix-list-id")]
+    [CliOption("--destination-prefix-list-id")]
     public string? DestinationPrefixListId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

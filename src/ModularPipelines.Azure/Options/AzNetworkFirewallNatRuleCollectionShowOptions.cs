@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "firewall", "nat-rule", "collection", "show")]
+[CliSubCommand("network", "firewall", "nat-rule", "collection", "show")]
 public record AzNetworkFirewallNatRuleCollectionShowOptions : AzOptions
 {
-    [CommandSwitch("--collection-name")]
+    [CliOption("--collection-name")]
     public string? CollectionName { get; set; }
 
-    [CommandSwitch("--firewall-name")]
+    [CliOption("--firewall-name")]
     public string? FirewallName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

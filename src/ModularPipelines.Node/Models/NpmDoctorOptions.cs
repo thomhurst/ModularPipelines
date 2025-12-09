@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("doctor")]
+[CliSubCommand("doctor")]
 public record NpmDoctorOptions : NpmOptions
 {
-    [CommandSwitch("--registry")]
+    [CliOption("--registry")]
     public virtual Uri? Registry { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
-    public string? Ping { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    public virtual string? Ping { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
-    public string? Versions { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    public virtual string? Versions { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
-    public string? Environment { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    public virtual string? Environment { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
-    public string? Permissions { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    public virtual string? Permissions { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
-    public string? Cache { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    public virtual string? Cache { get; set; }
 }

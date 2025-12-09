@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pipelines")]
+[CliSubCommand("pipelines")]
 public class AzPipelinesVariableGroup
 {
     public AzPipelinesVariableGroup(

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "account", "create")]
+[CliCommand("storage", "account", "create")]
 public class AzStorageAccountCreateStoragePreview
 {
     public AzStorageAccountCreateStoragePreview(

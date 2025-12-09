@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mturk", "create-qualification-type")]
+[CliCommand("mturk", "create-qualification-type")]
 public record AwsMturkCreateQualificationTypeOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--qualification-type-status")] string QualificationTypeStatus
+[property: CliOption("--name")] string Name,
+[property: CliOption("--description")] string Description,
+[property: CliOption("--qualification-type-status")] string QualificationTypeStatus
 ) : AwsOptions
 {
-    [CommandSwitch("--keywords")]
+    [CliOption("--keywords")]
     public string? Keywords { get; set; }
 
-    [CommandSwitch("--retry-delay-in-seconds")]
+    [CliOption("--retry-delay-in-seconds")]
     public long? RetryDelayInSeconds { get; set; }
 
-    [CommandSwitch("--test")]
+    [CliOption("--test")]
     public string? Test { get; set; }
 
-    [CommandSwitch("--answer-key")]
+    [CliOption("--answer-key")]
     public string? AnswerKey { get; set; }
 
-    [CommandSwitch("--test-duration-in-seconds")]
+    [CliOption("--test-duration-in-seconds")]
     public long? TestDurationInSeconds { get; set; }
 
-    [CommandSwitch("--auto-granted-value")]
+    [CliOption("--auto-granted-value")]
     public int? AutoGrantedValue { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

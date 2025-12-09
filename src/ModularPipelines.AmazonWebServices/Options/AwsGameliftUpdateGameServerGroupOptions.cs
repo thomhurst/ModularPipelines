@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "update-game-server-group")]
+[CliCommand("gamelift", "update-game-server-group")]
 public record AwsGameliftUpdateGameServerGroupOptions(
-[property: CommandSwitch("--game-server-group-name")] string GameServerGroupName
+[property: CliOption("--game-server-group-name")] string GameServerGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--instance-definitions")]
+    [CliOption("--instance-definitions")]
     public string[]? InstanceDefinitions { get; set; }
 
-    [CommandSwitch("--game-server-protection-policy")]
+    [CliOption("--game-server-protection-policy")]
     public string? GameServerProtectionPolicy { get; set; }
 
-    [CommandSwitch("--balancing-strategy")]
+    [CliOption("--balancing-strategy")]
     public string? BalancingStrategy { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

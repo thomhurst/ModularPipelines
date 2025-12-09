@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch")]
+[CliSubCommand("batch")]
 public class AzBatchLocation
 {
     public AzBatchLocation(

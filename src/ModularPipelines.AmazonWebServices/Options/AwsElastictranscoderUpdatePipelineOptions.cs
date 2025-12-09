@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elastictranscoder", "update-pipeline")]
+[CliCommand("elastictranscoder", "update-pipeline")]
 public record AwsElastictranscoderUpdatePipelineOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--input-bucket")]
+    [CliOption("--input-bucket")]
     public string? InputBucket { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--aws-kms-key-arn")]
+    [CliOption("--aws-kms-key-arn")]
     public string? AwsKmsKeyArn { get; set; }
 
-    [CommandSwitch("--notifications")]
+    [CliOption("--notifications")]
     public string? Notifications { get; set; }
 
-    [CommandSwitch("--content-config")]
+    [CliOption("--content-config")]
     public string? ContentConfig { get; set; }
 
-    [CommandSwitch("--thumbnail-config")]
+    [CliOption("--thumbnail-config")]
     public string? ThumbnailConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

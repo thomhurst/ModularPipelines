@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr-containers", "create-virtual-cluster")]
+[CliCommand("emr-containers", "create-virtual-cluster")]
 public record AwsEmrContainersCreateVirtualClusterOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--container-provider")] string ContainerProvider
+[property: CliOption("--name")] string Name,
+[property: CliOption("--container-provider")] string ContainerProvider
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

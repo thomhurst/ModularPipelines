@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "wait", "vpn-connection-deleted")]
+[CliCommand("ec2", "wait", "vpn-connection-deleted")]
 public record AwsEc2WaitVpnConnectionDeletedOptions : AwsOptions
 {
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--vpn-connection-ids")]
+    [CliOption("--vpn-connection-ids")]
     public string[]? VpnConnectionIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

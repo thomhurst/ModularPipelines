@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deprecate")]
+[CliSubCommand("deprecate")]
 public record NpmDeprecateOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Message
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Message
 ) : NpmOptions
 {
-    [CommandSwitch("--registry")]
+    [CliOption("--registry")]
     public virtual Uri? Registry { get; set; }
 
-    [CommandSwitch("--otp")]
+    [CliOption("--otp")]
     public virtual string? Otp { get; set; }
 }

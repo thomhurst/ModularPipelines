@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arcappliance", "delete", "hci")]
+[CliSubCommand("arcappliance", "delete", "hci")]
 public record AzArcapplianceDeleteHciOptions(
-[property: CommandSwitch("--config-file")] string ConfigFile
+[property: CliOption("--config-file")] string ConfigFile
 ) : AzOptions
 {
-    [CommandSwitch("--cloudagent")]
+    [CliOption("--cloudagent")]
     public string? Cloudagent { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--loginconfigfile")]
+    [CliOption("--loginconfigfile")]
     public string? Loginconfigfile { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

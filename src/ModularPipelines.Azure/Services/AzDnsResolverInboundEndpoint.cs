@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns-resolver")]
+[CliSubCommand("dns-resolver")]
 public class AzDnsResolverInboundEndpoint
 {
     public AzDnsResolverInboundEndpoint(

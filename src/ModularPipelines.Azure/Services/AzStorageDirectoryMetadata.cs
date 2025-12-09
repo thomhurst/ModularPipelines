@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "directory")]
+[CliCommand("storage", "directory")]
 public class AzStorageDirectoryMetadata
 {
     public AzStorageDirectoryMetadata(

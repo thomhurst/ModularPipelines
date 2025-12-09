@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "delete-open-id-connect-provider")]
+[CliCommand("iam", "delete-open-id-connect-provider")]
 public record AwsIamDeleteOpenIdConnectProviderOptions(
-[property: CommandSwitch("--open-id-connect-provider-arn")] string OpenIdConnectProviderArn
+[property: CliOption("--open-id-connect-provider-arn")] string OpenIdConnectProviderArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

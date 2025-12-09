@@ -4,57 +4,57 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mobile-network", "attached-data-network", "update")]
+[CliSubCommand("mobile-network", "attached-data-network", "update")]
 public record AzMobileNetworkAttachedDataNetworkUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--address-pool")]
+    [CliOption("--address-pool")]
     public string? AddressPool { get; set; }
 
-    [CommandSwitch("--adn-name")]
+    [CliOption("--adn-name")]
     public string? AdnName { get; set; }
 
-    [CommandSwitch("--data-interface")]
+    [CliOption("--data-interface")]
     public string? DataInterface { get; set; }
 
-    [CommandSwitch("--dns-addresses")]
+    [CliOption("--dns-addresses")]
     public string? DnsAddresses { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--napt-configuration")]
+    [CliOption("--napt-configuration")]
     public string? NaptConfiguration { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--pccp-name")]
+    [CliOption("--pccp-name")]
     public string? PccpName { get; set; }
 
-    [CommandSwitch("--pcdp-name")]
+    [CliOption("--pcdp-name")]
     public string? PcdpName { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--static-address-pool")]
+    [CliOption("--static-address-pool")]
     public string? StaticAddressPool { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

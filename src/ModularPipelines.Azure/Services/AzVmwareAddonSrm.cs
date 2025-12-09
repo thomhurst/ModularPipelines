@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "addon")]
+[CliCommand("vmware", "addon")]
 public class AzVmwareAddonSrm
 {
     public AzVmwareAddonSrm(

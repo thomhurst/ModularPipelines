@@ -4,89 +4,89 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codebuild", "start-build-batch")]
+[CliCommand("codebuild", "start-build-batch")]
 public record AwsCodebuildStartBuildBatchOptions(
-[property: CommandSwitch("--project-name")] string ProjectName
+[property: CliOption("--project-name")] string ProjectName
 ) : AwsOptions
 {
-    [CommandSwitch("--secondary-sources-override")]
+    [CliOption("--secondary-sources-override")]
     public string[]? SecondarySourcesOverride { get; set; }
 
-    [CommandSwitch("--secondary-sources-version-override")]
+    [CliOption("--secondary-sources-version-override")]
     public string[]? SecondarySourcesVersionOverride { get; set; }
 
-    [CommandSwitch("--source-version")]
+    [CliOption("--source-version")]
     public string? SourceVersion { get; set; }
 
-    [CommandSwitch("--artifacts-override")]
+    [CliOption("--artifacts-override")]
     public string? ArtifactsOverride { get; set; }
 
-    [CommandSwitch("--secondary-artifacts-override")]
+    [CliOption("--secondary-artifacts-override")]
     public string[]? SecondaryArtifactsOverride { get; set; }
 
-    [CommandSwitch("--environment-variables-override")]
+    [CliOption("--environment-variables-override")]
     public string[]? EnvironmentVariablesOverride { get; set; }
 
-    [CommandSwitch("--source-type-override")]
+    [CliOption("--source-type-override")]
     public string? SourceTypeOverride { get; set; }
 
-    [CommandSwitch("--source-location-override")]
+    [CliOption("--source-location-override")]
     public string? SourceLocationOverride { get; set; }
 
-    [CommandSwitch("--source-auth-override")]
+    [CliOption("--source-auth-override")]
     public string? SourceAuthOverride { get; set; }
 
-    [CommandSwitch("--git-clone-depth-override")]
+    [CliOption("--git-clone-depth-override")]
     public int? GitCloneDepthOverride { get; set; }
 
-    [CommandSwitch("--git-submodules-config-override")]
+    [CliOption("--git-submodules-config-override")]
     public string? GitSubmodulesConfigOverride { get; set; }
 
-    [CommandSwitch("--buildspec-override")]
+    [CliOption("--buildspec-override")]
     public string? BuildspecOverride { get; set; }
 
-    [CommandSwitch("--environment-type-override")]
+    [CliOption("--environment-type-override")]
     public string? EnvironmentTypeOverride { get; set; }
 
-    [CommandSwitch("--image-override")]
+    [CliOption("--image-override")]
     public string? ImageOverride { get; set; }
 
-    [CommandSwitch("--compute-type-override")]
+    [CliOption("--compute-type-override")]
     public string? ComputeTypeOverride { get; set; }
 
-    [CommandSwitch("--certificate-override")]
+    [CliOption("--certificate-override")]
     public string? CertificateOverride { get; set; }
 
-    [CommandSwitch("--cache-override")]
+    [CliOption("--cache-override")]
     public string? CacheOverride { get; set; }
 
-    [CommandSwitch("--service-role-override")]
+    [CliOption("--service-role-override")]
     public string? ServiceRoleOverride { get; set; }
 
-    [CommandSwitch("--build-timeout-in-minutes-override")]
+    [CliOption("--build-timeout-in-minutes-override")]
     public int? BuildTimeoutInMinutesOverride { get; set; }
 
-    [CommandSwitch("--queued-timeout-in-minutes-override")]
+    [CliOption("--queued-timeout-in-minutes-override")]
     public int? QueuedTimeoutInMinutesOverride { get; set; }
 
-    [CommandSwitch("--encryption-key-override")]
+    [CliOption("--encryption-key-override")]
     public string? EncryptionKeyOverride { get; set; }
 
-    [CommandSwitch("--idempotency-token")]
+    [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
-    [CommandSwitch("--logs-config-override")]
+    [CliOption("--logs-config-override")]
     public string? LogsConfigOverride { get; set; }
 
-    [CommandSwitch("--registry-credential-override")]
+    [CliOption("--registry-credential-override")]
     public string? RegistryCredentialOverride { get; set; }
 
-    [CommandSwitch("--image-pull-credentials-type-override")]
+    [CliOption("--image-pull-credentials-type-override")]
     public string? ImagePullCredentialsTypeOverride { get; set; }
 
-    [CommandSwitch("--build-batch-config-override")]
+    [CliOption("--build-batch-config-override")]
     public string? BuildBatchConfigOverride { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

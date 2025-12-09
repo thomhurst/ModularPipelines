@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesisanalyticsv2", "rollback-application")]
+[CliCommand("kinesisanalyticsv2", "rollback-application")]
 public record AwsKinesisanalyticsv2RollbackApplicationOptions(
-[property: CommandSwitch("--application-name")] string ApplicationName,
-[property: CommandSwitch("--current-application-version-id")] long CurrentApplicationVersionId
+[property: CliOption("--application-name")] string ApplicationName,
+[property: CliOption("--current-application-version-id")] long CurrentApplicationVersionId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

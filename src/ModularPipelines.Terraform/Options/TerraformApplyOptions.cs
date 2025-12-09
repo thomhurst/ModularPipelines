@@ -3,49 +3,49 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("apply")]
+[CliSubCommand("apply")]
 [ExcludeFromCodeCoverage]
 public record TerraformApplyOptions : TerraformOptions
 {
-    [BooleanCommandSwitch("-auto-approve")]
+    [CliFlag("-auto-approve")]
     public virtual bool? AutoApprove { get; set; }
 
-    [BooleanCommandSwitch("-destroy")]
+    [CliFlag("-destroy")]
     public virtual bool? Destroy { get; set; }
 
-    [BooleanCommandSwitch("-refresh-only")]
+    [CliFlag("-refresh-only")]
     public virtual bool? RefreshOnly { get; set; }
 
-    [BooleanCommandSwitch("-compact-warnings")]
+    [CliFlag("-compact-warnings")]
     public virtual bool? CompactWarnings { get; set; }
 
-    [BooleanCommandSwitch("-input")]
+    [CliFlag("-input")]
     public virtual bool? Input { get; set; }
 
-    [BooleanCommandSwitch("-json")]
+    [CliFlag("-json")]
     public virtual bool? Json { get; set; }
 
-    [BooleanCommandSwitch("-lock")]
+    [CliFlag("-lock")]
     public virtual bool? Lock { get; set; }
 
-    [CommandSwitch("-lock-timeout")]
+    [CliOption("-lock-timeout")]
     public virtual string? LockTimeout { get; set; }
 
-    [BooleanCommandSwitch("-no-color")]
+    [CliFlag("-no-color")]
     public virtual bool? NoColor { get; set; }
 
-    [CommandSwitch("-parallelism")]
+    [CliOption("-parallelism")]
     public virtual int? Parallelism { get; set; }
 
-    [BooleanCommandSwitch("-state")]
+    [CliFlag("-state")]
     public virtual bool? State { get; set; }
 
-    [BooleanCommandSwitch("-state-out")]
+    [CliFlag("-state-out")]
     public virtual bool? StateOut { get; set; }
 
-    [BooleanCommandSwitch("-backup")]
+    [CliFlag("-backup")]
     public virtual bool? Backup { get; set; }
 
-    [BooleanCommandSwitch("-chdir")]
+    [CliFlag("-chdir")]
     public virtual bool? Chdir { get; set; }
 }

@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "publish-layer-version")]
+[CliCommand("lambda", "publish-layer-version")]
 public record AwsLambdaPublishLayerVersionOptions(
-[property: CommandSwitch("--layer-name")] string LayerName
+[property: CliOption("--layer-name")] string LayerName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--content")]
+    [CliOption("--content")]
     public string? Content { get; set; }
 
-    [CommandSwitch("--compatible-runtimes")]
+    [CliOption("--compatible-runtimes")]
     public string[]? CompatibleRuntimes { get; set; }
 
-    [CommandSwitch("--license-info")]
+    [CliOption("--license-info")]
     public string? LicenseInfo { get; set; }
 
-    [CommandSwitch("--compatible-architectures")]
+    [CliOption("--compatible-architectures")]
     public string[]? CompatibleArchitectures { get; set; }
 
-    [CommandSwitch("--zip-file")]
+    [CliOption("--zip-file")]
     public string? ZipFile { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

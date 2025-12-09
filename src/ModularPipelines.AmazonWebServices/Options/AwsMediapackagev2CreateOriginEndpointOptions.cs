@@ -5,35 +5,35 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediapackagev2", "create-origin-endpoint")]
+[CliCommand("mediapackagev2", "create-origin-endpoint")]
 public record AwsMediapackagev2CreateOriginEndpointOptions(
-[property: CommandSwitch("--channel-group-name")] string ChannelGroupName,
-[property: CommandSwitch("--channel-name")] string ChannelName,
-[property: CommandSwitch("--origin-endpoint-name")] string OriginEndpointName,
-[property: CommandSwitch("--container-type")] string ContainerType
+[property: CliOption("--channel-group-name")] string ChannelGroupName,
+[property: CliOption("--channel-name")] string ChannelName,
+[property: CliOption("--origin-endpoint-name")] string OriginEndpointName,
+[property: CliOption("--container-type")] string ContainerType
 ) : AwsOptions
 {
-    [CommandSwitch("--segment")]
+    [CliOption("--segment")]
     public string? Segment { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--startover-window-seconds")]
+    [CliOption("--startover-window-seconds")]
     public int? StartoverWindowSeconds { get; set; }
 
-    [CommandSwitch("--hls-manifests")]
+    [CliOption("--hls-manifests")]
     public string[]? HlsManifests { get; set; }
 
-    [CommandSwitch("--low-latency-hls-manifests")]
+    [CliOption("--low-latency-hls-manifests")]
     public string[]? LowLatencyHlsManifests { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

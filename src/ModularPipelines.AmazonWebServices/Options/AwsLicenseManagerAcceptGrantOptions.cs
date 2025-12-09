@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("license-manager", "accept-grant")]
+[CliCommand("license-manager", "accept-grant")]
 public record AwsLicenseManagerAcceptGrantOptions(
-[property: CommandSwitch("--grant-arn")] string GrantArn
+[property: CliOption("--grant-arn")] string GrantArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

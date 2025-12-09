@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ams")]
+[CliSubCommand("ams")]
 public class AzAmsStreamingPolicy
 {
     public AzAmsStreamingPolicy(

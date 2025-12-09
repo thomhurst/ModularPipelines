@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automation", "runbook", "create")]
+[CliSubCommand("automation", "runbook", "create")]
 public record AzAutomationRunbookCreateOptions(
-[property: CommandSwitch("--automation-account-name")] int AutomationAccountName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--automation-account-name")] int AutomationAccountName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--type")] string Type
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--log-activity-trace")]
+    [CliOption("--log-activity-trace")]
     public string? LogActivityTrace { get; set; }
 
-    [BooleanCommandSwitch("--log-progress")]
+    [CliFlag("--log-progress")]
     public bool? LogProgress { get; set; }
 
-    [BooleanCommandSwitch("--log-verbose")]
+    [CliFlag("--log-verbose")]
     public bool? LogVerbose { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

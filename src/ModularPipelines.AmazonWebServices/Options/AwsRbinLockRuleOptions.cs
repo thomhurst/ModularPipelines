@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rbin", "lock-rule")]
+[CliCommand("rbin", "lock-rule")]
 public record AwsRbinLockRuleOptions(
-[property: CommandSwitch("--identifier")] string Identifier,
-[property: CommandSwitch("--lock-configuration")] string LockConfiguration
+[property: CliOption("--identifier")] string Identifier,
+[property: CliOption("--lock-configuration")] string LockConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

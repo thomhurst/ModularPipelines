@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("imagebuilder", "update-image-pipeline")]
+[CliCommand("imagebuilder", "update-image-pipeline")]
 public record AwsImagebuilderUpdateImagePipelineOptions(
-[property: CommandSwitch("--image-pipeline-arn")] string ImagePipelineArn,
-[property: CommandSwitch("--infrastructure-configuration-arn")] string InfrastructureConfigurationArn
+[property: CliOption("--image-pipeline-arn")] string ImagePipelineArn,
+[property: CliOption("--infrastructure-configuration-arn")] string InfrastructureConfigurationArn
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--image-recipe-arn")]
+    [CliOption("--image-recipe-arn")]
     public string? ImageRecipeArn { get; set; }
 
-    [CommandSwitch("--container-recipe-arn")]
+    [CliOption("--container-recipe-arn")]
     public string? ContainerRecipeArn { get; set; }
 
-    [CommandSwitch("--distribution-configuration-arn")]
+    [CliOption("--distribution-configuration-arn")]
     public string? DistributionConfigurationArn { get; set; }
 
-    [CommandSwitch("--image-tests-configuration")]
+    [CliOption("--image-tests-configuration")]
     public string? ImageTestsConfiguration { get; set; }
 
-    [CommandSwitch("--schedule")]
+    [CliOption("--schedule")]
     public string? Schedule { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--image-scanning-configuration")]
+    [CliOption("--image-scanning-configuration")]
     public string? ImageScanningConfiguration { get; set; }
 
-    [CommandSwitch("--workflows")]
+    [CliOption("--workflows")]
     public string[]? Workflows { get; set; }
 
-    [CommandSwitch("--execution-role")]
+    [CliOption("--execution-role")]
     public string? ExecutionRole { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

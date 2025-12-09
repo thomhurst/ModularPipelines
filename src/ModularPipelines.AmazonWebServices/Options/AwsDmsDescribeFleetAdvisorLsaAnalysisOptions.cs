@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "describe-fleet-advisor-lsa-analysis")]
+[CliCommand("dms", "describe-fleet-advisor-lsa-analysis")]
 public record AwsDmsDescribeFleetAdvisorLsaAnalysisOptions : AwsOptions
 {
-    [CommandSwitch("--max-records")]
+    [CliOption("--max-records")]
     public int? MaxRecords { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

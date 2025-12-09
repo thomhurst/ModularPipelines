@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iottwinmaker", "update-pricing-plan")]
+[CliCommand("iottwinmaker", "update-pricing-plan")]
 public record AwsIottwinmakerUpdatePricingPlanOptions(
-[property: CommandSwitch("--pricing-mode")] string PricingMode
+[property: CliOption("--pricing-mode")] string PricingMode
 ) : AwsOptions
 {
-    [CommandSwitch("--bundle-names")]
+    [CliOption("--bundle-names")]
     public string[]? BundleNames { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

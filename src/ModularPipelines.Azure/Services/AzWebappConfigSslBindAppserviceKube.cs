@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "config", "ssl", "bind")]
+[CliCommand("webapp", "config", "ssl", "bind")]
 public class AzWebappConfigSslBindAppserviceKube
 {
     public AzWebappConfigSslBindAppserviceKube(

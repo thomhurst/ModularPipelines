@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "create-legal-hold")]
+[CliCommand("backup", "create-legal-hold")]
 public record AwsBackupCreateLegalHoldOptions(
-[property: CommandSwitch("--title")] string Title,
-[property: CommandSwitch("--description")] string Description
+[property: CliOption("--title")] string Title,
+[property: CliOption("--description")] string Description
 ) : AwsOptions
 {
-    [CommandSwitch("--idempotency-token")]
+    [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
-    [CommandSwitch("--recovery-point-selection")]
+    [CliOption("--recovery-point-selection")]
     public string? RecoveryPointSelection { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

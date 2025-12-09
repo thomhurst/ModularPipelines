@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("communication", "rooms", "update")]
+[CliSubCommand("communication", "rooms", "update")]
 public record AzCommunicationRoomsUpdateOptions(
-[property: CommandSwitch("--room")] string Room
+[property: CliOption("--room")] string Room
 ) : AzOptions
 {
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [BooleanCommandSwitch("--pstn-dial-out-enabled")]
+    [CliFlag("--pstn-dial-out-enabled")]
     public bool? PstnDialOutEnabled { get; set; }
 
-    [CommandSwitch("--valid-from")]
+    [CliOption("--valid-from")]
     public string? ValidFrom { get; set; }
 
-    [CommandSwitch("--valid-until")]
+    [CliOption("--valid-until")]
     public string? ValidUntil { get; set; }
 }

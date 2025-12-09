@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("globalaccelerator", "update-endpoint-group")]
+[CliCommand("globalaccelerator", "update-endpoint-group")]
 public record AwsGlobalacceleratorUpdateEndpointGroupOptions(
-[property: CommandSwitch("--endpoint-group-arn")] string EndpointGroupArn
+[property: CliOption("--endpoint-group-arn")] string EndpointGroupArn
 ) : AwsOptions
 {
-    [CommandSwitch("--endpoint-configurations")]
+    [CliOption("--endpoint-configurations")]
     public string[]? EndpointConfigurations { get; set; }
 
-    [CommandSwitch("--traffic-dial-percentage")]
+    [CliOption("--traffic-dial-percentage")]
     public float? TrafficDialPercentage { get; set; }
 
-    [CommandSwitch("--health-check-port")]
+    [CliOption("--health-check-port")]
     public int? HealthCheckPort { get; set; }
 
-    [CommandSwitch("--health-check-protocol")]
+    [CliOption("--health-check-protocol")]
     public string? HealthCheckProtocol { get; set; }
 
-    [CommandSwitch("--health-check-path")]
+    [CliOption("--health-check-path")]
     public string? HealthCheckPath { get; set; }
 
-    [CommandSwitch("--health-check-interval-seconds")]
+    [CliOption("--health-check-interval-seconds")]
     public int? HealthCheckIntervalSeconds { get; set; }
 
-    [CommandSwitch("--threshold-count")]
+    [CliOption("--threshold-count")]
     public int? ThresholdCount { get; set; }
 
-    [CommandSwitch("--port-overrides")]
+    [CliOption("--port-overrides")]
     public string[]? PortOverrides { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

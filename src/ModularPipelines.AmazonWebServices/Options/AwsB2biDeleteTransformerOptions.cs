@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("b2bi", "delete-transformer")]
+[CliCommand("b2bi", "delete-transformer")]
 public record AwsB2biDeleteTransformerOptions(
-[property: CommandSwitch("--transformer-id")] string TransformerId
+[property: CliOption("--transformer-id")] string TransformerId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

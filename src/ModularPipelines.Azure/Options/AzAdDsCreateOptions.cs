@@ -4,68 +4,68 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ad", "ds", "create")]
+[CliSubCommand("ad", "ds", "create")]
 public record AzAdDsCreateOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--replica-sets")] string ReplicaSets,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--replica-sets")] string ReplicaSets,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--domain-config-type")]
+    [CliOption("--domain-config-type")]
     public string? DomainConfigType { get; set; }
 
-    [CommandSwitch("--external-access")]
+    [CliOption("--external-access")]
     public string? ExternalAccess { get; set; }
 
-    [CommandSwitch("--filtered-sync")]
+    [CliOption("--filtered-sync")]
     public string? FilteredSync { get; set; }
 
-    [CommandSwitch("--ldaps")]
+    [CliOption("--ldaps")]
     public string? Ldaps { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--notify-dc-admins")]
+    [CliOption("--notify-dc-admins")]
     public string? NotifyDcAdmins { get; set; }
 
-    [CommandSwitch("--notify-global-admins")]
+    [CliOption("--notify-global-admins")]
     public string? NotifyGlobalAdmins { get; set; }
 
-    [CommandSwitch("--notify-others")]
+    [CliOption("--notify-others")]
     public string? NotifyOthers { get; set; }
 
-    [CommandSwitch("--ntlm-v1")]
+    [CliOption("--ntlm-v1")]
     public string? NtlmV1 { get; set; }
 
-    [CommandSwitch("--pfx-cert")]
+    [CliOption("--pfx-cert")]
     public string? PfxCert { get; set; }
 
-    [CommandSwitch("--pfx-cert-pwd")]
+    [CliOption("--pfx-cert-pwd")]
     public string? PfxCertPwd { get; set; }
 
-    [CommandSwitch("--resource-forest")]
+    [CliOption("--resource-forest")]
     public string? ResourceForest { get; set; }
 
-    [CommandSwitch("--settings")]
+    [CliOption("--settings")]
     public string? Settings { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--sync-kerberos-pwd")]
+    [CliOption("--sync-kerberos-pwd")]
     public string? SyncKerberosPwd { get; set; }
 
-    [CommandSwitch("--sync-ntlm-pwd")]
+    [CliOption("--sync-ntlm-pwd")]
     public string? SyncNtlmPwd { get; set; }
 
-    [CommandSwitch("--sync-on-prem-pwd")]
+    [CliOption("--sync-on-prem-pwd")]
     public string? SyncOnPremPwd { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--tls-v1")]
+    [CliOption("--tls-v1")]
     public string? TlsV1 { get; set; }
 }

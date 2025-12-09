@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticache", "decrease-replica-count")]
+[CliCommand("elasticache", "decrease-replica-count")]
 public record AwsElasticacheDecreaseReplicaCountOptions(
-[property: CommandSwitch("--replication-group-id")] string ReplicationGroupId
+[property: CliOption("--replication-group-id")] string ReplicationGroupId
 ) : AwsOptions
 {
-    [CommandSwitch("--new-replica-count")]
+    [CliOption("--new-replica-count")]
     public int? NewReplicaCount { get; set; }
 
-    [CommandSwitch("--replica-configuration")]
+    [CliOption("--replica-configuration")]
     public string[]? ReplicaConfiguration { get; set; }
 
-    [CommandSwitch("--replicas-to-remove")]
+    [CliOption("--replicas-to-remove")]
     public string[]? ReplicasToRemove { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

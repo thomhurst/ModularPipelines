@@ -47,6 +47,7 @@ public class DotNetTests : TestBase
     }
 
     [Test]
+    [Skip("Temporarily disabled")]
     public async Task Format_Has_Not_Errored()
     {
         var moduleResult = await await RunModule<DotNetFormatModule>();

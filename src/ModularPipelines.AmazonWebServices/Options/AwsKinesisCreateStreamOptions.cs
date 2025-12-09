@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesis", "create-stream")]
+[CliCommand("kinesis", "create-stream")]
 public record AwsKinesisCreateStreamOptions(
-[property: CommandSwitch("--stream-name")] string StreamName
+[property: CliOption("--stream-name")] string StreamName
 ) : AwsOptions
 {
-    [CommandSwitch("--shard-count")]
+    [CliOption("--shard-count")]
     public int? ShardCount { get; set; }
 
-    [CommandSwitch("--stream-mode-details")]
+    [CliOption("--stream-mode-details")]
     public string? StreamModeDetails { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

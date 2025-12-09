@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "account")]
+[CliCommand("netappfiles", "account")]
 public class AzNetappfilesAccountAd
 {
     public AzNetappfilesAccountAd(

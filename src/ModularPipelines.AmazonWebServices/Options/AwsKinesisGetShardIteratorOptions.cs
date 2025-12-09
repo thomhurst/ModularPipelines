@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesis", "get-shard-iterator")]
+[CliCommand("kinesis", "get-shard-iterator")]
 public record AwsKinesisGetShardIteratorOptions(
-[property: CommandSwitch("--shard-id")] string ShardId,
-[property: CommandSwitch("--shard-iterator-type")] string ShardIteratorType
+[property: CliOption("--shard-id")] string ShardId,
+[property: CliOption("--shard-iterator-type")] string ShardIteratorType
 ) : AwsOptions
 {
-    [CommandSwitch("--stream-name")]
+    [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
-    [CommandSwitch("--starting-sequence-number")]
+    [CliOption("--starting-sequence-number")]
     public string? StartingSequenceNumber { get; set; }
 
-    [CommandSwitch("--timestamp")]
+    [CliOption("--timestamp")]
     public long? Timestamp { get; set; }
 
-    [CommandSwitch("--stream-arn")]
+    [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

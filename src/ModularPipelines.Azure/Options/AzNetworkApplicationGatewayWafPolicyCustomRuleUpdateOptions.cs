@@ -4,46 +4,46 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "waf-policy", "custom-rule", "update")]
+[CliSubCommand("network", "application-gateway", "waf-policy", "custom-rule", "update")]
 public record AzNetworkApplicationGatewayWafPolicyCustomRuleUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--policy-name")] string PolicyName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--policy-name")] string PolicyName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--action")]
+    [CliOption("--action")]
     public string? Action { get; set; }
 
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--group-by-user-session")]
+    [CliOption("--group-by-user-session")]
     public string? GroupByUserSession { get; set; }
 
-    [CommandSwitch("--match-conditions")]
+    [CliOption("--match-conditions")]
     public string? MatchConditions { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--rate-limit-duration")]
+    [CliOption("--rate-limit-duration")]
     public string? RateLimitDuration { get; set; }
 
-    [CommandSwitch("--rate-limit-threshold")]
+    [CliOption("--rate-limit-threshold")]
     public string? RateLimitThreshold { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--rule-type")]
+    [CliOption("--rule-type")]
     public string? RuleType { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 }

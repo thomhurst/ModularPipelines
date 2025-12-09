@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-mover", "move-resource", "add")]
+[CliSubCommand("resource-mover", "move-resource", "add")]
 public record AzResourceMoverMoveResourceAddOptions : AzOptions
 {
-    [CommandSwitch("--depends-on-overrides")]
+    [CliOption("--depends-on-overrides")]
     public string? DependsOnOverrides { get; set; }
 
-    [CommandSwitch("--existing-target-id")]
+    [CliOption("--existing-target-id")]
     public string? ExistingTargetId { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--move-collection-name")]
+    [CliOption("--move-collection-name")]
     public string? MoveCollectionName { get; set; }
 
-    [CommandSwitch("--move-resource-name")]
+    [CliOption("--move-resource-name")]
     public string? MoveResourceName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-settings")]
+    [CliOption("--resource-settings")]
     public string? ResourceSettings { get; set; }
 
-    [CommandSwitch("--source-id")]
+    [CliOption("--source-id")]
     public string? SourceId { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

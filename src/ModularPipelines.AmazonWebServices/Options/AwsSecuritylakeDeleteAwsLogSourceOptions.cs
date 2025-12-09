@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securitylake", "delete--log-source")]
+[CliCommand("securitylake", "delete--log-source")]
 public record AwsSecuritylakeDeleteAwsLogSourceOptions(
-[property: CommandSwitch("--sources")] string[] Sources
+[property: CliOption("--sources")] string[] Sources
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

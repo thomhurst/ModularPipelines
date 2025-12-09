@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dynamodb", "wizard")]
+[CliCommand("dynamodb", "wizard")]
 public record AwsDynamodbWizardOptions : AwsOptions;

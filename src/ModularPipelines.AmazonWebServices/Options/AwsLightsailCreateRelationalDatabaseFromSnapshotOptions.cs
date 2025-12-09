@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "create-relational-database-from-snapshot")]
+[CliCommand("lightsail", "create-relational-database-from-snapshot")]
 public record AwsLightsailCreateRelationalDatabaseFromSnapshotOptions(
-[property: CommandSwitch("--relational-database-name")] string RelationalDatabaseName
+[property: CliOption("--relational-database-name")] string RelationalDatabaseName
 ) : AwsOptions
 {
-    [CommandSwitch("--availability-zone")]
+    [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
-    [CommandSwitch("--relational-database-snapshot-name")]
+    [CliOption("--relational-database-snapshot-name")]
     public string? RelationalDatabaseSnapshotName { get; set; }
 
-    [CommandSwitch("--relational-database-bundle-id")]
+    [CliOption("--relational-database-bundle-id")]
     public string? RelationalDatabaseBundleId { get; set; }
 
-    [CommandSwitch("--source-relational-database-name")]
+    [CliOption("--source-relational-database-name")]
     public string? SourceRelationalDatabaseName { get; set; }
 
-    [CommandSwitch("--restore-time")]
+    [CliOption("--restore-time")]
     public long? RestoreTime { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

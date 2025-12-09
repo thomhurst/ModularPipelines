@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("remote")]
+[CliSubCommand("remote")]
 [ExcludeFromCodeCoverage]
 public record GitRemoteOptions : GitOptions
 {
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 }

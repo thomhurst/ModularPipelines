@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "server", "ms-support")]
+[CliCommand("sql", "server", "ms-support")]
 public class AzSqlServerMsSupportAuditPolicy
 {
     public AzSqlServerMsSupportAuditPolicy(

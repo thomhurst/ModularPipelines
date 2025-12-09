@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "event-subscription", "show", "(eventgrid", "extension)")]
+[CliSubCommand("eventgrid", "event-subscription", "show", "(eventgrid", "extension)")]
 public record AzEventgridEventSubscriptionShowEventgridExtensionOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--include-full-endpoint-url")]
+    [CliFlag("--include-full-endpoint-url")]
     public bool? IncludeFullEndpointUrl { get; set; }
 
-    [CommandSwitch("--source-resource-id")]
+    [CliOption("--source-resource-id")]
     public string? SourceResourceId { get; set; }
 }

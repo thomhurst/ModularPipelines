@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "describe-security-policy")]
+[CliCommand("transfer", "describe-security-policy")]
 public record AwsTransferDescribeSecurityPolicyOptions(
-[property: CommandSwitch("--security-policy-name")] string SecurityPolicyName
+[property: CliOption("--security-policy-name")] string SecurityPolicyName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("k8s-extension", "list")]
+[CliSubCommand("k8s-extension", "list")]
 public record AzK8sExtensionListOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--cluster-type")] string ClusterType,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--cluster-type")] string ClusterType,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--cluster-resource-provider")]
+    [CliOption("--cluster-resource-provider")]
     public string? ClusterResourceProvider { get; set; }
 }

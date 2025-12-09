@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("optimize")]
+[CliSubCommand("optimize")]
 public record OptimizeOptions : ChocoOptions
 {
-    [BooleanCommandSwitch("--deflate-nupkg-only")]
+    [CliFlag("--deflate-nupkg-only")]
     public virtual bool? DeflateNupkgOnly { get; set; }
 
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public virtual string? Id { get; set; }
 
-    [BooleanCommandSwitch("--force-self-service")]
+    [CliFlag("--force-self-service")]
     public virtual bool? ForceSelfService { get; set; }
 }

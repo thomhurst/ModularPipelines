@@ -73,5 +73,5 @@ await PipelineHostBuilder.Create()
         }
     })
     .ConfigurePipelineOptions((context, options) => options.DefaultRetryCount = 3)
-    .SetLogLevel(LogLevel.Debug)  // Temporarily hardcoded for debugging
+    .SetLogLevel(LogLevel.Debug) // Temporarily hardcoded for debugging
     .ExecutePipelineAsync();

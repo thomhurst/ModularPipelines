@@ -4,43 +4,43 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "instance-failover-group-arc", "create")]
+[CliSubCommand("sql", "instance-failover-group-arc", "create")]
 public record AzSqlInstanceFailoverGroupArcCreateOptions(
-[property: CommandSwitch("--mi")] string Mi,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--partner-mi")] string PartnerMi
+[property: CliOption("--mi")] string Mi,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--partner-mi")] string PartnerMi
 ) : AzOptions
 {
-    [CommandSwitch("--k8s-namespace")]
+    [CliOption("--k8s-namespace")]
     public string? K8sNamespace { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--partner-mirroring-cert-file")]
+    [CliOption("--partner-mirroring-cert-file")]
     public string? PartnerMirroringCertFile { get; set; }
 
-    [CommandSwitch("--partner-mirroring-url")]
+    [CliOption("--partner-mirroring-url")]
     public string? PartnerMirroringUrl { get; set; }
 
-    [CommandSwitch("--partner-resource-group")]
+    [CliOption("--partner-resource-group")]
     public string? PartnerResourceGroup { get; set; }
 
-    [CommandSwitch("--partner-sync-mode")]
+    [CliOption("--partner-sync-mode")]
     public string? PartnerSyncMode { get; set; }
 
-    [CommandSwitch("--primary-mirroring-url")]
+    [CliOption("--primary-mirroring-url")]
     public string? PrimaryMirroringUrl { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--shared-name")]
+    [CliOption("--shared-name")]
     public string? SharedName { get; set; }
 
-    [BooleanCommandSwitch("--use-k8s")]
+    [CliFlag("--use-k8s")]
     public bool? UseK8s { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("firehose", "put-record-batch")]
+[CliCommand("firehose", "put-record-batch")]
 public record AwsFirehosePutRecordBatchOptions(
-[property: CommandSwitch("--delivery-stream-name")] string DeliveryStreamName,
-[property: CommandSwitch("--records")] string[] Records
+[property: CliOption("--delivery-stream-name")] string DeliveryStreamName,
+[property: CliOption("--records")] string[] Records
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

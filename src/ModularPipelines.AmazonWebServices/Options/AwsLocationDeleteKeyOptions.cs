@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "delete-key")]
+[CliCommand("location", "delete-key")]
 public record AwsLocationDeleteKeyOptions(
-[property: CommandSwitch("--key-name")] string KeyName
+[property: CliOption("--key-name")] string KeyName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

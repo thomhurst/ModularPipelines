@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "private-endpoint", "create")]
+[CliSubCommand("network", "private-endpoint", "create")]
 public record AzNetworkPrivateEndpointCreateOptions(
-[property: CommandSwitch("--connection-name")] string ConnectionName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--private-connection-resource-id")] string PrivateConnectionResourceId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--subnet")] string Subnet
+[property: CliOption("--connection-name")] string ConnectionName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--private-connection-resource-id")] string PrivateConnectionResourceId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--subnet")] string Subnet
 ) : AzOptions
 {
-    [CommandSwitch("--asg")]
+    [CliOption("--asg")]
     public string? Asg { get; set; }
 
-    [CommandSwitch("--edge-zone")]
+    [CliOption("--edge-zone")]
     public string? EdgeZone { get; set; }
 
-    [CommandSwitch("--group-id")]
+    [CliOption("--group-id")]
     public string? GroupId { get; set; }
 
-    [CommandSwitch("--ip-config")]
+    [CliOption("--ip-config")]
     public string? IpConfig { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--manual-request")]
+    [CliFlag("--manual-request")]
     public bool? ManualRequest { get; set; }
 
-    [CommandSwitch("--nic-name")]
+    [CliOption("--nic-name")]
     public string? NicName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--request-message")]
+    [CliOption("--request-message")]
     public string? RequestMessage { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--vnet-name")]
+    [CliOption("--vnet-name")]
     public string? VnetName { get; set; }
 }

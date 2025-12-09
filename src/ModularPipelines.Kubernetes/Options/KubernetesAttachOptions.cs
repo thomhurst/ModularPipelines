@@ -3,22 +3,22 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("attach")]
+[CliSubCommand("attach")]
 [ExcludeFromCodeCoverage]
-public record KubernetesAttachOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesAttachOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [CommandEqualsSeparatorSwitch("--container", SwitchValueSeparator = " ")]
-    public string? Container { get; set; }
+    [CliOption("--container")]
+    public virtual string? Container { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--pod-running-timeout", SwitchValueSeparator = " ")]
-    public string? PodRunningTimeout { get; set; }
+    [CliOption("--pod-running-timeout")]
+    public virtual string? PodRunningTimeout { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--stdin")]
+    [CliFlag("--stdin")]
     public virtual bool? Stdin { get; set; }
 
-    [BooleanCommandSwitch("--tty")]
+    [CliFlag("--tty")]
     public virtual bool? Tty { get; set; }
 }

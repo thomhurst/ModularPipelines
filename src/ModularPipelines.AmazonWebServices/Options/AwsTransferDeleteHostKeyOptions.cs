@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "delete-host-key")]
+[CliCommand("transfer", "delete-host-key")]
 public record AwsTransferDeleteHostKeyOptions(
-[property: CommandSwitch("--server-id")] string ServerId,
-[property: CommandSwitch("--host-key-id")] string HostKeyId
+[property: CliOption("--server-id")] string ServerId,
+[property: CliOption("--host-key-id")] string HostKeyId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wafv2", "delete-firewall-manager-rule-groups")]
+[CliCommand("wafv2", "delete-firewall-manager-rule-groups")]
 public record AwsWafv2DeleteFirewallManagerRuleGroupsOptions(
-[property: CommandSwitch("--web-acl-arn")] string WebAclArn,
-[property: CommandSwitch("--web-acl-lock-token")] string WebAclLockToken
+[property: CliOption("--web-acl-arn")] string WebAclArn,
+[property: CliOption("--web-acl-lock-token")] string WebAclLockToken
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

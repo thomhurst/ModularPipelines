@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("nimble", "delete-launch-profile-member")]
+[CliCommand("nimble", "delete-launch-profile-member")]
 public record AwsNimbleDeleteLaunchProfileMemberOptions(
-[property: CommandSwitch("--launch-profile-id")] string LaunchProfileId,
-[property: CommandSwitch("--principal-id")] string PrincipalId,
-[property: CommandSwitch("--studio-id")] string StudioId
+[property: CliOption("--launch-profile-id")] string LaunchProfileId,
+[property: CliOption("--principal-id")] string PrincipalId,
+[property: CliOption("--studio-id")] string StudioId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

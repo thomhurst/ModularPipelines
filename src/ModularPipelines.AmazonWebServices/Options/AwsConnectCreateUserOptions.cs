@@ -5,30 +5,30 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "create-user")]
+[CliCommand("connect", "create-user")]
 public record AwsConnectCreateUserOptions(
-[property: CommandSwitch("--username")] string Username,
-[property: CommandSwitch("--phone-config")] string PhoneConfig,
-[property: CommandSwitch("--security-profile-ids")] string[] SecurityProfileIds,
-[property: CommandSwitch("--routing-profile-id")] string RoutingProfileId,
-[property: CommandSwitch("--instance-id")] string InstanceId
+[property: CliOption("--username")] string Username,
+[property: CliOption("--phone-config")] string PhoneConfig,
+[property: CliOption("--security-profile-ids")] string[] SecurityProfileIds,
+[property: CliOption("--routing-profile-id")] string RoutingProfileId,
+[property: CliOption("--instance-id")] string InstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--identity-info")]
+    [CliOption("--identity-info")]
     public string? IdentityInfo { get; set; }
 
-    [CommandSwitch("--directory-user-id")]
+    [CliOption("--directory-user-id")]
     public string? DirectoryUserId { get; set; }
 
-    [CommandSwitch("--hierarchy-group-id")]
+    [CliOption("--hierarchy-group-id")]
     public string? HierarchyGroupId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

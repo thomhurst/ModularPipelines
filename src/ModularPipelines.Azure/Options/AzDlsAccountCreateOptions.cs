@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dls", "account", "create")]
+[CliSubCommand("dls", "account", "create")]
 public record AzDlsAccountCreateOptions(
-[property: CommandSwitch("--account")] int Account
+[property: CliOption("--account")] int Account
 ) : AzOptions
 {
-    [CommandSwitch("--default-group")]
+    [CliOption("--default-group")]
     public string? DefaultGroup { get; set; }
 
-    [BooleanCommandSwitch("--disable-encryption")]
+    [CliFlag("--disable-encryption")]
     public bool? DisableEncryption { get; set; }
 
-    [CommandSwitch("--encryption-type")]
+    [CliOption("--encryption-type")]
     public string? EncryptionType { get; set; }
 
-    [CommandSwitch("--key-name")]
+    [CliOption("--key-name")]
     public string? KeyName { get; set; }
 
-    [CommandSwitch("--key-vault-id")]
+    [CliOption("--key-vault-id")]
     public string? KeyVaultId { get; set; }
 
-    [CommandSwitch("--key-version")]
+    [CliOption("--key-version")]
     public string? KeyVersion { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 }

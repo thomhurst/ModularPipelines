@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datamigration", "sql-vm", "show")]
+[CliSubCommand("datamigration", "sql-vm", "show")]
 public record AzDatamigrationSqlVmShowOptions : AzOptions
 {
-    [CommandSwitch("--expand")]
+    [CliOption("--expand")]
     public string? Expand { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--migration-operation-id")]
+    [CliOption("--migration-operation-id")]
     public string? MigrationOperationId { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--sql-vm-name")]
+    [CliOption("--sql-vm-name")]
     public string? SqlVmName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--target-db-name")]
+    [CliOption("--target-db-name")]
     public string? TargetDbName { get; set; }
 }

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "describe-reserved-instances")]
+[CliCommand("ec2", "describe-reserved-instances")]
 public record AwsEc2DescribeReservedInstancesOptions : AwsOptions
 {
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--offering-class")]
+    [CliOption("--offering-class")]
     public string? OfferingClass { get; set; }
 
-    [CommandSwitch("--reserved-instances-ids")]
+    [CliOption("--reserved-instances-ids")]
     public string[]? ReservedInstancesIds { get; set; }
 
-    [CommandSwitch("--offering-type")]
+    [CliOption("--offering-type")]
     public string? OfferingType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

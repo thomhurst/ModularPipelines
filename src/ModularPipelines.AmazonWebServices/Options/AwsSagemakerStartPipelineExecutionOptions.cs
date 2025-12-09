@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "start-pipeline-execution")]
+[CliCommand("sagemaker", "start-pipeline-execution")]
 public record AwsSagemakerStartPipelineExecutionOptions(
-[property: CommandSwitch("--pipeline-name")] string PipelineName
+[property: CliOption("--pipeline-name")] string PipelineName
 ) : AwsOptions
 {
-    [CommandSwitch("--pipeline-execution-display-name")]
+    [CliOption("--pipeline-execution-display-name")]
     public string? PipelineExecutionDisplayName { get; set; }
 
-    [CommandSwitch("--pipeline-parameters")]
+    [CliOption("--pipeline-parameters")]
     public string[]? PipelineParameters { get; set; }
 
-    [CommandSwitch("--pipeline-execution-description")]
+    [CliOption("--pipeline-execution-description")]
     public string? PipelineExecutionDescription { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--parallelism-configuration")]
+    [CliOption("--parallelism-configuration")]
     public string? ParallelismConfiguration { get; set; }
 
-    [CommandSwitch("--selective-execution-config")]
+    [CliOption("--selective-execution-config")]
     public string? SelectiveExecutionConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

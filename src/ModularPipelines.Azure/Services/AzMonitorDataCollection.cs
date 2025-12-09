@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor")]
+[CliSubCommand("monitor")]
 public class AzMonitorDataCollection
 {
     public AzMonitorDataCollection(

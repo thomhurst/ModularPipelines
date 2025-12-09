@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "endpoint", "create", "servicebus")]
+[CliSubCommand("dt", "endpoint", "create", "servicebus")]
 public record AzDtEndpointCreateServicebusOptions(
-[property: CommandSwitch("--dt-name")] string DtName,
-[property: CommandSwitch("--en")] string En,
-[property: CommandSwitch("--sbn")] string Sbn,
-[property: CommandSwitch("--sbt")] string Sbt
+[property: CliOption("--dt-name")] string DtName,
+[property: CliOption("--en")] string En,
+[property: CliOption("--sbn")] string Sbn,
+[property: CliOption("--sbt")] string Sbt
 ) : AzOptions
 {
-    [CommandSwitch("--deadletter-sas-uri")]
+    [CliOption("--deadletter-sas-uri")]
     public string? DeadletterSasUri { get; set; }
 
-    [CommandSwitch("--deadletter-uri")]
+    [CliOption("--deadletter-uri")]
     public string? DeadletterUri { get; set; }
 
-    [BooleanCommandSwitch("--mi-system-assigned")]
+    [CliFlag("--mi-system-assigned")]
     public bool? MiSystemAssigned { get; set; }
 
-    [CommandSwitch("--mi-user-assigned")]
+    [CliOption("--mi-user-assigned")]
     public string? MiUserAssigned { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--sbg")]
+    [CliOption("--sbg")]
     public string? Sbg { get; set; }
 
-    [CommandSwitch("--sbp")]
+    [CliOption("--sbp")]
     public string? Sbp { get; set; }
 
-    [CommandSwitch("--sbs")]
+    [CliOption("--sbs")]
     public string? Sbs { get; set; }
 }

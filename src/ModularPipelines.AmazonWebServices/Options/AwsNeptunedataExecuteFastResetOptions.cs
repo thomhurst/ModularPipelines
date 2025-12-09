@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptunedata", "execute-fast-reset")]
+[CliCommand("neptunedata", "execute-fast-reset")]
 public record AwsNeptunedataExecuteFastResetOptions(
-[property: CommandSwitch("--action")] string Action
+[property: CliOption("--action")] string Action
 ) : AwsOptions
 {
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

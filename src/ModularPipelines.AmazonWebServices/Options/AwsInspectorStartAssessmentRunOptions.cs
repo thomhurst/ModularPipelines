@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("inspector", "start-assessment-run")]
+[CliCommand("inspector", "start-assessment-run")]
 public record AwsInspectorStartAssessmentRunOptions(
-[property: CommandSwitch("--assessment-template-arn")] string AssessmentTemplateArn
+[property: CliOption("--assessment-template-arn")] string AssessmentTemplateArn
 ) : AwsOptions
 {
-    [CommandSwitch("--assessment-run-name")]
+    [CliOption("--assessment-run-name")]
     public string? AssessmentRunName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

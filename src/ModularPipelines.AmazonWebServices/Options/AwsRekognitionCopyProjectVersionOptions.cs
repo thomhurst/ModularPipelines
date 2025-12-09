@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "copy-project-version")]
+[CliCommand("rekognition", "copy-project-version")]
 public record AwsRekognitionCopyProjectVersionOptions(
-[property: CommandSwitch("--source-project-arn")] string SourceProjectArn,
-[property: CommandSwitch("--source-project-version-arn")] string SourceProjectVersionArn,
-[property: CommandSwitch("--destination-project-arn")] string DestinationProjectArn,
-[property: CommandSwitch("--version-name")] string VersionName,
-[property: CommandSwitch("--output-config")] string OutputConfig
+[property: CliOption("--source-project-arn")] string SourceProjectArn,
+[property: CliOption("--source-project-version-arn")] string SourceProjectVersionArn,
+[property: CliOption("--destination-project-arn")] string DestinationProjectArn,
+[property: CliOption("--version-name")] string VersionName,
+[property: CliOption("--output-config")] string OutputConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

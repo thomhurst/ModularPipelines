@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("validate")]
+[CliSubCommand("validate")]
 [ExcludeFromCodeCoverage]
 public record TerraformValidateOptions : TerraformOptions
 {
-    [BooleanCommandSwitch("-json")]
+    [CliFlag("-json")]
     public virtual bool? Json { get; set; }
 
-    [BooleanCommandSwitch("-no-color")]
+    [CliFlag("-no-color")]
     public virtual bool? NoColor { get; set; }
 }

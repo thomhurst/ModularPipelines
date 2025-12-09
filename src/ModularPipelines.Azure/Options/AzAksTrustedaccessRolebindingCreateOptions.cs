@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "trustedaccess", "rolebinding", "create")]
+[CliSubCommand("aks", "trustedaccess", "rolebinding", "create")]
 public record AzAksTrustedaccessRolebindingCreateOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--roles")] string Roles,
-[property: CommandSwitch("--source-resource-id")] string SourceResourceId
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--roles")] string Roles,
+[property: CliOption("--source-resource-id")] string SourceResourceId
 ) : AzOptions;

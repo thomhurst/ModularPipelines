@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fms", "get-protection-status")]
+[CliCommand("fms", "get-protection-status")]
 public record AwsFmsGetProtectionStatusOptions(
-[property: CommandSwitch("--policy-id")] string PolicyId
+[property: CliOption("--policy-id")] string PolicyId
 ) : AwsOptions
 {
-    [CommandSwitch("--member-account-id")]
+    [CliOption("--member-account-id")]
     public string? MemberAccountId { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public long? StartTime { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public long? EndTime { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

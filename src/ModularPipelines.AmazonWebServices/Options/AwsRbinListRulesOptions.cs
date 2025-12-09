@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rbin", "list-rules")]
+[CliCommand("rbin", "list-rules")]
 public record AwsRbinListRulesOptions(
-[property: CommandSwitch("--resource-type")] string ResourceType
+[property: CliOption("--resource-type")] string ResourceType
 ) : AwsOptions
 {
-    [CommandSwitch("--resource-tags")]
+    [CliOption("--resource-tags")]
     public string[]? ResourceTags { get; set; }
 
-    [CommandSwitch("--lock-state")]
+    [CliOption("--lock-state")]
     public string? LockState { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

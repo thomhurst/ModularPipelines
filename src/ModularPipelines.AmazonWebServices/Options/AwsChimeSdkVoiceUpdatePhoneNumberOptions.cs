@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-voice", "update-phone-number")]
+[CliCommand("chime-sdk-voice", "update-phone-number")]
 public record AwsChimeSdkVoiceUpdatePhoneNumberOptions(
-[property: CommandSwitch("--phone-number-id")] string PhoneNumberId
+[property: CliOption("--phone-number-id")] string PhoneNumberId
 ) : AwsOptions
 {
-    [CommandSwitch("--product-type")]
+    [CliOption("--product-type")]
     public string? ProductType { get; set; }
 
-    [CommandSwitch("--calling-name")]
+    [CliOption("--calling-name")]
     public string? CallingName { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

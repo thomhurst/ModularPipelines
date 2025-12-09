@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "disable-vpc-classic-link")]
+[CliCommand("ec2", "disable-vpc-classic-link")]
 public record AwsEc2DisableVpcClassicLinkOptions(
-[property: CommandSwitch("--vpc-id")] string VpcId
+[property: CliOption("--vpc-id")] string VpcId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

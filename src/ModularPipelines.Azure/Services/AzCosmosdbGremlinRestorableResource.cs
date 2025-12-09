@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "gremlin")]
+[CliCommand("cosmosdb", "gremlin")]
 public class AzCosmosdbGremlinRestorableResource
 {
     public AzCosmosdbGremlinRestorableResource(

@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "create-framework")]
+[CliCommand("backup", "create-framework")]
 public record AwsBackupCreateFrameworkOptions(
-[property: CommandSwitch("--framework-name")] string FrameworkName,
-[property: CommandSwitch("--framework-controls")] string[] FrameworkControls
+[property: CliOption("--framework-name")] string FrameworkName,
+[property: CliOption("--framework-controls")] string[] FrameworkControls
 ) : AwsOptions
 {
-    [CommandSwitch("--framework-description")]
+    [CliOption("--framework-description")]
     public string? FrameworkDescription { get; set; }
 
-    [CommandSwitch("--idempotency-token")]
+    [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
-    [CommandSwitch("--framework-tags")]
+    [CliOption("--framework-tags")]
     public IEnumerable<KeyValue>? FrameworkTags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

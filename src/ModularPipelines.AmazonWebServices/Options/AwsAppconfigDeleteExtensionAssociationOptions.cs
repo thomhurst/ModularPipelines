@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appconfig", "delete-extension-association")]
+[CliCommand("appconfig", "delete-extension-association")]
 public record AwsAppconfigDeleteExtensionAssociationOptions(
-[property: CommandSwitch("--extension-association-id")] string ExtensionAssociationId
+[property: CliOption("--extension-association-id")] string ExtensionAssociationId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

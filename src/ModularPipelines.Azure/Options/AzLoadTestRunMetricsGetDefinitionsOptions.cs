@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("load", "test-run", "metrics", "get-definitions")]
+[CliSubCommand("load", "test-run", "metrics", "get-definitions")]
 public record AzLoadTestRunMetricsGetDefinitionsOptions(
-[property: CommandSwitch("--load-test-resource")] string LoadTestResource,
-[property: CommandSwitch("--metric-namespace")] string MetricNamespace,
-[property: CommandSwitch("--test-run-id")] string TestRunId
+[property: CliOption("--load-test-resource")] string LoadTestResource,
+[property: CliOption("--metric-namespace")] string MetricNamespace,
+[property: CliOption("--test-run-id")] string TestRunId
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

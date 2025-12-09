@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hanainstance", "create")]
+[CliSubCommand("hanainstance", "create")]
 public record AzHanainstanceCreateOptions(
-[property: CommandSwitch("--instance-name")] string InstanceName,
-[property: CommandSwitch("--ip-address")] string IpAddress,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--os-computer-name")] string OsComputerName,
-[property: CommandSwitch("--partner-node-id")] string PartnerNodeId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--ssh-public-key")] string SshPublicKey
+[property: CliOption("--instance-name")] string InstanceName,
+[property: CliOption("--ip-address")] string IpAddress,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--os-computer-name")] string OsComputerName,
+[property: CliOption("--partner-node-id")] string PartnerNodeId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--ssh-public-key")] string SshPublicKey
 ) : AzOptions;

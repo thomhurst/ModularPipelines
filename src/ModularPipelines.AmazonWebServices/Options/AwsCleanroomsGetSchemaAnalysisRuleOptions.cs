@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cleanrooms", "get-schema-analysis-rule")]
+[CliCommand("cleanrooms", "get-schema-analysis-rule")]
 public record AwsCleanroomsGetSchemaAnalysisRuleOptions(
-[property: CommandSwitch("--collaboration-identifier")] string CollaborationIdentifier,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--collaboration-identifier")] string CollaborationIdentifier,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

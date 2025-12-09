@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("setapikey")]
+[CliSubCommand("setapikey")]
 public record SetApiKeyOptions : ChocoOptions
 {
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public virtual string? Source { get; set; }
 
-    [CommandSwitch("--api-key")]
+    [CliOption("--api-key")]
     public virtual string? ApiKey { get; set; }
 }

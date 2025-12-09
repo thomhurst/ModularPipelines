@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "create-topic")]
+[CliCommand("quicksight", "create-topic")]
 public record AwsQuicksightCreateTopicOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--topic-id")] string TopicId,
-[property: CommandSwitch("--topic")] string Topic
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--topic-id")] string TopicId,
+[property: CliOption("--topic")] string Topic
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

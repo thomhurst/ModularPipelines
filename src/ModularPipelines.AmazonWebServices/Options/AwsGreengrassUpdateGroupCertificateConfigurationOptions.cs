@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("greengrass", "update-group-certificate-configuration")]
+[CliCommand("greengrass", "update-group-certificate-configuration")]
 public record AwsGreengrassUpdateGroupCertificateConfigurationOptions(
-[property: CommandSwitch("--group-id")] string GroupId
+[property: CliOption("--group-id")] string GroupId
 ) : AwsOptions
 {
-    [CommandSwitch("--certificate-expiry-in-milliseconds")]
+    [CliOption("--certificate-expiry-in-milliseconds")]
     public string? CertificateExpiryInMilliseconds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

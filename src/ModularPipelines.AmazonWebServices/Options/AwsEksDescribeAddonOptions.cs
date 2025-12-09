@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eks", "describe-addon")]
+[CliCommand("eks", "describe-addon")]
 public record AwsEksDescribeAddonOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--addon-name")] string AddonName
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--addon-name")] string AddonName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

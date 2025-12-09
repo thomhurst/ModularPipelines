@@ -3,25 +3,25 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("rollout", "status")]
+[CliCommand("rollout", "status")]
 [ExcludeFromCodeCoverage]
-public record KubernetesRolloutStatusOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesRolloutStatusOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
-    public string[]? Filename { get; set; }
+    [CliOption("--filename")]
+    public virtual string[]? Filename { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
-    public string? Kustomize { get; set; }
+    [CliOption("--kustomize")]
+    public virtual string? Kustomize { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--revision", SwitchValueSeparator = " ")]
-    public int? Revision { get; set; }
+    [CliOption("--revision")]
+    public virtual int? Revision { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
-    public string? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public virtual string? Timeout { get; set; }
 
-    [BooleanCommandSwitch("--watch")]
+    [CliFlag("--watch")]
     public virtual bool? Watch { get; set; }
 }

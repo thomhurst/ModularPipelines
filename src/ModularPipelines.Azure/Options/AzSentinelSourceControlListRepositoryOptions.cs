@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "source-control", "list-repository")]
+[CliSubCommand("sentinel", "source-control", "list-repository")]
 public record AzSentinelSourceControlListRepositoryOptions(
-[property: CommandSwitch("--repo-type")] string RepoType,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--repo-type")] string RepoType,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions;

@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "repair", "create")]
+[CliSubCommand("vm", "repair", "create")]
 public record AzVmRepairCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--associate-public-ip")]
+    [CliFlag("--associate-public-ip")]
     public bool? AssociatePublicIp { get; set; }
 
-    [CommandSwitch("--copy-disk-name")]
+    [CliOption("--copy-disk-name")]
     public string? CopyDiskName { get; set; }
 
-    [CommandSwitch("--distro")]
+    [CliOption("--distro")]
     public string? Distro { get; set; }
 
-    [BooleanCommandSwitch("--enable-nested")]
+    [CliFlag("--enable-nested")]
     public bool? EnableNested { get; set; }
 
-    [CommandSwitch("--repair-group-name")]
+    [CliOption("--repair-group-name")]
     public string? RepairGroupName { get; set; }
 
-    [CommandSwitch("--repair-password")]
+    [CliOption("--repair-password")]
     public string? RepairPassword { get; set; }
 
-    [CommandSwitch("--repair-username")]
+    [CliOption("--repair-username")]
     public string? RepairUsername { get; set; }
 
-    [CommandSwitch("--repair-vm-name")]
+    [CliOption("--repair-vm-name")]
     public string? RepairVmName { get; set; }
 
-    [BooleanCommandSwitch("--unlock-encrypted-vm")]
+    [CliFlag("--unlock-encrypted-vm")]
     public bool? UnlockEncryptedVm { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

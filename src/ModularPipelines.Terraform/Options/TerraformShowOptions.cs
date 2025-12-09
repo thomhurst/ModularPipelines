@@ -3,16 +3,16 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("show")]
+[CliSubCommand("show")]
 [ExcludeFromCodeCoverage]
 public record TerraformShowOptions : TerraformOptions
 {
-    [BooleanCommandSwitch("-json")]
+    [CliFlag("-json")]
     public virtual bool? Json { get; set; }
 
-    [BooleanCommandSwitch("-refresh")]
+    [CliFlag("-refresh")]
     public virtual bool? Refresh { get; set; }
 
-    [BooleanCommandSwitch("-no-color")]
+    [CliFlag("-no-color")]
     public virtual bool? NoColor { get; set; }
 }

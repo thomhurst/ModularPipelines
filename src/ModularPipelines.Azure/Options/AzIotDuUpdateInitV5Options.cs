@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "du", "update", "init", "v5")]
+[CliSubCommand("iot", "du", "update", "init", "v5")]
 public record AzIotDuUpdateInitV5Options(
-[property: CommandSwitch("--compat")] string Compat,
-[property: CommandSwitch("--step")] string Step,
-[property: CommandSwitch("--update-name")] string UpdateName,
-[property: CommandSwitch("--update-provider")] string UpdateProvider,
-[property: CommandSwitch("--update-version")] string UpdateVersion
+[property: CliOption("--compat")] string Compat,
+[property: CliOption("--step")] string Step,
+[property: CliOption("--update-name")] string UpdateName,
+[property: CliOption("--update-provider")] string UpdateProvider,
+[property: CliOption("--update-version")] string UpdateVersion
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public string? File { get; set; }
 
-    [BooleanCommandSwitch("--is-deployable")]
+    [CliFlag("--is-deployable")]
     public bool? IsDeployable { get; set; }
 
-    [BooleanCommandSwitch("--no-validation")]
+    [CliFlag("--no-validation")]
     public bool? NoValidation { get; set; }
 
-    [CommandSwitch("--related-file")]
+    [CliOption("--related-file")]
     public string? RelatedFile { get; set; }
 }

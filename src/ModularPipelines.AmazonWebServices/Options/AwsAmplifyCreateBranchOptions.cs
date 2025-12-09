@@ -5,48 +5,48 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amplify", "create-branch")]
+[CliCommand("amplify", "create-branch")]
 public record AwsAmplifyCreateBranchOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--branch-name")] string BranchName
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--branch-name")] string BranchName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--stage")]
+    [CliOption("--stage")]
     public string? Stage { get; set; }
 
-    [CommandSwitch("--framework")]
+    [CliOption("--framework")]
     public string? Framework { get; set; }
 
-    [CommandSwitch("--environment-variables")]
+    [CliOption("--environment-variables")]
     public IEnumerable<KeyValue>? AwsAmplEnvironmentVariables { get; set; }
 
-    [CommandSwitch("--basic-auth-credentials")]
+    [CliOption("--basic-auth-credentials")]
     public string? BasicAuthCredentials { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--build-spec")]
+    [CliOption("--build-spec")]
     public string? BuildSpec { get; set; }
 
-    [CommandSwitch("--ttl")]
+    [CliOption("--ttl")]
     public string? Ttl { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--pull-request-environment-name")]
+    [CliOption("--pull-request-environment-name")]
     public string? PullRequestEnvironmentName { get; set; }
 
-    [CommandSwitch("--backend-environment-arn")]
+    [CliOption("--backend-environment-arn")]
     public string? BackendEnvironmentArn { get; set; }
 
-    [CommandSwitch("--backend")]
+    [CliOption("--backend")]
     public string? Backend { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

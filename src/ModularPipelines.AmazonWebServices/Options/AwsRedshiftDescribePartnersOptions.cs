@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "describe-partners")]
+[CliCommand("redshift", "describe-partners")]
 public record AwsRedshiftDescribePartnersOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--cluster-identifier")] string ClusterIdentifier
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--cluster-identifier")] string ClusterIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--database-name")]
+    [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [CommandSwitch("--partner-name")]
+    [CliOption("--partner-name")]
     public string? PartnerName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("exec")]
+[CliSubCommand("exec")]
 public record YarnExecOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string CommandName
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string CommandName
 ) : YarnOptions;

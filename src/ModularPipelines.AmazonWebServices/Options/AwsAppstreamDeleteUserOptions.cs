@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appstream", "delete-user")]
+[CliCommand("appstream", "delete-user")]
 public record AwsAppstreamDeleteUserOptions(
-[property: CommandSwitch("--user-name")] string UserName,
-[property: CommandSwitch("--authentication-type")] string AuthenticationType
+[property: CliOption("--user-name")] string UserName,
+[property: CliOption("--authentication-type")] string AuthenticationType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

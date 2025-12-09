@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("palo-alto", "cloudngfw", "local-rulestack")]
+[CliCommand("palo-alto", "cloudngfw", "local-rulestack")]
 public class AzPaloAltoCloudngfwLocalRulestackCertificate
 {
     public AzPaloAltoCloudngfwLocalRulestackCertificate(

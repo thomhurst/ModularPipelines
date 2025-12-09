@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("waf", "update-ip-set")]
+[CliCommand("waf", "update-ip-set")]
 public record AwsWafUpdateIpSetOptions(
-[property: CommandSwitch("--ip-set-id")] string IpSetId,
-[property: CommandSwitch("--change-token")] string ChangeToken,
-[property: CommandSwitch("--updates")] string[] Updates
+[property: CliOption("--ip-set-id")] string IpSetId,
+[property: CliOption("--change-token")] string ChangeToken,
+[property: CliOption("--updates")] string[] Updates
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

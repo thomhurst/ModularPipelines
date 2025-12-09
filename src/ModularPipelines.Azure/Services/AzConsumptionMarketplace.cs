@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("consumption")]
+[CliSubCommand("consumption")]
 public class AzConsumptionMarketplace
 {
     public AzConsumptionMarketplace(

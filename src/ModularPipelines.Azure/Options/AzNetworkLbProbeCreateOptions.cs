@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "lb", "probe", "create")]
+[CliSubCommand("network", "lb", "probe", "create")]
 public record AzNetworkLbProbeCreateOptions(
-[property: CommandSwitch("--lb-name")] string LbName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--port")] int Port,
-[property: CommandSwitch("--protocol")] string Protocol,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--lb-name")] string LbName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--port")] int Port,
+[property: CliOption("--protocol")] string Protocol,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--interval")]
+    [CliOption("--interval")]
     public int? Interval { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--number-of-probes")]
+    [CliOption("--number-of-probes")]
     public string? NumberOfProbes { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--probe-threshold")]
+    [CliOption("--probe-threshold")]
     public string? ProbeThreshold { get; set; }
 }

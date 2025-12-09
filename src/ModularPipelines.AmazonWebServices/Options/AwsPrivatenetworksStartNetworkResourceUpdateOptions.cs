@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("privatenetworks", "start-network-resource-update")]
+[CliCommand("privatenetworks", "start-network-resource-update")]
 public record AwsPrivatenetworksStartNetworkResourceUpdateOptions(
-[property: CommandSwitch("--network-resource-arn")] string NetworkResourceArn,
-[property: CommandSwitch("--update-type")] string UpdateType
+[property: CliOption("--network-resource-arn")] string NetworkResourceArn,
+[property: CliOption("--update-type")] string UpdateType
 ) : AwsOptions
 {
-    [CommandSwitch("--commitment-configuration")]
+    [CliOption("--commitment-configuration")]
     public string? CommitmentConfiguration { get; set; }
 
-    [CommandSwitch("--return-reason")]
+    [CliOption("--return-reason")]
     public string? ReturnReason { get; set; }
 
-    [CommandSwitch("--shipping-address")]
+    [CliOption("--shipping-address")]
     public string? ShippingAddress { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

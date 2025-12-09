@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeartifact", "put-domain-permissions-policy")]
+[CliCommand("codeartifact", "put-domain-permissions-policy")]
 public record AwsCodeartifactPutDomainPermissionsPolicyOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--policy-document")] string PolicyDocument
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--policy-document")] string PolicyDocument
 ) : AwsOptions
 {
-    [CommandSwitch("--domain-owner")]
+    [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
-    [CommandSwitch("--policy-revision")]
+    [CliOption("--policy-revision")]
     public string? PolicyRevision { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

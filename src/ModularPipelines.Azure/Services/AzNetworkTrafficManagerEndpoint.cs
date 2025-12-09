@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "traffic-manager")]
+[CliCommand("network", "traffic-manager")]
 public class AzNetworkTrafficManagerEndpoint
 {
     public AzNetworkTrafficManagerEndpoint(

@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.WinGet.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("info")]
+[CliSubCommand("info")]
 public record InfoOptions : WingetOptions;

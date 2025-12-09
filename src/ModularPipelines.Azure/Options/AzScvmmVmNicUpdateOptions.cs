@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scvmm", "vm", "nic", "update")]
+[CliSubCommand("scvmm", "vm", "nic", "update")]
 public record AzScvmmVmNicUpdateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vm-name")] string VmName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vm-name")] string VmName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--disconnect")]
+    [CliFlag("--disconnect")]
     public bool? Disconnect { get; set; }
 
-    [CommandSwitch("--ipv4-address-type")]
+    [CliOption("--ipv4-address-type")]
     public string? Ipv4AddressType { get; set; }
 
-    [CommandSwitch("--ipv6-address-type")]
+    [CliOption("--ipv6-address-type")]
     public string? Ipv6AddressType { get; set; }
 
-    [CommandSwitch("--mac-address-type")]
+    [CliOption("--mac-address-type")]
     public string? MacAddressType { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--nic-id")]
+    [CliOption("--nic-id")]
     public string? NicId { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

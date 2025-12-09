@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "describe-route-calculator")]
+[CliCommand("location", "describe-route-calculator")]
 public record AwsLocationDescribeRouteCalculatorOptions(
-[property: CommandSwitch("--calculator-name")] string CalculatorName
+[property: CliOption("--calculator-name")] string CalculatorName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

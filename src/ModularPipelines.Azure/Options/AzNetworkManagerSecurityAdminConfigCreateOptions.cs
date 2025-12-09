@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "manager", "security-admin-config", "create")]
+[CliSubCommand("network", "manager", "security-admin-config", "create")]
 public record AzNetworkManagerSecurityAdminConfigCreateOptions(
-[property: CommandSwitch("--configuration-name")] string ConfigurationName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--configuration-name")] string ConfigurationName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--apply-on")]
+    [CliOption("--apply-on")]
     public string? ApplyOn { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognitiveservices")]
+[CliSubCommand("cognitiveservices")]
 public class AzCognitiveservicesModel
 {
     public AzCognitiveservicesModel(

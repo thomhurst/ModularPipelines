@@ -20,6 +20,6 @@ public record DotNetListReferenceOptions : DotNetOptions
         CommandParts = ["list", "[<PROJECT>]", "reference"];
     }
 
-    [PositionalArgument(PlaceholderName = "[<PROJECT>]")]
-    public string? Project { get; set; }
+    [CliArgument(Name = "[<PROJECT>]")]
+    public virtual string? Project { get; set; }
 }

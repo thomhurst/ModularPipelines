@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appconfig", "get-deployment")]
+[CliCommand("appconfig", "get-deployment")]
 public record AwsAppconfigGetDeploymentOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--environment-id")] string EnvironmentId,
-[property: CommandSwitch("--deployment-number")] int DeploymentNumber
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--environment-id")] string EnvironmentId,
+[property: CliOption("--deployment-number")] int DeploymentNumber
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

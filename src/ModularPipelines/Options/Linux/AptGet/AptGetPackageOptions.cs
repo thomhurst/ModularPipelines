@@ -6,6 +6,6 @@ namespace ModularPipelines.Options.Linux.AptGet;
 [ExcludeFromCodeCoverage]
 public record AptGetPackageOptions : AptGetOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string CommandName { get; } = "package";
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string CommandName { get; } = "package";
 }

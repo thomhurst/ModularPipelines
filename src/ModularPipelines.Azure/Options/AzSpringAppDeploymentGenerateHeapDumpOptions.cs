@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "app", "deployment", "generate-heap-dump")]
+[CliSubCommand("spring", "app", "deployment", "generate-heap-dump")]
 public record AzSpringAppDeploymentGenerateHeapDumpOptions(
-[property: CommandSwitch("--app")] string App,
-[property: CommandSwitch("--app-instance")] string AppInstance,
-[property: CommandSwitch("--file-path")] string FilePath,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--app")] string App,
+[property: CliOption("--app-instance")] string AppInstance,
+[property: CliOption("--file-path")] string FilePath,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--deployment")]
+    [CliOption("--deployment")]
     public string? Deployment { get; set; }
 }

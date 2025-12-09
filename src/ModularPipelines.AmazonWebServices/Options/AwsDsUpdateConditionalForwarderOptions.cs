@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ds", "update-conditional-forwarder")]
+[CliCommand("ds", "update-conditional-forwarder")]
 public record AwsDsUpdateConditionalForwarderOptions(
-[property: CommandSwitch("--directory-id")] string DirectoryId,
-[property: CommandSwitch("--remote-domain-name")] string RemoteDomainName,
-[property: CommandSwitch("--dns-ip-addrs")] string[] DnsIpAddrs
+[property: CliOption("--directory-id")] string DirectoryId,
+[property: CliOption("--remote-domain-name")] string RemoteDomainName,
+[property: CliOption("--dns-ip-addrs")] string[] DnsIpAddrs
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("medical-imaging", "get-image-set-metadata")]
+[CliCommand("medical-imaging", "get-image-set-metadata")]
 public record AwsMedicalImagingGetImageSetMetadataOptions(
-[property: CommandSwitch("--datastore-id")] string DatastoreId,
-[property: CommandSwitch("--image-set-id")] string ImageSetId
+[property: CliOption("--datastore-id")] string DatastoreId,
+[property: CliOption("--image-set-id")] string ImageSetId
 ) : AwsOptions
 {
-    [CommandSwitch("--version-id")]
+    [CliOption("--version-id")]
     public string? VersionId { get; set; }
 }

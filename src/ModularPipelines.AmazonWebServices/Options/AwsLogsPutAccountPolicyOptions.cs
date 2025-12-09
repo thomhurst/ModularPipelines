@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logs", "put-account-policy")]
+[CliCommand("logs", "put-account-policy")]
 public record AwsLogsPutAccountPolicyOptions(
-[property: CommandSwitch("--policy-name")] string PolicyName,
-[property: CommandSwitch("--policy-document")] string PolicyDocument,
-[property: CommandSwitch("--policy-type")] string PolicyType
+[property: CliOption("--policy-name")] string PolicyName,
+[property: CliOption("--policy-document")] string PolicyDocument,
+[property: CliOption("--policy-type")] string PolicyType
 ) : AwsOptions
 {
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

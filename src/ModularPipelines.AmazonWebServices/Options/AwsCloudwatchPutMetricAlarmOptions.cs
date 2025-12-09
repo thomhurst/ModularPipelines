@@ -4,67 +4,67 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudwatch", "put-metric-alarm")]
+[CliCommand("cloudwatch", "put-metric-alarm")]
 public record AwsCloudwatchPutMetricAlarmOptions(
-[property: CommandSwitch("--alarm-name")] string AlarmName,
-[property: CommandSwitch("--evaluation-periods")] int EvaluationPeriods,
-[property: CommandSwitch("--comparison-operator")] string ComparisonOperator
+[property: CliOption("--alarm-name")] string AlarmName,
+[property: CliOption("--evaluation-periods")] int EvaluationPeriods,
+[property: CliOption("--comparison-operator")] string ComparisonOperator
 ) : AwsOptions
 {
-    [CommandSwitch("--alarm-description")]
+    [CliOption("--alarm-description")]
     public string? AlarmDescription { get; set; }
 
-    [CommandSwitch("--ok-actions")]
+    [CliOption("--ok-actions")]
     public string[]? OkActions { get; set; }
 
-    [CommandSwitch("--alarm-actions")]
+    [CliOption("--alarm-actions")]
     public string[]? AlarmActions { get; set; }
 
-    [CommandSwitch("--insufficient-data-actions")]
+    [CliOption("--insufficient-data-actions")]
     public string[]? InsufficientDataActions { get; set; }
 
-    [CommandSwitch("--metric-name")]
+    [CliOption("--metric-name")]
     public string? MetricName { get; set; }
 
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CommandSwitch("--statistic")]
+    [CliOption("--statistic")]
     public string? Statistic { get; set; }
 
-    [CommandSwitch("--extended-statistic")]
+    [CliOption("--extended-statistic")]
     public string? ExtendedStatistic { get; set; }
 
-    [CommandSwitch("--dimensions")]
+    [CliOption("--dimensions")]
     public string[]? Dimensions { get; set; }
 
-    [CommandSwitch("--period")]
+    [CliOption("--period")]
     public int? Period { get; set; }
 
-    [CommandSwitch("--unit")]
+    [CliOption("--unit")]
     public string? Unit { get; set; }
 
-    [CommandSwitch("--datapoints-to-alarm")]
+    [CliOption("--datapoints-to-alarm")]
     public int? DatapointsToAlarm { get; set; }
 
-    [CommandSwitch("--threshold")]
+    [CliOption("--threshold")]
     public double? Threshold { get; set; }
 
-    [CommandSwitch("--treat-missing-data")]
+    [CliOption("--treat-missing-data")]
     public string? TreatMissingData { get; set; }
 
-    [CommandSwitch("--evaluate-low-sample-count-percentile")]
+    [CliOption("--evaluate-low-sample-count-percentile")]
     public string? EvaluateLowSampleCountPercentile { get; set; }
 
-    [CommandSwitch("--metrics")]
+    [CliOption("--metrics")]
     public string[]? Metrics { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--threshold-metric-id")]
+    [CliOption("--threshold-metric-id")]
     public string? ThresholdMetricId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

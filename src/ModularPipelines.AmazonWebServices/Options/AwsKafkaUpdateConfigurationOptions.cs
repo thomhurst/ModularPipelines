@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kafka", "update-configuration")]
+[CliCommand("kafka", "update-configuration")]
 public record AwsKafkaUpdateConfigurationOptions(
-[property: CommandSwitch("--arn")] string Arn,
-[property: CommandSwitch("--server-properties")] string ServerProperties
+[property: CliOption("--arn")] string Arn,
+[property: CliOption("--server-properties")] string ServerProperties
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

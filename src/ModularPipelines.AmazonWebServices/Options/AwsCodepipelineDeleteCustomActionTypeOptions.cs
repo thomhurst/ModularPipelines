@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codepipeline", "delete-custom-action-type")]
+[CliCommand("codepipeline", "delete-custom-action-type")]
 public record AwsCodepipelineDeleteCustomActionTypeOptions(
-[property: CommandSwitch("--category")] string Category,
-[property: CommandSwitch("--provider")] string Provider,
-[property: CommandSwitch("--action-version")] string ActionVersion
+[property: CliOption("--category")] string Category,
+[property: CliOption("--provider")] string Provider,
+[property: CliOption("--action-version")] string ActionVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

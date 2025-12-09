@@ -4,90 +4,90 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mysql", "flexible-server", "update")]
+[CliSubCommand("mysql", "flexible-server", "update")]
 public record AzMysqlFlexibleServerUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--admin-password")]
+    [CliOption("--admin-password")]
     public string? AdminPassword { get; set; }
 
-    [CommandSwitch("--auto-scale-iops")]
+    [CliOption("--auto-scale-iops")]
     public string? AutoScaleIops { get; set; }
 
-    [CommandSwitch("--backup-identity")]
+    [CliOption("--backup-identity")]
     public string? BackupIdentity { get; set; }
 
-    [CommandSwitch("--backup-key")]
+    [CliOption("--backup-key")]
     public string? BackupKey { get; set; }
 
-    [CommandSwitch("--backup-retention")]
+    [CliOption("--backup-retention")]
     public string? BackupRetention { get; set; }
 
-    [BooleanCommandSwitch("--disable-data-encryption")]
+    [CliFlag("--disable-data-encryption")]
     public bool? DisableDataEncryption { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--geo-redundant-backup")]
+    [CliOption("--geo-redundant-backup")]
     public string? GeoRedundantBackup { get; set; }
 
-    [CommandSwitch("--high-availability")]
+    [CliOption("--high-availability")]
     public string? HighAvailability { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--iops")]
+    [CliOption("--iops")]
     public string? Iops { get; set; }
 
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 
-    [CommandSwitch("--maintenance-window")]
+    [CliOption("--maintenance-window")]
     public string? MaintenanceWindow { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--public-access")]
+    [CliOption("--public-access")]
     public string? PublicAccess { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--replication-role")]
+    [CliOption("--replication-role")]
     public string? ReplicationRole { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--sku-name")]
+    [CliOption("--sku-name")]
     public string? SkuName { get; set; }
 
-    [CommandSwitch("--standby-zone")]
+    [CliOption("--standby-zone")]
     public string? StandbyZone { get; set; }
 
-    [CommandSwitch("--storage-auto-grow")]
+    [CliOption("--storage-auto-grow")]
     public string? StorageAutoGrow { get; set; }
 
-    [CommandSwitch("--storage-size")]
+    [CliOption("--storage-size")]
     public string? StorageSize { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 }

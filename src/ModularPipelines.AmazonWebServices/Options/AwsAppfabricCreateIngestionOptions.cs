@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appfabric", "create-ingestion")]
+[CliCommand("appfabric", "create-ingestion")]
 public record AwsAppfabricCreateIngestionOptions(
-[property: CommandSwitch("--app-bundle-identifier")] string AppBundleIdentifier,
-[property: CommandSwitch("--app")] string App,
-[property: CommandSwitch("--tenant-id")] string TenantId,
-[property: CommandSwitch("--ingestion-type")] string IngestionType
+[property: CliOption("--app-bundle-identifier")] string AppBundleIdentifier,
+[property: CliOption("--app")] string App,
+[property: CliOption("--tenant-id")] string TenantId,
+[property: CliOption("--ingestion-type")] string IngestionType
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

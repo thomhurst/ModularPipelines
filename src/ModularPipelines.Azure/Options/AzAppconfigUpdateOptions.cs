@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appconfig", "update")]
+[CliSubCommand("appconfig", "update")]
 public record AzAppconfigUpdateOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--disable-local-auth")]
+    [CliFlag("--disable-local-auth")]
     public bool? DisableLocalAuth { get; set; }
 
-    [BooleanCommandSwitch("--enable-public-network")]
+    [CliFlag("--enable-public-network")]
     public bool? EnablePublicNetwork { get; set; }
 
-    [BooleanCommandSwitch("--enable-purge-protection")]
+    [CliFlag("--enable-purge-protection")]
     public bool? EnablePurgeProtection { get; set; }
 
-    [CommandSwitch("--encryption-key-name")]
+    [CliOption("--encryption-key-name")]
     public string? EncryptionKeyName { get; set; }
 
-    [CommandSwitch("--encryption-key-vault")]
+    [CliOption("--encryption-key-vault")]
     public string? EncryptionKeyVault { get; set; }
 
-    [CommandSwitch("--encryption-key-version")]
+    [CliOption("--encryption-key-version")]
     public string? EncryptionKeyVersion { get; set; }
 
-    [CommandSwitch("--identity-client-id")]
+    [CliOption("--identity-client-id")]
     public string? IdentityClientId { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

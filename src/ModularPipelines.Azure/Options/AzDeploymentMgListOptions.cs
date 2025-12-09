@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deployment", "mg", "list")]
+[CliSubCommand("deployment", "mg", "list")]
 public record AzDeploymentMgListOptions(
-[property: CommandSwitch("--management-group-id")] string ManagementGroupId
+[property: CliOption("--management-group-id")] string ManagementGroupId
 ) : AzOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 }

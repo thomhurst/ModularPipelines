@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "dps", "enrollment")]
+[CliCommand("iot", "dps", "enrollment")]
 public class AzIotDpsEnrollmentRegistration
 {
     public AzIotDpsEnrollmentRegistration(

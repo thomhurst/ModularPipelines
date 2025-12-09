@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fsx", "update-shared-vpc-configuration")]
+[CliCommand("fsx", "update-shared-vpc-configuration")]
 public record AwsFsxUpdateSharedVpcConfigurationOptions : AwsOptions
 {
-    [CommandSwitch("--enable-fsx-route-table-updates-from-participant-accounts")]
+    [CliOption("--enable-fsx-route-table-updates-from-participant-accounts")]
     public string? EnableFsxRouteTableUpdatesFromParticipantAccounts { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

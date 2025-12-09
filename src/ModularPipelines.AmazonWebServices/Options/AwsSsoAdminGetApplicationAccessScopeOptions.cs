@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sso-admin", "get-application-access-scope")]
+[CliCommand("sso-admin", "get-application-access-scope")]
 public record AwsSsoAdminGetApplicationAccessScopeOptions(
-[property: CommandSwitch("--application-arn")] string ApplicationArn,
-[property: CommandSwitch("--scope")] string Scope
+[property: CliOption("--application-arn")] string ApplicationArn,
+[property: CliOption("--scope")] string Scope
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

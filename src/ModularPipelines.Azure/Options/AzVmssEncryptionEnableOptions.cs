@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmss", "encryption", "enable")]
+[CliSubCommand("vmss", "encryption", "enable")]
 public record AzVmssEncryptionEnableOptions(
-[property: CommandSwitch("--disk-encryption-keyvault")] string DiskEncryptionKeyvault
+[property: CliOption("--disk-encryption-keyvault")] string DiskEncryptionKeyvault
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--key-encryption-algorithm")]
+    [CliOption("--key-encryption-algorithm")]
     public string? KeyEncryptionAlgorithm { get; set; }
 
-    [CommandSwitch("--key-encryption-key")]
+    [CliOption("--key-encryption-key")]
     public string? KeyEncryptionKey { get; set; }
 
-    [CommandSwitch("--key-encryption-keyvault")]
+    [CliOption("--key-encryption-keyvault")]
     public string? KeyEncryptionKeyvault { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--volume-type")]
+    [CliOption("--volume-type")]
     public string? VolumeType { get; set; }
 }

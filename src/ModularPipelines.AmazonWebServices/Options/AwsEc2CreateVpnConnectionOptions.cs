@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-vpn-connection")]
+[CliCommand("ec2", "create-vpn-connection")]
 public record AwsEc2CreateVpnConnectionOptions(
-[property: CommandSwitch("--customer-gateway-id")] string CustomerGatewayId,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--customer-gateway-id")] string CustomerGatewayId,
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--vpn-gateway-id")]
+    [CliOption("--vpn-gateway-id")]
     public string? VpnGatewayId { get; set; }
 
-    [CommandSwitch("--transit-gateway-id")]
+    [CliOption("--transit-gateway-id")]
     public string? TransitGatewayId { get; set; }
 
-    [CommandSwitch("--options")]
+    [CliOption("--options")]
     public string? Options { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

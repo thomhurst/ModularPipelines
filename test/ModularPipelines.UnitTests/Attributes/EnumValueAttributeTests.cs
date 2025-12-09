@@ -1,10 +1,19 @@
-﻿using ModularPipelines.Attributes;
-using ModularPipelines.Helpers;
+using ModularPipelines.Attributes;
+using ModularPipelines.Helpers.Internal;
 
 namespace ModularPipelines.UnitTests.Attributes;
 
 public class EnumValueAttributeTests
 {
+    private readonly CommandModelProvider _modelProvider = new();
+    private readonly CommandArgumentBuilder _argumentBuilder = new();
+
+    private List<string> BuildArguments(object optionsObject)
+    {
+        var model = _modelProvider.GetCommandModel(optionsObject.GetType());
+        return _argumentBuilder.BuildArguments(model, optionsObject);
+    }
+
     [Test]
     [Arguments(Number.One, "1")]
     [Arguments(Number.Two, "2")]
@@ -16,9 +25,7 @@ public class EnumValueAttributeTests
             Number = number,
         };
 
-        var list = new List<string>();
-
-        CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(list, options);
+        var list = BuildArguments(options);
         await Assert.That(list).Contains("--number");
         await Assert.That(list).Contains(expected);
         await Assert.That(list).IsEquivalentTo(["--number", expected]);
@@ -36,7 +43,7 @@ public class EnumValueAttributeTests
 
     private record NumberWrapper
     {
-        [CommandSwitch("--number")]
+        [CliOption("--number")]
         public Number Number { get; set; }
     }
 }

@@ -4,44 +4,44 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sig", "gallery-application", "version", "create")]
+[CliSubCommand("sig", "gallery-application", "version", "create")]
 public record AzSigGalleryApplicationVersionCreateOptions(
-[property: CommandSwitch("--application-name")] string ApplicationName,
-[property: CommandSwitch("--gallery-name")] string GalleryName,
-[property: CommandSwitch("--install-command")] string InstallCommand,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--package-file-link")] string PackageFileLink,
-[property: CommandSwitch("--remove-command")] string RemoveCommand,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--application-name")] string ApplicationName,
+[property: CliOption("--gallery-name")] string GalleryName,
+[property: CliOption("--install-command")] string InstallCommand,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--package-file-link")] string PackageFileLink,
+[property: CliOption("--remove-command")] string RemoveCommand,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--config-file-name")]
+    [CliOption("--config-file-name")]
     public string? ConfigFileName { get; set; }
 
-    [CommandSwitch("--default-file-link")]
+    [CliOption("--default-file-link")]
     public string? DefaultFileLink { get; set; }
 
-    [CommandSwitch("--end-of-life-date")]
+    [CliOption("--end-of-life-date")]
     public string? EndOfLifeDate { get; set; }
 
-    [BooleanCommandSwitch("--exclude-from")]
+    [CliFlag("--exclude-from")]
     public bool? ExcludeFrom { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--package-file-name")]
+    [CliOption("--package-file-name")]
     public string? PackageFileName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--target-regions")]
+    [CliOption("--target-regions")]
     public string? TargetRegions { get; set; }
 
-    [CommandSwitch("--update-command")]
+    [CliOption("--update-command")]
     public string? UpdateCommand { get; set; }
 }

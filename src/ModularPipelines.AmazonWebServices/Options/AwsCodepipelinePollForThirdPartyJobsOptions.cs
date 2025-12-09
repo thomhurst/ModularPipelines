@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codepipeline", "poll-for-third-party-jobs")]
+[CliCommand("codepipeline", "poll-for-third-party-jobs")]
 public record AwsCodepipelinePollForThirdPartyJobsOptions(
-[property: CommandSwitch("--action-type-id")] string ActionTypeId
+[property: CliOption("--action-type-id")] string ActionTypeId
 ) : AwsOptions
 {
-    [CommandSwitch("--max-batch-size")]
+    [CliOption("--max-batch-size")]
     public int? MaxBatchSize { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

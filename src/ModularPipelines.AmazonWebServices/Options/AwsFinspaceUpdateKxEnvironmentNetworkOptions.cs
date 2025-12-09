@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("finspace", "update-kx-environment-network")]
+[CliCommand("finspace", "update-kx-environment-network")]
 public record AwsFinspaceUpdateKxEnvironmentNetworkOptions(
-[property: CommandSwitch("--environment-id")] string EnvironmentId
+[property: CliOption("--environment-id")] string EnvironmentId
 ) : AwsOptions
 {
-    [CommandSwitch("--transit-gateway-configuration")]
+    [CliOption("--transit-gateway-configuration")]
     public string? TransitGatewayConfiguration { get; set; }
 
-    [CommandSwitch("--custom-dns-configuration")]
+    [CliOption("--custom-dns-configuration")]
     public string[]? CustomDnsConfiguration { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

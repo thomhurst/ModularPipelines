@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "mesh", "enable-egress-gateway")]
+[CliSubCommand("aks", "mesh", "enable-egress-gateway")]
 public record AzAksMeshEnableEgressGatewayOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--egress-gateway-nodeselector")]
+    [CliOption("--egress-gateway-nodeselector")]
     public string? EgressGatewayNodeselector { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

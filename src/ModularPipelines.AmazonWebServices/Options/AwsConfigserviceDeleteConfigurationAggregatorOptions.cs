@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configservice", "delete-configuration-aggregator")]
+[CliCommand("configservice", "delete-configuration-aggregator")]
 public record AwsConfigserviceDeleteConfigurationAggregatorOptions(
-[property: CommandSwitch("--configuration-aggregator-name")] string ConfigurationAggregatorName
+[property: CliOption("--configuration-aggregator-name")] string ConfigurationAggregatorName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("clouddirectory", "create-facet")]
+[CliCommand("clouddirectory", "create-facet")]
 public record AwsClouddirectoryCreateFacetOptions(
-[property: CommandSwitch("--schema-arn")] string SchemaArn,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--schema-arn")] string SchemaArn,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--attributes")]
+    [CliOption("--attributes")]
     public string[]? Attributes { get; set; }
 
-    [CommandSwitch("--object-type")]
+    [CliOption("--object-type")]
     public string? ObjectType { get; set; }
 
-    [CommandSwitch("--facet-style")]
+    [CliOption("--facet-style")]
     public string? FacetStyle { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

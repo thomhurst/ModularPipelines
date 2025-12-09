@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("service-quotas", "list-requested-service-quota-change-history")]
+[CliCommand("service-quotas", "list-requested-service-quota-change-history")]
 public record AwsServiceQuotasListRequestedServiceQuotaChangeHistoryOptions : AwsOptions
 {
-    [CommandSwitch("--service-code")]
+    [CliOption("--service-code")]
     public string? ServiceCode { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--quota-requested-at-level")]
+    [CliOption("--quota-requested-at-level")]
     public string? QuotaRequestedAtLevel { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

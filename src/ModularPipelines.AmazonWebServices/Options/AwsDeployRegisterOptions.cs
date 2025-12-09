@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "register")]
+[CliCommand("deploy", "register")]
 public record AwsDeployRegisterOptions(
-[property: CommandSwitch("--instance-name")] string InstanceName
+[property: CliOption("--instance-name")] string InstanceName
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--iam-user-arn")]
+    [CliOption("--iam-user-arn")]
     public string? IamUserArn { get; set; }
 }

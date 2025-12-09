@@ -5,61 +5,61 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("finspace", "create-kx-cluster")]
+[CliCommand("finspace", "create-kx-cluster")]
 public record AwsFinspaceCreateKxClusterOptions(
-[property: CommandSwitch("--environment-id")] string EnvironmentId,
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--cluster-type")] string ClusterType,
-[property: CommandSwitch("--release-label")] string ReleaseLabel,
-[property: CommandSwitch("--vpc-configuration")] string VpcConfiguration,
-[property: CommandSwitch("--az-mode")] string AzMode
+[property: CliOption("--environment-id")] string EnvironmentId,
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--cluster-type")] string ClusterType,
+[property: CliOption("--release-label")] string ReleaseLabel,
+[property: CliOption("--vpc-configuration")] string VpcConfiguration,
+[property: CliOption("--az-mode")] string AzMode
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tickerplant-log-configuration")]
+    [CliOption("--tickerplant-log-configuration")]
     public string? TickerplantLogConfiguration { get; set; }
 
-    [CommandSwitch("--databases")]
+    [CliOption("--databases")]
     public string[]? Databases { get; set; }
 
-    [CommandSwitch("--cache-storage-configurations")]
+    [CliOption("--cache-storage-configurations")]
     public string[]? CacheStorageConfigurations { get; set; }
 
-    [CommandSwitch("--auto-scaling-configuration")]
+    [CliOption("--auto-scaling-configuration")]
     public string? AutoScalingConfiguration { get; set; }
 
-    [CommandSwitch("--cluster-description")]
+    [CliOption("--cluster-description")]
     public string? ClusterDescription { get; set; }
 
-    [CommandSwitch("--capacity-configuration")]
+    [CliOption("--capacity-configuration")]
     public string? CapacityConfiguration { get; set; }
 
-    [CommandSwitch("--initialization-script")]
+    [CliOption("--initialization-script")]
     public string? InitializationScript { get; set; }
 
-    [CommandSwitch("--command-line-arguments")]
+    [CliOption("--command-line-arguments")]
     public string[]? CommandLineArguments { get; set; }
 
-    [CommandSwitch("--code")]
+    [CliOption("--code")]
     public string? Code { get; set; }
 
-    [CommandSwitch("--execution-role")]
+    [CliOption("--execution-role")]
     public string? ExecutionRole { get; set; }
 
-    [CommandSwitch("--savedown-storage-configuration")]
+    [CliOption("--savedown-storage-configuration")]
     public string? SavedownStorageConfiguration { get; set; }
 
-    [CommandSwitch("--availability-zone-id")]
+    [CliOption("--availability-zone-id")]
     public string? AvailabilityZoneId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--scaling-group-configuration")]
+    [CliOption("--scaling-group-configuration")]
     public string? ScalingGroupConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

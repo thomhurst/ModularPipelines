@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "start-report-job")]
+[CliCommand("backup", "start-report-job")]
 public record AwsBackupStartReportJobOptions(
-[property: CommandSwitch("--report-plan-name")] string ReportPlanName
+[property: CliOption("--report-plan-name")] string ReportPlanName
 ) : AwsOptions
 {
-    [CommandSwitch("--idempotency-token")]
+    [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

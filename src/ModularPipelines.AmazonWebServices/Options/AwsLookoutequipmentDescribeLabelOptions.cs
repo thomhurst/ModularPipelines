@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutequipment", "describe-label")]
+[CliCommand("lookoutequipment", "describe-label")]
 public record AwsLookoutequipmentDescribeLabelOptions(
-[property: CommandSwitch("--label-group-name")] string LabelGroupName,
-[property: CommandSwitch("--label-id")] string LabelId
+[property: CliOption("--label-group-name")] string LabelGroupName,
+[property: CliOption("--label-id")] string LabelId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

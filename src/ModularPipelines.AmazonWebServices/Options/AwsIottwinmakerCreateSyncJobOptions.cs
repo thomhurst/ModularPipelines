@@ -5,16 +5,16 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iottwinmaker", "create-sync-job")]
+[CliCommand("iottwinmaker", "create-sync-job")]
 public record AwsIottwinmakerCreateSyncJobOptions(
-[property: CommandSwitch("--workspace-id")] string WorkspaceId,
-[property: CommandSwitch("--sync-source")] string SyncSource,
-[property: CommandSwitch("--sync-role")] string SyncRole
+[property: CliOption("--workspace-id")] string WorkspaceId,
+[property: CliOption("--sync-source")] string SyncSource,
+[property: CliOption("--sync-role")] string SyncRole
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

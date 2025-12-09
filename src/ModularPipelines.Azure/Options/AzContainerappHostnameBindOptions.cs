@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "hostname", "bind")]
+[CliSubCommand("containerapp", "hostname", "bind")]
 public record AzContainerappHostnameBindOptions(
-[property: CommandSwitch("--hostname")] string Hostname
+[property: CliOption("--hostname")] string Hostname
 ) : AzOptions
 {
-    [CommandSwitch("--certificate")]
+    [CliOption("--certificate")]
     public string? Certificate { get; set; }
 
-    [CommandSwitch("--environment")]
+    [CliOption("--environment")]
     public string? Environment { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--thumbprint")]
+    [CliOption("--thumbprint")]
     public string? Thumbprint { get; set; }
 
-    [CommandSwitch("--validation-method")]
+    [CliOption("--validation-method")]
     public string? ValidationMethod { get; set; }
 }

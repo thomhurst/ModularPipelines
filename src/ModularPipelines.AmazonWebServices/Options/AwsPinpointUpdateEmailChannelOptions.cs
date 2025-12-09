@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint", "update-email-channel")]
+[CliCommand("pinpoint", "update-email-channel")]
 public record AwsPinpointUpdateEmailChannelOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--email-channel-request")] string EmailChannelRequest
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--email-channel-request")] string EmailChannelRequest
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

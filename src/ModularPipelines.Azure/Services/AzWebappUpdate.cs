@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp")]
+[CliSubCommand("webapp")]
 public class AzWebappUpdate
 {
     public AzWebappUpdate(

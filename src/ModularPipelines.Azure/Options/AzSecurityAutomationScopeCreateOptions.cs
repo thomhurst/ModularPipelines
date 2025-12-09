@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "automation-scope", "create")]
+[CliSubCommand("security", "automation-scope", "create")]
 public record AzSecurityAutomationScopeCreateOptions(
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--scope-path")] string ScopePath
+[property: CliOption("--description")] string Description,
+[property: CliOption("--scope-path")] string ScopePath
 ) : AzOptions;

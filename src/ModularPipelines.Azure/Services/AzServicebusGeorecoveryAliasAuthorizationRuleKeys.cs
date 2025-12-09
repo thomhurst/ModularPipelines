@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicebus", "georecovery-alias", "authorization-rule")]
+[CliCommand("servicebus", "georecovery-alias", "authorization-rule")]
 public class AzServicebusGeorecoveryAliasAuthorizationRuleKeys
 {
     public AzServicebusGeorecoveryAliasAuthorizationRuleKeys(

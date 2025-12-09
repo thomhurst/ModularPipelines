@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("peering", "location", "list")]
+[CliSubCommand("peering", "location", "list")]
 public record AzPeeringLocationListOptions(
-[property: CommandSwitch("--kind")] string Kind
+[property: CliOption("--kind")] string Kind
 ) : AzOptions
 {
-    [CommandSwitch("--direct-peering-type")]
+    [CliOption("--direct-peering-type")]
     public string? DirectPeeringType { get; set; }
 }

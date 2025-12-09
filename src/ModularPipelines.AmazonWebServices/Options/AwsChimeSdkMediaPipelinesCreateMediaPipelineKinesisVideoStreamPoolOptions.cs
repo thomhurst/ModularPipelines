@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-media-pipelines", "create-media-pipeline-kinesis-video-stream-pool")]
+[CliCommand("chime-sdk-media-pipelines", "create-media-pipeline-kinesis-video-stream-pool")]
 public record AwsChimeSdkMediaPipelinesCreateMediaPipelineKinesisVideoStreamPoolOptions(
-[property: CommandSwitch("--stream-configuration")] string StreamConfiguration,
-[property: CommandSwitch("--pool-name")] string PoolName
+[property: CliOption("--stream-configuration")] string StreamConfiguration,
+[property: CliOption("--pool-name")] string PoolName
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

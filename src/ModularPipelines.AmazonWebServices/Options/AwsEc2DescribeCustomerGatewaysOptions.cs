@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "describe-customer-gateways")]
+[CliCommand("ec2", "describe-customer-gateways")]
 public record AwsEc2DescribeCustomerGatewaysOptions : AwsOptions
 {
-    [CommandSwitch("--customer-gateway-ids")]
+    [CliOption("--customer-gateway-ids")]
     public string[]? CustomerGatewayIds { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

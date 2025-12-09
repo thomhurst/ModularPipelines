@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("medialive", "batch-update-schedule")]
+[CliCommand("medialive", "batch-update-schedule")]
 public record AwsMedialiveBatchUpdateScheduleOptions(
-[property: CommandSwitch("--channel-id")] string ChannelId
+[property: CliOption("--channel-id")] string ChannelId
 ) : AwsOptions
 {
-    [CommandSwitch("--creates")]
+    [CliOption("--creates")]
     public string? Creates { get; set; }
 
-    [CommandSwitch("--deletes")]
+    [CliOption("--deletes")]
     public string? Deletes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

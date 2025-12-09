@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("budgets", "update-notification")]
+[CliCommand("budgets", "update-notification")]
 public record AwsBudgetsUpdateNotificationOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--budget-name")] string BudgetName,
-[property: CommandSwitch("--old-notification")] string OldNotification,
-[property: CommandSwitch("--new-notification")] string NewNotification
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--budget-name")] string BudgetName,
+[property: CliOption("--old-notification")] string OldNotification,
+[property: CliOption("--new-notification")] string NewNotification
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

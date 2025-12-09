@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qldb", "get-revision")]
+[CliCommand("qldb", "get-revision")]
 public record AwsQldbGetRevisionOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--block-address")] string BlockAddress,
-[property: CommandSwitch("--document-id")] string DocumentId
+[property: CliOption("--name")] string Name,
+[property: CliOption("--block-address")] string BlockAddress,
+[property: CliOption("--document-id")] string DocumentId
 ) : AwsOptions
 {
-    [CommandSwitch("--digest-tip-address")]
+    [CliOption("--digest-tip-address")]
     public string? DigestTipAddress { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "blob", "service-properties")]
+[CliCommand("storage", "blob", "service-properties")]
 public class AzStorageBlobServicePropertiesUpdate
 {
     public AzStorageBlobServicePropertiesUpdate(

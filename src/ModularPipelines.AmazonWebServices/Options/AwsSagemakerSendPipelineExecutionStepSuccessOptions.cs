@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "send-pipeline-execution-step-success")]
+[CliCommand("sagemaker", "send-pipeline-execution-step-success")]
 public record AwsSagemakerSendPipelineExecutionStepSuccessOptions(
-[property: CommandSwitch("--callback-token")] string CallbackToken
+[property: CliOption("--callback-token")] string CallbackToken
 ) : AwsOptions
 {
-    [CommandSwitch("--output-parameters")]
+    [CliOption("--output-parameters")]
     public string[]? OutputParameters { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

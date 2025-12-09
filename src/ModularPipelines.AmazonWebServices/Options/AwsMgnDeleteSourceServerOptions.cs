@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mgn", "delete-source-server")]
+[CliCommand("mgn", "delete-source-server")]
 public record AwsMgnDeleteSourceServerOptions(
-[property: CommandSwitch("--source-server-id")] string SourceServerId
+[property: CliOption("--source-server-id")] string SourceServerId
 ) : AwsOptions
 {
-    [CommandSwitch("--account-id")]
+    [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

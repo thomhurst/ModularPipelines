@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "activity-log", "alert", "action-group", "add")]
+[CliSubCommand("monitor", "activity-log", "alert", "action-group", "add")]
 public record AzMonitorActivityLogAlertActionGroupAddOptions(
-[property: CommandSwitch("--action-group")] string ActionGroup
+[property: CliOption("--action-group")] string ActionGroup
 ) : AzOptions
 {
-    [CommandSwitch("--activity-log-alert-name")]
+    [CliOption("--activity-log-alert-name")]
     public string? ActivityLogAlertName { get; set; }
 
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [BooleanCommandSwitch("--reset")]
+    [CliFlag("--reset")]
     public bool? Reset { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [BooleanCommandSwitch("--strict")]
+    [CliFlag("--strict")]
     public bool? Strict { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--webhook-properties")]
+    [CliOption("--webhook-properties")]
     public string? WebhookProperties { get; set; }
 }

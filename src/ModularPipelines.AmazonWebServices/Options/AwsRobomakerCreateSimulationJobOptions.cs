@@ -5,42 +5,42 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("robomaker", "create-simulation-job")]
+[CliCommand("robomaker", "create-simulation-job")]
 public record AwsRobomakerCreateSimulationJobOptions(
-[property: CommandSwitch("--max-job-duration-in-seconds")] long MaxJobDurationInSeconds,
-[property: CommandSwitch("--iam-role")] string IamRole
+[property: CliOption("--max-job-duration-in-seconds")] long MaxJobDurationInSeconds,
+[property: CliOption("--iam-role")] string IamRole
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--output-location")]
+    [CliOption("--output-location")]
     public string? OutputLocation { get; set; }
 
-    [CommandSwitch("--logging-config")]
+    [CliOption("--logging-config")]
     public string? LoggingConfig { get; set; }
 
-    [CommandSwitch("--failure-behavior")]
+    [CliOption("--failure-behavior")]
     public string? FailureBehavior { get; set; }
 
-    [CommandSwitch("--robot-applications")]
+    [CliOption("--robot-applications")]
     public string[]? RobotApplications { get; set; }
 
-    [CommandSwitch("--simulation-applications")]
+    [CliOption("--simulation-applications")]
     public string[]? SimulationApplications { get; set; }
 
-    [CommandSwitch("--data-sources")]
+    [CliOption("--data-sources")]
     public string[]? DataSources { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--vpc-config")]
+    [CliOption("--vpc-config")]
     public string? VpcConfig { get; set; }
 
-    [CommandSwitch("--compute")]
+    [CliOption("--compute")]
     public string? Compute { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

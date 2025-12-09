@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "list-profiles")]
+[CliCommand("wellarchitected", "list-profiles")]
 public record AwsWellarchitectedListProfilesOptions : AwsOptions
 {
-    [CommandSwitch("--profile-name-prefix")]
+    [CliOption("--profile-name-prefix")]
     public string? ProfileNamePrefix { get; set; }
 
-    [CommandSwitch("--profile-owner-type")]
+    [CliOption("--profile-owner-type")]
     public string? ProfileOwnerType { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

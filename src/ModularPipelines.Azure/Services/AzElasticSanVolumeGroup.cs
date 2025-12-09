@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elastic-san")]
+[CliSubCommand("elastic-san")]
 public class AzElasticSanVolumeGroup
 {
     public AzElasticSanVolumeGroup(

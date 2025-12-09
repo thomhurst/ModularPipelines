@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datadog")]
+[CliSubCommand("datadog")]
 public class AzDatadogSsoConfig
 {
     public AzDatadogSsoConfig(

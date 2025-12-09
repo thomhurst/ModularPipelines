@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eks", "update-nodegroup-config")]
+[CliCommand("eks", "update-nodegroup-config")]
 public record AwsEksUpdateNodegroupConfigOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--nodegroup-name")] string NodegroupName
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--nodegroup-name")] string NodegroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 
-    [CommandSwitch("--taints")]
+    [CliOption("--taints")]
     public string? Taints { get; set; }
 
-    [CommandSwitch("--scaling-config")]
+    [CliOption("--scaling-config")]
     public string? ScalingConfig { get; set; }
 
-    [CommandSwitch("--update-config")]
+    [CliOption("--update-config")]
     public string? UpdateConfig { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

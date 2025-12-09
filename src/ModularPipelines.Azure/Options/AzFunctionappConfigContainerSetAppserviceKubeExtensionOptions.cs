@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "config", "container", "set", "(appservice-kube", "extension)")]
+[CliSubCommand("functionapp", "config", "container", "set", "(appservice-kube", "extension)")]
 public record AzFunctionappConfigContainerSetAppserviceKubeExtensionOptions : AzOptions
 {
-    [CommandSwitch("--docker-custom-image-name")]
+    [CliOption("--docker-custom-image-name")]
     public string? DockerCustomImageName { get; set; }
 
-    [CommandSwitch("--docker-registry-server-password")]
+    [CliOption("--docker-registry-server-password")]
     public string? DockerRegistryServerPassword { get; set; }
 
-    [CommandSwitch("--docker-registry-server-url")]
+    [CliOption("--docker-registry-server-url")]
     public string? DockerRegistryServerUrl { get; set; }
 
-    [CommandSwitch("--docker-registry-server-user")]
+    [CliOption("--docker-registry-server-user")]
     public string? DockerRegistryServerUser { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

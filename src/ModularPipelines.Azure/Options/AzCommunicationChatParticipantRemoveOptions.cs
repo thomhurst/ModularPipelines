@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("communication", "chat", "participant", "remove")]
+[CliSubCommand("communication", "chat", "participant", "remove")]
 public record AzCommunicationChatParticipantRemoveOptions(
-[property: CommandSwitch("--thread")] string Thread,
-[property: CommandSwitch("--user")] string User
+[property: CliOption("--thread")] string Thread,
+[property: CliOption("--user")] string User
 ) : AzOptions
 {
-    [CommandSwitch("--access-token")]
+    [CliOption("--access-token")]
     public string? AccessToken { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

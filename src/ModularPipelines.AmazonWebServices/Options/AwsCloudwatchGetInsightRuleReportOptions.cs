@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudwatch", "get-insight-rule-report")]
+[CliCommand("cloudwatch", "get-insight-rule-report")]
 public record AwsCloudwatchGetInsightRuleReportOptions(
-[property: CommandSwitch("--rule-name")] string RuleName,
-[property: CommandSwitch("--start-time")] long StartTime,
-[property: CommandSwitch("--end-time")] long EndTime,
-[property: CommandSwitch("--period")] int Period
+[property: CliOption("--rule-name")] string RuleName,
+[property: CliOption("--start-time")] long StartTime,
+[property: CliOption("--end-time")] long EndTime,
+[property: CliOption("--period")] int Period
 ) : AwsOptions
 {
-    [CommandSwitch("--max-contributor-count")]
+    [CliOption("--max-contributor-count")]
     public int? MaxContributorCount { get; set; }
 
-    [CommandSwitch("--metrics")]
+    [CliOption("--metrics")]
     public string[]? Metrics { get; set; }
 
-    [CommandSwitch("--order-by")]
+    [CliOption("--order-by")]
     public string? OrderBy { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

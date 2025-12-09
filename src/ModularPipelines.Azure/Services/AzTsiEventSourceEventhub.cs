@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tsi", "event-source")]
+[CliCommand("tsi", "event-source")]
 public class AzTsiEventSourceEventhub
 {
     public AzTsiEventSourceEventhub(

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ad", "group", "get-member-groups")]
+[CliSubCommand("ad", "group", "get-member-groups")]
 public record AzAdGroupGetMemberGroupsOptions(
-[property: CommandSwitch("--group")] string Group
+[property: CliOption("--group")] string Group
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--security-enabled-only")]
+    [CliFlag("--security-enabled-only")]
     public bool? SecurityEnabledOnly { get; set; }
 }

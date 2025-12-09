@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces", "migrate-workspace")]
+[CliCommand("workspaces", "migrate-workspace")]
 public record AwsWorkspacesMigrateWorkspaceOptions(
-[property: CommandSwitch("--source-workspace-id")] string SourceWorkspaceId,
-[property: CommandSwitch("--bundle-id")] string BundleId
+[property: CliOption("--source-workspace-id")] string SourceWorkspaceId,
+[property: CliOption("--bundle-id")] string BundleId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

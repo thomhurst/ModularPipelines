@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("peering", "asn", "create")]
+[CliSubCommand("peering", "asn", "create")]
 public record AzPeeringAsnCreateOptions(
-[property: CommandSwitch("--peer-asn-name")] string PeerAsnName
+[property: CliOption("--peer-asn-name")] string PeerAsnName
 ) : AzOptions
 {
-    [CommandSwitch("--peer-asn")]
+    [CliOption("--peer-asn")]
     public string? PeerAsn { get; set; }
 
-    [CommandSwitch("--peer-contact-detail")]
+    [CliOption("--peer-contact-detail")]
     public string? PeerContactDetail { get; set; }
 
-    [CommandSwitch("--peer-name")]
+    [CliOption("--peer-name")]
     public string? PeerName { get; set; }
 
-    [CommandSwitch("--validation-state")]
+    [CliOption("--validation-state")]
     public string? ValidationState { get; set; }
 }

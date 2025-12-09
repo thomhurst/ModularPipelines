@@ -5,41 +5,41 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworks", "create-layer")]
+[CliCommand("opsworks", "create-layer")]
 public record AwsOpsworksCreateLayerOptions(
-[property: CommandSwitch("--stack-id")] string StackId,
-[property: CommandSwitch("--type")] string Type,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--shortname")] string Shortname
+[property: CliOption("--stack-id")] string StackId,
+[property: CliOption("--type")] string Type,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--shortname")] string Shortname
 ) : AwsOptions
 {
-    [CommandSwitch("--attributes")]
+    [CliOption("--attributes")]
     public IEnumerable<KeyValue>? Attributes { get; set; }
 
-    [CommandSwitch("--cloud-watch-logs-configuration")]
+    [CliOption("--cloud-watch-logs-configuration")]
     public string? CloudWatchLogsConfiguration { get; set; }
 
-    [CommandSwitch("--custom-instance-profile-arn")]
+    [CliOption("--custom-instance-profile-arn")]
     public string? CustomInstanceProfileArn { get; set; }
 
-    [CommandSwitch("--custom-json")]
+    [CliOption("--custom-json")]
     public string? CustomJson { get; set; }
 
-    [CommandSwitch("--custom-security-group-ids")]
+    [CliOption("--custom-security-group-ids")]
     public string[]? CustomSecurityGroupIds { get; set; }
 
-    [CommandSwitch("--packages")]
+    [CliOption("--packages")]
     public string[]? Packages { get; set; }
 
-    [CommandSwitch("--volume-configurations")]
+    [CliOption("--volume-configurations")]
     public string[]? VolumeConfigurations { get; set; }
 
-    [CommandSwitch("--custom-recipes")]
+    [CliOption("--custom-recipes")]
     public string? CustomRecipes { get; set; }
 
-    [CommandSwitch("--lifecycle-event-configuration")]
+    [CliOption("--lifecycle-event-configuration")]
     public string? LifecycleEventConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

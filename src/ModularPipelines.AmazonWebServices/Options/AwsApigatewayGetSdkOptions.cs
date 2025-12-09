@@ -5,13 +5,13 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "get-sdk")]
+[CliCommand("apigateway", "get-sdk")]
 public record AwsApigatewayGetSdkOptions(
-[property: CommandSwitch("--rest-api-id")] string RestApiId,
-[property: CommandSwitch("--stage-name")] string StageName,
-[property: CommandSwitch("--sdk-type")] string SdkType
+[property: CliOption("--rest-api-id")] string RestApiId,
+[property: CliOption("--stage-name")] string StageName,
+[property: CliOption("--sdk-type")] string SdkType
 ) : AwsOptions
 {
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public IEnumerable<KeyValue>? Parameters { get; set; }
 }

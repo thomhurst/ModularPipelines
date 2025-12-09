@@ -20,6 +20,7 @@ internal class HttpLogger : IHttpLogger
         _requestFormatter = requestFormatter;
         _responseFormatter = responseFormatter;
     }
+
     /// <summary>
     /// Prints the HTTP request.
     /// </summary>

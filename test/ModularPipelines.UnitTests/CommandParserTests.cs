@@ -127,7 +127,7 @@ public class CommandParserTests : TestBase
     }
 
     [Test]
-    public async Task Placeholder_Positional_Parameter_Parse_As_Expected()
+    public async Task Multiple_Positional_Arguments_With_Interleaved_Command()
     {
         var result = await GetResult(new PlaceholderToolOptions("ThisPackage", "MyProject.csproj")
         {
@@ -137,18 +137,7 @@ public class CommandParserTests : TestBase
     }
 
     [Test]
-    [Arguments("")]
-    [Arguments(null)]
-    public async Task Placeholder_Positional_WhenEmpty_Throws(string? package)
-    {
-        await Assert.That(() => GetResult(new PlaceholderToolOptions(package!, "MyProject.csproj")
-        {
-            Source = "nuget.org"
-        })).Throws<ArgumentException>();
-    }
-
-    [Test]
-    public async Task No_Matching_Placeholder_Positional_Is_Appended()
+    public async Task Single_Positional_Argument_Immediately_After_Command()
     {
         var result = await GetResult(new PlaceholderToolOptions3
         {
@@ -194,67 +183,57 @@ public class CommandParserTests : TestBase
         return await command.ExecuteCommandLineTool(options);
     }
 
-    [CommandPrecedingArguments("do", "this", "then", "that")]
+    [CliCommand("mysupersecrettool", "do", "this", "then", "that")]
     private record MySuperSecretToolOptions() : CommandLineToolOptions("mysupersecrettool")
     {
-        [CommandSwitch("--build-arg")]
+        [CliOption("--build-arg")]
         public IEnumerable<KeyValue>? BuildArgs { get; set; }
 
-        [BooleanCommandSwitch("--force")]
+        [CliFlag("--force")]
         public bool? Force { get; set; }
 
-        [CommandSwitch("--verbosity")]
+        [CliOption("--verbosity")]
         public string? Verbosity { get; set; }
 
-        [CommandSwitch("--grace-period")]
+        [CliOption("--grace-period")]
         public int? GracePeriod { get; set; }
 
-        [CommandSwitch("--some-string")]
+        [CliOption("--some-string")]
         public string? SomeString { get; set; }
 
-        [CommandSwitch("--filename")]
+        [CliOption("--filename")]
         public string[]? Filename { get; set; }
 
-        [PositionalArgument(Position = Position.BeforeSwitches)]
+        [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
         public string? Positional1 { get; set; }
 
-        [PositionalArgument(Position = Position.AfterSwitches)]
+        [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
         public string? Positional2 { get; set; }
     }
 
-    [CommandPrecedingArguments("add", "[<PROJECT>]", "package", "<PACKAGE_NAME>")]
+    [CliCommand("dotnet", "add")]
     private record PlaceholderToolOptions(string Package, string Project) : CommandLineToolOptions("dotnet")
     {
-        [PositionalArgument(PlaceholderName = "[<PROJECT>]")]
+        [CliArgument(0, Placement = ArgumentPlacement.ImmediatelyAfterCommand)]
         public string Project { get; set; } = Project;
 
-        [PositionalArgument(PlaceholderName = "<PACKAGE_NAME>")]
+        [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+        public string Command { get; set; } = "package";
+
+        [CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)]
         public string Package { get; set; } = Package;
 
-        [CommandSwitch("--source")]
+        [CliOption("--source")]
         public string? Source { get; set; }
     }
 
-    [CommandPrecedingArguments("add", "[<PROJECT>]", "package", "<PACKAGE_NAME>")]
-    private record PlaceholderToolOptions2(string Package, string Project) : CommandLineToolOptions("dotnet")
-    {
-        [PositionalArgument(PlaceholderName = "[<PROJECT>]")]
-        public string Project { get; set; } = Project;
-
-        [PositionalArgument(PlaceholderName = "<WRONG_PLACEHOLDER>")]
-        public string Package { get; set; } = Package;
-
-        [CommandSwitch("--source")]
-        public string? Source { get; set; }
-    }
-
-    [CommandPrecedingArguments("add")]
+    [CliCommand("dotnet", "add")]
     private record PlaceholderToolOptions3() : CommandLineToolOptions("dotnet")
     {
-        [PositionalArgument(PlaceholderName = "[<PROJECT>]")]
+        [CliArgument(Placement = ArgumentPlacement.ImmediatelyAfterCommand)]
         public string? Project { get; set; }
 
-        [CommandSwitch("--source")]
+        [CliOption("--source")]
         public string? Source { get; set; }
     }
 }

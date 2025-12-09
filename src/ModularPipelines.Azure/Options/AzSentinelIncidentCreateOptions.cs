@@ -4,52 +4,52 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "incident", "create")]
+[CliSubCommand("sentinel", "incident", "create")]
 public record AzSentinelIncidentCreateOptions(
-[property: CommandSwitch("--incident-id")] string IncidentId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--incident-id")] string IncidentId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--classification")]
+    [CliFlag("--classification")]
     public bool? Classification { get; set; }
 
-    [CommandSwitch("--classification-comment")]
+    [CliOption("--classification-comment")]
     public string? ClassificationComment { get; set; }
 
-    [CommandSwitch("--classification-reason")]
+    [CliOption("--classification-reason")]
     public string? ClassificationReason { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [CommandSwitch("--first-activity-time-utc")]
+    [CliOption("--first-activity-time-utc")]
     public string? FirstActivityTimeUtc { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 
-    [CommandSwitch("--last-activity-time-utc")]
+    [CliOption("--last-activity-time-utc")]
     public string? LastActivityTimeUtc { get; set; }
 
-    [CommandSwitch("--owner")]
+    [CliOption("--owner")]
     public string? Owner { get; set; }
 
-    [CommandSwitch("--provider-incident-id")]
+    [CliOption("--provider-incident-id")]
     public string? ProviderIncidentId { get; set; }
 
-    [CommandSwitch("--provider-name")]
+    [CliOption("--provider-name")]
     public string? ProviderName { get; set; }
 
-    [CommandSwitch("--severity")]
+    [CliOption("--severity")]
     public string? Severity { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--title")]
+    [CliOption("--title")]
     public string? Title { get; set; }
 }

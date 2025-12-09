@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptunedata", "execute-gremlin-query")]
+[CliCommand("neptunedata", "execute-gremlin-query")]
 public record AwsNeptunedataExecuteGremlinQueryOptions(
-[property: CommandSwitch("--gremlin-query")] string GremlinQuery
+[property: CliOption("--gremlin-query")] string GremlinQuery
 ) : AwsOptions
 {
-    [CommandSwitch("--serializer")]
+    [CliOption("--serializer")]
     public string? Serializer { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

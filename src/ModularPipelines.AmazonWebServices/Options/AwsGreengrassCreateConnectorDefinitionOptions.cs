@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("greengrass", "create-connector-definition")]
+[CliCommand("greengrass", "create-connector-definition")]
 public record AwsGreengrassCreateConnectorDefinitionOptions : AwsOptions
 {
-    [CommandSwitch("--amzn-client-token")]
+    [CliOption("--amzn-client-token")]
     public string? AmznClientToken { get; set; }
 
-    [CommandSwitch("--initial-version")]
+    [CliOption("--initial-version")]
     public string? InitialVersion { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

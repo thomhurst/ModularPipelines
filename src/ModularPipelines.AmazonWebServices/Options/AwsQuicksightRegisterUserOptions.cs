@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "register-user")]
+[CliCommand("quicksight", "register-user")]
 public record AwsQuicksightRegisterUserOptions(
-[property: CommandSwitch("--identity-type")] string IdentityType,
-[property: CommandSwitch("--email")] string Email,
-[property: CommandSwitch("--user-role")] string UserRole,
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--namespace")] string Namespace
+[property: CliOption("--identity-type")] string IdentityType,
+[property: CliOption("--email")] string Email,
+[property: CliOption("--user-role")] string UserRole,
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--namespace")] string Namespace
 ) : AwsOptions
 {
-    [CommandSwitch("--iam-arn")]
+    [CliOption("--iam-arn")]
     public string? IamArn { get; set; }
 
-    [CommandSwitch("--session-name")]
+    [CliOption("--session-name")]
     public string? SessionName { get; set; }
 
-    [CommandSwitch("--user-name")]
+    [CliOption("--user-name")]
     public string? UserName { get; set; }
 
-    [CommandSwitch("--custom-permissions-name")]
+    [CliOption("--custom-permissions-name")]
     public string? CustomPermissionsName { get; set; }
 
-    [CommandSwitch("--external-login-federation-provider-type")]
+    [CliOption("--external-login-federation-provider-type")]
     public string? ExternalLoginFederationProviderType { get; set; }
 
-    [CommandSwitch("--custom-federation-provider-url")]
+    [CliOption("--custom-federation-provider-url")]
     public string? CustomFederationProviderUrl { get; set; }
 
-    [CommandSwitch("--external-login-id")]
+    [CliOption("--external-login-id")]
     public string? ExternalLoginId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

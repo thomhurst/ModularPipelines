@@ -5,17 +5,17 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ivschat", "create-logging-configuration")]
+[CliCommand("ivschat", "create-logging-configuration")]
 public record AwsIvschatCreateLoggingConfigurationOptions(
-[property: CommandSwitch("--destination-configuration")] string DestinationConfiguration
+[property: CliOption("--destination-configuration")] string DestinationConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

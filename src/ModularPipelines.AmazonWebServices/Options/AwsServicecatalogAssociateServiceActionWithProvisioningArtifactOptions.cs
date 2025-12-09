@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicecatalog", "associate-service-action-with-provisioning-artifact")]
+[CliCommand("servicecatalog", "associate-service-action-with-provisioning-artifact")]
 public record AwsServicecatalogAssociateServiceActionWithProvisioningArtifactOptions(
-[property: CommandSwitch("--product-id")] string ProductId,
-[property: CommandSwitch("--provisioning-artifact-id")] string ProvisioningArtifactId,
-[property: CommandSwitch("--service-action-id")] string ServiceActionId
+[property: CliOption("--product-id")] string ProductId,
+[property: CliOption("--provisioning-artifact-id")] string ProvisioningArtifactId,
+[property: CliOption("--service-action-id")] string ServiceActionId
 ) : AwsOptions
 {
-    [CommandSwitch("--accept-language")]
+    [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

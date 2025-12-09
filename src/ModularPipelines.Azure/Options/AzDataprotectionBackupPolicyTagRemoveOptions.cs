@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataprotection", "backup-policy", "tag", "remove")]
+[CliSubCommand("dataprotection", "backup-policy", "tag", "remove")]
 public record AzDataprotectionBackupPolicyTagRemoveOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--policy")] string Policy
+[property: CliOption("--name")] string Name,
+[property: CliOption("--policy")] string Policy
 ) : AzOptions;

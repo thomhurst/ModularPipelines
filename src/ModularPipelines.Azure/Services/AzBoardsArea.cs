@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("boards")]
+[CliSubCommand("boards")]
 public class AzBoardsArea
 {
     public AzBoardsArea(

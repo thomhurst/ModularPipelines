@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datamigration", "sql-db", "create")]
+[CliSubCommand("datamigration", "sql-db", "create")]
 public record AzDatamigrationSqlDbCreateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sqldb-instance-name")] string SqldbInstanceName,
-[property: CommandSwitch("--target-db-name")] string TargetDbName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sqldb-instance-name")] string SqldbInstanceName,
+[property: CliOption("--target-db-name")] string TargetDbName
 ) : AzOptions
 {
-    [CommandSwitch("--migration-service")]
+    [CliOption("--migration-service")]
     public string? MigrationService { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--source-database-name")]
+    [CliOption("--source-database-name")]
     public string? SourceDatabaseName { get; set; }
 
-    [CommandSwitch("--source-sql-connection")]
+    [CliOption("--source-sql-connection")]
     public string? SourceSqlConnection { get; set; }
 
-    [CommandSwitch("--table-list")]
+    [CliOption("--table-list")]
     public string? TableList { get; set; }
 
-    [CommandSwitch("--target-db-collation")]
+    [CliOption("--target-db-collation")]
     public string? TargetDbCollation { get; set; }
 
-    [CommandSwitch("--target-sql-connection")]
+    [CliOption("--target-sql-connection")]
     public string? TargetSqlConnection { get; set; }
 }

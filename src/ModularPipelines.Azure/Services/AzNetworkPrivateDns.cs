@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network")]
+[CliSubCommand("network")]
 public class AzNetworkPrivateDns
 {
     public AzNetworkPrivateDns(

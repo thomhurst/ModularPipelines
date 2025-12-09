@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datazone", "create-asset")]
+[CliCommand("datazone", "create-asset")]
 public record AwsDatazoneCreateAssetOptions(
-[property: CommandSwitch("--domain-identifier")] string DomainIdentifier,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--owning-project-identifier")] string OwningProjectIdentifier,
-[property: CommandSwitch("--type-identifier")] string TypeIdentifier
+[property: CliOption("--domain-identifier")] string DomainIdentifier,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--owning-project-identifier")] string OwningProjectIdentifier,
+[property: CliOption("--type-identifier")] string TypeIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--external-identifier")]
+    [CliOption("--external-identifier")]
     public string? ExternalIdentifier { get; set; }
 
-    [CommandSwitch("--forms-input")]
+    [CliOption("--forms-input")]
     public string[]? FormsInput { get; set; }
 
-    [CommandSwitch("--glossary-terms")]
+    [CliOption("--glossary-terms")]
     public string[]? GlossaryTerms { get; set; }
 
-    [CommandSwitch("--prediction-configuration")]
+    [CliOption("--prediction-configuration")]
     public string? PredictionConfiguration { get; set; }
 
-    [CommandSwitch("--type-revision")]
+    [CliOption("--type-revision")]
     public string? TypeRevision { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

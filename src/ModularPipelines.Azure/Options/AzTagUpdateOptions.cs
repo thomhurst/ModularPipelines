@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tag", "update")]
+[CliSubCommand("tag", "update")]
 public record AzTagUpdateOptions(
-[property: CommandSwitch("--operation")] string Operation,
-[property: CommandSwitch("--resource-id")] string ResourceId,
-[property: CommandSwitch("--tags")] string Tags
+[property: CliOption("--operation")] string Operation,
+[property: CliOption("--resource-id")] string ResourceId,
+[property: CliOption("--tags")] string Tags
 ) : AzOptions;

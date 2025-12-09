@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "pause-contact")]
+[CliCommand("connect", "pause-contact")]
 public record AwsConnectPauseContactOptions(
-[property: CommandSwitch("--contact-id")] string ContactId,
-[property: CommandSwitch("--instance-id")] string InstanceId
+[property: CliOption("--contact-id")] string ContactId,
+[property: CliOption("--instance-id")] string InstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--contact-flow-id")]
+    [CliOption("--contact-flow-id")]
     public string? ContactFlowId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

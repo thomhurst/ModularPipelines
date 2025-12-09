@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "list-jobs")]
+[CliCommand("batch", "list-jobs")]
 public record AwsBatchListJobsOptions : AwsOptions
 {
-    [CommandSwitch("--job-queue")]
+    [CliOption("--job-queue")]
     public string? JobQueue { get; set; }
 
-    [CommandSwitch("--array-job-id")]
+    [CliOption("--array-job-id")]
     public string? ArrayJobId { get; set; }
 
-    [CommandSwitch("--multi-node-job-id")]
+    [CliOption("--multi-node-job-id")]
     public string? MultiNodeJobId { get; set; }
 
-    [CommandSwitch("--job-status")]
+    [CliOption("--job-status")]
     public string? JobStatus { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,29 +5,29 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lexv2-models", "create-bot")]
+[CliCommand("lexv2-models", "create-bot")]
 public record AwsLexv2ModelsCreateBotOptions(
-[property: CommandSwitch("--bot-name")] string BotName,
-[property: CommandSwitch("--role-arn")] string RoleArn,
-[property: CommandSwitch("--data-privacy")] string DataPrivacy,
-[property: CommandSwitch("--idle-session-ttl-in-seconds")] int IdleSessionTtlInSeconds
+[property: CliOption("--bot-name")] string BotName,
+[property: CliOption("--role-arn")] string RoleArn,
+[property: CliOption("--data-privacy")] string DataPrivacy,
+[property: CliOption("--idle-session-ttl-in-seconds")] int IdleSessionTtlInSeconds
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--bot-tags")]
+    [CliOption("--bot-tags")]
     public IEnumerable<KeyValue>? BotTags { get; set; }
 
-    [CommandSwitch("--test-bot-alias-tags")]
+    [CliOption("--test-bot-alias-tags")]
     public IEnumerable<KeyValue>? TestBotAliasTags { get; set; }
 
-    [CommandSwitch("--bot-type")]
+    [CliOption("--bot-type")]
     public string? BotType { get; set; }
 
-    [CommandSwitch("--bot-members")]
+    [CliOption("--bot-members")]
     public string[]? BotMembers { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

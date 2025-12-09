@@ -4,53 +4,53 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "run")]
+[CliSubCommand("acr", "run")]
 public record AzAcrRunOptions(
-[property: CommandSwitch("--registry")] string Registry
+[property: CliOption("--registry")] string Registry
 ) : AzOptions
 {
-    [CommandSwitch("--agent-pool")]
+    [CliOption("--agent-pool")]
     public string? AgentPool { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--cmd")]
+    [CliOption("--cmd")]
     public string? Cmd { get; set; }
 
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public string? File { get; set; }
 
-    [CommandSwitch("--log-template")]
+    [CliOption("--log-template")]
     public string? LogTemplate { get; set; }
 
-    [BooleanCommandSwitch("--no-format")]
+    [CliFlag("--no-format")]
     public bool? NoFormat { get; set; }
 
-    [BooleanCommandSwitch("--no-logs")]
+    [CliFlag("--no-logs")]
     public bool? NoLogs { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public string? Platform { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--set-secret")]
+    [CliOption("--set-secret")]
     public string? SetSecret { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--values")]
+    [CliOption("--values")]
     public string? Values { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? SOURCELOCATION { get; set; }
 }

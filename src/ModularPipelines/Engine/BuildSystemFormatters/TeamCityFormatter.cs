@@ -6,7 +6,7 @@ namespace ModularPipelines.Engine.BuildSystemFormatters;
 /// </summary>
 /// <remarks>
 /// TeamCity uses service messages in the format ##teamcity[command name='value']
-/// Documentation: https://www.jetbrains.com/help/teamcity/service-messages.html
+/// Documentation: https://www.jetbrains.com/help/teamcity/service-messages.html.
 /// </remarks>
 /// <example>
 /// <code>

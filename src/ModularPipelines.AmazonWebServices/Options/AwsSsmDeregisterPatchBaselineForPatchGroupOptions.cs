@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "deregister-patch-baseline-for-patch-group")]
+[CliCommand("ssm", "deregister-patch-baseline-for-patch-group")]
 public record AwsSsmDeregisterPatchBaselineForPatchGroupOptions(
-[property: CommandSwitch("--baseline-id")] string BaselineId,
-[property: CommandSwitch("--patch-group")] string PatchGroup
+[property: CliOption("--baseline-id")] string BaselineId,
+[property: CliOption("--patch-group")] string PatchGroup
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

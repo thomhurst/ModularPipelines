@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "list-profile-shares")]
+[CliCommand("wellarchitected", "list-profile-shares")]
 public record AwsWellarchitectedListProfileSharesOptions(
-[property: CommandSwitch("--profile-arn")] string ProfileArn
+[property: CliOption("--profile-arn")] string ProfileArn
 ) : AwsOptions
 {
-    [CommandSwitch("--shared-with-prefix")]
+    [CliOption("--shared-with-prefix")]
     public string? SharedWithPrefix { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

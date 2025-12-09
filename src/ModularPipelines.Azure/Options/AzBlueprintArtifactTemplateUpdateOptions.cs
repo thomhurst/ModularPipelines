@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("blueprint", "artifact", "template", "update")]
+[CliSubCommand("blueprint", "artifact", "template", "update")]
 public record AzBlueprintArtifactTemplateUpdateOptions(
-[property: CommandSwitch("--artifact-name")] string ArtifactName,
-[property: CommandSwitch("--blueprint-name")] string BlueprintName
+[property: CliOption("--artifact-name")] string ArtifactName,
+[property: CliOption("--blueprint-name")] string BlueprintName
 ) : AzOptions
 {
-    [CommandSwitch("--depends-on")]
+    [CliOption("--depends-on")]
     public string? DependsOn { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--management-group")]
+    [CliOption("--management-group")]
     public string? ManagementGroup { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--resource-group-art")]
+    [CliOption("--resource-group-art")]
     public string? ResourceGroupArt { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--template")]
+    [CliOption("--template")]
     public string? Template { get; set; }
 }

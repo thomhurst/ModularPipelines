@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fsx", "start-misconfigured-state-recovery")]
+[CliCommand("fsx", "start-misconfigured-state-recovery")]
 public record AwsFsxStartMisconfiguredStateRecoveryOptions(
-[property: CommandSwitch("--file-system-id")] string FileSystemId
+[property: CliOption("--file-system-id")] string FileSystemId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

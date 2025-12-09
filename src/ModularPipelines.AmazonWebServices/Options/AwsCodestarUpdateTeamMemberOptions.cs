@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codestar", "update-team-member")]
+[CliCommand("codestar", "update-team-member")]
 public record AwsCodestarUpdateTeamMemberOptions(
-[property: CommandSwitch("--project-id")] string ProjectId,
-[property: CommandSwitch("--user-arn")] string UserArn
+[property: CliOption("--project-id")] string ProjectId,
+[property: CliOption("--user-arn")] string UserArn
 ) : AwsOptions
 {
-    [CommandSwitch("--project-role")]
+    [CliOption("--project-role")]
     public string? ProjectRole { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

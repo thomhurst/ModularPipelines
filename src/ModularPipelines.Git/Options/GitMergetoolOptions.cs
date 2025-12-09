@@ -3,25 +3,25 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("mergetool")]
+[CliSubCommand("mergetool")]
 [ExcludeFromCodeCoverage]
 public record GitMergetoolOptions : GitOptions
 {
-    [CommandEqualsSeparatorSwitch("--tool")]
-    public string? MergeTool { get; set; }
+    [CliOption("--tool", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? MergeTool { get; set; }
 
-    [BooleanCommandSwitch("--tool-help")]
+    [CliFlag("--tool-help")]
     public virtual bool? ToolHelp { get; set; }
 
-    [BooleanCommandSwitch("--no-prompt")]
+    [CliFlag("--no-prompt")]
     public virtual bool? NoPrompt { get; set; }
 
-    [BooleanCommandSwitch("--prompt")]
+    [CliFlag("--prompt")]
     public virtual bool? Prompt { get; set; }
 
-    [BooleanCommandSwitch("--gui")]
+    [CliFlag("--gui")]
     public virtual bool? Gui { get; set; }
 
-    [BooleanCommandSwitch("--no-gui")]
+    [CliFlag("--no-gui")]
     public virtual bool? NoGui { get; set; }
 }

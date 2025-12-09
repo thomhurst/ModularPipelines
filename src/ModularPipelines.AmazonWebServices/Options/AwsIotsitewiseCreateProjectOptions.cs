@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotsitewise", "create-project")]
+[CliCommand("iotsitewise", "create-project")]
 public record AwsIotsitewiseCreateProjectOptions(
-[property: CommandSwitch("--portal-id")] string PortalId,
-[property: CommandSwitch("--project-name")] string ProjectName
+[property: CliOption("--portal-id")] string PortalId,
+[property: CliOption("--project-name")] string ProjectName
 ) : AwsOptions
 {
-    [CommandSwitch("--project-description")]
+    [CliOption("--project-description")]
     public string? ProjectDescription { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

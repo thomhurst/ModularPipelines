@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lexv2-models", "wait", "bot-version-available")]
+[CliCommand("lexv2-models", "wait", "bot-version-available")]
 public record AwsLexv2ModelsWaitBotVersionAvailableOptions(
-[property: CommandSwitch("--bot-id")] string BotId,
-[property: CommandSwitch("--bot-version")] string BotVersion
+[property: CliOption("--bot-id")] string BotId,
+[property: CliOption("--bot-version")] string BotVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

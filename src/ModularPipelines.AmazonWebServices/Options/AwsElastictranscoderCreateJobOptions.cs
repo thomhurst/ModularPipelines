@@ -5,32 +5,32 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elastictranscoder", "create-job")]
+[CliCommand("elastictranscoder", "create-job")]
 public record AwsElastictranscoderCreateJobOptions(
-[property: CommandSwitch("--pipeline-id")] string PipelineId
+[property: CliOption("--pipeline-id")] string PipelineId
 ) : AwsOptions
 {
-    [CommandSwitch("--input")]
+    [CliOption("--input")]
     public string? Input { get; set; }
 
-    [CommandSwitch("--inputs")]
+    [CliOption("--inputs")]
     public string[]? Inputs { get; set; }
 
-    [CommandSwitch("--outputs")]
+    [CliOption("--outputs")]
     public string[]? Outputs { get; set; }
 
-    [CommandSwitch("--output-key-prefix")]
+    [CliOption("--output-key-prefix")]
     public string? OutputKeyPrefix { get; set; }
 
-    [CommandSwitch("--playlists")]
+    [CliOption("--playlists")]
     public string[]? Playlists { get; set; }
 
-    [CommandSwitch("--user-metadata")]
+    [CliOption("--user-metadata")]
     public IEnumerable<KeyValue>? UserMetadata { get; set; }
 
-    [CommandSwitch("--job-output")]
+    [CliOption("--job-output")]
     public string? JobOutput { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

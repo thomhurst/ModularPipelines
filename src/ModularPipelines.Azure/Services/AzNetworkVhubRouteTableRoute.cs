@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vhub", "route-table")]
+[CliCommand("network", "vhub", "route-table")]
 public class AzNetworkVhubRouteTableRoute
 {
     public AzNetworkVhubRouteTableRoute(

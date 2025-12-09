@@ -5,53 +5,53 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "put-integration")]
+[CliCommand("apigateway", "put-integration")]
 public record AwsApigatewayPutIntegrationOptions(
-[property: CommandSwitch("--rest-api-id")] string RestApiId,
-[property: CommandSwitch("--resource-id")] string ResourceId,
-[property: CommandSwitch("--http-method")] string HttpMethod,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--rest-api-id")] string RestApiId,
+[property: CliOption("--resource-id")] string ResourceId,
+[property: CliOption("--http-method")] string HttpMethod,
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--integration-http-method")]
+    [CliOption("--integration-http-method")]
     public string? IntegrationHttpMethod { get; set; }
 
-    [CommandSwitch("--uri")]
+    [CliOption("--uri")]
     public string? Uri { get; set; }
 
-    [CommandSwitch("--connection-type")]
+    [CliOption("--connection-type")]
     public string? ConnectionType { get; set; }
 
-    [CommandSwitch("--connection-id")]
+    [CliOption("--connection-id")]
     public string? ConnectionId { get; set; }
 
-    [CommandSwitch("--credentials")]
+    [CliOption("--credentials")]
     public string? Credentials { get; set; }
 
-    [CommandSwitch("--request-parameters")]
+    [CliOption("--request-parameters")]
     public IEnumerable<KeyValue>? RequestParameters { get; set; }
 
-    [CommandSwitch("--request-templates")]
+    [CliOption("--request-templates")]
     public IEnumerable<KeyValue>? RequestTemplates { get; set; }
 
-    [CommandSwitch("--passthrough-behavior")]
+    [CliOption("--passthrough-behavior")]
     public string? PassthroughBehavior { get; set; }
 
-    [CommandSwitch("--cache-namespace")]
+    [CliOption("--cache-namespace")]
     public string? CacheNamespace { get; set; }
 
-    [CommandSwitch("--cache-key-parameters")]
+    [CliOption("--cache-key-parameters")]
     public string[]? CacheKeyParameters { get; set; }
 
-    [CommandSwitch("--content-handling")]
+    [CliOption("--content-handling")]
     public string? ContentHandling { get; set; }
 
-    [CommandSwitch("--timeout-in-millis")]
+    [CliOption("--timeout-in-millis")]
     public int? TimeoutInMillis { get; set; }
 
-    [CommandSwitch("--tls-config")]
+    [CliOption("--tls-config")]
     public string? TlsConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

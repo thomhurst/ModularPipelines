@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "update-custom-metric")]
+[CliCommand("iot", "update-custom-metric")]
 public record AwsIotUpdateCustomMetricOptions(
-[property: CommandSwitch("--metric-name")] string MetricName,
-[property: CommandSwitch("--display-name")] string DisplayName
+[property: CliOption("--metric-name")] string MetricName,
+[property: CliOption("--display-name")] string DisplayName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

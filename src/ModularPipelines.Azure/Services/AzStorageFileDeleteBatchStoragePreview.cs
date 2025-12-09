@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "file", "delete-batch")]
+[CliCommand("storage", "file", "delete-batch")]
 public class AzStorageFileDeleteBatchStoragePreview
 {
     public AzStorageFileDeleteBatchStoragePreview(

@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "set-risk-configuration")]
+[CliCommand("cognito-idp", "set-risk-configuration")]
 public record AwsCognitoIdpSetRiskConfigurationOptions(
-[property: CommandSwitch("--user-pool-id")] string UserPoolId
+[property: CliOption("--user-pool-id")] string UserPoolId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-id")]
+    [CliOption("--client-id")]
     public string? ClientId { get; set; }
 
-    [CommandSwitch("--compromised-credentials-risk-configuration")]
+    [CliOption("--compromised-credentials-risk-configuration")]
     public string? CompromisedCredentialsRiskConfiguration { get; set; }
 
-    [CommandSwitch("--account-takeover-risk-configuration")]
+    [CliOption("--account-takeover-risk-configuration")]
     public string? AccountTakeoverRiskConfiguration { get; set; }
 
-    [CommandSwitch("--risk-exception-configuration")]
+    [CliOption("--risk-exception-configuration")]
     public string? RiskExceptionConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

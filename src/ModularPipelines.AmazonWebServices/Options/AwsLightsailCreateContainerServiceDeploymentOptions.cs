@@ -5,17 +5,17 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "create-container-service-deployment")]
+[CliCommand("lightsail", "create-container-service-deployment")]
 public record AwsLightsailCreateContainerServiceDeploymentOptions(
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--service-name")] string ServiceName
 ) : AwsOptions
 {
-    [CommandSwitch("--containers")]
+    [CliOption("--containers")]
     public IEnumerable<KeyValue>? Containers { get; set; }
 
-    [CommandSwitch("--public-endpoint")]
+    [CliOption("--public-endpoint")]
     public string? PublicEndpoint { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

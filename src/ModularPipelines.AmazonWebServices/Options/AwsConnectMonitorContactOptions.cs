@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "monitor-contact")]
+[CliCommand("connect", "monitor-contact")]
 public record AwsConnectMonitorContactOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--contact-id")] string ContactId,
-[property: CommandSwitch("--user-id")] string UserId
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--contact-id")] string ContactId,
+[property: CliOption("--user-id")] string UserId
 ) : AwsOptions
 {
-    [CommandSwitch("--allowed-monitor-capabilities")]
+    [CliOption("--allowed-monitor-capabilities")]
     public string[]? AllowedMonitorCapabilities { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

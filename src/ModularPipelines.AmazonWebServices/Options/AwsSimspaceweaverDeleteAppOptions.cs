@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("simspaceweaver", "delete-app")]
+[CliCommand("simspaceweaver", "delete-app")]
 public record AwsSimspaceweaverDeleteAppOptions(
-[property: CommandSwitch("--app")] string App,
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--simulation")] string Simulation
+[property: CliOption("--app")] string App,
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--simulation")] string Simulation
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

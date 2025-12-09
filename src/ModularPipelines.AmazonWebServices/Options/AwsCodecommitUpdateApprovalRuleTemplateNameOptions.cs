@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecommit", "update-approval-rule-template-name")]
+[CliCommand("codecommit", "update-approval-rule-template-name")]
 public record AwsCodecommitUpdateApprovalRuleTemplateNameOptions(
-[property: CommandSwitch("--old-approval-rule-template-name")] string OldApprovalRuleTemplateName,
-[property: CommandSwitch("--new-approval-rule-template-name")] string NewApprovalRuleTemplateName
+[property: CliOption("--old-approval-rule-template-name")] string OldApprovalRuleTemplateName,
+[property: CliOption("--new-approval-rule-template-name")] string NewApprovalRuleTemplateName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

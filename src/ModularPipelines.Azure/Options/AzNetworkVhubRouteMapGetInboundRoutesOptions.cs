@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vhub", "route-map", "get-inbound-routes")]
+[CliSubCommand("network", "vhub", "route-map", "get-inbound-routes")]
 public record AzNetworkVhubRouteMapGetInboundRoutesOptions : AzOptions
 {
-    [CommandSwitch("--connection-type")]
+    [CliOption("--connection-type")]
     public string? ConnectionType { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-uri")]
+    [CliOption("--resource-uri")]
     public string? ResourceUri { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--vhub-name")]
+    [CliOption("--vhub-name")]
     public string? VhubName { get; set; }
 }

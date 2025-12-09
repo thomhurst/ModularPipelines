@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticbeanstalk", "describe-applications")]
+[CliCommand("elasticbeanstalk", "describe-applications")]
 public record AwsElasticbeanstalkDescribeApplicationsOptions : AwsOptions
 {
-    [CommandSwitch("--application-names")]
+    [CliOption("--application-names")]
     public string[]? ApplicationNames { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

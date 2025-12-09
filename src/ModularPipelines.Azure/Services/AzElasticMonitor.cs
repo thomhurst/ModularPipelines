@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elastic")]
+[CliSubCommand("elastic")]
 public class AzElasticMonitor
 {
     public AzElasticMonitor(

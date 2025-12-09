@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("medical-imaging", "delete-image-set")]
+[CliCommand("medical-imaging", "delete-image-set")]
 public record AwsMedicalImagingDeleteImageSetOptions(
-[property: CommandSwitch("--datastore-id")] string DatastoreId,
-[property: CommandSwitch("--image-set-id")] string ImageSetId
+[property: CliOption("--datastore-id")] string DatastoreId,
+[property: CliOption("--image-set-id")] string ImageSetId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

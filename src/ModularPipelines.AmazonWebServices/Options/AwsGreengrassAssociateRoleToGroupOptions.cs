@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("greengrass", "associate-role-to-group")]
+[CliCommand("greengrass", "associate-role-to-group")]
 public record AwsGreengrassAssociateRoleToGroupOptions(
-[property: CommandSwitch("--group-id")] string GroupId,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--group-id")] string GroupId,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

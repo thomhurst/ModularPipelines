@@ -4,69 +4,69 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "public-ip", "update")]
+[CliSubCommand("network", "public-ip", "update")]
 public record AzNetworkPublicIpUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--allocation-method")]
+    [CliOption("--allocation-method")]
     public string? AllocationMethod { get; set; }
 
-    [CommandSwitch("--ddos-protection-mode")]
+    [CliOption("--ddos-protection-mode")]
     public string? DdosProtectionMode { get; set; }
 
-    [CommandSwitch("--ddos-protection-plan")]
+    [CliOption("--ddos-protection-plan")]
     public string? DdosProtectionPlan { get; set; }
 
-    [CommandSwitch("--dns-name")]
+    [CliOption("--dns-name")]
     public string? DnsName { get; set; }
 
-    [CommandSwitch("--dns-name-scope")]
+    [CliOption("--dns-name-scope")]
     public string? DnsNameScope { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--idle-timeout")]
+    [CliOption("--idle-timeout")]
     public string? IdleTimeout { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--ip-tags")]
+    [CliOption("--ip-tags")]
     public string? IpTags { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--public-ip-prefix")]
+    [CliOption("--public-ip-prefix")]
     public string? PublicIpPrefix { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--reverse-fqdn")]
+    [CliOption("--reverse-fqdn")]
     public string? ReverseFqdn { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 }

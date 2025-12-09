@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fms", "get-compliance-detail")]
+[CliCommand("fms", "get-compliance-detail")]
 public record AwsFmsGetComplianceDetailOptions(
-[property: CommandSwitch("--policy-id")] string PolicyId,
-[property: CommandSwitch("--member-account")] string MemberAccount
+[property: CliOption("--policy-id")] string PolicyId,
+[property: CliOption("--member-account")] string MemberAccount
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

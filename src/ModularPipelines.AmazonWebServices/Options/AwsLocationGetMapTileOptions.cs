@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "get-map-tile")]
+[CliCommand("location", "get-map-tile")]
 public record AwsLocationGetMapTileOptions(
-[property: CommandSwitch("--map-name")] string MapName,
-[property: CommandSwitch("--x")] string X,
-[property: CommandSwitch("--y")] string Y,
-[property: CommandSwitch("--z")] string Z
+[property: CliOption("--map-name")] string MapName,
+[property: CliOption("--x")] string X,
+[property: CliOption("--y")] string Y,
+[property: CliOption("--z")] string Z
 ) : AwsOptions
 {
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 }

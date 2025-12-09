@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sns", "unsubscribe")]
+[CliCommand("sns", "unsubscribe")]
 public record AwsSnsUnsubscribeOptions(
-[property: CommandSwitch("--subscription-arn")] string SubscriptionArn
+[property: CliOption("--subscription-arn")] string SubscriptionArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

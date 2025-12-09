@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptunedata", "cancel-loader-job")]
+[CliCommand("neptunedata", "cancel-loader-job")]
 public record AwsNeptunedataCancelLoaderJobOptions(
-[property: CommandSwitch("--load-id")] string LoadId
+[property: CliOption("--load-id")] string LoadId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("comprehend", "create-flywheel")]
+[CliCommand("comprehend", "create-flywheel")]
 public record AwsComprehendCreateFlywheelOptions(
-[property: CommandSwitch("--flywheel-name")] string FlywheelName,
-[property: CommandSwitch("--data-access-role-arn")] string DataAccessRoleArn,
-[property: CommandSwitch("--data-lake-s3-uri")] string DataLakeS3Uri
+[property: CliOption("--flywheel-name")] string FlywheelName,
+[property: CliOption("--data-access-role-arn")] string DataAccessRoleArn,
+[property: CliOption("--data-lake-s3-uri")] string DataLakeS3Uri
 ) : AwsOptions
 {
-    [CommandSwitch("--active-model-arn")]
+    [CliOption("--active-model-arn")]
     public string? ActiveModelArn { get; set; }
 
-    [CommandSwitch("--task-config")]
+    [CliOption("--task-config")]
     public string? TaskConfig { get; set; }
 
-    [CommandSwitch("--model-type")]
+    [CliOption("--model-type")]
     public string? ModelType { get; set; }
 
-    [CommandSwitch("--data-security-config")]
+    [CliOption("--data-security-config")]
     public string? DataSecurityConfig { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

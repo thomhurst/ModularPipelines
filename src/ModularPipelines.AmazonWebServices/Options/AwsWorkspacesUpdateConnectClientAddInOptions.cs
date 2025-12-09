@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces", "update-connect-client-add-in")]
+[CliCommand("workspaces", "update-connect-client-add-in")]
 public record AwsWorkspacesUpdateConnectClientAddInOptions(
-[property: CommandSwitch("--add-in-id")] string AddInId,
-[property: CommandSwitch("--resource-id")] string ResourceId
+[property: CliOption("--add-in-id")] string AddInId,
+[property: CliOption("--resource-id")] string ResourceId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--url")]
+    [CliOption("--url")]
     public string? Url { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

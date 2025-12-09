@@ -7,57 +7,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [ExcludeFromCodeCoverage]
 public record AwsOptions() : CommandLineToolOptions("aws")
 {
-    [BooleanCommandSwitch("--debug")]
+    [CliFlag("--debug")]
     public bool? Debug { get; set; }
 
-    [CommandSwitch("--endpoint-url")]
+    [CliOption("--endpoint-url")]
     public string? EndpointUrl { get; set; }
 
-    [BooleanCommandSwitch("--no-verify-ssl")]
+    [CliFlag("--no-verify-ssl")]
     public bool? NoVerifySsl { get; set; }
 
-    [BooleanCommandSwitch("--no-paginate")]
+    [CliFlag("--no-paginate")]
     public bool? NoPaginate { get; set; }
 
-    [CommandSwitch("--output")]
+    [CliOption("--output")]
     public string? Output { get; set; }
 
-    [CommandSwitch("--query")]
+    [CliOption("--query")]
     public string? Query { get; set; }
 
-    [CommandSwitch("--profile")]
+    [CliOption("--profile")]
     public string? Profile { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 
-    [CommandSwitch("--color")]
+    [CliOption("--color")]
     public string? Color { get; set; }
 
-    [BooleanCommandSwitch("--no-sign-request")]
+    [CliFlag("--no-sign-request")]
     public bool? NoSignRequest { get; set; }
 
-    [CommandSwitch("--ca-bundle")]
+    [CliOption("--ca-bundle")]
     public string? CaBundle { get; set; }
 
-    [CommandSwitch("--cli-read-timeout")]
+    [CliOption("--cli-read-timeout")]
     public int? CliReadTimeout { get; set; }
 
-    [CommandSwitch("--cli-connect-timeout")]
+    [CliOption("--cli-connect-timeout")]
     public int? CliConnectTimeout { get; set; }
 
-    [CommandSwitch("--cli-binary-format")]
+    [CliOption("--cli-binary-format")]
     public string? CliBinaryFormat { get; set; }
 
-    [BooleanCommandSwitch("--no-cli-pager")]
+    [CliFlag("--no-cli-pager")]
     public bool? NoCliPager { get; set; }
 
-    [BooleanCommandSwitch("--cli-auto-prompt")]
+    [CliFlag("--cli-auto-prompt")]
     public bool? CliAutoPrompt { get; set; }
 
-    [BooleanCommandSwitch("--no-cli-auto-prompt")]
+    [CliFlag("--no-cli-auto-prompt")]
     public bool? NoCliAutoPrompt { get; set; }
 }

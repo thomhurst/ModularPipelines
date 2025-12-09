@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "node", "user", "reset")]
+[CliSubCommand("batch", "node", "user", "reset")]
 public record AzBatchNodeUserResetOptions(
-[property: CommandSwitch("--node-id")] string NodeId,
-[property: CommandSwitch("--pool-id")] string PoolId,
-[property: CommandSwitch("--user-name")] string UserName
+[property: CliOption("--node-id")] string NodeId,
+[property: CliOption("--pool-id")] string PoolId,
+[property: CliOption("--user-name")] string UserName
 ) : AzOptions
 {
-    [CommandSwitch("--account-endpoint")]
+    [CliOption("--account-endpoint")]
     public int? AccountEndpoint { get; set; }
 
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--expiry-time")]
+    [CliOption("--expiry-time")]
     public string? ExpiryTime { get; set; }
 
-    [CommandSwitch("--json-file")]
+    [CliOption("--json-file")]
     public string? JsonFile { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--ssh-public-key")]
+    [CliOption("--ssh-public-key")]
     public string? SshPublicKey { get; set; }
 }

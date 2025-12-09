@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotanalytics", "update-pipeline")]
+[CliCommand("iotanalytics", "update-pipeline")]
 public record AwsIotanalyticsUpdatePipelineOptions(
-[property: CommandSwitch("--pipeline-name")] string PipelineName,
-[property: CommandSwitch("--pipeline-activities")] string[] PipelineActivities
+[property: CliOption("--pipeline-name")] string PipelineName,
+[property: CliOption("--pipeline-activities")] string[] PipelineActivities
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opensearch", "describe-vpc-endpoints")]
+[CliCommand("opensearch", "describe-vpc-endpoints")]
 public record AwsOpensearchDescribeVpcEndpointsOptions(
-[property: CommandSwitch("--vpc-endpoint-ids")] string[] VpcEndpointIds
+[property: CliOption("--vpc-endpoint-ids")] string[] VpcEndpointIds
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

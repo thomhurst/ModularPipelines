@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("docdb", "copy-db-cluster-parameter-group")]
+[CliCommand("docdb", "copy-db-cluster-parameter-group")]
 public record AwsDocdbCopyDbClusterParameterGroupOptions(
-[property: CommandSwitch("--source-db-cluster-parameter-group-identifier")] string SourceDbClusterParameterGroupIdentifier,
-[property: CommandSwitch("--target-db-cluster-parameter-group-identifier")] string TargetDbClusterParameterGroupIdentifier,
-[property: CommandSwitch("--target-db-cluster-parameter-group-description")] string TargetDbClusterParameterGroupDescription
+[property: CliOption("--source-db-cluster-parameter-group-identifier")] string SourceDbClusterParameterGroupIdentifier,
+[property: CliOption("--target-db-cluster-parameter-group-identifier")] string TargetDbClusterParameterGroupIdentifier,
+[property: CliOption("--target-db-cluster-parameter-group-description")] string TargetDbClusterParameterGroupDescription
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,64 +4,64 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("plan")]
+[CliSubCommand("plan")]
 [ExcludeFromCodeCoverage]
 public record TerraformPlanOptions : TerraformOptions
 {
-    [CommandSwitch("-out")]
+    [CliOption("-out")]
     public virtual string? Out { get; set; }
 
-    [BooleanCommandSwitch("-destroy")]
+    [CliFlag("-destroy")]
     public virtual bool? Destroy { get; set; }
 
-    [BooleanCommandSwitch("-refresh-only")]
+    [CliFlag("-refresh-only")]
     public virtual bool? RefreshOnly { get; set; }
 
-    [BooleanCommandSwitch("-refresh")]
+    [CliFlag("-refresh")]
     public virtual bool? Refresh { get; set; }
 
-    [CommandSwitch("-replace")]
+    [CliOption("-replace")]
     public virtual string? Replace { get; set; }
 
-    [CommandSwitch("-target")]
+    [CliOption("-target")]
     public virtual string? Target { get; set; }
 
-    [CommandSwitch("-var")]
+    [CliOption("-var")]
     public virtual IEnumerable<KeyValue>? Vars { get; set; }
 
-    [CommandSwitch("-var-file")]
+    [CliOption("-var-file")]
     public virtual string? VarFile { get; set; }
 
-    [BooleanCommandSwitch("-compact-warnings")]
+    [CliFlag("-compact-warnings")]
     public virtual bool? CompactWarnings { get; set; }
 
-    [BooleanCommandSwitch("-detailed-exitcode")]
+    [CliFlag("-detailed-exitcode")]
     public virtual bool? DetailedExitcode { get; set; }
 
-    [CommandSwitch("-generate-config-out")]
+    [CliOption("-generate-config-out")]
     public virtual string? GenerateConfigOut { get; set; }
 
-    [BooleanCommandSwitch("-input")]
+    [CliFlag("-input")]
     public virtual bool? Input { get; set; }
 
-    [BooleanCommandSwitch("-json")]
+    [CliFlag("-json")]
     public virtual bool? Json { get; set; }
 
-    [BooleanCommandSwitch("-lock")]
+    [CliFlag("-lock")]
     public virtual bool? Lock { get; set; }
 
-    [CommandSwitch("-lock-timeout")]
+    [CliOption("-lock-timeout")]
     public virtual string? LockTimeout { get; set; }
 
-    [BooleanCommandSwitch("-no-color")]
+    [CliFlag("-no-color")]
     public virtual bool? NoColor { get; set; }
 
-    [CommandSwitch("-parallelism")]
+    [CliOption("-parallelism")]
     public virtual int? Parallelism { get; set; }
 
-    [BooleanCommandSwitch("-state")]
+    [CliFlag("-state")]
     public virtual bool? State { get; set; }
 
-    [BooleanCommandSwitch("-chdir")]
+    [CliFlag("-chdir")]
     public virtual bool? Chdir { get; set; }
 }

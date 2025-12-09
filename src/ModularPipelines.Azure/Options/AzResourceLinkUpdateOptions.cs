@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource", "link", "update")]
+[CliSubCommand("resource", "link", "update")]
 public record AzResourceLinkUpdateOptions(
-[property: CommandSwitch("--link")] string Link
+[property: CliOption("--link")] string Link
 ) : AzOptions
 {
-    [CommandSwitch("--notes")]
+    [CliOption("--notes")]
     public string? Notes { get; set; }
 
-    [CommandSwitch("--target")]
+    [CliOption("--target")]
     public string? Target { get; set; }
 }

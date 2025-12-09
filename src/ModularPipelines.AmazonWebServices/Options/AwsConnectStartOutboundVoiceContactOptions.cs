@@ -5,46 +5,46 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "start-outbound-voice-contact")]
+[CliCommand("connect", "start-outbound-voice-contact")]
 public record AwsConnectStartOutboundVoiceContactOptions(
-[property: CommandSwitch("--destination-phone-number")] string DestinationPhoneNumber,
-[property: CommandSwitch("--contact-flow-id")] string ContactFlowId,
-[property: CommandSwitch("--instance-id")] string InstanceId
+[property: CliOption("--destination-phone-number")] string DestinationPhoneNumber,
+[property: CliOption("--contact-flow-id")] string ContactFlowId,
+[property: CliOption("--instance-id")] string InstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--references")]
+    [CliOption("--references")]
     public IEnumerable<KeyValue>? References { get; set; }
 
-    [CommandSwitch("--related-contact-id")]
+    [CliOption("--related-contact-id")]
     public string? RelatedContactId { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--source-phone-number")]
+    [CliOption("--source-phone-number")]
     public string? SourcePhoneNumber { get; set; }
 
-    [CommandSwitch("--queue-id")]
+    [CliOption("--queue-id")]
     public string? QueueId { get; set; }
 
-    [CommandSwitch("--attributes")]
+    [CliOption("--attributes")]
     public IEnumerable<KeyValue>? Attributes { get; set; }
 
-    [CommandSwitch("--answer-machine-detection-config")]
+    [CliOption("--answer-machine-detection-config")]
     public string? AnswerMachineDetectionConfig { get; set; }
 
-    [CommandSwitch("--campaign-id")]
+    [CliOption("--campaign-id")]
     public string? CampaignId { get; set; }
 
-    [CommandSwitch("--traffic-type")]
+    [CliOption("--traffic-type")]
     public string? TrafficType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

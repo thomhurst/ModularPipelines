@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "route-table", "route", "list")]
+[CliSubCommand("network", "route-table", "route", "list")]
 public record AzNetworkRouteTableRouteListOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--route-table-name")] string RouteTableName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--route-table-name")] string RouteTableName
 ) : AzOptions;

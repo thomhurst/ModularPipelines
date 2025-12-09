@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("omics", "accept-share")]
+[CliCommand("omics", "accept-share")]
 public record AwsOmicsAcceptShareOptions(
-[property: CommandSwitch("--share-id")] string ShareId
+[property: CliOption("--share-id")] string ShareId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

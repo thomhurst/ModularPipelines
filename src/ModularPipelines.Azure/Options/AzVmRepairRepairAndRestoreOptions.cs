@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "repair", "repair-and-restore")]
+[CliSubCommand("vm", "repair", "repair-and-restore")]
 public record AzVmRepairRepairAndRestoreOptions : AzOptions
 {
-    [CommandSwitch("--copy-disk-name")]
+    [CliOption("--copy-disk-name")]
     public string? CopyDiskName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--repair-group-name")]
+    [CliOption("--repair-group-name")]
     public string? RepairGroupName { get; set; }
 
-    [CommandSwitch("--repair-password")]
+    [CliOption("--repair-password")]
     public string? RepairPassword { get; set; }
 
-    [CommandSwitch("--repair-username")]
+    [CliOption("--repair-username")]
     public string? RepairUsername { get; set; }
 
-    [CommandSwitch("--repair-vm-name")]
+    [CliOption("--repair-vm-name")]
     public string? RepairVmName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

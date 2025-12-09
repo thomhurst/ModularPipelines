@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hdinsight-on-aks", "cluster")]
+[CliCommand("hdinsight-on-aks", "cluster")]
 public class AzHdinsightOnAksClusterTrinoHiveCatalog
 {
     public AzHdinsightOnAksClusterTrinoHiveCatalog(

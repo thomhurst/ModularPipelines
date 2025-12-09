@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicebus", "topic")]
+[CliCommand("servicebus", "topic")]
 public class AzServicebusTopicSubscription
 {
     public AzServicebusTopicSubscription(

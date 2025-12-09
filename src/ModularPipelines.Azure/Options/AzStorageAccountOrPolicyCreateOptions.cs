@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "account", "or-policy", "create")]
+[CliSubCommand("storage", "account", "or-policy", "create")]
 public record AzStorageAccountOrPolicyCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName
+[property: CliOption("--account-name")] int AccountName
 ) : AzOptions
 {
-    [CommandSwitch("--dcont")]
+    [CliOption("--dcont")]
     public string? Dcont { get; set; }
 
-    [CommandSwitch("--destination-account")]
+    [CliOption("--destination-account")]
     public int? DestinationAccount { get; set; }
 
-    [CommandSwitch("--min-creation-time")]
+    [CliOption("--min-creation-time")]
     public string? MinCreationTime { get; set; }
 
-    [CommandSwitch("--policy")]
+    [CliOption("--policy")]
     public string? Policy { get; set; }
 
-    [CommandSwitch("--policy-id")]
+    [CliOption("--policy-id")]
     public string? PolicyId { get; set; }
 
-    [CommandSwitch("--prefix")]
+    [CliOption("--prefix")]
     public string? Prefix { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--rule-id")]
+    [CliOption("--rule-id")]
     public string? RuleId { get; set; }
 
-    [CommandSwitch("--scont")]
+    [CliOption("--scont")]
     public string? Scont { get; set; }
 
-    [CommandSwitch("--source-account")]
+    [CliOption("--source-account")]
     public int? SourceAccount { get; set; }
 }

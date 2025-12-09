@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "associate-profiles")]
+[CliCommand("wellarchitected", "associate-profiles")]
 public record AwsWellarchitectedAssociateProfilesOptions(
-[property: CommandSwitch("--workload-id")] string WorkloadId,
-[property: CommandSwitch("--profile-arns")] string[] ProfileArns
+[property: CliOption("--workload-id")] string WorkloadId,
+[property: CliOption("--profile-arns")] string[] ProfileArns
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

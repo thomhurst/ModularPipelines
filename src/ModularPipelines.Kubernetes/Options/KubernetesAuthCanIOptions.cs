@@ -3,22 +3,22 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("auth", "can-i")]
+[CliCommand("auth", "can-i")]
 [ExcludeFromCodeCoverage]
-public record KubernetesAuthCanIOptions([property: PositionalArgument] string Verb) : KubernetesOptions
+public record KubernetesAuthCanIOptions([property: CliArgument] string Verb) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--all-namespaces")]
+    [CliFlag("--all-namespaces")]
     public virtual bool? AllNamespaces { get; set; }
 
-    [BooleanCommandSwitch("--list")]
+    [CliFlag("--list")]
     public virtual bool? List { get; set; }
 
-    [BooleanCommandSwitch("--no-headers")]
+    [CliFlag("--no-headers")]
     public virtual bool? NoHeaders { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--subresource", SwitchValueSeparator = " ")]
-    public string? Subresource { get; set; }
+    [CliOption("--subresource")]
+    public virtual string? Subresource { get; set; }
 }

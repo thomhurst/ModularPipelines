@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint-email", "send-email")]
+[CliCommand("pinpoint-email", "send-email")]
 public record AwsPinpointEmailSendEmailOptions(
-[property: CommandSwitch("--destination")] string Destination,
-[property: CommandSwitch("--content")] string Content
+[property: CliOption("--destination")] string Destination,
+[property: CliOption("--content")] string Content
 ) : AwsOptions
 {
-    [CommandSwitch("--from-email-address")]
+    [CliOption("--from-email-address")]
     public string? FromEmailAddress { get; set; }
 
-    [CommandSwitch("--reply-to-addresses")]
+    [CliOption("--reply-to-addresses")]
     public string[]? ReplyToAddresses { get; set; }
 
-    [CommandSwitch("--feedback-forwarding-email-address")]
+    [CliOption("--feedback-forwarding-email-address")]
     public string? FeedbackForwardingEmailAddress { get; set; }
 
-    [CommandSwitch("--email-tags")]
+    [CliOption("--email-tags")]
     public string[]? EmailTags { get; set; }
 
-    [CommandSwitch("--configuration-set-name")]
+    [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

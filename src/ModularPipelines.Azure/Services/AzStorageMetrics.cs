@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage")]
+[CliSubCommand("storage")]
 public class AzStorageMetrics
 {
     public AzStorageMetrics(

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "operation-abort")]
+[CliCommand("aks", "operation-abort")]
 public class AzAksOperationAbortAksPreview
 {
     public AzAksOperationAbortAksPreview(

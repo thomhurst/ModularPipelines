@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "get-effective-policies")]
+[CliCommand("iot", "get-effective-policies")]
 public record AwsIotGetEffectivePoliciesOptions : AwsOptions
 {
-    [CommandSwitch("--principal")]
+    [CliOption("--principal")]
     public string? Principal { get; set; }
 
-    [CommandSwitch("--cognito-identity-pool-id")]
+    [CliOption("--cognito-identity-pool-id")]
     public string? CognitoIdentityPoolId { get; set; }
 
-    [CommandSwitch("--thing-name")]
+    [CliOption("--thing-name")]
     public string? ThingName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

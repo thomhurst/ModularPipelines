@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ds", "start-schema-extension")]
+[CliCommand("ds", "start-schema-extension")]
 public record AwsDsStartSchemaExtensionOptions(
-[property: CommandSwitch("--directory-id")] string DirectoryId,
-[property: CommandSwitch("--ldif-content")] string LdifContent,
-[property: CommandSwitch("--description")] string Description
+[property: CliOption("--directory-id")] string DirectoryId,
+[property: CliOption("--ldif-content")] string LdifContent,
+[property: CliOption("--description")] string Description
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

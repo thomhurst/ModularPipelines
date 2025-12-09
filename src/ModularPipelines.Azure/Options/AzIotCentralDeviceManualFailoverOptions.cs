@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "central", "device", "manual-failover")]
+[CliSubCommand("iot", "central", "device", "manual-failover")]
 public record AzIotCentralDeviceManualFailoverOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--device-id")] string DeviceId
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--device-id")] string DeviceId
 ) : AzOptions
 {
-    [CommandSwitch("--central-api-uri")]
+    [CliOption("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 
-    [CommandSwitch("--ttl")]
+    [CliOption("--ttl")]
     public string? Ttl { get; set; }
 }

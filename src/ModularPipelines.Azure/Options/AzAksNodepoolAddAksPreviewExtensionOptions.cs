@@ -4,154 +4,154 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "nodepool", "add", "(aks-preview", "extension)")]
+[CliSubCommand("aks", "nodepool", "add", "(aks-preview", "extension)")]
 public record AzAksNodepoolAddAksPreviewExtensionOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--aks-custom-headers")]
+    [CliOption("--aks-custom-headers")]
     public string? AksCustomHeaders { get; set; }
 
-    [BooleanCommandSwitch("--allowed-host-ports")]
+    [CliFlag("--allowed-host-ports")]
     public bool? AllowedHostPorts { get; set; }
 
-    [CommandSwitch("--asg-ids")]
+    [CliOption("--asg-ids")]
     public string? AsgIds { get; set; }
 
-    [CommandSwitch("--crg-id")]
+    [CliOption("--crg-id")]
     public string? CrgId { get; set; }
 
-    [BooleanCommandSwitch("--disable-windows-outbound-nat")]
+    [CliFlag("--disable-windows-outbound-nat")]
     public bool? DisableWindowsOutboundNat { get; set; }
 
-    [CommandSwitch("--drain-timeout")]
+    [CliOption("--drain-timeout")]
     public string? DrainTimeout { get; set; }
 
-    [BooleanCommandSwitch("--enable-artifact-streaming")]
+    [CliFlag("--enable-artifact-streaming")]
     public bool? EnableArtifactStreaming { get; set; }
 
-    [BooleanCommandSwitch("--enable-cluster-autoscaler")]
+    [CliFlag("--enable-cluster-autoscaler")]
     public bool? EnableClusterAutoscaler { get; set; }
 
-    [BooleanCommandSwitch("--enable-custom-ca-trust")]
+    [CliFlag("--enable-custom-ca-trust")]
     public bool? EnableCustomCaTrust { get; set; }
 
-    [BooleanCommandSwitch("--enable-encryption-at-host")]
+    [CliFlag("--enable-encryption-at-host")]
     public bool? EnableEncryptionAtHost { get; set; }
 
-    [BooleanCommandSwitch("--enable-fips-image")]
+    [CliFlag("--enable-fips-image")]
     public bool? EnableFipsImage { get; set; }
 
-    [BooleanCommandSwitch("--enable-node-public-ip")]
+    [CliFlag("--enable-node-public-ip")]
     public bool? EnableNodePublicIp { get; set; }
 
-    [BooleanCommandSwitch("--enable-ultra-ssd")]
+    [CliFlag("--enable-ultra-ssd")]
     public bool? EnableUltraSsd { get; set; }
 
-    [CommandSwitch("--eviction-policy")]
+    [CliOption("--eviction-policy")]
     public string? EvictionPolicy { get; set; }
 
-    [CommandSwitch("--gpu-instance-profile")]
+    [CliOption("--gpu-instance-profile")]
     public string? GpuInstanceProfile { get; set; }
 
-    [CommandSwitch("--host-group-id")]
+    [CliOption("--host-group-id")]
     public string? HostGroupId { get; set; }
 
-    [CommandSwitch("--kubelet-config")]
+    [CliOption("--kubelet-config")]
     public string? KubeletConfig { get; set; }
 
-    [CommandSwitch("--kubernetes-version")]
+    [CliOption("--kubernetes-version")]
     public string? KubernetesVersion { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 
-    [CommandSwitch("--linux-os-config")]
+    [CliOption("--linux-os-config")]
     public string? LinuxOsConfig { get; set; }
 
-    [CommandSwitch("--max-count")]
+    [CliOption("--max-count")]
     public int? MaxCount { get; set; }
 
-    [CommandSwitch("--max-pods")]
+    [CliOption("--max-pods")]
     public string? MaxPods { get; set; }
 
-    [CommandSwitch("--max-surge")]
+    [CliOption("--max-surge")]
     public string? MaxSurge { get; set; }
 
-    [CommandSwitch("--message-of-the-day")]
+    [CliOption("--message-of-the-day")]
     public string? MessageOfTheDay { get; set; }
 
-    [CommandSwitch("--min-count")]
+    [CliOption("--min-count")]
     public int? MinCount { get; set; }
 
-    [CommandSwitch("--mode")]
+    [CliOption("--mode")]
     public string? Mode { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--node-count")]
+    [CliOption("--node-count")]
     public int? NodeCount { get; set; }
 
-    [CommandSwitch("--node-osdisk-size")]
+    [CliOption("--node-osdisk-size")]
     public string? NodeOsdiskSize { get; set; }
 
-    [CommandSwitch("--node-osdisk-type")]
+    [CliOption("--node-osdisk-type")]
     public string? NodeOsdiskType { get; set; }
 
-    [CommandSwitch("--node-public-ip-prefix-id")]
+    [CliOption("--node-public-ip-prefix-id")]
     public string? NodePublicIpPrefixId { get; set; }
 
-    [CommandSwitch("--node-public-ip-tags")]
+    [CliOption("--node-public-ip-tags")]
     public string? NodePublicIpTags { get; set; }
 
-    [CommandSwitch("--node-soak-duration")]
+    [CliOption("--node-soak-duration")]
     public string? NodeSoakDuration { get; set; }
 
-    [CommandSwitch("--node-taints")]
+    [CliOption("--node-taints")]
     public string? NodeTaints { get; set; }
 
-    [CommandSwitch("--node-vm-size")]
+    [CliOption("--node-vm-size")]
     public string? NodeVmSize { get; set; }
 
-    [CommandSwitch("--os-sku")]
+    [CliOption("--os-sku")]
     public string? OsSku { get; set; }
 
-    [CommandSwitch("--os-type")]
+    [CliOption("--os-type")]
     public string? OsType { get; set; }
 
-    [CommandSwitch("--pod-subnet-id")]
+    [CliOption("--pod-subnet-id")]
     public string? PodSubnetId { get; set; }
 
-    [CommandSwitch("--ppg")]
+    [CliOption("--ppg")]
     public string? Ppg { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--scale-down-mode")]
+    [CliOption("--scale-down-mode")]
     public string? ScaleDownMode { get; set; }
 
-    [CommandSwitch("--snapshot-id")]
+    [CliOption("--snapshot-id")]
     public string? SnapshotId { get; set; }
 
-    [CommandSwitch("--spot-max-price")]
+    [CliOption("--spot-max-price")]
     public string? SpotMaxPrice { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--vm-set-type")]
+    [CliOption("--vm-set-type")]
     public string? VmSetType { get; set; }
 
-    [CommandSwitch("--vnet-subnet-id")]
+    [CliOption("--vnet-subnet-id")]
     public string? VnetSubnetId { get; set; }
 
-    [CommandSwitch("--workload-runtime")]
+    [CliOption("--workload-runtime")]
     public string? WorkloadRuntime { get; set; }
 
-    [CommandSwitch("--zones")]
+    [CliOption("--zones")]
     public string? Zones { get; set; }
 }

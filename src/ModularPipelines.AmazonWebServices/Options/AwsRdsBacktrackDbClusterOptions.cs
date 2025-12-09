@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "backtrack-db-cluster")]
+[CliCommand("rds", "backtrack-db-cluster")]
 public record AwsRdsBacktrackDbClusterOptions(
-[property: CommandSwitch("--db-cluster-identifier")] string DbClusterIdentifier,
-[property: CommandSwitch("--backtrack-to")] long BacktrackTo
+[property: CliOption("--db-cluster-identifier")] string DbClusterIdentifier,
+[property: CliOption("--backtrack-to")] long BacktrackTo
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

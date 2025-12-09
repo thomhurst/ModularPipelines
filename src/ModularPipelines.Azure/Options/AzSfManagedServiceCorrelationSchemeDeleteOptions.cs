@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "managed-service", "correlation-scheme", "delete")]
+[CliSubCommand("sf", "managed-service", "correlation-scheme", "delete")]
 public record AzSfManagedServiceCorrelationSchemeDeleteOptions(
-[property: CommandSwitch("--application")] string Application,
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--correlated-name")] string CorrelatedName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--application")] string Application,
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--correlated-name")] string CorrelatedName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

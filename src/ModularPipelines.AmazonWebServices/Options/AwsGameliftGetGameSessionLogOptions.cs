@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "get-game-session-log")]
+[CliCommand("gamelift", "get-game-session-log")]
 public record AwsGameliftGetGameSessionLogOptions(
-[property: CommandSwitch("--game-session-id")] string GameSessionId,
-[property: CommandSwitch("--save-as")] string SaveAs
+[property: CliOption("--game-session-id")] string GameSessionId,
+[property: CliOption("--save-as")] string SaveAs
 ) : AwsOptions;

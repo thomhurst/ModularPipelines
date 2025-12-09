@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-explorer-2", "delete-view")]
+[CliCommand("resource-explorer-2", "delete-view")]
 public record AwsResourceExplorer2DeleteViewOptions(
-[property: CommandSwitch("--view-arn")] string ViewArn
+[property: CliOption("--view-arn")] string ViewArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

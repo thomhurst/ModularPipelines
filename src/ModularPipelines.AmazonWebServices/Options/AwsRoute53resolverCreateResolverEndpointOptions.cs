@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53resolver", "create-resolver-endpoint")]
+[CliCommand("route53resolver", "create-resolver-endpoint")]
 public record AwsRoute53resolverCreateResolverEndpointOptions(
-[property: CommandSwitch("--creator-request-id")] string CreatorRequestId,
-[property: CommandSwitch("--security-group-ids")] string[] SecurityGroupIds,
-[property: CommandSwitch("--direction")] string Direction,
-[property: CommandSwitch("--ip-addresses")] string[] IpAddresses
+[property: CliOption("--creator-request-id")] string CreatorRequestId,
+[property: CliOption("--security-group-ids")] string[] SecurityGroupIds,
+[property: CliOption("--direction")] string Direction,
+[property: CliOption("--ip-addresses")] string[] IpAddresses
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--outpost-arn")]
+    [CliOption("--outpost-arn")]
     public string? OutpostArn { get; set; }
 
-    [CommandSwitch("--preferred-instance-type")]
+    [CliOption("--preferred-instance-type")]
     public string? PreferredInstanceType { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--resolver-endpoint-type")]
+    [CliOption("--resolver-endpoint-type")]
     public string? ResolverEndpointType { get; set; }
 
-    [CommandSwitch("--protocols")]
+    [CliOption("--protocols")]
     public string[]? Protocols { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,55 +4,55 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "kubernetescluster", "agentpool", "create")]
+[CliSubCommand("networkcloud", "kubernetescluster", "agentpool", "create")]
 public record AzNetworkcloudKubernetesclusterAgentpoolCreateOptions(
-[property: CommandSwitch("--agent-pool-name")] string AgentPoolName,
-[property: CommandSwitch("--count")] int Count,
-[property: CommandSwitch("--kubernetes-cluster-name")] string KubernetesClusterName,
-[property: CommandSwitch("--mode")] string Mode,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vm-sku-name")] string VmSkuName
+[property: CliOption("--agent-pool-name")] string AgentPoolName,
+[property: CliOption("--count")] int Count,
+[property: CliOption("--kubernetes-cluster-name")] string KubernetesClusterName,
+[property: CliOption("--mode")] string Mode,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vm-sku-name")] string VmSkuName
 ) : AzOptions
 {
-    [CommandSwitch("--admin-username")]
+    [CliOption("--admin-username")]
     public string? AdminUsername { get; set; }
 
-    [CommandSwitch("--agent-options")]
+    [CliOption("--agent-options")]
     public string? AgentOptions { get; set; }
 
-    [BooleanCommandSwitch("--attached-network-configuration")]
+    [CliFlag("--attached-network-configuration")]
     public bool? AttachedNetworkConfiguration { get; set; }
 
-    [CommandSwitch("--availability-zones")]
+    [CliOption("--availability-zones")]
     public string? AvailabilityZones { get; set; }
 
-    [CommandSwitch("--extended-location")]
+    [CliOption("--extended-location")]
     public string? ExtendedLocation { get; set; }
 
-    [BooleanCommandSwitch("--generate-ssh-keys")]
+    [CliFlag("--generate-ssh-keys")]
     public bool? GenerateSshKeys { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--ssh-dest-key-path")]
+    [CliOption("--ssh-dest-key-path")]
     public string? SshDestKeyPath { get; set; }
 
-    [CommandSwitch("--ssh-key-values")]
+    [CliOption("--ssh-key-values")]
     public string? SshKeyValues { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--taints")]
+    [CliOption("--taints")]
     public string? Taints { get; set; }
 
-    [CommandSwitch("--upgrade-settings")]
+    [CliOption("--upgrade-settings")]
     public string? UpgradeSettings { get; set; }
 }

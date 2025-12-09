@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "mongocluster", "firewall")]
+[CliCommand("cosmosdb", "mongocluster", "firewall")]
 public class AzCosmosdbMongoclusterFirewallRule
 {
     public AzCosmosdbMongoclusterFirewallRule(

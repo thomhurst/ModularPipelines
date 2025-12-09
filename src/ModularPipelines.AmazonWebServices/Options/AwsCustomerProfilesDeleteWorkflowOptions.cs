@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("customer-profiles", "delete-workflow")]
+[CliCommand("customer-profiles", "delete-workflow")]
 public record AwsCustomerProfilesDeleteWorkflowOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--workflow-id")] string WorkflowId
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--workflow-id")] string WorkflowId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

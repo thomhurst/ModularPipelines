@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("nuget", "trust", "[command]", "[Options]")]
+[CliSubCommand("nuget", "trust", "[command]", "[Options]")]
 [ExcludeFromCodeCoverage]
 public record DotNetNugetTrustOptions : DotNetOptions
 {

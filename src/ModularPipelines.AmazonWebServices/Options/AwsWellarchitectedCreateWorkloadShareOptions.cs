@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "create-workload-share")]
+[CliCommand("wellarchitected", "create-workload-share")]
 public record AwsWellarchitectedCreateWorkloadShareOptions(
-[property: CommandSwitch("--workload-id")] string WorkloadId,
-[property: CommandSwitch("--shared-with")] string SharedWith,
-[property: CommandSwitch("--permission-type")] string PermissionType
+[property: CliOption("--workload-id")] string WorkloadId,
+[property: CliOption("--shared-with")] string SharedWith,
+[property: CliOption("--permission-type")] string PermissionType
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

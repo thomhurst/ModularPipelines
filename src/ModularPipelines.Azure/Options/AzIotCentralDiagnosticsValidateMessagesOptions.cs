@@ -4,50 +4,50 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "central", "diagnostics", "validate-messages")]
+[CliSubCommand("iot", "central", "diagnostics", "validate-messages")]
 public record AzIotCentralDiagnosticsValidateMessagesOptions(
-[property: CommandSwitch("--app-id")] string AppId
+[property: CliOption("--app-id")] string AppId
 ) : AzOptions
 {
-    [CommandSwitch("--central-api-uri")]
+    [CliOption("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 
-    [CommandSwitch("--cg")]
+    [CliOption("--cg")]
     public string? Cg { get; set; }
 
-    [CommandSwitch("--device-id")]
+    [CliOption("--device-id")]
     public string? DeviceId { get; set; }
 
-    [CommandSwitch("--dr")]
+    [CliOption("--dr")]
     public string? Dr { get; set; }
 
-    [CommandSwitch("--enqueued-time")]
+    [CliOption("--enqueued-time")]
     public string? EnqueuedTime { get; set; }
 
-    [CommandSwitch("--max-messages")]
+    [CliOption("--max-messages")]
     public string? MaxMessages { get; set; }
 
-    [CommandSwitch("--minimum-severity")]
+    [CliOption("--minimum-severity")]
     public string? MinimumSeverity { get; set; }
 
-    [CommandSwitch("--module-id")]
+    [CliOption("--module-id")]
     public string? ModuleId { get; set; }
 
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public string? Properties { get; set; }
 
-    [BooleanCommandSwitch("--repair")]
+    [CliFlag("--repair")]
     public bool? Repair { get; set; }
 
-    [CommandSwitch("--style")]
+    [CliOption("--style")]
     public string? Style { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

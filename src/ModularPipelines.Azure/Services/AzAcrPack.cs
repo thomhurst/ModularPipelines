@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr")]
+[CliSubCommand("acr")]
 public class AzAcrPack
 {
     public AzAcrPack(

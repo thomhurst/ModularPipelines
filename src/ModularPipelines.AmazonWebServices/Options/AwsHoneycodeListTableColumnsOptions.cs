@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("honeycode", "list-table-columns")]
+[CliCommand("honeycode", "list-table-columns")]
 public record AwsHoneycodeListTableColumnsOptions(
-[property: CommandSwitch("--workbook-id")] string WorkbookId,
-[property: CommandSwitch("--table-id")] string TableId
+[property: CliOption("--workbook-id")] string WorkbookId,
+[property: CliOption("--table-id")] string TableId
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

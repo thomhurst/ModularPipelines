@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vpn-site")]
+[CliCommand("network", "vpn-site")]
 public class AzNetworkVpnSiteLink
 {
     public AzNetworkVpnSiteLink(

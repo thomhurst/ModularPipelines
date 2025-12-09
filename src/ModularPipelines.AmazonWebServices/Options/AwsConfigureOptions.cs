@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configure")]
+[CliSubCommand("configure")]
 public record AwsConfigureOptions : AwsOptions;

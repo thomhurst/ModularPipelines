@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datafactory", "managed-private-endpoint", "create")]
+[CliSubCommand("datafactory", "managed-private-endpoint", "create")]
 public record AzDatafactoryManagedPrivateEndpointCreateOptions(
-[property: CommandSwitch("--factory-name")] string FactoryName,
-[property: CommandSwitch("--managed-private-endpoint-name")] string ManagedPrivateEndpointName,
-[property: CommandSwitch("--managed-virtual-network-name")] string ManagedVirtualNetworkName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--factory-name")] string FactoryName,
+[property: CliOption("--managed-private-endpoint-name")] string ManagedPrivateEndpointName,
+[property: CliOption("--managed-virtual-network-name")] string ManagedVirtualNetworkName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--fqdns")]
+    [CliOption("--fqdns")]
     public string? Fqdns { get; set; }
 
-    [CommandSwitch("--group-id")]
+    [CliOption("--group-id")]
     public string? GroupId { get; set; }
 
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--private-link")]
+    [CliOption("--private-link")]
     public string? PrivateLink { get; set; }
 }

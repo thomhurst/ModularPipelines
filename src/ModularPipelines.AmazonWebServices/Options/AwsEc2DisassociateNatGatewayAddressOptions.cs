@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "disassociate-nat-gateway-address")]
+[CliCommand("ec2", "disassociate-nat-gateway-address")]
 public record AwsEc2DisassociateNatGatewayAddressOptions(
-[property: CommandSwitch("--nat-gateway-id")] string NatGatewayId,
-[property: CommandSwitch("--association-ids")] string[] AssociationIds
+[property: CliOption("--nat-gateway-id")] string NatGatewayId,
+[property: CliOption("--association-ids")] string[] AssociationIds
 ) : AwsOptions
 {
-    [CommandSwitch("--max-drain-duration-seconds")]
+    [CliOption("--max-drain-duration-seconds")]
     public int? MaxDrainDurationSeconds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

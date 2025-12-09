@@ -3,31 +3,31 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("cluster-info")]
+[CliSubCommand("cluster-info")]
 [ExcludeFromCodeCoverage]
 public record KubernetesClusterInfoOptions : KubernetesOptions
 {
-    [BooleanCommandSwitch("--all-namespaces")]
+    [CliFlag("--all-namespaces")]
     public virtual bool? AllNamespaces { get; set; }
 
-    [BooleanCommandSwitch("--allow-missing-template-keys")]
+    [CliFlag("--allow-missing-template-keys")]
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--namespaces", SwitchValueSeparator = " ")]
-    public string[]? Namespaces { get; set; }
+    [CliOption("--namespaces")]
+    public virtual string[]? Namespaces { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
-    public string? Output { get; set; }
+    [CliOption("--output")]
+    public virtual string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output-directory", SwitchValueSeparator = " ")]
-    public string? OutputDirectory { get; set; }
+    [CliOption("--output-directory")]
+    public virtual string? OutputDirectory { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--pod-running-timeout", SwitchValueSeparator = " ")]
-    public string? PodRunningTimeout { get; set; }
+    [CliOption("--pod-running-timeout")]
+    public virtual string? PodRunningTimeout { get; set; }
 
-    [BooleanCommandSwitch("--show-managed-fields")]
+    [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
-    public string? Template { get; set; }
+    [CliOption("--template")]
+    public virtual string? Template { get; set; }
 }

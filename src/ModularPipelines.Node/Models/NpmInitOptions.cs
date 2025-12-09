@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("init", "(same", "as", "`npx")]
+[CliCommand("init", "(same", "as", "`npx")]
 public record NpmInitOptions
 (
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Value
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Value
 ) : NpmOptions
 {
-    [CommandSwitch("--init-author-name")]
+    [CliOption("--init-author-name")]
     public virtual string? InitAuthorName { get; set; }
 
-    [CommandSwitch("--init-author-url")]
+    [CliOption("--init-author-url")]
     public virtual string? InitAuthorUrl { get; set; }
 
-    [CommandSwitch("--init-license")]
+    [CliOption("--init-license")]
     public virtual string? InitLicense { get; set; }
 
-    [CommandSwitch("--init-module")]
+    [CliOption("--init-module")]
     public virtual string? InitModule { get; set; }
 
-    [CommandSwitch("--init-version")]
+    [CliOption("--init-version")]
     public virtual string? InitVersion { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public virtual bool? Yes { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public virtual string? Scope { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public virtual string[]? Workspace { get; set; }
 
-    [BooleanCommandSwitch("--workspaces")]
+    [CliFlag("--workspaces")]
     public virtual bool? Workspaces { get; set; }
 
-    [BooleanCommandSwitch("--workspaces-update")]
+    [CliFlag("--workspaces-update")]
     public virtual bool? WorkspacesUpdate { get; set; }
 
-    [BooleanCommandSwitch("--include-workspace-root")]
+    [CliFlag("--include-workspace-root")]
     public virtual bool? IncludeWorkspaceRoot { get; set; }
 }

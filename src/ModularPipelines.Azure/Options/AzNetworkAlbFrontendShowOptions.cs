@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "alb", "frontend", "show")]
+[CliSubCommand("network", "alb", "frontend", "show")]
 public record AzNetworkAlbFrontendShowOptions : AzOptions
 {
-    [CommandSwitch("--alb-name")]
+    [CliOption("--alb-name")]
     public string? AlbName { get; set; }
 
-    [CommandSwitch("--frontend-name")]
+    [CliOption("--frontend-name")]
     public string? FrontendName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

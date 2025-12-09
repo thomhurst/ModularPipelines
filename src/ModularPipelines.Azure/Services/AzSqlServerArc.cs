@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql")]
+[CliSubCommand("sql")]
 public class AzSqlServerArc
 {
     public AzSqlServerArc(

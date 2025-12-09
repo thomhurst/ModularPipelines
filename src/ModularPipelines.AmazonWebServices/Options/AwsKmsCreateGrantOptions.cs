@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "create-grant")]
+[CliCommand("kms", "create-grant")]
 public record AwsKmsCreateGrantOptions(
-[property: CommandSwitch("--key-id")] string KeyId,
-[property: CommandSwitch("--grantee-principal")] string GranteePrincipal,
-[property: CommandSwitch("--operations")] string[] Operations
+[property: CliOption("--key-id")] string KeyId,
+[property: CliOption("--grantee-principal")] string GranteePrincipal,
+[property: CliOption("--operations")] string[] Operations
 ) : AwsOptions
 {
-    [CommandSwitch("--retiring-principal")]
+    [CliOption("--retiring-principal")]
     public string? RetiringPrincipal { get; set; }
 
-    [CommandSwitch("--constraints")]
+    [CliOption("--constraints")]
     public string? Constraints { get; set; }
 
-    [CommandSwitch("--grant-tokens")]
+    [CliOption("--grant-tokens")]
     public string[]? GrantTokens { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

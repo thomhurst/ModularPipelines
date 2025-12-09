@@ -90,7 +90,7 @@ internal class ModuleExecutionContext : IModuleExecutionContext
     public Task<IModuleResult> ExecutionTask => _resultSource.Task;
 
     /// <summary>
-    /// Gets whether the module has started executing.
+    /// Gets a value indicating whether gets whether the module has started executing.
     /// </summary>
     public bool IsStarted { get; private set; }
 
@@ -213,21 +213,38 @@ internal class ModuleExecutionContext<T> : ModuleExecutionContext
 internal interface IModuleExecutionContext
 {
     IModule Module { get; }
+
     Type ModuleType { get; }
+
     Status Status { get; set; }
+
     DateTimeOffset StartTime { get; set; }
+
     DateTimeOffset EndTime { get; set; }
+
     TimeSpan Duration { get; set; }
+
     Exception? Exception { get; set; }
+
     SkipDecision SkipResult { get; set; }
+
     Stopwatch Stopwatch { get; }
+
     CancellationTokenSource ModuleCancellationTokenSource { get; }
+
     List<SubModuleTracker> SubModules { get; }
+
     Task<IModuleResult> ExecutionTask { get; }
+
     bool IsStarted { get; }
+
     bool TryStart();
+
     void RecordEndTime();
+
     void SetResult(IModuleResult result);
+
     void SetException(Exception exception);
+
     void SetCancelled();
 }

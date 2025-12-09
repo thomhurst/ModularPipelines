@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datamigration", "login-migration")]
+[CliSubCommand("datamigration", "login-migration")]
 public record AzDatamigrationLoginMigrationOptions : AzOptions
 {
-    [CommandSwitch("--aad-domain-name")]
+    [CliOption("--aad-domain-name")]
     public string? AadDomainName { get; set; }
 
-    [CommandSwitch("--config-file-path")]
+    [CliOption("--config-file-path")]
     public string? ConfigFilePath { get; set; }
 
-    [CommandSwitch("--csv-file-path")]
+    [CliOption("--csv-file-path")]
     public string? CsvFilePath { get; set; }
 
-    [CommandSwitch("--list-of-login")]
+    [CliOption("--list-of-login")]
     public string? ListOfLogin { get; set; }
 
-    [CommandSwitch("--output-folder")]
+    [CliOption("--output-folder")]
     public string? OutputFolder { get; set; }
 
-    [CommandSwitch("--src-sql-connection-str")]
+    [CliOption("--src-sql-connection-str")]
     public string? SrcSqlConnectionStr { get; set; }
 
-    [CommandSwitch("--tgt-sql-connection-str")]
+    [CliOption("--tgt-sql-connection-str")]
     public string? TgtSqlConnectionStr { get; set; }
 }

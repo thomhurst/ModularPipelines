@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devcenter", "dev", "environment-definition", "list")]
+[CliSubCommand("devcenter", "dev", "environment-definition", "list")]
 public record AzDevcenterDevEnvironmentDefinitionListOptions(
-[property: CommandSwitch("--project")] string Project
+[property: CliOption("--project")] string Project
 ) : AzOptions
 {
-    [CommandSwitch("--catalog-name")]
+    [CliOption("--catalog-name")]
     public string? CatalogName { get; set; }
 
-    [CommandSwitch("--dev-center")]
+    [CliOption("--dev-center")]
     public string? DevCenter { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 }

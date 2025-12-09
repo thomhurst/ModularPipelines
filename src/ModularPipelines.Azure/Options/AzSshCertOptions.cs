@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssh", "cert")]
+[CliSubCommand("ssh", "cert")]
 public record AzSshCertOptions : AzOptions
 {
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public string? File { get; set; }
 
-    [CommandSwitch("--public-key-file")]
+    [CliOption("--public-key-file")]
     public string? PublicKeyFile { get; set; }
 
-    [CommandSwitch("--ssh-client-folder")]
+    [CliOption("--ssh-client-folder")]
     public string? SshClientFolder { get; set; }
 }

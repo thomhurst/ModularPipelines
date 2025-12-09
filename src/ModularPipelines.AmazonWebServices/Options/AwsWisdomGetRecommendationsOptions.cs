@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wisdom", "get-recommendations")]
+[CliCommand("wisdom", "get-recommendations")]
 public record AwsWisdomGetRecommendationsOptions(
-[property: CommandSwitch("--assistant-id")] string AssistantId,
-[property: CommandSwitch("--session-id")] string SessionId
+[property: CliOption("--assistant-id")] string AssistantId,
+[property: CliOption("--session-id")] string SessionId
 ) : AwsOptions
 {
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--wait-time-seconds")]
+    [CliOption("--wait-time-seconds")]
     public int? WaitTimeSeconds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

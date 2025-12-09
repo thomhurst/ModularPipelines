@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "message-endpoint")]
+[CliCommand("iot", "hub", "message-endpoint")]
 public class AzIotHubMessageEndpointCreate
 {
     public AzIotHubMessageEndpointCreate(

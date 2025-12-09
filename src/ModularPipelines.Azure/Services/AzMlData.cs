@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml")]
+[CliSubCommand("ml")]
 public class AzMlData
 {
     public AzMlData(

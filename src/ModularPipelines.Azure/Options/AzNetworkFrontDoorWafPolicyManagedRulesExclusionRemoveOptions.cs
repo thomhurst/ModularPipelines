@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "waf-policy", "managed-rules", "exclusion", "remove")]
+[CliSubCommand("network", "front-door", "waf-policy", "managed-rules", "exclusion", "remove")]
 public record AzNetworkFrontDoorWafPolicyManagedRulesExclusionRemoveOptions(
-[property: CommandSwitch("--match-variable")] string MatchVariable,
-[property: CommandSwitch("--operator")] string Operator,
-[property: CommandSwitch("--type")] string Type,
-[property: CommandSwitch("--value")] string Value
+[property: CliOption("--match-variable")] string MatchVariable,
+[property: CliOption("--operator")] string Operator,
+[property: CliOption("--type")] string Type,
+[property: CliOption("--value")] string Value
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--policy-name")]
+    [CliOption("--policy-name")]
     public string? PolicyName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--rule-group-id")]
+    [CliOption("--rule-group-id")]
     public string? RuleGroupId { get; set; }
 
-    [CommandSwitch("--rule-id")]
+    [CliOption("--rule-id")]
     public string? RuleId { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

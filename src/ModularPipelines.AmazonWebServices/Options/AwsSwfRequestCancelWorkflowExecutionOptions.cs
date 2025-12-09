@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("swf", "request-cancel-workflow-execution")]
+[CliCommand("swf", "request-cancel-workflow-execution")]
 public record AwsSwfRequestCancelWorkflowExecutionOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--workflow-id")] string WorkflowId
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--workflow-id")] string WorkflowId
 ) : AwsOptions
 {
-    [CommandSwitch("--run-id")]
+    [CliOption("--run-id")]
     public string? RunId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

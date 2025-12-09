@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "artifact-streaming")]
+[CliCommand("acr", "artifact-streaming")]
 public class AzAcrArtifactStreamingOperation
 {
     public AzAcrArtifactStreamingOperation(

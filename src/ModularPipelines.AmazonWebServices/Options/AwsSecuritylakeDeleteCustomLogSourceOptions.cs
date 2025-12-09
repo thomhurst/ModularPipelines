@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securitylake", "delete-custom-log-source")]
+[CliCommand("securitylake", "delete-custom-log-source")]
 public record AwsSecuritylakeDeleteCustomLogSourceOptions(
-[property: CommandSwitch("--source-name")] string SourceName
+[property: CliOption("--source-name")] string SourceName
 ) : AwsOptions
 {
-    [CommandSwitch("--source-version")]
+    [CliOption("--source-version")]
     public string? SourceVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

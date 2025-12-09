@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse")]
+[CliSubCommand("synapse")]
 public class AzSynapseSpark
 {
     public AzSynapseSpark(

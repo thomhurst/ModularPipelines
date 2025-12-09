@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vnet-gateway", "vpn-client", "generate")]
+[CliSubCommand("network", "vnet-gateway", "vpn-client", "generate")]
 public record AzNetworkVnetGatewayVpnClientGenerateOptions : AzOptions
 {
-    [CommandSwitch("--authentication-method")]
+    [CliOption("--authentication-method")]
     public string? AuthenticationMethod { get; set; }
 
-    [CommandSwitch("--client-root-certificates")]
+    [CliOption("--client-root-certificates")]
     public string? ClientRootCertificates { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--processor-architecture")]
+    [CliOption("--processor-architecture")]
     public string? ProcessorArchitecture { get; set; }
 
-    [CommandSwitch("--radius-server-auth-certificate")]
+    [CliOption("--radius-server-auth-certificate")]
     public string? RadiusServerAuthCertificate { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--use-legacy")]
+    [CliFlag("--use-legacy")]
     public bool? UseLegacy { get; set; }
 }

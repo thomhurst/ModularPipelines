@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("explain", "peer-requirements")]
+[CliCommand("explain", "peer-requirements")]
 public record YarnExplainPeerRequirementsOptions : YarnOptions
 {
-    [PositionalArgument(Position = Position.BeforeSwitches)]
-    public string? Hash { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    public virtual string? Hash { get; set; }
 }

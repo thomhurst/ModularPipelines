@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("waf", "get-xss-match-set")]
+[CliCommand("waf", "get-xss-match-set")]
 public record AwsWafGetXssMatchSetOptions(
-[property: CommandSwitch("--xss-match-set-id")] string XssMatchSetId
+[property: CliOption("--xss-match-set-id")] string XssMatchSetId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

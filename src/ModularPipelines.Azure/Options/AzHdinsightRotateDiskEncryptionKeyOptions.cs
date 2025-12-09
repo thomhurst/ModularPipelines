@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hdinsight", "rotate-disk-encryption-key")]
+[CliSubCommand("hdinsight", "rotate-disk-encryption-key")]
 public record AzHdinsightRotateDiskEncryptionKeyOptions(
-[property: CommandSwitch("--encryption-key-name")] string EncryptionKeyName,
-[property: CommandSwitch("--encryption-key-version")] string EncryptionKeyVersion,
-[property: CommandSwitch("--encryption-vault-uri")] string EncryptionVaultUri,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--encryption-key-name")] string EncryptionKeyName,
+[property: CliOption("--encryption-key-version")] string EncryptionKeyVersion,
+[property: CliOption("--encryption-vault-uri")] string EncryptionVaultUri,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

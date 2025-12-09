@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sphere", "device", "network")]
+[CliCommand("sphere", "device", "network")]
 public class AzSphereDeviceNetworkProxy
 {
     public AzSphereDeviceNetworkProxy(

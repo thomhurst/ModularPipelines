@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("directconnect", "confirm-customer-agreement")]
+[CliCommand("directconnect", "confirm-customer-agreement")]
 public record AwsDirectconnectConfirmCustomerAgreementOptions : AwsOptions
 {
-    [CommandSwitch("--agreement-name")]
+    [CliOption("--agreement-name")]
     public string? AgreementName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

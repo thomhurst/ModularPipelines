@@ -5,38 +5,38 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kafka", "create-cluster")]
+[CliCommand("kafka", "create-cluster")]
 public record AwsKafkaCreateClusterOptions(
-[property: CommandSwitch("--broker-node-group-info")] string BrokerNodeGroupInfo,
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--kafka-version")] string KafkaVersion,
-[property: CommandSwitch("--number-of-broker-nodes")] int NumberOfBrokerNodes
+[property: CliOption("--broker-node-group-info")] string BrokerNodeGroupInfo,
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--kafka-version")] string KafkaVersion,
+[property: CliOption("--number-of-broker-nodes")] int NumberOfBrokerNodes
 ) : AwsOptions
 {
-    [CommandSwitch("--client-authentication")]
+    [CliOption("--client-authentication")]
     public string? ClientAuthentication { get; set; }
 
-    [CommandSwitch("--configuration-info")]
+    [CliOption("--configuration-info")]
     public string? ConfigurationInfo { get; set; }
 
-    [CommandSwitch("--encryption-info")]
+    [CliOption("--encryption-info")]
     public string? EncryptionInfo { get; set; }
 
-    [CommandSwitch("--enhanced-monitoring")]
+    [CliOption("--enhanced-monitoring")]
     public string? EnhancedMonitoring { get; set; }
 
-    [CommandSwitch("--open-monitoring")]
+    [CliOption("--open-monitoring")]
     public string? OpenMonitoring { get; set; }
 
-    [CommandSwitch("--logging-info")]
+    [CliOption("--logging-info")]
     public string? LoggingInfo { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--storage-mode")]
+    [CliOption("--storage-mode")]
     public string? StorageMode { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

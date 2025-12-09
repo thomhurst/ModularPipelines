@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "cross-connection", "peering", "create")]
+[CliSubCommand("network", "cross-connection", "peering", "create")]
 public record AzNetworkCrossConnectionPeeringCreateOptions(
-[property: CommandSwitch("--cross-connection-name")] string CrossConnectionName,
-[property: CommandSwitch("--peer-asn")] string PeerAsn,
-[property: CommandSwitch("--peering-type")] string PeeringType,
-[property: CommandSwitch("--primary-peer-subnet")] string PrimaryPeerSubnet,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--secondary-peer-subnet")] string SecondaryPeerSubnet,
-[property: CommandSwitch("--vlan-id")] string VlanId
+[property: CliOption("--cross-connection-name")] string CrossConnectionName,
+[property: CliOption("--peer-asn")] string PeerAsn,
+[property: CliOption("--peering-type")] string PeeringType,
+[property: CliOption("--primary-peer-subnet")] string PrimaryPeerSubnet,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--secondary-peer-subnet")] string SecondaryPeerSubnet,
+[property: CliOption("--vlan-id")] string VlanId
 ) : AzOptions
 {
-    [CommandSwitch("--advertised-public-prefixes")]
+    [CliOption("--advertised-public-prefixes")]
     public string? AdvertisedPublicPrefixes { get; set; }
 
-    [CommandSwitch("--customer-asn")]
+    [CliOption("--customer-asn")]
     public string? CustomerAsn { get; set; }
 
-    [CommandSwitch("--routing-registry-name")]
+    [CliOption("--routing-registry-name")]
     public string? RoutingRegistryName { get; set; }
 
-    [CommandSwitch("--shared-key")]
+    [CliOption("--shared-key")]
     public string? SharedKey { get; set; }
 }

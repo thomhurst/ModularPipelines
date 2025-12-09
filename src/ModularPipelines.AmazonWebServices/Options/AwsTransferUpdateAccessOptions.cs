@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "update-access")]
+[CliCommand("transfer", "update-access")]
 public record AwsTransferUpdateAccessOptions(
-[property: CommandSwitch("--server-id")] string ServerId,
-[property: CommandSwitch("--external-id")] string ExternalId
+[property: CliOption("--server-id")] string ServerId,
+[property: CliOption("--external-id")] string ExternalId
 ) : AwsOptions
 {
-    [CommandSwitch("--home-directory")]
+    [CliOption("--home-directory")]
     public string? HomeDirectory { get; set; }
 
-    [CommandSwitch("--home-directory-type")]
+    [CliOption("--home-directory-type")]
     public string? HomeDirectoryType { get; set; }
 
-    [CommandSwitch("--home-directory-mappings")]
+    [CliOption("--home-directory-mappings")]
     public string[]? HomeDirectoryMappings { get; set; }
 
-    [CommandSwitch("--policy")]
+    [CliOption("--policy")]
     public string? Policy { get; set; }
 
-    [CommandSwitch("--posix-profile")]
+    [CliOption("--posix-profile")]
     public string? PosixProfile { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

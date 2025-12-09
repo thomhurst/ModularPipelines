@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workmail", "put-inbound-dmarc-settings")]
+[CliCommand("workmail", "put-inbound-dmarc-settings")]
 public record AwsWorkmailPutInboundDmarcSettingsOptions(
-[property: CommandSwitch("--organization-id")] string OrganizationId
+[property: CliOption("--organization-id")] string OrganizationId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

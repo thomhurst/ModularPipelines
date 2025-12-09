@@ -4,43 +4,43 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-capacity-reservation")]
+[CliCommand("ec2", "create-capacity-reservation")]
 public record AwsEc2CreateCapacityReservationOptions(
-[property: CommandSwitch("--instance-type")] string InstanceType,
-[property: CommandSwitch("--instance-platform")] string InstancePlatform,
-[property: CommandSwitch("--instance-count")] int InstanceCount
+[property: CliOption("--instance-type")] string InstanceType,
+[property: CliOption("--instance-platform")] string InstancePlatform,
+[property: CliOption("--instance-count")] int InstanceCount
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--availability-zone")]
+    [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
-    [CommandSwitch("--availability-zone-id")]
+    [CliOption("--availability-zone-id")]
     public string? AvailabilityZoneId { get; set; }
 
-    [CommandSwitch("--tenancy")]
+    [CliOption("--tenancy")]
     public string? Tenancy { get; set; }
 
-    [CommandSwitch("--end-date")]
+    [CliOption("--end-date")]
     public long? EndDate { get; set; }
 
-    [CommandSwitch("--end-date-type")]
+    [CliOption("--end-date-type")]
     public string? EndDateType { get; set; }
 
-    [CommandSwitch("--instance-match-criteria")]
+    [CliOption("--instance-match-criteria")]
     public string? InstanceMatchCriteria { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--outpost-arn")]
+    [CliOption("--outpost-arn")]
     public string? OutpostArn { get; set; }
 
-    [CommandSwitch("--placement-group-arn")]
+    [CliOption("--placement-group-arn")]
     public string? PlacementGroupArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

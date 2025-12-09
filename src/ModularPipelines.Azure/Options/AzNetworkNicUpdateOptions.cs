@@ -4,57 +4,57 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "nic", "update")]
+[CliSubCommand("network", "nic", "update")]
 public record AzNetworkNicUpdateOptions : AzOptions
 {
-    [BooleanCommandSwitch("--accelerated-networking")]
+    [CliFlag("--accelerated-networking")]
     public bool? AcceleratedNetworking { get; set; }
 
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--auxiliary-mode")]
+    [CliOption("--auxiliary-mode")]
     public string? AuxiliaryMode { get; set; }
 
-    [CommandSwitch("--auxiliary-sku")]
+    [CliOption("--auxiliary-sku")]
     public string? AuxiliarySku { get; set; }
 
-    [CommandSwitch("--dns-servers")]
+    [CliOption("--dns-servers")]
     public string? DnsServers { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--internal-dns-name")]
+    [CliOption("--internal-dns-name")]
     public string? InternalDnsName { get; set; }
 
-    [CommandSwitch("--ip-configurations")]
+    [CliOption("--ip-configurations")]
     public string? IpConfigurations { get; set; }
 
-    [BooleanCommandSwitch("--ip-forwarding")]
+    [CliFlag("--ip-forwarding")]
     public bool? IpForwarding { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--network-security-group")]
+    [CliOption("--network-security-group")]
     public string? NetworkSecurityGroup { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

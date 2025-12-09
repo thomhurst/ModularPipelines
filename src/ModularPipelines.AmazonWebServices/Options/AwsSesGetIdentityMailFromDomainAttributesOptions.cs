@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ses", "get-identity-mail-from-domain-attributes")]
+[CliCommand("ses", "get-identity-mail-from-domain-attributes")]
 public record AwsSesGetIdentityMailFromDomainAttributesOptions(
-[property: CommandSwitch("--identities")] string[] Identities
+[property: CliOption("--identities")] string[] Identities
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

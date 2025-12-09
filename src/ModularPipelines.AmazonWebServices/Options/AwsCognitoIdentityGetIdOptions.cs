@@ -5,17 +5,17 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-identity", "get-id")]
+[CliCommand("cognito-identity", "get-id")]
 public record AwsCognitoIdentityGetIdOptions(
-[property: CommandSwitch("--identity-pool-id")] string IdentityPoolId
+[property: CliOption("--identity-pool-id")] string IdentityPoolId
 ) : AwsOptions
 {
-    [CommandSwitch("--account-id")]
+    [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
-    [CommandSwitch("--logins")]
+    [CliOption("--logins")]
     public IEnumerable<KeyValue>? Logins { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

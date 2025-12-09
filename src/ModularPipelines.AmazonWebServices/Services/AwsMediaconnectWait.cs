@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediaconnect")]
+[CliSubCommand("mediaconnect")]
 public class AwsMediaconnectWait
 {
     public AwsMediaconnectWait(

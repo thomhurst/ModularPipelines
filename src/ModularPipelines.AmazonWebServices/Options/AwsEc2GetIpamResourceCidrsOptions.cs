@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "get-ipam-resource-cidrs")]
+[CliCommand("ec2", "get-ipam-resource-cidrs")]
 public record AwsEc2GetIpamResourceCidrsOptions(
-[property: CommandSwitch("--ipam-scope-id")] string IpamScopeId
+[property: CliOption("--ipam-scope-id")] string IpamScopeId
 ) : AwsOptions
 {
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--ipam-pool-id")]
+    [CliOption("--ipam-pool-id")]
     public string? IpamPoolId { get; set; }
 
-    [CommandSwitch("--resource-id")]
+    [CliOption("--resource-id")]
     public string? ResourceId { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--resource-tag")]
+    [CliOption("--resource-tag")]
     public string? ResourceTag { get; set; }
 
-    [CommandSwitch("--resource-owner")]
+    [CliOption("--resource-owner")]
     public string? ResourceOwner { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

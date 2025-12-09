@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "update-client-certificate")]
+[CliCommand("apigateway", "update-client-certificate")]
 public record AwsApigatewayUpdateClientCertificateOptions(
-[property: CommandSwitch("--client-certificate-id")] string ClientCertificateId
+[property: CliOption("--client-certificate-id")] string ClientCertificateId
 ) : AwsOptions
 {
-    [CommandSwitch("--patch-operations")]
+    [CliOption("--patch-operations")]
     public string[]? PatchOperations { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

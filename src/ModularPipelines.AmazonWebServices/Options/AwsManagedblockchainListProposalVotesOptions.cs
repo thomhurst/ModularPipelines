@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managedblockchain", "list-proposal-votes")]
+[CliCommand("managedblockchain", "list-proposal-votes")]
 public record AwsManagedblockchainListProposalVotesOptions(
-[property: CommandSwitch("--network-id")] string NetworkId,
-[property: CommandSwitch("--proposal-id")] string ProposalId
+[property: CliOption("--network-id")] string NetworkId,
+[property: CliOption("--proposal-id")] string ProposalId
 ) : AwsOptions
 {
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

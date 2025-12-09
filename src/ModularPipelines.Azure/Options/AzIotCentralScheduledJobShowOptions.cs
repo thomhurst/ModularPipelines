@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "central", "scheduled-job", "show")]
+[CliSubCommand("iot", "central", "scheduled-job", "show")]
 public record AzIotCentralScheduledJobShowOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--id")] string Id
 ) : AzOptions
 {
-    [CommandSwitch("--central-api-uri")]
+    [CliOption("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 }

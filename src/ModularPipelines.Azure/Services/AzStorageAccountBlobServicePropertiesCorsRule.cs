@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "account", "blob-service-properties")]
+[CliCommand("storage", "account", "blob-service-properties")]
 public class AzStorageAccountBlobServicePropertiesCorsRule
 {
     public AzStorageAccountBlobServicePropertiesCorsRule(

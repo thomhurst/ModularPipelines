@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "update-billing-group")]
+[CliCommand("iot", "update-billing-group")]
 public record AwsIotUpdateBillingGroupOptions(
-[property: CommandSwitch("--billing-group-name")] string BillingGroupName,
-[property: CommandSwitch("--billing-group-properties")] string BillingGroupProperties
+[property: CliOption("--billing-group-name")] string BillingGroupName,
+[property: CliOption("--billing-group-properties")] string BillingGroupProperties
 ) : AwsOptions
 {
-    [CommandSwitch("--expected-version")]
+    [CliOption("--expected-version")]
     public long? ExpectedVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "mongodb", "restorable-resource", "list")]
+[CliSubCommand("cosmosdb", "mongodb", "restorable-resource", "list")]
 public record AzCosmosdbMongodbRestorableResourceListOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--restore-location")] string RestoreLocation,
-[property: CommandSwitch("--restore-timestamp")] string RestoreTimestamp
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--restore-location")] string RestoreLocation,
+[property: CliOption("--restore-timestamp")] string RestoreTimestamp
 ) : AzOptions;

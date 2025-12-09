@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "get-documentation-version")]
+[CliCommand("apigateway", "get-documentation-version")]
 public record AwsApigatewayGetDocumentationVersionOptions(
-[property: CommandSwitch("--rest-api-id")] string RestApiId,
-[property: CommandSwitch("--documentation-version")] string DocumentationVersion
+[property: CliOption("--rest-api-id")] string RestApiId,
+[property: CliOption("--documentation-version")] string DocumentationVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

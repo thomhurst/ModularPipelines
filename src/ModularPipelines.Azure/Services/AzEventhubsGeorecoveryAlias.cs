@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventhubs")]
+[CliSubCommand("eventhubs")]
 public class AzEventhubsGeorecoveryAlias
 {
     public AzEventhubsGeorecoveryAlias(

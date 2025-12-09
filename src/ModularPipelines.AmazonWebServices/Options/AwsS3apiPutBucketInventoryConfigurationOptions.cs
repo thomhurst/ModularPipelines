@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3api", "put-bucket-inventory-configuration")]
+[CliCommand("s3api", "put-bucket-inventory-configuration")]
 public record AwsS3apiPutBucketInventoryConfigurationOptions(
-[property: CommandSwitch("--bucket")] string Bucket,
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--inventory-configuration")] string InventoryConfiguration
+[property: CliOption("--bucket")] string Bucket,
+[property: CliOption("--id")] string Id,
+[property: CliOption("--inventory-configuration")] string InventoryConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--expected-bucket-owner")]
+    [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

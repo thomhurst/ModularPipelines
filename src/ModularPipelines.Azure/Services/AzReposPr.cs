@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repos")]
+[CliSubCommand("repos")]
 public class AzReposPr
 {
     public AzReposPr(

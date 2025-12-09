@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("restart")]
+[CliSubCommand("restart")]
 public record NpmRestartOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Args
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Args
 ) : NpmOptions
 {
-    [BooleanCommandSwitch("--ignore-scripts")]
+    [CliFlag("--ignore-scripts")]
     public virtual bool? IgnoreScripts { get; set; }
 
-    [CommandSwitch("--script-shell")]
+    [CliOption("--script-shell")]
     public virtual string? ScriptShell { get; set; }
 }

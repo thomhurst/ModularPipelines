@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workmail", "put-access-control-rule")]
+[CliCommand("workmail", "put-access-control-rule")]
 public record AwsWorkmailPutAccessControlRuleOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--effect")] string Effect,
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--organization-id")] string OrganizationId
+[property: CliOption("--name")] string Name,
+[property: CliOption("--effect")] string Effect,
+[property: CliOption("--description")] string Description,
+[property: CliOption("--organization-id")] string OrganizationId
 ) : AwsOptions
 {
-    [CommandSwitch("--ip-ranges")]
+    [CliOption("--ip-ranges")]
     public string[]? IpRanges { get; set; }
 
-    [CommandSwitch("--not-ip-ranges")]
+    [CliOption("--not-ip-ranges")]
     public string[]? NotIpRanges { get; set; }
 
-    [CommandSwitch("--actions")]
+    [CliOption("--actions")]
     public string[]? Actions { get; set; }
 
-    [CommandSwitch("--not-actions")]
+    [CliOption("--not-actions")]
     public string[]? NotActions { get; set; }
 
-    [CommandSwitch("--user-ids")]
+    [CliOption("--user-ids")]
     public string[]? UserIds { get; set; }
 
-    [CommandSwitch("--not-user-ids")]
+    [CliOption("--not-user-ids")]
     public string[]? NotUserIds { get; set; }
 
-    [CommandSwitch("--impersonation-role-ids")]
+    [CliOption("--impersonation-role-ids")]
     public string[]? ImpersonationRoleIds { get; set; }
 
-    [CommandSwitch("--not-impersonation-role-ids")]
+    [CliOption("--not-impersonation-role-ids")]
     public string[]? NotImpersonationRoleIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

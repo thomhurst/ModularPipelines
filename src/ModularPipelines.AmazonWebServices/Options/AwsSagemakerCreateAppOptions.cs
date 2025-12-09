@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-app")]
+[CliCommand("sagemaker", "create-app")]
 public record AwsSagemakerCreateAppOptions(
-[property: CommandSwitch("--domain-id")] string DomainId,
-[property: CommandSwitch("--app-type")] string AppType,
-[property: CommandSwitch("--app-name")] string AppName
+[property: CliOption("--domain-id")] string DomainId,
+[property: CliOption("--app-type")] string AppType,
+[property: CliOption("--app-name")] string AppName
 ) : AwsOptions
 {
-    [CommandSwitch("--user-profile-name")]
+    [CliOption("--user-profile-name")]
     public string? UserProfileName { get; set; }
 
-    [CommandSwitch("--space-name")]
+    [CliOption("--space-name")]
     public string? SpaceName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--resource-spec")]
+    [CliOption("--resource-spec")]
     public string? ResourceSpec { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,16 +5,16 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicediscovery", "register-instance")]
+[CliCommand("servicediscovery", "register-instance")]
 public record AwsServicediscoveryRegisterInstanceOptions(
-[property: CommandSwitch("--service-id")] string ServiceId,
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--attributes")] IEnumerable<KeyValue> Attributes
+[property: CliOption("--service-id")] string ServiceId,
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--attributes")] IEnumerable<KeyValue> Attributes
 ) : AwsOptions
 {
-    [CommandSwitch("--creator-request-id")]
+    [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

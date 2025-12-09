@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("internet-analyzer", "show-scorecard")]
+[CliSubCommand("internet-analyzer", "show-scorecard")]
 public record AzInternetAnalyzerShowScorecardOptions(
-[property: CommandSwitch("--aggregation-interval")] string AggregationInterval,
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--test-name")] string TestName
+[property: CliOption("--aggregation-interval")] string AggregationInterval,
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--test-name")] string TestName
 ) : AzOptions
 {
-    [CommandSwitch("--country")]
+    [CliOption("--country")]
     public int? Country { get; set; }
 
-    [CommandSwitch("--end-date-time-utc")]
+    [CliOption("--end-date-time-utc")]
     public string? EndDateTimeUtc { get; set; }
 }

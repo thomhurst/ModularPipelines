@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotsitewise", "describe-gateway-capability-configuration")]
+[CliCommand("iotsitewise", "describe-gateway-capability-configuration")]
 public record AwsIotsitewiseDescribeGatewayCapabilityConfigurationOptions(
-[property: CommandSwitch("--gateway-id")] string GatewayId,
-[property: CommandSwitch("--capability-namespace")] string CapabilityNamespace
+[property: CliOption("--gateway-id")] string GatewayId,
+[property: CliOption("--capability-namespace")] string CapabilityNamespace
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

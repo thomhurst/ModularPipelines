@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("privatenetworks", "acknowledge-order-receipt")]
+[CliCommand("privatenetworks", "acknowledge-order-receipt")]
 public record AwsPrivatenetworksAcknowledgeOrderReceiptOptions(
-[property: CommandSwitch("--order-arn")] string OrderArn
+[property: CliOption("--order-arn")] string OrderArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,147 +4,147 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "vm", "update")]
+[CliSubCommand("sql", "vm", "update")]
 public record AzSqlVmUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--agent-rg")]
+    [CliOption("--agent-rg")]
     public string? AgentRg { get; set; }
 
-    [CommandSwitch("--am-day")]
+    [CliOption("--am-day")]
     public string? AmDay { get; set; }
 
-    [CommandSwitch("--am-month-occ")]
+    [CliOption("--am-month-occ")]
     public string? AmMonthOcc { get; set; }
 
-    [BooleanCommandSwitch("--am-schedule")]
+    [CliFlag("--am-schedule")]
     public bool? AmSchedule { get; set; }
 
-    [CommandSwitch("--am-time")]
+    [CliOption("--am-time")]
     public string? AmTime { get; set; }
 
-    [CommandSwitch("--am-week-int")]
+    [CliOption("--am-week-int")]
     public string? AmWeekInt { get; set; }
 
-    [CommandSwitch("--backup-pwd")]
+    [CliOption("--backup-pwd")]
     public string? BackupPwd { get; set; }
 
-    [CommandSwitch("--backup-schedule-type")]
+    [CliOption("--backup-schedule-type")]
     public string? BackupScheduleType { get; set; }
 
-    [BooleanCommandSwitch("--backup-system-dbs")]
+    [CliFlag("--backup-system-dbs")]
     public bool? BackupSystemDbs { get; set; }
 
-    [CommandSwitch("--connectivity-type")]
+    [CliOption("--connectivity-type")]
     public string? ConnectivityType { get; set; }
 
-    [CommandSwitch("--credential-name")]
+    [CliOption("--credential-name")]
     public string? CredentialName { get; set; }
 
-    [CommandSwitch("--day-of-week")]
+    [CliOption("--day-of-week")]
     public string? DayOfWeek { get; set; }
 
-    [BooleanCommandSwitch("--enable-assessment")]
+    [CliFlag("--enable-assessment")]
     public bool? EnableAssessment { get; set; }
 
-    [BooleanCommandSwitch("--enable-auto-backup")]
+    [CliFlag("--enable-auto-backup")]
     public bool? EnableAutoBackup { get; set; }
 
-    [BooleanCommandSwitch("--enable-auto-patching")]
+    [CliFlag("--enable-auto-patching")]
     public bool? EnableAutoPatching { get; set; }
 
-    [BooleanCommandSwitch("--enable-encryption")]
+    [CliFlag("--enable-encryption")]
     public bool? EnableEncryption { get; set; }
 
-    [BooleanCommandSwitch("--enable-key-vault-credential")]
+    [CliFlag("--enable-key-vault-credential")]
     public bool? EnableKeyVaultCredential { get; set; }
 
-    [BooleanCommandSwitch("--enable-r-services")]
+    [CliFlag("--enable-r-services")]
     public bool? EnableRServices { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--full-backup-duration")]
+    [CliOption("--full-backup-duration")]
     public string? FullBackupDuration { get; set; }
 
-    [CommandSwitch("--full-backup-frequency")]
+    [CliOption("--full-backup-frequency")]
     public string? FullBackupFrequency { get; set; }
 
-    [CommandSwitch("--full-backup-start-hour")]
+    [CliOption("--full-backup-start-hour")]
     public string? FullBackupStartHour { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--image-sku")]
+    [CliOption("--image-sku")]
     public string? ImageSku { get; set; }
 
-    [CommandSwitch("--key-vault")]
+    [CliOption("--key-vault")]
     public string? KeyVault { get; set; }
 
-    [CommandSwitch("--least-privilege-mode")]
+    [CliOption("--least-privilege-mode")]
     public string? LeastPrivilegeMode { get; set; }
 
-    [CommandSwitch("--license-type")]
+    [CliOption("--license-type")]
     public string? LicenseType { get; set; }
 
-    [CommandSwitch("--log-backup-frequency")]
+    [CliOption("--log-backup-frequency")]
     public string? LogBackupFrequency { get; set; }
 
-    [CommandSwitch("--maintenance-window-duration")]
+    [CliOption("--maintenance-window-duration")]
     public string? MaintenanceWindowDuration { get; set; }
 
-    [CommandSwitch("--maintenance-window-start-hour")]
+    [CliOption("--maintenance-window-start-hour")]
     public string? MaintenanceWindowStartHour { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--retention-period")]
+    [CliOption("--retention-period")]
     public string? RetentionPeriod { get; set; }
 
-    [CommandSwitch("--sa-key")]
+    [CliOption("--sa-key")]
     public string? SaKey { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--sp-name")]
+    [CliOption("--sp-name")]
     public string? SpName { get; set; }
 
-    [CommandSwitch("--sp-secret")]
+    [CliOption("--sp-secret")]
     public string? SpSecret { get; set; }
 
-    [CommandSwitch("--sql-workload-type")]
+    [CliOption("--sql-workload-type")]
     public string? SqlWorkloadType { get; set; }
 
-    [CommandSwitch("--storage-account")]
+    [CliOption("--storage-account")]
     public int? StorageAccount { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 
-    [CommandSwitch("--workspace-rg")]
+    [CliOption("--workspace-rg")]
     public string? WorkspaceRg { get; set; }
 
-    [CommandSwitch("--workspace-sub")]
+    [CliOption("--workspace-sub")]
     public string? WorkspaceSub { get; set; }
 }

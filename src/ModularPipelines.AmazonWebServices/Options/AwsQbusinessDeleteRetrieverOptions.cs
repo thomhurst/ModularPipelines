@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qbusiness", "delete-retriever")]
+[CliCommand("qbusiness", "delete-retriever")]
 public record AwsQbusinessDeleteRetrieverOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--retriever-id")] string RetrieverId
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--retriever-id")] string RetrieverId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

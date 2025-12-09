@@ -5,17 +5,17 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codepipeline", "poll-for-jobs")]
+[CliCommand("codepipeline", "poll-for-jobs")]
 public record AwsCodepipelinePollForJobsOptions(
-[property: CommandSwitch("--action-type-id")] string ActionTypeId
+[property: CliOption("--action-type-id")] string ActionTypeId
 ) : AwsOptions
 {
-    [CommandSwitch("--max-batch-size")]
+    [CliOption("--max-batch-size")]
     public int? MaxBatchSize { get; set; }
 
-    [CommandSwitch("--query-param")]
+    [CliOption("--query-param")]
     public IEnumerable<KeyValue>? QueryParam { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "table", "retrieve-latest-backup-time")]
+[CliCommand("cosmosdb", "table", "retrieve-latest-backup-time")]
 public class AzCosmosdbTableRetrieveLatestBackupTimeCosmosdbPreview
 {
     public AzCosmosdbTableRetrieveLatestBackupTimeCosmosdbPreview(

@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kusto", "data-connection", "iot-hub", "create")]
+[CliSubCommand("kusto", "data-connection", "iot-hub", "create")]
 public record AzKustoDataConnectionIotHubCreateOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--data-connection-name")] string DataConnectionName,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--data-connection-name")] string DataConnectionName,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--consumer-group")]
+    [CliOption("--consumer-group")]
     public string? ConsumerGroup { get; set; }
 
-    [CommandSwitch("--data-format")]
+    [CliOption("--data-format")]
     public string? DataFormat { get; set; }
 
-    [CommandSwitch("--database-routing")]
+    [CliOption("--database-routing")]
     public string? DatabaseRouting { get; set; }
 
-    [CommandSwitch("--event-system-properties")]
+    [CliOption("--event-system-properties")]
     public string? EventSystemProperties { get; set; }
 
-    [CommandSwitch("--iot-hub-resource-id")]
+    [CliOption("--iot-hub-resource-id")]
     public string? IotHubResourceId { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--mapping-rule-name")]
+    [CliOption("--mapping-rule-name")]
     public string? MappingRuleName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--shared-access-policy-name")]
+    [CliOption("--shared-access-policy-name")]
     public string? SharedAccessPolicyName { get; set; }
 
-    [CommandSwitch("--table-name")]
+    [CliOption("--table-name")]
     public string? TableName { get; set; }
 }

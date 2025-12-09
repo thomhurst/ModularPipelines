@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edgeorder")]
+[CliSubCommand("edgeorder")]
 public class AzEdgeorderAddress
 {
     public AzEdgeorderAddress(

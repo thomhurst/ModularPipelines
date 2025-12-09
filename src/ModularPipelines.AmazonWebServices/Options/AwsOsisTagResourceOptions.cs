@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("osis", "tag-resource")]
+[CliCommand("osis", "tag-resource")]
 public record AwsOsisTagResourceOptions(
-[property: CommandSwitch("--arn")] string Arn,
-[property: CommandSwitch("--tags")] string[] Tags
+[property: CliOption("--arn")] string Arn,
+[property: CliOption("--tags")] string[] Tags
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

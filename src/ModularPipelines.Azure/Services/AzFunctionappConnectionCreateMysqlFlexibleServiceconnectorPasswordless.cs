@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "connection", "create", "mysql-flexible")]
+[CliCommand("functionapp", "connection", "create", "mysql-flexible")]
 public class AzFunctionappConnectionCreateMysqlFlexibleServiceconnectorPasswordless
 {
     public AzFunctionappConnectionCreateMysqlFlexibleServiceconnectorPasswordless(

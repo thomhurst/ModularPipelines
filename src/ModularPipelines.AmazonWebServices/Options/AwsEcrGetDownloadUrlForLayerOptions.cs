@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecr", "get-download-url-for-layer")]
+[CliCommand("ecr", "get-download-url-for-layer")]
 public record AwsEcrGetDownloadUrlForLayerOptions(
-[property: CommandSwitch("--repository-name")] string RepositoryName,
-[property: CommandSwitch("--layer-digest")] string LayerDigest
+[property: CliOption("--repository-name")] string RepositoryName,
+[property: CliOption("--layer-digest")] string LayerDigest
 ) : AwsOptions
 {
-    [CommandSwitch("--registry-id")]
+    [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

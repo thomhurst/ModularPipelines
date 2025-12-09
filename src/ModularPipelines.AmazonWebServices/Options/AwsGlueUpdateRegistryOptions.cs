@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "update-registry")]
+[CliCommand("glue", "update-registry")]
 public record AwsGlueUpdateRegistryOptions(
-[property: CommandSwitch("--registry-id")] string RegistryId,
-[property: CommandSwitch("--description")] string Description
+[property: CliOption("--registry-id")] string RegistryId,
+[property: CliOption("--description")] string Description
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

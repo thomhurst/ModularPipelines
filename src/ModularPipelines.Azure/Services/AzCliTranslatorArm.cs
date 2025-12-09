@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cli-translator")]
+[CliSubCommand("cli-translator")]
 public class AzCliTranslatorArm
 {
     public AzCliTranslatorArm(

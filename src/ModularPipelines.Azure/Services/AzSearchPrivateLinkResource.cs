@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("search")]
+[CliSubCommand("search")]
 public class AzSearchPrivateLinkResource
 {
     public AzSearchPrivateLinkResource(

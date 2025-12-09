@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "start-game-session-placement")]
+[CliCommand("gamelift", "start-game-session-placement")]
 public record AwsGameliftStartGameSessionPlacementOptions(
-[property: CommandSwitch("--placement-id")] string PlacementId,
-[property: CommandSwitch("--game-session-queue-name")] string GameSessionQueueName,
-[property: CommandSwitch("--maximum-player-session-count")] int MaximumPlayerSessionCount
+[property: CliOption("--placement-id")] string PlacementId,
+[property: CliOption("--game-session-queue-name")] string GameSessionQueueName,
+[property: CliOption("--maximum-player-session-count")] int MaximumPlayerSessionCount
 ) : AwsOptions
 {
-    [CommandSwitch("--game-properties")]
+    [CliOption("--game-properties")]
     public string[]? GameProperties { get; set; }
 
-    [CommandSwitch("--game-session-name")]
+    [CliOption("--game-session-name")]
     public string? GameSessionName { get; set; }
 
-    [CommandSwitch("--player-latencies")]
+    [CliOption("--player-latencies")]
     public string[]? PlayerLatencies { get; set; }
 
-    [CommandSwitch("--desired-player-sessions")]
+    [CliOption("--desired-player-sessions")]
     public string[]? DesiredPlayerSessions { get; set; }
 
-    [CommandSwitch("--game-session-data")]
+    [CliOption("--game-session-data")]
     public string? GameSessionData { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

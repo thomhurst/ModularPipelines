@@ -5,26 +5,26 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("imagebuilder", "import-vm-image")]
+[CliCommand("imagebuilder", "import-vm-image")]
 public record AwsImagebuilderImportVmImageOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--semantic-version")] string SemanticVersion,
-[property: CommandSwitch("--platform")] string Platform,
-[property: CommandSwitch("--vm-import-task-id")] string VmImportTaskId
+[property: CliOption("--name")] string Name,
+[property: CliOption("--semantic-version")] string SemanticVersion,
+[property: CliOption("--platform")] string Platform,
+[property: CliOption("--vm-import-task-id")] string VmImportTaskId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--os-version")]
+    [CliOption("--os-version")]
     public string? OsVersion { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

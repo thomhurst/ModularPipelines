@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("outposts", "list-sites")]
+[CliCommand("outposts", "list-sites")]
 public record AwsOutpostsListSitesOptions : AwsOptions
 {
-    [CommandSwitch("--operating-address-country-code-filter")]
+    [CliOption("--operating-address-country-code-filter")]
     public string[]? OperatingAddressCountryCodeFilter { get; set; }
 
-    [CommandSwitch("--operating-address-state-or-region-filter")]
+    [CliOption("--operating-address-state-or-region-filter")]
     public string[]? OperatingAddressStateOrRegionFilter { get; set; }
 
-    [CommandSwitch("--operating-address-city-filter")]
+    [CliOption("--operating-address-city-filter")]
     public string[]? OperatingAddressCityFilter { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -6,6 +6,6 @@ namespace ModularPipelines.Options.Linux.AptGet;
 [ExcludeFromCodeCoverage]
 public record AptGetBuildDepOptions : AptGetOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string CommandName { get; } = "build-dep";
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string CommandName { get; } = "build-dep";
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-mover")]
+[CliSubCommand("resource-mover")]
 public class AzResourceMoverMoveCollection
 {
     public AzResourceMoverMoveCollection(

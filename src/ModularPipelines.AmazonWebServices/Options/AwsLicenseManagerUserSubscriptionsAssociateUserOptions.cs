@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("license-manager-user-subscriptions", "associate-user")]
+[CliCommand("license-manager-user-subscriptions", "associate-user")]
 public record AwsLicenseManagerUserSubscriptionsAssociateUserOptions(
-[property: CommandSwitch("--identity-provider")] string IdentityProvider,
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--username")] string Username
+[property: CliOption("--identity-provider")] string IdentityProvider,
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--username")] string Username
 ) : AwsOptions
 {
-    [CommandSwitch("--domain")]
+    [CliOption("--domain")]
     public string? Domain { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

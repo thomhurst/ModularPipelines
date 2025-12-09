@@ -5,36 +5,36 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "start-change-request-execution")]
+[CliCommand("ssm", "start-change-request-execution")]
 public record AwsSsmStartChangeRequestExecutionOptions(
-[property: CommandSwitch("--document-name")] string DocumentName,
-[property: CommandSwitch("--runbooks")] string[] Runbooks
+[property: CliOption("--document-name")] string DocumentName,
+[property: CliOption("--runbooks")] string[] Runbooks
 ) : AwsOptions
 {
-    [CommandSwitch("--scheduled-time")]
+    [CliOption("--scheduled-time")]
     public long? ScheduledTime { get; set; }
 
-    [CommandSwitch("--document-version")]
+    [CliOption("--document-version")]
     public string? DocumentVersion { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public IEnumerable<KeyValue>? Parameters { get; set; }
 
-    [CommandSwitch("--change-request-name")]
+    [CliOption("--change-request-name")]
     public string? ChangeRequestName { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--scheduled-end-time")]
+    [CliOption("--scheduled-end-time")]
     public long? ScheduledEndTime { get; set; }
 
-    [CommandSwitch("--change-details")]
+    [CliOption("--change-details")]
     public string? ChangeDetails { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

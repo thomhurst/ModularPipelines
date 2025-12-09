@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ds", "describe-snapshots")]
+[CliCommand("ds", "describe-snapshots")]
 public record AwsDsDescribeSnapshotsOptions : AwsOptions
 {
-    [CommandSwitch("--directory-id")]
+    [CliOption("--directory-id")]
     public string? DirectoryId { get; set; }
 
-    [CommandSwitch("--snapshot-ids")]
+    [CliOption("--snapshot-ids")]
     public string[]? SnapshotIds { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

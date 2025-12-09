@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-vpc-endpoint")]
+[CliCommand("ec2", "create-vpc-endpoint")]
 public record AwsEc2CreateVpcEndpointOptions(
-[property: CommandSwitch("--vpc-id")] string VpcId,
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--vpc-id")] string VpcId,
+[property: CliOption("--service-name")] string ServiceName
 ) : AwsOptions
 {
-    [CommandSwitch("--vpc-endpoint-type")]
+    [CliOption("--vpc-endpoint-type")]
     public string? VpcEndpointType { get; set; }
 
-    [CommandSwitch("--policy-document")]
+    [CliOption("--policy-document")]
     public string? PolicyDocument { get; set; }
 
-    [CommandSwitch("--route-table-ids")]
+    [CliOption("--route-table-ids")]
     public string[]? RouteTableIds { get; set; }
 
-    [CommandSwitch("--subnet-ids")]
+    [CliOption("--subnet-ids")]
     public string[]? SubnetIds { get; set; }
 
-    [CommandSwitch("--security-group-ids")]
+    [CliOption("--security-group-ids")]
     public string[]? SecurityGroupIds { get; set; }
 
-    [CommandSwitch("--ip-address-type")]
+    [CliOption("--ip-address-type")]
     public string? IpAddressType { get; set; }
 
-    [CommandSwitch("--dns-options")]
+    [CliOption("--dns-options")]
     public string? DnsOptions { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--subnet-configurations")]
+    [CliOption("--subnet-configurations")]
     public string[]? SubnetConfigurations { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

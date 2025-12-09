@@ -20,6 +20,6 @@ public record DotNetSlnOptions : DotNetOptions
         CommandParts = ["sln", "[<SOLUTION_FILE>]", "[command]"];
     }
 
-    [PositionalArgument(PlaceholderName = "[<SOLUTION_FILE>]")]
-    public string? SolutionFile { get; set; }
+    [CliArgument(Name = "[<SOLUTION_FILE>]")]
+    public virtual string? SolutionFile { get; set; }
 }

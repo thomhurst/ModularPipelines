@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stepfunctions", "stop-execution")]
+[CliCommand("stepfunctions", "stop-execution")]
 public record AwsStepfunctionsStopExecutionOptions(
-[property: CommandSwitch("--execution-arn")] string ExecutionArn
+[property: CliOption("--execution-arn")] string ExecutionArn
 ) : AwsOptions
 {
-    [CommandSwitch("--error")]
+    [CliOption("--error")]
     public string? Error { get; set; }
 
-    [CommandSwitch("--cause")]
+    [CliOption("--cause")]
     public string? Cause { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

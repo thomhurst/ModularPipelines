@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elb")]
+[CliSubCommand("elb")]
 public class AwsElbWait
 {
     public AwsElbWait(

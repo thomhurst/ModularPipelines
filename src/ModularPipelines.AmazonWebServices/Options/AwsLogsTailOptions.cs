@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logs", "tail")]
+[CliCommand("logs", "tail")]
 public record AwsLogsTailOptions : AwsOptions
 {
-    [CommandSwitch("--since")]
+    [CliOption("--since")]
     public string? Since { get; set; }
 
-    [BooleanCommandSwitch("--follow")]
+    [CliFlag("--follow")]
     public bool? Follow { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public string? Format { get; set; }
 
-    [CommandSwitch("--filter-pattern")]
+    [CliOption("--filter-pattern")]
     public string? FilterPattern { get; set; }
 
-    [CommandSwitch("--log-stream-names")]
+    [CliOption("--log-stream-names")]
     public string? LogStreamNames { get; set; }
 
-    [CommandSwitch("--log-stream-name-prefix")]
+    [CliOption("--log-stream-name-prefix")]
     public string? LogStreamNamePrefix { get; set; }
 }

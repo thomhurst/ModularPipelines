@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint", "get-campaign-date-range-kpi")]
+[CliCommand("pinpoint", "get-campaign-date-range-kpi")]
 public record AwsPinpointGetCampaignDateRangeKpiOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--campaign-id")] string CampaignId,
-[property: CommandSwitch("--kpi-name")] string KpiName
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--campaign-id")] string CampaignId,
+[property: CliOption("--kpi-name")] string KpiName
 ) : AwsOptions
 {
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public long? EndTime { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public string? PageSize { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public long? StartTime { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

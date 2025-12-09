@@ -5,16 +5,16 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "start-audit-mitigation-actions-task")]
+[CliCommand("iot", "start-audit-mitigation-actions-task")]
 public record AwsIotStartAuditMitigationActionsTaskOptions(
-[property: CommandSwitch("--task-id")] string TaskId,
-[property: CommandSwitch("--target")] string Target,
-[property: CommandSwitch("--audit-check-to-actions-mapping")] IEnumerable<KeyValue> AuditCheckToActionsMapping
+[property: CliOption("--task-id")] string TaskId,
+[property: CliOption("--target")] string Target,
+[property: CliOption("--audit-check-to-actions-mapping")] IEnumerable<KeyValue> AuditCheckToActionsMapping
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

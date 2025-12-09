@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("plugin", "list")]
+[CliCommand("plugin", "list")]
 [ExcludeFromCodeCoverage]
 public record KubernetesPluginListOptions : KubernetesOptions
 {
-    [BooleanCommandSwitch("--name-only")]
+    [CliFlag("--name-only")]
     public virtual bool? NameOnly { get; set; }
 }

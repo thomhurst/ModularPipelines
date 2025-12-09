@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("personalize", "start-recommender")]
+[CliCommand("personalize", "start-recommender")]
 public record AwsPersonalizeStartRecommenderOptions(
-[property: CommandSwitch("--recommender-arn")] string RecommenderArn
+[property: CliOption("--recommender-arn")] string RecommenderArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

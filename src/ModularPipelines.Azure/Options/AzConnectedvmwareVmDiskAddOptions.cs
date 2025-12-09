@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectedvmware", "vm", "disk", "add")]
+[CliSubCommand("connectedvmware", "vm", "disk", "add")]
 public record AzConnectedvmwareVmDiskAddOptions(
-[property: CommandSwitch("--controller-key")] string ControllerKey,
-[property: CommandSwitch("--disk-size")] string DiskSize,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vm-name")] string VmName
+[property: CliOption("--controller-key")] string ControllerKey,
+[property: CliOption("--disk-size")] string DiskSize,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vm-name")] string VmName
 ) : AzOptions
 {
-    [CommandSwitch("--disk-mode")]
+    [CliOption("--disk-mode")]
     public string? DiskMode { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--unit-number")]
+    [CliOption("--unit-number")]
     public string? UnitNumber { get; set; }
 }

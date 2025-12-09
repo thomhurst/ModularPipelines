@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "mongodb")]
+[CliCommand("cosmosdb", "mongodb")]
 public class AzCosmosdbMongodbRestorableDatabase
 {
     public AzCosmosdbMongodbRestorableDatabase(

@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("comprehend", "start-pii-entities-detection-job")]
+[CliCommand("comprehend", "start-pii-entities-detection-job")]
 public record AwsComprehendStartPiiEntitiesDetectionJobOptions(
-[property: CommandSwitch("--input-data-config")] string InputDataConfig,
-[property: CommandSwitch("--output-data-config")] string OutputDataConfig,
-[property: CommandSwitch("--mode")] string Mode,
-[property: CommandSwitch("--data-access-role-arn")] string DataAccessRoleArn,
-[property: CommandSwitch("--language-code")] string LanguageCode
+[property: CliOption("--input-data-config")] string InputDataConfig,
+[property: CliOption("--output-data-config")] string OutputDataConfig,
+[property: CliOption("--mode")] string Mode,
+[property: CliOption("--data-access-role-arn")] string DataAccessRoleArn,
+[property: CliOption("--language-code")] string LanguageCode
 ) : AwsOptions
 {
-    [CommandSwitch("--redaction-config")]
+    [CliOption("--redaction-config")]
     public string? RedactionConfig { get; set; }
 
-    [CommandSwitch("--job-name")]
+    [CliOption("--job-name")]
     public string? JobName { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

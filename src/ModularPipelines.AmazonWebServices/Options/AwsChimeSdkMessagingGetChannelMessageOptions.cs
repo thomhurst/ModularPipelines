@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-messaging", "get-channel-message")]
+[CliCommand("chime-sdk-messaging", "get-channel-message")]
 public record AwsChimeSdkMessagingGetChannelMessageOptions(
-[property: CommandSwitch("--channel-arn")] string ChannelArn,
-[property: CommandSwitch("--message-id")] string MessageId,
-[property: CommandSwitch("--chime-bearer")] string ChimeBearer
+[property: CliOption("--channel-arn")] string ChannelArn,
+[property: CliOption("--message-id")] string MessageId,
+[property: CliOption("--chime-bearer")] string ChimeBearer
 ) : AwsOptions
 {
-    [CommandSwitch("--sub-channel-id")]
+    [CliOption("--sub-channel-id")]
     public string? SubChannelId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

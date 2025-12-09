@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "describe-cluster-snapshots")]
+[CliCommand("redshift", "describe-cluster-snapshots")]
 public record AwsRedshiftDescribeClusterSnapshotsOptions : AwsOptions
 {
-    [CommandSwitch("--cluster-identifier")]
+    [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
 
-    [CommandSwitch("--snapshot-identifier")]
+    [CliOption("--snapshot-identifier")]
     public string? SnapshotIdentifier { get; set; }
 
-    [CommandSwitch("--snapshot-arn")]
+    [CliOption("--snapshot-arn")]
     public string? SnapshotArn { get; set; }
 
-    [CommandSwitch("--snapshot-type")]
+    [CliOption("--snapshot-type")]
     public string? SnapshotType { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public long? StartTime { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public long? EndTime { get; set; }
 
-    [CommandSwitch("--owner-account")]
+    [CliOption("--owner-account")]
     public string? OwnerAccount { get; set; }
 
-    [CommandSwitch("--tag-keys")]
+    [CliOption("--tag-keys")]
     public string[]? TagKeys { get; set; }
 
-    [CommandSwitch("--tag-values")]
+    [CliOption("--tag-values")]
     public string[]? TagValues { get; set; }
 
-    [CommandSwitch("--sorting-entities")]
+    [CliOption("--sorting-entities")]
     public string[]? SortingEntities { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

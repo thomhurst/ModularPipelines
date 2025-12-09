@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elbv2", "modify-listener")]
+[CliCommand("elbv2", "modify-listener")]
 public record AwsElbv2ModifyListenerOptions(
-[property: CommandSwitch("--listener-arn")] string ListenerArn
+[property: CliOption("--listener-arn")] string ListenerArn
 ) : AwsOptions
 {
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--ssl-policy")]
+    [CliOption("--ssl-policy")]
     public string? SslPolicy { get; set; }
 
-    [CommandSwitch("--certificates")]
+    [CliOption("--certificates")]
     public string[]? Certificates { get; set; }
 
-    [CommandSwitch("--default-actions")]
+    [CliOption("--default-actions")]
     public string[]? DefaultActions { get; set; }
 
-    [CommandSwitch("--alpn-policy")]
+    [CliOption("--alpn-policy")]
     public string[]? AlpnPolicy { get; set; }
 
-    [CommandSwitch("--mutual-authentication")]
+    [CliOption("--mutual-authentication")]
     public string? MutualAuthentication { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

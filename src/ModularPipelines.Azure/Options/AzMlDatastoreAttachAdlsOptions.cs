@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "datastore", "attach-adls")]
+[CliSubCommand("ml", "datastore", "attach-adls")]
 public record AzMlDatastoreAttachAdlsOptions(
-[property: CommandSwitch("--client-id")] string ClientId,
-[property: CommandSwitch("--client-secret")] string ClientSecret,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--store-name")] string StoreName,
-[property: CommandSwitch("--tenant-id")] string TenantId
+[property: CliOption("--client-id")] string ClientId,
+[property: CliOption("--client-secret")] string ClientSecret,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--store-name")] string StoreName,
+[property: CliOption("--tenant-id")] string TenantId
 ) : AzOptions
 {
-    [CommandSwitch("--adls-resource-group")]
+    [CliOption("--adls-resource-group")]
     public string? AdlsResourceGroup { get; set; }
 
-    [CommandSwitch("--adls-subscription-id")]
+    [CliOption("--adls-subscription-id")]
     public string? AdlsSubscriptionId { get; set; }
 
-    [CommandSwitch("--authority-url")]
+    [CliOption("--authority-url")]
     public string? AuthorityUrl { get; set; }
 
-    [CommandSwitch("--grant-workspace-msi-access")]
+    [CliOption("--grant-workspace-msi-access")]
     public string? GrantWorkspaceMsiAccess { get; set; }
 
-    [CommandSwitch("--include-secret")]
+    [CliOption("--include-secret")]
     public string? IncludeSecret { get; set; }
 
-    [CommandSwitch("--output-metadata-file")]
+    [CliOption("--output-metadata-file")]
     public string? OutputMetadataFile { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-url")]
+    [CliOption("--resource-url")]
     public string? ResourceUrl { get; set; }
 
-    [CommandSwitch("--subscription-id")]
+    [CliOption("--subscription-id")]
     public string? SubscriptionId { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

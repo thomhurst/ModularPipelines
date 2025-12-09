@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("add")]
+[CliSubCommand("add")]
 public record YarnAddOptions : YarnOptions
 {
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 
-    [BooleanCommandSwitch("--fixed")]
+    [CliFlag("--fixed")]
     public virtual bool? Fixed { get; set; }
 
-    [BooleanCommandSwitch("--exact")]
+    [CliFlag("--exact")]
     public virtual bool? Exact { get; set; }
 
-    [BooleanCommandSwitch("--tilde")]
+    [CliFlag("--tilde")]
     public virtual bool? Tilde { get; set; }
 
-    [BooleanCommandSwitch("--caret")]
+    [CliFlag("--caret")]
     public virtual bool? Caret { get; set; }
 
-    [BooleanCommandSwitch("--dev")]
+    [CliFlag("--dev")]
     public virtual bool? Dev { get; set; }
 
-    [BooleanCommandSwitch("--peer")]
+    [CliFlag("--peer")]
     public virtual bool? Peer { get; set; }
 
-    [BooleanCommandSwitch("--optional")]
+    [CliFlag("--optional")]
     public virtual bool? Optional { get; set; }
 
-    [BooleanCommandSwitch("--prefer-dev")]
+    [CliFlag("--prefer-dev")]
     public virtual bool? PreferDev { get; set; }
 
-    [BooleanCommandSwitch("--interactive")]
+    [CliFlag("--interactive")]
     public virtual bool? Interactive { get; set; }
 
-    [BooleanCommandSwitch("--cached")]
+    [CliFlag("--cached")]
     public virtual bool? Cached { get; set; }
 
-    [CommandSwitch("--mode")]
+    [CliOption("--mode")]
     public virtual string? Mode { get; set; }
 }

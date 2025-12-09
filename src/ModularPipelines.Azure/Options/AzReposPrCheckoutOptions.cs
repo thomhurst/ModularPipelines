@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repos", "pr", "checkout")]
+[CliSubCommand("repos", "pr", "checkout")]
 public record AzReposPrCheckoutOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AzOptions
 {
-    [CommandSwitch("--remote-name")]
+    [CliOption("--remote-name")]
     public string? RemoteName { get; set; }
 }

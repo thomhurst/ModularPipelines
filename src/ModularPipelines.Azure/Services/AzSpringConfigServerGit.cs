@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "config-server")]
+[CliCommand("spring", "config-server")]
 public class AzSpringConfigServerGit
 {
     public AzSpringConfigServerGit(

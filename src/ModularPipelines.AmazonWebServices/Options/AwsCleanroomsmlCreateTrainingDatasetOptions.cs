@@ -5,19 +5,19 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cleanroomsml", "create-training-dataset")]
+[CliCommand("cleanroomsml", "create-training-dataset")]
 public record AwsCleanroomsmlCreateTrainingDatasetOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--role-arn")] string RoleArn,
-[property: CommandSwitch("--training-data")] string[] TrainingData
+[property: CliOption("--name")] string Name,
+[property: CliOption("--role-arn")] string RoleArn,
+[property: CliOption("--training-data")] string[] TrainingData
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

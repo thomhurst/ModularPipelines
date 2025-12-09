@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("athena", "import-notebook")]
+[CliCommand("athena", "import-notebook")]
 public record AwsAthenaImportNotebookOptions(
-[property: CommandSwitch("--work-group")] string WorkGroup,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--payload")] string Payload,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--work-group")] string WorkGroup,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--payload")] string Payload,
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

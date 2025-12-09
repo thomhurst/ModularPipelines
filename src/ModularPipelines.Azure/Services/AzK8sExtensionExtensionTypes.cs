@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("k8s-extension")]
+[CliSubCommand("k8s-extension")]
 public class AzK8sExtensionExtensionTypes
 {
     public AzK8sExtensionExtensionTypes(

@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ram", "get-resource-shares")]
+[CliCommand("ram", "get-resource-shares")]
 public record AwsRamGetResourceSharesOptions(
-[property: CommandSwitch("--resource-owner")] string ResourceOwner
+[property: CliOption("--resource-owner")] string ResourceOwner
 ) : AwsOptions
 {
-    [CommandSwitch("--resource-share-arns")]
+    [CliOption("--resource-share-arns")]
     public string[]? ResourceShareArns { get; set; }
 
-    [CommandSwitch("--resource-share-status")]
+    [CliOption("--resource-share-status")]
     public string? ResourceShareStatus { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--tag-filters")]
+    [CliOption("--tag-filters")]
     public string[]? TagFilters { get; set; }
 
-    [CommandSwitch("--permission-arn")]
+    [CliOption("--permission-arn")]
     public string? PermissionArn { get; set; }
 
-    [CommandSwitch("--permission-version")]
+    [CliOption("--permission-version")]
     public int? PermissionVersion { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

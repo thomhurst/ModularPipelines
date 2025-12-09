@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "connection", "create")]
+[CliCommand("webapp", "connection", "create")]
 public class AzWebappConnectionCreatePostgresFlexible
 {
     public AzWebappConnectionCreatePostgresFlexible(

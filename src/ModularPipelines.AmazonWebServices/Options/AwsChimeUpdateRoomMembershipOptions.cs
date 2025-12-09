@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime", "update-room-membership")]
+[CliCommand("chime", "update-room-membership")]
 public record AwsChimeUpdateRoomMembershipOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--room-id")] string RoomId,
-[property: CommandSwitch("--member-id")] string MemberId
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--room-id")] string RoomId,
+[property: CliOption("--member-id")] string MemberId
 ) : AwsOptions
 {
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

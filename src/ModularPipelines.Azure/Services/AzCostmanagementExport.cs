@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("costmanagement")]
+[CliSubCommand("costmanagement")]
 public class AzCostmanagementExport
 {
     public AzCostmanagementExport(

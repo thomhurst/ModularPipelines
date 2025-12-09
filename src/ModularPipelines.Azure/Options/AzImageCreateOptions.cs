@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("image", "create")]
+[CliSubCommand("image", "create")]
 public record AzImageCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--source")] string Source
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--source")] string Source
 ) : AzOptions
 {
-    [CommandSwitch("--data-disk-caching")]
+    [CliOption("--data-disk-caching")]
     public string? DataDiskCaching { get; set; }
 
-    [CommandSwitch("--data-disk-sources")]
+    [CliOption("--data-disk-sources")]
     public string? DataDiskSources { get; set; }
 
-    [CommandSwitch("--edge-zone")]
+    [CliOption("--edge-zone")]
     public string? EdgeZone { get; set; }
 
-    [CommandSwitch("--hyper-v-generation")]
+    [CliOption("--hyper-v-generation")]
     public string? HyperVGeneration { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--os-disk-caching")]
+    [CliOption("--os-disk-caching")]
     public string? OsDiskCaching { get; set; }
 
-    [CommandSwitch("--os-type")]
+    [CliOption("--os-type")]
     public string? OsType { get; set; }
 
-    [CommandSwitch("--storage-sku")]
+    [CliOption("--storage-sku")]
     public string? StorageSku { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [BooleanCommandSwitch("--zone-resilient")]
+    [CliFlag("--zone-resilient")]
     public bool? ZoneResilient { get; set; }
 }

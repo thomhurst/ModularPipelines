@@ -11,9 +11,9 @@ public record AptGetRemoveOptions : AptGetOptions
         Package = package;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string CommandName { get; } = "remove";
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string CommandName { get; } = "remove";
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string Package { get; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string Package { get; }
 }

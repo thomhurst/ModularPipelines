@@ -4,49 +4,49 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("serverlessrepo", "create-application")]
+[CliCommand("serverlessrepo", "create-application")]
 public record AwsServerlessrepoCreateApplicationOptions(
-[property: CommandSwitch("--author")] string Author,
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--author")] string Author,
+[property: CliOption("--description")] string Description,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--home-page-url")]
+    [CliOption("--home-page-url")]
     public string? HomePageUrl { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string[]? Labels { get; set; }
 
-    [CommandSwitch("--license-body")]
+    [CliOption("--license-body")]
     public string? LicenseBody { get; set; }
 
-    [CommandSwitch("--license-url")]
+    [CliOption("--license-url")]
     public string? LicenseUrl { get; set; }
 
-    [CommandSwitch("--readme-body")]
+    [CliOption("--readme-body")]
     public string? ReadmeBody { get; set; }
 
-    [CommandSwitch("--readme-url")]
+    [CliOption("--readme-url")]
     public string? ReadmeUrl { get; set; }
 
-    [CommandSwitch("--semantic-version")]
+    [CliOption("--semantic-version")]
     public string? SemanticVersion { get; set; }
 
-    [CommandSwitch("--source-code-archive-url")]
+    [CliOption("--source-code-archive-url")]
     public string? SourceCodeArchiveUrl { get; set; }
 
-    [CommandSwitch("--source-code-url")]
+    [CliOption("--source-code-url")]
     public string? SourceCodeUrl { get; set; }
 
-    [CommandSwitch("--spdx-license-id")]
+    [CliOption("--spdx-license-id")]
     public string? SpdxLicenseId { get; set; }
 
-    [CommandSwitch("--template-body")]
+    [CliOption("--template-body")]
     public string? TemplateBody { get; set; }
 
-    [CommandSwitch("--template-url")]
+    [CliOption("--template-url")]
     public string? TemplateUrl { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

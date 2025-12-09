@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scvmm", "vm", "guest-agent", "enable")]
+[CliSubCommand("scvmm", "vm", "guest-agent", "enable")]
 public record AzScvmmVmGuestAgentEnableOptions(
-[property: CommandSwitch("--password")] string Password,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--username")] string Username,
-[property: CommandSwitch("--vm-name")] string VmName
+[property: CliOption("--password")] string Password,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--username")] string Username,
+[property: CliOption("--vm-name")] string VmName
 ) : AzOptions
 {
-    [CommandSwitch("--https-proxy")]
+    [CliOption("--https-proxy")]
     public string? HttpsProxy { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

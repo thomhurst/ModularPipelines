@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "network", "private-endpoint", "connection", "set")]
+[CliSubCommand("dt", "network", "private-endpoint", "connection", "set")]
 public record AzDtNetworkPrivateEndpointConnectionSetOptions(
-[property: CommandSwitch("--cn")] string Cn,
-[property: CommandSwitch("--dt-name")] string DtName,
-[property: CommandSwitch("--status")] string Status
+[property: CliOption("--cn")] string Cn,
+[property: CliOption("--dt-name")] string DtName,
+[property: CliOption("--status")] string Status
 ) : AzOptions
 {
-    [CommandSwitch("--actions-required")]
+    [CliOption("--actions-required")]
     public string? ActionsRequired { get; set; }
 
-    [CommandSwitch("--desc")]
+    [CliOption("--desc")]
     public string? Desc { get; set; }
 
-    [CommandSwitch("--group-ids")]
+    [CliOption("--group-ids")]
     public string? GroupIds { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

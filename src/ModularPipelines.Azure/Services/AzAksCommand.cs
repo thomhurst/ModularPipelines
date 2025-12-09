@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks")]
+[CliSubCommand("aks")]
 public class AzAksCommand
 {
     public AzAksCommand(

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workloads", "sap-database-instance", "list")]
+[CliSubCommand("workloads", "sap-database-instance", "list")]
 public record AzWorkloadsSapDatabaseInstanceListOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sap-virtual-instance-name")] string SapVirtualInstanceName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sap-virtual-instance-name")] string SapVirtualInstanceName
 ) : AzOptions;

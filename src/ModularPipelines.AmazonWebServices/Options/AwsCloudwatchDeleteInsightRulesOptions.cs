@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudwatch", "delete-insight-rules")]
+[CliCommand("cloudwatch", "delete-insight-rules")]
 public record AwsCloudwatchDeleteInsightRulesOptions(
-[property: CommandSwitch("--rule-names")] string[] RuleNames
+[property: CliOption("--rule-names")] string[] RuleNames
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

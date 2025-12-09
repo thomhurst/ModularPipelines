@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "log-analytics", "workspace", "list-deleted-workspaces")]
+[CliSubCommand("monitor", "log-analytics", "workspace", "list-deleted-workspaces")]
 public record AzMonitorLogAnalyticsWorkspaceListDeletedWorkspacesOptions : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

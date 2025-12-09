@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "delete-vpc-connection")]
+[CliCommand("quicksight", "delete-vpc-connection")]
 public record AwsQuicksightDeleteVpcConnectionOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--vpc-connection-id")] string VpcConnectionId
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--vpc-connection-id")] string VpcConnectionId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

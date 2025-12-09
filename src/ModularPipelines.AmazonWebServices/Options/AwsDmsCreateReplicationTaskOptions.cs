@@ -4,37 +4,37 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "create-replication-task")]
+[CliCommand("dms", "create-replication-task")]
 public record AwsDmsCreateReplicationTaskOptions(
-[property: CommandSwitch("--replication-task-identifier")] string ReplicationTaskIdentifier,
-[property: CommandSwitch("--source-endpoint-arn")] string SourceEndpointArn,
-[property: CommandSwitch("--target-endpoint-arn")] string TargetEndpointArn,
-[property: CommandSwitch("--replication-instance-arn")] string ReplicationInstanceArn,
-[property: CommandSwitch("--migration-type")] string MigrationType,
-[property: CommandSwitch("--table-mappings")] string TableMappings
+[property: CliOption("--replication-task-identifier")] string ReplicationTaskIdentifier,
+[property: CliOption("--source-endpoint-arn")] string SourceEndpointArn,
+[property: CliOption("--target-endpoint-arn")] string TargetEndpointArn,
+[property: CliOption("--replication-instance-arn")] string ReplicationInstanceArn,
+[property: CliOption("--migration-type")] string MigrationType,
+[property: CliOption("--table-mappings")] string TableMappings
 ) : AwsOptions
 {
-    [CommandSwitch("--replication-task-settings")]
+    [CliOption("--replication-task-settings")]
     public string? ReplicationTaskSettings { get; set; }
 
-    [CommandSwitch("--cdc-start-time")]
+    [CliOption("--cdc-start-time")]
     public long? CdcStartTime { get; set; }
 
-    [CommandSwitch("--cdc-start-position")]
+    [CliOption("--cdc-start-position")]
     public string? CdcStartPosition { get; set; }
 
-    [CommandSwitch("--cdc-stop-position")]
+    [CliOption("--cdc-stop-position")]
     public string? CdcStopPosition { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--task-data")]
+    [CliOption("--task-data")]
     public string? TaskData { get; set; }
 
-    [CommandSwitch("--resource-identifier")]
+    [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

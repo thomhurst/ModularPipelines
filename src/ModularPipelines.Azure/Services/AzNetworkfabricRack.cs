@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkfabric")]
+[CliSubCommand("networkfabric")]
 public class AzNetworkfabricRack
 {
     public AzNetworkfabricRack(

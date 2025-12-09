@@ -4,71 +4,71 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "create-event-source-mapping")]
+[CliCommand("lambda", "create-event-source-mapping")]
 public record AwsLambdaCreateEventSourceMappingOptions(
-[property: CommandSwitch("--function-name")] string FunctionName
+[property: CliOption("--function-name")] string FunctionName
 ) : AwsOptions
 {
-    [CommandSwitch("--event-source-arn")]
+    [CliOption("--event-source-arn")]
     public string? EventSourceArn { get; set; }
 
-    [CommandSwitch("--batch-size")]
+    [CliOption("--batch-size")]
     public int? BatchSize { get; set; }
 
-    [CommandSwitch("--filter-criteria")]
+    [CliOption("--filter-criteria")]
     public string? FilterCriteria { get; set; }
 
-    [CommandSwitch("--maximum-batching-window-in-seconds")]
+    [CliOption("--maximum-batching-window-in-seconds")]
     public int? MaximumBatchingWindowInSeconds { get; set; }
 
-    [CommandSwitch("--parallelization-factor")]
+    [CliOption("--parallelization-factor")]
     public int? ParallelizationFactor { get; set; }
 
-    [CommandSwitch("--starting-position")]
+    [CliOption("--starting-position")]
     public string? StartingPosition { get; set; }
 
-    [CommandSwitch("--starting-position-timestamp")]
+    [CliOption("--starting-position-timestamp")]
     public long? StartingPositionTimestamp { get; set; }
 
-    [CommandSwitch("--destination-config")]
+    [CliOption("--destination-config")]
     public string? DestinationConfig { get; set; }
 
-    [CommandSwitch("--maximum-record-age-in-seconds")]
+    [CliOption("--maximum-record-age-in-seconds")]
     public int? MaximumRecordAgeInSeconds { get; set; }
 
-    [CommandSwitch("--maximum-retry-attempts")]
+    [CliOption("--maximum-retry-attempts")]
     public int? MaximumRetryAttempts { get; set; }
 
-    [CommandSwitch("--tumbling-window-in-seconds")]
+    [CliOption("--tumbling-window-in-seconds")]
     public int? TumblingWindowInSeconds { get; set; }
 
-    [CommandSwitch("--topics")]
+    [CliOption("--topics")]
     public string[]? Topics { get; set; }
 
-    [CommandSwitch("--queues")]
+    [CliOption("--queues")]
     public string[]? Queues { get; set; }
 
-    [CommandSwitch("--source-access-configurations")]
+    [CliOption("--source-access-configurations")]
     public string[]? SourceAccessConfigurations { get; set; }
 
-    [CommandSwitch("--self-managed-event-source")]
+    [CliOption("--self-managed-event-source")]
     public string? SelfManagedEventSource { get; set; }
 
-    [CommandSwitch("--function-response-types")]
+    [CliOption("--function-response-types")]
     public string[]? FunctionResponseTypes { get; set; }
 
-    [CommandSwitch("--amazon-managed-kafka-event-source-config")]
+    [CliOption("--amazon-managed-kafka-event-source-config")]
     public string? AmazonManagedKafkaEventSourceConfig { get; set; }
 
-    [CommandSwitch("--self-managed-kafka-event-source-config")]
+    [CliOption("--self-managed-kafka-event-source-config")]
     public string? SelfManagedKafkaEventSourceConfig { get; set; }
 
-    [CommandSwitch("--scaling-config")]
+    [CliOption("--scaling-config")]
     public string? ScalingConfig { get; set; }
 
-    [CommandSwitch("--document-db-event-source-config")]
+    [CliOption("--document-db-event-source-config")]
     public string? DocumentDbEventSourceConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

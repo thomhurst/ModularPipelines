@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "disable-sagemaker-servicecatalog-portfolio")]
+[CliCommand("sagemaker", "disable-sagemaker-servicecatalog-portfolio")]
 public record AwsSagemakerDisableSagemakerServicecatalogPortfolioOptions : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,56 +5,56 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworks", "update-stack")]
+[CliCommand("opsworks", "update-stack")]
 public record AwsOpsworksUpdateStackOptions(
-[property: CommandSwitch("--stack-id")] string StackId
+[property: CliOption("--stack-id")] string StackId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--attributes")]
+    [CliOption("--attributes")]
     public IEnumerable<KeyValue>? Attributes { get; set; }
 
-    [CommandSwitch("--service-role-arn")]
+    [CliOption("--service-role-arn")]
     public string? ServiceRoleArn { get; set; }
 
-    [CommandSwitch("--default-instance-profile-arn")]
+    [CliOption("--default-instance-profile-arn")]
     public string? DefaultInstanceProfileArn { get; set; }
 
-    [CommandSwitch("--default-os")]
+    [CliOption("--default-os")]
     public string? DefaultOs { get; set; }
 
-    [CommandSwitch("--hostname-theme")]
+    [CliOption("--hostname-theme")]
     public string? HostnameTheme { get; set; }
 
-    [CommandSwitch("--default-availability-zone")]
+    [CliOption("--default-availability-zone")]
     public string? DefaultAvailabilityZone { get; set; }
 
-    [CommandSwitch("--default-subnet-id")]
+    [CliOption("--default-subnet-id")]
     public string? DefaultSubnetId { get; set; }
 
-    [CommandSwitch("--custom-json")]
+    [CliOption("--custom-json")]
     public string? CustomJson { get; set; }
 
-    [CommandSwitch("--configuration-manager")]
+    [CliOption("--configuration-manager")]
     public string? ConfigurationManager { get; set; }
 
-    [CommandSwitch("--chef-configuration")]
+    [CliOption("--chef-configuration")]
     public string? ChefConfiguration { get; set; }
 
-    [CommandSwitch("--custom-cookbooks-source")]
+    [CliOption("--custom-cookbooks-source")]
     public string? CustomCookbooksSource { get; set; }
 
-    [CommandSwitch("--default-ssh-key-name")]
+    [CliOption("--default-ssh-key-name")]
     public string? DefaultSshKeyName { get; set; }
 
-    [CommandSwitch("--default-root-device-type")]
+    [CliOption("--default-root-device-type")]
     public string? DefaultRootDeviceType { get; set; }
 
-    [CommandSwitch("--agent-version")]
+    [CliOption("--agent-version")]
     public string? AgentVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

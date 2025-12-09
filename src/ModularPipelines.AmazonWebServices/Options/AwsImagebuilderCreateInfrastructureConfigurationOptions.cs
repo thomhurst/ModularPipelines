@@ -5,45 +5,45 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("imagebuilder", "create-infrastructure-configuration")]
+[CliCommand("imagebuilder", "create-infrastructure-configuration")]
 public record AwsImagebuilderCreateInfrastructureConfigurationOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--instance-profile-name")] string InstanceProfileName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--instance-profile-name")] string InstanceProfileName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--instance-types")]
+    [CliOption("--instance-types")]
     public string[]? InstanceTypes { get; set; }
 
-    [CommandSwitch("--security-group-ids")]
+    [CliOption("--security-group-ids")]
     public string[]? SecurityGroupIds { get; set; }
 
-    [CommandSwitch("--subnet-id")]
+    [CliOption("--subnet-id")]
     public string? SubnetId { get; set; }
 
-    [CommandSwitch("--logging")]
+    [CliOption("--logging")]
     public string? Logging { get; set; }
 
-    [CommandSwitch("--key-pair")]
+    [CliOption("--key-pair")]
     public string? KeyPair { get; set; }
 
-    [CommandSwitch("--sns-topic-arn")]
+    [CliOption("--sns-topic-arn")]
     public string? SnsTopicArn { get; set; }
 
-    [CommandSwitch("--resource-tags")]
+    [CliOption("--resource-tags")]
     public IEnumerable<KeyValue>? ResourceTags { get; set; }
 
-    [CommandSwitch("--instance-metadata-options")]
+    [CliOption("--instance-metadata-options")]
     public string? InstanceMetadataOptions { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

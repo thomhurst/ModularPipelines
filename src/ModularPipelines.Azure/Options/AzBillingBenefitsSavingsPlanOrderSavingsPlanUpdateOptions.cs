@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing-benefits", "savings-plan-order", "savings-plan", "update")]
+[CliSubCommand("billing-benefits", "savings-plan-order", "savings-plan", "update")]
 public record AzBillingBenefitsSavingsPlanOrderSavingsPlanUpdateOptions(
-[property: CommandSwitch("--savings-plan-id")] string SavingsPlanId,
-[property: CommandSwitch("--savings-plan-order-id")] string SavingsPlanOrderId
+[property: CliOption("--savings-plan-id")] string SavingsPlanId,
+[property: CliOption("--savings-plan-order-id")] string SavingsPlanOrderId
 ) : AzOptions
 {
-    [CommandSwitch("--applied-scope-prop")]
+    [CliOption("--applied-scope-prop")]
     public string? AppliedScopeProp { get; set; }
 
-    [CommandSwitch("--applied-scope-type")]
+    [CliOption("--applied-scope-type")]
     public string? AppliedScopeType { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [BooleanCommandSwitch("--renew")]
+    [CliFlag("--renew")]
     public bool? Renew { get; set; }
 
-    [CommandSwitch("--renew-properties")]
+    [CliOption("--renew-properties")]
     public string? RenewProperties { get; set; }
 }

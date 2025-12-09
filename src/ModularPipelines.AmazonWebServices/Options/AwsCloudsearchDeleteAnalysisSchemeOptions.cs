@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudsearch", "delete-analysis-scheme")]
+[CliCommand("cloudsearch", "delete-analysis-scheme")]
 public record AwsCloudsearchDeleteAnalysisSchemeOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--analysis-scheme-name")] string AnalysisSchemeName
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--analysis-scheme-name")] string AnalysisSchemeName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

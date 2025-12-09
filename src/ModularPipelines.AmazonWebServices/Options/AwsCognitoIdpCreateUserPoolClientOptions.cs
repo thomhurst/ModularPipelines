@@ -4,60 +4,60 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "create-user-pool-client")]
+[CliCommand("cognito-idp", "create-user-pool-client")]
 public record AwsCognitoIdpCreateUserPoolClientOptions(
-[property: CommandSwitch("--user-pool-id")] string UserPoolId,
-[property: CommandSwitch("--client-name")] string ClientName
+[property: CliOption("--user-pool-id")] string UserPoolId,
+[property: CliOption("--client-name")] string ClientName
 ) : AwsOptions
 {
-    [CommandSwitch("--refresh-token-validity")]
+    [CliOption("--refresh-token-validity")]
     public int? RefreshTokenValidity { get; set; }
 
-    [CommandSwitch("--access-token-validity")]
+    [CliOption("--access-token-validity")]
     public int? AccessTokenValidity { get; set; }
 
-    [CommandSwitch("--id-token-validity")]
+    [CliOption("--id-token-validity")]
     public int? IdTokenValidity { get; set; }
 
-    [CommandSwitch("--token-validity-units")]
+    [CliOption("--token-validity-units")]
     public string? TokenValidityUnits { get; set; }
 
-    [CommandSwitch("--read-attributes")]
+    [CliOption("--read-attributes")]
     public string[]? ReadAttributes { get; set; }
 
-    [CommandSwitch("--write-attributes")]
+    [CliOption("--write-attributes")]
     public string[]? WriteAttributes { get; set; }
 
-    [CommandSwitch("--explicit-auth-flows")]
+    [CliOption("--explicit-auth-flows")]
     public string[]? ExplicitAuthFlows { get; set; }
 
-    [CommandSwitch("--supported-identity-providers")]
+    [CliOption("--supported-identity-providers")]
     public string[]? SupportedIdentityProviders { get; set; }
 
-    [CommandSwitch("--callback-urls")]
+    [CliOption("--callback-urls")]
     public string[]? CallbackUrls { get; set; }
 
-    [CommandSwitch("--logout-urls")]
+    [CliOption("--logout-urls")]
     public string[]? LogoutUrls { get; set; }
 
-    [CommandSwitch("--default-redirect-uri")]
+    [CliOption("--default-redirect-uri")]
     public string? DefaultRedirectUri { get; set; }
 
-    [CommandSwitch("--allowed-o-auth-flows")]
+    [CliOption("--allowed-o-auth-flows")]
     public string[]? AllowedOAuthFlows { get; set; }
 
-    [CommandSwitch("--allowed-o-auth-scopes")]
+    [CliOption("--allowed-o-auth-scopes")]
     public string[]? AllowedOAuthScopes { get; set; }
 
-    [CommandSwitch("--analytics-configuration")]
+    [CliOption("--analytics-configuration")]
     public string? AnalyticsConfiguration { get; set; }
 
-    [CommandSwitch("--prevent-user-existence-errors")]
+    [CliOption("--prevent-user-existence-errors")]
     public string? PreventUserExistenceErrors { get; set; }
 
-    [CommandSwitch("--auth-session-validity")]
+    [CliOption("--auth-session-validity")]
     public int? AuthSessionValidity { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

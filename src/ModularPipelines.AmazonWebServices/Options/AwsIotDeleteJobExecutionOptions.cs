@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "delete-job-execution")]
+[CliCommand("iot", "delete-job-execution")]
 public record AwsIotDeleteJobExecutionOptions(
-[property: CommandSwitch("--job-id")] string JobId,
-[property: CommandSwitch("--thing-name")] string ThingName,
-[property: CommandSwitch("--execution-number")] long ExecutionNumber
+[property: CliOption("--job-id")] string JobId,
+[property: CliOption("--thing-name")] string ThingName,
+[property: CliOption("--execution-number")] long ExecutionNumber
 ) : AwsOptions
 {
-    [CommandSwitch("--namespace-id")]
+    [CliOption("--namespace-id")]
     public string? NamespaceId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

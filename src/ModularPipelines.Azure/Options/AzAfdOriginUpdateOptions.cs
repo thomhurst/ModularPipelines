@@ -4,63 +4,63 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("afd", "origin", "update")]
+[CliSubCommand("afd", "origin", "update")]
 public record AzAfdOriginUpdateOptions : AzOptions
 {
-    [BooleanCommandSwitch("--enable-private-link")]
+    [CliFlag("--enable-private-link")]
     public bool? EnablePrivateLink { get; set; }
 
-    [BooleanCommandSwitch("--enabled-state")]
+    [CliFlag("--enabled-state")]
     public bool? EnabledState { get; set; }
 
-    [BooleanCommandSwitch("--enforce-certificate-name-check")]
+    [CliFlag("--enforce-certificate-name-check")]
     public bool? EnforceCertificateNameCheck { get; set; }
 
-    [CommandSwitch("--host-name")]
+    [CliOption("--host-name")]
     public string? HostName { get; set; }
 
-    [CommandSwitch("--http-port")]
+    [CliOption("--http-port")]
     public string? HttpPort { get; set; }
 
-    [CommandSwitch("--https-port")]
+    [CliOption("--https-port")]
     public string? HttpsPort { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--origin-group-name")]
+    [CliOption("--origin-group-name")]
     public string? OriginGroupName { get; set; }
 
-    [CommandSwitch("--origin-host-header")]
+    [CliOption("--origin-host-header")]
     public string? OriginHostHeader { get; set; }
 
-    [CommandSwitch("--origin-name")]
+    [CliOption("--origin-name")]
     public string? OriginName { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--private-link-location")]
+    [CliOption("--private-link-location")]
     public string? PrivateLinkLocation { get; set; }
 
-    [CommandSwitch("--private-link-request-message")]
+    [CliOption("--private-link-request-message")]
     public string? PrivateLinkRequestMessage { get; set; }
 
-    [CommandSwitch("--private-link-resource")]
+    [CliOption("--private-link-resource")]
     public string? PrivateLinkResource { get; set; }
 
-    [CommandSwitch("--private-link-sub-resource-type")]
+    [CliOption("--private-link-sub-resource-type")]
     public string? PrivateLinkSubResourceType { get; set; }
 
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--weight")]
+    [CliOption("--weight")]
     public string? Weight { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda")]
+[CliSubCommand("lambda")]
 public class AwsLambdaWait
 {
     public AwsLambdaWait(

@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kendra", "create-index")]
+[CliCommand("kendra", "create-index")]
 public record AwsKendraCreateIndexOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--name")] string Name,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--edition")]
+    [CliOption("--edition")]
     public string? Edition { get; set; }
 
-    [CommandSwitch("--server-side-encryption-configuration")]
+    [CliOption("--server-side-encryption-configuration")]
     public string? ServerSideEncryptionConfiguration { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--user-token-configurations")]
+    [CliOption("--user-token-configurations")]
     public string[]? UserTokenConfigurations { get; set; }
 
-    [CommandSwitch("--user-context-policy")]
+    [CliOption("--user-context-policy")]
     public string? UserContextPolicy { get; set; }
 
-    [CommandSwitch("--user-group-resolution-configuration")]
+    [CliOption("--user-group-resolution-configuration")]
     public string? UserGroupResolutionConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

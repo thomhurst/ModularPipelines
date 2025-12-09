@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectcampaigns", "start-instance-onboarding-job")]
+[CliCommand("connectcampaigns", "start-instance-onboarding-job")]
 public record AwsConnectcampaignsStartInstanceOnboardingJobOptions(
-[property: CommandSwitch("--connect-instance-id")] string ConnectInstanceId,
-[property: CommandSwitch("--encryption-config")] string EncryptionConfig
+[property: CliOption("--connect-instance-id")] string ConnectInstanceId,
+[property: CliOption("--encryption-config")] string EncryptionConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

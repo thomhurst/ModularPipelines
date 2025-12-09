@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("k8s-extension", "update")]
+[CliSubCommand("k8s-extension", "update")]
 public record AzK8sExtensionUpdateOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--cluster-type")] string ClusterType,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--cluster-type")] string ClusterType,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--auto-upgrade")]
+    [CliFlag("--auto-upgrade")]
     public bool? AutoUpgrade { get; set; }
 
-    [CommandSwitch("--cluster-resource-provider")]
+    [CliOption("--cluster-resource-provider")]
     public string? ClusterResourceProvider { get; set; }
 
-    [CommandSwitch("--config")]
+    [CliOption("--config")]
     public string? Config { get; set; }
 
-    [CommandSwitch("--config-file")]
+    [CliOption("--config-file")]
     public string? ConfigFile { get; set; }
 
-    [CommandSwitch("--config-protected")]
+    [CliOption("--config-protected")]
     public string? ConfigProtected { get; set; }
 
-    [CommandSwitch("--config-protected-file")]
+    [CliOption("--config-protected-file")]
     public string? ConfigProtectedFile { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--release-train")]
+    [CliOption("--release-train")]
     public string? ReleaseTrain { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

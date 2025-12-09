@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "central", "user", "delete")]
+[CliSubCommand("iot", "central", "user", "delete")]
 public record AzIotCentralUserDeleteOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--assignee")] string Assignee
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--assignee")] string Assignee
 ) : AzOptions
 {
-    [CommandSwitch("--central-api-uri")]
+    [CliOption("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 }

@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("reservations", "catalog", "show")]
+[CliSubCommand("reservations", "catalog", "show")]
 public record AzReservationsCatalogShowOptions(
-[property: CommandSwitch("--subscription-id")] string SubscriptionId
+[property: CliOption("--subscription-id")] string SubscriptionId
 ) : AzOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--offer-id")]
+    [CliOption("--offer-id")]
     public string? OfferId { get; set; }
 
-    [CommandSwitch("--plan-id")]
+    [CliOption("--plan-id")]
     public string? PlanId { get; set; }
 
-    [CommandSwitch("--publisher-id")]
+    [CliOption("--publisher-id")]
     public string? PublisherId { get; set; }
 
-    [CommandSwitch("--reserved-resource-type")]
+    [CliOption("--reserved-resource-type")]
     public string? ReservedResourceType { get; set; }
 }

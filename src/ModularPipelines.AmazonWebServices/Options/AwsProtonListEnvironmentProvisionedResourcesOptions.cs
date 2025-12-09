@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("proton", "list-environment-provisioned-resources")]
+[CliCommand("proton", "list-environment-provisioned-resources")]
 public record AwsProtonListEnvironmentProvisionedResourcesOptions(
-[property: CommandSwitch("--environment-name")] string EnvironmentName
+[property: CliOption("--environment-name")] string EnvironmentName
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

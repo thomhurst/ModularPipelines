@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediastore-data", "get-object")]
+[CliCommand("mediastore-data", "get-object")]
 public record AwsMediastoreDataGetObjectOptions(
-[property: CommandSwitch("--path")] string Path
+[property: CliOption("--path")] string Path
 ) : AwsOptions
 {
-    [CommandSwitch("--range")]
+    [CliOption("--range")]
     public string? Range { get; set; }
 }

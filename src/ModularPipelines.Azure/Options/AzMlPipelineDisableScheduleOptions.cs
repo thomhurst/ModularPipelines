@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "pipeline", "disable-schedule")]
+[CliSubCommand("ml", "pipeline", "disable-schedule")]
 public record AzMlPipelineDisableScheduleOptions(
-[property: CommandSwitch("--schedule-id")] string ScheduleId
+[property: CliOption("--schedule-id")] string ScheduleId
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

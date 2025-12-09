@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "delete-task-template")]
+[CliCommand("connect", "delete-task-template")]
 public record AwsConnectDeleteTaskTemplateOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--task-template-id")] string TaskTemplateId
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--task-template-id")] string TaskTemplateId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acm-pca", "issue-certificate")]
+[CliCommand("acm-pca", "issue-certificate")]
 public record AwsAcmPcaIssueCertificateOptions(
-[property: CommandSwitch("--certificate-authority-arn")] string CertificateAuthorityArn,
-[property: CommandSwitch("--csr")] string Csr,
-[property: CommandSwitch("--signing-algorithm")] string SigningAlgorithm,
-[property: CommandSwitch("--validity")] string Validity
+[property: CliOption("--certificate-authority-arn")] string CertificateAuthorityArn,
+[property: CliOption("--csr")] string Csr,
+[property: CliOption("--signing-algorithm")] string SigningAlgorithm,
+[property: CliOption("--validity")] string Validity
 ) : AwsOptions
 {
-    [CommandSwitch("--api-passthrough")]
+    [CliOption("--api-passthrough")]
     public string? ApiPassthrough { get; set; }
 
-    [CommandSwitch("--template-arn")]
+    [CliOption("--template-arn")]
     public string? TemplateArn { get; set; }
 
-    [CommandSwitch("--validity-not-before")]
+    [CliOption("--validity-not-before")]
     public string? ValidityNotBefore { get; set; }
 
-    [CommandSwitch("--idempotency-token")]
+    [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

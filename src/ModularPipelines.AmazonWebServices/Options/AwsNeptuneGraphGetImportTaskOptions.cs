@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptune-graph", "get-import-task")]
+[CliCommand("neptune-graph", "get-import-task")]
 public record AwsNeptuneGraphGetImportTaskOptions(
-[property: CommandSwitch("--task-identifier")] string TaskIdentifier
+[property: CliOption("--task-identifier")] string TaskIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

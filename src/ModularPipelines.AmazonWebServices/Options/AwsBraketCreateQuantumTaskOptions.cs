@@ -5,30 +5,30 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("braket", "create-quantum-task")]
+[CliCommand("braket", "create-quantum-task")]
 public record AwsBraketCreateQuantumTaskOptions(
-[property: CommandSwitch("--action")] string Action,
-[property: CommandSwitch("--device-arn")] string DeviceArn,
-[property: CommandSwitch("--output-s3-bucket")] string OutputS3Bucket,
-[property: CommandSwitch("--output-s3-key-prefix")] string OutputS3KeyPrefix,
-[property: CommandSwitch("--shots")] long Shots
+[property: CliOption("--action")] string Action,
+[property: CliOption("--device-arn")] string DeviceArn,
+[property: CliOption("--output-s3-bucket")] string OutputS3Bucket,
+[property: CliOption("--output-s3-key-prefix")] string OutputS3KeyPrefix,
+[property: CliOption("--shots")] long Shots
 ) : AwsOptions
 {
-    [CommandSwitch("--associations")]
+    [CliOption("--associations")]
     public string[]? Associations { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--device-parameters")]
+    [CliOption("--device-parameters")]
     public string? DeviceParameters { get; set; }
 
-    [CommandSwitch("--job-token")]
+    [CliOption("--job-token")]
     public string? JobToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

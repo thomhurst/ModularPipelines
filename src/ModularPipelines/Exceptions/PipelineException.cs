@@ -6,6 +6,7 @@ namespace ModularPipelines.Exceptions;
 public class PipelineException : Exception
 {
     /// <summary>
+    /// Initialises a new instance of the <see cref="PipelineException"/> class.
     /// Initializes a new instance of the <see cref="PipelineException"/> class.
     /// </summary>
     public PipelineException()
@@ -13,6 +14,7 @@ public class PipelineException : Exception
     }
 
     /// <summary>
+    /// Initialises a new instance of the <see cref="PipelineException"/> class.
     /// Initializes a new instance of the <see cref="PipelineException"/> class with a specified error message.
     /// </summary>
     /// <param name="message">The message that describes the error.</param>
@@ -21,6 +23,7 @@ public class PipelineException : Exception
     }
 
     /// <summary>
+    /// Initialises a new instance of the <see cref="PipelineException"/> class.
     /// Initializes a new instance of the <see cref="PipelineException"/> class with a specified error message and a reference to the inner exception that is the cause of this exception.
     /// </summary>
     /// <param name="message">The message that describes the error.</param>

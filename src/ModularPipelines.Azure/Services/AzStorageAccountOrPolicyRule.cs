@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "account", "or-policy")]
+[CliCommand("storage", "account", "or-policy")]
 public class AzStorageAccountOrPolicyRule
 {
     public AzStorageAccountOrPolicyRule(

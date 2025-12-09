@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware")]
+[CliSubCommand("vmware")]
 public class AzVmwareWorkloadNetwork
 {
     public AzVmwareWorkloadNetwork(

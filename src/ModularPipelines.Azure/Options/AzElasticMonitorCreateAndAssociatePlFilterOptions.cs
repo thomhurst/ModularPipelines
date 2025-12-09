@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elastic", "monitor", "create-and-associate-pl-filter")]
+[CliSubCommand("elastic", "monitor", "create-and-associate-pl-filter")]
 public record AzElasticMonitorCreateAndAssociatePlFilterOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--monitor-name")]
+    [CliOption("--monitor-name")]
     public string? MonitorName { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--private-endpoint-guid")]
+    [CliOption("--private-endpoint-guid")]
     public string? PrivateEndpointGuid { get; set; }
 
-    [CommandSwitch("--private-endpoint-name")]
+    [CliOption("--private-endpoint-name")]
     public string? PrivateEndpointName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

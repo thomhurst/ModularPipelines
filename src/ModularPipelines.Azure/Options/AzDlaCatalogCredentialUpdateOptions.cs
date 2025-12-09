@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dla", "catalog", "credential", "update")]
+[CliSubCommand("dla", "catalog", "credential", "update")]
 public record AzDlaCatalogCredentialUpdateOptions(
-[property: CommandSwitch("--credential-name")] string CredentialName,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--uri")] string Uri,
-[property: CommandSwitch("--user-name")] string UserName
+[property: CliOption("--credential-name")] string CredentialName,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--uri")] string Uri,
+[property: CliOption("--user-name")] string UserName
 ) : AzOptions
 {
-    [CommandSwitch("--account")]
+    [CliOption("--account")]
     public int? Account { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--new-password")]
+    [CliOption("--new-password")]
     public string? NewPassword { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer")]
+[CliSubCommand("transfer")]
 public class AwsTransferWait
 {
     public AwsTransferWait(

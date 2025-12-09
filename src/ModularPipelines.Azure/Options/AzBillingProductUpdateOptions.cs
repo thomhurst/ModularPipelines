@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "product", "update")]
+[CliSubCommand("billing", "product", "update")]
 public record AzBillingProductUpdateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--auto-renew")]
+    [CliOption("--auto-renew")]
     public string? AutoRenew { get; set; }
 
-    [CommandSwitch("--billing-frequency")]
+    [CliOption("--billing-frequency")]
     public string? BillingFrequency { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 }

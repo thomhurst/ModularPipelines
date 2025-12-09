@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("urestackhci")]
+[CliSubCommand("urestackhci")]
 public class AzAzurestackhciStoragepath
 {
     public AzAzurestackhciStoragepath(

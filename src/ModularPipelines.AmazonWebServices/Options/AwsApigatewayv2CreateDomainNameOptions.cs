@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigatewayv2", "create-domain-name")]
+[CliCommand("apigatewayv2", "create-domain-name")]
 public record AwsApigatewayv2CreateDomainNameOptions(
-[property: CommandSwitch("--domain-name")] string DomainName
+[property: CliOption("--domain-name")] string DomainName
 ) : AwsOptions
 {
-    [CommandSwitch("--domain-name-configurations")]
+    [CliOption("--domain-name-configurations")]
     public string[]? DomainNameConfigurations { get; set; }
 
-    [CommandSwitch("--mutual-tls-authentication")]
+    [CliOption("--mutual-tls-authentication")]
     public string? MutualTlsAuthentication { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

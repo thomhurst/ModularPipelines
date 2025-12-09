@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("completion")]
+[CliSubCommand("completion")]
 public record NpmCompletionOptions : NpmOptions;

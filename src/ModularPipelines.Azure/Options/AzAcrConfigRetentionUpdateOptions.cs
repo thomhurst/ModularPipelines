@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "config", "retention", "update")]
+[CliSubCommand("acr", "config", "retention", "update")]
 public record AzAcrConfigRetentionUpdateOptions(
-[property: CommandSwitch("--registry")] string Registry,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--registry")] string Registry,
+[property: CliOption("--type")] string Type
 ) : AzOptions
 {
-    [CommandSwitch("--days")]
+    [CliOption("--days")]
     public int? Days { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 }

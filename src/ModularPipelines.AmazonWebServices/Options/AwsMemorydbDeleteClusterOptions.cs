@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("memorydb", "delete-cluster")]
+[CliCommand("memorydb", "delete-cluster")]
 public record AwsMemorydbDeleteClusterOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName
+[property: CliOption("--cluster-name")] string ClusterName
 ) : AwsOptions
 {
-    [CommandSwitch("--final-snapshot-name")]
+    [CliOption("--final-snapshot-name")]
     public string? FinalSnapshotName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

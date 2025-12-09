@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "sql", "database")]
+[CliCommand("cosmosdb", "sql", "database")]
 public class AzCosmosdbSqlDatabaseThroughput
 {
     public AzCosmosdbSqlDatabaseThroughput(

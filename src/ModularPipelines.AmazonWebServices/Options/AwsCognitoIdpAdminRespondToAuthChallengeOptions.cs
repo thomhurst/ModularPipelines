@@ -5,28 +5,28 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "admin-respond-to-auth-challenge")]
+[CliCommand("cognito-idp", "admin-respond-to-auth-challenge")]
 public record AwsCognitoIdpAdminRespondToAuthChallengeOptions(
-[property: CommandSwitch("--user-pool-id")] string UserPoolId,
-[property: CommandSwitch("--client-id")] string ClientId,
-[property: CommandSwitch("--challenge-name")] string ChallengeName
+[property: CliOption("--user-pool-id")] string UserPoolId,
+[property: CliOption("--client-id")] string ClientId,
+[property: CliOption("--challenge-name")] string ChallengeName
 ) : AwsOptions
 {
-    [CommandSwitch("--challenge-responses")]
+    [CliOption("--challenge-responses")]
     public IEnumerable<KeyValue>? ChallengeResponses { get; set; }
 
-    [CommandSwitch("--session")]
+    [CliOption("--session")]
     public string? Session { get; set; }
 
-    [CommandSwitch("--analytics-metadata")]
+    [CliOption("--analytics-metadata")]
     public string? AnalyticsMetadata { get; set; }
 
-    [CommandSwitch("--context-data")]
+    [CliOption("--context-data")]
     public string? ContextData { get; set; }
 
-    [CommandSwitch("--client-metadata")]
+    [CliOption("--client-metadata")]
     public IEnumerable<KeyValue>? ClientMetadata { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

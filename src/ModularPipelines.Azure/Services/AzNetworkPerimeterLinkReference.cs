@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "perimeter")]
+[CliCommand("network", "perimeter")]
 public class AzNetworkPerimeterLinkReference
 {
     public AzNetworkPerimeterLinkReference(

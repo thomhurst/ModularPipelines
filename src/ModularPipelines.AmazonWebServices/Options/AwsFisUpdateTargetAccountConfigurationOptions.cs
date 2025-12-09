@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fis", "update-target-account-configuration")]
+[CliCommand("fis", "update-target-account-configuration")]
 public record AwsFisUpdateTargetAccountConfigurationOptions(
-[property: CommandSwitch("--experiment-template-id")] string ExperimentTemplateId,
-[property: CommandSwitch("--account-id")] string AccountId
+[property: CliOption("--experiment-template-id")] string ExperimentTemplateId,
+[property: CliOption("--account-id")] string AccountId
 ) : AwsOptions
 {
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

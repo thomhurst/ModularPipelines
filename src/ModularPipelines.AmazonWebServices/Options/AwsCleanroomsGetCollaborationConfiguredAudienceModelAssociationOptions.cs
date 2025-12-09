@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cleanrooms", "get-collaboration-configured-audience-model-association")]
+[CliCommand("cleanrooms", "get-collaboration-configured-audience-model-association")]
 public record AwsCleanroomsGetCollaborationConfiguredAudienceModelAssociationOptions(
-[property: CommandSwitch("--collaboration-identifier")] string CollaborationIdentifier,
-[property: CommandSwitch("--configured-audience-model-association-identifier")] string ConfiguredAudienceModelAssociationIdentifier
+[property: CliOption("--collaboration-identifier")] string CollaborationIdentifier,
+[property: CliOption("--configured-audience-model-association-identifier")] string ConfiguredAudienceModelAssociationIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

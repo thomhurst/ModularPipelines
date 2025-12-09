@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("extension", "update")]
+[CliSubCommand("extension", "update")]
 public record AzExtensionUpdateOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--pip-extra-index-urls")]
+    [CliOption("--pip-extra-index-urls")]
     public string? PipExtraIndexUrls { get; set; }
 
-    [CommandSwitch("--pip-proxy")]
+    [CliOption("--pip-proxy")]
     public string? PipProxy { get; set; }
 }

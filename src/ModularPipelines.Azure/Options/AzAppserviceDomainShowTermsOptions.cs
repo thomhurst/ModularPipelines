@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appservice", "domain", "show-terms")]
+[CliSubCommand("appservice", "domain", "show-terms")]
 public record AzAppserviceDomainShowTermsOptions(
-[property: CommandSwitch("--hostname")] string Hostname
+[property: CliOption("--hostname")] string Hostname
 ) : AzOptions;

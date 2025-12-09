@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "update-user")]
+[CliCommand("iam", "update-user")]
 public record AwsIamUpdateUserOptions(
-[property: CommandSwitch("--user-name")] string UserName
+[property: CliOption("--user-name")] string UserName
 ) : AwsOptions
 {
-    [CommandSwitch("--new-path")]
+    [CliOption("--new-path")]
     public string? NewPath { get; set; }
 
-    [CommandSwitch("--new-user-name")]
+    [CliOption("--new-user-name")]
     public string? NewUserName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

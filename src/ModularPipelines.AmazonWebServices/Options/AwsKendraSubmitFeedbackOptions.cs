@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kendra", "submit-feedback")]
+[CliCommand("kendra", "submit-feedback")]
 public record AwsKendraSubmitFeedbackOptions(
-[property: CommandSwitch("--index-id")] string IndexId,
-[property: CommandSwitch("--query-id")] string QueryId
+[property: CliOption("--index-id")] string IndexId,
+[property: CliOption("--query-id")] string QueryId
 ) : AwsOptions
 {
-    [CommandSwitch("--click-feedback-items")]
+    [CliOption("--click-feedback-items")]
     public string[]? ClickFeedbackItems { get; set; }
 
-    [CommandSwitch("--relevance-feedback-items")]
+    [CliOption("--relevance-feedback-items")]
     public string[]? RelevanceFeedbackItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

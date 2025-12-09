@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databrew", "update-profile-job")]
+[CliCommand("databrew", "update-profile-job")]
 public record AwsDatabrewUpdateProfileJobOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--output-location")] string OutputLocation,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--name")] string Name,
+[property: CliOption("--output-location")] string OutputLocation,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--configuration")]
+    [CliOption("--configuration")]
     public string? Configuration { get; set; }
 
-    [CommandSwitch("--encryption-key-arn")]
+    [CliOption("--encryption-key-arn")]
     public string? EncryptionKeyArn { get; set; }
 
-    [CommandSwitch("--encryption-mode")]
+    [CliOption("--encryption-mode")]
     public string? EncryptionMode { get; set; }
 
-    [CommandSwitch("--log-subscription")]
+    [CliOption("--log-subscription")]
     public string? LogSubscription { get; set; }
 
-    [CommandSwitch("--max-capacity")]
+    [CliOption("--max-capacity")]
     public int? MaxCapacity { get; set; }
 
-    [CommandSwitch("--max-retries")]
+    [CliOption("--max-retries")]
     public int? MaxRetries { get; set; }
 
-    [CommandSwitch("--validation-configurations")]
+    [CliOption("--validation-configurations")]
     public string[]? ValidationConfigurations { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public int? Timeout { get; set; }
 
-    [CommandSwitch("--job-sample")]
+    [CliOption("--job-sample")]
     public string? JobSample { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

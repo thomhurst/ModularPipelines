@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediapackage-vod", "create-packaging-configuration")]
+[CliCommand("mediapackage-vod", "create-packaging-configuration")]
 public record AwsMediapackageVodCreatePackagingConfigurationOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--packaging-group-id")] string PackagingGroupId
+[property: CliOption("--id")] string Id,
+[property: CliOption("--packaging-group-id")] string PackagingGroupId
 ) : AwsOptions
 {
-    [CommandSwitch("--cmaf-package")]
+    [CliOption("--cmaf-package")]
     public string? CmafPackage { get; set; }
 
-    [CommandSwitch("--dash-package")]
+    [CliOption("--dash-package")]
     public string? DashPackage { get; set; }
 
-    [CommandSwitch("--hls-package")]
+    [CliOption("--hls-package")]
     public string? HlsPackage { get; set; }
 
-    [CommandSwitch("--mss-package")]
+    [CliOption("--mss-package")]
     public string? MssPackage { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

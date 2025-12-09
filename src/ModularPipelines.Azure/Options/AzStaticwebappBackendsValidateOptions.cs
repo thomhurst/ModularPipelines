@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("staticwebapp", "backends", "validate")]
+[CliSubCommand("staticwebapp", "backends", "validate")]
 public record AzStaticwebappBackendsValidateOptions(
-[property: CommandSwitch("--backend-resource-id")] string BackendResourceId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--backend-resource-id")] string BackendResourceId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--backend-region")]
+    [CliOption("--backend-region")]
     public string? BackendRegion { get; set; }
 
-    [CommandSwitch("--environment-name")]
+    [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 }

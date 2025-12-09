@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ses", "update-template")]
+[CliCommand("ses", "update-template")]
 public record AwsSesUpdateTemplateOptions(
-[property: CommandSwitch("--template")] string Template
+[property: CliOption("--template")] string Template
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

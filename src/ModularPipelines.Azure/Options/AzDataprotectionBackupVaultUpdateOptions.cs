@@ -4,54 +4,54 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataprotection", "backup-vault", "update")]
+[CliSubCommand("dataprotection", "backup-vault", "update")]
 public record AzDataprotectionBackupVaultUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--azure-monitor-alerts-for-job-failures")]
+    [CliOption("--azure-monitor-alerts-for-job-failures")]
     public string? AzureMonitorAlertsForJobFailures { get; set; }
 
-    [CommandSwitch("--cross-subscription-restore-state")]
+    [CliOption("--cross-subscription-restore-state")]
     public string? CrossSubscriptionRestoreState { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--immutability-state")]
+    [CliOption("--immutability-state")]
     public string? ImmutabilityState { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--retention-duration-in-days")]
+    [CliOption("--retention-duration-in-days")]
     public string? RetentionDurationInDays { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--soft-delete-state")]
+    [CliOption("--soft-delete-state")]
     public string? SoftDeleteState { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--vault-name")]
+    [CliOption("--vault-name")]
     public string? VaultName { get; set; }
 }

@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pipelines", "build", "queue")]
+[CliSubCommand("pipelines", "build", "queue")]
 public record AzPipelinesBuildQueueOptions : AzOptions
 {
-    [CommandSwitch("--branch")]
+    [CliOption("--branch")]
     public string? Branch { get; set; }
 
-    [CommandSwitch("--commit-id")]
+    [CliOption("--commit-id")]
     public string? CommitId { get; set; }
 
-    [CommandSwitch("--definition-id")]
+    [CliOption("--definition-id")]
     public string? DefinitionId { get; set; }
 
-    [CommandSwitch("--definition-name")]
+    [CliOption("--definition-name")]
     public string? DefinitionName { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [BooleanCommandSwitch("--open")]
+    [CliFlag("--open")]
     public bool? Open { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [CommandSwitch("--queue-id")]
+    [CliOption("--queue-id")]
     public string? QueueId { get; set; }
 
-    [CommandSwitch("--variables")]
+    [CliOption("--variables")]
     public string? Variables { get; set; }
 }

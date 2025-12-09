@@ -4,66 +4,66 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediaconnect", "update-flow-source")]
+[CliCommand("mediaconnect", "update-flow-source")]
 public record AwsMediaconnectUpdateFlowSourceOptions(
-[property: CommandSwitch("--flow-arn")] string FlowArn,
-[property: CommandSwitch("--source-arn")] string SourceArn
+[property: CliOption("--flow-arn")] string FlowArn,
+[property: CliOption("--source-arn")] string SourceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--decryption")]
+    [CliOption("--decryption")]
     public string? Decryption { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--entitlement-arn")]
+    [CliOption("--entitlement-arn")]
     public string? EntitlementArn { get; set; }
 
-    [CommandSwitch("--ingest-port")]
+    [CliOption("--ingest-port")]
     public int? IngestPort { get; set; }
 
-    [CommandSwitch("--max-bitrate")]
+    [CliOption("--max-bitrate")]
     public int? MaxBitrate { get; set; }
 
-    [CommandSwitch("--max-latency")]
+    [CliOption("--max-latency")]
     public int? MaxLatency { get; set; }
 
-    [CommandSwitch("--max-sync-buffer")]
+    [CliOption("--max-sync-buffer")]
     public int? MaxSyncBuffer { get; set; }
 
-    [CommandSwitch("--media-stream-source-configurations")]
+    [CliOption("--media-stream-source-configurations")]
     public string[]? MediaStreamSourceConfigurations { get; set; }
 
-    [CommandSwitch("--min-latency")]
+    [CliOption("--min-latency")]
     public int? MinLatency { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--sender-control-port")]
+    [CliOption("--sender-control-port")]
     public int? SenderControlPort { get; set; }
 
-    [CommandSwitch("--sender-ip-address")]
+    [CliOption("--sender-ip-address")]
     public string? SenderIpAddress { get; set; }
 
-    [CommandSwitch("--source-listener-address")]
+    [CliOption("--source-listener-address")]
     public string? SourceListenerAddress { get; set; }
 
-    [CommandSwitch("--source-listener-port")]
+    [CliOption("--source-listener-port")]
     public int? SourceListenerPort { get; set; }
 
-    [CommandSwitch("--stream-id")]
+    [CliOption("--stream-id")]
     public string? StreamId { get; set; }
 
-    [CommandSwitch("--vpc-interface-name")]
+    [CliOption("--vpc-interface-name")]
     public string? VpcInterfaceName { get; set; }
 
-    [CommandSwitch("--whitelist-cidr")]
+    [CliOption("--whitelist-cidr")]
     public string? WhitelistCidr { get; set; }
 
-    [CommandSwitch("--gateway-bridge-source")]
+    [CliOption("--gateway-bridge-source")]
     public string? GatewayBridgeSource { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

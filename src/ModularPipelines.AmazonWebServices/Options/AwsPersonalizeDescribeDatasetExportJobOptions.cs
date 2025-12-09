@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("personalize", "describe-dataset-export-job")]
+[CliCommand("personalize", "describe-dataset-export-job")]
 public record AwsPersonalizeDescribeDatasetExportJobOptions(
-[property: CommandSwitch("--dataset-export-job-arn")] string DatasetExportJobArn
+[property: CliOption("--dataset-export-job-arn")] string DatasetExportJobArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

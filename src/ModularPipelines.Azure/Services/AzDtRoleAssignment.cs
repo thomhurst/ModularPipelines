@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt")]
+[CliSubCommand("dt")]
 public class AzDtRoleAssignment
 {
     public AzDtRoleAssignment(

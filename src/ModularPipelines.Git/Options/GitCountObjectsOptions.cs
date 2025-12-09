@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("count-objects")]
+[CliSubCommand("count-objects")]
 [ExcludeFromCodeCoverage]
 public record GitCountObjectsOptions : GitOptions
 {
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("--human-readable")]
+    [CliFlag("--human-readable")]
     public virtual bool? HumanReadable { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "delete-cluster-subnet-group")]
+[CliCommand("redshift", "delete-cluster-subnet-group")]
 public record AwsRedshiftDeleteClusterSubnetGroupOptions(
-[property: CommandSwitch("--cluster-subnet-group-name")] string ClusterSubnetGroupName
+[property: CliOption("--cluster-subnet-group-name")] string ClusterSubnetGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

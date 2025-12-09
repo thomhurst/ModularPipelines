@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("reservations", "reservation-order", "calculate-refund")]
+[CliSubCommand("reservations", "reservation-order", "calculate-refund")]
 public record AzReservationsReservationOrderCalculateRefundOptions(
-[property: CommandSwitch("--reservation-order-id")] string ReservationOrderId
+[property: CliOption("--reservation-order-id")] string ReservationOrderId
 ) : AzOptions
 {
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CommandSwitch("--quantity")]
+    [CliOption("--quantity")]
     public string? Quantity { get; set; }
 
-    [CommandSwitch("--reservation-id")]
+    [CliOption("--reservation-id")]
     public string? ReservationId { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 }

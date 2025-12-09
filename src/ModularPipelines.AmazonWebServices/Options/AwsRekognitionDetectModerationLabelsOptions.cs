@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "detect-moderation-labels")]
+[CliCommand("rekognition", "detect-moderation-labels")]
 public record AwsRekognitionDetectModerationLabelsOptions : AwsOptions
 {
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [CommandSwitch("--min-confidence")]
+    [CliOption("--min-confidence")]
     public float? MinConfidence { get; set; }
 
-    [CommandSwitch("--human-loop-config")]
+    [CliOption("--human-loop-config")]
     public string? HumanLoopConfig { get; set; }
 
-    [CommandSwitch("--project-version")]
+    [CliOption("--project-version")]
     public string? ProjectVersion { get; set; }
 
-    [CommandSwitch("--image-bytes")]
+    [CliOption("--image-bytes")]
     public string? ImageBytes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

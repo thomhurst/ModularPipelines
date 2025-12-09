@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "task", "file", "download")]
+[CliSubCommand("batch", "task", "file", "download")]
 public record AzBatchTaskFileDownloadOptions(
-[property: CommandSwitch("--destination")] string Destination,
-[property: CommandSwitch("--file-path")] string FilePath,
-[property: CommandSwitch("--job-id")] string JobId,
-[property: CommandSwitch("--task-id")] string TaskId
+[property: CliOption("--destination")] string Destination,
+[property: CliOption("--file-path")] string FilePath,
+[property: CliOption("--job-id")] string JobId,
+[property: CliOption("--task-id")] string TaskId
 ) : AzOptions
 {
-    [CommandSwitch("--account-endpoint")]
+    [CliOption("--account-endpoint")]
     public int? AccountEndpoint { get; set; }
 
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--end-range")]
+    [CliOption("--end-range")]
     public string? EndRange { get; set; }
 
-    [CommandSwitch("--if-modified-since")]
+    [CliOption("--if-modified-since")]
     public string? IfModifiedSince { get; set; }
 
-    [CommandSwitch("--if-unmodified-since")]
+    [CliOption("--if-unmodified-since")]
     public string? IfUnmodifiedSince { get; set; }
 
-    [CommandSwitch("--start-range")]
+    [CliOption("--start-range")]
     public string? StartRange { get; set; }
 }

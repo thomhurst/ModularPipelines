@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "account", "generate-sas")]
+[CliSubCommand("storage", "account", "generate-sas")]
 public record AzStorageAccountGenerateSasOptions(
-[property: CommandSwitch("--expiry")] string Expiry,
-[property: CommandSwitch("--permissions")] string Permissions,
-[property: CommandSwitch("--resource-types")] string ResourceTypes,
-[property: CommandSwitch("--services")] string Services
+[property: CliOption("--expiry")] string Expiry,
+[property: CliOption("--permissions")] string Permissions,
+[property: CliOption("--resource-types")] string ResourceTypes,
+[property: CliOption("--services")] string Services
 ) : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--blob-endpoint")]
+    [CliOption("--blob-endpoint")]
     public string? BlobEndpoint { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--encryption-scope")]
+    [CliOption("--encryption-scope")]
     public string? EncryptionScope { get; set; }
 
-    [CommandSwitch("--https-only")]
+    [CliOption("--https-only")]
     public string? HttpsOnly { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--ip")]
+    [CliOption("--ip")]
     public string? Ip { get; set; }
 
-    [CommandSwitch("--start")]
+    [CliOption("--start")]
     public string? Start { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

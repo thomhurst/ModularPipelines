@@ -5,20 +5,20 @@ using ModularPipelines.Options;
 namespace ModularPipelines.Cmd.Models;
 
 [ExcludeFromCodeCoverage]
-public record CmdScriptOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Script) : CommandLineToolOptions("cmd")
+public record CmdScriptOptions([property: CliArgument(Placement = ArgumentPlacement.AfterOptions)] string Script) : CommandLineToolOptions("cmd")
 {
-    [BooleanCommandSwitch("/q")]
+    [CliFlag("/q")]
     public virtual bool DisableEcho { get; init; }
 
-    [BooleanCommandSwitch("/c")]
+    [CliFlag("/c")]
     public virtual bool StopAfter { get; init; } = true;
 
-    [BooleanCommandSwitch("/u")]
+    [CliFlag("/u")]
     public virtual bool Unicode { get; init; }
 
-    [BooleanCommandSwitch("/a")]
+    [CliFlag("/a")]
     public virtual bool Ansi { get; init; }
 
-    [BooleanCommandSwitch("/d")]
+    [CliFlag("/d")]
     public virtual bool DisableAutoRunCommands { get; init; }
 }

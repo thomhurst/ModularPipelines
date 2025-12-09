@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automanage", "configuration-profile-assignment")]
+[CliCommand("automanage", "configuration-profile-assignment")]
 public class AzAutomanageConfigurationProfileAssignmentCluster
 {
     public AzAutomanageConfigurationProfileAssignmentCluster(

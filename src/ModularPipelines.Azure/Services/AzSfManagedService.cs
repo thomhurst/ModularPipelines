@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf")]
+[CliSubCommand("sf")]
 public class AzSfManagedService
 {
     public AzSfManagedService(

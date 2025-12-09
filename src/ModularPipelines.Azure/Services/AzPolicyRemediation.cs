@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("policy")]
+[CliSubCommand("policy")]
 public class AzPolicyRemediation
 {
     public AzPolicyRemediation(

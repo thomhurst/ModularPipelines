@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("clouddirectory", "delete-facet")]
+[CliCommand("clouddirectory", "delete-facet")]
 public record AwsClouddirectoryDeleteFacetOptions(
-[property: CommandSwitch("--schema-arn")] string SchemaArn,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--schema-arn")] string SchemaArn,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

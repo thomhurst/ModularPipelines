@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apic")]
+[CliSubCommand("apic")]
 public class AzApicMetadataSchema
 {
     public AzApicMetadataSchema(

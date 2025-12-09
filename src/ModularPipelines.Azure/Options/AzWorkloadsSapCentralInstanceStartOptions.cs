@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workloads", "sap-central-instance", "start")]
+[CliSubCommand("workloads", "sap-central-instance", "start")]
 public record AzWorkloadsSapCentralInstanceStartOptions : AzOptions
 {
-    [CommandSwitch("--central-instance-name")]
+    [CliOption("--central-instance-name")]
     public string? CentralInstanceName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--sap-virtual-instance-name")]
+    [CliOption("--sap-virtual-instance-name")]
     public string? SapVirtualInstanceName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

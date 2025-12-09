@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vpc-lattice", "delete-rule")]
+[CliCommand("vpc-lattice", "delete-rule")]
 public record AwsVpcLatticeDeleteRuleOptions(
-[property: CommandSwitch("--listener-identifier")] string ListenerIdentifier,
-[property: CommandSwitch("--rule-identifier")] string RuleIdentifier,
-[property: CommandSwitch("--service-identifier")] string ServiceIdentifier
+[property: CliOption("--listener-identifier")] string ListenerIdentifier,
+[property: CliOption("--rule-identifier")] string RuleIdentifier,
+[property: CliOption("--service-identifier")] string ServiceIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

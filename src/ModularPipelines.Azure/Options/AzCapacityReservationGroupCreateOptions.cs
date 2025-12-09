@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("capacity", "reservation", "group", "create")]
+[CliSubCommand("capacity", "reservation", "group", "create")]
 public record AzCapacityReservationGroupCreateOptions(
-[property: CommandSwitch("--capacity-reservation-group")] string CapacityReservationGroup,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--capacity-reservation-group")] string CapacityReservationGroup,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--zones")]
+    [CliOption("--zones")]
     public string? Zones { get; set; }
 }

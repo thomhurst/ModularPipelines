@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot-roborunner", "update-worker")]
+[CliCommand("iot-roborunner", "update-worker")]
 public record AwsIotRoborunnerUpdateWorkerOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--additional-transient-properties")]
+    [CliOption("--additional-transient-properties")]
     public string? AdditionalTransientProperties { get; set; }
 
-    [CommandSwitch("--additional-fixed-properties")]
+    [CliOption("--additional-fixed-properties")]
     public string? AdditionalFixedProperties { get; set; }
 
-    [CommandSwitch("--vendor-properties")]
+    [CliOption("--vendor-properties")]
     public string? VendorProperties { get; set; }
 
-    [CommandSwitch("--position")]
+    [CliOption("--position")]
     public string? Position { get; set; }
 
-    [CommandSwitch("--orientation")]
+    [CliOption("--orientation")]
     public string? Orientation { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

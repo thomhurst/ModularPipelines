@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "update-inference-experiment")]
+[CliCommand("sagemaker", "update-inference-experiment")]
 public record AwsSagemakerUpdateInferenceExperimentOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--schedule")]
+    [CliOption("--schedule")]
     public string? Schedule { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--model-variants")]
+    [CliOption("--model-variants")]
     public string[]? ModelVariants { get; set; }
 
-    [CommandSwitch("--data-storage-config")]
+    [CliOption("--data-storage-config")]
     public string? DataStorageConfig { get; set; }
 
-    [CommandSwitch("--shadow-mode-config")]
+    [CliOption("--shadow-mode-config")]
     public string? ShadowModeConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

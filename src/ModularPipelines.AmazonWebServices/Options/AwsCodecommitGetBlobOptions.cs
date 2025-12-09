@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecommit", "get-blob")]
+[CliCommand("codecommit", "get-blob")]
 public record AwsCodecommitGetBlobOptions(
-[property: CommandSwitch("--repository-name")] string RepositoryName,
-[property: CommandSwitch("--blob-id")] string BlobId
+[property: CliOption("--repository-name")] string RepositoryName,
+[property: CliOption("--blob-id")] string BlobId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

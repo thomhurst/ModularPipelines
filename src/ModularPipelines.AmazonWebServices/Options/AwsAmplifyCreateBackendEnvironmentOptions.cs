@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amplify", "create-backend-environment")]
+[CliCommand("amplify", "create-backend-environment")]
 public record AwsAmplifyCreateBackendEnvironmentOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--environment-name")] string EnvironmentName
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--environment-name")] string EnvironmentName
 ) : AwsOptions
 {
-    [CommandSwitch("--stack-name")]
+    [CliOption("--stack-name")]
     public string? StackName { get; set; }
 
-    [CommandSwitch("--deployment-artifacts")]
+    [CliOption("--deployment-artifacts")]
     public string? DeploymentArtifacts { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

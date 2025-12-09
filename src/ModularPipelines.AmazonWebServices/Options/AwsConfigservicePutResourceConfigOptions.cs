@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configservice", "put-resource-config")]
+[CliCommand("configservice", "put-resource-config")]
 public record AwsConfigservicePutResourceConfigOptions(
-[property: CommandSwitch("--resource-type")] string ResourceType,
-[property: CommandSwitch("--schema-version-id")] string SchemaVersionId,
-[property: CommandSwitch("--resource-id")] string ResourceId,
-[property: CommandSwitch("--configuration")] string Configuration
+[property: CliOption("--resource-type")] string ResourceType,
+[property: CliOption("--schema-version-id")] string SchemaVersionId,
+[property: CliOption("--resource-id")] string ResourceId,
+[property: CliOption("--configuration")] string Configuration
 ) : AwsOptions
 {
-    [CommandSwitch("--resource-name")]
+    [CliOption("--resource-name")]
     public string? ResourceName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

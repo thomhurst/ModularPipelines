@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.WinGet.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hash")]
+[CliSubCommand("hash")]
 public record HashOptions(
-    [property: CommandSwitch("--file")] string File
+    [property: CliOption("--file")] string File
 ) : WingetOptions
 {
-    [BooleanCommandSwitch("--msix")]
+    [CliFlag("--msix")]
     public virtual bool? Msix { get; set; }
 
-    [BooleanCommandSwitch("--wait")]
+    [CliFlag("--wait")]
     public virtual bool? Wait { get; set; }
 
-    [BooleanCommandSwitch("--open-logs")]
+    [CliFlag("--open-logs")]
     public virtual bool? OpenLogs { get; set; }
 
-    [BooleanCommandSwitch("--verbose-logs")]
+    [CliFlag("--verbose-logs")]
     public virtual bool? VerboseLogs { get; set; }
 
-    [BooleanCommandSwitch("--disable-interactivity")]
+    [CliFlag("--disable-interactivity")]
     public virtual bool? DisableInteractivity { get; set; }
 }

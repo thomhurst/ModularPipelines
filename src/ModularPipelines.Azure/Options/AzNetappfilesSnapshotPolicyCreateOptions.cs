@@ -4,58 +4,58 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "snapshot", "policy", "create")]
+[CliSubCommand("netappfiles", "snapshot", "policy", "create")]
 public record AzNetappfilesSnapshotPolicyCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--snapshot-policy-name")] string SnapshotPolicyName
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--snapshot-policy-name")] string SnapshotPolicyName
 ) : AzOptions
 {
-    [CommandSwitch("--daily-hour")]
+    [CliOption("--daily-hour")]
     public string? DailyHour { get; set; }
 
-    [CommandSwitch("--daily-minute")]
+    [CliOption("--daily-minute")]
     public string? DailyMinute { get; set; }
 
-    [CommandSwitch("--daily-snapshots")]
+    [CliOption("--daily-snapshots")]
     public string? DailySnapshots { get; set; }
 
-    [BooleanCommandSwitch("--enabled")]
+    [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
 
-    [CommandSwitch("--hourly-minute")]
+    [CliOption("--hourly-minute")]
     public string? HourlyMinute { get; set; }
 
-    [CommandSwitch("--hourly-snapshots")]
+    [CliOption("--hourly-snapshots")]
     public string? HourlySnapshots { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--monthly-days")]
+    [CliOption("--monthly-days")]
     public string? MonthlyDays { get; set; }
 
-    [CommandSwitch("--monthly-hour")]
+    [CliOption("--monthly-hour")]
     public string? MonthlyHour { get; set; }
 
-    [CommandSwitch("--monthly-minute")]
+    [CliOption("--monthly-minute")]
     public string? MonthlyMinute { get; set; }
 
-    [CommandSwitch("--monthly-snapshots")]
+    [CliOption("--monthly-snapshots")]
     public string? MonthlySnapshots { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--weekly-day")]
+    [CliOption("--weekly-day")]
     public string? WeeklyDay { get; set; }
 
-    [CommandSwitch("--weekly-hour")]
+    [CliOption("--weekly-hour")]
     public string? WeeklyHour { get; set; }
 
-    [CommandSwitch("--weekly-minute")]
+    [CliOption("--weekly-minute")]
     public string? WeeklyMinute { get; set; }
 
-    [CommandSwitch("--weekly-snapshots")]
+    [CliOption("--weekly-snapshots")]
     public string? WeeklySnapshots { get; set; }
 }

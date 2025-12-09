@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptune", "modify-db-cluster-endpoint")]
+[CliCommand("neptune", "modify-db-cluster-endpoint")]
 public record AwsNeptuneModifyDbClusterEndpointOptions(
-[property: CommandSwitch("--db-cluster-endpoint-identifier")] string DbClusterEndpointIdentifier
+[property: CliOption("--db-cluster-endpoint-identifier")] string DbClusterEndpointIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--endpoint-type")]
+    [CliOption("--endpoint-type")]
     public string? EndpointType { get; set; }
 
-    [CommandSwitch("--static-members")]
+    [CliOption("--static-members")]
     public string[]? StaticMembers { get; set; }
 
-    [CommandSwitch("--excluded-members")]
+    [CliOption("--excluded-members")]
     public string[]? ExcludedMembers { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

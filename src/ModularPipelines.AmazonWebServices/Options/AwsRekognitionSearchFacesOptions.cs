@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "search-faces")]
+[CliCommand("rekognition", "search-faces")]
 public record AwsRekognitionSearchFacesOptions(
-[property: CommandSwitch("--collection-id")] string CollectionId,
-[property: CommandSwitch("--face-id")] string FaceId
+[property: CliOption("--collection-id")] string CollectionId,
+[property: CliOption("--face-id")] string FaceId
 ) : AwsOptions
 {
-    [CommandSwitch("--max-faces")]
+    [CliOption("--max-faces")]
     public int? MaxFaces { get; set; }
 
-    [CommandSwitch("--face-match-threshold")]
+    [CliOption("--face-match-threshold")]
     public float? FaceMatchThreshold { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotwireless", "update-fuota-task")]
+[CliCommand("iotwireless", "update-fuota-task")]
 public record AwsIotwirelessUpdateFuotaTaskOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--firmware-update-image")]
+    [CliOption("--firmware-update-image")]
     public string? FirmwareUpdateImage { get; set; }
 
-    [CommandSwitch("--firmware-update-role")]
+    [CliOption("--firmware-update-role")]
     public string? FirmwareUpdateRole { get; set; }
 
-    [CommandSwitch("--redundancy-percent")]
+    [CliOption("--redundancy-percent")]
     public int? RedundancyPercent { get; set; }
 
-    [CommandSwitch("--fragment-size-bytes")]
+    [CliOption("--fragment-size-bytes")]
     public int? FragmentSizeBytes { get; set; }
 
-    [CommandSwitch("--fragment-interval-ms")]
+    [CliOption("--fragment-interval-ms")]
     public int? FragmentIntervalMs { get; set; }
 
-    [CommandSwitch("--lorawan")]
+    [CliOption("--lorawan")]
     public string? Lorawan { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

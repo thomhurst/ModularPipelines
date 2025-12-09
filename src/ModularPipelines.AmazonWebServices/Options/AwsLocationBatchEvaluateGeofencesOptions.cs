@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "batch-evaluate-geofences")]
+[CliCommand("location", "batch-evaluate-geofences")]
 public record AwsLocationBatchEvaluateGeofencesOptions(
-[property: CommandSwitch("--collection-name")] string CollectionName,
-[property: CommandSwitch("--device-position-updates")] string[] DevicePositionUpdates
+[property: CliOption("--collection-name")] string CollectionName,
+[property: CliOption("--device-position-updates")] string[] DevicePositionUpdates
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

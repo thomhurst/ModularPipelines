@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("directconnect", "delete-bgp-peer")]
+[CliCommand("directconnect", "delete-bgp-peer")]
 public record AwsDirectconnectDeleteBgpPeerOptions : AwsOptions
 {
-    [CommandSwitch("--virtual-interface-id")]
+    [CliOption("--virtual-interface-id")]
     public string? VirtualInterfaceId { get; set; }
 
-    [CommandSwitch("--asn")]
+    [CliOption("--asn")]
     public int? Asn { get; set; }
 
-    [CommandSwitch("--customer-address")]
+    [CliOption("--customer-address")]
     public string? CustomerAddress { get; set; }
 
-    [CommandSwitch("--bgp-peer-id")]
+    [CliOption("--bgp-peer-id")]
     public string? BgpPeerId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

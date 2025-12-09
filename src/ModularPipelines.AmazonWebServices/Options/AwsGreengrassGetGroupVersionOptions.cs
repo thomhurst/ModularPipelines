@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("greengrass", "get-group-version")]
+[CliCommand("greengrass", "get-group-version")]
 public record AwsGreengrassGetGroupVersionOptions(
-[property: CommandSwitch("--group-id")] string GroupId,
-[property: CommandSwitch("--group-version-id")] string GroupVersionId
+[property: CliOption("--group-id")] string GroupId,
+[property: CliOption("--group-version-id")] string GroupVersionId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

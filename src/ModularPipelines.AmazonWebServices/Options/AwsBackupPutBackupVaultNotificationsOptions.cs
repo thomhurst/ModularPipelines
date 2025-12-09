@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "put-backup-vault-notifications")]
+[CliCommand("backup", "put-backup-vault-notifications")]
 public record AwsBackupPutBackupVaultNotificationsOptions(
-[property: CommandSwitch("--backup-vault-name")] string BackupVaultName,
-[property: CommandSwitch("--sns-topic-arn")] string SnsTopicArn,
-[property: CommandSwitch("--backup-vault-events")] string[] BackupVaultEvents
+[property: CliOption("--backup-vault-name")] string BackupVaultName,
+[property: CliOption("--sns-topic-arn")] string SnsTopicArn,
+[property: CliOption("--backup-vault-events")] string[] BackupVaultEvents
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

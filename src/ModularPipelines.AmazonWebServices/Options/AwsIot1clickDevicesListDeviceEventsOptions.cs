@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot1click-devices", "list-device-events")]
+[CliCommand("iot1click-devices", "list-device-events")]
 public record AwsIot1clickDevicesListDeviceEventsOptions(
-[property: CommandSwitch("--device-id")] string DeviceId,
-[property: CommandSwitch("--from-time-stamp")] long FromTimeStamp,
-[property: CommandSwitch("--to-time-stamp")] long ToTimeStamp
+[property: CliOption("--device-id")] string DeviceId,
+[property: CliOption("--from-time-stamp")] long FromTimeStamp,
+[property: CliOption("--to-time-stamp")] long ToTimeStamp
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

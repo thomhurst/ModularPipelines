@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("secretsmanager", "update-secret-version-stage")]
+[CliCommand("secretsmanager", "update-secret-version-stage")]
 public record AwsSecretsmanagerUpdateSecretVersionStageOptions(
-[property: CommandSwitch("--secret-id")] string SecretId,
-[property: CommandSwitch("--version-stage")] string VersionStage
+[property: CliOption("--secret-id")] string SecretId,
+[property: CliOption("--version-stage")] string VersionStage
 ) : AwsOptions
 {
-    [CommandSwitch("--remove-from-version-id")]
+    [CliOption("--remove-from-version-id")]
     public string? RemoveFromVersionId { get; set; }
 
-    [CommandSwitch("--move-to-version-id")]
+    [CliOption("--move-to-version-id")]
     public string? MoveToVersionId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

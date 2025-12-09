@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime", "create-bot")]
+[CliCommand("chime", "create-bot")]
 public record AwsChimeCreateBotOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--display-name")] string DisplayName
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--display-name")] string DisplayName
 ) : AwsOptions
 {
-    [CommandSwitch("--domain")]
+    [CliOption("--domain")]
     public string? Domain { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "queue")]
+[CliCommand("storage", "queue")]
 public class AzStorageQueuePolicy
 {
     public AzStorageQueuePolicy(

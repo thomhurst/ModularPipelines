@@ -4,44 +4,44 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("blueprint", "assignment", "create")]
+[CliSubCommand("blueprint", "assignment", "create")]
 public record AzBlueprintAssignmentCreateOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--blueprint-version")]
+    [CliOption("--blueprint-version")]
     public string? BlueprintVersion { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--identity-type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--locks-excluded-principals")]
+    [CliOption("--locks-excluded-principals")]
     public string? LocksExcludedPrincipals { get; set; }
 
-    [CommandSwitch("--locks-mode")]
+    [CliOption("--locks-mode")]
     public string? LocksMode { get; set; }
 
-    [CommandSwitch("--management-group")]
+    [CliOption("--management-group")]
     public string? ManagementGroup { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--resource-group-value")]
+    [CliOption("--resource-group-value")]
     public string? ResourceGroupValue { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--user-assigned-identity")]
+    [CliOption("--user-assigned-identity")]
     public string? UserAssignedIdentity { get; set; }
 }

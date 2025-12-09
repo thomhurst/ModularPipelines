@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediaconnect", "update-flow")]
+[CliCommand("mediaconnect", "update-flow")]
 public record AwsMediaconnectUpdateFlowOptions(
-[property: CommandSwitch("--flow-arn")] string FlowArn
+[property: CliOption("--flow-arn")] string FlowArn
 ) : AwsOptions
 {
-    [CommandSwitch("--source-failover-config")]
+    [CliOption("--source-failover-config")]
     public string? SourceFailoverConfig { get; set; }
 
-    [CommandSwitch("--maintenance")]
+    [CliOption("--maintenance")]
     public string? Maintenance { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

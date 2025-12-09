@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "admin-disable-provider-for-user")]
+[CliCommand("cognito-idp", "admin-disable-provider-for-user")]
 public record AwsCognitoIdpAdminDisableProviderForUserOptions(
-[property: CommandSwitch("--user-pool-id")] string UserPoolId,
-[property: CommandSwitch("--user")] string User
+[property: CliOption("--user-pool-id")] string UserPoolId,
+[property: CliOption("--user")] string User
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "list-grants")]
+[CliCommand("kms", "list-grants")]
 public record AwsKmsListGrantsOptions(
-[property: CommandSwitch("--key-id")] string KeyId
+[property: CliOption("--key-id")] string KeyId
 ) : AwsOptions
 {
-    [CommandSwitch("--grant-id")]
+    [CliOption("--grant-id")]
     public string? GrantId { get; set; }
 
-    [CommandSwitch("--grantee-principal")]
+    [CliOption("--grantee-principal")]
     public string? GranteePrincipal { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

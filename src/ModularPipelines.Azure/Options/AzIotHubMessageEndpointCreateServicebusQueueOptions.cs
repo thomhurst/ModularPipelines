@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "message-endpoint", "create", "servicebus-queue")]
+[CliSubCommand("iot", "hub", "message-endpoint", "create", "servicebus-queue")]
 public record AzIotHubMessageEndpointCreateServicebusQueueOptions(
-[property: CommandSwitch("--en")] string En,
-[property: CommandSwitch("--hub-name")] string HubName
+[property: CliOption("--en")] string En,
+[property: CliOption("--hub-name")] string HubName
 ) : AzOptions
 {
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--endpoint-namespace-name")]
+    [CliOption("--endpoint-namespace-name")]
     public string? EndpointNamespaceName { get; set; }
 
-    [CommandSwitch("--endpoint-policy-name")]
+    [CliOption("--endpoint-policy-name")]
     public string? EndpointPolicyName { get; set; }
 
-    [CommandSwitch("--endpoint-resource-group")]
+    [CliOption("--endpoint-resource-group")]
     public string? EndpointResourceGroup { get; set; }
 
-    [CommandSwitch("--endpoint-subscription-id")]
+    [CliOption("--endpoint-subscription-id")]
     public string? EndpointSubscriptionId { get; set; }
 
-    [CommandSwitch("--endpoint-uri")]
+    [CliOption("--endpoint-uri")]
     public string? EndpointUri { get; set; }
 
-    [CommandSwitch("--entity-path")]
+    [CliOption("--entity-path")]
     public string? EntityPath { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

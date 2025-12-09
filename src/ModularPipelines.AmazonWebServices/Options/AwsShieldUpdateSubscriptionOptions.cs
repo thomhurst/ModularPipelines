@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("shield", "update-subscription")]
+[CliCommand("shield", "update-subscription")]
 public record AwsShieldUpdateSubscriptionOptions : AwsOptions
 {
-    [CommandSwitch("--auto-renew")]
+    [CliOption("--auto-renew")]
     public string? AutoRenew { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

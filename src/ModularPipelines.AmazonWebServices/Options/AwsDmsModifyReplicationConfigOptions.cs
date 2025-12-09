@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "modify-replication-config")]
+[CliCommand("dms", "modify-replication-config")]
 public record AwsDmsModifyReplicationConfigOptions(
-[property: CommandSwitch("--replication-config-arn")] string ReplicationConfigArn
+[property: CliOption("--replication-config-arn")] string ReplicationConfigArn
 ) : AwsOptions
 {
-    [CommandSwitch("--replication-config-identifier")]
+    [CliOption("--replication-config-identifier")]
     public string? ReplicationConfigIdentifier { get; set; }
 
-    [CommandSwitch("--replication-type")]
+    [CliOption("--replication-type")]
     public string? ReplicationType { get; set; }
 
-    [CommandSwitch("--table-mappings")]
+    [CliOption("--table-mappings")]
     public string? TableMappings { get; set; }
 
-    [CommandSwitch("--replication-settings")]
+    [CliOption("--replication-settings")]
     public string? ReplicationSettings { get; set; }
 
-    [CommandSwitch("--supplemental-settings")]
+    [CliOption("--supplemental-settings")]
     public string? SupplementalSettings { get; set; }
 
-    [CommandSwitch("--compute-config")]
+    [CliOption("--compute-config")]
     public string? ComputeConfig { get; set; }
 
-    [CommandSwitch("--source-endpoint-arn")]
+    [CliOption("--source-endpoint-arn")]
     public string? SourceEndpointArn { get; set; }
 
-    [CommandSwitch("--target-endpoint-arn")]
+    [CliOption("--target-endpoint-arn")]
     public string? TargetEndpointArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

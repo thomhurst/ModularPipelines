@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "waf-policy", "managed-rule", "exclusion")]
+[CliCommand("network", "application-gateway", "waf-policy", "managed-rule", "exclusion")]
 public class AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSet
 {
     public AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSet(

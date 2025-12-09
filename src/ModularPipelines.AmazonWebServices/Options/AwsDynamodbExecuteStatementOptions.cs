@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dynamodb", "execute-statement")]
+[CliCommand("dynamodb", "execute-statement")]
 public record AwsDynamodbExecuteStatementOptions(
-[property: CommandSwitch("--statement")] string Statement
+[property: CliOption("--statement")] string Statement
 ) : AwsOptions
 {
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--return-consumed-capacity")]
+    [CliOption("--return-consumed-capacity")]
     public string? ReturnConsumedCapacity { get; set; }
 
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public int? Limit { get; set; }
 
-    [CommandSwitch("--return-values-on-condition-check-failure")]
+    [CliOption("--return-values-on-condition-check-failure")]
     public string? ReturnValuesOnConditionCheckFailure { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

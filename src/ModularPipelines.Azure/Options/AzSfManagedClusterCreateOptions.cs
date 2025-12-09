@@ -4,52 +4,52 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "managed-cluster", "create")]
+[CliSubCommand("sf", "managed-cluster", "create")]
 public record AzSfManagedClusterCreateOptions(
-[property: CommandSwitch("--admin-password")] string AdminPassword,
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--admin-password")] string AdminPassword,
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--admin-user-name")]
+    [CliOption("--admin-user-name")]
     public string? AdminUserName { get; set; }
 
-    [CommandSwitch("--cert-common-name")]
+    [CliOption("--cert-common-name")]
     public string? CertCommonName { get; set; }
 
-    [BooleanCommandSwitch("--cert-is-admin")]
+    [CliFlag("--cert-is-admin")]
     public bool? CertIsAdmin { get; set; }
 
-    [CommandSwitch("--cert-issuer-thumbprint")]
+    [CliOption("--cert-issuer-thumbprint")]
     public string? CertIssuerThumbprint { get; set; }
 
-    [CommandSwitch("--cert-thumbprint")]
+    [CliOption("--cert-thumbprint")]
     public string? CertThumbprint { get; set; }
 
-    [CommandSwitch("--client-connection-port")]
+    [CliOption("--client-connection-port")]
     public string? ClientConnectionPort { get; set; }
 
-    [CommandSwitch("--cluster-code-version")]
+    [CliOption("--cluster-code-version")]
     public string? ClusterCodeVersion { get; set; }
 
-    [CommandSwitch("--cluster-upgrade-cadence")]
+    [CliOption("--cluster-upgrade-cadence")]
     public string? ClusterUpgradeCadence { get; set; }
 
-    [CommandSwitch("--cluster-upgrade-mode")]
+    [CliOption("--cluster-upgrade-mode")]
     public string? ClusterUpgradeMode { get; set; }
 
-    [CommandSwitch("--dns-name")]
+    [CliOption("--dns-name")]
     public string? DnsName { get; set; }
 
-    [CommandSwitch("--gateway-connection-port")]
+    [CliOption("--gateway-connection-port")]
     public string? GatewayConnectionPort { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

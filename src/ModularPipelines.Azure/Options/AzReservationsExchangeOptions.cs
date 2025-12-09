@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("reservations", "exchange")]
+[CliSubCommand("reservations", "exchange")]
 public record AzReservationsExchangeOptions : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--session-id")]
+    [CliOption("--session-id")]
     public string? SessionId { get; set; }
 }

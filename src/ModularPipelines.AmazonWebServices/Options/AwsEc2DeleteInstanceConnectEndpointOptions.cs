@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "delete-instance-connect-endpoint")]
+[CliCommand("ec2", "delete-instance-connect-endpoint")]
 public record AwsEc2DeleteInstanceConnectEndpointOptions(
-[property: CommandSwitch("--instance-connect-endpoint-id")] string InstanceConnectEndpointId
+[property: CliOption("--instance-connect-endpoint-id")] string InstanceConnectEndpointId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("account", "management-group", "hierarchy-settings", "update")]
+[CliSubCommand("account", "management-group", "hierarchy-settings", "update")]
 public record AzAccountManagementGroupHierarchySettingsUpdateOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--default-management-group")]
+    [CliOption("--default-management-group")]
     public string? DefaultManagementGroup { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--require-authorization-for-group-creation")]
+    [CliOption("--require-authorization-for-group-creation")]
     public string? RequireAuthorizationForGroupCreation { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 }

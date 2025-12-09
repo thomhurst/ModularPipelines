@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mobile", "create-project")]
+[CliCommand("mobile", "create-project")]
 public record AwsMobileCreateProjectOptions : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--contents")]
+    [CliOption("--contents")]
     public string? Contents { get; set; }
 
-    [CommandSwitch("--snapshot-id")]
+    [CliOption("--snapshot-id")]
     public string? SnapshotId { get; set; }
 
-    [CommandSwitch("--project-region")]
+    [CliOption("--project-region")]
     public string? ProjectRegion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

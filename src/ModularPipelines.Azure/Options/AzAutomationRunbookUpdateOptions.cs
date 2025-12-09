@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automation", "runbook", "update")]
+[CliSubCommand("automation", "runbook", "update")]
 public record AzAutomationRunbookUpdateOptions : AzOptions
 {
-    [CommandSwitch("--automation-account-name")]
+    [CliOption("--automation-account-name")]
     public int? AutomationAccountName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--log-activity-trace")]
+    [CliOption("--log-activity-trace")]
     public string? LogActivityTrace { get; set; }
 
-    [BooleanCommandSwitch("--log-progress")]
+    [CliFlag("--log-progress")]
     public bool? LogProgress { get; set; }
 
-    [BooleanCommandSwitch("--log-verbose")]
+    [CliFlag("--log-verbose")]
     public bool? LogVerbose { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

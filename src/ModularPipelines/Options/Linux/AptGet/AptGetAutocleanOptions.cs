@@ -6,6 +6,6 @@ namespace ModularPipelines.Options.Linux.AptGet;
 [ExcludeFromCodeCoverage]
 public record AptGetAutocleanOptions : AptGetOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string CommandName { get; } = "autoclean";
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string CommandName { get; } = "autoclean";
 }

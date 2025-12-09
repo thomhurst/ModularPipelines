@@ -1,0 +1,151 @@
+{
+  "$schema": "./schema.json",
+  "global": {
+    "--help": {
+      "type": "bool",
+      "reason": "Standard help flag"
+    },
+    "--version": {
+      "type": "bool",
+      "reason": "Standard version flag"
+    },
+    "--debug": {
+      "type": "bool",
+      "reason": "Debug mode flag"
+    }
+  },
+  "commands": {
+    "container.run": {
+      "--detach": {
+        "type": "bool",
+        "reason": "Run container in background"
+      },
+      "--interactive": {
+        "type": "bool",
+        "reason": "Keep STDIN open"
+      },
+      "--tty": {
+        "type": "bool",
+        "reason": "Allocate a pseudo-TTY"
+      },
+      "--rm": {
+        "type": "bool",
+        "reason": "Automatically remove container when it exits"
+      },
+      "--privileged": {
+        "type": "bool",
+        "reason": "Give extended privileges"
+      },
+      "--init": {
+        "type": "bool",
+        "reason": "Run an init inside the container"
+      },
+      "--read-only": {
+        "type": "bool",
+        "reason": "Mount container root filesystem as read only"
+      },
+      "--no-healthcheck": {
+        "type": "bool",
+        "reason": "Disable any container-specified healthcheck"
+      },
+      "--oom-kill-disable": {
+        "type": "bool",
+        "reason": "Disable OOM Killer"
+      },
+      "--publish-all": {
+        "type": "bool",
+        "reason": "Publish all exposed ports"
+      },
+      "--quiet": {
+        "type": "bool",
+        "reason": "Suppress the pull output"
+      },
+      "--sig-proxy": {
+        "type": "bool",
+        "reason": "Proxy received signals to the process"
+      },
+      "--disable-content-trust": {
+        "type": "bool",
+        "reason": "Skip image verification"
+      },
+      "--env": {
+        "type": "stringList",
+        "reason": "Can specify multiple environment variables"
+      },
+      "--volume": {
+        "type": "stringList",
+        "reason": "Can mount multiple volumes"
+      },
+      "--publish": {
+        "type": "stringList",
+        "reason": "Can publish multiple ports"
+      },
+      "--label": {
+        "type": "keyValue",
+        "reason": "Key-value label metadata"
+      },
+      "--cpu-shares": {
+        "type": "int",
+        "reason": "CPU shares (relative weight)"
+      },
+      "--memory": {
+        "type": "string",
+        "reason": "Memory limit with unit suffix"
+      }
+    },
+    "build": {
+      "--no-cache": {
+        "type": "bool",
+        "reason": "Do not use cache when building"
+      },
+      "--pull": {
+        "type": "bool",
+        "reason": "Always attempt to pull newer version"
+      },
+      "--quiet": {
+        "type": "bool",
+        "reason": "Suppress the build output"
+      },
+      "--rm": {
+        "type": "bool",
+        "reason": "Remove intermediate containers after build"
+      },
+      "--force-rm": {
+        "type": "bool",
+        "reason": "Always remove intermediate containers"
+      },
+      "--squash": {
+        "type": "bool",
+        "reason": "Squash newly built layers into a single layer"
+      }
+    },
+    "image.pull": {
+      "--all-tags": {
+        "type": "bool",
+        "reason": "Download all tagged images"
+      },
+      "--quiet": {
+        "type": "bool",
+        "reason": "Suppress verbose output"
+      },
+      "--disable-content-trust": {
+        "type": "bool",
+        "reason": "Skip image verification"
+      }
+    },
+    "image.push": {
+      "--all-tags": {
+        "type": "bool",
+        "reason": "Push all tags of an image"
+      },
+      "--quiet": {
+        "type": "bool",
+        "reason": "Suppress verbose output"
+      },
+      "--disable-content-trust": {
+        "type": "bool",
+        "reason": "Skip image signing"
+      }
+    }
+  }
+}

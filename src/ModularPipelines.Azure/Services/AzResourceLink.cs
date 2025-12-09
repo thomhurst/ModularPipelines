@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource")]
+[CliSubCommand("resource")]
 public class AzResourceLink
 {
     public AzResourceLink(

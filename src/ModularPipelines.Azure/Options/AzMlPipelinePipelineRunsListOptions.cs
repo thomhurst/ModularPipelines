@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "pipeline", "pipeline-runs-list")]
+[CliSubCommand("ml", "pipeline", "pipeline-runs-list")]
 public record AzMlPipelinePipelineRunsListOptions(
-[property: CommandSwitch("--schedule-id")] string ScheduleId
+[property: CliOption("--schedule-id")] string ScheduleId
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicebus", "georecovery-alias", "create")]
+[CliSubCommand("servicebus", "georecovery-alias", "create")]
 public record AzServicebusGeorecoveryAliasCreateOptions(
-[property: CommandSwitch("--alias")] string Alias,
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--alias")] string Alias,
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--alternate-name")]
+    [CliOption("--alternate-name")]
     public string? AlternateName { get; set; }
 
-    [CommandSwitch("--partner-namespace")]
+    [CliOption("--partner-namespace")]
     public string? PartnerNamespace { get; set; }
 }

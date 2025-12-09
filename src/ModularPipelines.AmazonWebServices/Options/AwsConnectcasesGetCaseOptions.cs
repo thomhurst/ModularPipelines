@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectcases", "get-case")]
+[CliCommand("connectcases", "get-case")]
 public record AwsConnectcasesGetCaseOptions(
-[property: CommandSwitch("--case-id")] string CaseId,
-[property: CommandSwitch("--domain-id")] string DomainId,
-[property: CommandSwitch("--fields")] string[] Fields
+[property: CliOption("--case-id")] string CaseId,
+[property: CliOption("--domain-id")] string DomainId,
+[property: CliOption("--fields")] string[] Fields
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

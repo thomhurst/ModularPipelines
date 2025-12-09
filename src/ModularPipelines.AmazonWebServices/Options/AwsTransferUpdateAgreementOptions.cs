@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "update-agreement")]
+[CliCommand("transfer", "update-agreement")]
 public record AwsTransferUpdateAgreementOptions(
-[property: CommandSwitch("--agreement-id")] string AgreementId,
-[property: CommandSwitch("--server-id")] string ServerId
+[property: CliOption("--agreement-id")] string AgreementId,
+[property: CliOption("--server-id")] string ServerId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--local-profile-id")]
+    [CliOption("--local-profile-id")]
     public string? LocalProfileId { get; set; }
 
-    [CommandSwitch("--partner-profile-id")]
+    [CliOption("--partner-profile-id")]
     public string? PartnerProfileId { get; set; }
 
-    [CommandSwitch("--base-directory")]
+    [CliOption("--base-directory")]
     public string? BaseDirectory { get; set; }
 
-    [CommandSwitch("--access-role")]
+    [CliOption("--access-role")]
     public string? AccessRole { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

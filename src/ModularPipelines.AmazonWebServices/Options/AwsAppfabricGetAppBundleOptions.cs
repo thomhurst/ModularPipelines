@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appfabric", "get-app-bundle")]
+[CliCommand("appfabric", "get-app-bundle")]
 public record AwsAppfabricGetAppBundleOptions(
-[property: CommandSwitch("--app-bundle-identifier")] string AppBundleIdentifier
+[property: CliOption("--app-bundle-identifier")] string AppBundleIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

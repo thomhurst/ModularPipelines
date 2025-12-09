@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("detective", "list-investigations")]
+[CliCommand("detective", "list-investigations")]
 public record AwsDetectiveListInvestigationsOptions(
-[property: CommandSwitch("--graph-arn")] string GraphArn
+[property: CliOption("--graph-arn")] string GraphArn
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--filter-criteria")]
+    [CliOption("--filter-criteria")]
     public string? FilterCriteria { get; set; }
 
-    [CommandSwitch("--sort-criteria")]
+    [CliOption("--sort-criteria")]
     public string? SortCriteria { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

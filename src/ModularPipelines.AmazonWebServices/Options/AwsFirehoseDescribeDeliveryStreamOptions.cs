@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("firehose", "describe-delivery-stream")]
+[CliCommand("firehose", "describe-delivery-stream")]
 public record AwsFirehoseDescribeDeliveryStreamOptions(
-[property: CommandSwitch("--delivery-stream-name")] string DeliveryStreamName
+[property: CliOption("--delivery-stream-name")] string DeliveryStreamName
 ) : AwsOptions
 {
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public int? Limit { get; set; }
 
-    [CommandSwitch("--exclusive-start-destination-id")]
+    [CliOption("--exclusive-start-destination-id")]
     public string? ExclusiveStartDestinationId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

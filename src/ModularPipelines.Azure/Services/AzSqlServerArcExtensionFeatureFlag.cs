@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "server-arc", "extension")]
+[CliCommand("sql", "server-arc", "extension")]
 public class AzSqlServerArcExtensionFeatureFlag
 {
     public AzSqlServerArcExtensionFeatureFlag(

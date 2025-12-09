@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devcenter")]
+[CliSubCommand("devcenter")]
 public class AzDevcenterAdmin
 {
     public AzDevcenterAdmin(

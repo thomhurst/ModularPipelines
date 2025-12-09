@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotwireless", "create-fuota-task")]
+[CliCommand("iotwireless", "create-fuota-task")]
 public record AwsIotwirelessCreateFuotaTaskOptions(
-[property: CommandSwitch("--firmware-update-image")] string FirmwareUpdateImage,
-[property: CommandSwitch("--firmware-update-role")] string FirmwareUpdateRole
+[property: CliOption("--firmware-update-image")] string FirmwareUpdateImage,
+[property: CliOption("--firmware-update-role")] string FirmwareUpdateRole
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--redundancy-percent")]
+    [CliOption("--redundancy-percent")]
     public int? RedundancyPercent { get; set; }
 
-    [CommandSwitch("--fragment-size-bytes")]
+    [CliOption("--fragment-size-bytes")]
     public int? FragmentSizeBytes { get; set; }
 
-    [CommandSwitch("--fragment-interval-ms")]
+    [CliOption("--fragment-interval-ms")]
     public int? FragmentIntervalMs { get; set; }
 
-    [CommandSwitch("--lorawan")]
+    [CliOption("--lorawan")]
     public string? Lorawan { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

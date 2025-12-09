@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("load", "test-run", "metrics", "get-dimensions")]
+[CliSubCommand("load", "test-run", "metrics", "get-dimensions")]
 public record AzLoadTestRunMetricsGetDimensionsOptions(
-[property: CommandSwitch("--load-test-resource")] string LoadTestResource,
-[property: CommandSwitch("--metric-definition-name")] string MetricDefinitionName,
-[property: CommandSwitch("--metric-dimension")] string MetricDimension,
-[property: CommandSwitch("--metric-namespace")] string MetricNamespace,
-[property: CommandSwitch("--test-run-id")] string TestRunId
+[property: CliOption("--load-test-resource")] string LoadTestResource,
+[property: CliOption("--metric-definition-name")] string MetricDefinitionName,
+[property: CliOption("--metric-dimension")] string MetricDimension,
+[property: CliOption("--metric-namespace")] string MetricNamespace,
+[property: CliOption("--test-run-id")] string TestRunId
 ) : AzOptions
 {
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
-    [CommandSwitch("--interval")]
+    [CliOption("--interval")]
     public int? Interval { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public string? StartTime { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "delete-ssh-public-key")]
+[CliCommand("iam", "delete-ssh-public-key")]
 public record AwsIamDeleteSshPublicKeyOptions(
-[property: CommandSwitch("--user-name")] string UserName,
-[property: CommandSwitch("--ssh-public-key-id")] string SshPublicKeyId
+[property: CliOption("--user-name")] string UserName,
+[property: CliOption("--ssh-public-key-id")] string SshPublicKeyId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

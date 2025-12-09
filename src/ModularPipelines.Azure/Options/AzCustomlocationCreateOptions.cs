@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("customlocation", "create")]
+[CliSubCommand("customlocation", "create")]
 public record AzCustomlocationCreateOptions(
-[property: CommandSwitch("--cluster-extension-ids")] string ClusterExtensionIds,
-[property: CommandSwitch("--host-resource-id")] string HostResourceId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--namespace")] string Namespace,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-extension-ids")] string ClusterExtensionIds,
+[property: CliOption("--host-resource-id")] string HostResourceId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--namespace")] string Namespace,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--assign-identity")]
+    [CliOption("--assign-identity")]
     public string? AssignIdentity { get; set; }
 
-    [CommandSwitch("--kubeconfig")]
+    [CliOption("--kubeconfig")]
     public string? Kubeconfig { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

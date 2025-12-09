@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elbv2", "describe-trust-stores")]
+[CliCommand("elbv2", "describe-trust-stores")]
 public record AwsElbv2DescribeTrustStoresOptions : AwsOptions
 {
-    [CommandSwitch("--trust-store-arns")]
+    [CliOption("--trust-store-arns")]
     public string[]? TrustStoreArns { get; set; }
 
-    [CommandSwitch("--names")]
+    [CliOption("--names")]
     public string[]? Names { get; set; }
 
-    [CommandSwitch("--marker")]
+    [CliOption("--marker")]
     public string? Marker { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

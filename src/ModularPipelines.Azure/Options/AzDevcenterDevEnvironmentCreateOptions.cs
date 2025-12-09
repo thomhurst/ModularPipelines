@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devcenter", "dev", "environment", "create")]
+[CliSubCommand("devcenter", "dev", "environment", "create")]
 public record AzDevcenterDevEnvironmentCreateOptions(
-[property: CommandSwitch("--catalog-name")] string CatalogName,
-[property: CommandSwitch("--environment-definition-name")] string EnvironmentDefinitionName,
-[property: CommandSwitch("--environment-name")] string EnvironmentName,
-[property: CommandSwitch("--environment-type")] string EnvironmentType,
-[property: CommandSwitch("--project")] string Project
+[property: CliOption("--catalog-name")] string CatalogName,
+[property: CliOption("--environment-definition-name")] string EnvironmentDefinitionName,
+[property: CliOption("--environment-name")] string EnvironmentName,
+[property: CliOption("--environment-type")] string EnvironmentType,
+[property: CliOption("--project")] string Project
 ) : AzOptions
 {
-    [CommandSwitch("--dev-center")]
+    [CliOption("--dev-center")]
     public string? DevCenter { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [CommandSwitch("--expiration")]
+    [CliOption("--expiration")]
     public string? Expiration { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--user-id")]
+    [CliOption("--user-id")]
     public string? UserId { get; set; }
 }

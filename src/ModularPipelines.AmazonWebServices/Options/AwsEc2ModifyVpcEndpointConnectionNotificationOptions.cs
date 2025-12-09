@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-vpc-endpoint-connection-notification")]
+[CliCommand("ec2", "modify-vpc-endpoint-connection-notification")]
 public record AwsEc2ModifyVpcEndpointConnectionNotificationOptions(
-[property: CommandSwitch("--connection-notification-id")] string ConnectionNotificationId
+[property: CliOption("--connection-notification-id")] string ConnectionNotificationId
 ) : AwsOptions
 {
-    [CommandSwitch("--connection-notification-arn")]
+    [CliOption("--connection-notification-arn")]
     public string? ConnectionNotificationArn { get; set; }
 
-    [CommandSwitch("--connection-events")]
+    [CliOption("--connection-events")]
     public string[]? ConnectionEvents { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

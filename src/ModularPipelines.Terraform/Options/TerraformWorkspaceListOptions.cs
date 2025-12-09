@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("workspace list")]
+[CliSubCommand("workspace list")]
 [ExcludeFromCodeCoverage]
 public record TerraformWorkspaceListOptions : TerraformOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Directory { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Directory { get; set; }
 }

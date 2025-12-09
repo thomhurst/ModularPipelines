@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "get-command-invocation")]
+[CliCommand("ssm", "get-command-invocation")]
 public record AwsSsmGetCommandInvocationOptions(
-[property: CommandSwitch("--command-id")] string CommandId,
-[property: CommandSwitch("--instance-id")] string InstanceId
+[property: CliOption("--command-id")] string CommandId,
+[property: CliOption("--instance-id")] string InstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--plugin-name")]
+    [CliOption("--plugin-name")]
     public string? PluginName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

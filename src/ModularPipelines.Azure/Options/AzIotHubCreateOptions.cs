@@ -4,99 +4,99 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "create")]
+[CliSubCommand("iot", "hub", "create")]
 public record AzIotHubCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--c2d-max-delivery-count")]
+    [CliOption("--c2d-max-delivery-count")]
     public int? C2dMaxDeliveryCount { get; set; }
 
-    [CommandSwitch("--c2d-ttl")]
+    [CliOption("--c2d-ttl")]
     public string? C2dTtl { get; set; }
 
-    [BooleanCommandSwitch("--dds")]
+    [CliFlag("--dds")]
     public bool? Dds { get; set; }
 
-    [BooleanCommandSwitch("--disable-local-auth")]
+    [CliFlag("--disable-local-auth")]
     public bool? DisableLocalAuth { get; set; }
 
-    [BooleanCommandSwitch("--disable-module-sas")]
+    [CliFlag("--disable-module-sas")]
     public bool? DisableModuleSas { get; set; }
 
-    [BooleanCommandSwitch("--edr")]
+    [CliFlag("--edr")]
     public bool? Edr { get; set; }
 
-    [CommandSwitch("--fc")]
+    [CliOption("--fc")]
     public string? Fc { get; set; }
 
-    [CommandSwitch("--fcs")]
+    [CliOption("--fcs")]
     public string? Fcs { get; set; }
 
-    [CommandSwitch("--fd")]
+    [CliOption("--fd")]
     public string? Fd { get; set; }
 
-    [CommandSwitch("--feedback-lock-duration")]
+    [CliOption("--feedback-lock-duration")]
     public string? FeedbackLockDuration { get; set; }
 
-    [CommandSwitch("--feedback-ttl")]
+    [CliOption("--feedback-ttl")]
     public string? FeedbackTtl { get; set; }
 
-    [CommandSwitch("--fileupload-notification-lock-duration")]
+    [CliOption("--fileupload-notification-lock-duration")]
     public string? FileuploadNotificationLockDuration { get; set; }
 
-    [CommandSwitch("--fileupload-notification-max-delivery-count")]
+    [CliOption("--fileupload-notification-max-delivery-count")]
     public int? FileuploadNotificationMaxDeliveryCount { get; set; }
 
-    [CommandSwitch("--fileupload-notification-ttl")]
+    [CliOption("--fileupload-notification-ttl")]
     public string? FileuploadNotificationTtl { get; set; }
 
-    [BooleanCommandSwitch("--fileupload-notifications")]
+    [CliFlag("--fileupload-notifications")]
     public bool? FileuploadNotifications { get; set; }
 
-    [CommandSwitch("--fileupload-sas-ttl")]
+    [CliOption("--fileupload-sas-ttl")]
     public string? FileuploadSasTtl { get; set; }
 
-    [CommandSwitch("--fileupload-storage-auth-type")]
+    [CliOption("--fileupload-storage-auth-type")]
     public string? FileuploadStorageAuthType { get; set; }
 
-    [CommandSwitch("--fileupload-storage-identity")]
+    [CliOption("--fileupload-storage-identity")]
     public string? FileuploadStorageIdentity { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--mi-system-assigned")]
+    [CliFlag("--mi-system-assigned")]
     public bool? MiSystemAssigned { get; set; }
 
-    [CommandSwitch("--mi-user-assigned")]
+    [CliOption("--mi-user-assigned")]
     public string? MiUserAssigned { get; set; }
 
-    [CommandSwitch("--min-tls-version")]
+    [CliOption("--min-tls-version")]
     public string? MinTlsVersion { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--partition-count")]
+    [CliOption("--partition-count")]
     public int? PartitionCount { get; set; }
 
-    [CommandSwitch("--rd")]
+    [CliOption("--rd")]
     public string? Rd { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--scopes")]
+    [CliOption("--scopes")]
     public string? Scopes { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--unit")]
+    [CliOption("--unit")]
     public string? Unit { get; set; }
 }

@@ -7,6 +7,7 @@ namespace ModularPipelines.Attributes;
 public class EnumValueAttribute : Attribute
 {
     /// <summary>
+    /// Initialises a new instance of the <see cref="EnumValueAttribute"/> class.
     /// Initializes a new instance of the <see cref="EnumValueAttribute"/> class.
     /// </summary>
     /// <param name="value">The string value representation of the enum field.</param>

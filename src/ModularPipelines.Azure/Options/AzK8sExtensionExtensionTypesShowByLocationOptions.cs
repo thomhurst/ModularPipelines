@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("k8s-extension", "extension-types", "show-by-location")]
+[CliSubCommand("k8s-extension", "extension-types", "show-by-location")]
 public record AzK8sExtensionExtensionTypesShowByLocationOptions(
-[property: CommandSwitch("--extension-type")] string ExtensionType,
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--extension-type")] string ExtensionType,
+[property: CliOption("--location")] string Location
 ) : AzOptions;

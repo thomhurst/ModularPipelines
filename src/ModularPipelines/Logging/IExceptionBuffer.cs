@@ -19,7 +19,7 @@ internal interface IExceptionBuffer
     void FlushExceptions();
 
     /// <summary>
-    /// Gets whether there are any buffered exceptions.
+    /// Gets a value indicating whether gets whether there are any buffered exceptions.
     /// </summary>
     bool HasExceptions { get; }
 }

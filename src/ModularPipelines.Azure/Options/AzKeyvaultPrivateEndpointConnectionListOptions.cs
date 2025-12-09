@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "private-endpoint-connection", "list")]
+[CliSubCommand("keyvault", "private-endpoint-connection", "list")]
 public record AzKeyvaultPrivateEndpointConnectionListOptions(
-[property: CommandSwitch("--hsm-name")] string HsmName
+[property: CliOption("--hsm-name")] string HsmName
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

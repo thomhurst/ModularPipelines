@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pricing", "describe-services")]
+[CliCommand("pricing", "describe-services")]
 public record AwsPricingDescribeServicesOptions : AwsOptions
 {
-    [CommandSwitch("--service-code")]
+    [CliOption("--service-code")]
     public string? ServiceCode { get; set; }
 
-    [CommandSwitch("--format-version")]
+    [CliOption("--format-version")]
     public string? FormatVersion { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

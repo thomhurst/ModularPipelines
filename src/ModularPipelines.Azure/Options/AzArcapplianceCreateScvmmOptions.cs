@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arcappliance", "create", "scvmm")]
+[CliSubCommand("arcappliance", "create", "scvmm")]
 public record AzArcapplianceCreateScvmmOptions(
-[property: CommandSwitch("--config-file")] string ConfigFile,
-[property: CommandSwitch("--kubeconfig")] string Kubeconfig
+[property: CliOption("--config-file")] string ConfigFile,
+[property: CliOption("--kubeconfig")] string Kubeconfig
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

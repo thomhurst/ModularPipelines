@@ -3,82 +3,82 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("expose")]
+[CliSubCommand("expose")]
 [ExcludeFromCodeCoverage]
 public record KubernetesExposeOptions : KubernetesOptions
 {
-    [BooleanCommandSwitch("--allow-missing-template-keys")]
+    [CliFlag("--allow-missing-template-keys")]
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cluster-ip", SwitchValueSeparator = " ")]
-    public string? ClusterIp { get; set; }
+    [CliOption("--cluster-ip")]
+    public virtual string? ClusterIp { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--container-port", SwitchValueSeparator = " ")]
-    public string? ContainerPort { get; set; }
+    [CliOption("--container-port")]
+    public virtual string? ContainerPort { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
-    public string? DryRun { get; set; }
+    [CliOption("--dry-run")]
+    public virtual string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--external-ip", SwitchValueSeparator = " ")]
-    public string? ExternalIp { get; set; }
+    [CliOption("--external-ip")]
+    public virtual string? ExternalIp { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
-    public string? FieldManager { get; set; }
+    [CliOption("--field-manager")]
+    public virtual string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
-    public string[]? Filename { get; set; }
+    [CliOption("--filename")]
+    public virtual string[]? Filename { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--generator", SwitchValueSeparator = " ")]
-    public string? Generator { get; set; }
+    [CliOption("--generator")]
+    public virtual string? Generator { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
-    public string? Kustomize { get; set; }
+    [CliOption("--kustomize")]
+    public virtual string? Kustomize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--labels", SwitchValueSeparator = " ")]
-    public string? Labels { get; set; }
+    [CliOption("--labels")]
+    public virtual string? Labels { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--load-balancer-ip", SwitchValueSeparator = " ")]
-    public string? LoadBalancerIp { get; set; }
+    [CliOption("--load-balancer-ip")]
+    public virtual string? LoadBalancerIp { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--name", SwitchValueSeparator = " ")]
-    public string? Name { get; set; }
+    [CliOption("--name")]
+    public virtual string? Name { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
-    public string? Output { get; set; }
+    [CliOption("--output")]
+    public virtual string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--overrides", SwitchValueSeparator = " ")]
-    public string? Overrides { get; set; }
+    [CliOption("--overrides")]
+    public virtual string? Overrides { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--port", SwitchValueSeparator = " ")]
-    public string? Port { get; set; }
+    [CliOption("--port")]
+    public virtual string? Port { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--protocol", SwitchValueSeparator = " ")]
-    public string? Protocol { get; set; }
+    [CliOption("--protocol")]
+    public virtual string? Protocol { get; set; }
 
-    [BooleanCommandSwitch("--record")]
+    [CliFlag("--record")]
     public virtual bool? Record { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [BooleanCommandSwitch("--save-config")]
+    [CliFlag("--save-config")]
     public virtual bool? SaveConfig { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
-    public string? Selector { get; set; }
+    [CliOption("--selector")]
+    public virtual string? Selector { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--session-affinity", SwitchValueSeparator = " ")]
-    public string? SessionAffinity { get; set; }
+    [CliOption("--session-affinity")]
+    public virtual string? SessionAffinity { get; set; }
 
-    [BooleanCommandSwitch("--show-managed-fields")]
+    [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--target-port", SwitchValueSeparator = " ")]
-    public string? TargetPort { get; set; }
+    [CliOption("--target-port")]
+    public virtual string? TargetPort { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
-    public string? Template { get; set; }
+    [CliOption("--template")]
+    public virtual string? Template { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--type", SwitchValueSeparator = " ")]
-    public string? Type { get; set; }
+    [CliOption("--type")]
+    public virtual string? Type { get; set; }
 }

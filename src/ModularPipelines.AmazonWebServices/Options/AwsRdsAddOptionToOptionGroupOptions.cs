@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "add-option-to-option-group")]
+[CliCommand("rds", "add-option-to-option-group")]
 public record AwsRdsAddOptionToOptionGroupOptions(
-[property: CommandSwitch("--option-group-name")] string OptionGroupName
+[property: CliOption("--option-group-name")] string OptionGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--options")]
+    [CliOption("--options")]
     public string[]? Options { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

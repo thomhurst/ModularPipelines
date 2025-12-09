@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "update-routing-profile-agent-availability-timer")]
+[CliCommand("connect", "update-routing-profile-agent-availability-timer")]
 public record AwsConnectUpdateRoutingProfileAgentAvailabilityTimerOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--routing-profile-id")] string RoutingProfileId,
-[property: CommandSwitch("--agent-availability-timer")] string AgentAvailabilityTimer
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--routing-profile-id")] string RoutingProfileId,
+[property: CliOption("--agent-availability-timer")] string AgentAvailabilityTimer
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

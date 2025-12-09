@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "perimeter", "profile", "access-rule", "create")]
+[CliSubCommand("network", "perimeter", "profile", "access-rule", "create")]
 public record AzNetworkPerimeterProfileAccessRuleCreateOptions(
-[property: CommandSwitch("--access-rule-name")] string AccessRuleName,
-[property: CommandSwitch("--perimeter-name")] string PerimeterName,
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--access-rule-name")] string AccessRuleName,
+[property: CliOption("--perimeter-name")] string PerimeterName,
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--address-prefixes")]
+    [CliOption("--address-prefixes")]
     public string? AddressPrefixes { get; set; }
 
-    [CommandSwitch("--direction")]
+    [CliOption("--direction")]
     public string? Direction { get; set; }
 
-    [CommandSwitch("--email-addresses")]
+    [CliOption("--email-addresses")]
     public string? EmailAddresses { get; set; }
 
-    [CommandSwitch("--fqdn")]
+    [CliOption("--fqdn")]
     public string? Fqdn { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--phone-numbers")]
+    [CliOption("--phone-numbers")]
     public string? PhoneNumbers { get; set; }
 
-    [CommandSwitch("--subscriptions")]
+    [CliOption("--subscriptions")]
     public string? Subscriptions { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

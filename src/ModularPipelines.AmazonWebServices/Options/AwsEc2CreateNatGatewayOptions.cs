@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-nat-gateway")]
+[CliCommand("ec2", "create-nat-gateway")]
 public record AwsEc2CreateNatGatewayOptions(
-[property: CommandSwitch("--subnet-id")] string SubnetId
+[property: CliOption("--subnet-id")] string SubnetId
 ) : AwsOptions
 {
-    [CommandSwitch("--allocation-id")]
+    [CliOption("--allocation-id")]
     public string? AllocationId { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--connectivity-type")]
+    [CliOption("--connectivity-type")]
     public string? ConnectivityType { get; set; }
 
-    [CommandSwitch("--private-ip-address")]
+    [CliOption("--private-ip-address")]
     public string? PrivateIpAddress { get; set; }
 
-    [CommandSwitch("--secondary-allocation-ids")]
+    [CliOption("--secondary-allocation-ids")]
     public string[]? SecondaryAllocationIds { get; set; }
 
-    [CommandSwitch("--secondary-private-ip-addresses")]
+    [CliOption("--secondary-private-ip-addresses")]
     public string[]? SecondaryPrivateIpAddresses { get; set; }
 
-    [CommandSwitch("--secondary-private-ip-address-count")]
+    [CliOption("--secondary-private-ip-address-count")]
     public int? SecondaryPrivateIpAddressCount { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces-web", "delete-user-access-logging-settings")]
+[CliCommand("workspaces-web", "delete-user-access-logging-settings")]
 public record AwsWorkspacesWebDeleteUserAccessLoggingSettingsOptions(
-[property: CommandSwitch("--user-access-logging-settings-arn")] string UserAccessLoggingSettingsArn
+[property: CliOption("--user-access-logging-settings-arn")] string UserAccessLoggingSettingsArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

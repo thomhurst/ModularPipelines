@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("directconnect", "describe-tags")]
+[CliCommand("directconnect", "describe-tags")]
 public record AwsDirectconnectDescribeTagsOptions(
-[property: CommandSwitch("--resource-arns")] string[] ResourceArns
+[property: CliOption("--resource-arns")] string[] ResourceArns
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

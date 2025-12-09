@@ -4,86 +4,86 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "restore", "restore-disks")]
+[CliSubCommand("backup", "restore", "restore-disks")]
 public record AzBackupRestoreRestoreDisksOptions(
-[property: CommandSwitch("--storage-account")] int StorageAccount
+[property: CliOption("--storage-account")] int StorageAccount
 ) : AzOptions
 {
-    [CommandSwitch("--container-name")]
+    [CliOption("--container-name")]
     public string? ContainerName { get; set; }
 
-    [CommandSwitch("--disk-encryption-set-id")]
+    [CliOption("--disk-encryption-set-id")]
     public string? DiskEncryptionSetId { get; set; }
 
-    [CommandSwitch("--diskslist")]
+    [CliOption("--diskslist")]
     public string? Diskslist { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--item-name")]
+    [CliOption("--item-name")]
     public string? ItemName { get; set; }
 
-    [CommandSwitch("--mi-system-assigned")]
+    [CliOption("--mi-system-assigned")]
     public string? MiSystemAssigned { get; set; }
 
-    [CommandSwitch("--mi-user-assigned")]
+    [CliOption("--mi-user-assigned")]
     public string? MiUserAssigned { get; set; }
 
-    [CommandSwitch("--rehydration-duration")]
+    [CliOption("--rehydration-duration")]
     public string? RehydrationDuration { get; set; }
 
-    [CommandSwitch("--rehydration-priority")]
+    [CliOption("--rehydration-priority")]
     public string? RehydrationPriority { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--restore-as-unmanaged-disks")]
+    [CliFlag("--restore-as-unmanaged-disks")]
     public bool? RestoreAsUnmanagedDisks { get; set; }
 
-    [CommandSwitch("--restore-mode")]
+    [CliOption("--restore-mode")]
     public string? RestoreMode { get; set; }
 
-    [BooleanCommandSwitch("--restore-only-osdisk")]
+    [CliFlag("--restore-only-osdisk")]
     public bool? RestoreOnlyOsdisk { get; set; }
 
-    [BooleanCommandSwitch("--restore-to-staging-storage-account")]
+    [CliFlag("--restore-to-staging-storage-account")]
     public bool? RestoreToStagingStorageAccount { get; set; }
 
-    [CommandSwitch("--rp-name")]
+    [CliOption("--rp-name")]
     public string? RpName { get; set; }
 
-    [CommandSwitch("--storage-account-resource-group")]
+    [CliOption("--storage-account-resource-group")]
     public int? StorageAccountResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--target-resource-group")]
+    [CliOption("--target-resource-group")]
     public string? TargetResourceGroup { get; set; }
 
-    [CommandSwitch("--target-subnet-name")]
+    [CliOption("--target-subnet-name")]
     public string? TargetSubnetName { get; set; }
 
-    [CommandSwitch("--target-subscription-id")]
+    [CliOption("--target-subscription-id")]
     public string? TargetSubscriptionId { get; set; }
 
-    [CommandSwitch("--target-vm-name")]
+    [CliOption("--target-vm-name")]
     public string? TargetVmName { get; set; }
 
-    [CommandSwitch("--target-vnet-name")]
+    [CliOption("--target-vnet-name")]
     public string? TargetVnetName { get; set; }
 
-    [CommandSwitch("--target-vnet-resource-group")]
+    [CliOption("--target-vnet-resource-group")]
     public string? TargetVnetResourceGroup { get; set; }
 
-    [CommandSwitch("--target-zone")]
+    [CliOption("--target-zone")]
     public string? TargetZone { get; set; }
 
-    [BooleanCommandSwitch("--use-secondary-region")]
+    [CliFlag("--use-secondary-region")]
     public bool? UseSecondaryRegion { get; set; }
 
-    [CommandSwitch("--vault-name")]
+    [CliOption("--vault-name")]
     public string? VaultName { get; set; }
 }

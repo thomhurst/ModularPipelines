@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces", "create-workspace-bundle")]
+[CliCommand("workspaces", "create-workspace-bundle")]
 public record AwsWorkspacesCreateWorkspaceBundleOptions(
-[property: CommandSwitch("--bundle-name")] string BundleName,
-[property: CommandSwitch("--bundle-description")] string BundleDescription,
-[property: CommandSwitch("--image-id")] string ImageId,
-[property: CommandSwitch("--compute-type")] string ComputeType,
-[property: CommandSwitch("--user-storage")] string UserStorage
+[property: CliOption("--bundle-name")] string BundleName,
+[property: CliOption("--bundle-description")] string BundleDescription,
+[property: CliOption("--image-id")] string ImageId,
+[property: CliOption("--compute-type")] string ComputeType,
+[property: CliOption("--user-storage")] string UserStorage
 ) : AwsOptions
 {
-    [CommandSwitch("--root-storage")]
+    [CliOption("--root-storage")]
     public string? RootStorage { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

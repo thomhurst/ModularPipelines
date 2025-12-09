@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arcdata", "dc", "debug", "controldb-cdc")]
+[CliSubCommand("arcdata", "dc", "debug", "controldb-cdc")]
 public record AzArcdataDcDebugControldbCdcOptions(
-[property: CommandSwitch("--k8s-namespace")] string K8sNamespace
+[property: CliOption("--k8s-namespace")] string K8sNamespace
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--enable")]
+    [CliFlag("--enable")]
     public bool? Enable { get; set; }
 
-    [CommandSwitch("--retention-hours")]
+    [CliOption("--retention-hours")]
     public string? RetentionHours { get; set; }
 
-    [BooleanCommandSwitch("--use-k8s")]
+    [CliFlag("--use-k8s")]
     public bool? UseK8s { get; set; }
 }

@@ -4,78 +4,78 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "sql", "pool", "audit-policy", "update")]
+[CliSubCommand("synapse", "sql", "pool", "audit-policy", "update")]
 public record AzSynapseSqlPoolAuditPolicyUpdateOptions : AzOptions
 {
-    [CommandSwitch("--actions")]
+    [CliOption("--actions")]
     public string? Actions { get; set; }
 
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--blob-storage-target-state")]
+    [CliOption("--blob-storage-target-state")]
     public string? BlobStorageTargetState { get; set; }
 
-    [CommandSwitch("--eh")]
+    [CliOption("--eh")]
     public string? Eh { get; set; }
 
-    [CommandSwitch("--ehari")]
+    [CliOption("--ehari")]
     public string? Ehari { get; set; }
 
-    [CommandSwitch("--ehts")]
+    [CliOption("--ehts")]
     public string? Ehts { get; set; }
 
-    [BooleanCommandSwitch("--enable-azure-monitor")]
+    [CliFlag("--enable-azure-monitor")]
     public bool? EnableAzureMonitor { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--lats")]
+    [CliOption("--lats")]
     public string? Lats { get; set; }
 
-    [CommandSwitch("--lawri")]
+    [CliOption("--lawri")]
     public string? Lawri { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--retention-days")]
+    [CliOption("--retention-days")]
     public string? RetentionDays { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [CommandSwitch("--storage-account")]
+    [CliOption("--storage-account")]
     public int? StorageAccount { get; set; }
 
-    [CommandSwitch("--storage-endpoint")]
+    [CliOption("--storage-endpoint")]
     public string? StorageEndpoint { get; set; }
 
-    [CommandSwitch("--storage-key")]
+    [CliOption("--storage-key")]
     public string? StorageKey { get; set; }
 
-    [CommandSwitch("--storage-subscription")]
+    [CliOption("--storage-subscription")]
     public string? StorageSubscription { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--use-secondary-key")]
+    [CliFlag("--use-secondary-key")]
     public bool? UseSecondaryKey { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

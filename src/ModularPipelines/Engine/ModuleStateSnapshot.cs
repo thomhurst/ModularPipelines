@@ -1,7 +1,7 @@
 namespace ModularPipelines.Engine;
 
 /// <summary>
-/// Represents a point-in-time snapshot of module execution states
+/// Represents a point-in-time snapshot of module execution states.
 /// </summary>
 /// <remarks>
 /// This class provides a single-pass aggregation of module states to avoid
@@ -10,47 +10,47 @@ namespace ModularPipelines.Engine;
 internal class ModuleStateSnapshot
 {
     /// <summary>
-    /// Total number of modules being tracked
+    /// Gets total number of modules being tracked.
     /// </summary>
     public int Total { get; init; }
 
     /// <summary>
-    /// Number of modules that are queued but not yet executing
+    /// Gets number of modules that are queued but not yet executing.
     /// </summary>
     public int Queued { get; init; }
 
     /// <summary>
-    /// Number of modules currently executing
+    /// Gets number of modules currently executing.
     /// </summary>
     public int Executing { get; init; }
 
     /// <summary>
-    /// Number of modules that have completed execution
+    /// Gets number of modules that have completed execution.
     /// </summary>
     public int Completed { get; init; }
 
     /// <summary>
-    /// Number of modules pending (not queued, executing, or completed)
+    /// Gets number of modules pending (not queued, executing, or completed).
     /// </summary>
     public int Pending { get; init; }
 
     /// <summary>
-    /// Whether all modules have completed
+    /// Gets a value indicating whether whether all modules have completed.
     /// </summary>
     public bool AllCompleted => Completed == Total;
 
     /// <summary>
-    /// Whether any modules are currently active (executing or queued)
+    /// Gets a value indicating whether whether any modules are currently active (executing or queued).
     /// </summary>
     public bool HasActiveModules => Executing > 0 || Queued > 0;
 
     /// <summary>
-    /// Whether any modules are pending execution
+    /// Gets a value indicating whether whether any modules are pending execution.
     /// </summary>
     public bool HasPendingModules => Pending > 0;
 
     /// <summary>
-    /// Creates a snapshot from current module states
+    /// Creates a snapshot from current module states.
     /// </summary>
     public static ModuleStateSnapshot Create(IEnumerable<ModuleState> moduleStates)
     {
@@ -87,7 +87,7 @@ internal class ModuleStateSnapshot
             Queued = queued,
             Executing = executing,
             Completed = completed,
-            Pending = pending
+            Pending = pending,
         };
     }
 }

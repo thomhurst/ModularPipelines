@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("bisect")]
+[CliSubCommand("bisect")]
 [ExcludeFromCodeCoverage]
 public record GitBisectOptions : GitOptions
 {
-    [BooleanCommandSwitch("--no-checkout")]
+    [CliFlag("--no-checkout")]
     public virtual bool? NoCheckout { get; set; }
 
-    [BooleanCommandSwitch("--first-parent")]
+    [CliFlag("--first-parent")]
     public virtual bool? FirstParent { get; set; }
 }

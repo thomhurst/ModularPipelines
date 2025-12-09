@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudwatch", "describe-alarm-history")]
+[CliCommand("cloudwatch", "describe-alarm-history")]
 public record AwsCloudwatchDescribeAlarmHistoryOptions : AwsOptions
 {
-    [CommandSwitch("--alarm-name")]
+    [CliOption("--alarm-name")]
     public string? AlarmName { get; set; }
 
-    [CommandSwitch("--alarm-types")]
+    [CliOption("--alarm-types")]
     public string[]? AlarmTypes { get; set; }
 
-    [CommandSwitch("--history-item-type")]
+    [CliOption("--history-item-type")]
     public string? HistoryItemType { get; set; }
 
-    [CommandSwitch("--start-date")]
+    [CliOption("--start-date")]
     public long? StartDate { get; set; }
 
-    [CommandSwitch("--end-date")]
+    [CliOption("--end-date")]
     public long? EndDate { get; set; }
 
-    [CommandSwitch("--scan-by")]
+    [CliOption("--scan-by")]
     public string? ScanBy { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

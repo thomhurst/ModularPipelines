@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "bookmark", "relation", "create")]
+[CliSubCommand("sentinel", "bookmark", "relation", "create")]
 public record AzSentinelBookmarkRelationCreateOptions(
-[property: CommandSwitch("--bookmark-id")] string BookmarkId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--bookmark-id")] string BookmarkId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [CommandSwitch("--related-resource-id")]
+    [CliOption("--related-resource-id")]
     public string? RelatedResourceId { get; set; }
 }

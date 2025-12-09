@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptune", "add-source-identifier-to-subscription")]
+[CliCommand("neptune", "add-source-identifier-to-subscription")]
 public record AwsNeptuneAddSourceIdentifierToSubscriptionOptions(
-[property: CommandSwitch("--subscription-name")] string SubscriptionName,
-[property: CommandSwitch("--source-identifier")] string SourceIdentifier
+[property: CliOption("--subscription-name")] string SubscriptionName,
+[property: CliOption("--source-identifier")] string SourceIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

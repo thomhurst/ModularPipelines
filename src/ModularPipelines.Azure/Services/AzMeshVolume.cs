@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mesh")]
+[CliSubCommand("mesh")]
 public class AzMeshVolume
 {
     public AzMeshVolume(

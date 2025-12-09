@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeguruprofiler", "remove-permission")]
+[CliCommand("codeguruprofiler", "remove-permission")]
 public record AwsCodeguruprofilerRemovePermissionOptions(
-[property: CommandSwitch("--action-group")] string ActionGroup,
-[property: CommandSwitch("--profiling-group-name")] string ProfilingGroupName,
-[property: CommandSwitch("--revision-id")] string RevisionId
+[property: CliOption("--action-group")] string ActionGroup,
+[property: CliOption("--profiling-group-name")] string ProfilingGroupName,
+[property: CliOption("--revision-id")] string RevisionId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

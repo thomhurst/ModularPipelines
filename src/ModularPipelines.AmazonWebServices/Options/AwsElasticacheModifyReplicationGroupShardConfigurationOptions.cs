@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticache", "modify-replication-group-shard-configuration")]
+[CliCommand("elasticache", "modify-replication-group-shard-configuration")]
 public record AwsElasticacheModifyReplicationGroupShardConfigurationOptions(
-[property: CommandSwitch("--replication-group-id")] string ReplicationGroupId,
-[property: CommandSwitch("--node-group-count")] int NodeGroupCount
+[property: CliOption("--replication-group-id")] string ReplicationGroupId,
+[property: CliOption("--node-group-count")] int NodeGroupCount
 ) : AwsOptions
 {
-    [CommandSwitch("--resharding-configuration")]
+    [CliOption("--resharding-configuration")]
     public string[]? ReshardingConfiguration { get; set; }
 
-    [CommandSwitch("--node-groups-to-remove")]
+    [CliOption("--node-groups-to-remove")]
     public string[]? NodeGroupsToRemove { get; set; }
 
-    [CommandSwitch("--node-groups-to-retain")]
+    [CliOption("--node-groups-to-retain")]
     public string[]? NodeGroupsToRetain { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

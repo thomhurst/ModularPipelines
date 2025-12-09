@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("npm", "whoami")]
+[CliCommand("npm", "whoami")]
 public record YarnNpmWhoamiOptions : YarnOptions
 {
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public virtual string? Scope { get; set; }
 
-    [BooleanCommandSwitch("--publish")]
+    [CliFlag("--publish")]
     public virtual bool? Publish { get; set; }
 }

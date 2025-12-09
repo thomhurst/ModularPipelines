@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mobile-network", "attached-data-network", "create")]
+[CliSubCommand("mobile-network", "attached-data-network", "create")]
 public record AzMobileNetworkAttachedDataNetworkCreateOptions(
-[property: CommandSwitch("--adn-name")] string AdnName,
-[property: CommandSwitch("--data-interface")] string DataInterface,
-[property: CommandSwitch("--dns-addresses")] string DnsAddresses,
-[property: CommandSwitch("--pccp-name")] string PccpName,
-[property: CommandSwitch("--pcdp-name")] string PcdpName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--adn-name")] string AdnName,
+[property: CliOption("--data-interface")] string DataInterface,
+[property: CliOption("--dns-addresses")] string DnsAddresses,
+[property: CliOption("--pccp-name")] string PccpName,
+[property: CliOption("--pcdp-name")] string PcdpName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--address-pool")]
+    [CliOption("--address-pool")]
     public string? AddressPool { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--napt-configuration")]
+    [CliOption("--napt-configuration")]
     public string? NaptConfiguration { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--static-address-pool")]
+    [CliOption("--static-address-pool")]
     public string? StaticAddressPool { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

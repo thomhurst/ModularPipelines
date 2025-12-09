@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dynamodb", "wait", "table-exists")]
+[CliCommand("dynamodb", "wait", "table-exists")]
 public record AwsDynamodbWaitTableExistsOptions(
-[property: CommandSwitch("--table-name")] string TableName
+[property: CliOption("--table-name")] string TableName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

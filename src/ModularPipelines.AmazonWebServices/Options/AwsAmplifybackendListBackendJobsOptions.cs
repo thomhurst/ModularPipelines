@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amplifybackend", "list-backend-jobs")]
+[CliCommand("amplifybackend", "list-backend-jobs")]
 public record AwsAmplifybackendListBackendJobsOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--backend-environment-name")] string BackendEnvironmentName
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--backend-environment-name")] string BackendEnvironmentName
 ) : AwsOptions
 {
-    [CommandSwitch("--job-id")]
+    [CliOption("--job-id")]
     public string? JobId { get; set; }
 
-    [CommandSwitch("--operation")]
+    [CliOption("--operation")]
     public string? Operation { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

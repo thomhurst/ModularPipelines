@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ci")]
+[CliSubCommand("ci")]
 public record NpmCiOptions : NpmOptions
 {
-    [CommandSwitch("--install-strategy")]
+    [CliOption("--install-strategy")]
     public virtual string? InstallStrategy { get; set; }
 
-    [CommandSwitch("--omit")]
+    [CliOption("--omit")]
     public virtual string? Omit { get; set; }
 
-    [CommandSwitch("--include")]
+    [CliOption("--include")]
     public virtual string? Include { get; set; }
 
-    [BooleanCommandSwitch("--strict-peer-deps")]
+    [CliFlag("--strict-peer-deps")]
     public virtual bool? StrictPeerDeps { get; set; }
 
-    [BooleanCommandSwitch("--foreground-scripts")]
+    [CliFlag("--foreground-scripts")]
     public virtual bool? ForegroundScripts { get; set; }
 
-    [BooleanCommandSwitch("--ignore-scripts")]
+    [CliFlag("--ignore-scripts")]
     public virtual bool? IgnoreScripts { get; set; }
 
-    [BooleanCommandSwitch("--audit")]
+    [CliFlag("--audit")]
     public virtual bool? Audit { get; set; }
 
-    [BooleanCommandSwitch("--bin-links")]
+    [CliFlag("--bin-links")]
     public virtual bool? BinLinks { get; set; }
 
-    [BooleanCommandSwitch("--fund")]
+    [CliFlag("--fund")]
     public virtual bool? Fund { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public virtual string[]? Workspace { get; set; }
 
-    [BooleanCommandSwitch("--workspaces")]
+    [CliFlag("--workspaces")]
     public virtual bool? Workspaces { get; set; }
 
-    [BooleanCommandSwitch("--include-workspace-root")]
+    [CliFlag("--include-workspace-root")]
     public virtual bool? IncludeWorkspaceRoot { get; set; }
 
-    [BooleanCommandSwitch("--install-links")]
+    [CliFlag("--install-links")]
     public virtual bool? InstallLinks { get; set; }
 }

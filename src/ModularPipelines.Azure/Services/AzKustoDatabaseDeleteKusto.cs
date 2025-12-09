@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kusto", "database", "delete")]
+[CliCommand("kusto", "database", "delete")]
 public class AzKustoDatabaseDeleteKusto
 {
     public AzKustoDatabaseDeleteKusto(

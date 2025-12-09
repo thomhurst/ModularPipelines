@@ -15,18 +15,18 @@ public record DotNetToolSearchOptions : DotNetOptions
         SearchTerm = searchTerm;
     }
 
-    [BooleanCommandSwitch("--detail")]
+    [CliFlag("--detail")]
     public virtual bool? Detail { get; set; }
 
-    [BooleanCommandSwitch("--prerelease")]
+    [CliFlag("--prerelease")]
     public virtual bool? Prerelease { get; set; }
 
-    [CommandSwitch("--skip")]
+    [CliOption("--skip")]
     public virtual string? Skip { get; set; }
 
-    [CommandSwitch("--take")]
+    [CliOption("--take")]
     public virtual string? Take { get; set; }
 
-    [PositionalArgument(PlaceholderName = "<SEARCH TERM>")]
-    public string? SearchTerm { get; set; }
+    [CliArgument(Name = "<SEARCH TERM>")]
+    public virtual string? SearchTerm { get; set; }
 }

@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apim", "backup")]
+[CliSubCommand("apim", "backup")]
 public record AzApimBackupOptions(
-[property: CommandSwitch("--backup-name")] string BackupName,
-[property: CommandSwitch("--container-name")] string ContainerName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--storage-account-key")] int StorageAccountKey,
-[property: CommandSwitch("--storage-account-name")] int StorageAccountName
+[property: CliOption("--backup-name")] string BackupName,
+[property: CliOption("--container-name")] string ContainerName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--storage-account-key")] int StorageAccountKey,
+[property: CliOption("--storage-account-name")] int StorageAccountName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

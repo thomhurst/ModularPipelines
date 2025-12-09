@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("reservations", "calculate-exchange")]
+[CliSubCommand("reservations", "calculate-exchange")]
 public record AzReservationsCalculateExchangeOptions : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--ris-to-exchange")]
+    [CliOption("--ris-to-exchange")]
     public string? RisToExchange { get; set; }
 
-    [CommandSwitch("--ris-to-purchase")]
+    [CliOption("--ris-to-purchase")]
     public string? RisToPurchase { get; set; }
 
-    [CommandSwitch("--sp-to-purchase")]
+    [CliOption("--sp-to-purchase")]
     public string? SpToPurchase { get; set; }
 }

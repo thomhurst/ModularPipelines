@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "manager", "connect-config", "update")]
+[CliSubCommand("network", "manager", "connect-config", "update")]
 public record AzNetworkManagerConnectConfigUpdateOptions : AzOptions
 {
-    [CommandSwitch("--applies-to-groups")]
+    [CliOption("--applies-to-groups")]
     public string? AppliesToGroups { get; set; }
 
-    [CommandSwitch("--configuration-name")]
+    [CliOption("--configuration-name")]
     public string? ConfigurationName { get; set; }
 
-    [BooleanCommandSwitch("--delete-existing-peering")]
+    [CliFlag("--delete-existing-peering")]
     public bool? DeleteExistingPeering { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--hub")]
+    [CliOption("--hub")]
     public string? Hub { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--is-global")]
+    [CliFlag("--is-global")]
     public bool? IsGlobal { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

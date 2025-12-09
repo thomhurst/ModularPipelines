@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "pipeline", "create-draft")]
+[CliSubCommand("ml", "pipeline", "create-draft")]
 public record AzMlPipelineCreateDraftOptions(
-[property: CommandSwitch("--experiment_name")] string ExperimentName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--pipeline-yaml")] string PipelineYaml
+[property: CliOption("--experiment_name")] string ExperimentName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--pipeline-yaml")] string PipelineYaml
 ) : AzOptions
 {
-    [CommandSwitch("--continue")]
+    [CliOption("--continue")]
     public string? Continue { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public string? Properties { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

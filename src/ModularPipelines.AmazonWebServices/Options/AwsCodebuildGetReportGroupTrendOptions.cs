@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codebuild", "get-report-group-trend")]
+[CliCommand("codebuild", "get-report-group-trend")]
 public record AwsCodebuildGetReportGroupTrendOptions(
-[property: CommandSwitch("--report-group-arn")] string ReportGroupArn,
-[property: CommandSwitch("--trend-field")] string TrendField
+[property: CliOption("--report-group-arn")] string ReportGroupArn,
+[property: CliOption("--trend-field")] string TrendField
 ) : AwsOptions
 {
-    [CommandSwitch("--num-of-reports")]
+    [CliOption("--num-of-reports")]
     public int? NumOfReports { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

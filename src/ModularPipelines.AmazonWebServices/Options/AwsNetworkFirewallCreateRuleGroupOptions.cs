@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-firewall", "create-rule-group")]
+[CliCommand("network-firewall", "create-rule-group")]
 public record AwsNetworkFirewallCreateRuleGroupOptions(
-[property: CommandSwitch("--rule-group-name")] string RuleGroupName,
-[property: CommandSwitch("--rule-group")] string RuleGroup,
-[property: CommandSwitch("--type")] string Type,
-[property: CommandSwitch("--capacity")] int Capacity
+[property: CliOption("--rule-group-name")] string RuleGroupName,
+[property: CliOption("--rule-group")] string RuleGroup,
+[property: CliOption("--type")] string Type,
+[property: CliOption("--capacity")] int Capacity
 ) : AwsOptions
 {
-    [CommandSwitch("--rules")]
+    [CliOption("--rules")]
     public string? Rules { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--encryption-configuration")]
+    [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
 
-    [CommandSwitch("--source-metadata")]
+    [CliOption("--source-metadata")]
     public string? SourceMetadata { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

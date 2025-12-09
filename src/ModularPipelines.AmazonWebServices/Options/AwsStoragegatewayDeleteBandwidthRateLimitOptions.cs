@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "delete-bandwidth-rate-limit")]
+[CliCommand("storagegateway", "delete-bandwidth-rate-limit")]
 public record AwsStoragegatewayDeleteBandwidthRateLimitOptions(
-[property: CommandSwitch("--gateway-arn")] string GatewayArn,
-[property: CommandSwitch("--bandwidth-type")] string BandwidthType
+[property: CliOption("--gateway-arn")] string GatewayArn,
+[property: CliOption("--bandwidth-type")] string BandwidthType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup-gateway", "create-gateway")]
+[CliCommand("backup-gateway", "create-gateway")]
 public record AwsBackupGatewayCreateGatewayOptions(
-[property: CommandSwitch("--activation-key")] string ActivationKey,
-[property: CommandSwitch("--gateway-display-name")] string GatewayDisplayName,
-[property: CommandSwitch("--gateway-type")] string GatewayType
+[property: CliOption("--activation-key")] string ActivationKey,
+[property: CliOption("--gateway-display-name")] string GatewayDisplayName,
+[property: CliOption("--gateway-type")] string GatewayType
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("peering")]
+[CliSubCommand("peering")]
 public class AzPeeringReceivedRoute
 {
     public AzPeeringReceivedRoute(

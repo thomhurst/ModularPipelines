@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "routeserver", "create")]
+[CliSubCommand("network", "routeserver", "create")]
 public record AzNetworkRouteserverCreateOptions(
-[property: CommandSwitch("--hosted-subnet")] string HostedSubnet,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--public-ip-address")] string PublicIpAddress,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--hosted-subnet")] string HostedSubnet,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--public-ip-address")] string PublicIpAddress,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--hub-routing-preference")]
+    [CliOption("--hub-routing-preference")]
     public string? HubRoutingPreference { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

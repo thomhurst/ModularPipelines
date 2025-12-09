@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("afd", "log-analytic", "ranking", "list")]
+[CliSubCommand("afd", "log-analytic", "ranking", "list")]
 public record AzAfdLogAnalyticRankingListOptions(
-[property: CommandSwitch("--date-time-begin")] string DateTimeBegin,
-[property: CommandSwitch("--date-time-end")] string DateTimeEnd,
-[property: CommandSwitch("--max-ranking")] string MaxRanking,
-[property: CommandSwitch("--metrics")] string Metrics,
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--rankings")] string Rankings,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--date-time-begin")] string DateTimeBegin,
+[property: CliOption("--date-time-end")] string DateTimeEnd,
+[property: CliOption("--max-ranking")] string MaxRanking,
+[property: CliOption("--metrics")] string Metrics,
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--rankings")] string Rankings,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--custom-domains")]
+    [CliOption("--custom-domains")]
     public string? CustomDomains { get; set; }
 }

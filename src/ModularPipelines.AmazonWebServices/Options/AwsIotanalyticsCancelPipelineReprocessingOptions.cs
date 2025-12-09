@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotanalytics", "cancel-pipeline-reprocessing")]
+[CliCommand("iotanalytics", "cancel-pipeline-reprocessing")]
 public record AwsIotanalyticsCancelPipelineReprocessingOptions(
-[property: CommandSwitch("--pipeline-name")] string PipelineName,
-[property: CommandSwitch("--reprocessing-id")] string ReprocessingId
+[property: CliOption("--pipeline-name")] string PipelineName,
+[property: CliOption("--reprocessing-id")] string ReprocessingId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

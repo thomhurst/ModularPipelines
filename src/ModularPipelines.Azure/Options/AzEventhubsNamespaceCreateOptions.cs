@@ -4,60 +4,60 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventhubs", "namespace", "create")]
+[CliSubCommand("eventhubs", "namespace", "create")]
 public record AzEventhubsNamespaceCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--alternate-name")]
+    [CliOption("--alternate-name")]
     public string? AlternateName { get; set; }
 
-    [CommandSwitch("--capacity")]
+    [CliOption("--capacity")]
     public string? Capacity { get; set; }
 
-    [CommandSwitch("--cluster-arm-id")]
+    [CliOption("--cluster-arm-id")]
     public string? ClusterArmId { get; set; }
 
-    [BooleanCommandSwitch("--disable-local-auth")]
+    [CliFlag("--disable-local-auth")]
     public bool? DisableLocalAuth { get; set; }
 
-    [BooleanCommandSwitch("--enable-auto-inflate")]
+    [CliFlag("--enable-auto-inflate")]
     public bool? EnableAutoInflate { get; set; }
 
-    [BooleanCommandSwitch("--enable-kafka")]
+    [CliFlag("--enable-kafka")]
     public bool? EnableKafka { get; set; }
 
-    [CommandSwitch("--encryption-config")]
+    [CliOption("--encryption-config")]
     public string? EncryptionConfig { get; set; }
 
-    [BooleanCommandSwitch("--infra-encryption")]
+    [CliFlag("--infra-encryption")]
     public bool? InfraEncryption { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--maximum-throughput-units")]
+    [CliOption("--maximum-throughput-units")]
     public string? MaximumThroughputUnits { get; set; }
 
-    [BooleanCommandSwitch("--mi-system-assigned")]
+    [CliFlag("--mi-system-assigned")]
     public bool? MiSystemAssigned { get; set; }
 
-    [CommandSwitch("--mi-user-assigned")]
+    [CliOption("--mi-user-assigned")]
     public string? MiUserAssigned { get; set; }
 
-    [CommandSwitch("--min-tls")]
+    [CliOption("--min-tls")]
     public string? MinTls { get; set; }
 
-    [CommandSwitch("--public-network")]
+    [CliOption("--public-network")]
     public string? PublicNetwork { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [BooleanCommandSwitch("--zone-redundant")]
+    [CliFlag("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 }

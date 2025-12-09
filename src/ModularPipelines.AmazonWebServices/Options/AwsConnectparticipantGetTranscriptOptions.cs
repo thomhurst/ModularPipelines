@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectparticipant", "get-transcript")]
+[CliCommand("connectparticipant", "get-transcript")]
 public record AwsConnectparticipantGetTranscriptOptions(
-[property: CommandSwitch("--connection-token")] string ConnectionToken
+[property: CliOption("--connection-token")] string ConnectionToken
 ) : AwsOptions
 {
-    [CommandSwitch("--contact-id")]
+    [CliOption("--contact-id")]
     public string? ContactId { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--scan-direction")]
+    [CliOption("--scan-direction")]
     public string? ScanDirection { get; set; }
 
-    [CommandSwitch("--sort-order")]
+    [CliOption("--sort-order")]
     public string? SortOrder { get; set; }
 
-    [CommandSwitch("--start-position")]
+    [CliOption("--start-position")]
     public string? StartPosition { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

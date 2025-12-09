@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("grafana", "update-permissions")]
+[CliCommand("grafana", "update-permissions")]
 public record AwsGrafanaUpdatePermissionsOptions(
-[property: CommandSwitch("--update-instruction-batch")] string[] UpdateInstructionBatch,
-[property: CommandSwitch("--workspace-id")] string WorkspaceId
+[property: CliOption("--update-instruction-batch")] string[] UpdateInstructionBatch,
+[property: CliOption("--workspace-id")] string WorkspaceId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

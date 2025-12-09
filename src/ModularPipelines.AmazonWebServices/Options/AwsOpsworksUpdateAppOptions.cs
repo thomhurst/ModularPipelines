@@ -5,38 +5,38 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworks", "update-app")]
+[CliCommand("opsworks", "update-app")]
 public record AwsOpsworksUpdateAppOptions(
-[property: CommandSwitch("--app-id")] string AppId
+[property: CliOption("--app-id")] string AppId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--data-sources")]
+    [CliOption("--data-sources")]
     public string[]? DataSources { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--app-source")]
+    [CliOption("--app-source")]
     public string? AppSource { get; set; }
 
-    [CommandSwitch("--domains")]
+    [CliOption("--domains")]
     public string[]? Domains { get; set; }
 
-    [CommandSwitch("--ssl-configuration")]
+    [CliOption("--ssl-configuration")]
     public string? SslConfiguration { get; set; }
 
-    [CommandSwitch("--attributes")]
+    [CliOption("--attributes")]
     public IEnumerable<KeyValue>? Attributes { get; set; }
 
-    [CommandSwitch("--environment")]
+    [CliOption("--environment")]
     public string[]? Environment { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

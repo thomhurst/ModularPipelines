@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stepfunctions", "send-task-success")]
+[CliCommand("stepfunctions", "send-task-success")]
 public record AwsStepfunctionsSendTaskSuccessOptions(
-[property: CommandSwitch("--task-token")] string TaskToken,
-[property: CommandSwitch("--task-output")] string TaskOutput
+[property: CliOption("--task-token")] string TaskToken,
+[property: CliOption("--task-output")] string TaskOutput
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "describe-local-gateway-route-table-vpc-associations")]
+[CliCommand("ec2", "describe-local-gateway-route-table-vpc-associations")]
 public record AwsEc2DescribeLocalGatewayRouteTableVpcAssociationsOptions : AwsOptions
 {
-    [CommandSwitch("--local-gateway-route-table-vpc-association-ids")]
+    [CliOption("--local-gateway-route-table-vpc-association-ids")]
     public string[]? LocalGatewayRouteTableVpcAssociationIds { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

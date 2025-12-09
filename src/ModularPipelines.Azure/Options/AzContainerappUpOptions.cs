@@ -4,83 +4,83 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "up")]
+[CliSubCommand("containerapp", "up")]
 public record AzContainerappUpOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--artifact")]
+    [CliOption("--artifact")]
     public string? Artifact { get; set; }
 
-    [CommandSwitch("--branch")]
+    [CliOption("--branch")]
     public string? Branch { get; set; }
 
-    [BooleanCommandSwitch("--browse")]
+    [CliFlag("--browse")]
     public bool? Browse { get; set; }
 
-    [CommandSwitch("--connected-cluster-id")]
+    [CliOption("--connected-cluster-id")]
     public string? ConnectedClusterId { get; set; }
 
-    [CommandSwitch("--context-path")]
+    [CliOption("--context-path")]
     public string? ContextPath { get; set; }
 
-    [CommandSwitch("--custom-location")]
+    [CliOption("--custom-location")]
     public string? CustomLocation { get; set; }
 
-    [CommandSwitch("--env-vars")]
+    [CliOption("--env-vars")]
     public string? EnvVars { get; set; }
 
-    [CommandSwitch("--environment")]
+    [CliOption("--environment")]
     public string? Environment { get; set; }
 
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [CommandSwitch("--ingress")]
+    [CliOption("--ingress")]
     public string? Ingress { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--logs-workspace-id")]
+    [CliOption("--logs-workspace-id")]
     public string? LogsWorkspaceId { get; set; }
 
-    [CommandSwitch("--logs-workspace-key")]
+    [CliOption("--logs-workspace-key")]
     public string? LogsWorkspaceKey { get; set; }
 
-    [CommandSwitch("--registry-password")]
+    [CliOption("--registry-password")]
     public string? RegistryPassword { get; set; }
 
-    [CommandSwitch("--registry-server")]
+    [CliOption("--registry-server")]
     public string? RegistryServer { get; set; }
 
-    [CommandSwitch("--registry-username")]
+    [CliOption("--registry-username")]
     public string? RegistryUsername { get; set; }
 
-    [CommandSwitch("--repo")]
+    [CliOption("--repo")]
     public string? Repo { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--service-principal-client-id")]
+    [CliOption("--service-principal-client-id")]
     public string? ServicePrincipalClientId { get; set; }
 
-    [CommandSwitch("--service-principal-client-secret")]
+    [CliOption("--service-principal-client-secret")]
     public string? ServicePrincipalClientSecret { get; set; }
 
-    [CommandSwitch("--service-principal-tenant-id")]
+    [CliOption("--service-principal-tenant-id")]
     public string? ServicePrincipalTenantId { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CommandSwitch("--target-port")]
+    [CliOption("--target-port")]
     public string? TargetPort { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 
-    [CommandSwitch("--workload-profile-name")]
+    [CliOption("--workload-profile-name")]
     public string? WorkloadProfileName { get; set; }
 }

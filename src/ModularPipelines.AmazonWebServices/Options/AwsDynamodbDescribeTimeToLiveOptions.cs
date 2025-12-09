@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dynamodb", "describe-time-to-live")]
+[CliCommand("dynamodb", "describe-time-to-live")]
 public record AwsDynamodbDescribeTimeToLiveOptions(
-[property: CommandSwitch("--table-name")] string TableName
+[property: CliOption("--table-name")] string TableName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "delete-service-linked-role")]
+[CliCommand("iam", "delete-service-linked-role")]
 public record AwsIamDeleteServiceLinkedRoleOptions(
-[property: CommandSwitch("--role-name")] string RoleName
+[property: CliOption("--role-name")] string RoleName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

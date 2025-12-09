@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "cluster", "baremetalmachinekeyset", "update")]
+[CliSubCommand("networkcloud", "cluster", "baremetalmachinekeyset", "update")]
 public record AzNetworkcloudClusterBaremetalmachinekeysetUpdateOptions : AzOptions
 {
-    [CommandSwitch("--bare-metal-machine-key-set-name")]
+    [CliOption("--bare-metal-machine-key-set-name")]
     public string? BareMetalMachineKeySetName { get; set; }
 
-    [CommandSwitch("--cluster-name")]
+    [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
-    [CommandSwitch("--expiration")]
+    [CliOption("--expiration")]
     public string? Expiration { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--jump-hosts-allowed")]
+    [CliOption("--jump-hosts-allowed")]
     public string? JumpHostsAllowed { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--user-list")]
+    [CliOption("--user-list")]
     public string? UserList { get; set; }
 }

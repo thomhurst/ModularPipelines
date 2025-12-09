@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hpc-cache", "nfs-storage-target", "add")]
+[CliSubCommand("hpc-cache", "nfs-storage-target", "add")]
 public record AzHpcCacheNfsStorageTargetAddOptions(
-[property: CommandSwitch("--cache-name")] string CacheName,
-[property: CommandSwitch("--junction")] string Junction,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--nfs3-target")] string Nfs3Target,
-[property: CommandSwitch("--nfs3-usage-model")] string Nfs3UsageModel,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cache-name")] string CacheName,
+[property: CliOption("--junction")] string Junction,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--nfs3-target")] string Nfs3Target,
+[property: CliOption("--nfs3-usage-model")] string Nfs3UsageModel,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

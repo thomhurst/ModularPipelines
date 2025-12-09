@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rolesanywhere", "create-profile")]
+[CliCommand("rolesanywhere", "create-profile")]
 public record AwsRolesanywhereCreateProfileOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--role-arns")] string[] RoleArns
+[property: CliOption("--name")] string Name,
+[property: CliOption("--role-arns")] string[] RoleArns
 ) : AwsOptions
 {
-    [CommandSwitch("--duration-seconds")]
+    [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
-    [CommandSwitch("--managed-policy-arns")]
+    [CliOption("--managed-policy-arns")]
     public string[]? ManagedPolicyArns { get; set; }
 
-    [CommandSwitch("--session-policy")]
+    [CliOption("--session-policy")]
     public string? SessionPolicy { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

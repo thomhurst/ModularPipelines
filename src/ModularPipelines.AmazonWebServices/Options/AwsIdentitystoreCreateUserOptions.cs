@@ -4,50 +4,50 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("identitystore", "create-user")]
+[CliCommand("identitystore", "create-user")]
 public record AwsIdentitystoreCreateUserOptions(
-[property: CommandSwitch("--identity-store-id")] string IdentityStoreId
+[property: CliOption("--identity-store-id")] string IdentityStoreId
 ) : AwsOptions
 {
-    [CommandSwitch("--user-name")]
+    [CliOption("--user-name")]
     public string? UserName { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--nick-name")]
+    [CliOption("--nick-name")]
     public string? NickName { get; set; }
 
-    [CommandSwitch("--profile-url")]
+    [CliOption("--profile-url")]
     public string? ProfileUrl { get; set; }
 
-    [CommandSwitch("--emails")]
+    [CliOption("--emails")]
     public string[]? Emails { get; set; }
 
-    [CommandSwitch("--addresses")]
+    [CliOption("--addresses")]
     public string[]? Addresses { get; set; }
 
-    [CommandSwitch("--phone-numbers")]
+    [CliOption("--phone-numbers")]
     public string[]? PhoneNumbers { get; set; }
 
-    [CommandSwitch("--user-type")]
+    [CliOption("--user-type")]
     public string? UserType { get; set; }
 
-    [CommandSwitch("--title")]
+    [CliOption("--title")]
     public string? Title { get; set; }
 
-    [CommandSwitch("--preferred-language")]
+    [CliOption("--preferred-language")]
     public string? PreferredLanguage { get; set; }
 
-    [CommandSwitch("--locale")]
+    [CliOption("--locale")]
     public string? Locale { get; set; }
 
-    [CommandSwitch("--timezone")]
+    [CliOption("--timezone")]
     public string? Timezone { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

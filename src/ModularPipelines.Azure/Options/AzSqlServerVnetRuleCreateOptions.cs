@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "server", "vnet-rule", "create")]
+[CliSubCommand("sql", "server", "vnet-rule", "create")]
 public record AzSqlServerVnetRuleCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--server")] string Server,
-[property: CommandSwitch("--subnet")] string Subnet
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--server")] string Server,
+[property: CliOption("--subnet")] string Subnet
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--ignore-missing-endpoint")]
+    [CliFlag("--ignore-missing-endpoint")]
     public bool? IgnoreMissingEndpoint { get; set; }
 
-    [CommandSwitch("--vnet-name")]
+    [CliOption("--vnet-name")]
     public string? VnetName { get; set; }
 }

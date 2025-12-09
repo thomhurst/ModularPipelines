@@ -5,28 +5,28 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("evidently", "create-feature")]
+[CliCommand("evidently", "create-feature")]
 public record AwsEvidentlyCreateFeatureOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--project")] string Project,
-[property: CommandSwitch("--variations")] string[] Variations
+[property: CliOption("--name")] string Name,
+[property: CliOption("--project")] string Project,
+[property: CliOption("--variations")] string[] Variations
 ) : AwsOptions
 {
-    [CommandSwitch("--default-variation")]
+    [CliOption("--default-variation")]
     public string? DefaultVariation { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--entity-overrides")]
+    [CliOption("--entity-overrides")]
     public IEnumerable<KeyValue>? EntityOverrides { get; set; }
 
-    [CommandSwitch("--evaluation-strategy")]
+    [CliOption("--evaluation-strategy")]
     public string? EvaluationStrategy { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

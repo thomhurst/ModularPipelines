@@ -3,52 +3,52 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("debug")]
+[CliSubCommand("debug")]
 [ExcludeFromCodeCoverage]
-public record KubernetesDebugOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesDebugOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--arguments-only")]
+    [CliFlag("--arguments-only")]
     public virtual bool? ArgumentsOnly { get; set; }
 
-    [BooleanCommandSwitch("--attach")]
+    [CliFlag("--attach")]
     public virtual bool? Attach { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--container", SwitchValueSeparator = " ")]
-    public string? Container { get; set; }
+    [CliOption("--container")]
+    public virtual string? Container { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--copy-to", SwitchValueSeparator = " ")]
-    public string? CopyTo { get; set; }
+    [CliOption("--copy-to")]
+    public virtual string? CopyTo { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--env", SwitchValueSeparator = " ")]
-    public string[]? Env { get; set; }
+    [CliOption("--env")]
+    public virtual string[]? Env { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--image", SwitchValueSeparator = " ")]
-    public string? Image { get; set; }
+    [CliOption("--image")]
+    public virtual string? Image { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--image-pull-policy", SwitchValueSeparator = " ")]
-    public string? ImagePullPolicy { get; set; }
+    [CliOption("--image-pull-policy")]
+    public virtual string? ImagePullPolicy { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--replace")]
+    [CliFlag("--replace")]
     public virtual bool? Replace { get; set; }
 
-    [BooleanCommandSwitch("--same-node")]
+    [CliFlag("--same-node")]
     public virtual bool? SameNode { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--set-image", SwitchValueSeparator = " ")]
-    public string[]? SetImage { get; set; }
+    [CliOption("--set-image")]
+    public virtual string[]? SetImage { get; set; }
 
-    [BooleanCommandSwitch("--share-processes")]
+    [CliFlag("--share-processes")]
     public virtual bool? ShareProcesses { get; set; }
 
-    [BooleanCommandSwitch("--stdin")]
+    [CliFlag("--stdin")]
     public virtual bool? Stdin { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--target", SwitchValueSeparator = " ")]
-    public string? Target { get; set; }
+    [CliOption("--target")]
+    public virtual string? Target { get; set; }
 
-    [BooleanCommandSwitch("--tty")]
+    [CliFlag("--tty")]
     public virtual bool? Tty { get; set; }
 }

@@ -15,6 +15,6 @@ public record DotNetWorkloadUninstallOptions : DotNetOptions
         WorkloadID = workloadID;
     }
 
-    [PositionalArgument(PlaceholderName = "<WORKLOAD_ID...>")]
-    public string? WorkloadID { get; set; }
+    [CliArgument(Name = "<WORKLOAD_ID...>")]
+    public virtual string? WorkloadID { get; set; }
 }

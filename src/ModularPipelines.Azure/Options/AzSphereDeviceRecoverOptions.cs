@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sphere", "device", "recover")]
+[CliSubCommand("sphere", "device", "recover")]
 public record AzSphereDeviceRecoverOptions : AzOptions
 {
-    [CommandSwitch("--capability")]
+    [CliOption("--capability")]
     public string? Capability { get; set; }
 
-    [CommandSwitch("--device")]
+    [CliOption("--device")]
     public string? Device { get; set; }
 
-    [CommandSwitch("--images")]
+    [CliOption("--images")]
     public string? Images { get; set; }
 }

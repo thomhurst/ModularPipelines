@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sphere", "image", "show")]
+[CliSubCommand("sphere", "image", "show")]
 public record AzSphereImageShowOptions(
-[property: CommandSwitch("--catalog")] string Catalog,
-[property: CommandSwitch("--image")] string Image,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--catalog")] string Catalog,
+[property: CliOption("--image")] string Image,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

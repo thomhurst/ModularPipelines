@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securityhub", "start-configuration-policy-disassociation")]
+[CliCommand("securityhub", "start-configuration-policy-disassociation")]
 public record AwsSecurityhubStartConfigurationPolicyDisassociationOptions(
-[property: CommandSwitch("--configuration-policy-identifier")] string ConfigurationPolicyIdentifier
+[property: CliOption("--configuration-policy-identifier")] string ConfigurationPolicyIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--target")]
+    [CliOption("--target")]
     public string? Target { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

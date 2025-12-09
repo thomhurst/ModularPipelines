@@ -4,53 +4,53 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ses", "send-email")]
+[CliCommand("ses", "send-email")]
 public record AwsSesSendEmailOptions(
-[property: CommandSwitch("--from")] string From
+[property: CliOption("--from")] string From
 ) : AwsOptions
 {
-    [CommandSwitch("--destination")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 
-    [CommandSwitch("--message")]
+    [CliOption("--message")]
     public string? Message { get; set; }
 
-    [CommandSwitch("--reply-to-addresses")]
+    [CliOption("--reply-to-addresses")]
     public string[]? ReplyToAddresses { get; set; }
 
-    [CommandSwitch("--return-path")]
+    [CliOption("--return-path")]
     public string? ReturnPath { get; set; }
 
-    [CommandSwitch("--source-arn")]
+    [CliOption("--source-arn")]
     public string? SourceArn { get; set; }
 
-    [CommandSwitch("--return-path-arn")]
+    [CliOption("--return-path-arn")]
     public string? ReturnPathArn { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--configuration-set-name")]
+    [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; set; }
 
-    [CommandSwitch("--to")]
+    [CliOption("--to")]
     public string? To { get; set; }
 
-    [CommandSwitch("--cc")]
+    [CliOption("--cc")]
     public string? Cc { get; set; }
 
-    [CommandSwitch("--bcc")]
+    [CliOption("--bcc")]
     public string? Bcc { get; set; }
 
-    [CommandSwitch("--subject")]
+    [CliOption("--subject")]
     public string? Subject { get; set; }
 
-    [CommandSwitch("--text")]
+    [CliOption("--text")]
     public string? Text { get; set; }
 
-    [CommandSwitch("--html")]
+    [CliOption("--html")]
     public string? Html { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

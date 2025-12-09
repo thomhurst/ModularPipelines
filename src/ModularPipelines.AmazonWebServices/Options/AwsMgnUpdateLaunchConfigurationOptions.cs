@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mgn", "update-launch-configuration")]
+[CliCommand("mgn", "update-launch-configuration")]
 public record AwsMgnUpdateLaunchConfigurationOptions(
-[property: CommandSwitch("--source-server-id")] string SourceServerId
+[property: CliOption("--source-server-id")] string SourceServerId
 ) : AwsOptions
 {
-    [CommandSwitch("--account-id")]
+    [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
-    [CommandSwitch("--boot-mode")]
+    [CliOption("--boot-mode")]
     public string? BootMode { get; set; }
 
-    [CommandSwitch("--launch-disposition")]
+    [CliOption("--launch-disposition")]
     public string? LaunchDisposition { get; set; }
 
-    [CommandSwitch("--licensing")]
+    [CliOption("--licensing")]
     public string? Licensing { get; set; }
 
-    [CommandSwitch("--map-auto-tagging-mpe-id")]
+    [CliOption("--map-auto-tagging-mpe-id")]
     public string? MapAutoTaggingMpeId { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--post-launch-actions")]
+    [CliOption("--post-launch-actions")]
     public string? PostLaunchActions { get; set; }
 
-    [CommandSwitch("--target-instance-type-right-sizing-method")]
+    [CliOption("--target-instance-type-right-sizing-method")]
     public string? TargetInstanceTypeRightSizingMethod { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

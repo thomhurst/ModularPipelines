@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "private-endpoint", "dns-zone-group", "create")]
+[CliSubCommand("network", "private-endpoint", "dns-zone-group", "create")]
 public record AzNetworkPrivateEndpointDnsZoneGroupCreateOptions(
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--private-dns-zone")] string PrivateDnsZone,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--zone-name")] string ZoneName
+[property: CliOption("--endpoint-name")] string EndpointName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--private-dns-zone")] string PrivateDnsZone,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--zone-name")] string ZoneName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

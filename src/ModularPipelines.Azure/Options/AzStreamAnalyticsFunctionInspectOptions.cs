@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stream-analytics", "function", "inspect")]
+[CliSubCommand("stream-analytics", "function", "inspect")]
 public record AzStreamAnalyticsFunctionInspectOptions(
-[property: CommandSwitch("--function-name")] string FunctionName,
-[property: CommandSwitch("--job-name")] string JobName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--function-name")] string FunctionName,
+[property: CliOption("--job-name")] string JobName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--ml-properties")]
+    [CliOption("--ml-properties")]
     public string? MlProperties { get; set; }
 }

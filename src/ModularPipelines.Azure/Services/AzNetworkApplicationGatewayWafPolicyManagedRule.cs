@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "waf-policy")]
+[CliCommand("network", "application-gateway", "waf-policy")]
 public class AzNetworkApplicationGatewayWafPolicyManagedRule
 {
     public AzNetworkApplicationGatewayWafPolicyManagedRule(

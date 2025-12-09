@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("advisor", "recommendation", "disable")]
+[CliSubCommand("advisor", "recommendation", "disable")]
 public record AzAdvisorRecommendationDisableOptions : AzOptions
 {
-    [CommandSwitch("--days")]
+    [CliOption("--days")]
     public int? Days { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

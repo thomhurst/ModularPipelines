@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "event-subscription", "list", "(eventgrid", "extension)")]
+[CliSubCommand("eventgrid", "event-subscription", "list", "(eventgrid", "extension)")]
 public record AzEventgridEventSubscriptionListEventgridExtensionOptions : AzOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--odata-query")]
+    [CliOption("--odata-query")]
     public string? OdataQuery { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--source-resource-id")]
+    [CliOption("--source-resource-id")]
     public string? SourceResourceId { get; set; }
 
-    [CommandSwitch("--topic-type-name")]
+    [CliOption("--topic-type-name")]
     public string? TopicTypeName { get; set; }
 }

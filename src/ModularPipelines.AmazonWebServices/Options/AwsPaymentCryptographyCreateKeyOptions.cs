@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("payment-cryptography", "create-key")]
+[CliCommand("payment-cryptography", "create-key")]
 public record AwsPaymentCryptographyCreateKeyOptions(
-[property: CommandSwitch("--key-attributes")] string KeyAttributes
+[property: CliOption("--key-attributes")] string KeyAttributes
 ) : AwsOptions
 {
-    [CommandSwitch("--key-check-value-algorithm")]
+    [CliOption("--key-check-value-algorithm")]
     public string? KeyCheckValueAlgorithm { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

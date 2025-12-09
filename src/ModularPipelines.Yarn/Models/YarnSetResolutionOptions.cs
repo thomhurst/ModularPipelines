@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("set", "resolution")]
+[CliCommand("set", "resolution")]
 public record YarnSetResolutionOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Descriptor,
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Resolution
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Descriptor,
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Resolution
 ) : YarnOptions
 {
-    [BooleanCommandSwitch("--save")]
+    [CliFlag("--save")]
     public virtual bool? Save { get; set; }
 }

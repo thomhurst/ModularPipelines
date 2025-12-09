@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "list-realtime-contact-analysis-segments-v2")]
+[CliCommand("connect", "list-realtime-contact-analysis-segments-v2")]
 public record AwsConnectListRealtimeContactAnalysisSegmentsV2Options(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--contact-id")] string ContactId,
-[property: CommandSwitch("--output-type")] string OutputType,
-[property: CommandSwitch("--segment-types")] string[] SegmentTypes
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--contact-id")] string ContactId,
+[property: CliOption("--output-type")] string OutputType,
+[property: CliOption("--segment-types")] string[] SegmentTypes
 ) : AwsOptions
 {
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

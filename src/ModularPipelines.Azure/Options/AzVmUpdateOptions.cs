@@ -4,99 +4,99 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "update")]
+[CliSubCommand("vm", "update")]
 public record AzVmUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--capacity-reservation-group")]
+    [CliOption("--capacity-reservation-group")]
     public string? CapacityReservationGroup { get; set; }
 
-    [CommandSwitch("--disk-caching")]
+    [CliOption("--disk-caching")]
     public string? DiskCaching { get; set; }
 
-    [CommandSwitch("--disk-controller-type")]
+    [CliOption("--disk-controller-type")]
     public string? DiskControllerType { get; set; }
 
-    [BooleanCommandSwitch("--enable-hibernation")]
+    [CliFlag("--enable-hibernation")]
     public bool? EnableHibernation { get; set; }
 
-    [BooleanCommandSwitch("--enable-secure-boot")]
+    [CliFlag("--enable-secure-boot")]
     public bool? EnableSecureBoot { get; set; }
 
-    [BooleanCommandSwitch("--enable-vtpm")]
+    [CliFlag("--enable-vtpm")]
     public bool? EnableVtpm { get; set; }
 
-    [CommandSwitch("--ephemeral-os-disk-placement")]
+    [CliOption("--ephemeral-os-disk-placement")]
     public string? EphemeralOsDiskPlacement { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--host")]
+    [CliOption("--host")]
     public string? Host { get; set; }
 
-    [CommandSwitch("--host-group")]
+    [CliOption("--host-group")]
     public string? HostGroup { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--license-type")]
+    [CliOption("--license-type")]
     public string? LicenseType { get; set; }
 
-    [CommandSwitch("--max-price")]
+    [CliOption("--max-price")]
     public string? MaxPrice { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--os-disk")]
+    [CliOption("--os-disk")]
     public string? OsDisk { get; set; }
 
-    [CommandSwitch("--ppg")]
+    [CliOption("--ppg")]
     public string? Ppg { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--security-type")]
+    [CliOption("--security-type")]
     public string? SecurityType { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--size")]
+    [CliOption("--size")]
     public string? Size { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--ultra-ssd-enabled")]
+    [CliFlag("--ultra-ssd-enabled")]
     public bool? UltraSsdEnabled { get; set; }
 
-    [CommandSwitch("--user-data")]
+    [CliOption("--user-data")]
     public string? UserData { get; set; }
 
-    [CommandSwitch("--v-cpus-available")]
+    [CliOption("--v-cpus-available")]
     public string? VCpusAvailable { get; set; }
 
-    [CommandSwitch("--v-cpus-per-core")]
+    [CliOption("--v-cpus-per-core")]
     public string? VCpusPerCore { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public string? Workspace { get; set; }
 
-    [CommandSwitch("--write-accelerator")]
+    [CliOption("--write-accelerator")]
     public string? WriteAccelerator { get; set; }
 }

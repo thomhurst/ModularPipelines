@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("machinelearning")]
+[CliSubCommand("machinelearning")]
 public class AwsMachinelearningWait
 {
     public AwsMachinelearningWait(

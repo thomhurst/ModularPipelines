@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("auditmanager", "validate-assessment-report-integrity")]
+[CliCommand("auditmanager", "validate-assessment-report-integrity")]
 public record AwsAuditmanagerValidateAssessmentReportIntegrityOptions(
-[property: CommandSwitch("--s3-relative-path")] string S3RelativePath
+[property: CliOption("--s3-relative-path")] string S3RelativePath
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

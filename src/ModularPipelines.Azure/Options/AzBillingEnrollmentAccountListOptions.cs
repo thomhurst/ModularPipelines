@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "enrollment-account", "list")]
+[CliSubCommand("billing", "enrollment-account", "list")]
 public record AzBillingEnrollmentAccountListOptions : AzOptions;

@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transcribe", "start-medical-scribe-job")]
+[CliCommand("transcribe", "start-medical-scribe-job")]
 public record AwsTranscribeStartMedicalScribeJobOptions(
-[property: CommandSwitch("--medical-scribe-job-name")] string MedicalScribeJobName,
-[property: CommandSwitch("--media")] string Media,
-[property: CommandSwitch("--output-bucket-name")] string OutputBucketName,
-[property: CommandSwitch("--data-access-role-arn")] string DataAccessRoleArn,
-[property: CommandSwitch("--settings")] string Settings
+[property: CliOption("--medical-scribe-job-name")] string MedicalScribeJobName,
+[property: CliOption("--media")] string Media,
+[property: CliOption("--output-bucket-name")] string OutputBucketName,
+[property: CliOption("--data-access-role-arn")] string DataAccessRoleArn,
+[property: CliOption("--settings")] string Settings
 ) : AwsOptions
 {
-    [CommandSwitch("--output-encryption-kms-key-id")]
+    [CliOption("--output-encryption-kms-key-id")]
     public string? OutputEncryptionKmsKeyId { get; set; }
 
-    [CommandSwitch("--kms-encryption-context")]
+    [CliOption("--kms-encryption-context")]
     public IEnumerable<KeyValue>? KmsEncryptionContext { get; set; }
 
-    [CommandSwitch("--channel-definitions")]
+    [CliOption("--channel-definitions")]
     public string[]? ChannelDefinitions { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

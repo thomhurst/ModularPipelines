@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ad")]
+[CliSubCommand("ad")]
 public class AzAdSp
 {
     public AzAdSp(

@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataprotection", "backup-instance", "list-from-resourcegraph")]
+[CliSubCommand("dataprotection", "backup-instance", "list-from-resourcegraph")]
 public record AzDataprotectionBackupInstanceListFromResourcegraphOptions(
-[property: CommandSwitch("--datasource-type")] string DatasourceType
+[property: CliOption("--datasource-type")] string DatasourceType
 ) : AzOptions
 {
-    [CommandSwitch("--datasource-id")]
+    [CliOption("--datasource-id")]
     public string? DatasourceId { get; set; }
 
-    [CommandSwitch("--protection-status")]
+    [CliOption("--protection-status")]
     public string? ProtectionStatus { get; set; }
 
-    [CommandSwitch("--resource-groups")]
+    [CliOption("--resource-groups")]
     public string? ResourceGroups { get; set; }
 
-    [CommandSwitch("--subscriptions")]
+    [CliOption("--subscriptions")]
     public string? Subscriptions { get; set; }
 
-    [CommandSwitch("--vaults")]
+    [CliOption("--vaults")]
     public string? Vaults { get; set; }
 }

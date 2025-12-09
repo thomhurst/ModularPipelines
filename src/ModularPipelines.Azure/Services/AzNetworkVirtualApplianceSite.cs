@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "virtual-appliance")]
+[CliCommand("network", "virtual-appliance")]
 public class AzNetworkVirtualApplianceSite
 {
     public AzNetworkVirtualApplianceSite(

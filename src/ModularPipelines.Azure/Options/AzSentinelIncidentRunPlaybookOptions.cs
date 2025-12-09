@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "incident", "run-playbook")]
+[CliSubCommand("sentinel", "incident", "run-playbook")]
 public record AzSentinelIncidentRunPlaybookOptions(
-[property: CommandSwitch("--incident-identifier")] string IncidentIdentifier,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--incident-identifier")] string IncidentIdentifier,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--logic-apps-resource-id")]
+    [CliOption("--logic-apps-resource-id")]
     public string? LogicAppsResourceId { get; set; }
 
-    [CommandSwitch("--tenant-id")]
+    [CliOption("--tenant-id")]
     public string? TenantId { get; set; }
 }

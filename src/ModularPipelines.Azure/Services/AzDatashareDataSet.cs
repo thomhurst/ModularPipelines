@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datashare")]
+[CliSubCommand("datashare")]
 public class AzDatashareDataSet
 {
     public AzDatashareDataSet(

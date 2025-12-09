@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "component", "list")]
+[CliSubCommand("ml", "component", "list")]
 public record AzMlComponentListOptions : AzOptions
 {
-    [BooleanCommandSwitch("--archived-only")]
+    [CliFlag("--archived-only")]
     public bool? ArchivedOnly { get; set; }
 
-    [BooleanCommandSwitch("--include-archived")]
+    [CliFlag("--include-archived")]
     public bool? IncludeArchived { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public string? MaxResults { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--registry-name")]
+    [CliOption("--registry-name")]
     public string? RegistryName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

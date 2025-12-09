@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("globalaccelerator", "allow-custom-routing-traffic")]
+[CliCommand("globalaccelerator", "allow-custom-routing-traffic")]
 public record AwsGlobalacceleratorAllowCustomRoutingTrafficOptions(
-[property: CommandSwitch("--endpoint-group-arn")] string EndpointGroupArn,
-[property: CommandSwitch("--endpoint-id")] string EndpointId
+[property: CliOption("--endpoint-group-arn")] string EndpointGroupArn,
+[property: CliOption("--endpoint-id")] string EndpointId
 ) : AwsOptions
 {
-    [CommandSwitch("--destination-addresses")]
+    [CliOption("--destination-addresses")]
     public string[]? DestinationAddresses { get; set; }
 
-    [CommandSwitch("--destination-ports")]
+    [CliOption("--destination-ports")]
     public string[]? DestinationPorts { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

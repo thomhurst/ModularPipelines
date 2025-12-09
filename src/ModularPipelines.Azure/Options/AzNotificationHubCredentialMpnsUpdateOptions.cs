@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("notification-hub", "credential", "mpns", "update")]
+[CliSubCommand("notification-hub", "credential", "mpns", "update")]
 public record AzNotificationHubCredentialMpnsUpdateOptions(
-[property: CommandSwitch("--certificate-key")] string CertificateKey,
-[property: CommandSwitch("--mpns-certificate")] string MpnsCertificate,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--certificate-key")] string CertificateKey,
+[property: CliOption("--mpns-certificate")] string MpnsCertificate,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

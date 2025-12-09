@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "untag-server-certificate")]
+[CliCommand("iam", "untag-server-certificate")]
 public record AwsIamUntagServerCertificateOptions(
-[property: CommandSwitch("--server-certificate-name")] string ServerCertificateName,
-[property: CommandSwitch("--tag-keys")] string[] TagKeys
+[property: CliOption("--server-certificate-name")] string ServerCertificateName,
+[property: CliOption("--tag-keys")] string[] TagKeys
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

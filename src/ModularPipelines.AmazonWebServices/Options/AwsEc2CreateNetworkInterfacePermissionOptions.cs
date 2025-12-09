@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-network-interface-permission")]
+[CliCommand("ec2", "create-network-interface-permission")]
 public record AwsEc2CreateNetworkInterfacePermissionOptions(
-[property: CommandSwitch("--network-interface-id")] string NetworkInterfaceId,
-[property: CommandSwitch("--permission")] string Permission
+[property: CliOption("--network-interface-id")] string NetworkInterfaceId,
+[property: CliOption("--permission")] string Permission
 ) : AwsOptions
 {
-    [CommandSwitch("--aws-account-id")]
+    [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; set; }
 
-    [CommandSwitch("--aws-service")]
+    [CliOption("--aws-service")]
     public string? AwsService { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("robomaker", "create-robot-application-version")]
+[CliCommand("robomaker", "create-robot-application-version")]
 public record AwsRobomakerCreateRobotApplicationVersionOptions(
-[property: CommandSwitch("--application")] string Application
+[property: CliOption("--application")] string Application
 ) : AwsOptions
 {
-    [CommandSwitch("--current-revision-id")]
+    [CliOption("--current-revision-id")]
     public string? CurrentRevisionId { get; set; }
 
-    [CommandSwitch("--s3-etags")]
+    [CliOption("--s3-etags")]
     public string[]? S3Etags { get; set; }
 
-    [CommandSwitch("--image-digest")]
+    [CliOption("--image-digest")]
     public string? ImageDigest { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

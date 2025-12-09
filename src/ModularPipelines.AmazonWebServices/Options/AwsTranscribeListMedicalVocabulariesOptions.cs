@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transcribe", "list-medical-vocabularies")]
+[CliCommand("transcribe", "list-medical-vocabularies")]
 public record AwsTranscribeListMedicalVocabulariesOptions : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--state-equals")]
+    [CliOption("--state-equals")]
     public string? StateEquals { get; set; }
 
-    [CommandSwitch("--name-contains")]
+    [CliOption("--name-contains")]
     public string? NameContains { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

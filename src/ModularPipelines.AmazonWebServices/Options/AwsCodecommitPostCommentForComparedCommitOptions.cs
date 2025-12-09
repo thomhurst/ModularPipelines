@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecommit", "post-comment-for-compared-commit")]
+[CliCommand("codecommit", "post-comment-for-compared-commit")]
 public record AwsCodecommitPostCommentForComparedCommitOptions(
-[property: CommandSwitch("--repository-name")] string RepositoryName,
-[property: CommandSwitch("--after-commit-id")] string AfterCommitId,
-[property: CommandSwitch("--content")] string Content
+[property: CliOption("--repository-name")] string RepositoryName,
+[property: CliOption("--after-commit-id")] string AfterCommitId,
+[property: CliOption("--content")] string Content
 ) : AwsOptions
 {
-    [CommandSwitch("--before-commit-id")]
+    [CliOption("--before-commit-id")]
     public string? BeforeCommitId { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ds", "register-certificate")]
+[CliCommand("ds", "register-certificate")]
 public record AwsDsRegisterCertificateOptions(
-[property: CommandSwitch("--directory-id")] string DirectoryId,
-[property: CommandSwitch("--certificate-data")] string CertificateData
+[property: CliOption("--directory-id")] string DirectoryId,
+[property: CliOption("--certificate-data")] string CertificateData
 ) : AwsOptions
 {
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--client-cert-auth-settings")]
+    [CliOption("--client-cert-auth-settings")]
     public string? ClientCertAuthSettings { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

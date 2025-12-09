@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-function", "traffic-collector", "collector-policy", "delete")]
+[CliSubCommand("network-function", "traffic-collector", "collector-policy", "delete")]
 public record AzNetworkFunctionTrafficCollectorCollectorPolicyDeleteOptions : AzOptions
 {
-    [CommandSwitch("--collector-policy-name")]
+    [CliOption("--collector-policy-name")]
     public string? CollectorPolicyName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--traffic-collector-name")]
+    [CliOption("--traffic-collector-name")]
     public string? TrafficCollectorName { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

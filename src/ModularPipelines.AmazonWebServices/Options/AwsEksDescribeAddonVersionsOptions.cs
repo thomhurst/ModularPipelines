@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eks", "describe-addon-versions")]
+[CliCommand("eks", "describe-addon-versions")]
 public record AwsEksDescribeAddonVersionsOptions : AwsOptions
 {
-    [CommandSwitch("--kubernetes-version")]
+    [CliOption("--kubernetes-version")]
     public string? KubernetesVersion { get; set; }
 
-    [CommandSwitch("--addon-name")]
+    [CliOption("--addon-name")]
     public string? AddonName { get; set; }
 
-    [CommandSwitch("--types")]
+    [CliOption("--types")]
     public string[]? Types { get; set; }
 
-    [CommandSwitch("--publishers")]
+    [CliOption("--publishers")]
     public string[]? Publishers { get; set; }
 
-    [CommandSwitch("--owners")]
+    [CliOption("--owners")]
     public string[]? Owners { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

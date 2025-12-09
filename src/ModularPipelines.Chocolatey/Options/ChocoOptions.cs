@@ -7,78 +7,78 @@ namespace ModularPipelines.Chocolatey.Options;
 [ExcludeFromCodeCoverage]
 public record ChocoOptions() : CommandLineToolOptions("choco")
 {
-    [BooleanCommandSwitch("--help")]
+    [CliFlag("--help")]
     public virtual bool? Help { get; set; }
 
-    [BooleanCommandSwitch("--online")]
+    [CliFlag("--online")]
     public virtual bool? Online { get; set; }
 
-    [BooleanCommandSwitch("--debug")]
+    [CliFlag("--debug")]
     public virtual bool? Debug { get; set; }
 
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("--trace")]
+    [CliFlag("--trace")]
     public virtual bool? Trace { get; set; }
 
-    [BooleanCommandSwitch("--no-color")]
+    [CliFlag("--no-color")]
     public virtual bool? NoColor { get; set; }
 
-    [BooleanCommandSwitch("--accept-license")]
+    [CliFlag("--accept-license")]
     public virtual bool? AcceptLicense { get; set; }
 
-    [BooleanCommandSwitch("--confirm")]
+    [CliFlag("--confirm")]
     public virtual bool? Confirm { get; set; } = true;
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--what-if")]
+    [CliFlag("--what-if")]
     public virtual bool? WhatIf { get; set; }
 
-    [BooleanCommandSwitch("--limit-output")]
+    [CliFlag("--limit-output")]
     public virtual bool? LimitOutput { get; set; }
 
-    [CommandSwitch("--execution-timeout")]
+    [CliOption("--execution-timeout")]
     public virtual string? ExecutionTimeout { get; set; }
 
-    [CommandSwitch("--cache-location")]
+    [CliOption("--cache-location")]
     public virtual string? CacheLocation { get; set; }
 
-    [BooleanCommandSwitch("--allow-unofficial-build")]
+    [CliFlag("--allow-unofficial-build")]
     public virtual bool? AllowUnofficialBuild { get; set; }
 
-    [BooleanCommandSwitch("--fail-on-error-output")]
+    [CliFlag("--fail-on-error-output")]
     public virtual bool? FailOnErrorOutput { get; set; }
 
-    [BooleanCommandSwitch("--use-system-powershell")]
+    [CliFlag("--use-system-powershell")]
     public virtual bool? UseSystemPowershell { get; set; }
 
-    [BooleanCommandSwitch("--no-progress")]
+    [CliFlag("--no-progress")]
     public virtual bool? NoProgress { get; set; }
 
-    [CommandSwitch("--proxy")]
+    [CliOption("--proxy")]
     public virtual string? Proxy { get; set; }
 
-    [CommandSwitch("--proxy-user")]
+    [CliOption("--proxy-user")]
     public virtual string? ProxyUser { get; set; }
 
-    [CommandSwitch("--proxy-password")]
+    [CliOption("--proxy-password")]
     public virtual string? ProxyPassword { get; set; }
 
-    [CommandSwitch("--proxy-bypass-list")]
+    [CliOption("--proxy-bypass-list")]
     public virtual string? ProxyBypassList { get; set; }
 
-    [BooleanCommandSwitch("--proxy-bypass-on-local")]
+    [CliFlag("--proxy-bypass-on-local")]
     public virtual bool? ProxyBypassOnLocal { get; set; }
 
-    [CommandSwitch("--log-file")]
+    [CliOption("--log-file")]
     public virtual string? LogFile { get; set; }
 
-    [BooleanCommandSwitch("--skip-compatibility-checks")]
+    [CliFlag("--skip-compatibility-checks")]
     public virtual bool? SkipCompatibilityChecks { get; set; }
 
-    [BooleanCommandSwitch("--ignore-http-cache")]
+    [CliFlag("--ignore-http-cache")]
     public virtual bool? IgnoreHttpCache { get; set; }
 }

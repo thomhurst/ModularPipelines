@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kusto", "attached-database-configuration", "create")]
+[CliSubCommand("kusto", "attached-database-configuration", "create")]
 public record AzKustoAttachedDatabaseConfigurationCreateOptions(
-[property: BooleanCommandSwitch("--attached-database-configuration-name")] bool AttachedDatabaseConfigurationName,
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliFlag("--attached-database-configuration-name")] bool AttachedDatabaseConfigurationName,
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--cluster-resource-id")]
+    [CliOption("--cluster-resource-id")]
     public string? ClusterResourceId { get; set; }
 
-    [CommandSwitch("--database-name")]
+    [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [CommandSwitch("--default-principals-modification-kind")]
+    [CliOption("--default-principals-modification-kind")]
     public string? DefaultPrincipalsModificationKind { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--table-level")]
+    [CliOption("--table-level")]
     public string? TableLevel { get; set; }
 }

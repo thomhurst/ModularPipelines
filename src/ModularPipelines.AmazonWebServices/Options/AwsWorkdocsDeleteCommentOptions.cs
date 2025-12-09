@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workdocs", "delete-comment")]
+[CliCommand("workdocs", "delete-comment")]
 public record AwsWorkdocsDeleteCommentOptions(
-[property: CommandSwitch("--document-id")] string DocumentId,
-[property: CommandSwitch("--version-id")] string VersionId,
-[property: CommandSwitch("--comment-id")] string CommentId
+[property: CliOption("--document-id")] string DocumentId,
+[property: CliOption("--version-id")] string VersionId,
+[property: CliOption("--comment-id")] string CommentId
 ) : AwsOptions
 {
-    [CommandSwitch("--authentication-token")]
+    [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

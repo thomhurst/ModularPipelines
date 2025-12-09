@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("portal")]
+[CliSubCommand("portal")]
 public class AzPortalDashboard
 {
     public AzPortalDashboard(

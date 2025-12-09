@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("inspector-scan", "scan-sbom")]
+[CliCommand("inspector-scan", "scan-sbom")]
 public record AwsInspectorScanScanSbomOptions(
-[property: CommandSwitch("--sbom")] string Sbom
+[property: CliOption("--sbom")] string Sbom
 ) : AwsOptions
 {
-    [CommandSwitch("--output-format")]
+    [CliOption("--output-format")]
     public string? OutputFormat { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

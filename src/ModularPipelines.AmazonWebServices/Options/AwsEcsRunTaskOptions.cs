@@ -4,56 +4,56 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "run-task")]
+[CliCommand("ecs", "run-task")]
 public record AwsEcsRunTaskOptions(
-[property: CommandSwitch("--task-definition")] string TaskDefinition
+[property: CliOption("--task-definition")] string TaskDefinition
 ) : AwsOptions
 {
-    [CommandSwitch("--capacity-provider-strategy")]
+    [CliOption("--capacity-provider-strategy")]
     public string[]? CapacityProviderStrategy { get; set; }
 
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--count")]
+    [CliOption("--count")]
     public int? Count { get; set; }
 
-    [CommandSwitch("--group")]
+    [CliOption("--group")]
     public string? Group { get; set; }
 
-    [CommandSwitch("--launch-type")]
+    [CliOption("--launch-type")]
     public string? LaunchType { get; set; }
 
-    [CommandSwitch("--network-configuration")]
+    [CliOption("--network-configuration")]
     public string? NetworkConfiguration { get; set; }
 
-    [CommandSwitch("--overrides")]
+    [CliOption("--overrides")]
     public string? Overrides { get; set; }
 
-    [CommandSwitch("--placement-constraints")]
+    [CliOption("--placement-constraints")]
     public string[]? PlacementConstraints { get; set; }
 
-    [CommandSwitch("--placement-strategy")]
+    [CliOption("--placement-strategy")]
     public string[]? PlacementStrategy { get; set; }
 
-    [CommandSwitch("--platform-version")]
+    [CliOption("--platform-version")]
     public string? PlatformVersion { get; set; }
 
-    [CommandSwitch("--propagate-tags")]
+    [CliOption("--propagate-tags")]
     public string? PropagateTags { get; set; }
 
-    [CommandSwitch("--reference-id")]
+    [CliOption("--reference-id")]
     public string? ReferenceId { get; set; }
 
-    [CommandSwitch("--started-by")]
+    [CliOption("--started-by")]
     public string? StartedBy { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

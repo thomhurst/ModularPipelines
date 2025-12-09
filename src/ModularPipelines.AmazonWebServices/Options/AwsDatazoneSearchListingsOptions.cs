@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datazone", "search-listings")]
+[CliCommand("datazone", "search-listings")]
 public record AwsDatazoneSearchListingsOptions(
-[property: CommandSwitch("--domain-identifier")] string DomainIdentifier
+[property: CliOption("--domain-identifier")] string DomainIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--additional-attributes")]
+    [CliOption("--additional-attributes")]
     public string[]? AdditionalAttributes { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string? Filters { get; set; }
 
-    [CommandSwitch("--search-in")]
+    [CliOption("--search-in")]
     public string[]? SearchIn { get; set; }
 
-    [CommandSwitch("--search-text")]
+    [CliOption("--search-text")]
     public string? SearchText { get; set; }
 
-    [CommandSwitch("--sort")]
+    [CliOption("--sort")]
     public string? Sort { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "data-collection", "rule", "association", "delete")]
+[CliSubCommand("monitor", "data-collection", "rule", "association", "delete")]
 public record AzMonitorDataCollectionRuleAssociationDeleteOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource")] string Resource
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource")] string Resource
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

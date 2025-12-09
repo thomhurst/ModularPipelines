@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "managed-cluster", "network-security-rule", "add")]
+[CliSubCommand("sf", "managed-cluster", "network-security-rule", "add")]
 public record AzSfManagedClusterNetworkSecurityRuleAddOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--access")]
+    [CliOption("--access")]
     public string? Access { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--dest-addr-prefixes")]
+    [CliOption("--dest-addr-prefixes")]
     public string? DestAddrPrefixes { get; set; }
 
-    [CommandSwitch("--dest-port-ranges")]
+    [CliOption("--dest-port-ranges")]
     public string? DestPortRanges { get; set; }
 
-    [CommandSwitch("--direction")]
+    [CliOption("--direction")]
     public string? Direction { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--source-addr-prefixes")]
+    [CliOption("--source-addr-prefixes")]
     public string? SourceAddrPrefixes { get; set; }
 
-    [CommandSwitch("--source-port-ranges")]
+    [CliOption("--source-port-ranges")]
     public string? SourcePortRanges { get; set; }
 }

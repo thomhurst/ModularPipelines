@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datashare", "consumer-invitation", "list-invitation")]
+[CliSubCommand("datashare", "consumer-invitation", "list-invitation")]
 public record AzDatashareConsumerInvitationListInvitationOptions : AzOptions
 {
-    [CommandSwitch("--skip-token")]
+    [CliOption("--skip-token")]
     public string? SkipToken { get; set; }
 }

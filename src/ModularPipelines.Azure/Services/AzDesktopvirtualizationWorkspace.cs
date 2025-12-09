@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("desktopvirtualization")]
+[CliSubCommand("desktopvirtualization")]
 public class AzDesktopvirtualizationWorkspace
 {
     public AzDesktopvirtualizationWorkspace(

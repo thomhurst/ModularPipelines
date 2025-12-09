@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sso-admin", "provision-permission-set")]
+[CliCommand("sso-admin", "provision-permission-set")]
 public record AwsSsoAdminProvisionPermissionSetOptions(
-[property: CommandSwitch("--instance-arn")] string InstanceArn,
-[property: CommandSwitch("--permission-set-arn")] string PermissionSetArn,
-[property: CommandSwitch("--target-type")] string TargetType
+[property: CliOption("--instance-arn")] string InstanceArn,
+[property: CliOption("--permission-set-arn")] string PermissionSetArn,
+[property: CliOption("--target-type")] string TargetType
 ) : AwsOptions
 {
-    [CommandSwitch("--target-id")]
+    [CliOption("--target-id")]
     public string? TargetId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

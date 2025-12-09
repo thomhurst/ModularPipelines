@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53resolver", "get-resolver-query-log-config")]
+[CliCommand("route53resolver", "get-resolver-query-log-config")]
 public record AwsRoute53resolverGetResolverQueryLogConfigOptions(
-[property: CommandSwitch("--resolver-query-log-config-id")] string ResolverQueryLogConfigId
+[property: CliOption("--resolver-query-log-config-id")] string ResolverQueryLogConfigId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

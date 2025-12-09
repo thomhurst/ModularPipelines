@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amp", "wait", "scraper-deleted")]
+[CliCommand("amp", "wait", "scraper-deleted")]
 public record AwsAmpWaitScraperDeletedOptions(
-[property: CommandSwitch("--scraper-id")] string ScraperId
+[property: CliOption("--scraper-id")] string ScraperId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

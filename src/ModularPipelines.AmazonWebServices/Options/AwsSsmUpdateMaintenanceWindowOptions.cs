@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "update-maintenance-window")]
+[CliCommand("ssm", "update-maintenance-window")]
 public record AwsSsmUpdateMaintenanceWindowOptions(
-[property: CommandSwitch("--window-id")] string WindowId
+[property: CliOption("--window-id")] string WindowId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--start-date")]
+    [CliOption("--start-date")]
     public string? StartDate { get; set; }
 
-    [CommandSwitch("--end-date")]
+    [CliOption("--end-date")]
     public string? EndDate { get; set; }
 
-    [CommandSwitch("--schedule")]
+    [CliOption("--schedule")]
     public string? Schedule { get; set; }
 
-    [CommandSwitch("--schedule-timezone")]
+    [CliOption("--schedule-timezone")]
     public string? ScheduleTimezone { get; set; }
 
-    [CommandSwitch("--schedule-offset")]
+    [CliOption("--schedule-offset")]
     public int? ScheduleOffset { get; set; }
 
-    [CommandSwitch("--duration")]
+    [CliOption("--duration")]
     public int? Duration { get; set; }
 
-    [CommandSwitch("--cutoff")]
+    [CliOption("--cutoff")]
     public int? Cutoff { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

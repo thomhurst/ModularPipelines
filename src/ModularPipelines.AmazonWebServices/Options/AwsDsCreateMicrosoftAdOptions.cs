@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ds", "create-microsoft-ad")]
+[CliCommand("ds", "create-microsoft-ad")]
 public record AwsDsCreateMicrosoftAdOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--password")] string Password,
-[property: CommandSwitch("--vpc-settings")] string VpcSettings
+[property: CliOption("--name")] string Name,
+[property: CliOption("--password")] string Password,
+[property: CliOption("--vpc-settings")] string VpcSettings
 ) : AwsOptions
 {
-    [CommandSwitch("--short-name")]
+    [CliOption("--short-name")]
     public string? ShortName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--edition")]
+    [CliOption("--edition")]
     public string? Edition { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

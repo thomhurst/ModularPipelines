@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fleet", "member", "list")]
+[CliSubCommand("fleet", "member", "list")]
 public record AzFleetMemberListOptions(
-[property: CommandSwitch("--fleet-name")] string FleetName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--fleet-name")] string FleetName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

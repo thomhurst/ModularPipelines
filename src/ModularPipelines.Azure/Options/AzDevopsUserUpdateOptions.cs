@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops", "user", "update")]
+[CliSubCommand("devops", "user", "update")]
 public record AzDevopsUserUpdateOptions(
-[property: CommandSwitch("--license-type")] string LicenseType,
-[property: CommandSwitch("--user")] string User
+[property: CliOption("--license-type")] string LicenseType,
+[property: CliOption("--user")] string User
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 }

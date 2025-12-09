@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("service-quotas", "list-requested-service-quota-change-history-by-quota")]
+[CliCommand("service-quotas", "list-requested-service-quota-change-history-by-quota")]
 public record AwsServiceQuotasListRequestedServiceQuotaChangeHistoryByQuotaOptions(
-[property: CommandSwitch("--service-code")] string ServiceCode,
-[property: CommandSwitch("--quota-code")] string QuotaCode
+[property: CliOption("--service-code")] string ServiceCode,
+[property: CliOption("--quota-code")] string QuotaCode
 ) : AwsOptions
 {
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--quota-requested-at-level")]
+    [CliOption("--quota-requested-at-level")]
     public string? QuotaRequestedAtLevel { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

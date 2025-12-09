@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediastore", "put-metric-policy")]
+[CliCommand("mediastore", "put-metric-policy")]
 public record AwsMediastorePutMetricPolicyOptions(
-[property: CommandSwitch("--container-name")] string ContainerName,
-[property: CommandSwitch("--metric-policy")] string MetricPolicy
+[property: CliOption("--container-name")] string ContainerName,
+[property: CliOption("--metric-policy")] string MetricPolicy
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

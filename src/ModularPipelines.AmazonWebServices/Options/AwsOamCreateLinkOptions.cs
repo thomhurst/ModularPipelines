@@ -5,16 +5,16 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("oam", "create-link")]
+[CliCommand("oam", "create-link")]
 public record AwsOamCreateLinkOptions(
-[property: CommandSwitch("--label-template")] string LabelTemplate,
-[property: CommandSwitch("--resource-types")] string[] ResourceTypes,
-[property: CommandSwitch("--sink-identifier")] string SinkIdentifier
+[property: CliOption("--label-template")] string LabelTemplate,
+[property: CliOption("--resource-types")] string[] ResourceTypes,
+[property: CliOption("--sink-identifier")] string SinkIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

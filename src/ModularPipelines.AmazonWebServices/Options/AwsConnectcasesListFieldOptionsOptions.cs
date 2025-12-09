@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectcases", "list-field-options")]
+[CliCommand("connectcases", "list-field-options")]
 public record AwsConnectcasesListFieldOptionsOptions(
-[property: CommandSwitch("--domain-id")] string DomainId,
-[property: CommandSwitch("--field-id")] string FieldId
+[property: CliOption("--domain-id")] string DomainId,
+[property: CliOption("--field-id")] string FieldId
 ) : AwsOptions
 {
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--values")]
+    [CliOption("--values")]
     public string[]? Values { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

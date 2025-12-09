@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qbusiness", "update-web-experience")]
+[CliCommand("qbusiness", "update-web-experience")]
 public record AwsQbusinessUpdateWebExperienceOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--web-experience-id")] string WebExperienceId
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--web-experience-id")] string WebExperienceId
 ) : AwsOptions
 {
-    [CommandSwitch("--authentication-configuration")]
+    [CliOption("--authentication-configuration")]
     public string? AuthenticationConfiguration { get; set; }
 
-    [CommandSwitch("--sample-prompts-control-mode")]
+    [CliOption("--sample-prompts-control-mode")]
     public string? SamplePromptsControlMode { get; set; }
 
-    [CommandSwitch("--subtitle")]
+    [CliOption("--subtitle")]
     public string? Subtitle { get; set; }
 
-    [CommandSwitch("--title")]
+    [CliOption("--title")]
     public string? Title { get; set; }
 
-    [CommandSwitch("--welcome-message")]
+    [CliOption("--welcome-message")]
     public string? WelcomeMessage { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

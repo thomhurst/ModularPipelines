@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("secretsmanager", "validate-resource-policy")]
+[CliCommand("secretsmanager", "validate-resource-policy")]
 public record AwsSecretsmanagerValidateResourcePolicyOptions(
-[property: CommandSwitch("--resource-policy")] string ResourcePolicy
+[property: CliOption("--resource-policy")] string ResourcePolicy
 ) : AwsOptions
 {
-    [CommandSwitch("--secret-id")]
+    [CliOption("--secret-id")]
     public string? SecretId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

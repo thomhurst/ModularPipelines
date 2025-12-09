@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automation", "software-update-configuration", "machine-runs", "show")]
+[CliSubCommand("automation", "software-update-configuration", "machine-runs", "show")]
 public record AzAutomationSoftwareUpdateConfigurationMachineRunsShowOptions(
-[property: CommandSwitch("--automation-account-name")] int AutomationAccountName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--software-update-configuration-machine-run-id")] string SoftwareUpdateConfigurationMachineRunId
+[property: CliOption("--automation-account-name")] int AutomationAccountName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--software-update-configuration-machine-run-id")] string SoftwareUpdateConfigurationMachineRunId
 ) : AzOptions;

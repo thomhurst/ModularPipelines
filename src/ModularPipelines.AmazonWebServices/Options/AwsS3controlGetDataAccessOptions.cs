@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3control", "get-data-access")]
+[CliCommand("s3control", "get-data-access")]
 public record AwsS3controlGetDataAccessOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--target")] string Target,
-[property: CommandSwitch("--permission")] string Permission
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--target")] string Target,
+[property: CliOption("--permission")] string Permission
 ) : AwsOptions
 {
-    [CommandSwitch("--duration-seconds")]
+    [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
-    [CommandSwitch("--privilege")]
+    [CliOption("--privilege")]
     public string? Privilege { get; set; }
 
-    [CommandSwitch("--target-type")]
+    [CliOption("--target-type")]
     public string? TargetType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

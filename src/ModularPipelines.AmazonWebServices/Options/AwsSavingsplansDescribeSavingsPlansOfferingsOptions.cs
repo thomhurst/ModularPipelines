@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("savingsplans", "describe-savings-plans-offerings")]
+[CliCommand("savingsplans", "describe-savings-plans-offerings")]
 public record AwsSavingsplansDescribeSavingsPlansOfferingsOptions : AwsOptions
 {
-    [CommandSwitch("--offering-ids")]
+    [CliOption("--offering-ids")]
     public string[]? OfferingIds { get; set; }
 
-    [CommandSwitch("--payment-options")]
+    [CliOption("--payment-options")]
     public string[]? PaymentOptions { get; set; }
 
-    [CommandSwitch("--product-type")]
+    [CliOption("--product-type")]
     public string? ProductType { get; set; }
 
-    [CommandSwitch("--plan-types")]
+    [CliOption("--plan-types")]
     public string[]? PlanTypes { get; set; }
 
-    [CommandSwitch("--durations")]
+    [CliOption("--durations")]
     public string[]? Durations { get; set; }
 
-    [CommandSwitch("--currencies")]
+    [CliOption("--currencies")]
     public string[]? Currencies { get; set; }
 
-    [CommandSwitch("--descriptions")]
+    [CliOption("--descriptions")]
     public string[]? Descriptions { get; set; }
 
-    [CommandSwitch("--service-codes")]
+    [CliOption("--service-codes")]
     public string[]? ServiceCodes { get; set; }
 
-    [CommandSwitch("--usage-types")]
+    [CliOption("--usage-types")]
     public string[]? UsageTypes { get; set; }
 
-    [CommandSwitch("--operations")]
+    [CliOption("--operations")]
     public string[]? Operations { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("grafana", "describe-workspace-authentication")]
+[CliCommand("grafana", "describe-workspace-authentication")]
 public record AwsGrafanaDescribeWorkspaceAuthenticationOptions(
-[property: CommandSwitch("--workspace-id")] string WorkspaceId
+[property: CliOption("--workspace-id")] string WorkspaceId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

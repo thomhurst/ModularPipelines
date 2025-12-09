@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "ssl-profile", "add")]
+[CliSubCommand("network", "application-gateway", "ssl-profile", "add")]
 public record AzNetworkApplicationGatewaySslProfileAddOptions(
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--cipher-suites")]
+    [CliOption("--cipher-suites")]
     public string? CipherSuites { get; set; }
 
-    [BooleanCommandSwitch("--client-auth-config")]
+    [CliFlag("--client-auth-config")]
     public bool? ClientAuthConfig { get; set; }
 
-    [BooleanCommandSwitch("--disabled-protocols")]
+    [CliFlag("--disabled-protocols")]
     public bool? DisabledProtocols { get; set; }
 
-    [CommandSwitch("--min-protocol-version")]
+    [CliOption("--min-protocol-version")]
     public string? MinProtocolVersion { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--policy-name")]
+    [CliOption("--policy-name")]
     public string? PolicyName { get; set; }
 
-    [CommandSwitch("--policy-type")]
+    [CliOption("--policy-type")]
     public string? PolicyType { get; set; }
 
-    [CommandSwitch("--trusted-client-cert")]
+    [CliOption("--trusted-client-cert")]
     public string? TrustedClientCert { get; set; }
 }

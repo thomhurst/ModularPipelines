@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wisdom", "update-content")]
+[CliCommand("wisdom", "update-content")]
 public record AwsWisdomUpdateContentOptions(
-[property: CommandSwitch("--content-id")] string ContentId,
-[property: CommandSwitch("--knowledge-base-id")] string KnowledgeBaseId
+[property: CliOption("--content-id")] string ContentId,
+[property: CliOption("--knowledge-base-id")] string KnowledgeBaseId
 ) : AwsOptions
 {
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public IEnumerable<KeyValue>? Metadata { get; set; }
 
-    [CommandSwitch("--override-link-out-uri")]
+    [CliOption("--override-link-out-uri")]
     public string? OverrideLinkOutUri { get; set; }
 
-    [CommandSwitch("--revision-id")]
+    [CliOption("--revision-id")]
     public string? RevisionId { get; set; }
 
-    [CommandSwitch("--title")]
+    [CliOption("--title")]
     public string? Title { get; set; }
 
-    [CommandSwitch("--upload-id")]
+    [CliOption("--upload-id")]
     public string? UploadId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

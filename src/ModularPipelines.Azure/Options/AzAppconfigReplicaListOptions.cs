@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appconfig", "replica", "list")]
+[CliSubCommand("appconfig", "replica", "list")]
 public record AzAppconfigReplicaListOptions(
-[property: CommandSwitch("--store-name")] string StoreName
+[property: CliOption("--store-name")] string StoreName
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

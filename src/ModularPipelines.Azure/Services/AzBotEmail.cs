@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bot")]
+[CliSubCommand("bot")]
 public class AzBotEmail
 {
     public AzBotEmail(

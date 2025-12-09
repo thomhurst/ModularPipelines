@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutequipment", "update-retraining-scheduler")]
+[CliCommand("lookoutequipment", "update-retraining-scheduler")]
 public record AwsLookoutequipmentUpdateRetrainingSchedulerOptions(
-[property: CommandSwitch("--model-name")] string ModelName
+[property: CliOption("--model-name")] string ModelName
 ) : AwsOptions
 {
-    [CommandSwitch("--retraining-start-date")]
+    [CliOption("--retraining-start-date")]
     public long? RetrainingStartDate { get; set; }
 
-    [CommandSwitch("--retraining-frequency")]
+    [CliOption("--retraining-frequency")]
     public string? RetrainingFrequency { get; set; }
 
-    [CommandSwitch("--lookback-window")]
+    [CliOption("--lookback-window")]
     public string? LookbackWindow { get; set; }
 
-    [CommandSwitch("--promote-mode")]
+    [CliOption("--promote-mode")]
     public string? PromoteMode { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

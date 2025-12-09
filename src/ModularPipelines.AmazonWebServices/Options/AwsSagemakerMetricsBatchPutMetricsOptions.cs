@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker-metrics", "batch-put-metrics")]
+[CliCommand("sagemaker-metrics", "batch-put-metrics")]
 public record AwsSagemakerMetricsBatchPutMetricsOptions(
-[property: CommandSwitch("--trial-component-name")] string TrialComponentName,
-[property: CommandSwitch("--metric-data")] string[] MetricData
+[property: CliOption("--trial-component-name")] string TrialComponentName,
+[property: CliOption("--metric-data")] string[] MetricData
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

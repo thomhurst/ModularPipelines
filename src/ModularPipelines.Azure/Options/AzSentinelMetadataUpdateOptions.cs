@@ -4,93 +4,93 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "metadata", "update")]
+[CliSubCommand("sentinel", "metadata", "update")]
 public record AzSentinelMetadataUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--author")]
+    [CliOption("--author")]
     public string? Author { get; set; }
 
-    [CommandSwitch("--categories")]
+    [CliOption("--categories")]
     public string? Categories { get; set; }
 
-    [CommandSwitch("--content-id")]
+    [CliOption("--content-id")]
     public string? ContentId { get; set; }
 
-    [CommandSwitch("--content-schema-version")]
+    [CliOption("--content-schema-version")]
     public string? ContentSchemaVersion { get; set; }
 
-    [CommandSwitch("--custom-version")]
+    [CliOption("--custom-version")]
     public string? CustomVersion { get; set; }
 
-    [CommandSwitch("--dependencies")]
+    [CliOption("--dependencies")]
     public string? Dependencies { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [CommandSwitch("--first-publish-date")]
+    [CliOption("--first-publish-date")]
     public string? FirstPublishDate { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--icon")]
+    [CliOption("--icon")]
     public string? Icon { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--kind")]
+    [CliOption("--kind")]
     public string? Kind { get; set; }
 
-    [CommandSwitch("--last-publish-date")]
+    [CliOption("--last-publish-date")]
     public string? LastPublishDate { get; set; }
 
-    [CommandSwitch("--metadata-name")]
+    [CliOption("--metadata-name")]
     public string? MetadataName { get; set; }
 
-    [CommandSwitch("--parent-id")]
+    [CliOption("--parent-id")]
     public string? ParentId { get; set; }
 
-    [CommandSwitch("--preview-images")]
+    [CliOption("--preview-images")]
     public string? PreviewImages { get; set; }
 
-    [CommandSwitch("--preview-images-dark")]
+    [CliOption("--preview-images-dark")]
     public string? PreviewImagesDark { get; set; }
 
-    [CommandSwitch("--providers")]
+    [CliOption("--providers")]
     public string? Providers { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--support")]
+    [CliOption("--support")]
     public string? Support { get; set; }
 
-    [CommandSwitch("--threat-tactics")]
+    [CliOption("--threat-tactics")]
     public string? ThreatTactics { get; set; }
 
-    [CommandSwitch("--threat-techniques")]
+    [CliOption("--threat-techniques")]
     public string? ThreatTechniques { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ram", "create-permission")]
+[CliCommand("ram", "create-permission")]
 public record AwsRamCreatePermissionOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-type")] string ResourceType,
-[property: CommandSwitch("--policy-template")] string PolicyTemplate
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-type")] string ResourceType,
+[property: CliOption("--policy-template")] string PolicyTemplate
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

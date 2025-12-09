@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("memorydb", "batch-update-cluster")]
+[CliCommand("memorydb", "batch-update-cluster")]
 public record AwsMemorydbBatchUpdateClusterOptions(
-[property: CommandSwitch("--cluster-names")] string[] ClusterNames
+[property: CliOption("--cluster-names")] string[] ClusterNames
 ) : AwsOptions
 {
-    [CommandSwitch("--service-update")]
+    [CliOption("--service-update")]
     public string? ServiceUpdate { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

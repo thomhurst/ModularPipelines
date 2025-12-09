@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "batch-get-dev-endpoints")]
+[CliCommand("glue", "batch-get-dev-endpoints")]
 public record AwsGlueBatchGetDevEndpointsOptions(
-[property: CommandSwitch("--dev-endpoint-names")] string[] DevEndpointNames
+[property: CliOption("--dev-endpoint-names")] string[] DevEndpointNames
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

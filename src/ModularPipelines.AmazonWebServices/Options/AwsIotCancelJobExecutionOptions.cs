@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "cancel-job-execution")]
+[CliCommand("iot", "cancel-job-execution")]
 public record AwsIotCancelJobExecutionOptions(
-[property: CommandSwitch("--job-id")] string JobId,
-[property: CommandSwitch("--thing-name")] string ThingName
+[property: CliOption("--job-id")] string JobId,
+[property: CliOption("--thing-name")] string ThingName
 ) : AwsOptions
 {
-    [CommandSwitch("--expected-version")]
+    [CliOption("--expected-version")]
     public long? ExpectedVersion { get; set; }
 
-    [CommandSwitch("--status-details")]
+    [CliOption("--status-details")]
     public IEnumerable<KeyValue>? StatusDetails { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

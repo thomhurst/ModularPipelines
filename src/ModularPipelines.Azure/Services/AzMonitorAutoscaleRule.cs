@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "autoscale")]
+[CliCommand("monitor", "autoscale")]
 public class AzMonitorAutoscaleRule
 {
     public AzMonitorAutoscaleRule(

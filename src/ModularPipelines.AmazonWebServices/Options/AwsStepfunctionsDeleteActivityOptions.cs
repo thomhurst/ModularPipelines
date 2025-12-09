@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stepfunctions", "delete-activity")]
+[CliCommand("stepfunctions", "delete-activity")]
 public record AwsStepfunctionsDeleteActivityOptions(
-[property: CommandSwitch("--activity-arn")] string ActivityArn
+[property: CliOption("--activity-arn")] string ActivityArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

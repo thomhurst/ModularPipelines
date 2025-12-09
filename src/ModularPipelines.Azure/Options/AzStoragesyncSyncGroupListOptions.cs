@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagesync", "sync-group", "list")]
+[CliSubCommand("storagesync", "sync-group", "list")]
 public record AzStoragesyncSyncGroupListOptions(
-[property: CommandSwitch("--storage-sync-service")] string StorageSyncService
+[property: CliOption("--storage-sync-service")] string StorageSyncService
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

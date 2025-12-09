@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "describe-jobs")]
+[CliCommand("batch", "describe-jobs")]
 public record AwsBatchDescribeJobsOptions(
-[property: CommandSwitch("--jobs")] string[] Jobs
+[property: CliOption("--jobs")] string[] Jobs
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

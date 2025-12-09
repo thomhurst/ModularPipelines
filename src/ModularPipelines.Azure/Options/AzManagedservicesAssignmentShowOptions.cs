@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managedservices", "assignment", "show")]
+[CliSubCommand("managedservices", "assignment", "show")]
 public record AzManagedservicesAssignmentShowOptions(
-[property: CommandSwitch("--assignment")] string Assignment
+[property: CliOption("--assignment")] string Assignment
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--include-definition")]
+    [CliFlag("--include-definition")]
     public bool? IncludeDefinition { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

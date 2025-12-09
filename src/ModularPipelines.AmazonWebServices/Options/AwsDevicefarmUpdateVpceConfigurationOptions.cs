@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devicefarm", "update-vpce-configuration")]
+[CliCommand("devicefarm", "update-vpce-configuration")]
 public record AwsDevicefarmUpdateVpceConfigurationOptions(
-[property: CommandSwitch("--arn")] string Arn
+[property: CliOption("--arn")] string Arn
 ) : AwsOptions
 {
-    [CommandSwitch("--vpce-configuration-name")]
+    [CliOption("--vpce-configuration-name")]
     public string? VpceConfigurationName { get; set; }
 
-    [CommandSwitch("--vpce-service-name")]
+    [CliOption("--vpce-service-name")]
     public string? VpceServiceName { get; set; }
 
-    [CommandSwitch("--service-dns-name")]
+    [CliOption("--service-dns-name")]
     public string? ServiceDnsName { get; set; }
 
-    [CommandSwitch("--vpce-configuration-description")]
+    [CliOption("--vpce-configuration-description")]
     public string? VpceConfigurationDescription { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

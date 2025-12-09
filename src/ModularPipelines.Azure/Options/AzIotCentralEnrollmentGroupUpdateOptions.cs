@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "central", "enrollment-group", "update")]
+[CliSubCommand("iot", "central", "enrollment-group", "update")]
 public record AzIotCentralEnrollmentGroupUpdateOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--group-id")] string GroupId
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--group-id")] string GroupId
 ) : AzOptions
 {
-    [CommandSwitch("--central-api-uri")]
+    [CliOption("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 
-    [CommandSwitch("--certificate-entry")]
+    [CliOption("--certificate-entry")]
     public string? CertificateEntry { get; set; }
 
-    [CommandSwitch("--certificate-path")]
+    [CliOption("--certificate-path")]
     public string? CertificatePath { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [CommandSwitch("--provisioning-status")]
+    [CliOption("--provisioning-status")]
     public string? ProvisioningStatus { get; set; }
 
-    [BooleanCommandSwitch("--remove-x509")]
+    [CliFlag("--remove-x509")]
     public bool? RemoveX509 { get; set; }
 
-    [CommandSwitch("--scp")]
+    [CliOption("--scp")]
     public string? Scp { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 }

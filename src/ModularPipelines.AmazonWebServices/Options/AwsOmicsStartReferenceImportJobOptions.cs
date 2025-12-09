@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("omics", "start-reference-import-job")]
+[CliCommand("omics", "start-reference-import-job")]
 public record AwsOmicsStartReferenceImportJobOptions(
-[property: CommandSwitch("--reference-store-id")] string ReferenceStoreId,
-[property: CommandSwitch("--role-arn")] string RoleArn,
-[property: CommandSwitch("--sources")] string[] Sources
+[property: CliOption("--reference-store-id")] string ReferenceStoreId,
+[property: CliOption("--role-arn")] string RoleArn,
+[property: CliOption("--sources")] string[] Sources
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

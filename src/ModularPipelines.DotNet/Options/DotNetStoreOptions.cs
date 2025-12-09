@@ -21,36 +21,36 @@ public record DotNetStoreOptions : DotNetOptions
         RuntimeIdentifier = runtimeIdentifier;
     }
 
-    [BooleanCommandSwitch("--manifest")]
+    [CliFlag("--manifest")]
     public virtual bool? Manifest { get; set; }
 
-    [PositionalArgument(PlaceholderName = "<PATH_TO_MANIFEST_FILE>")]
-    public string? PathToManifestFile { get; set; }
+    [CliArgument(Name = "<PATH_TO_MANIFEST_FILE>")]
+    public virtual string? PathToManifestFile { get; set; }
 
-    [BooleanCommandSwitch("--framework")]
+    [CliFlag("--framework")]
     public virtual bool? Framework { get; set; }
 
-    [PositionalArgument(PlaceholderName = "<FRAMEWORK_VERSION>")]
-    public string? FrameworkVersion { get; set; }
+    [CliArgument(Name = "<FRAMEWORK_VERSION>")]
+    public virtual string? FrameworkVersion { get; set; }
 
-    [BooleanCommandSwitch("--runtime")]
+    [CliFlag("--runtime")]
     public virtual bool? Runtime { get; set; }
 
-    [PositionalArgument(PlaceholderName = "<RUNTIME_IDENTIFIER>")]
-    public string? RuntimeIdentifier { get; set; }
+    [CliArgument(Name = "<RUNTIME_IDENTIFIER>")]
+    public virtual string? RuntimeIdentifier { get; set; }
 
-    [CommandSwitch("--output")]
+    [CliOption("--output")]
     public virtual string? OutputDirectory { get; set; }
 
-    [BooleanCommandSwitch("--skip-optimization")]
+    [CliFlag("--skip-optimization")]
     public virtual bool? SkipOptimization { get; set; }
 
-    [BooleanCommandSwitch("--skip-symbols")]
+    [CliFlag("--skip-symbols")]
     public virtual bool? SkipSymbols { get; set; }
 
-    [CommandSwitch("--verbosity")]
+    [CliOption("--verbosity")]
     public virtual string? Verbosity { get; set; }
 
-    [CommandSwitch("--working-dir")]
+    [CliOption("--working-dir")]
     public virtual string? StoreWorkingDirectory { get; set; }
 }

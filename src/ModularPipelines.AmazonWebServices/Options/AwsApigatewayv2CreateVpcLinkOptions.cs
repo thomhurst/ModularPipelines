@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigatewayv2", "create-vpc-link")]
+[CliCommand("apigatewayv2", "create-vpc-link")]
 public record AwsApigatewayv2CreateVpcLinkOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--subnet-ids")] string[] SubnetIds
+[property: CliOption("--name")] string Name,
+[property: CliOption("--subnet-ids")] string[] SubnetIds
 ) : AwsOptions
 {
-    [CommandSwitch("--security-group-ids")]
+    [CliOption("--security-group-ids")]
     public string[]? SecurityGroupIds { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

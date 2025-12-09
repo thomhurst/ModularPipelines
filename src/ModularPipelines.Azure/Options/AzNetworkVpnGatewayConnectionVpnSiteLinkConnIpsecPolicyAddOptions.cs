@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vpn-gateway", "connection", "vpn-site-link-conn", "ipsec-policy", "add")]
+[CliSubCommand("network", "vpn-gateway", "connection", "vpn-site-link-conn", "ipsec-policy", "add")]
 public record AzNetworkVpnGatewayConnectionVpnSiteLinkConnIpsecPolicyAddOptions(
-[property: CommandSwitch("--dh-group")] string DhGroup,
-[property: CommandSwitch("--ike-encryption")] string IkeEncryption,
-[property: CommandSwitch("--ike-integrity")] string IkeIntegrity,
-[property: CommandSwitch("--ipsec-encryption")] string IpsecEncryption,
-[property: CommandSwitch("--ipsec-integrity")] string IpsecIntegrity,
-[property: CommandSwitch("--pfs-group")] string PfsGroup,
-[property: CommandSwitch("--sa-data-size")] string SaDataSize,
-[property: CommandSwitch("--sa-lifetime")] string SaLifetime
+[property: CliOption("--dh-group")] string DhGroup,
+[property: CliOption("--ike-encryption")] string IkeEncryption,
+[property: CliOption("--ike-integrity")] string IkeIntegrity,
+[property: CliOption("--ipsec-encryption")] string IpsecEncryption,
+[property: CliOption("--ipsec-integrity")] string IpsecIntegrity,
+[property: CliOption("--pfs-group")] string PfsGroup,
+[property: CliOption("--sa-data-size")] string SaDataSize,
+[property: CliOption("--sa-lifetime")] string SaLifetime
 ) : AzOptions
 {
-    [CommandSwitch("--connection-name")]
+    [CliOption("--connection-name")]
     public string? ConnectionName { get; set; }
 
-    [CommandSwitch("--gateway-name")]
+    [CliOption("--gateway-name")]
     public string? GatewayName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

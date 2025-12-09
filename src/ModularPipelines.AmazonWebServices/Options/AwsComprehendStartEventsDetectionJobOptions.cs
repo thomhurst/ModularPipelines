@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("comprehend", "start-events-detection-job")]
+[CliCommand("comprehend", "start-events-detection-job")]
 public record AwsComprehendStartEventsDetectionJobOptions(
-[property: CommandSwitch("--input-data-config")] string InputDataConfig,
-[property: CommandSwitch("--output-data-config")] string OutputDataConfig,
-[property: CommandSwitch("--data-access-role-arn")] string DataAccessRoleArn,
-[property: CommandSwitch("--language-code")] string LanguageCode,
-[property: CommandSwitch("--target-event-types")] string[] TargetEventTypes
+[property: CliOption("--input-data-config")] string InputDataConfig,
+[property: CliOption("--output-data-config")] string OutputDataConfig,
+[property: CliOption("--data-access-role-arn")] string DataAccessRoleArn,
+[property: CliOption("--language-code")] string LanguageCode,
+[property: CliOption("--target-event-types")] string[] TargetEventTypes
 ) : AwsOptions
 {
-    [CommandSwitch("--job-name")]
+    [CliOption("--job-name")]
     public string? JobName { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

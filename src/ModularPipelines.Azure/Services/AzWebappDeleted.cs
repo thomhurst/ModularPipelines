@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp")]
+[CliSubCommand("webapp")]
 public class AzWebappDeleted
 {
     public AzWebappDeleted(

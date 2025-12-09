@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("discovery", "start-import-task")]
+[CliCommand("discovery", "start-import-task")]
 public record AwsDiscoveryStartImportTaskOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--import-url")] string ImportUrl
+[property: CliOption("--name")] string Name,
+[property: CliOption("--import-url")] string ImportUrl
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

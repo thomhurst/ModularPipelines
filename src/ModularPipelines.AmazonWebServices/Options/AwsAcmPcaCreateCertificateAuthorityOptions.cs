@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acm-pca", "create-certificate-authority")]
+[CliCommand("acm-pca", "create-certificate-authority")]
 public record AwsAcmPcaCreateCertificateAuthorityOptions(
-[property: CommandSwitch("--certificate-authority-configuration")] string CertificateAuthorityConfiguration,
-[property: CommandSwitch("--certificate-authority-type")] string CertificateAuthorityType
+[property: CliOption("--certificate-authority-configuration")] string CertificateAuthorityConfiguration,
+[property: CliOption("--certificate-authority-type")] string CertificateAuthorityType
 ) : AwsOptions
 {
-    [CommandSwitch("--revocation-configuration")]
+    [CliOption("--revocation-configuration")]
     public string? RevocationConfiguration { get; set; }
 
-    [CommandSwitch("--idempotency-token")]
+    [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
-    [CommandSwitch("--key-storage-security-standard")]
+    [CliOption("--key-storage-security-standard")]
     public string? KeyStorageSecurityStandard { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--usage-mode")]
+    [CliOption("--usage-mode")]
     public string? UsageMode { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

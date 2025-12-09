@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "token")]
+[CliCommand("acr", "token")]
 public class AzAcrTokenCredential
 {
     public AzAcrTokenCredential(

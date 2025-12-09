@@ -4,49 +4,52 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Engine;
 
 /// <summary>
-/// Manages eager parallel scheduling of modules using channels
+/// Manages eager parallel scheduling of modules using channels.
 /// </summary>
 internal interface IModuleScheduler : IDisposable
 {
     /// <summary>
-    /// Gets the channel reader for consuming ready modules
+    /// Gets the channel reader for consuming ready modules.
     /// </summary>
     ChannelReader<ModuleState> ReadyModules { get; }
 
     /// <summary>
-    /// Initializes module states for a collection of modules
+    /// Initializes module states for a collection of modules.
     /// </summary>
     void InitializeModules(IEnumerable<IModule> modules);
 
     /// <summary>
-    /// Starts the scheduler loop that continuously queues ready modules
+    /// Starts the scheduler loop that continuously queues ready modules.
     /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     Task RunSchedulerAsync(CancellationToken cancellationToken);
 
     /// <summary>
-    /// Marks a module as started execution
+    /// Marks a module as started execution.
     /// </summary>
-    /// <returns>True if the module can proceed with execution, false if constraints prevent execution</returns>
+    /// <returns>True if the module can proceed with execution, false if constraints prevent execution.</returns>
     bool MarkModuleStarted(Type moduleType);
 
     /// <summary>
-    /// Marks a module as completed and notifies dependents
+    /// Marks a module as completed and notifies dependents.
     /// </summary>
     void MarkModuleCompleted(Type moduleType, bool success, Exception? exception = null);
 
     /// <summary>
-    /// Gets the completion task for a specific module
+    /// Gets the completion task for a specific module.
     /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     Task<IModule>? GetModuleCompletionTask(Type moduleType);
 
     /// <summary>
-    /// Gets the state for a specific module
+    /// Gets the state for a specific module.
     /// </summary>
+    /// <returns></returns>
     ModuleState? GetModuleState(Type moduleType);
 
     /// <summary>
     /// Cancels all modules that are queued or pending (not yet executing)
-    /// This is used when the pipeline is cancelled to ensure TaskCompletionSources are properly completed
+    /// This is used when the pipeline is cancelled to ensure TaskCompletionSources are properly completed.
     /// </summary>
     void CancelPendingModules();
 }

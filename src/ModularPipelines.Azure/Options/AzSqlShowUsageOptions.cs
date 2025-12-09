@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "show-usage")]
+[CliSubCommand("sql", "show-usage")]
 public record AzSqlShowUsageOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--usage")] string Usage
+[property: CliOption("--location")] string Location,
+[property: CliOption("--usage")] string Usage
 ) : AzOptions;

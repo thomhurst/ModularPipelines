@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("install")]
+[CliSubCommand("install")]
 public record YarnInstallOptions : YarnOptions
 {
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 
-    [BooleanCommandSwitch("--immutable")]
+    [CliFlag("--immutable")]
     public virtual bool? Immutable { get; set; }
 
-    [BooleanCommandSwitch("--immutable-cache")]
+    [CliFlag("--immutable-cache")]
     public virtual bool? ImmutableCache { get; set; }
 
-    [BooleanCommandSwitch("--refresh-lockfile")]
+    [CliFlag("--refresh-lockfile")]
     public virtual bool? RefreshLockfile { get; set; }
 
-    [BooleanCommandSwitch("--check-cache")]
+    [CliFlag("--check-cache")]
     public virtual bool? CheckCache { get; set; }
 
-    [BooleanCommandSwitch("--check-resolutions")]
+    [CliFlag("--check-resolutions")]
     public virtual bool? CheckResolutions { get; set; }
 
-    [BooleanCommandSwitch("--inline-builds")]
+    [CliFlag("--inline-builds")]
     public virtual bool? InlineBuilds { get; set; }
 
-    [CommandSwitch("--mode")]
+    [CliOption("--mode")]
     public virtual string? Mode { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr", "socks")]
+[CliCommand("emr", "socks")]
 public record AwsEmrSocksOptions(
-[property: CommandSwitch("--cluster-id")] string ClusterId,
-[property: CommandSwitch("--key-pair-file")] string KeyPairFile
+[property: CliOption("--cluster-id")] string ClusterId,
+[property: CliOption("--key-pair-file")] string KeyPairFile
 ) : AwsOptions;

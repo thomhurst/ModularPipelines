@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataprotection", "backup-instance", "initialize-backupconfig")]
+[CliSubCommand("dataprotection", "backup-instance", "initialize-backupconfig")]
 public record AzDataprotectionBackupInstanceInitializeBackupconfigOptions(
-[property: CommandSwitch("--datasource-type")] string DatasourceType
+[property: CliOption("--datasource-type")] string DatasourceType
 ) : AzOptions
 {
-    [CommandSwitch("--backup-hook-references")]
+    [CliOption("--backup-hook-references")]
     public string? BackupHookReferences { get; set; }
 
-    [CommandSwitch("--excluded-namespaces")]
+    [CliOption("--excluded-namespaces")]
     public string? ExcludedNamespaces { get; set; }
 
-    [CommandSwitch("--excluded-resource-type")]
+    [CliOption("--excluded-resource-type")]
     public string? ExcludedResourceType { get; set; }
 
-    [BooleanCommandSwitch("--include-cluster-scope")]
+    [CliFlag("--include-cluster-scope")]
     public bool? IncludeClusterScope { get; set; }
 
-    [CommandSwitch("--included-namespaces")]
+    [CliOption("--included-namespaces")]
     public string? IncludedNamespaces { get; set; }
 
-    [CommandSwitch("--included-resource-type")]
+    [CliOption("--included-resource-type")]
     public string? IncludedResourceType { get; set; }
 
-    [CommandSwitch("--label-selectors")]
+    [CliOption("--label-selectors")]
     public string? LabelSelectors { get; set; }
 
-    [BooleanCommandSwitch("--snapshot-volumes")]
+    [CliFlag("--snapshot-volumes")]
     public bool? SnapshotVolumes { get; set; }
 }

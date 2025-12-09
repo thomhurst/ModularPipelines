@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "application-accelerator")]
+[CliCommand("spring", "application-accelerator")]
 public class AzSpringApplicationAcceleratorCustomizedAccelerator
 {
     public AzSpringApplicationAcceleratorCustomizedAccelerator(

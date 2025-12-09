@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataprotection")]
+[CliSubCommand("dataprotection")]
 public class AzDataprotectionRecoveryPoint
 {
     public AzDataprotectionRecoveryPoint(

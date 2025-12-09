@@ -5,22 +5,22 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datazone", "put-environment-blueprint-configuration")]
+[CliCommand("datazone", "put-environment-blueprint-configuration")]
 public record AwsDatazonePutEnvironmentBlueprintConfigurationOptions(
-[property: CommandSwitch("--domain-identifier")] string DomainIdentifier,
-[property: CommandSwitch("--enabled-regions")] string[] EnabledRegions,
-[property: CommandSwitch("--environment-blueprint-identifier")] string EnvironmentBlueprintIdentifier
+[property: CliOption("--domain-identifier")] string DomainIdentifier,
+[property: CliOption("--enabled-regions")] string[] EnabledRegions,
+[property: CliOption("--environment-blueprint-identifier")] string EnvironmentBlueprintIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--manage-access-role-arn")]
+    [CliOption("--manage-access-role-arn")]
     public string? ManageAccessRoleArn { get; set; }
 
-    [CommandSwitch("--provisioning-role-arn")]
+    [CliOption("--provisioning-role-arn")]
     public string? ProvisioningRoleArn { get; set; }
 
-    [CommandSwitch("--regional-parameters")]
+    [CliOption("--regional-parameters")]
     public IEnumerable<KeyValue>? RegionalParameters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

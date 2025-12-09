@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt")]
+[CliSubCommand("dt")]
 public class AzDtNetwork
 {
     public AzDtNetwork(

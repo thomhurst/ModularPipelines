@@ -52,8 +52,10 @@ public class VirtualSwitchPropertyAnalyzer : DiagnosticAnalyzer
             return;
         }
 
+        // Check for new CLI attributes (CliOption, CliFlag, CliArgument)
+        var cliAttributeNames = new HashSet<string> { "CliOptionAttribute", "CliFlagAttribute", "CliArgumentAttribute" };
         var attributes = propertySymbol.GetAttributes()
-            .Where(x => x.AttributeClass?.Interfaces.Any(i => i.Name == "ICommandSwitchAttribute") is true)
+            .Where(x => x.AttributeClass?.Name is { } name && cliAttributeNames.Contains(name))
             .ToList();
 
         if (attributes.Count == 0 || propertySymbol.IsVirtual)

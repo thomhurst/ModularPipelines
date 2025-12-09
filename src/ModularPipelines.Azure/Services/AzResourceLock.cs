@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource")]
+[CliSubCommand("resource")]
 public class AzResourceLock
 {
     public AzResourceLock(

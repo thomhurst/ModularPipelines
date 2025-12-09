@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("globalaccelerator", "update-listener")]
+[CliCommand("globalaccelerator", "update-listener")]
 public record AwsGlobalacceleratorUpdateListenerOptions(
-[property: CommandSwitch("--listener-arn")] string ListenerArn
+[property: CliOption("--listener-arn")] string ListenerArn
 ) : AwsOptions
 {
-    [CommandSwitch("--port-ranges")]
+    [CliOption("--port-ranges")]
     public string[]? PortRanges { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--client-affinity")]
+    [CliOption("--client-affinity")]
     public string? ClientAffinity { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

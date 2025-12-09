@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "terminate-client-vpn-connections")]
+[CliCommand("ec2", "terminate-client-vpn-connections")]
 public record AwsEc2TerminateClientVpnConnectionsOptions(
-[property: CommandSwitch("--client-vpn-endpoint-id")] string ClientVpnEndpointId
+[property: CliOption("--client-vpn-endpoint-id")] string ClientVpnEndpointId
 ) : AwsOptions
 {
-    [CommandSwitch("--connection-id")]
+    [CliOption("--connection-id")]
     public string? ConnectionId { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

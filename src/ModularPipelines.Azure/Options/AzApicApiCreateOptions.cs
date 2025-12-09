@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apic", "api", "create")]
+[CliSubCommand("apic", "api", "create")]
 public record AzApicApiCreateOptions(
-[property: CommandSwitch("--api")] string Api,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--api")] string Api,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--contacts")]
+    [CliOption("--contacts")]
     public string? Contacts { get; set; }
 
-    [CommandSwitch("--custom-properties")]
+    [CliOption("--custom-properties")]
     public string? CustomProperties { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--external-documentation")]
+    [CliOption("--external-documentation")]
     public string? ExternalDocumentation { get; set; }
 
-    [CommandSwitch("--kind")]
+    [CliOption("--kind")]
     public string? Kind { get; set; }
 
-    [CommandSwitch("--license")]
+    [CliOption("--license")]
     public string? License { get; set; }
 
-    [CommandSwitch("--summary")]
+    [CliOption("--summary")]
     public string? Summary { get; set; }
 
-    [CommandSwitch("--terms-of-service")]
+    [CliOption("--terms-of-service")]
     public string? TermsOfService { get; set; }
 
-    [CommandSwitch("--title")]
+    [CliOption("--title")]
     public string? Title { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public string? Workspace { get; set; }
 }

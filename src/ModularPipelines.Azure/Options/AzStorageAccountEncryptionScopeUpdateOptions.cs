@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "account", "encryption-scope", "update")]
+[CliSubCommand("storage", "account", "encryption-scope", "update")]
 public record AzStorageAccountEncryptionScopeUpdateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--key-source")]
+    [CliOption("--key-source")]
     public string? KeySource { get; set; }
 
-    [CommandSwitch("--key-uri")]
+    [CliOption("--key-uri")]
     public string? KeyUri { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 }

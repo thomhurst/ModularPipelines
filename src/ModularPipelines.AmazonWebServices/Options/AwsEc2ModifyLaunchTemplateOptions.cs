@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-launch-template")]
+[CliCommand("ec2", "modify-launch-template")]
 public record AwsEc2ModifyLaunchTemplateOptions : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--launch-template-id")]
+    [CliOption("--launch-template-id")]
     public string? LaunchTemplateId { get; set; }
 
-    [CommandSwitch("--launch-template-name")]
+    [CliOption("--launch-template-name")]
     public string? LaunchTemplateName { get; set; }
 
-    [CommandSwitch("--default-version")]
+    [CliOption("--default-version")]
     public string? DefaultVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

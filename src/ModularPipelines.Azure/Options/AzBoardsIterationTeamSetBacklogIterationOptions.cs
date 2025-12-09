@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("boards", "iteration", "team", "set-backlog-iteration")]
+[CliSubCommand("boards", "iteration", "team", "set-backlog-iteration")]
 public record AzBoardsIterationTeamSetBacklogIterationOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--team")] string Team
+[property: CliOption("--id")] string Id,
+[property: CliOption("--team")] string Team
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 }

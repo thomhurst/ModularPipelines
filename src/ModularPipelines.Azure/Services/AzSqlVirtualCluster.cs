@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql")]
+[CliSubCommand("sql")]
 public class AzSqlVirtualCluster
 {
     public AzSqlVirtualCluster(

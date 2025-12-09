@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint-email", "put-configuration-set-reputation-options")]
+[CliCommand("pinpoint-email", "put-configuration-set-reputation-options")]
 public record AwsPinpointEmailPutConfigurationSetReputationOptionsOptions(
-[property: CommandSwitch("--configuration-set-name")] string ConfigurationSetName
+[property: CliOption("--configuration-set-name")] string ConfigurationSetName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

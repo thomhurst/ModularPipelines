@@ -4,47 +4,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "task", "create")]
+[CliSubCommand("batch", "task", "create")]
 public record AzBatchTaskCreateOptions(
-[property: CommandSwitch("--job-id")] string JobId
+[property: CliOption("--job-id")] string JobId
 ) : AzOptions
 {
-    [CommandSwitch("--account-endpoint")]
+    [CliOption("--account-endpoint")]
     public int? AccountEndpoint { get; set; }
 
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--affinity-id")]
+    [CliOption("--affinity-id")]
     public string? AffinityId { get; set; }
 
-    [CommandSwitch("--application-package-references")]
+    [CliOption("--application-package-references")]
     public string? ApplicationPackageReferences { get; set; }
 
-    [CommandSwitch("--command-line")]
+    [CliOption("--command-line")]
     public string? CommandLine { get; set; }
 
-    [CommandSwitch("--environment-settings")]
+    [CliOption("--environment-settings")]
     public string? EnvironmentSettings { get; set; }
 
-    [CommandSwitch("--json-file")]
+    [CliOption("--json-file")]
     public string? JsonFile { get; set; }
 
-    [CommandSwitch("--max-task-retry-count")]
+    [CliOption("--max-task-retry-count")]
     public int? MaxTaskRetryCount { get; set; }
 
-    [CommandSwitch("--max-wall-clock-time")]
+    [CliOption("--max-wall-clock-time")]
     public string? MaxWallClockTime { get; set; }
 
-    [CommandSwitch("--resource-files")]
+    [CliOption("--resource-files")]
     public string? ResourceFiles { get; set; }
 
-    [CommandSwitch("--retention-time")]
+    [CliOption("--retention-time")]
     public string? RetentionTime { get; set; }
 
-    [CommandSwitch("--task-id")]
+    [CliOption("--task-id")]
     public string? TaskId { get; set; }
 }

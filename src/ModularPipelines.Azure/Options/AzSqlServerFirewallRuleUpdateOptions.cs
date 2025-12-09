@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "server", "firewall-rule", "update")]
+[CliSubCommand("sql", "server", "firewall-rule", "update")]
 public record AzSqlServerFirewallRuleUpdateOptions : AzOptions
 {
-    [CommandSwitch("--end-ip-address")]
+    [CliOption("--end-ip-address")]
     public string? EndIpAddress { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--server")]
+    [CliOption("--server")]
     public string? Server { get; set; }
 
-    [CommandSwitch("--start-ip-address")]
+    [CliOption("--start-ip-address")]
     public string? StartIpAddress { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

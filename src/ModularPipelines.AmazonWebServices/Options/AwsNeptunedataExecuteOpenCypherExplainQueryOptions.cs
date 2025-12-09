@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptunedata", "execute-open-cypher-explain-query")]
+[CliCommand("neptunedata", "execute-open-cypher-explain-query")]
 public record AwsNeptunedataExecuteOpenCypherExplainQueryOptions(
-[property: CommandSwitch("--open-cypher-query")] string OpenCypherQuery,
-[property: CommandSwitch("--explain-mode")] string ExplainMode
+[property: CliOption("--open-cypher-query")] string OpenCypherQuery,
+[property: CliOption("--explain-mode")] string ExplainMode
 ) : AwsOptions
 {
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string? Parameters { get; set; }
 }

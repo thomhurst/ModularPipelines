@@ -5,25 +5,25 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iottwinmaker", "create-scene")]
+[CliCommand("iottwinmaker", "create-scene")]
 public record AwsIottwinmakerCreateSceneOptions(
-[property: CommandSwitch("--workspace-id")] string WorkspaceId,
-[property: CommandSwitch("--scene-id")] string SceneId,
-[property: CommandSwitch("--content-location")] string ContentLocation
+[property: CliOption("--workspace-id")] string WorkspaceId,
+[property: CliOption("--scene-id")] string SceneId,
+[property: CliOption("--content-location")] string ContentLocation
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--capabilities")]
+    [CliOption("--capabilities")]
     public string[]? Capabilities { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--scene-metadata")]
+    [CliOption("--scene-metadata")]
     public IEnumerable<KeyValue>? SceneMetadata { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

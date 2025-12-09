@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("personalize", "describe-algorithm")]
+[CliCommand("personalize", "describe-algorithm")]
 public record AwsPersonalizeDescribeAlgorithmOptions(
-[property: CommandSwitch("--algorithm-arn")] string AlgorithmArn
+[property: CliOption("--algorithm-arn")] string AlgorithmArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sesv2", "get-message-insights")]
+[CliCommand("sesv2", "get-message-insights")]
 public record AwsSesv2GetMessageInsightsOptions(
-[property: CommandSwitch("--message-id")] string MessageId
+[property: CliOption("--message-id")] string MessageId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

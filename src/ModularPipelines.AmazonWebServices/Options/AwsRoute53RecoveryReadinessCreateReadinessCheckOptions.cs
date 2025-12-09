@@ -5,15 +5,15 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53-recovery-readiness", "create-readiness-check")]
+[CliCommand("route53-recovery-readiness", "create-readiness-check")]
 public record AwsRoute53RecoveryReadinessCreateReadinessCheckOptions(
-[property: CommandSwitch("--readiness-check-name")] string ReadinessCheckName,
-[property: CommandSwitch("--resource-set-name")] string ResourceSetName
+[property: CliOption("--readiness-check-name")] string ReadinessCheckName,
+[property: CliOption("--resource-set-name")] string ResourceSetName
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

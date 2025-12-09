@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sesv2", "put-configuration-set-delivery-options")]
+[CliCommand("sesv2", "put-configuration-set-delivery-options")]
 public record AwsSesv2PutConfigurationSetDeliveryOptionsOptions(
-[property: CommandSwitch("--configuration-set-name")] string ConfigurationSetName
+[property: CliOption("--configuration-set-name")] string ConfigurationSetName
 ) : AwsOptions
 {
-    [CommandSwitch("--tls-policy")]
+    [CliOption("--tls-policy")]
     public string? TlsPolicy { get; set; }
 
-    [CommandSwitch("--sending-pool-name")]
+    [CliOption("--sending-pool-name")]
     public string? SendingPoolName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

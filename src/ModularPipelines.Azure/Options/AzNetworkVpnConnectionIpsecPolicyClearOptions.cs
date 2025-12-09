@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vpn-connection", "ipsec-policy", "clear")]
+[CliSubCommand("network", "vpn-connection", "ipsec-policy", "clear")]
 public record AzNetworkVpnConnectionIpsecPolicyClearOptions(
-[property: CommandSwitch("--connection-name")] string ConnectionName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--connection-name")] string ConnectionName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

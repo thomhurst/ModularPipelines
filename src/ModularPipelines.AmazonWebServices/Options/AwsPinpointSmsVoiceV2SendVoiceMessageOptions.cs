@@ -5,33 +5,33 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint-sms-voice-v2", "send-voice-message")]
+[CliCommand("pinpoint-sms-voice-v2", "send-voice-message")]
 public record AwsPinpointSmsVoiceV2SendVoiceMessageOptions(
-[property: CommandSwitch("--destination-phone-number")] string DestinationPhoneNumber,
-[property: CommandSwitch("--origination-identity")] string OriginationIdentity
+[property: CliOption("--destination-phone-number")] string DestinationPhoneNumber,
+[property: CliOption("--origination-identity")] string OriginationIdentity
 ) : AwsOptions
 {
-    [CommandSwitch("--message-body")]
+    [CliOption("--message-body")]
     public string? MessageBody { get; set; }
 
-    [CommandSwitch("--message-body-text-type")]
+    [CliOption("--message-body-text-type")]
     public string? MessageBodyTextType { get; set; }
 
-    [CommandSwitch("--voice-id")]
+    [CliOption("--voice-id")]
     public string? VoiceId { get; set; }
 
-    [CommandSwitch("--configuration-set-name")]
+    [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; set; }
 
-    [CommandSwitch("--max-price-per-minute")]
+    [CliOption("--max-price-per-minute")]
     public string? MaxPricePerMinute { get; set; }
 
-    [CommandSwitch("--time-to-live")]
+    [CliOption("--time-to-live")]
     public int? TimeToLive { get; set; }
 
-    [CommandSwitch("--context")]
+    [CliOption("--context")]
     public IEnumerable<KeyValue>? Context { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

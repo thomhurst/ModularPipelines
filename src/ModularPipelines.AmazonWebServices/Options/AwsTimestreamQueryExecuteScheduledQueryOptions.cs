@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("timestream-query", "execute-scheduled-query")]
+[CliCommand("timestream-query", "execute-scheduled-query")]
 public record AwsTimestreamQueryExecuteScheduledQueryOptions(
-[property: CommandSwitch("--scheduled-query-arn")] string ScheduledQueryArn,
-[property: CommandSwitch("--invocation-time")] long InvocationTime
+[property: CliOption("--scheduled-query-arn")] string ScheduledQueryArn,
+[property: CliOption("--invocation-time")] long InvocationTime
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

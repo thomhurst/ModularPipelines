@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "ops", "asset", "event", "remove")]
+[CliSubCommand("iot", "ops", "asset", "event", "remove")]
 public record AzIotOpsAssetEventRemoveOptions(
-[property: CommandSwitch("--asset")] string Asset,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--asset")] string Asset,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--en")]
+    [CliOption("--en")]
     public string? En { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 }

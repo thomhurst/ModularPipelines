@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "config", "backup", "show")]
+[CliSubCommand("webapp", "config", "backup", "show")]
 public record AzWebappConfigBackupShowOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--webapp-name")] string WebappName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--webapp-name")] string WebappName
 ) : AzOptions
 {
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "enable-key-rotation")]
+[CliCommand("kms", "enable-key-rotation")]
 public record AwsKmsEnableKeyRotationOptions(
-[property: CommandSwitch("--key-id")] string KeyId
+[property: CliOption("--key-id")] string KeyId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

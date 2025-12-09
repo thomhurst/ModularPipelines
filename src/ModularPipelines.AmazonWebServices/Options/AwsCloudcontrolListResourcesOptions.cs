@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudcontrol", "list-resources")]
+[CliCommand("cloudcontrol", "list-resources")]
 public record AwsCloudcontrolListResourcesOptions(
-[property: CommandSwitch("--type-name")] string TypeName
+[property: CliOption("--type-name")] string TypeName
 ) : AwsOptions
 {
-    [CommandSwitch("--type-version-id")]
+    [CliOption("--type-version-id")]
     public string? TypeVersionId { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--resource-model")]
+    [CliOption("--resource-model")]
     public string? ResourceModel { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "describe-compute")]
+[CliCommand("gamelift", "describe-compute")]
 public record AwsGameliftDescribeComputeOptions(
-[property: CommandSwitch("--fleet-id")] string FleetId,
-[property: CommandSwitch("--compute-name")] string ComputeName
+[property: CliOption("--fleet-id")] string FleetId,
+[property: CliOption("--compute-name")] string ComputeName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

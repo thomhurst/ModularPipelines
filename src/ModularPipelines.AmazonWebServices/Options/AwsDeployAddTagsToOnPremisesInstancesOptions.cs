@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "add-tags-to-on-premises-instances")]
+[CliCommand("deploy", "add-tags-to-on-premises-instances")]
 public record AwsDeployAddTagsToOnPremisesInstancesOptions(
-[property: CommandSwitch("--tags")] string[] Tags,
-[property: CommandSwitch("--instance-names")] string[] InstanceNames
+[property: CliOption("--tags")] string[] Tags,
+[property: CliOption("--instance-names")] string[] InstanceNames
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

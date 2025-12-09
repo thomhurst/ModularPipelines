@@ -5,17 +5,17 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tnb", "instantiate-sol-network-instance")]
+[CliCommand("tnb", "instantiate-sol-network-instance")]
 public record AwsTnbInstantiateSolNetworkInstanceOptions(
-[property: CommandSwitch("--ns-instance-id")] string NsInstanceId
+[property: CliOption("--ns-instance-id")] string NsInstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--additional-params-for-ns")]
+    [CliOption("--additional-params-for-ns")]
     public string? AdditionalParamsForNs { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

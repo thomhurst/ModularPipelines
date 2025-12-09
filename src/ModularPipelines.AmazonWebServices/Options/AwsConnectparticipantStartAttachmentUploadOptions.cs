@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectparticipant", "start-attachment-upload")]
+[CliCommand("connectparticipant", "start-attachment-upload")]
 public record AwsConnectparticipantStartAttachmentUploadOptions(
-[property: CommandSwitch("--content-type")] string ContentType,
-[property: CommandSwitch("--attachment-size-in-bytes")] long AttachmentSizeInBytes,
-[property: CommandSwitch("--attachment-name")] string AttachmentName,
-[property: CommandSwitch("--connection-token")] string ConnectionToken
+[property: CliOption("--content-type")] string ContentType,
+[property: CliOption("--attachment-size-in-bytes")] long AttachmentSizeInBytes,
+[property: CliOption("--attachment-name")] string AttachmentName,
+[property: CliOption("--connection-token")] string ConnectionToken
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "update-resource-server")]
+[CliCommand("cognito-idp", "update-resource-server")]
 public record AwsCognitoIdpUpdateResourceServerOptions(
-[property: CommandSwitch("--user-pool-id")] string UserPoolId,
-[property: CommandSwitch("--identifier")] string Identifier,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--user-pool-id")] string UserPoolId,
+[property: CliOption("--identifier")] string Identifier,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--scopes")]
+    [CliOption("--scopes")]
     public string[]? Scopes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

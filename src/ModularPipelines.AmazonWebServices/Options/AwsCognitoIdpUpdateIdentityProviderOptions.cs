@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "update-identity-provider")]
+[CliCommand("cognito-idp", "update-identity-provider")]
 public record AwsCognitoIdpUpdateIdentityProviderOptions(
-[property: CommandSwitch("--user-pool-id")] string UserPoolId,
-[property: CommandSwitch("--provider-name")] string ProviderName
+[property: CliOption("--user-pool-id")] string UserPoolId,
+[property: CliOption("--provider-name")] string ProviderName
 ) : AwsOptions
 {
-    [CommandSwitch("--provider-details")]
+    [CliOption("--provider-details")]
     public IEnumerable<KeyValue>? ProviderDetails { get; set; }
 
-    [CommandSwitch("--attribute-mapping")]
+    [CliOption("--attribute-mapping")]
     public IEnumerable<KeyValue>? AttributeMapping { get; set; }
 
-    [CommandSwitch("--idp-identifiers")]
+    [CliOption("--idp-identifiers")]
     public string[]? IdpIdentifiers { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

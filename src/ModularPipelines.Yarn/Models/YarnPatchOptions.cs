@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("patch")]
+[CliSubCommand("patch")]
 public record YarnPatchOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Package
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Package
 ) : YarnOptions
 {
-    [BooleanCommandSwitch("--update")]
+    [CliFlag("--update")]
     public virtual bool? Update { get; set; }
 
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 }

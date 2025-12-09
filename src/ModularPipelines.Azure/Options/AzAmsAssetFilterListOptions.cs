@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ams", "asset-filter", "list")]
+[CliSubCommand("ams", "asset-filter", "list")]
 public record AzAmsAssetFilterListOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--asset-name")] string AssetName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--asset-name")] string AssetName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

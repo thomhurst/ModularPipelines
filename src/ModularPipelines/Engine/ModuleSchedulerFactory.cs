@@ -5,7 +5,7 @@ using ModularPipelines.Options;
 namespace ModularPipelines.Engine;
 
 /// <summary>
-/// Default implementation of module scheduler factory
+/// Default implementation of module scheduler factory.
 /// </summary>
 internal class ModuleSchedulerFactory : IModuleSchedulerFactory
 {

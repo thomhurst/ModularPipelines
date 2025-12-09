@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "get-device-position")]
+[CliCommand("location", "get-device-position")]
 public record AwsLocationGetDevicePositionOptions(
-[property: CommandSwitch("--device-id")] string DeviceId,
-[property: CommandSwitch("--tracker-name")] string TrackerName
+[property: CliOption("--device-id")] string DeviceId,
+[property: CliOption("--tracker-name")] string TrackerName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

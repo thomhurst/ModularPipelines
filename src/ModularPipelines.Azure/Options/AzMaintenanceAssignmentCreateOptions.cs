@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("maintenance", "assignment", "create")]
+[CliSubCommand("maintenance", "assignment", "create")]
 public record AzMaintenanceAssignmentCreateOptions(
-[property: CommandSwitch("--configuration-assignment-name")] string ConfigurationAssignmentName,
-[property: CommandSwitch("--provider-name")] string ProviderName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--resource-name")] string ResourceName,
-[property: CommandSwitch("--resource-type")] string ResourceType
+[property: CliOption("--configuration-assignment-name")] string ConfigurationAssignmentName,
+[property: CliOption("--provider-name")] string ProviderName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--resource-name")] string ResourceName,
+[property: CliOption("--resource-type")] string ResourceType
 ) : AzOptions
 {
-    [CommandSwitch("--config-id")]
+    [CliOption("--config-id")]
     public string? ConfigId { get; set; }
 
-    [CommandSwitch("--filter-locations")]
+    [CliOption("--filter-locations")]
     public string? FilterLocations { get; set; }
 
-    [CommandSwitch("--filter-os-types")]
+    [CliOption("--filter-os-types")]
     public string? FilterOsTypes { get; set; }
 
-    [CommandSwitch("--filter-resource-groups")]
+    [CliOption("--filter-resource-groups")]
     public string? FilterResourceGroups { get; set; }
 
-    [CommandSwitch("--filter-resource-types")]
+    [CliOption("--filter-resource-types")]
     public string? FilterResourceTypes { get; set; }
 
-    [CommandSwitch("--filter-tags")]
+    [CliOption("--filter-tags")]
     public string? FilterTags { get; set; }
 
-    [CommandSwitch("--filter-tags-operator")]
+    [CliOption("--filter-tags-operator")]
     public string? FilterTagsOperator { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--resource-id")]
+    [CliOption("--resource-id")]
     public string? ResourceId { get; set; }
 }

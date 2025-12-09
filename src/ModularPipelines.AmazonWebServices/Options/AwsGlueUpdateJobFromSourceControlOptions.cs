@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "update-job-from-source-control")]
+[CliCommand("glue", "update-job-from-source-control")]
 public record AwsGlueUpdateJobFromSourceControlOptions : AwsOptions
 {
-    [CommandSwitch("--job-name")]
+    [CliOption("--job-name")]
     public string? JobName { get; set; }
 
-    [CommandSwitch("--provider")]
+    [CliOption("--provider")]
     public string? Provider { get; set; }
 
-    [CommandSwitch("--repository-name")]
+    [CliOption("--repository-name")]
     public string? RepositoryName { get; set; }
 
-    [CommandSwitch("--repository-owner")]
+    [CliOption("--repository-owner")]
     public string? RepositoryOwner { get; set; }
 
-    [CommandSwitch("--branch-name")]
+    [CliOption("--branch-name")]
     public string? BranchName { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string? Folder { get; set; }
 
-    [CommandSwitch("--commit-id")]
+    [CliOption("--commit-id")]
     public string? CommitId { get; set; }
 
-    [CommandSwitch("--auth-strategy")]
+    [CliOption("--auth-strategy")]
     public string? AuthStrategy { get; set; }
 
-    [CommandSwitch("--auth-token")]
+    [CliOption("--auth-token")]
     public string? AuthToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

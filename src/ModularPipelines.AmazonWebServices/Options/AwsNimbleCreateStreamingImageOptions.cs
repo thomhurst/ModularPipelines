@@ -5,22 +5,22 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("nimble", "create-streaming-image")]
+[CliCommand("nimble", "create-streaming-image")]
 public record AwsNimbleCreateStreamingImageOptions(
-[property: CommandSwitch("--ec2-image-id")] string Ec2ImageId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--studio-id")] string StudioId
+[property: CliOption("--ec2-image-id")] string Ec2ImageId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--studio-id")] string StudioId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

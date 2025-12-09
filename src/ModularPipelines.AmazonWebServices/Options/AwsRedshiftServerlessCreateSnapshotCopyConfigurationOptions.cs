@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift-serverless", "create-snapshot-copy-configuration")]
+[CliCommand("redshift-serverless", "create-snapshot-copy-configuration")]
 public record AwsRedshiftServerlessCreateSnapshotCopyConfigurationOptions(
-[property: CommandSwitch("--destination-region")] string DestinationRegion,
-[property: CommandSwitch("--namespace-name")] string NamespaceName
+[property: CliOption("--destination-region")] string DestinationRegion,
+[property: CliOption("--namespace-name")] string NamespaceName
 ) : AwsOptions
 {
-    [CommandSwitch("--destination-kms-key-id")]
+    [CliOption("--destination-kms-key-id")]
     public string? DestinationKmsKeyId { get; set; }
 
-    [CommandSwitch("--snapshot-retention-period")]
+    [CliOption("--snapshot-retention-period")]
     public int? SnapshotRetentionPeriod { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

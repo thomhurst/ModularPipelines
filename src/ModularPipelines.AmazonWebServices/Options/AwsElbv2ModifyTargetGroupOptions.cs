@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elbv2", "modify-target-group")]
+[CliCommand("elbv2", "modify-target-group")]
 public record AwsElbv2ModifyTargetGroupOptions(
-[property: CommandSwitch("--target-group-arn")] string TargetGroupArn
+[property: CliOption("--target-group-arn")] string TargetGroupArn
 ) : AwsOptions
 {
-    [CommandSwitch("--health-check-protocol")]
+    [CliOption("--health-check-protocol")]
     public string? HealthCheckProtocol { get; set; }
 
-    [CommandSwitch("--health-check-port")]
+    [CliOption("--health-check-port")]
     public string? HealthCheckPort { get; set; }
 
-    [CommandSwitch("--health-check-path")]
+    [CliOption("--health-check-path")]
     public string? HealthCheckPath { get; set; }
 
-    [CommandSwitch("--health-check-interval-seconds")]
+    [CliOption("--health-check-interval-seconds")]
     public int? HealthCheckIntervalSeconds { get; set; }
 
-    [CommandSwitch("--health-check-timeout-seconds")]
+    [CliOption("--health-check-timeout-seconds")]
     public int? HealthCheckTimeoutSeconds { get; set; }
 
-    [CommandSwitch("--healthy-threshold-count")]
+    [CliOption("--healthy-threshold-count")]
     public int? HealthyThresholdCount { get; set; }
 
-    [CommandSwitch("--unhealthy-threshold-count")]
+    [CliOption("--unhealthy-threshold-count")]
     public int? UnhealthyThresholdCount { get; set; }
 
-    [CommandSwitch("--matcher")]
+    [CliOption("--matcher")]
     public string? Matcher { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

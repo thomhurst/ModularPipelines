@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "modify-db-recommendation")]
+[CliCommand("rds", "modify-db-recommendation")]
 public record AwsRdsModifyDbRecommendationOptions(
-[property: CommandSwitch("--recommendation-id")] string RecommendationId
+[property: CliOption("--recommendation-id")] string RecommendationId
 ) : AwsOptions
 {
-    [CommandSwitch("--locale")]
+    [CliOption("--locale")]
     public string? Locale { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--recommended-action-updates")]
+    [CliOption("--recommended-action-updates")]
     public string[]? RecommendedActionUpdates { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

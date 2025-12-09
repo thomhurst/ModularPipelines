@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ad", "app", "permission", "list-grants")]
+[CliSubCommand("ad", "app", "permission", "list-grants")]
 public record AzAdAppPermissionListGrantsOptions : AzOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [BooleanCommandSwitch("--show-resource-name")]
+    [CliFlag("--show-resource-name")]
     public bool? ShowResourceName { get; set; }
 }

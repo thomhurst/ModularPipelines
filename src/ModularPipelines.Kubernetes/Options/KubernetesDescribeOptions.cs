@@ -3,28 +3,28 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("describe")]
+[CliSubCommand("describe")]
 [ExcludeFromCodeCoverage]
 public record KubernetesDescribeOptions : KubernetesOptions
 {
-    [BooleanCommandSwitch("--all-namespaces")]
+    [CliFlag("--all-namespaces")]
     public virtual bool? AllNamespaces { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--chunk-size", SwitchValueSeparator = " ")]
-    public int? ChunkSize { get; set; }
+    [CliOption("--chunk-size")]
+    public virtual int? ChunkSize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
-    public string[]? Filename { get; set; }
+    [CliOption("--filename")]
+    public virtual string[]? Filename { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
-    public string? Kustomize { get; set; }
+    [CliOption("--kustomize")]
+    public virtual string? Kustomize { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
-    public string? Selector { get; set; }
+    [CliOption("--selector")]
+    public virtual string? Selector { get; set; }
 
-    [BooleanCommandSwitch("--show-events")]
+    [CliFlag("--show-events")]
     public virtual bool? ShowEvents { get; set; }
 }

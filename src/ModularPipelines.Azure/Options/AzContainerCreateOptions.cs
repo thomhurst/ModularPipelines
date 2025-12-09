@@ -4,158 +4,158 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "create")]
+[CliSubCommand("container", "create")]
 public record AzContainerCreateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--acr-identity")]
+    [CliOption("--acr-identity")]
     public string? AcrIdentity { get; set; }
 
-    [CommandSwitch("--add-capabilities")]
+    [CliOption("--add-capabilities")]
     public string? AddCapabilities { get; set; }
 
-    [BooleanCommandSwitch("--allow-escalation")]
+    [CliFlag("--allow-escalation")]
     public bool? AllowEscalation { get; set; }
 
-    [CommandSwitch("--assign-identity")]
+    [CliOption("--assign-identity")]
     public string? AssignIdentity { get; set; }
 
-    [CommandSwitch("--azure-file-volume-account-key")]
+    [CliOption("--azure-file-volume-account-key")]
     public int? AzureFileVolumeAccountKey { get; set; }
 
-    [CommandSwitch("--azure-file-volume-account-name")]
+    [CliOption("--azure-file-volume-account-name")]
     public int? AzureFileVolumeAccountName { get; set; }
 
-    [CommandSwitch("--azure-file-volume-mount-path")]
+    [CliOption("--azure-file-volume-mount-path")]
     public string? AzureFileVolumeMountPath { get; set; }
 
-    [CommandSwitch("--azure-file-volume-share-name")]
+    [CliOption("--azure-file-volume-share-name")]
     public string? AzureFileVolumeShareName { get; set; }
 
-    [CommandSwitch("--cce-policy")]
+    [CliOption("--cce-policy")]
     public string? CcePolicy { get; set; }
 
-    [CommandSwitch("--command-line")]
+    [CliOption("--command-line")]
     public string? CommandLine { get; set; }
 
-    [CommandSwitch("--cpu")]
+    [CliOption("--cpu")]
     public string? Cpu { get; set; }
 
-    [CommandSwitch("--dns-name-label")]
+    [CliOption("--dns-name-label")]
     public string? DnsNameLabel { get; set; }
 
-    [CommandSwitch("--drop-capabilities")]
+    [CliOption("--drop-capabilities")]
     public string? DropCapabilities { get; set; }
 
-    [CommandSwitch("--environment-variables")]
+    [CliOption("--environment-variables")]
     public string? ContainerCreateEnvironmentVariables { get; set; }
 
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public string? File { get; set; }
 
-    [CommandSwitch("--gitrepo-dir")]
+    [CliOption("--gitrepo-dir")]
     public string? GitrepoDir { get; set; }
 
-    [CommandSwitch("--gitrepo-mount-path")]
+    [CliOption("--gitrepo-mount-path")]
     public string? GitrepoMountPath { get; set; }
 
-    [CommandSwitch("--gitrepo-revision")]
+    [CliOption("--gitrepo-revision")]
     public string? GitrepoRevision { get; set; }
 
-    [CommandSwitch("--gitrepo-url")]
+    [CliOption("--gitrepo-url")]
     public string? GitrepoUrl { get; set; }
 
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [CommandSwitch("--ip-address")]
+    [CliOption("--ip-address")]
     public string? IpAddress { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--log-analytics-workspace")]
+    [CliOption("--log-analytics-workspace")]
     public string? LogAnalyticsWorkspace { get; set; }
 
-    [CommandSwitch("--log-analytics-workspace-key")]
+    [CliOption("--log-analytics-workspace-key")]
     public string? LogAnalyticsWorkspaceKey { get; set; }
 
-    [CommandSwitch("--memory")]
+    [CliOption("--memory")]
     public string? Memory { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--os-type")]
+    [CliOption("--os-type")]
     public string? OsType { get; set; }
 
-    [CommandSwitch("--ports")]
+    [CliOption("--ports")]
     public string? Ports { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [BooleanCommandSwitch("--privileged")]
+    [CliFlag("--privileged")]
     public bool? Privileged { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--registry-login-server")]
+    [CliOption("--registry-login-server")]
     public string? RegistryLoginServer { get; set; }
 
-    [CommandSwitch("--registry-password")]
+    [CliOption("--registry-password")]
     public string? RegistryPassword { get; set; }
 
-    [CommandSwitch("--registry-username")]
+    [CliOption("--registry-username")]
     public string? RegistryUsername { get; set; }
 
-    [CommandSwitch("--restart-policy")]
+    [CliOption("--restart-policy")]
     public string? RestartPolicy { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--run-as-group")]
+    [CliOption("--run-as-group")]
     public string? RunAsGroup { get; set; }
 
-    [CommandSwitch("--run-as-user")]
+    [CliOption("--run-as-user")]
     public string? RunAsUser { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--seccomp-profile")]
+    [CliOption("--seccomp-profile")]
     public string? SeccompProfile { get; set; }
 
-    [CommandSwitch("--secrets")]
+    [CliOption("--secrets")]
     public string? Secrets { get; set; }
 
-    [CommandSwitch("--secrets-mount-path")]
+    [CliOption("--secrets-mount-path")]
     public string? SecretsMountPath { get; set; }
 
-    [CommandSwitch("--secure-environment-variables")]
+    [CliOption("--secure-environment-variables")]
     public string? SecureEnvironmentVariables { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--subnet-address-prefix")]
+    [CliOption("--subnet-address-prefix")]
     public string? SubnetAddressPrefix { get; set; }
 
-    [CommandSwitch("--vnet")]
+    [CliOption("--vnet")]
     public string? Vnet { get; set; }
 
-    [CommandSwitch("--vnet-address-prefix")]
+    [CliOption("--vnet-address-prefix")]
     public string? VnetAddressPrefix { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codestar-connections", "delete-sync-configuration")]
+[CliCommand("codestar-connections", "delete-sync-configuration")]
 public record AwsCodestarConnectionsDeleteSyncConfigurationOptions(
-[property: CommandSwitch("--sync-type")] string SyncType,
-[property: CommandSwitch("--resource-name")] string ResourceName
+[property: CliOption("--sync-type")] string SyncType,
+[property: CliOption("--resource-name")] string ResourceName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

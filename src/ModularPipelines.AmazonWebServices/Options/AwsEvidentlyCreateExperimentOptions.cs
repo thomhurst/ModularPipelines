@@ -5,32 +5,32 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("evidently", "create-experiment")]
+[CliCommand("evidently", "create-experiment")]
 public record AwsEvidentlyCreateExperimentOptions(
-[property: CommandSwitch("--metric-goals")] string[] MetricGoals,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--project")] string Project,
-[property: CommandSwitch("--treatments")] string[] Treatments
+[property: CliOption("--metric-goals")] string[] MetricGoals,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--project")] string Project,
+[property: CliOption("--treatments")] string[] Treatments
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--online-ab-config")]
+    [CliOption("--online-ab-config")]
     public string? OnlineAbConfig { get; set; }
 
-    [CommandSwitch("--randomization-salt")]
+    [CliOption("--randomization-salt")]
     public string? RandomizationSalt { get; set; }
 
-    [CommandSwitch("--sampling-rate")]
+    [CliOption("--sampling-rate")]
     public long? SamplingRate { get; set; }
 
-    [CommandSwitch("--segment")]
+    [CliOption("--segment")]
     public string? Segment { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

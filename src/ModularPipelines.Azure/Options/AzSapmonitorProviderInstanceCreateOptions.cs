@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sapmonitor", "provider-instance", "create")]
+[CliSubCommand("sapmonitor", "provider-instance", "create")]
 public record AzSapmonitorProviderInstanceCreateOptions(
-[property: CommandSwitch("--monitor-name")] string MonitorName,
-[property: CommandSwitch("--provider-instance-name")] string ProviderInstanceName,
-[property: CommandSwitch("--provider-instance-properties")] string ProviderInstanceProperties,
-[property: CommandSwitch("--provider-instance-type")] string ProviderInstanceType,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--monitor-name")] string MonitorName,
+[property: CliOption("--provider-instance-name")] string ProviderInstanceName,
+[property: CliOption("--provider-instance-properties")] string ProviderInstanceProperties,
+[property: CliOption("--provider-instance-type")] string ProviderInstanceType,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--provider-instance-metadata")]
+    [CliOption("--provider-instance-metadata")]
     public string? ProviderInstanceMetadata { get; set; }
 }

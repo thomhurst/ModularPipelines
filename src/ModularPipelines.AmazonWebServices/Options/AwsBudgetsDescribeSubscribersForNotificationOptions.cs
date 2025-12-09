@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("budgets", "describe-subscribers-for-notification")]
+[CliCommand("budgets", "describe-subscribers-for-notification")]
 public record AwsBudgetsDescribeSubscribersForNotificationOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--budget-name")] string BudgetName,
-[property: CommandSwitch("--notification")] string Notification
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--budget-name")] string BudgetName,
+[property: CliOption("--notification")] string Notification
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

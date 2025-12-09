@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "get-maintenance-window-execution-task-invocation")]
+[CliCommand("ssm", "get-maintenance-window-execution-task-invocation")]
 public record AwsSsmGetMaintenanceWindowExecutionTaskInvocationOptions(
-[property: CommandSwitch("--window-execution-id")] string WindowExecutionId,
-[property: CommandSwitch("--task-id")] string TaskId,
-[property: CommandSwitch("--invocation-id")] string InvocationId
+[property: CliOption("--window-execution-id")] string WindowExecutionId,
+[property: CliOption("--task-id")] string TaskId,
+[property: CliOption("--invocation-id")] string InvocationId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeguru-security", "get-scan")]
+[CliCommand("codeguru-security", "get-scan")]
 public record AwsCodeguruSecurityGetScanOptions(
-[property: CommandSwitch("--scan-name")] string ScanName
+[property: CliOption("--scan-name")] string ScanName
 ) : AwsOptions
 {
-    [CommandSwitch("--run-id")]
+    [CliOption("--run-id")]
     public string? RunId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

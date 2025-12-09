@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53resolver", "associate-firewall-rule-group")]
+[CliCommand("route53resolver", "associate-firewall-rule-group")]
 public record AwsRoute53resolverAssociateFirewallRuleGroupOptions(
-[property: CommandSwitch("--firewall-rule-group-id")] string FirewallRuleGroupId,
-[property: CommandSwitch("--vpc-id")] string VpcId,
-[property: CommandSwitch("--priority")] int Priority,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--firewall-rule-group-id")] string FirewallRuleGroupId,
+[property: CliOption("--vpc-id")] string VpcId,
+[property: CliOption("--priority")] int Priority,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--creator-request-id")]
+    [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; set; }
 
-    [CommandSwitch("--mutation-protection")]
+    [CliOption("--mutation-protection")]
     public string? MutationProtection { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

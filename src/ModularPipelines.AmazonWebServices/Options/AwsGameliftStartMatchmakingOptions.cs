@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "start-matchmaking")]
+[CliCommand("gamelift", "start-matchmaking")]
 public record AwsGameliftStartMatchmakingOptions(
-[property: CommandSwitch("--configuration-name")] string ConfigurationName,
-[property: CommandSwitch("--players")] string[] Players
+[property: CliOption("--configuration-name")] string ConfigurationName,
+[property: CliOption("--players")] string[] Players
 ) : AwsOptions
 {
-    [CommandSwitch("--ticket-id")]
+    [CliOption("--ticket-id")]
     public string? TicketId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

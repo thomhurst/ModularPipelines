@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("peering", "service", "prefix", "create")]
+[CliSubCommand("peering", "service", "prefix", "create")]
 public record AzPeeringServicePrefixCreateOptions(
-[property: CommandSwitch("--peering-service-name")] string PeeringServiceName,
-[property: CommandSwitch("--prefix-name")] string PrefixName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--peering-service-name")] string PeeringServiceName,
+[property: CliOption("--prefix-name")] string PrefixName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--peering-service-prefix-key")]
+    [CliOption("--peering-service-prefix-key")]
     public string? PeeringServicePrefixKey { get; set; }
 
-    [CommandSwitch("--prefix")]
+    [CliOption("--prefix")]
     public string? Prefix { get; set; }
 }

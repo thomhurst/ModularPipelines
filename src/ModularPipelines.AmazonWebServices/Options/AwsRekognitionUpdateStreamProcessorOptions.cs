@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "update-stream-processor")]
+[CliCommand("rekognition", "update-stream-processor")]
 public record AwsRekognitionUpdateStreamProcessorOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--settings-for-update")]
+    [CliOption("--settings-for-update")]
     public string? SettingsForUpdate { get; set; }
 
-    [CommandSwitch("--regions-of-interest-for-update")]
+    [CliOption("--regions-of-interest-for-update")]
     public string[]? RegionsOfInterestForUpdate { get; set; }
 
-    [CommandSwitch("--data-sharing-preference-for-update")]
+    [CliOption("--data-sharing-preference-for-update")]
     public string? DataSharingPreferenceForUpdate { get; set; }
 
-    [CommandSwitch("--parameters-to-delete")]
+    [CliOption("--parameters-to-delete")]
     public string[]? ParametersToDelete { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

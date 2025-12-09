@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datafactory", "integration-runtime", "self-hosted", "create")]
+[CliSubCommand("datafactory", "integration-runtime", "self-hosted", "create")]
 public record AzDatafactoryIntegrationRuntimeSelfHostedCreateOptions(
-[property: CommandSwitch("--factory-name")] string FactoryName,
-[property: CommandSwitch("--integration-runtime-name")] string IntegrationRuntimeName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--factory-name")] string FactoryName,
+[property: CliOption("--integration-runtime-name")] string IntegrationRuntimeName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--linked-info")]
+    [CliOption("--linked-info")]
     public string? LinkedInfo { get; set; }
 }

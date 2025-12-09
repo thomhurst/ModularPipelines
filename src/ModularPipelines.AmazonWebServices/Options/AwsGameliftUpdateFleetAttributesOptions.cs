@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "update-fleet-attributes")]
+[CliCommand("gamelift", "update-fleet-attributes")]
 public record AwsGameliftUpdateFleetAttributesOptions(
-[property: CommandSwitch("--fleet-id")] string FleetId
+[property: CliOption("--fleet-id")] string FleetId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--new-game-session-protection-policy")]
+    [CliOption("--new-game-session-protection-policy")]
     public string? NewGameSessionProtectionPolicy { get; set; }
 
-    [CommandSwitch("--resource-creation-limit-policy")]
+    [CliOption("--resource-creation-limit-policy")]
     public string? ResourceCreationLimitPolicy { get; set; }
 
-    [CommandSwitch("--metric-groups")]
+    [CliOption("--metric-groups")]
     public string[]? MetricGroups { get; set; }
 
-    [CommandSwitch("--anywhere-configuration")]
+    [CliOption("--anywhere-configuration")]
     public string? AnywhereConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

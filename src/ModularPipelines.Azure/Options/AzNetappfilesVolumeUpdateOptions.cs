@@ -4,72 +4,72 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "volume", "update")]
+[CliSubCommand("netappfiles", "volume", "update")]
 public record AzNetappfilesVolumeUpdateOptions : AzOptions
 {
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [BooleanCommandSwitch("--backup-enabled")]
+    [CliFlag("--backup-enabled")]
     public bool? BackupEnabled { get; set; }
 
-    [CommandSwitch("--backup-policy-id")]
+    [CliOption("--backup-policy-id")]
     public string? BackupPolicyId { get; set; }
 
-    [BooleanCommandSwitch("--cool-access")]
+    [CliFlag("--cool-access")]
     public bool? CoolAccess { get; set; }
 
-    [CommandSwitch("--coolness-period")]
+    [CliOption("--coolness-period")]
     public string? CoolnessPeriod { get; set; }
 
-    [CommandSwitch("--default-group-quota")]
+    [CliOption("--default-group-quota")]
     public string? DefaultGroupQuota { get; set; }
 
-    [CommandSwitch("--default-user-quota")]
+    [CliOption("--default-user-quota")]
     public string? DefaultUserQuota { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--is-def-quota-enabled")]
+    [CliFlag("--is-def-quota-enabled")]
     public bool? IsDefQuotaEnabled { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--policy-enforced")]
+    [CliFlag("--policy-enforced")]
     public bool? PolicyEnforced { get; set; }
 
-    [CommandSwitch("--pool-name")]
+    [CliOption("--pool-name")]
     public string? PoolName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--service-level")]
+    [CliOption("--service-level")]
     public string? ServiceLevel { get; set; }
 
-    [BooleanCommandSwitch("--snapshot-dir-visible")]
+    [CliFlag("--snapshot-dir-visible")]
     public bool? SnapshotDirVisible { get; set; }
 
-    [CommandSwitch("--snapshot-policy-id")]
+    [CliOption("--snapshot-policy-id")]
     public string? SnapshotPolicyId { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--throughput-mibps")]
+    [CliOption("--throughput-mibps")]
     public string? ThroughputMibps { get; set; }
 
-    [CommandSwitch("--unix-permissions")]
+    [CliOption("--unix-permissions")]
     public string? UnixPermissions { get; set; }
 
-    [CommandSwitch("--usage-threshold")]
+    [CliOption("--usage-threshold")]
     public string? UsageThreshold { get; set; }
 }

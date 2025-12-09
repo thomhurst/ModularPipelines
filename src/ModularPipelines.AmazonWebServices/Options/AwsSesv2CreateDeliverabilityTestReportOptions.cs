@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sesv2", "create-deliverability-test-report")]
+[CliCommand("sesv2", "create-deliverability-test-report")]
 public record AwsSesv2CreateDeliverabilityTestReportOptions(
-[property: CommandSwitch("--from-email-address")] string FromEmailAddress,
-[property: CommandSwitch("--content")] string Content
+[property: CliOption("--from-email-address")] string FromEmailAddress,
+[property: CliOption("--content")] string Content
 ) : AwsOptions
 {
-    [CommandSwitch("--report-name")]
+    [CliOption("--report-name")]
     public string? ReportName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

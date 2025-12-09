@@ -27,15 +27,15 @@ public record DotNetToolUninstallOptions : DotNetOptions
         PackageName = packageName;
     }
 
-    [PositionalArgument(PlaceholderName = "<PACKAGE_NAME>")]
-    public string? PackageName { get; set; }
+    [CliArgument(Name = "<PACKAGE_NAME>")]
+    public virtual string? PackageName { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public virtual bool? Global { get; set; }
 
-    [BooleanCommandSwitch("--tool-path")]
+    [CliFlag("--tool-path")]
     public virtual string? ToolPath { get; set; }
 
-    [CommandSwitch("--tool-manifest")]
+    [CliOption("--tool-manifest")]
     public virtual string? ToolManifest { get; set; }
 }

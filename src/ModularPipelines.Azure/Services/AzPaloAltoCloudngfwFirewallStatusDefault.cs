@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("palo-alto", "cloudngfw", "firewall", "status")]
+[CliCommand("palo-alto", "cloudngfw", "firewall", "status")]
 public class AzPaloAltoCloudngfwFirewallStatusDefault
 {
     public AzPaloAltoCloudngfwFirewallStatusDefault(

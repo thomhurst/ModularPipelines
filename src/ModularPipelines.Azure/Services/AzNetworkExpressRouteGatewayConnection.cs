@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "express-route", "gateway")]
+[CliCommand("network", "express-route", "gateway")]
 public class AzNetworkExpressRouteGatewayConnection
 {
     public AzNetworkExpressRouteGatewayConnection(

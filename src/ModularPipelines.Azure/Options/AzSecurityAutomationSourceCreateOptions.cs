@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "automation-source", "create")]
+[CliSubCommand("security", "automation-source", "create")]
 public record AzSecurityAutomationSourceCreateOptions(
-[property: CommandSwitch("--event-source")] string EventSource
+[property: CliOption("--event-source")] string EventSource
 ) : AzOptions
 {
-    [CommandSwitch("--rule-sets")]
+    [CliOption("--rule-sets")]
     public string? RuleSets { get; set; }
 }

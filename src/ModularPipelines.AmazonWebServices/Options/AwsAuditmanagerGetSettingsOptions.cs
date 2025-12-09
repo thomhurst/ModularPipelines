@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("auditmanager", "get-settings")]
+[CliCommand("auditmanager", "get-settings")]
 public record AwsAuditmanagerGetSettingsOptions(
-[property: CommandSwitch("--attribute")] string Attribute
+[property: CliOption("--attribute")] string Attribute
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bedrock-agent", "create-data-source")]
+[CliCommand("bedrock-agent", "create-data-source")]
 public record AwsBedrockAgentCreateDataSourceOptions(
-[property: CommandSwitch("--knowledge-base-id")] string KnowledgeBaseId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--data-source-configuration")] string DataSourceConfiguration
+[property: CliOption("--knowledge-base-id")] string KnowledgeBaseId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--data-source-configuration")] string DataSourceConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--server-side-encryption-configuration")]
+    [CliOption("--server-side-encryption-configuration")]
     public string? ServerSideEncryptionConfiguration { get; set; }
 
-    [CommandSwitch("--vector-ingestion-configuration")]
+    [CliOption("--vector-ingestion-configuration")]
     public string? VectorIngestionConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

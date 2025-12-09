@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dnc")]
+[CliSubCommand("dnc")]
 public class AzDncOrchestratorInstanceService
 {
     public AzDncOrchestratorInstanceService(

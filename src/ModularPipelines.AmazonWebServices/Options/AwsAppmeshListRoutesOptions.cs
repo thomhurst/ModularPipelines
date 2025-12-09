@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appmesh", "list-routes")]
+[CliCommand("appmesh", "list-routes")]
 public record AwsAppmeshListRoutesOptions(
-[property: CommandSwitch("--mesh-name")] string MeshName,
-[property: CommandSwitch("--virtual-router-name")] string VirtualRouterName
+[property: CliOption("--mesh-name")] string MeshName,
+[property: CliOption("--virtual-router-name")] string VirtualRouterName
 ) : AwsOptions
 {
-    [CommandSwitch("--mesh-owner")]
+    [CliOption("--mesh-owner")]
     public string? MeshOwner { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

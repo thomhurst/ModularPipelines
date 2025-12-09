@@ -5,23 +5,23 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker-geospatial", "start-vector-enrichment-job")]
+[CliCommand("sagemaker-geospatial", "start-vector-enrichment-job")]
 public record AwsSagemakerGeospatialStartVectorEnrichmentJobOptions(
-[property: CommandSwitch("--execution-role-arn")] string ExecutionRoleArn,
-[property: CommandSwitch("--input-config")] string InputConfig,
-[property: CommandSwitch("--job-config")] string JobConfig,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--execution-role-arn")] string ExecutionRoleArn,
+[property: CliOption("--input-config")] string InputConfig,
+[property: CliOption("--job-config")] string JobConfig,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

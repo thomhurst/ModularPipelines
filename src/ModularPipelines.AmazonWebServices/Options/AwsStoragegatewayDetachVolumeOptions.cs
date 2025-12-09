@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "detach-volume")]
+[CliCommand("storagegateway", "detach-volume")]
 public record AwsStoragegatewayDetachVolumeOptions(
-[property: CommandSwitch("--volume-arn")] string VolumeArn
+[property: CliOption("--volume-arn")] string VolumeArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

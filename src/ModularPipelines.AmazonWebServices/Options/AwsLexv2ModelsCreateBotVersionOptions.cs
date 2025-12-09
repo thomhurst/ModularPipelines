@@ -5,15 +5,15 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lexv2-models", "create-bot-version")]
+[CliCommand("lexv2-models", "create-bot-version")]
 public record AwsLexv2ModelsCreateBotVersionOptions(
-[property: CommandSwitch("--bot-id")] string BotId,
-[property: CommandSwitch("--bot-version-locale-specification")] IEnumerable<KeyValue> BotVersionLocaleSpecification
+[property: CliOption("--bot-id")] string BotId,
+[property: CliOption("--bot-version-locale-specification")] IEnumerable<KeyValue> BotVersionLocaleSpecification
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

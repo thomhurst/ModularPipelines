@@ -3,16 +3,16 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("version")]
+[CliSubCommand("version")]
 [ExcludeFromCodeCoverage]
 public record KubernetesVersionOptions : KubernetesOptions
 {
-    [BooleanCommandSwitch("--client")]
+    [CliFlag("--client")]
     public virtual bool? Client { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
-    public string? Output { get; set; }
+    [CliOption("--output")]
+    public virtual string? Output { get; set; }
 
-    [BooleanCommandSwitch("--short")]
+    [CliFlag("--short")]
     public virtual bool? Short { get; set; }
 }

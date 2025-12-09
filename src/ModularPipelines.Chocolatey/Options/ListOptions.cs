@@ -4,53 +4,53 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("list")]
+[CliSubCommand("list")]
 public record ListOptions(
-    [property: PositionalArgument] string Filter
+    [property: CliArgument] string Filter
 ) : ChocoOptions
 {
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public virtual string? Source { get; set; }
 
-    [BooleanCommandSwitch("--id-only")]
+    [CliFlag("--id-only")]
     public virtual bool? IdOnly { get; set; }
 
-    [BooleanCommandSwitch("--prerelease")]
+    [CliFlag("--prerelease")]
     public virtual bool? Prerelease { get; set; }
 
-    [BooleanCommandSwitch("--include-programs")]
+    [CliFlag("--include-programs")]
     public virtual bool? IncludePrograms { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public virtual string? Version { get; set; }
 
-    [CommandSwitch("--page")]
+    [CliOption("--page")]
     public virtual string? Page { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public virtual string? PageSize { get; set; }
 
-    [BooleanCommandSwitch("--exact")]
+    [CliFlag("--exact")]
     public virtual bool? Exact { get; set; }
 
-    [BooleanCommandSwitch("--by-id-only")]
+    [CliFlag("--by-id-only")]
     public virtual bool? ByIdOnly { get; set; }
 
-    [BooleanCommandSwitch("--by-tags-only")]
+    [CliFlag("--by-tags-only")]
     public virtual bool? ByTagsOnly { get; set; }
 
-    [BooleanCommandSwitch("--id-starts-with")]
+    [CliFlag("--id-starts-with")]
     public virtual bool? IdStartsWith { get; set; }
 
-    [BooleanCommandSwitch("--detailed")]
+    [CliFlag("--detailed")]
     public virtual bool? Detailed { get; set; }
 
-    [BooleanCommandSwitch("--disable-package-repository-optimizations")]
+    [CliFlag("--disable-package-repository-optimizations")]
     public virtual bool? DisablePackageRepositoryOptimizations { get; set; }
 
-    [BooleanCommandSwitch("--show-audit-info")]
+    [CliFlag("--show-audit-info")]
     public virtual bool? ShowAuditInfo { get; set; }
 
-    [BooleanCommandSwitch("--force-self-service")]
+    [CliFlag("--force-self-service")]
     public virtual bool? ForceSelfService { get; set; }
 }

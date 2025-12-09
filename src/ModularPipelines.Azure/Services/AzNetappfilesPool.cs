@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles")]
+[CliSubCommand("netappfiles")]
 public class AzNetappfilesPool
 {
     public AzNetappfilesPool(

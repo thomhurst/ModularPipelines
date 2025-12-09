@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesis", "update-stream-mode")]
+[CliCommand("kinesis", "update-stream-mode")]
 public record AwsKinesisUpdateStreamModeOptions(
-[property: CommandSwitch("--stream-arn")] string StreamArn,
-[property: CommandSwitch("--stream-mode-details")] string StreamModeDetails
+[property: CliOption("--stream-arn")] string StreamArn,
+[property: CliOption("--stream-mode-details")] string StreamModeDetails
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

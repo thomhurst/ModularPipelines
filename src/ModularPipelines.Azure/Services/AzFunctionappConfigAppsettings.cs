@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "config")]
+[CliCommand("functionapp", "config")]
 public class AzFunctionappConfigAppsettings
 {
     public AzFunctionappConfigAppsettings(

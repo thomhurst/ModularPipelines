@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automanage", "configuration-profile-assignment", "arc", "create")]
+[CliSubCommand("automanage", "configuration-profile-assignment", "arc", "create")]
 public record AzAutomanageConfigurationProfileAssignmentArcCreateOptions(
-[property: CommandSwitch("--configuration-profile-assignment-name")] string ConfigurationProfileAssignmentName,
-[property: CommandSwitch("--machine-name")] string MachineName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--configuration-profile-assignment-name")] string ConfigurationProfileAssignmentName,
+[property: CliOption("--machine-name")] string MachineName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--configuration-profile")]
+    [CliOption("--configuration-profile")]
     public string? ConfigurationProfile { get; set; }
 }

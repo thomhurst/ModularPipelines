@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cleanroomsml", "update-configured-audience-model")]
+[CliCommand("cleanroomsml", "update-configured-audience-model")]
 public record AwsCleanroomsmlUpdateConfiguredAudienceModelOptions(
-[property: CommandSwitch("--configured-audience-model-arn")] string ConfiguredAudienceModelArn
+[property: CliOption("--configured-audience-model-arn")] string ConfiguredAudienceModelArn
 ) : AwsOptions
 {
-    [CommandSwitch("--audience-model-arn")]
+    [CliOption("--audience-model-arn")]
     public string? AudienceModelArn { get; set; }
 
-    [CommandSwitch("--audience-size-config")]
+    [CliOption("--audience-size-config")]
     public string? AudienceSizeConfig { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--min-matching-seed-size")]
+    [CliOption("--min-matching-seed-size")]
     public int? MinMatchingSeedSize { get; set; }
 
-    [CommandSwitch("--output-config")]
+    [CliOption("--output-config")]
     public string? OutputConfig { get; set; }
 
-    [CommandSwitch("--shared-audience-metrics")]
+    [CliOption("--shared-audience-metrics")]
     public string[]? SharedAudienceMetrics { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

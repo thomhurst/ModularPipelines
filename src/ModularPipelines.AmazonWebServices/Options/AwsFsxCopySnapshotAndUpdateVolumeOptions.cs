@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fsx", "copy-snapshot-and-update-volume")]
+[CliCommand("fsx", "copy-snapshot-and-update-volume")]
 public record AwsFsxCopySnapshotAndUpdateVolumeOptions(
-[property: CommandSwitch("--volume-id")] string VolumeId,
-[property: CommandSwitch("--source-snapshot-arn")] string SourceSnapshotArn
+[property: CliOption("--volume-id")] string VolumeId,
+[property: CliOption("--source-snapshot-arn")] string SourceSnapshotArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--copy-strategy")]
+    [CliOption("--copy-strategy")]
     public string? CopyStrategy { get; set; }
 
-    [CommandSwitch("--options")]
+    [CliOption("--options")]
     public string[]? Options { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

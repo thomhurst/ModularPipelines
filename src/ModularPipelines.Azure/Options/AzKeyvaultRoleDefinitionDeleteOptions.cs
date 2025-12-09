@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "role", "definition", "delete")]
+[CliSubCommand("keyvault", "role", "definition", "delete")]
 public record AzKeyvaultRoleDefinitionDeleteOptions(
-[property: CommandSwitch("--hsm-name")] string HsmName
+[property: CliOption("--hsm-name")] string HsmName
 ) : AzOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--role-id")]
+    [CliOption("--role-id")]
     public string? RoleId { get; set; }
 }

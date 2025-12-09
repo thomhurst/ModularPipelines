@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "kusto", "pool", "update")]
+[CliSubCommand("synapse", "kusto", "pool", "update")]
 public record AzSynapseKustoPoolUpdateOptions : AzOptions
 {
-    [BooleanCommandSwitch("--enable-purge")]
+    [CliFlag("--enable-purge")]
     public bool? EnablePurge { get; set; }
 
-    [BooleanCommandSwitch("--enable-streaming-ingest")]
+    [CliFlag("--enable-streaming-ingest")]
     public bool? EnableStreamingIngest { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--kusto-pool-name")]
+    [CliOption("--kusto-pool-name")]
     public string? KustoPoolName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--optimized-autoscale")]
+    [CliOption("--optimized-autoscale")]
     public string? OptimizedAutoscale { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 
-    [CommandSwitch("--workspace-uid")]
+    [CliOption("--workspace-uid")]
     public string? WorkspaceUid { get; set; }
 }

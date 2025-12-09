@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "certificate", "add")]
+[CliSubCommand("spring", "certificate", "add")]
 public record AzSpringCertificateAddOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--enable-auto-sync")]
+    [CliFlag("--enable-auto-sync")]
     public bool? EnableAutoSync { get; set; }
 
-    [BooleanCommandSwitch("--only-public-cert")]
+    [CliFlag("--only-public-cert")]
     public bool? OnlyPublicCert { get; set; }
 
-    [CommandSwitch("--public-certificate-file")]
+    [CliOption("--public-certificate-file")]
     public string? PublicCertificateFile { get; set; }
 
-    [CommandSwitch("--vault-certificate-name")]
+    [CliOption("--vault-certificate-name")]
     public string? VaultCertificateName { get; set; }
 
-    [CommandSwitch("--vault-uri")]
+    [CliOption("--vault-uri")]
     public string? VaultUri { get; set; }
 }

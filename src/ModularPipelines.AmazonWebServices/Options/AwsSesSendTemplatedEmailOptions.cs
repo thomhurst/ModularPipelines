@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ses", "send-templated-email")]
+[CliCommand("ses", "send-templated-email")]
 public record AwsSesSendTemplatedEmailOptions(
-[property: CommandSwitch("--source")] string Source,
-[property: CommandSwitch("--destination")] string Destination,
-[property: CommandSwitch("--template")] string Template,
-[property: CommandSwitch("--template-data")] string TemplateData
+[property: CliOption("--source")] string Source,
+[property: CliOption("--destination")] string Destination,
+[property: CliOption("--template")] string Template,
+[property: CliOption("--template-data")] string TemplateData
 ) : AwsOptions
 {
-    [CommandSwitch("--reply-to-addresses")]
+    [CliOption("--reply-to-addresses")]
     public string[]? ReplyToAddresses { get; set; }
 
-    [CommandSwitch("--return-path")]
+    [CliOption("--return-path")]
     public string? ReturnPath { get; set; }
 
-    [CommandSwitch("--source-arn")]
+    [CliOption("--source-arn")]
     public string? SourceArn { get; set; }
 
-    [CommandSwitch("--return-path-arn")]
+    [CliOption("--return-path-arn")]
     public string? ReturnPathArn { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--configuration-set-name")]
+    [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; set; }
 
-    [CommandSwitch("--template-arn")]
+    [CliOption("--template-arn")]
     public string? TemplateArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "start-gui-session")]
+[CliCommand("lightsail", "start-gui-session")]
 public record AwsLightsailStartGuiSessionOptions(
-[property: CommandSwitch("--resource-name")] string ResourceName
+[property: CliOption("--resource-name")] string ResourceName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

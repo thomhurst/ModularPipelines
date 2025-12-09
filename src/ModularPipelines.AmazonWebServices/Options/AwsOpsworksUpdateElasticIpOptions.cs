@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworks", "update-elastic-ip")]
+[CliCommand("opsworks", "update-elastic-ip")]
 public record AwsOpsworksUpdateElasticIpOptions(
-[property: CommandSwitch("--elastic-ip")] string ElasticIp
+[property: CliOption("--elastic-ip")] string ElasticIp
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

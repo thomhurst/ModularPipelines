@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "profile", "update")]
+[CliSubCommand("billing", "profile", "update")]
 public record AzBillingProfileUpdateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--bill-to")]
+    [CliOption("--bill-to")]
     public string? BillTo { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [BooleanCommandSwitch("--enabled-azure-plans")]
+    [CliFlag("--enabled-azure-plans")]
     public bool? EnabledAzurePlans { get; set; }
 
-    [BooleanCommandSwitch("--invoice-email-opt-in")]
+    [CliFlag("--invoice-email-opt-in")]
     public bool? InvoiceEmailOptIn { get; set; }
 
-    [CommandSwitch("--invoice-sections-value")]
+    [CliOption("--invoice-sections-value")]
     public string? InvoiceSectionsValue { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--po-number")]
+    [CliOption("--po-number")]
     public string? PoNumber { get; set; }
 }

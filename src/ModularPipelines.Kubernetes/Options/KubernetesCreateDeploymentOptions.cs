@@ -3,40 +3,40 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("create", "deployment")]
+[CliCommand("create", "deployment")]
 [ExcludeFromCodeCoverage]
-public record KubernetesCreateDeploymentOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesCreateDeploymentOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--allow-missing-template-keys")]
+    [CliFlag("--allow-missing-template-keys")]
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
-    public string? DryRun { get; set; }
+    [CliOption("--dry-run")]
+    public virtual string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
-    public string? FieldManager { get; set; }
+    [CliOption("--field-manager")]
+    public virtual string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--image", SwitchValueSeparator = " ")]
-    public string[]? Image { get; set; }
+    [CliOption("--image")]
+    public virtual string[]? Image { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
-    public string? Output { get; set; }
+    [CliOption("--output")]
+    public virtual string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--port", SwitchValueSeparator = " ")]
-    public int? Port { get; set; }
+    [CliOption("--port")]
+    public virtual int? Port { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--replicas", SwitchValueSeparator = " ")]
-    public int? Replicas { get; set; }
+    [CliOption("--replicas")]
+    public virtual int? Replicas { get; set; }
 
-    [BooleanCommandSwitch("--save-config")]
+    [CliFlag("--save-config")]
     public virtual bool? SaveConfig { get; set; }
 
-    [BooleanCommandSwitch("--show-managed-fields")]
+    [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
-    public string? Template { get; set; }
+    [CliOption("--template")]
+    public virtual string? Template { get; set; }
 
-    [BooleanCommandSwitch("--validate")]
+    [CliFlag("--validate")]
     public virtual bool? Validate { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("guestconfig", "guest-configuration-hcrp-assignment", "list")]
+[CliSubCommand("guestconfig", "guest-configuration-hcrp-assignment", "list")]
 public record AzGuestconfigGuestConfigurationHcrpAssignmentListOptions(
-[property: CommandSwitch("--machine-name")] string MachineName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--machine-name")] string MachineName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

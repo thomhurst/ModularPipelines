@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dlx")]
+[CliSubCommand("dlx")]
 public record YarnDlxOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Command
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Command
 ) : YarnOptions
 {
-    [CommandSwitch("--package")]
+    [CliOption("--package")]
     public virtual string? Package { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 }

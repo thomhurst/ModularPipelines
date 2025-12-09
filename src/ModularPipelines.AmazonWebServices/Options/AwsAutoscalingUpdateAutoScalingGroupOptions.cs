@@ -4,68 +4,68 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("autoscaling", "update-auto-scaling-group")]
+[CliCommand("autoscaling", "update-auto-scaling-group")]
 public record AwsAutoscalingUpdateAutoScalingGroupOptions(
-[property: CommandSwitch("--auto-scaling-group-name")] string AutoScalingGroupName
+[property: CliOption("--auto-scaling-group-name")] string AutoScalingGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--launch-configuration-name")]
+    [CliOption("--launch-configuration-name")]
     public string? LaunchConfigurationName { get; set; }
 
-    [CommandSwitch("--launch-template")]
+    [CliOption("--launch-template")]
     public string? LaunchTemplate { get; set; }
 
-    [CommandSwitch("--mixed-instances-policy")]
+    [CliOption("--mixed-instances-policy")]
     public string? MixedInstancesPolicy { get; set; }
 
-    [CommandSwitch("--min-size")]
+    [CliOption("--min-size")]
     public int? MinSize { get; set; }
 
-    [CommandSwitch("--max-size")]
+    [CliOption("--max-size")]
     public int? MaxSize { get; set; }
 
-    [CommandSwitch("--desired-capacity")]
+    [CliOption("--desired-capacity")]
     public int? DesiredCapacity { get; set; }
 
-    [CommandSwitch("--default-cooldown")]
+    [CliOption("--default-cooldown")]
     public int? DefaultCooldown { get; set; }
 
-    [CommandSwitch("--availability-zones")]
+    [CliOption("--availability-zones")]
     public string[]? AvailabilityZones { get; set; }
 
-    [CommandSwitch("--health-check-type")]
+    [CliOption("--health-check-type")]
     public string? HealthCheckType { get; set; }
 
-    [CommandSwitch("--health-check-grace-period")]
+    [CliOption("--health-check-grace-period")]
     public int? HealthCheckGracePeriod { get; set; }
 
-    [CommandSwitch("--placement-group")]
+    [CliOption("--placement-group")]
     public string? PlacementGroup { get; set; }
 
-    [CommandSwitch("--vpc-zone-identifier")]
+    [CliOption("--vpc-zone-identifier")]
     public string? VpcZoneIdentifier { get; set; }
 
-    [CommandSwitch("--termination-policies")]
+    [CliOption("--termination-policies")]
     public string[]? TerminationPolicies { get; set; }
 
-    [CommandSwitch("--service-linked-role-arn")]
+    [CliOption("--service-linked-role-arn")]
     public string? ServiceLinkedRoleArn { get; set; }
 
-    [CommandSwitch("--max-instance-lifetime")]
+    [CliOption("--max-instance-lifetime")]
     public int? MaxInstanceLifetime { get; set; }
 
-    [CommandSwitch("--context")]
+    [CliOption("--context")]
     public string? Context { get; set; }
 
-    [CommandSwitch("--desired-capacity-type")]
+    [CliOption("--desired-capacity-type")]
     public string? DesiredCapacityType { get; set; }
 
-    [CommandSwitch("--default-instance-warmup")]
+    [CliOption("--default-instance-warmup")]
     public int? DefaultInstanceWarmup { get; set; }
 
-    [CommandSwitch("--instance-maintenance-policy")]
+    [CliOption("--instance-maintenance-policy")]
     public string? InstanceMaintenancePolicy { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

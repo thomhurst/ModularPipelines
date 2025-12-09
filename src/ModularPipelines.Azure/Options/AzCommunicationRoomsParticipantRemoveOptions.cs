@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("communication", "rooms", "participant", "remove")]
+[CliSubCommand("communication", "rooms", "participant", "remove")]
 public record AzCommunicationRoomsParticipantRemoveOptions(
-[property: CommandSwitch("--participants")] string Participants,
-[property: CommandSwitch("--room")] string Room
+[property: CliOption("--participants")] string Participants,
+[property: CliOption("--room")] string Room
 ) : AzOptions
 {
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

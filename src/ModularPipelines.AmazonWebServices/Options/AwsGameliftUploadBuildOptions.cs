@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "upload-build")]
+[CliCommand("gamelift", "upload-build")]
 public record AwsGameliftUploadBuildOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--build-version")] string BuildVersion,
-[property: CommandSwitch("--build-root")] string BuildRoot
+[property: CliOption("--name")] string Name,
+[property: CliOption("--build-version")] string BuildVersion,
+[property: CliOption("--build-root")] string BuildRoot
 ) : AwsOptions
 {
-    [CommandSwitch("--server-sdk-version")]
+    [CliOption("--server-sdk-version")]
     public string? ServerSdkVersion { get; set; }
 
-    [CommandSwitch("--operating-system")]
+    [CliOption("--operating-system")]
     public string? OperatingSystem { get; set; }
 }

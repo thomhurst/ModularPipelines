@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataprotection", "backup-policy", "retention-rule", "create-lifecycle")]
+[CliSubCommand("dataprotection", "backup-policy", "retention-rule", "create-lifecycle")]
 public record AzDataprotectionBackupPolicyRetentionRuleCreateLifecycleOptions(
-[property: CommandSwitch("--count")] int Count,
-[property: CommandSwitch("--retention-duration-type")] string RetentionDurationType,
-[property: CommandSwitch("--source-datastore")] string SourceDatastore
+[property: CliOption("--count")] int Count,
+[property: CliOption("--retention-duration-type")] string RetentionDurationType,
+[property: CliOption("--source-datastore")] string SourceDatastore
 ) : AzOptions
 {
-    [CommandSwitch("--copy-option")]
+    [CliOption("--copy-option")]
     public string? CopyOption { get; set; }
 
-    [CommandSwitch("--target-datastore")]
+    [CliOption("--target-datastore")]
     public string? TargetDatastore { get; set; }
 }

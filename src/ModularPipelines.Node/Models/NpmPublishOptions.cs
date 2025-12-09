@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("publish")]
+[CliSubCommand("publish")]
 public record NpmPublishOptions : NpmOptions
 {
-    [CommandSwitch("--tag")]
+    [CliOption("--tag")]
     public virtual string? Tag { get; set; }
 
-    [CommandSwitch("--access")]
+    [CliOption("--access")]
     public virtual string? Access { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [CommandSwitch("--otp")]
+    [CliOption("--otp")]
     public virtual string? Otp { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public virtual string[]? Workspace { get; set; }
 
-    [BooleanCommandSwitch("--workspaces")]
+    [CliFlag("--workspaces")]
     public virtual bool? Workspaces { get; set; }
 
-    [BooleanCommandSwitch("--include-workspace-root")]
+    [CliFlag("--include-workspace-root")]
     public virtual bool? IncludeWorkspaceRoot { get; set; }
 
-    [BooleanCommandSwitch("--provenance")]
+    [CliFlag("--provenance")]
     public virtual bool? Provenance { get; set; }
 
-    [CommandSwitch("--provenance-file")]
+    [CliOption("--provenance-file")]
     public virtual string? ProvenanceFile { get; set; }
 }

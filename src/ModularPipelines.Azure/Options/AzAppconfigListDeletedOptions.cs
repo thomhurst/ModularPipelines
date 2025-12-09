@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appconfig", "list-deleted")]
+[CliSubCommand("appconfig", "list-deleted")]
 public record AzAppconfigListDeletedOptions : AzOptions;

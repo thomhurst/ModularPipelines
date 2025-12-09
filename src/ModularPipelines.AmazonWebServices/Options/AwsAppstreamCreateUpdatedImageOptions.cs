@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appstream", "create-updated-image")]
+[CliCommand("appstream", "create-updated-image")]
 public record AwsAppstreamCreateUpdatedImageOptions(
-[property: CommandSwitch("--existing-image-name")] string ExistingImageName,
-[property: CommandSwitch("--new-image-name")] string NewImageName
+[property: CliOption("--existing-image-name")] string ExistingImageName,
+[property: CliOption("--new-image-name")] string NewImageName
 ) : AwsOptions
 {
-    [CommandSwitch("--new-image-description")]
+    [CliOption("--new-image-description")]
     public string? NewImageDescription { get; set; }
 
-    [CommandSwitch("--new-image-display-name")]
+    [CliOption("--new-image-display-name")]
     public string? NewImageDisplayName { get; set; }
 
-    [CommandSwitch("--new-image-tags")]
+    [CliOption("--new-image-tags")]
     public IEnumerable<KeyValue>? NewImageTags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

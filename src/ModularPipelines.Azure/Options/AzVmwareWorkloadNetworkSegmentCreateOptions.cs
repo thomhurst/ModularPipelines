@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "workload-network", "segment", "create")]
+[CliSubCommand("vmware", "workload-network", "segment", "create")]
 public record AzVmwareWorkloadNetworkSegmentCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--private-cloud")] string PrivateCloud,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--private-cloud")] string PrivateCloud,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--connected-gateway")]
+    [CliOption("--connected-gateway")]
     public string? ConnectedGateway { get; set; }
 
-    [CommandSwitch("--dhcp-ranges")]
+    [CliOption("--dhcp-ranges")]
     public string? DhcpRanges { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--gateway-address")]
+    [CliOption("--gateway-address")]
     public string? GatewayAddress { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--revision")]
+    [CliOption("--revision")]
     public string? Revision { get; set; }
 }

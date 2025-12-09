@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr", "create-security-configuration")]
+[CliCommand("emr", "create-security-configuration")]
 public record AwsEmrCreateSecurityConfigurationOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--security-configuration")] string SecurityConfiguration
+[property: CliOption("--name")] string Name,
+[property: CliOption("--security-configuration")] string SecurityConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

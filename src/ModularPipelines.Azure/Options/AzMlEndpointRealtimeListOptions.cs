@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "endpoint", "realtime", "list")]
+[CliSubCommand("ml", "endpoint", "realtime", "list")]
 public record AzMlEndpointRealtimeListOptions : AzOptions
 {
-    [CommandSwitch("--compute-type")]
+    [CliOption("--compute-type")]
     public string? ComputeType { get; set; }
 
-    [CommandSwitch("--model-id")]
+    [CliOption("--model-id")]
     public string? ModelId { get; set; }
 
-    [CommandSwitch("--model-name")]
+    [CliOption("--model-name")]
     public string? ModelName { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--property")]
+    [CliOption("--property")]
     public string? Property { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription-id")]
+    [CliOption("--subscription-id")]
     public string? SubscriptionId { get; set; }
 
-    [CommandSwitch("--tag")]
+    [CliOption("--tag")]
     public string? Tag { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 
-    [CommandSwitch("-v")]
+    [CliOption("-v")]
     public string? V { get; set; }
 }

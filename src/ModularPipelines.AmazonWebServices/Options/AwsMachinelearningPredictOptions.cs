@@ -5,13 +5,13 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("machinelearning", "predict")]
+[CliCommand("machinelearning", "predict")]
 public record AwsMachinelearningPredictOptions(
-[property: CommandSwitch("--ml-model-id")] string MlModelId,
-[property: CommandSwitch("--record")] IEnumerable<KeyValue> Record,
-[property: CommandSwitch("--predict-endpoint")] string PredictEndpoint
+[property: CliOption("--ml-model-id")] string MlModelId,
+[property: CliOption("--record")] IEnumerable<KeyValue> Record,
+[property: CliOption("--predict-endpoint")] string PredictEndpoint
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

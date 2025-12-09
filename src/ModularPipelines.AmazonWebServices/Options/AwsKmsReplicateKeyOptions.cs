@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "replicate-key")]
+[CliCommand("kms", "replicate-key")]
 public record AwsKmsReplicateKeyOptions(
-[property: CommandSwitch("--key-id")] string KeyId,
-[property: CommandSwitch("--replica-region")] string ReplicaRegion
+[property: CliOption("--key-id")] string KeyId,
+[property: CliOption("--replica-region")] string ReplicaRegion
 ) : AwsOptions
 {
-    [CommandSwitch("--policy")]
+    [CliOption("--policy")]
     public string? Policy { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

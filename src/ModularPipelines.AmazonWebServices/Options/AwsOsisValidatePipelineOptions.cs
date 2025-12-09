@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("osis", "validate-pipeline")]
+[CliCommand("osis", "validate-pipeline")]
 public record AwsOsisValidatePipelineOptions(
-[property: CommandSwitch("--pipeline-configuration-body")] string PipelineConfigurationBody
+[property: CliOption("--pipeline-configuration-body")] string PipelineConfigurationBody
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

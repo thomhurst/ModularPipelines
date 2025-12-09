@@ -5,42 +5,42 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transcribe", "start-medical-transcription-job")]
+[CliCommand("transcribe", "start-medical-transcription-job")]
 public record AwsTranscribeStartMedicalTranscriptionJobOptions(
-[property: CommandSwitch("--medical-transcription-job-name")] string MedicalTranscriptionJobName,
-[property: CommandSwitch("--language-code")] string LanguageCode,
-[property: CommandSwitch("--output-bucket-name")] string OutputBucketName,
-[property: CommandSwitch("--specialty")] string Specialty,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--medical-transcription-job-name")] string MedicalTranscriptionJobName,
+[property: CliOption("--language-code")] string LanguageCode,
+[property: CliOption("--output-bucket-name")] string OutputBucketName,
+[property: CliOption("--specialty")] string Specialty,
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--media-sample-rate-hertz")]
+    [CliOption("--media-sample-rate-hertz")]
     public int? MediaSampleRateHertz { get; set; }
 
-    [CommandSwitch("--media-format")]
+    [CliOption("--media-format")]
     public string? MediaFormat { get; set; }
 
-    [CommandSwitch("--media")]
+    [CliOption("--media")]
     public string? Media { get; set; }
 
-    [CommandSwitch("--output-key")]
+    [CliOption("--output-key")]
     public string? OutputKey { get; set; }
 
-    [CommandSwitch("--output-encryption-kms-key-id")]
+    [CliOption("--output-encryption-kms-key-id")]
     public string? OutputEncryptionKmsKeyId { get; set; }
 
-    [CommandSwitch("--kms-encryption-context")]
+    [CliOption("--kms-encryption-context")]
     public IEnumerable<KeyValue>? KmsEncryptionContext { get; set; }
 
-    [CommandSwitch("--settings")]
+    [CliOption("--settings")]
     public string? Settings { get; set; }
 
-    [CommandSwitch("--content-identification-type")]
+    [CliOption("--content-identification-type")]
     public string? ContentIdentificationType { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

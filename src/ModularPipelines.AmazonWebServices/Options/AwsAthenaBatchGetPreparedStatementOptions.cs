@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("athena", "batch-get-prepared-statement")]
+[CliCommand("athena", "batch-get-prepared-statement")]
 public record AwsAthenaBatchGetPreparedStatementOptions(
-[property: CommandSwitch("--prepared-statement-names")] string[] PreparedStatementNames,
-[property: CommandSwitch("--work-group")] string WorkGroup
+[property: CliOption("--prepared-statement-names")] string[] PreparedStatementNames,
+[property: CliOption("--work-group")] string WorkGroup
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

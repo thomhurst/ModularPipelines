@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fis", "delete-target-account-configuration")]
+[CliCommand("fis", "delete-target-account-configuration")]
 public record AwsFisDeleteTargetAccountConfigurationOptions(
-[property: CommandSwitch("--experiment-template-id")] string ExperimentTemplateId,
-[property: CommandSwitch("--account-id")] string AccountId
+[property: CliOption("--experiment-template-id")] string ExperimentTemplateId,
+[property: CliOption("--account-id")] string AccountId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

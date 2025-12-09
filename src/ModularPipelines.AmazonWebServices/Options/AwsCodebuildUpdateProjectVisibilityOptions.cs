@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codebuild", "update-project-visibility")]
+[CliCommand("codebuild", "update-project-visibility")]
 public record AwsCodebuildUpdateProjectVisibilityOptions(
-[property: CommandSwitch("--project-arn")] string ProjectArn,
-[property: CommandSwitch("--project-visibility")] string ProjectVisibility
+[property: CliOption("--project-arn")] string ProjectArn,
+[property: CliOption("--project-visibility")] string ProjectVisibility
 ) : AwsOptions
 {
-    [CommandSwitch("--resource-access-role")]
+    [CliOption("--resource-access-role")]
     public string? ResourceAccessRole { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

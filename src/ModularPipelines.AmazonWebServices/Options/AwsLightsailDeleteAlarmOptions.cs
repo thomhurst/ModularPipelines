@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "delete-alarm")]
+[CliCommand("lightsail", "delete-alarm")]
 public record AwsLightsailDeleteAlarmOptions(
-[property: CommandSwitch("--alarm-name")] string AlarmName
+[property: CliOption("--alarm-name")] string AlarmName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

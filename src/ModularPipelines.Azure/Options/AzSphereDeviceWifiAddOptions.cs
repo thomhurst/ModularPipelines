@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sphere", "device", "wifi", "add")]
+[CliSubCommand("sphere", "device", "wifi", "add")]
 public record AzSphereDeviceWifiAddOptions(
-[property: CommandSwitch("--ssid")] string Ssid
+[property: CliOption("--ssid")] string Ssid
 ) : AzOptions
 {
-    [CommandSwitch("--client-cert-id")]
+    [CliOption("--client-cert-id")]
     public string? ClientCertId { get; set; }
 
-    [CommandSwitch("--client-id")]
+    [CliOption("--client-id")]
     public string? ClientId { get; set; }
 
-    [CommandSwitch("--config-name")]
+    [CliOption("--config-name")]
     public string? ConfigName { get; set; }
 
-    [CommandSwitch("--device")]
+    [CliOption("--device")]
     public string? Device { get; set; }
 
-    [CommandSwitch("--psk")]
+    [CliOption("--psk")]
     public string? Psk { get; set; }
 
-    [CommandSwitch("--root-ca-cert-id")]
+    [CliOption("--root-ca-cert-id")]
     public string? RootCaCertId { get; set; }
 
-    [BooleanCommandSwitch("--targeted-scan")]
+    [CliFlag("--targeted-scan")]
     public bool? TargetedScan { get; set; }
 }

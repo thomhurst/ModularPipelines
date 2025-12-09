@@ -4,58 +4,58 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scvmm", "vm", "create")]
+[CliSubCommand("scvmm", "vm", "create")]
 public record AzScvmmVmCreateOptions(
-[property: CommandSwitch("--custom-location")] string CustomLocation,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--custom-location")] string CustomLocation,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--admin-password")]
+    [CliOption("--admin-password")]
     public string? AdminPassword { get; set; }
 
-    [CommandSwitch("--availability-sets")]
+    [CliOption("--availability-sets")]
     public string? AvailabilitySets { get; set; }
 
-    [CommandSwitch("--cloud")]
+    [CliOption("--cloud")]
     public string? Cloud { get; set; }
 
-    [CommandSwitch("--cpu-count")]
+    [CliOption("--cpu-count")]
     public int? CpuCount { get; set; }
 
-    [CommandSwitch("--disk")]
+    [CliOption("--disk")]
     public string? Disk { get; set; }
 
-    [BooleanCommandSwitch("--dynamic-memory-enabled")]
+    [CliFlag("--dynamic-memory-enabled")]
     public bool? DynamicMemoryEnabled { get; set; }
 
-    [CommandSwitch("--dynamic-memory-max")]
+    [CliOption("--dynamic-memory-max")]
     public string? DynamicMemoryMax { get; set; }
 
-    [CommandSwitch("--dynamic-memory-min")]
+    [CliOption("--dynamic-memory-min")]
     public string? DynamicMemoryMin { get; set; }
 
-    [CommandSwitch("--inventory-item")]
+    [CliOption("--inventory-item")]
     public string? InventoryItem { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--memory-size")]
+    [CliOption("--memory-size")]
     public string? MemorySize { get; set; }
 
-    [CommandSwitch("--nic")]
+    [CliOption("--nic")]
     public string? Nic { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--vm-template")]
+    [CliOption("--vm-template")]
     public string? VmTemplate { get; set; }
 
-    [CommandSwitch("--vmmserver")]
+    [CliOption("--vmmserver")]
     public string? Vmmserver { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "start-project-version")]
+[CliCommand("rekognition", "start-project-version")]
 public record AwsRekognitionStartProjectVersionOptions(
-[property: CommandSwitch("--project-version-arn")] string ProjectVersionArn,
-[property: CommandSwitch("--min-inference-units")] int MinInferenceUnits
+[property: CliOption("--project-version-arn")] string ProjectVersionArn,
+[property: CliOption("--min-inference-units")] int MinInferenceUnits
 ) : AwsOptions
 {
-    [CommandSwitch("--max-inference-units")]
+    [CliOption("--max-inference-units")]
     public int? MaxInferenceUnits { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

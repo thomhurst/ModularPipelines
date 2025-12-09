@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation", "list-type-registrations")]
+[CliCommand("cloudformation", "list-type-registrations")]
 public record AwsCloudformationListTypeRegistrationsOptions : AwsOptions
 {
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--type-name")]
+    [CliOption("--type-name")]
     public string? TypeName { get; set; }
 
-    [CommandSwitch("--type-arn")]
+    [CliOption("--type-arn")]
     public string? TypeArn { get; set; }
 
-    [CommandSwitch("--registration-status-filter")]
+    [CliOption("--registration-status-filter")]
     public string? RegistrationStatusFilter { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

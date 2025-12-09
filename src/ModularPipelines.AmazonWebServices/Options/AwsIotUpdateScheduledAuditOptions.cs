@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "update-scheduled-audit")]
+[CliCommand("iot", "update-scheduled-audit")]
 public record AwsIotUpdateScheduledAuditOptions(
-[property: CommandSwitch("--scheduled-audit-name")] string ScheduledAuditName
+[property: CliOption("--scheduled-audit-name")] string ScheduledAuditName
 ) : AwsOptions
 {
-    [CommandSwitch("--frequency")]
+    [CliOption("--frequency")]
     public string? Frequency { get; set; }
 
-    [CommandSwitch("--day-of-month")]
+    [CliOption("--day-of-month")]
     public string? DayOfMonth { get; set; }
 
-    [CommandSwitch("--day-of-week")]
+    [CliOption("--day-of-week")]
     public string? DayOfWeek { get; set; }
 
-    [CommandSwitch("--target-check-names")]
+    [CliOption("--target-check-names")]
     public string[]? TargetCheckNames { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

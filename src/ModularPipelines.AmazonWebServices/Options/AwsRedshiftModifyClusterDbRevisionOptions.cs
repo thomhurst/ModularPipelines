@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "modify-cluster-db-revision")]
+[CliCommand("redshift", "modify-cluster-db-revision")]
 public record AwsRedshiftModifyClusterDbRevisionOptions(
-[property: CommandSwitch("--cluster-identifier")] string ClusterIdentifier,
-[property: CommandSwitch("--revision-target")] string RevisionTarget
+[property: CliOption("--cluster-identifier")] string ClusterIdentifier,
+[property: CliOption("--revision-target")] string RevisionTarget
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

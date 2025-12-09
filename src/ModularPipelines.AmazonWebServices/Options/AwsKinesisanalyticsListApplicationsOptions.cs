@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesisanalytics", "list-applications")]
+[CliCommand("kinesisanalytics", "list-applications")]
 public record AwsKinesisanalyticsListApplicationsOptions : AwsOptions
 {
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public int? Limit { get; set; }
 
-    [CommandSwitch("--exclusive-start-application-name")]
+    [CliOption("--exclusive-start-application-name")]
     public string? ExclusiveStartApplicationName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

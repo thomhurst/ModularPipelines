@@ -3,14 +3,14 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("state push")]
+[CliSubCommand("state push")]
 [ExcludeFromCodeCoverage]
-public record TerraformStatePushOptions([property: PositionalArgument(Position = Position.AfterSwitches)]
+public record TerraformStatePushOptions([property: CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     string Path) : TerraformOptions
 {
-    [BooleanCommandSwitch("-force")]
+    [CliFlag("-force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("-ignore-remote-version")]
+    [CliFlag("-ignore-remote-version")]
     public virtual bool? IgnoreRemoteVersion { get; set; }
 }

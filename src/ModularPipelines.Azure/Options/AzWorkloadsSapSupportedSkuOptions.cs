@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workloads", "sap-supported-sku")]
+[CliSubCommand("workloads", "sap-supported-sku")]
 public record AzWorkloadsSapSupportedSkuOptions : AzOptions
 {
-    [CommandSwitch("--app-location")]
+    [CliOption("--app-location")]
     public string? AppLocation { get; set; }
 
-    [CommandSwitch("--database-type")]
+    [CliOption("--database-type")]
     public string? DatabaseType { get; set; }
 
-    [CommandSwitch("--deployment-type")]
+    [CliOption("--deployment-type")]
     public string? DeploymentType { get; set; }
 
-    [CommandSwitch("--environment")]
+    [CliOption("--environment")]
     public string? Environment { get; set; }
 
-    [CommandSwitch("--high-availability-type")]
+    [CliOption("--high-availability-type")]
     public string? HighAvailabilityType { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--sap-product")]
+    [CliOption("--sap-product")]
     public string? SapProduct { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

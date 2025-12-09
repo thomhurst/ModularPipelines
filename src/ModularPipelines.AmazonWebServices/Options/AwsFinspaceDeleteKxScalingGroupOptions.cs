@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("finspace", "delete-kx-scaling-group")]
+[CliCommand("finspace", "delete-kx-scaling-group")]
 public record AwsFinspaceDeleteKxScalingGroupOptions(
-[property: CommandSwitch("--environment-id")] string EnvironmentId,
-[property: CommandSwitch("--scaling-group-name")] string ScalingGroupName
+[property: CliOption("--environment-id")] string EnvironmentId,
+[property: CliOption("--scaling-group-name")] string ScalingGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

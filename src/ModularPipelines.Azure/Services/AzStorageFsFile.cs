@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "fs")]
+[CliCommand("storage", "fs")]
 public class AzStorageFsFile
 {
     public AzStorageFsFile(

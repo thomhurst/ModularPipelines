@@ -4,37 +4,37 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ses", "send-bulk-templated-email")]
+[CliCommand("ses", "send-bulk-templated-email")]
 public record AwsSesSendBulkTemplatedEmailOptions(
-[property: CommandSwitch("--source")] string Source,
-[property: CommandSwitch("--template")] string Template,
-[property: CommandSwitch("--destinations")] string[] Destinations
+[property: CliOption("--source")] string Source,
+[property: CliOption("--template")] string Template,
+[property: CliOption("--destinations")] string[] Destinations
 ) : AwsOptions
 {
-    [CommandSwitch("--source-arn")]
+    [CliOption("--source-arn")]
     public string? SourceArn { get; set; }
 
-    [CommandSwitch("--reply-to-addresses")]
+    [CliOption("--reply-to-addresses")]
     public string[]? ReplyToAddresses { get; set; }
 
-    [CommandSwitch("--return-path")]
+    [CliOption("--return-path")]
     public string? ReturnPath { get; set; }
 
-    [CommandSwitch("--return-path-arn")]
+    [CliOption("--return-path-arn")]
     public string? ReturnPathArn { get; set; }
 
-    [CommandSwitch("--configuration-set-name")]
+    [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; set; }
 
-    [CommandSwitch("--default-tags")]
+    [CliOption("--default-tags")]
     public string[]? DefaultTags { get; set; }
 
-    [CommandSwitch("--template-arn")]
+    [CliOption("--template-arn")]
     public string? TemplateArn { get; set; }
 
-    [CommandSwitch("--default-template-data")]
+    [CliOption("--default-template-data")]
     public string? DefaultTemplateData { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

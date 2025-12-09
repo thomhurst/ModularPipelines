@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cleanrooms", "batch-get-schema")]
+[CliCommand("cleanrooms", "batch-get-schema")]
 public record AwsCleanroomsBatchGetSchemaOptions(
-[property: CommandSwitch("--collaboration-identifier")] string CollaborationIdentifier,
-[property: CommandSwitch("--names")] string[] Names
+[property: CliOption("--collaboration-identifier")] string CollaborationIdentifier,
+[property: CliOption("--names")] string[] Names
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

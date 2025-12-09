@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("akshybrid")]
+[CliSubCommand("akshybrid")]
 public class AzAkshybridNodepool
 {
     public AzAkshybridNodepool(

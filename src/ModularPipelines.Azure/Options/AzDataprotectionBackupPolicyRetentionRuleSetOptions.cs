@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataprotection", "backup-policy", "retention-rule", "set")]
+[CliSubCommand("dataprotection", "backup-policy", "retention-rule", "set")]
 public record AzDataprotectionBackupPolicyRetentionRuleSetOptions(
-[property: CommandSwitch("--lifecycles")] string Lifecycles,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--policy")] string Policy
+[property: CliOption("--lifecycles")] string Lifecycles,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--policy")] string Policy
 ) : AzOptions;

@@ -4,57 +4,57 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworkscm", "create-server")]
+[CliCommand("opsworkscm", "create-server")]
 public record AwsOpsworkscmCreateServerOptions(
-[property: CommandSwitch("--engine")] string Engine,
-[property: CommandSwitch("--server-name")] string ServerName,
-[property: CommandSwitch("--instance-profile-arn")] string InstanceProfileArn,
-[property: CommandSwitch("--instance-type")] string InstanceType,
-[property: CommandSwitch("--service-role-arn")] string ServiceRoleArn
+[property: CliOption("--engine")] string Engine,
+[property: CliOption("--server-name")] string ServerName,
+[property: CliOption("--instance-profile-arn")] string InstanceProfileArn,
+[property: CliOption("--instance-type")] string InstanceType,
+[property: CliOption("--service-role-arn")] string ServiceRoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--custom-domain")]
+    [CliOption("--custom-domain")]
     public string? CustomDomain { get; set; }
 
-    [CommandSwitch("--custom-certificate")]
+    [CliOption("--custom-certificate")]
     public string? CustomCertificate { get; set; }
 
-    [CommandSwitch("--custom-private-key")]
+    [CliOption("--custom-private-key")]
     public string? CustomPrivateKey { get; set; }
 
-    [CommandSwitch("--engine-model")]
+    [CliOption("--engine-model")]
     public string? EngineModel { get; set; }
 
-    [CommandSwitch("--engine-version")]
+    [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CommandSwitch("--engine-attributes")]
+    [CliOption("--engine-attributes")]
     public string[]? EngineAttributes { get; set; }
 
-    [CommandSwitch("--backup-retention-count")]
+    [CliOption("--backup-retention-count")]
     public int? BackupRetentionCount { get; set; }
 
-    [CommandSwitch("--key-pair")]
+    [CliOption("--key-pair")]
     public string? KeyPair { get; set; }
 
-    [CommandSwitch("--preferred-maintenance-window")]
+    [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
-    [CommandSwitch("--preferred-backup-window")]
+    [CliOption("--preferred-backup-window")]
     public string? PreferredBackupWindow { get; set; }
 
-    [CommandSwitch("--security-group-ids")]
+    [CliOption("--security-group-ids")]
     public string[]? SecurityGroupIds { get; set; }
 
-    [CommandSwitch("--subnet-ids")]
+    [CliOption("--subnet-ids")]
     public string[]? SubnetIds { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--backup-id")]
+    [CliOption("--backup-id")]
     public string? BackupId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

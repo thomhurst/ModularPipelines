@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "describe-replication-table-statistics")]
+[CliCommand("dms", "describe-replication-table-statistics")]
 public record AwsDmsDescribeReplicationTableStatisticsOptions(
-[property: CommandSwitch("--replication-config-arn")] string ReplicationConfigArn
+[property: CliOption("--replication-config-arn")] string ReplicationConfigArn
 ) : AwsOptions
 {
-    [CommandSwitch("--max-records")]
+    [CliOption("--max-records")]
     public int? MaxRecords { get; set; }
 
-    [CommandSwitch("--marker")]
+    [CliOption("--marker")]
     public string? Marker { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

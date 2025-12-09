@@ -3,28 +3,28 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("alpha")]
+[CliSubCommand("alpha")]
 [ExcludeFromCodeCoverage]
 public record KubernetesAlphaOptions : KubernetesOptions
 {
-    [CommandEqualsSeparatorSwitch("--api-group", SwitchValueSeparator = " ")]
-    public string? ApiGroup { get; set; }
+    [CliOption("--api-group")]
+    public virtual string? ApiGroup { get; set; }
 
-    [BooleanCommandSwitch("--cached")]
+    [CliFlag("--cached")]
     public virtual bool? Cached { get; set; }
 
-    [BooleanCommandSwitch("--namespaced")]
+    [CliFlag("--namespaced")]
     public virtual bool? Namespaced { get; set; }
 
-    [BooleanCommandSwitch("--no-headers")]
+    [CliFlag("--no-headers")]
     public virtual bool? NoHeaders { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
-    public string? Output { get; set; }
+    [CliOption("--output")]
+    public virtual string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--sort-by", SwitchValueSeparator = " ")]
-    public string? SortBy { get; set; }
+    [CliOption("--sort-by")]
+    public virtual string? SortBy { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--verbs", SwitchValueSeparator = " ")]
-    public string[]? Verbs { get; set; }
+    [CliOption("--verbs")]
+    public virtual string[]? Verbs { get; set; }
 }

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fund")]
+[CliSubCommand("fund")]
 public record NpmFundOptions : NpmOptions
 {
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 
-    [CommandSwitch("--browser")]
+    [CliOption("--browser")]
     public virtual string? Browser { get; set; }
 
-    [BooleanCommandSwitch("--unicode")]
+    [CliFlag("--unicode")]
     public virtual bool? Unicode { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public virtual string[]? Workspace { get; set; }
 
-    [CommandSwitch("--which")]
+    [CliOption("--which")]
     public virtual int? Which { get; set; }
 }

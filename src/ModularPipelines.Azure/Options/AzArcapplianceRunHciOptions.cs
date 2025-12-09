@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arcappliance", "run", "hci")]
+[CliSubCommand("arcappliance", "run", "hci")]
 public record AzArcapplianceRunHciOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--location")] string Location,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--cloudagent")]
+    [CliOption("--cloudagent")]
     public string? Cloudagent { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 
-    [CommandSwitch("--loginconfigfile")]
+    [CliOption("--loginconfigfile")]
     public string? Loginconfigfile { get; set; }
 
-    [CommandSwitch("--out-dir")]
+    [CliOption("--out-dir")]
     public string? OutDir { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--working-dir")]
+    [CliOption("--working-dir")]
     public string? WorkingDir { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("omics", "get-read-set")]
+[CliCommand("omics", "get-read-set")]
 public record AwsOmicsGetReadSetOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--sequence-store-id")] string SequenceStoreId,
-[property: CommandSwitch("--part-number")] int PartNumber
+[property: CliOption("--id")] string Id,
+[property: CliOption("--sequence-store-id")] string SequenceStoreId,
+[property: CliOption("--part-number")] int PartNumber
 ) : AwsOptions
 {
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public string? File { get; set; }
 }

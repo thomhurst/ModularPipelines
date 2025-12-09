@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automanage", "service-principal", "show-default")]
+[CliSubCommand("automanage", "service-principal", "show-default")]
 public record AzAutomanageServicePrincipalShowDefaultOptions : AzOptions;

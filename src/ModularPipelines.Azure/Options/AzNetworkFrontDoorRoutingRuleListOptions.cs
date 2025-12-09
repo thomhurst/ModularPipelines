@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "routing-rule", "list")]
+[CliSubCommand("network", "front-door", "routing-rule", "list")]
 public record AzNetworkFrontDoorRoutingRuleListOptions(
-[property: CommandSwitch("--front-door-name")] string FrontDoorName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--front-door-name")] string FrontDoorName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

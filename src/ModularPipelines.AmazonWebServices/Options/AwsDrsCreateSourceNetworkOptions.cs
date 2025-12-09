@@ -5,16 +5,16 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("drs", "create-source-network")]
+[CliCommand("drs", "create-source-network")]
 public record AwsDrsCreateSourceNetworkOptions(
-[property: CommandSwitch("--origin-account-id")] string OriginAccountId,
-[property: CommandSwitch("--origin-region")] string OriginRegion,
-[property: CommandSwitch("--vpc-id")] string VpcId
+[property: CliOption("--origin-account-id")] string OriginAccountId,
+[property: CliOption("--origin-region")] string OriginRegion,
+[property: CliOption("--vpc-id")] string VpcId
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databoxedge")]
+[CliSubCommand("databoxedge")]
 public class AzDataboxedgeDevice
 {
     public AzDataboxedgeDevice(

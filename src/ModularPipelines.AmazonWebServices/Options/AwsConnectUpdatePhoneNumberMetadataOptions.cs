@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "update-phone-number-metadata")]
+[CliCommand("connect", "update-phone-number-metadata")]
 public record AwsConnectUpdatePhoneNumberMetadataOptions(
-[property: CommandSwitch("--phone-number-id")] string PhoneNumberId
+[property: CliOption("--phone-number-id")] string PhoneNumberId
 ) : AwsOptions
 {
-    [CommandSwitch("--phone-number-description")]
+    [CliOption("--phone-number-description")]
     public string? PhoneNumberDescription { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

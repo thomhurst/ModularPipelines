@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("account", "lock", "create")]
+[CliSubCommand("account", "lock", "create")]
 public record AzAccountLockCreateOptions(
-[property: CommandSwitch("--lock-type")] string LockType,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--lock-type")] string LockType,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--notes")]
+    [CliOption("--notes")]
     public string? Notes { get; set; }
 }

@@ -5,23 +5,23 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "update-container-service")]
+[CliCommand("lightsail", "update-container-service")]
 public record AwsLightsailUpdateContainerServiceOptions(
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--service-name")] string ServiceName
 ) : AwsOptions
 {
-    [CommandSwitch("--power")]
+    [CliOption("--power")]
     public string? Power { get; set; }
 
-    [CommandSwitch("--scale")]
+    [CliOption("--scale")]
     public int? Scale { get; set; }
 
-    [CommandSwitch("--public-domain-names")]
+    [CliOption("--public-domain-names")]
     public IEnumerable<KeyValue>? PublicDomainNames { get; set; }
 
-    [CommandSwitch("--private-registry-access")]
+    [CliOption("--private-registry-access")]
     public string? PrivateRegistryAccess { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

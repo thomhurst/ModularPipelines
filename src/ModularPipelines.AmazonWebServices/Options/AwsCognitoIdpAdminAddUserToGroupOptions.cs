@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "admin-add-user-to-group")]
+[CliCommand("cognito-idp", "admin-add-user-to-group")]
 public record AwsCognitoIdpAdminAddUserToGroupOptions(
-[property: CommandSwitch("--user-pool-id")] string UserPoolId,
-[property: CommandSwitch("--username")] string Username,
-[property: CommandSwitch("--group-name")] string GroupName
+[property: CliOption("--user-pool-id")] string UserPoolId,
+[property: CliOption("--username")] string Username,
+[property: CliOption("--group-name")] string GroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

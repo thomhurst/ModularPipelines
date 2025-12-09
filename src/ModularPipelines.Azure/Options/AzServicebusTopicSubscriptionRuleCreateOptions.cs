@@ -4,63 +4,63 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicebus", "topic", "subscription", "rule", "create")]
+[CliSubCommand("servicebus", "topic", "subscription", "rule", "create")]
 public record AzServicebusTopicSubscriptionRuleCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--subscription-name")] string SubscriptionName,
-[property: CommandSwitch("--topic-name")] string TopicName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--subscription-name")] string SubscriptionName,
+[property: CliOption("--topic-name")] string TopicName
 ) : AzOptions
 {
-    [CommandSwitch("--action-compatibility-level")]
+    [CliOption("--action-compatibility-level")]
     public string? ActionCompatibilityLevel { get; set; }
 
-    [CommandSwitch("--action-sql-expression")]
+    [CliOption("--action-sql-expression")]
     public string? ActionSqlExpression { get; set; }
 
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
-    [CommandSwitch("--correlation-filter")]
+    [CliOption("--correlation-filter")]
     public string? CorrelationFilter { get; set; }
 
-    [CommandSwitch("--correlation-id")]
+    [CliOption("--correlation-id")]
     public string? CorrelationId { get; set; }
 
-    [BooleanCommandSwitch("--enable-action-preprocessing")]
+    [CliFlag("--enable-action-preprocessing")]
     public bool? EnableActionPreprocessing { get; set; }
 
-    [BooleanCommandSwitch("--enable-correlation-preprocessing")]
+    [CliFlag("--enable-correlation-preprocessing")]
     public bool? EnableCorrelationPreprocessing { get; set; }
 
-    [BooleanCommandSwitch("--enable-sql-preprocessing")]
+    [CliFlag("--enable-sql-preprocessing")]
     public bool? EnableSqlPreprocessing { get; set; }
 
-    [CommandSwitch("--filter-sql-expression")]
+    [CliOption("--filter-sql-expression")]
     public string? FilterSqlExpression { get; set; }
 
-    [CommandSwitch("--filter-type")]
+    [CliOption("--filter-type")]
     public string? FilterType { get; set; }
 
-    [CommandSwitch("--label")]
+    [CliOption("--label")]
     public string? Label { get; set; }
 
-    [CommandSwitch("--message-id")]
+    [CliOption("--message-id")]
     public string? MessageId { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--reply-to")]
+    [CliOption("--reply-to")]
     public string? ReplyTo { get; set; }
 
-    [CommandSwitch("--reply-to-session-id")]
+    [CliOption("--reply-to-session-id")]
     public string? ReplyToSessionId { get; set; }
 
-    [CommandSwitch("--session-id")]
+    [CliOption("--session-id")]
     public string? SessionId { get; set; }
 
-    [CommandSwitch("--to")]
+    [CliOption("--to")]
     public string? To { get; set; }
 }

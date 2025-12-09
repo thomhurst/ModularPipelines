@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigatewayv2", "export-api")]
+[CliCommand("apigatewayv2", "export-api")]
 public record AwsApigatewayv2ExportApiOptions(
-[property: CommandSwitch("--api-id")] string ApiId,
-[property: CommandSwitch("--output-type")] string OutputType,
-[property: CommandSwitch("--specification")] string Specification
+[property: CliOption("--api-id")] string ApiId,
+[property: CliOption("--output-type")] string OutputType,
+[property: CliOption("--specification")] string Specification
 ) : AwsOptions
 {
-    [CommandSwitch("--export-version")]
+    [CliOption("--export-version")]
     public string? ExportVersion { get; set; }
 
-    [CommandSwitch("--stage-name")]
+    [CliOption("--stage-name")]
     public string? StageName { get; set; }
 }

@@ -3,14 +3,14 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("workspace select")]
+[CliSubCommand("workspace select")]
 [ExcludeFromCodeCoverage]
-public record TerraformWorkspaceSelectOptions([property: PositionalArgument(Position = Position.AfterSwitches)]
+public record TerraformWorkspaceSelectOptions([property: CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     string Name) : TerraformOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Directory { get; set; }
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    public virtual string? Directory { get; set; }
 
-    [BooleanCommandSwitch("-or-create")]
+    [CliFlag("-or-create")]
     public virtual bool? OrCreate { get; set; }
 }

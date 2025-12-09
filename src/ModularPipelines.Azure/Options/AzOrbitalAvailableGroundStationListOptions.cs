@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("orbital", "available-ground-station", "list")]
+[CliSubCommand("orbital", "available-ground-station", "list")]
 public record AzOrbitalAvailableGroundStationListOptions : AzOptions
 {
-    [CommandSwitch("--capability")]
+    [CliOption("--capability")]
     public string? Capability { get; set; }
 }

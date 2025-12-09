@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fms", "put-protocols-list")]
+[CliCommand("fms", "put-protocols-list")]
 public record AwsFmsPutProtocolsListOptions(
-[property: CommandSwitch("--protocols-list")] string ProtocolsList
+[property: CliOption("--protocols-list")] string ProtocolsList
 ) : AwsOptions
 {
-    [CommandSwitch("--tag-list")]
+    [CliOption("--tag-list")]
     public string[]? TagList { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

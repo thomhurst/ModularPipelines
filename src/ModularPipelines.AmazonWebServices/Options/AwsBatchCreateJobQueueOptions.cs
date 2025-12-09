@@ -5,22 +5,22 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "create-job-queue")]
+[CliCommand("batch", "create-job-queue")]
 public record AwsBatchCreateJobQueueOptions(
-[property: CommandSwitch("--job-queue-name")] string JobQueueName,
-[property: CommandSwitch("--priority")] int Priority,
-[property: CommandSwitch("--compute-environment-order")] string[] ComputeEnvironmentOrder
+[property: CliOption("--job-queue-name")] string JobQueueName,
+[property: CliOption("--priority")] int Priority,
+[property: CliOption("--compute-environment-order")] string[] ComputeEnvironmentOrder
 ) : AwsOptions
 {
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [CommandSwitch("--scheduling-policy-arn")]
+    [CliOption("--scheduling-policy-arn")]
     public string? SchedulingPolicyArn { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

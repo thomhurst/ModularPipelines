@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "delete-connector")]
+[CliCommand("transfer", "delete-connector")]
 public record AwsTransferDeleteConnectorOptions(
-[property: CommandSwitch("--connector-id")] string ConnectorId
+[property: CliOption("--connector-id")] string ConnectorId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

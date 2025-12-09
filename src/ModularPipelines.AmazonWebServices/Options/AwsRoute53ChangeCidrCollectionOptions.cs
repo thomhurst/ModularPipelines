@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53", "change-cidr-collection")]
+[CliCommand("route53", "change-cidr-collection")]
 public record AwsRoute53ChangeCidrCollectionOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--changes")] string[] Changes
+[property: CliOption("--id")] string Id,
+[property: CliOption("--changes")] string[] Changes
 ) : AwsOptions
 {
-    [CommandSwitch("--collection-version")]
+    [CliOption("--collection-version")]
     public long? CollectionVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

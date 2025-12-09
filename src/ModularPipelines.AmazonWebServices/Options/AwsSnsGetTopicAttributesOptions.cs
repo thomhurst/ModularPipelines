@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sns", "get-topic-attributes")]
+[CliCommand("sns", "get-topic-attributes")]
 public record AwsSnsGetTopicAttributesOptions(
-[property: CommandSwitch("--topic-arn")] string TopicArn
+[property: CliOption("--topic-arn")] string TopicArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

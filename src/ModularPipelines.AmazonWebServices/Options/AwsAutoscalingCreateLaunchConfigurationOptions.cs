@@ -4,59 +4,59 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("autoscaling", "create-launch-configuration")]
+[CliCommand("autoscaling", "create-launch-configuration")]
 public record AwsAutoscalingCreateLaunchConfigurationOptions(
-[property: CommandSwitch("--launch-configuration-name")] string LaunchConfigurationName
+[property: CliOption("--launch-configuration-name")] string LaunchConfigurationName
 ) : AwsOptions
 {
-    [CommandSwitch("--image-id")]
+    [CliOption("--image-id")]
     public string? ImageId { get; set; }
 
-    [CommandSwitch("--key-name")]
+    [CliOption("--key-name")]
     public string? KeyName { get; set; }
 
-    [CommandSwitch("--security-groups")]
+    [CliOption("--security-groups")]
     public string[]? SecurityGroups { get; set; }
 
-    [CommandSwitch("--classic-link-vpc-id")]
+    [CliOption("--classic-link-vpc-id")]
     public string? ClassicLinkVpcId { get; set; }
 
-    [CommandSwitch("--classic-link-vpc-security-groups")]
+    [CliOption("--classic-link-vpc-security-groups")]
     public string[]? ClassicLinkVpcSecurityGroups { get; set; }
 
-    [CommandSwitch("--user-data")]
+    [CliOption("--user-data")]
     public string? UserData { get; set; }
 
-    [CommandSwitch("--instance-id")]
+    [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
-    [CommandSwitch("--instance-type")]
+    [CliOption("--instance-type")]
     public string? InstanceType { get; set; }
 
-    [CommandSwitch("--kernel-id")]
+    [CliOption("--kernel-id")]
     public string? KernelId { get; set; }
 
-    [CommandSwitch("--ramdisk-id")]
+    [CliOption("--ramdisk-id")]
     public string? RamdiskId { get; set; }
 
-    [CommandSwitch("--block-device-mappings")]
+    [CliOption("--block-device-mappings")]
     public string[]? BlockDeviceMappings { get; set; }
 
-    [CommandSwitch("--instance-monitoring")]
+    [CliOption("--instance-monitoring")]
     public string? InstanceMonitoring { get; set; }
 
-    [CommandSwitch("--spot-price")]
+    [CliOption("--spot-price")]
     public string? SpotPrice { get; set; }
 
-    [CommandSwitch("--iam-instance-profile")]
+    [CliOption("--iam-instance-profile")]
     public string? IamInstanceProfile { get; set; }
 
-    [CommandSwitch("--placement-tenancy")]
+    [CliOption("--placement-tenancy")]
     public string? PlacementTenancy { get; set; }
 
-    [CommandSwitch("--metadata-options")]
+    [CliOption("--metadata-options")]
     public string? MetadataOptions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configservice", "describe-remediation-exceptions")]
+[CliCommand("configservice", "describe-remediation-exceptions")]
 public record AwsConfigserviceDescribeRemediationExceptionsOptions(
-[property: CommandSwitch("--config-rule-name")] string ConfigRuleName
+[property: CliOption("--config-rule-name")] string ConfigRuleName
 ) : AwsOptions
 {
-    [CommandSwitch("--resource-keys")]
+    [CliOption("--resource-keys")]
     public string[]? ResourceKeys { get; set; }
 
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public int? Limit { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

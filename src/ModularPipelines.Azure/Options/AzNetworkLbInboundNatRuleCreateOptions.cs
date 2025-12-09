@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "lb", "inbound-nat-rule", "create")]
+[CliSubCommand("network", "lb", "inbound-nat-rule", "create")]
 public record AzNetworkLbInboundNatRuleCreateOptions(
-[property: CommandSwitch("--backend-port")] string BackendPort,
-[property: CommandSwitch("--lb-name")] string LbName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--protocol")] string Protocol,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--backend-port")] string BackendPort,
+[property: CliOption("--lb-name")] string LbName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--protocol")] string Protocol,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--backend-address-pool")]
+    [CliOption("--backend-address-pool")]
     public string? BackendAddressPool { get; set; }
 
-    [BooleanCommandSwitch("--enable-floating-ip")]
+    [CliFlag("--enable-floating-ip")]
     public bool? EnableFloatingIp { get; set; }
 
-    [BooleanCommandSwitch("--enable-tcp-reset")]
+    [CliFlag("--enable-tcp-reset")]
     public bool? EnableTcpReset { get; set; }
 
-    [CommandSwitch("--frontend-ip")]
+    [CliOption("--frontend-ip")]
     public string? FrontendIp { get; set; }
 
-    [CommandSwitch("--frontend-port")]
+    [CliOption("--frontend-port")]
     public string? FrontendPort { get; set; }
 
-    [CommandSwitch("--frontend-port-range-end")]
+    [CliOption("--frontend-port-range-end")]
     public string? FrontendPortRangeEnd { get; set; }
 
-    [CommandSwitch("--frontend-port-range-start")]
+    [CliOption("--frontend-port-range-start")]
     public string? FrontendPortRangeStart { get; set; }
 
-    [CommandSwitch("--idle-timeout")]
+    [CliOption("--idle-timeout")]
     public string? IdleTimeout { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

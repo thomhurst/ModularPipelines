@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "browse")]
+[CliSubCommand("aks", "browse")]
 public record AzAksBrowseOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--disable-browser")]
+    [CliFlag("--disable-browser")]
     public bool? DisableBrowser { get; set; }
 
-    [CommandSwitch("--listen-address")]
+    [CliOption("--listen-address")]
     public string? ListenAddress { get; set; }
 
-    [CommandSwitch("--listen-port")]
+    [CliOption("--listen-port")]
     public string? ListenPort { get; set; }
 }

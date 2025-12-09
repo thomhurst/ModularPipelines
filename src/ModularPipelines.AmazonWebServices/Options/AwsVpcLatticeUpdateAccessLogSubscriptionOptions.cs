@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vpc-lattice", "update-access-log-subscription")]
+[CliCommand("vpc-lattice", "update-access-log-subscription")]
 public record AwsVpcLatticeUpdateAccessLogSubscriptionOptions(
-[property: CommandSwitch("--access-log-subscription-identifier")] string AccessLogSubscriptionIdentifier,
-[property: CommandSwitch("--destination-arn")] string DestinationArn
+[property: CliOption("--access-log-subscription-identifier")] string AccessLogSubscriptionIdentifier,
+[property: CliOption("--destination-arn")] string DestinationArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

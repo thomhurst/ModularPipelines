@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "token", "credential", "delete")]
+[CliSubCommand("acr", "token", "credential", "delete")]
 public record AzAcrTokenCredentialDeleteOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--registry")] string Registry
+[property: CliOption("--name")] string Name,
+[property: CliOption("--registry")] string Registry
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--password1")]
+    [CliFlag("--password1")]
     public bool? Password1 { get; set; }
 
-    [BooleanCommandSwitch("--password2")]
+    [CliFlag("--password2")]
     public bool? Password2 { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "private-dns", "link", "vnet", "create")]
+[CliSubCommand("network", "private-dns", "link", "vnet", "create")]
 public record AzNetworkPrivateDnsLinkVnetCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: BooleanCommandSwitch("--registration-enabled")] bool RegistrationEnabled,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--virtual-network")] string VirtualNetwork,
-[property: CommandSwitch("--zone-name")] string ZoneName
+[property: CliOption("--name")] string Name,
+[property: CliFlag("--registration-enabled")] bool RegistrationEnabled,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--virtual-network")] string VirtualNetwork,
+[property: CliOption("--zone-name")] string ZoneName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

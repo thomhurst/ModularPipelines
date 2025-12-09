@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lab")]
+[CliSubCommand("lab")]
 public class AzLabGalleryImage
 {
     public AzLabGalleryImage(

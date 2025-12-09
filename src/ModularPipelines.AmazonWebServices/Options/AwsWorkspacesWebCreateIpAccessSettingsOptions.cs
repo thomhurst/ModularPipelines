@@ -5,29 +5,29 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces-web", "create-ip-access-settings")]
+[CliCommand("workspaces-web", "create-ip-access-settings")]
 public record AwsWorkspacesWebCreateIpAccessSettingsOptions(
-[property: CommandSwitch("--ip-rules")] string[] IpRules
+[property: CliOption("--ip-rules")] string[] IpRules
 ) : AwsOptions
 {
-    [CommandSwitch("--additional-encryption-context")]
+    [CliOption("--additional-encryption-context")]
     public IEnumerable<KeyValue>? AdditionalEncryptionContext { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--customer-managed-key")]
+    [CliOption("--customer-managed-key")]
     public string? CustomerManagedKey { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

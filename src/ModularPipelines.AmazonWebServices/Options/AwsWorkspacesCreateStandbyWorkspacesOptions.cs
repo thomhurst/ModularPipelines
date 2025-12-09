@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces", "create-standby-workspaces")]
+[CliCommand("workspaces", "create-standby-workspaces")]
 public record AwsWorkspacesCreateStandbyWorkspacesOptions(
-[property: CommandSwitch("--primary-region")] string PrimaryRegion,
-[property: CommandSwitch("--standby-workspaces")] string[] StandbyWorkspaces
+[property: CliOption("--primary-region")] string PrimaryRegion,
+[property: CliOption("--standby-workspaces")] string[] StandbyWorkspaces
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

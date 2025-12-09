@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("swf", "register-activity-type")]
+[CliCommand("swf", "register-activity-type")]
 public record AwsSwfRegisterActivityTypeOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--activity-version")] string ActivityVersion
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--activity-version")] string ActivityVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--default-task-start-to-close-timeout")]
+    [CliOption("--default-task-start-to-close-timeout")]
     public string? DefaultTaskStartToCloseTimeout { get; set; }
 
-    [CommandSwitch("--default-task-heartbeat-timeout")]
+    [CliOption("--default-task-heartbeat-timeout")]
     public string? DefaultTaskHeartbeatTimeout { get; set; }
 
-    [CommandSwitch("--default-task-list")]
+    [CliOption("--default-task-list")]
     public string? DefaultTaskList { get; set; }
 
-    [CommandSwitch("--default-task-priority")]
+    [CliOption("--default-task-priority")]
     public string? DefaultTaskPriority { get; set; }
 
-    [CommandSwitch("--default-task-schedule-to-start-timeout")]
+    [CliOption("--default-task-schedule-to-start-timeout")]
     public string? DefaultTaskScheduleToStartTimeout { get; set; }
 
-    [CommandSwitch("--default-task-schedule-to-close-timeout")]
+    [CliOption("--default-task-schedule-to-close-timeout")]
     public string? DefaultTaskScheduleToCloseTimeout { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,57 +4,57 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("link")]
+[CliSubCommand("link")]
 public record NpmLinkOptions : NpmOptions
 {
-    [BooleanCommandSwitch("--save")]
+    [CliFlag("--save")]
     public virtual bool? Save { get; set; }
 
-    [BooleanCommandSwitch("--save-exact")]
+    [CliFlag("--save-exact")]
     public virtual bool? SaveExact { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public virtual bool? Global { get; set; }
 
-    [CommandSwitch("--install-strategy")]
+    [CliOption("--install-strategy")]
     public virtual string? InstallStrategy { get; set; }
 
-    [BooleanCommandSwitch("--strict-peer-deps")]
+    [CliFlag("--strict-peer-deps")]
     public virtual bool? StrictPeerDeps { get; set; }
 
-    [BooleanCommandSwitch("--package-lock")]
+    [CliFlag("--package-lock")]
     public virtual bool? PackageLock { get; set; }
 
-    [CommandSwitch("--omit")]
+    [CliOption("--omit")]
     public virtual string? Omit { get; set; }
 
-    [CommandSwitch("--include")]
+    [CliOption("--include")]
     public virtual string? Include { get; set; }
 
-    [BooleanCommandSwitch("--ignore-scripts")]
+    [CliFlag("--ignore-scripts")]
     public virtual bool? IgnoreScripts { get; set; }
 
-    [BooleanCommandSwitch("--audit")]
+    [CliFlag("--audit")]
     public virtual bool? Audit { get; set; }
 
-    [BooleanCommandSwitch("--bin-links")]
+    [CliFlag("--bin-links")]
     public virtual bool? BinLinks { get; set; }
 
-    [BooleanCommandSwitch("--fund")]
+    [CliFlag("--fund")]
     public virtual bool? Fund { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public virtual string[]? Workspace { get; set; }
 
-    [BooleanCommandSwitch("--workspaces")]
+    [CliFlag("--workspaces")]
     public virtual bool? Workspaces { get; set; }
 
-    [BooleanCommandSwitch("--include-workspace-root")]
+    [CliFlag("--include-workspace-root")]
     public virtual bool? IncludeWorkspaceRoot { get; set; }
 
-    [BooleanCommandSwitch("--install-links")]
+    [CliFlag("--install-links")]
     public virtual bool? InstallLinks { get; set; }
 }

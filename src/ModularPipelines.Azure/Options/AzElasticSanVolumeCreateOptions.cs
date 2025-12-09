@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elastic-san", "volume", "create")]
+[CliSubCommand("elastic-san", "volume", "create")]
 public record AzElasticSanVolumeCreateOptions(
-[property: CommandSwitch("--elastic-san")] string ElasticSan,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--size-gib")] string SizeGib,
-[property: CommandSwitch("--volume-group")] string VolumeGroup
+[property: CliOption("--elastic-san")] string ElasticSan,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--size-gib")] string SizeGib,
+[property: CliOption("--volume-group")] string VolumeGroup
 ) : AzOptions
 {
-    [CommandSwitch("--creation-data")]
+    [CliOption("--creation-data")]
     public string? CreationData { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

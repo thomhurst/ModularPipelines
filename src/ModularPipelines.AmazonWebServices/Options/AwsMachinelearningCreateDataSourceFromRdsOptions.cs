@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("machinelearning", "create-data-source-from-rds")]
+[CliCommand("machinelearning", "create-data-source-from-rds")]
 public record AwsMachinelearningCreateDataSourceFromRdsOptions(
-[property: CommandSwitch("--data-source-id")] string DataSourceId,
-[property: CommandSwitch("--rds-data")] string RdsData,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--data-source-id")] string DataSourceId,
+[property: CliOption("--rds-data")] string RdsData,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--data-source-name")]
+    [CliOption("--data-source-name")]
     public string? DataSourceName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

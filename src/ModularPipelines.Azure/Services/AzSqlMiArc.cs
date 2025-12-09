@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql")]
+[CliSubCommand("sql")]
 public class AzSqlMiArc
 {
     public AzSqlMiArc(

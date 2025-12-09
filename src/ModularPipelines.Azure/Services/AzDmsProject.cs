@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms")]
+[CliSubCommand("dms")]
 public class AzDmsProject
 {
     public AzDmsProject(

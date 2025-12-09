@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edgeorder", "order-item", "update")]
+[CliSubCommand("edgeorder", "order-item", "update")]
 public record AzEdgeorderOrderItemUpdateOptions : AzOptions
 {
-    [CommandSwitch("--contact-details")]
+    [CliOption("--contact-details")]
     public string? ContactDetails { get; set; }
 
-    [CommandSwitch("--encryption-preferences")]
+    [CliOption("--encryption-preferences")]
     public string? EncryptionPreferences { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--mgmt-preferences")]
+    [CliOption("--mgmt-preferences")]
     public string? MgmtPreferences { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--notif-email-list")]
+    [CliOption("--notif-email-list")]
     public string? NotifEmailList { get; set; }
 
-    [CommandSwitch("--notif-preferences")]
+    [CliOption("--notif-preferences")]
     public string? NotifPreferences { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--shipping-address")]
+    [CliOption("--shipping-address")]
     public string? ShippingAddress { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--transport-preferences")]
+    [CliOption("--transport-preferences")]
     public string? TransportPreferences { get; set; }
 }

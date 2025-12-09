@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker-runtime", "invoke-endpoint-async")]
+[CliCommand("sagemaker-runtime", "invoke-endpoint-async")]
 public record AwsSagemakerRuntimeInvokeEndpointAsyncOptions(
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--input-location")] string InputLocation
+[property: CliOption("--endpoint-name")] string EndpointName,
+[property: CliOption("--input-location")] string InputLocation
 ) : AwsOptions
 {
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
-    [CommandSwitch("--accept")]
+    [CliOption("--accept")]
     public string? Accept { get; set; }
 
-    [CommandSwitch("--custom-attributes")]
+    [CliOption("--custom-attributes")]
     public string? CustomAttributes { get; set; }
 
-    [CommandSwitch("--inference-id")]
+    [CliOption("--inference-id")]
     public string? InferenceId { get; set; }
 
-    [CommandSwitch("--request-ttl-seconds")]
+    [CliOption("--request-ttl-seconds")]
     public int? RequestTtlSeconds { get; set; }
 
-    [CommandSwitch("--invocation-timeout-seconds")]
+    [CliOption("--invocation-timeout-seconds")]
     public int? InvocationTimeoutSeconds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

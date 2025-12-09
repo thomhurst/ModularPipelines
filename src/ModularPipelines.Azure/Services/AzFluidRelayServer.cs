@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fluid-relay")]
+[CliSubCommand("fluid-relay")]
 public class AzFluidRelayServer
 {
     public AzFluidRelayServer(

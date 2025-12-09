@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "add-layer-version-permission")]
+[CliCommand("lambda", "add-layer-version-permission")]
 public record AwsLambdaAddLayerVersionPermissionOptions(
-[property: CommandSwitch("--layer-name")] string LayerName,
-[property: CommandSwitch("--version-number")] long VersionNumber,
-[property: CommandSwitch("--statement-id")] string StatementId,
-[property: CommandSwitch("--action")] string Action,
-[property: CommandSwitch("--principal")] string Principal
+[property: CliOption("--layer-name")] string LayerName,
+[property: CliOption("--version-number")] long VersionNumber,
+[property: CliOption("--statement-id")] string StatementId,
+[property: CliOption("--action")] string Action,
+[property: CliOption("--principal")] string Principal
 ) : AwsOptions
 {
-    [CommandSwitch("--organization-id")]
+    [CliOption("--organization-id")]
     public string? OrganizationId { get; set; }
 
-    [CommandSwitch("--revision-id")]
+    [CliOption("--revision-id")]
     public string? RevisionId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

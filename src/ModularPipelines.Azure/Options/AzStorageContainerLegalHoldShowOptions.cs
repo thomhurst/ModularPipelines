@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "container", "legal-hold", "show")]
+[CliSubCommand("storage", "container", "legal-hold", "show")]
 public record AzStorageContainerLegalHoldShowOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--container-name")] string ContainerName
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--container-name")] string ContainerName
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

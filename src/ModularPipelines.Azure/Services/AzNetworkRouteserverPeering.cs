@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "routeserver")]
+[CliCommand("network", "routeserver")]
 public class AzNetworkRouteserverPeering
 {
     public AzNetworkRouteserverPeering(

@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "repository", "show-tags")]
+[CliSubCommand("acr", "repository", "show-tags")]
 public record AzAcrRepositoryShowTagsOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--repository")] string Repository
+[property: CliOption("--name")] string Name,
+[property: CliOption("--repository")] string Repository
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detail")]
+    [CliFlag("--detail")]
     public bool? Detail { get; set; }
 
-    [CommandSwitch("--orderby")]
+    [CliOption("--orderby")]
     public string? Orderby { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--suffix")]
+    [CliOption("--suffix")]
     public string? Suffix { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("load")]
+[CliSubCommand("load")]
 public class AzLoadTestRun
 {
     public AzLoadTestRun(

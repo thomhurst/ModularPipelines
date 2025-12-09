@@ -5,41 +5,41 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mgn", "update-replication-configuration-template")]
+[CliCommand("mgn", "update-replication-configuration-template")]
 public record AwsMgnUpdateReplicationConfigurationTemplateOptions(
-[property: CommandSwitch("--replication-configuration-template-id")] string ReplicationConfigurationTemplateId
+[property: CliOption("--replication-configuration-template-id")] string ReplicationConfigurationTemplateId
 ) : AwsOptions
 {
-    [CommandSwitch("--arn")]
+    [CliOption("--arn")]
     public string? Arn { get; set; }
 
-    [CommandSwitch("--bandwidth-throttling")]
+    [CliOption("--bandwidth-throttling")]
     public long? BandwidthThrottling { get; set; }
 
-    [CommandSwitch("--data-plane-routing")]
+    [CliOption("--data-plane-routing")]
     public string? DataPlaneRouting { get; set; }
 
-    [CommandSwitch("--default-large-staging-disk-type")]
+    [CliOption("--default-large-staging-disk-type")]
     public string? DefaultLargeStagingDiskType { get; set; }
 
-    [CommandSwitch("--ebs-encryption")]
+    [CliOption("--ebs-encryption")]
     public string? EbsEncryption { get; set; }
 
-    [CommandSwitch("--ebs-encryption-key-arn")]
+    [CliOption("--ebs-encryption-key-arn")]
     public string? EbsEncryptionKeyArn { get; set; }
 
-    [CommandSwitch("--replication-server-instance-type")]
+    [CliOption("--replication-server-instance-type")]
     public string? ReplicationServerInstanceType { get; set; }
 
-    [CommandSwitch("--replication-servers-security-groups-ids")]
+    [CliOption("--replication-servers-security-groups-ids")]
     public string[]? ReplicationServersSecurityGroupsIds { get; set; }
 
-    [CommandSwitch("--staging-area-subnet-id")]
+    [CliOption("--staging-area-subnet-id")]
     public string? StagingAreaSubnetId { get; set; }
 
-    [CommandSwitch("--staging-area-tags")]
+    [CliOption("--staging-area-tags")]
     public IEnumerable<KeyValue>? StagingAreaTags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

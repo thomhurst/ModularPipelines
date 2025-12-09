@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "env", "storage", "set")]
+[CliSubCommand("containerapp", "env", "storage", "set")]
 public record AzContainerappEnvStorageSetOptions(
-[property: CommandSwitch("--access-mode")] string AccessMode,
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--azure-file-account-key")] int AzureFileAccountKey,
-[property: CommandSwitch("--azure-file-share-name")] string AzureFileShareName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--storage-name")] string StorageName
+[property: CliOption("--access-mode")] string AccessMode,
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--azure-file-account-key")] int AzureFileAccountKey,
+[property: CliOption("--azure-file-share-name")] string AzureFileShareName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--storage-name")] string StorageName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

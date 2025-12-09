@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "application-configuration-service")]
+[CliCommand("spring", "application-configuration-service")]
 public class AzSpringApplicationConfigurationServiceGit
 {
     public AzSpringApplicationConfigurationServiceGit(

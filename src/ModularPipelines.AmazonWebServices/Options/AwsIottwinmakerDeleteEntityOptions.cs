@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iottwinmaker", "delete-entity")]
+[CliCommand("iottwinmaker", "delete-entity")]
 public record AwsIottwinmakerDeleteEntityOptions(
-[property: CommandSwitch("--workspace-id")] string WorkspaceId,
-[property: CommandSwitch("--entity-id")] string EntityId
+[property: CliOption("--workspace-id")] string WorkspaceId,
+[property: CliOption("--entity-id")] string EntityId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -3,61 +3,61 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("switch")]
+[CliSubCommand("switch")]
 [ExcludeFromCodeCoverage]
 public record GitSwitchOptions : GitOptions
 {
-    [CommandEqualsSeparatorSwitch("--create")]
-    public string? Create { get; set; }
+    [CliOption("--create", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Create { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--force-create")]
-    public string? ForceCreate { get; set; }
+    [CliOption("--force-create", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ForceCreate { get; set; }
 
-    [BooleanCommandSwitch("--detach")]
+    [CliFlag("--detach")]
     public virtual bool? Detach { get; set; }
 
-    [BooleanCommandSwitch("--guess")]
+    [CliFlag("--guess")]
     public virtual bool? Guess { get; set; }
 
-    [BooleanCommandSwitch("--no-guess")]
+    [CliFlag("--no-guess")]
     public virtual bool? NoGuess { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--discard-changes")]
+    [CliFlag("--discard-changes")]
     public virtual bool? DiscardChanges { get; set; }
 
-    [BooleanCommandSwitch("--merge")]
+    [CliFlag("--merge")]
     public virtual bool? Merge { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--conflict")]
-    public string? Conflict { get; set; }
+    [CliOption("--conflict", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Conflict { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--progress")]
+    [CliFlag("--progress")]
     public virtual bool? Progress { get; set; }
 
-    [BooleanCommandSwitch("--no-progress")]
+    [CliFlag("--no-progress")]
     public virtual bool? NoProgress { get; set; }
 
-    [BooleanCommandSwitch("--track")]
+    [CliFlag("--track")]
     public virtual bool? Track { get; set; }
 
-    [BooleanCommandSwitch("--no-track")]
+    [CliFlag("--no-track")]
     public virtual bool? NoTrack { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--orphan")]
-    public string? Orphan { get; set; }
+    [CliOption("--orphan", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Orphan { get; set; }
 
-    [BooleanCommandSwitch("--ignore-other-worktrees")]
+    [CliFlag("--ignore-other-worktrees")]
     public virtual bool? IgnoreOtherWorktrees { get; set; }
 
-    [BooleanCommandSwitch("--recurse-submodules")]
+    [CliFlag("--recurse-submodules")]
     public virtual bool? RecurseSubmodules { get; set; }
 
-    [BooleanCommandSwitch("--no-recurse-submodules")]
+    [CliFlag("--no-recurse-submodules")]
     public virtual bool? NoRecurseSubmodules { get; set; }
 }

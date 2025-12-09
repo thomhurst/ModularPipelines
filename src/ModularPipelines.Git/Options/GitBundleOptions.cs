@@ -3,16 +3,16 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("bundle")]
+[CliSubCommand("bundle")]
 [ExcludeFromCodeCoverage]
 public record GitBundleOptions : GitOptions
 {
-    [BooleanCommandSwitch("--progress")]
+    [CliFlag("--progress")]
     public virtual bool? Progress { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--version")]
-    public string? Version { get; set; }
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Version { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 }

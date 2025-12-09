@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectcases", "list-cases-for-contact")]
+[CliCommand("connectcases", "list-cases-for-contact")]
 public record AwsConnectcasesListCasesForContactOptions(
-[property: CommandSwitch("--contact-arn")] string ContactArn,
-[property: CommandSwitch("--domain-id")] string DomainId
+[property: CliOption("--contact-arn")] string ContactArn,
+[property: CliOption("--domain-id")] string DomainId
 ) : AwsOptions
 {
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

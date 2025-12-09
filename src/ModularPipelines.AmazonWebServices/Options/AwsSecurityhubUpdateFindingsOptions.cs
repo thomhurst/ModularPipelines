@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securityhub", "update-findings")]
+[CliCommand("securityhub", "update-findings")]
 public record AwsSecurityhubUpdateFindingsOptions(
-[property: CommandSwitch("--filters")] string Filters
+[property: CliOption("--filters")] string Filters
 ) : AwsOptions
 {
-    [CommandSwitch("--note")]
+    [CliOption("--note")]
     public string? Note { get; set; }
 
-    [CommandSwitch("--record-state")]
+    [CliOption("--record-state")]
     public string? RecordState { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("attestation", "signer", "remove")]
+[CliSubCommand("attestation", "signer", "remove")]
 public record AzAttestationSignerRemoveOptions : AzOptions
 {
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--signer")]
+    [CliOption("--signer")]
     public string? Signer { get; set; }
 
-    [CommandSwitch("--signer-file")]
+    [CliOption("--signer-file")]
     public string? SignerFile { get; set; }
 }

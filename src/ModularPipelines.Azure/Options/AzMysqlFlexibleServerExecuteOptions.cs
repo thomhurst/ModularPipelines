@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mysql", "flexible-server", "execute")]
+[CliSubCommand("mysql", "flexible-server", "execute")]
 public record AzMysqlFlexibleServerExecuteOptions(
-[property: CommandSwitch("--admin-password")] string AdminPassword,
-[property: CommandSwitch("--admin-user")] string AdminUser,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--admin-password")] string AdminPassword,
+[property: CliOption("--admin-user")] string AdminUser,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--database-name")]
+    [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [CommandSwitch("--file-path")]
+    [CliOption("--file-path")]
     public string? FilePath { get; set; }
 
-    [CommandSwitch("--querytext")]
+    [CliOption("--querytext")]
     public string? Querytext { get; set; }
 }

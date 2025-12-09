@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "autoscale", "profile", "list-timezones")]
+[CliSubCommand("monitor", "autoscale", "profile", "list-timezones")]
 public record AzMonitorAutoscaleProfileListTimezonesOptions : AzOptions
 {
-    [CommandSwitch("--offset")]
+    [CliOption("--offset")]
     public string? Offset { get; set; }
 
-    [CommandSwitch("--search-query")]
+    [CliOption("--search-query")]
     public string? SearchQuery { get; set; }
 }

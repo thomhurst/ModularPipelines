@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("partnercenter", "marketplace", "offer", "listing", "uri", "add")]
+[CliSubCommand("partnercenter", "marketplace", "offer", "listing", "uri", "add")]
 public record AzPartnercenterMarketplaceOfferListingUriAddOptions(
-[property: CommandSwitch("--display-text")] string DisplayText,
-[property: CommandSwitch("--offer-id")] string OfferId,
-[property: CommandSwitch("--subtype")] string Subtype,
-[property: CommandSwitch("--type")] string Type,
-[property: CommandSwitch("--uri")] string Uri
+[property: CliOption("--display-text")] string DisplayText,
+[property: CliOption("--offer-id")] string OfferId,
+[property: CliOption("--subtype")] string Subtype,
+[property: CliOption("--type")] string Type,
+[property: CliOption("--uri")] string Uri
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 }

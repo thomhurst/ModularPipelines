@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecr", "batch-get-image")]
+[CliCommand("ecr", "batch-get-image")]
 public record AwsEcrBatchGetImageOptions(
-[property: CommandSwitch("--repository-name")] string RepositoryName,
-[property: CommandSwitch("--image-ids")] string[] ImageIds
+[property: CliOption("--repository-name")] string RepositoryName,
+[property: CliOption("--image-ids")] string[] ImageIds
 ) : AwsOptions
 {
-    [CommandSwitch("--registry-id")]
+    [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
-    [CommandSwitch("--accepted-media-types")]
+    [CliOption("--accepted-media-types")]
     public string[]? AcceptedMediaTypes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

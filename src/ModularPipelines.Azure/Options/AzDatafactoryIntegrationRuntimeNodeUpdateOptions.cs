@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datafactory", "integration-runtime-node", "update")]
+[CliSubCommand("datafactory", "integration-runtime-node", "update")]
 public record AzDatafactoryIntegrationRuntimeNodeUpdateOptions : AzOptions
 {
-    [CommandSwitch("--concurrent-jobs-limit")]
+    [CliOption("--concurrent-jobs-limit")]
     public string? ConcurrentJobsLimit { get; set; }
 
-    [CommandSwitch("--factory-name")]
+    [CliOption("--factory-name")]
     public string? FactoryName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--integration-runtime-name")]
+    [CliOption("--integration-runtime-name")]
     public string? IntegrationRuntimeName { get; set; }
 
-    [CommandSwitch("--node-name")]
+    [CliOption("--node-name")]
     public string? NodeName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("csvmware")]
+[CliSubCommand("csvmware")]
 public class AzCsvmwareResourcePool
 {
     public AzCsvmwareResourcePool(

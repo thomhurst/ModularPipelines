@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "message-route")]
+[CliCommand("iot", "hub", "message-route")]
 public class AzIotHubMessageRouteFallback
 {
     public AzIotHubMessageRouteFallback(

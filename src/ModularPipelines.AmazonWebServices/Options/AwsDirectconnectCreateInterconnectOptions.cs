@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("directconnect", "create-interconnect")]
+[CliCommand("directconnect", "create-interconnect")]
 public record AwsDirectconnectCreateInterconnectOptions(
-[property: CommandSwitch("--interconnect-name")] string InterconnectName,
-[property: CommandSwitch("--bandwidth")] string Bandwidth,
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--interconnect-name")] string InterconnectName,
+[property: CliOption("--bandwidth")] string Bandwidth,
+[property: CliOption("--location")] string Location
 ) : AwsOptions
 {
-    [CommandSwitch("--lag-id")]
+    [CliOption("--lag-id")]
     public string? LagId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--provider-name")]
+    [CliOption("--provider-name")]
     public string? ProviderName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

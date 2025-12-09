@@ -5,56 +5,56 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eks", "create-nodegroup")]
+[CliCommand("eks", "create-nodegroup")]
 public record AwsEksCreateNodegroupOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--nodegroup-name")] string NodegroupName,
-[property: CommandSwitch("--subnets")] string[] Subnets,
-[property: CommandSwitch("--node-role")] string NodeRole
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--nodegroup-name")] string NodegroupName,
+[property: CliOption("--subnets")] string[] Subnets,
+[property: CliOption("--node-role")] string NodeRole
 ) : AwsOptions
 {
-    [CommandSwitch("--scaling-config")]
+    [CliOption("--scaling-config")]
     public string? ScalingConfig { get; set; }
 
-    [CommandSwitch("--disk-size")]
+    [CliOption("--disk-size")]
     public int? DiskSize { get; set; }
 
-    [CommandSwitch("--instance-types")]
+    [CliOption("--instance-types")]
     public string[]? InstanceTypes { get; set; }
 
-    [CommandSwitch("--ami-type")]
+    [CliOption("--ami-type")]
     public string? AmiType { get; set; }
 
-    [CommandSwitch("--remote-access")]
+    [CliOption("--remote-access")]
     public string? RemoteAccess { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--taints")]
+    [CliOption("--taints")]
     public string[]? Taints { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--launch-template")]
+    [CliOption("--launch-template")]
     public string? LaunchTemplate { get; set; }
 
-    [CommandSwitch("--update-config")]
+    [CliOption("--update-config")]
     public string? UpdateConfig { get; set; }
 
-    [CommandSwitch("--capacity-type")]
+    [CliOption("--capacity-type")]
     public string? CapacityType { get; set; }
 
-    [CommandSwitch("--release-version")]
+    [CliOption("--release-version")]
     public string? ReleaseVersion { get; set; }
 
-    [CommandSwitch("--kubernetes-version")]
+    [CliOption("--kubernetes-version")]
     public string? KubernetesVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

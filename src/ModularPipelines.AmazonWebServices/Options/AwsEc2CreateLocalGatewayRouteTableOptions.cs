@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-local-gateway-route-table")]
+[CliCommand("ec2", "create-local-gateway-route-table")]
 public record AwsEc2CreateLocalGatewayRouteTableOptions(
-[property: CommandSwitch("--local-gateway-id")] string LocalGatewayId
+[property: CliOption("--local-gateway-id")] string LocalGatewayId
 ) : AwsOptions
 {
-    [CommandSwitch("--mode")]
+    [CliOption("--mode")]
     public string? Mode { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

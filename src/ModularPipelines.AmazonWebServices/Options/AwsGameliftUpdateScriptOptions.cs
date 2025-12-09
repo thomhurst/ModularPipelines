@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "update-script")]
+[CliCommand("gamelift", "update-script")]
 public record AwsGameliftUpdateScriptOptions(
-[property: CommandSwitch("--script-id")] string ScriptId
+[property: CliOption("--script-id")] string ScriptId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--storage-location")]
+    [CliOption("--storage-location")]
     public string? StorageLocation { get; set; }
 
-    [CommandSwitch("--zip-file")]
+    [CliOption("--zip-file")]
     public string? ZipFile { get; set; }
 
-    [CommandSwitch("--script-version")]
+    [CliOption("--script-version")]
     public string? ScriptVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

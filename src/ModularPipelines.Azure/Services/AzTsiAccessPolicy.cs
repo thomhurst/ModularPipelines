@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tsi")]
+[CliSubCommand("tsi")]
 public class AzTsiAccessPolicy
 {
     public AzTsiAccessPolicy(

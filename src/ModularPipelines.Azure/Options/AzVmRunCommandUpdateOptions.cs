@@ -4,62 +4,62 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "run-command", "update")]
+[CliSubCommand("vm", "run-command", "update")]
 public record AzVmRunCommandUpdateOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--async-execution")]
+    [CliFlag("--async-execution")]
     public bool? AsyncExecution { get; set; }
 
-    [CommandSwitch("--command-id")]
+    [CliOption("--command-id")]
     public string? CommandId { get; set; }
 
-    [CommandSwitch("--error-blob-uri")]
+    [CliOption("--error-blob-uri")]
     public string? ErrorBlobUri { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--output-blob-uri")]
+    [CliOption("--output-blob-uri")]
     public string? OutputBlobUri { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--protected-parameters")]
+    [CliOption("--protected-parameters")]
     public string? ProtectedParameters { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--run-as-password")]
+    [CliOption("--run-as-password")]
     public string? RunAsPassword { get; set; }
 
-    [CommandSwitch("--run-as-user")]
+    [CliOption("--run-as-user")]
     public string? RunAsUser { get; set; }
 
-    [CommandSwitch("--script")]
+    [CliOption("--script")]
     public string? Script { get; set; }
 
-    [CommandSwitch("--script-uri")]
+    [CliOption("--script-uri")]
     public string? ScriptUri { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--timeout-in-seconds")]
+    [CliOption("--timeout-in-seconds")]
     public string? TimeoutInSeconds { get; set; }
 
-    [CommandSwitch("--vm-name")]
+    [CliOption("--vm-name")]
     public string? VmName { get; set; }
 }

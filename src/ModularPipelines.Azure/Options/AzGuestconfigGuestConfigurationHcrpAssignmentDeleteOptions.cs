@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("guestconfig", "guest-configuration-hcrp-assignment", "delete")]
+[CliSubCommand("guestconfig", "guest-configuration-hcrp-assignment", "delete")]
 public record AzGuestconfigGuestConfigurationHcrpAssignmentDeleteOptions : AzOptions
 {
-    [CommandSwitch("--guest-configuration-assignment-name")]
+    [CliOption("--guest-configuration-assignment-name")]
     public string? GuestConfigurationAssignmentName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--machine-name")]
+    [CliOption("--machine-name")]
     public string? MachineName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

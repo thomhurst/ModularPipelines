@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("robomaker", "delete-simulation-application")]
+[CliCommand("robomaker", "delete-simulation-application")]
 public record AwsRobomakerDeleteSimulationApplicationOptions(
-[property: CommandSwitch("--application")] string Application
+[property: CliOption("--application")] string Application
 ) : AwsOptions
 {
-    [CommandSwitch("--application-version")]
+    [CliOption("--application-version")]
     public string? ApplicationVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

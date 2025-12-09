@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fsx", "update-file-system")]
+[CliCommand("fsx", "update-file-system")]
 public record AwsFsxUpdateFileSystemOptions(
-[property: CommandSwitch("--file-system-id")] string FileSystemId
+[property: CliOption("--file-system-id")] string FileSystemId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--storage-capacity")]
+    [CliOption("--storage-capacity")]
     public int? StorageCapacity { get; set; }
 
-    [CommandSwitch("--windows-configuration")]
+    [CliOption("--windows-configuration")]
     public string? WindowsConfiguration { get; set; }
 
-    [CommandSwitch("--lustre-configuration")]
+    [CliOption("--lustre-configuration")]
     public string? LustreConfiguration { get; set; }
 
-    [CommandSwitch("--ontap-configuration")]
+    [CliOption("--ontap-configuration")]
     public string? OntapConfiguration { get; set; }
 
-    [CommandSwitch("--open-zfs-configuration")]
+    [CliOption("--open-zfs-configuration")]
     public string? OpenZfsConfiguration { get; set; }
 
-    [CommandSwitch("--storage-type")]
+    [CliOption("--storage-type")]
     public string? StorageType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

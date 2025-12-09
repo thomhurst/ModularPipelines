@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mq", "describe-broker-instance-options")]
+[CliCommand("mq", "describe-broker-instance-options")]
 public record AwsMqDescribeBrokerInstanceOptionsOptions : AwsOptions
 {
-    [CommandSwitch("--engine-type")]
+    [CliOption("--engine-type")]
     public string? EngineType { get; set; }
 
-    [CommandSwitch("--host-instance-type")]
+    [CliOption("--host-instance-type")]
     public string? HostInstanceType { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--storage-type")]
+    [CliOption("--storage-type")]
     public string? StorageType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

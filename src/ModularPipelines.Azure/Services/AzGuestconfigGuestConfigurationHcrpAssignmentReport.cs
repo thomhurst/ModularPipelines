@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("guestconfig")]
+[CliSubCommand("guestconfig")]
 public class AzGuestconfigGuestConfigurationHcrpAssignmentReport
 {
     public AzGuestconfigGuestConfigurationHcrpAssignmentReport(

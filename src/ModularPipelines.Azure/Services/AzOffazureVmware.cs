@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("offure")]
+[CliSubCommand("offure")]
 public class AzOffazureVmware
 {
     public AzOffazureVmware(

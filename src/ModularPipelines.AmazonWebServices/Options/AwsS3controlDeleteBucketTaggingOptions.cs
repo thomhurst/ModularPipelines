@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3control", "delete-bucket-tagging")]
+[CliCommand("s3control", "delete-bucket-tagging")]
 public record AwsS3controlDeleteBucketTaggingOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--bucket")] string Bucket
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--bucket")] string Bucket
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

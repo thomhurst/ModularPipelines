@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("support", "resolve-case")]
+[CliCommand("support", "resolve-case")]
 public record AwsSupportResolveCaseOptions : AwsOptions
 {
-    [CommandSwitch("--case-id")]
+    [CliOption("--case-id")]
     public string? CaseId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

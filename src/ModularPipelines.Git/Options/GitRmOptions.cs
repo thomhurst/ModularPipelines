@@ -3,31 +3,31 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("rm")]
+[CliSubCommand("rm")]
 [ExcludeFromCodeCoverage]
 public record GitRmOptions : GitOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("--cached")]
+    [CliFlag("--cached")]
     public virtual bool? Cached { get; set; }
 
-    [BooleanCommandSwitch("--ignore-unmatch")]
+    [CliFlag("--ignore-unmatch")]
     public virtual bool? IgnoreUnmatch { get; set; }
 
-    [BooleanCommandSwitch("--sparse")]
+    [CliFlag("--sparse")]
     public virtual bool? Sparse { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--pathspec-from-file")]
-    public string? PathspecFromFile { get; set; }
+    [CliOption("--pathspec-from-file", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? PathspecFromFile { get; set; }
 
-    [BooleanCommandSwitch("--pathspec-file-nul")]
+    [CliFlag("--pathspec-file-nul")]
     public virtual bool? PathspecFileNul { get; set; }
 }

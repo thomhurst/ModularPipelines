@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotsitewise")]
+[CliSubCommand("iotsitewise")]
 public class AwsIotsitewiseWait
 {
     public AwsIotsitewiseWait(

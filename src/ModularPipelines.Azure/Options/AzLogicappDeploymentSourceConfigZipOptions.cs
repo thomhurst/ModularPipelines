@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logicapp", "deployment", "source", "config-zip")]
+[CliSubCommand("logicapp", "deployment", "source", "config-zip")]
 public record AzLogicappDeploymentSourceConfigZipOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--src")] string Src
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--src")] string Src
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--build-remote")]
+    [CliFlag("--build-remote")]
     public bool? BuildRemote { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

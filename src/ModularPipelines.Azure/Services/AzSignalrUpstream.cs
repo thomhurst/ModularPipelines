@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("signalr")]
+[CliSubCommand("signalr")]
 public class AzSignalrUpstream
 {
     public AzSignalrUpstream(

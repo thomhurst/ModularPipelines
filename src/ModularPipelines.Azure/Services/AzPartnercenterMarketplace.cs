@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("partnercenter")]
+[CliSubCommand("partnercenter")]
 public class AzPartnercenterMarketplace
 {
     public AzPartnercenterMarketplace(

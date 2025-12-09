@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataprotection", "backup-instance", "update-policy")]
+[CliSubCommand("dataprotection", "backup-instance", "update-policy")]
 public record AzDataprotectionBackupInstanceUpdatePolicyOptions(
-[property: CommandSwitch("--backup-instance-name")] string BackupInstanceName,
-[property: CommandSwitch("--policy-id")] string PolicyId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vault-name")] string VaultName
+[property: CliOption("--backup-instance-name")] string BackupInstanceName,
+[property: CliOption("--policy-id")] string PolicyId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vault-name")] string VaultName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

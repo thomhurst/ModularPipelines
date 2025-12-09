@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "project", "task", "create")]
+[CliCommand("dms", "project", "task", "create")]
 public class AzDmsProjectTaskCreateDmsPreview
 {
     public AzDmsProjectTaskCreateDmsPreview(

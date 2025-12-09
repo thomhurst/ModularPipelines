@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("swf", "describe-workflow-execution")]
+[CliCommand("swf", "describe-workflow-execution")]
 public record AwsSwfDescribeWorkflowExecutionOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--execution")] string Execution
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--execution")] string Execution
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

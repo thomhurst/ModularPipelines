@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ivs-realtime", "list-compositions")]
+[CliCommand("ivs-realtime", "list-compositions")]
 public record AwsIvsRealtimeListCompositionsOptions : AwsOptions
 {
-    [CommandSwitch("--filter-by-encoder-configuration-arn")]
+    [CliOption("--filter-by-encoder-configuration-arn")]
     public string? FilterByEncoderConfigurationArn { get; set; }
 
-    [CommandSwitch("--filter-by-stage-arn")]
+    [CliOption("--filter-by-stage-arn")]
     public string? FilterByStageArn { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

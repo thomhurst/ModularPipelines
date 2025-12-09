@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3control", "put-public-access-block")]
+[CliCommand("s3control", "put-public-access-block")]
 public record AwsS3controlPutPublicAccessBlockOptions(
-[property: CommandSwitch("--public-access-block-configuration")] string PublicAccessBlockConfiguration,
-[property: CommandSwitch("--account-id")] string AccountId
+[property: CliOption("--public-access-block-configuration")] string PublicAccessBlockConfiguration,
+[property: CliOption("--account-id")] string AccountId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

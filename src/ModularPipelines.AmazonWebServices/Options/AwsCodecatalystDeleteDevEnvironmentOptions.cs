@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecatalyst", "delete-dev-environment")]
+[CliCommand("codecatalyst", "delete-dev-environment")]
 public record AwsCodecatalystDeleteDevEnvironmentOptions(
-[property: CommandSwitch("--space-name")] string SpaceName,
-[property: CommandSwitch("--project-name")] string ProjectName,
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--space-name")] string SpaceName,
+[property: CliOption("--project-name")] string ProjectName,
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

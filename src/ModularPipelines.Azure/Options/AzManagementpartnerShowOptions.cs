@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managementpartner", "show")]
+[CliSubCommand("managementpartner", "show")]
 public record AzManagementpartnerShowOptions : AzOptions
 {
-    [CommandSwitch("--partner-id")]
+    [CliOption("--partner-id")]
     public string? PartnerId { get; set; }
 }

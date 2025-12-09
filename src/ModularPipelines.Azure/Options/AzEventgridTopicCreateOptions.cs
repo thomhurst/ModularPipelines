@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "topic", "create")]
+[CliSubCommand("eventgrid", "topic", "create")]
 public record AzEventgridTopicCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--extended-location-name")]
+    [CliOption("--extended-location-name")]
     public string? ExtendedLocationName { get; set; }
 
-    [CommandSwitch("--extended-location-type")]
+    [CliOption("--extended-location-type")]
     public string? ExtendedLocationType { get; set; }
 
-    [CommandSwitch("--inbound-ip-rules")]
+    [CliOption("--inbound-ip-rules")]
     public string? InboundIpRules { get; set; }
 
-    [CommandSwitch("--input-mapping-default-values")]
+    [CliOption("--input-mapping-default-values")]
     public string? InputMappingDefaultValues { get; set; }
 
-    [CommandSwitch("--input-mapping-fields")]
+    [CliOption("--input-mapping-fields")]
     public string? InputMappingFields { get; set; }
 
-    [CommandSwitch("--input-schema")]
+    [CliOption("--input-schema")]
     public string? InputSchema { get; set; }
 
-    [CommandSwitch("--kind")]
+    [CliOption("--kind")]
     public string? Kind { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--mi-system-assigned")]
+    [CliOption("--mi-system-assigned")]
     public string? MiSystemAssigned { get; set; }
 
-    [CommandSwitch("--mi-user-assigned")]
+    [CliOption("--mi-user-assigned")]
     public string? MiUserAssigned { get; set; }
 
-    [CommandSwitch("--public-network-access")]
+    [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

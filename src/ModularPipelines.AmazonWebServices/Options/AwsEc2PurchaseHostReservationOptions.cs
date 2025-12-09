@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "purchase-host-reservation")]
+[CliCommand("ec2", "purchase-host-reservation")]
 public record AwsEc2PurchaseHostReservationOptions(
-[property: CommandSwitch("--host-id-set")] string[] HostIdSet,
-[property: CommandSwitch("--offering-id")] string OfferingId
+[property: CliOption("--host-id-set")] string[] HostIdSet,
+[property: CliOption("--offering-id")] string OfferingId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--currency-code")]
+    [CliOption("--currency-code")]
     public string? CurrencyCode { get; set; }
 
-    [CommandSwitch("--limit-price")]
+    [CliOption("--limit-price")]
     public string? LimitPrice { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

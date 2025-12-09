@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "diagnostic-settings")]
+[CliCommand("monitor", "diagnostic-settings")]
 public class AzMonitorDiagnosticSettingsSubscription
 {
     public AzMonitorDiagnosticSettingsSubscription(

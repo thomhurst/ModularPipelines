@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appsync", "create-domain-name")]
+[CliCommand("appsync", "create-domain-name")]
 public record AwsAppsyncCreateDomainNameOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--certificate-arn")] string CertificateArn
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--certificate-arn")] string CertificateArn
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

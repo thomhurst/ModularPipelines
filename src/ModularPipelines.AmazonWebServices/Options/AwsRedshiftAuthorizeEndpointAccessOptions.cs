@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "authorize-endpoint-access")]
+[CliCommand("redshift", "authorize-endpoint-access")]
 public record AwsRedshiftAuthorizeEndpointAccessOptions(
-[property: CommandSwitch("--account")] string Account
+[property: CliOption("--account")] string Account
 ) : AwsOptions
 {
-    [CommandSwitch("--cluster-identifier")]
+    [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
 
-    [CommandSwitch("--vpc-ids")]
+    [CliOption("--vpc-ids")]
     public string[]? VpcIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

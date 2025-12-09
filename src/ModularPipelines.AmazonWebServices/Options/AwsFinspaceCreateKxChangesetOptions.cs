@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("finspace", "create-kx-changeset")]
+[CliCommand("finspace", "create-kx-changeset")]
 public record AwsFinspaceCreateKxChangesetOptions(
-[property: CommandSwitch("--environment-id")] string EnvironmentId,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--change-requests")] string[] ChangeRequests
+[property: CliOption("--environment-id")] string EnvironmentId,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--change-requests")] string[] ChangeRequests
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

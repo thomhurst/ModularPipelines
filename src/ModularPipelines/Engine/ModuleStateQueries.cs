@@ -4,7 +4,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Engine;
 
 /// <summary>
-/// Provides optimized queries for module state collections
+/// Provides optimized queries for module state collections.
 /// </summary>
 /// <remarks>
 /// IMPORTANT: All methods in this class MUST be called while holding the scheduler's state lock
@@ -20,7 +20,7 @@ internal class ModuleStateQueries
     }
 
     /// <summary>
-    /// Checks if all modules have completed execution
+    /// Checks if all modules have completed execution.
     /// </summary>
     public bool AreAllModulesCompleted()
     {
@@ -28,7 +28,7 @@ internal class ModuleStateQueries
     }
 
     /// <summary>
-    /// Checks if any modules are currently active (executing or queued)
+    /// Checks if any modules are currently active (executing or queued).
     /// </summary>
     public bool AreAnyModulesActive()
     {
@@ -36,7 +36,7 @@ internal class ModuleStateQueries
     }
 
     /// <summary>
-    /// Checks if any modules are pending (waiting to be queued)
+    /// Checks if any modules are pending (waiting to be queued).
     /// </summary>
     public bool AreAnyModulesPending()
     {
@@ -44,7 +44,7 @@ internal class ModuleStateQueries
     }
 
     /// <summary>
-    /// Gets all modules that are pending execution
+    /// Gets all modules that are pending execution.
     /// </summary>
     public IEnumerable<ModuleState> GetPendingModules()
     {
@@ -52,7 +52,7 @@ internal class ModuleStateQueries
     }
 
     /// <summary>
-    /// Gets all modules currently executing
+    /// Gets all modules currently executing.
     /// </summary>
     public IEnumerable<ModuleState> GetExecutingModules()
     {
@@ -60,7 +60,7 @@ internal class ModuleStateQueries
     }
 
     /// <summary>
-    /// Gets all modules that are currently queued but not yet executing
+    /// Gets all modules that are currently queued but not yet executing.
     /// </summary>
     public IEnumerable<ModuleState> GetQueuedModules()
     {
@@ -68,7 +68,7 @@ internal class ModuleStateQueries
     }
 
     /// <summary>
-    /// Gets pending modules that are not marked as AlwaysRun
+    /// Gets pending modules that are not marked as AlwaysRun.
     /// </summary>
     public IEnumerable<ModuleState> GetCancellablePendingModules()
     {
@@ -79,7 +79,7 @@ internal class ModuleStateQueries
     }
 
     /// <summary>
-    /// Finds a sequential module that is currently active, excluding the specified module
+    /// Finds a sequential module that is currently active, excluding the specified module.
     /// </summary>
     public ModuleState? FindBlockingSequentialModule(ModuleState excludeModule)
     {
@@ -90,7 +90,7 @@ internal class ModuleStateQueries
     }
 
     /// <summary>
-    /// Checks if any other module (excluding specified) is currently active
+    /// Checks if any other module (excluding specified) is currently active.
     /// </summary>
     public bool AreOtherModulesActive(ModuleState excludeModule)
     {
@@ -100,7 +100,7 @@ internal class ModuleStateQueries
     }
 
     /// <summary>
-    /// Finds a module with lock key conflicts
+    /// Finds a module with lock key conflicts.
     /// </summary>
     public ModuleState? FindModuleWithLockConflict(ModuleState moduleState)
     {
@@ -116,7 +116,7 @@ internal class ModuleStateQueries
     }
 
     /// <summary>
-    /// Gets statistics about current module states
+    /// Gets statistics about current module states.
     /// </summary>
     public ModuleStateStatistics GetStatistics()
     {
@@ -127,19 +127,23 @@ internal class ModuleStateQueries
             Queued = states.Count(m => m.State == ModuleExecutionState.Queued),
             Executing = states.Count(m => m.State == ModuleExecutionState.Executing),
             Completed = states.Count(m => m.State == ModuleExecutionState.Completed),
-            Pending = states.Count(m => m.State == ModuleExecutionState.Pending)
+            Pending = states.Count(m => m.State == ModuleExecutionState.Pending),
         };
     }
 }
 
 /// <summary>
-/// Statistics about module execution states
+/// Statistics about module execution states.
 /// </summary>
 internal record ModuleStateStatistics
 {
     public int Total { get; init; }
+
     public int Queued { get; init; }
+
     public int Executing { get; init; }
+
     public int Completed { get; init; }
+
     public int Pending { get; init; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bedrock-agent-runtime", "retrieve-and-generate")]
+[CliCommand("bedrock-agent-runtime", "retrieve-and-generate")]
 public record AwsBedrockAgentRuntimeRetrieveAndGenerateOptions(
-[property: CommandSwitch("--input")] string Input
+[property: CliOption("--input")] string Input
 ) : AwsOptions
 {
-    [CommandSwitch("--session-id")]
+    [CliOption("--session-id")]
     public string? SessionId { get; set; }
 
-    [CommandSwitch("--retrieve-and-generate-configuration")]
+    [CliOption("--retrieve-and-generate-configuration")]
     public string? RetrieveAndGenerateConfiguration { get; set; }
 
-    [CommandSwitch("--session-configuration")]
+    [CliOption("--session-configuration")]
     public string? SessionConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

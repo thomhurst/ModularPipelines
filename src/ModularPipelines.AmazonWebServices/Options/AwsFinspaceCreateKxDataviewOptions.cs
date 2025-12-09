@@ -5,32 +5,32 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("finspace", "create-kx-dataview")]
+[CliCommand("finspace", "create-kx-dataview")]
 public record AwsFinspaceCreateKxDataviewOptions(
-[property: CommandSwitch("--environment-id")] string EnvironmentId,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--dataview-name")] string DataviewName,
-[property: CommandSwitch("--az-mode")] string AzMode
+[property: CliOption("--environment-id")] string EnvironmentId,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--dataview-name")] string DataviewName,
+[property: CliOption("--az-mode")] string AzMode
 ) : AwsOptions
 {
-    [CommandSwitch("--availability-zone-id")]
+    [CliOption("--availability-zone-id")]
     public string? AvailabilityZoneId { get; set; }
 
-    [CommandSwitch("--changeset-id")]
+    [CliOption("--changeset-id")]
     public string? ChangesetId { get; set; }
 
-    [CommandSwitch("--segment-configurations")]
+    [CliOption("--segment-configurations")]
     public string[]? SegmentConfigurations { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

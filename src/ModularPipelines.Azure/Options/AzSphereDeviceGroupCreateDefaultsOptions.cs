@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sphere", "device-group", "create-defaults")]
+[CliSubCommand("sphere", "device-group", "create-defaults")]
 public record AzSphereDeviceGroupCreateDefaultsOptions(
-[property: CommandSwitch("--catalog")] string Catalog,
-[property: CommandSwitch("--product")] string Product,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--catalog")] string Catalog,
+[property: CliOption("--product")] string Product,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

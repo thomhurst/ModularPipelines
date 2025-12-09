@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "certificate", "update")]
+[CliSubCommand("iot", "hub", "certificate", "update")]
 public record AzIotHubCertificateUpdateOptions(
-[property: CommandSwitch("--etag")] string Etag,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--path")] string Path
+[property: CliOption("--etag")] string Etag,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--path")] string Path
 ) : AzOptions
 {
-    [CommandSwitch("--hub-name")]
+    [CliOption("--hub-name")]
     public string? HubName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--verified")]
+    [CliFlag("--verified")]
     public bool? Verified { get; set; }
 }

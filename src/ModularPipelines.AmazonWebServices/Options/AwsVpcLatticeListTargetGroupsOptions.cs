@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vpc-lattice", "list-target-groups")]
+[CliCommand("vpc-lattice", "list-target-groups")]
 public record AwsVpcLatticeListTargetGroupsOptions : AwsOptions
 {
-    [CommandSwitch("--target-group-type")]
+    [CliOption("--target-group-type")]
     public string? TargetGroupType { get; set; }
 
-    [CommandSwitch("--vpc-identifier")]
+    [CliOption("--vpc-identifier")]
     public string? VpcIdentifier { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

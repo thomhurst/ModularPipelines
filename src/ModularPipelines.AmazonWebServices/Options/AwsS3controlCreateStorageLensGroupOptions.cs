@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3control", "create-storage-lens-group")]
+[CliCommand("s3control", "create-storage-lens-group")]
 public record AwsS3controlCreateStorageLensGroupOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--storage-lens-group")] string StorageLensGroup
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--storage-lens-group")] string StorageLensGroup
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

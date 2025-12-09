@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudfront", "create-key-group")]
+[CliCommand("cloudfront", "create-key-group")]
 public record AwsCloudfrontCreateKeyGroupOptions(
-[property: CommandSwitch("--key-group-config")] string KeyGroupConfig
+[property: CliOption("--key-group-config")] string KeyGroupConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workloads", "monitor")]
+[CliCommand("workloads", "monitor")]
 public class AzWorkloadsMonitorProviderInstance
 {
     public AzWorkloadsMonitorProviderInstance(

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "get-patch-baseline-for-patch-group")]
+[CliCommand("ssm", "get-patch-baseline-for-patch-group")]
 public record AwsSsmGetPatchBaselineForPatchGroupOptions(
-[property: CommandSwitch("--patch-group")] string PatchGroup
+[property: CliOption("--patch-group")] string PatchGroup
 ) : AwsOptions
 {
-    [CommandSwitch("--operating-system")]
+    [CliOption("--operating-system")]
     public string? OperatingSystem { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

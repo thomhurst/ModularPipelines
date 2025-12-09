@@ -4,86 +4,86 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sig", "image-version", "create")]
+[CliSubCommand("sig", "image-version", "create")]
 public record AzSigImageVersionCreateOptions(
-[property: CommandSwitch("--gallery-image-definition")] string GalleryImageDefinition,
-[property: CommandSwitch("--gallery-image-version")] string GalleryImageVersion,
-[property: CommandSwitch("--gallery-name")] string GalleryName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--gallery-image-definition")] string GalleryImageDefinition,
+[property: CliOption("--gallery-image-version")] string GalleryImageVersion,
+[property: CliOption("--gallery-name")] string GalleryName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--allow-replicated-location-deletion")]
+    [CliFlag("--allow-replicated-location-deletion")]
     public bool? AllowReplicatedLocationDeletion { get; set; }
 
-    [CommandSwitch("--data-snapshot-luns")]
+    [CliOption("--data-snapshot-luns")]
     public string? DataSnapshotLuns { get; set; }
 
-    [CommandSwitch("--data-snapshots")]
+    [CliOption("--data-snapshots")]
     public string? DataSnapshots { get; set; }
 
-    [CommandSwitch("--data-vhds-luns")]
+    [CliOption("--data-vhds-luns")]
     public string? DataVhdsLuns { get; set; }
 
-    [CommandSwitch("--data-vhds-sa")]
+    [CliOption("--data-vhds-sa")]
     public string? DataVhdsSa { get; set; }
 
-    [CommandSwitch("--data-vhds-uris")]
+    [CliOption("--data-vhds-uris")]
     public string? DataVhdsUris { get; set; }
 
-    [CommandSwitch("--end-of-life-date")]
+    [CliOption("--end-of-life-date")]
     public string? EndOfLifeDate { get; set; }
 
-    [BooleanCommandSwitch("--exclude-from-latest")]
+    [CliFlag("--exclude-from-latest")]
     public bool? ExcludeFromLatest { get; set; }
 
-    [CommandSwitch("--image-version")]
+    [CliOption("--image-version")]
     public string? ImageVersion { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--managed-image")]
+    [CliOption("--managed-image")]
     public string? ManagedImage { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--os-snapshot")]
+    [CliOption("--os-snapshot")]
     public string? OsSnapshot { get; set; }
 
-    [CommandSwitch("--os-vhd-storage-account")]
+    [CliOption("--os-vhd-storage-account")]
     public int? OsVhdStorageAccount { get; set; }
 
-    [CommandSwitch("--os-vhd-uri")]
+    [CliOption("--os-vhd-uri")]
     public string? OsVhdUri { get; set; }
 
-    [CommandSwitch("--replica-count")]
+    [CliOption("--replica-count")]
     public int? ReplicaCount { get; set; }
 
-    [CommandSwitch("--replication-mode")]
+    [CliOption("--replication-mode")]
     public string? ReplicationMode { get; set; }
 
-    [CommandSwitch("--storage-account-type")]
+    [CliOption("--storage-account-type")]
     public int? StorageAccountType { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--target-edge-zone-encryption")]
+    [CliOption("--target-edge-zone-encryption")]
     public string? TargetEdgeZoneEncryption { get; set; }
 
-    [CommandSwitch("--target-edge-zones")]
+    [CliOption("--target-edge-zones")]
     public string? TargetEdgeZones { get; set; }
 
-    [CommandSwitch("--target-region-cvm-encryption")]
+    [CliOption("--target-region-cvm-encryption")]
     public string? TargetRegionCvmEncryption { get; set; }
 
-    [CommandSwitch("--target-region-encryption")]
+    [CliOption("--target-region-encryption")]
     public string? TargetRegionEncryption { get; set; }
 
-    [CommandSwitch("--target-regions")]
+    [CliOption("--target-regions")]
     public string? TargetRegions { get; set; }
 
-    [CommandSwitch("--virtual-machine")]
+    [CliOption("--virtual-machine")]
     public string? VirtualMachine { get; set; }
 }

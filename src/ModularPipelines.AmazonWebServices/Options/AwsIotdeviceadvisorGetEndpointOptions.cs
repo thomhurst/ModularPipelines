@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotdeviceadvisor", "get-endpoint")]
+[CliCommand("iotdeviceadvisor", "get-endpoint")]
 public record AwsIotdeviceadvisorGetEndpointOptions : AwsOptions
 {
-    [CommandSwitch("--thing-arn")]
+    [CliOption("--thing-arn")]
     public string? ThingArn { get; set; }
 
-    [CommandSwitch("--certificate-arn")]
+    [CliOption("--certificate-arn")]
     public string? CertificateArn { get; set; }
 
-    [CommandSwitch("--device-role-arn")]
+    [CliOption("--device-role-arn")]
     public string? DeviceRoleArn { get; set; }
 
-    [CommandSwitch("--authentication-method")]
+    [CliOption("--authentication-method")]
     public string? AuthenticationMethod { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

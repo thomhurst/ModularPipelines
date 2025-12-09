@@ -4,60 +4,60 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectedk8s", "update")]
+[CliSubCommand("connectedk8s", "update")]
 public record AzConnectedk8sUpdateOptions : AzOptions
 {
-    [BooleanCommandSwitch("--auto-upgrade")]
+    [CliFlag("--auto-upgrade")]
     public bool? AutoUpgrade { get; set; }
 
-    [BooleanCommandSwitch("--azure-hybrid-benefit")]
+    [CliFlag("--azure-hybrid-benefit")]
     public bool? AzureHybridBenefit { get; set; }
 
-    [CommandSwitch("--container-log-path")]
+    [CliOption("--container-log-path")]
     public string? ContainerLogPath { get; set; }
 
-    [CommandSwitch("--custom-ca-cert")]
+    [CliOption("--custom-ca-cert")]
     public string? CustomCaCert { get; set; }
 
-    [BooleanCommandSwitch("--disable-proxy")]
+    [CliFlag("--disable-proxy")]
     public bool? DisableProxy { get; set; }
 
-    [CommandSwitch("--distribution")]
+    [CliOption("--distribution")]
     public string? Distribution { get; set; }
 
-    [CommandSwitch("--distribution-version")]
+    [CliOption("--distribution-version")]
     public string? DistributionVersion { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--kube-config")]
+    [CliOption("--kube-config")]
     public string? KubeConfig { get; set; }
 
-    [CommandSwitch("--kube-context")]
+    [CliOption("--kube-context")]
     public string? KubeContext { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--proxy-http")]
+    [CliOption("--proxy-http")]
     public string? ProxyHttp { get; set; }
 
-    [CommandSwitch("--proxy-https")]
+    [CliOption("--proxy-https")]
     public string? ProxyHttps { get; set; }
 
-    [CommandSwitch("--proxy-skip-range")]
+    [CliOption("--proxy-skip-range")]
     public string? ProxySkipRange { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

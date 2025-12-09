@@ -4,58 +4,58 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "lb", "rule", "update")]
+[CliSubCommand("network", "lb", "rule", "update")]
 public record AzNetworkLbRuleUpdateOptions(
-[property: CommandSwitch("--lb-name")] string LbName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--lb-name")] string LbName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--backend-pool-name")]
+    [CliOption("--backend-pool-name")]
     public string? BackendPoolName { get; set; }
 
-    [CommandSwitch("--backend-port")]
+    [CliOption("--backend-port")]
     public string? BackendPort { get; set; }
 
-    [BooleanCommandSwitch("--disable-outbound-snat")]
+    [CliFlag("--disable-outbound-snat")]
     public bool? DisableOutboundSnat { get; set; }
 
-    [BooleanCommandSwitch("--enable-floating-ip")]
+    [CliFlag("--enable-floating-ip")]
     public bool? EnableFloatingIp { get; set; }
 
-    [BooleanCommandSwitch("--enable-tcp-reset")]
+    [CliFlag("--enable-tcp-reset")]
     public bool? EnableTcpReset { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--frontend-ip")]
+    [CliOption("--frontend-ip")]
     public string? FrontendIp { get; set; }
 
-    [CommandSwitch("--frontend-port")]
+    [CliOption("--frontend-port")]
     public string? FrontendPort { get; set; }
 
-    [CommandSwitch("--idle-timeout")]
+    [CliOption("--idle-timeout")]
     public string? IdleTimeout { get; set; }
 
-    [CommandSwitch("--load-distribution")]
+    [CliOption("--load-distribution")]
     public string? LoadDistribution { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--probe")]
+    [CliOption("--probe")]
     public string? Probe { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 }

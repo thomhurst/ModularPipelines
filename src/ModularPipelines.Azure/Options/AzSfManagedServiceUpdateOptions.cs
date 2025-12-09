@@ -4,47 +4,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "managed-service", "update")]
+[CliSubCommand("sf", "managed-service", "update")]
 public record AzSfManagedServiceUpdateOptions(
-[property: CommandSwitch("--application")] string Application,
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--application")] string Application,
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--default-move-cost")]
+    [CliOption("--default-move-cost")]
     public string? DefaultMoveCost { get; set; }
 
-    [CommandSwitch("--instance-count")]
+    [CliOption("--instance-count")]
     public int? InstanceCount { get; set; }
 
-    [CommandSwitch("--keep-duration")]
+    [CliOption("--keep-duration")]
     public string? KeepDuration { get; set; }
 
-    [CommandSwitch("--min-inst-pct")]
+    [CliOption("--min-inst-pct")]
     public string? MinInstPct { get; set; }
 
-    [CommandSwitch("--min-instance-count")]
+    [CliOption("--min-instance-count")]
     public int? MinInstanceCount { get; set; }
 
-    [CommandSwitch("--min-replica")]
+    [CliOption("--min-replica")]
     public string? MinReplica { get; set; }
 
-    [CommandSwitch("--placement-constraints")]
+    [CliOption("--placement-constraints")]
     public string? PlacementConstraints { get; set; }
 
-    [CommandSwitch("--plcmt-time-limit")]
+    [CliOption("--plcmt-time-limit")]
     public string? PlcmtTimeLimit { get; set; }
 
-    [CommandSwitch("--quorum-loss-wait")]
+    [CliOption("--quorum-loss-wait")]
     public string? QuorumLossWait { get; set; }
 
-    [CommandSwitch("--replica-restart-wait")]
+    [CliOption("--replica-restart-wait")]
     public string? ReplicaRestartWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--target-replica")]
+    [CliOption("--target-replica")]
     public string? TargetReplica { get; set; }
 }

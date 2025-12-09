@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lexv2-models", "update-bot-recommendation")]
+[CliCommand("lexv2-models", "update-bot-recommendation")]
 public record AwsLexv2ModelsUpdateBotRecommendationOptions(
-[property: CommandSwitch("--bot-id")] string BotId,
-[property: CommandSwitch("--bot-version")] string BotVersion,
-[property: CommandSwitch("--locale-id")] string LocaleId,
-[property: CommandSwitch("--bot-recommendation-id")] string BotRecommendationId,
-[property: CommandSwitch("--encryption-setting")] string EncryptionSetting
+[property: CliOption("--bot-id")] string BotId,
+[property: CliOption("--bot-version")] string BotVersion,
+[property: CliOption("--locale-id")] string LocaleId,
+[property: CliOption("--bot-recommendation-id")] string BotRecommendationId,
+[property: CliOption("--encryption-setting")] string EncryptionSetting
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

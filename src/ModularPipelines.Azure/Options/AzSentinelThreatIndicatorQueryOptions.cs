@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "threat-indicator", "query")]
+[CliSubCommand("sentinel", "threat-indicator", "query")]
 public record AzSentinelThreatIndicatorQueryOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--include-disabled")]
+    [CliFlag("--include-disabled")]
     public bool? IncludeDisabled { get; set; }
 
-    [CommandSwitch("--keywords")]
+    [CliOption("--keywords")]
     public string? Keywords { get; set; }
 
-    [CommandSwitch("--max-confidence")]
+    [CliOption("--max-confidence")]
     public string? MaxConfidence { get; set; }
 
-    [CommandSwitch("--max-valid-until")]
+    [CliOption("--max-valid-until")]
     public string? MaxValidUntil { get; set; }
 
-    [CommandSwitch("--min-confidence")]
+    [CliOption("--min-confidence")]
     public string? MinConfidence { get; set; }
 
-    [CommandSwitch("--min-valid-until")]
+    [CliOption("--min-valid-until")]
     public string? MinValidUntil { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public string? PageSize { get; set; }
 
-    [CommandSwitch("--pattern-types")]
+    [CliOption("--pattern-types")]
     public string? PatternTypes { get; set; }
 
-    [CommandSwitch("--skip-token")]
+    [CliOption("--skip-token")]
     public string? SkipToken { get; set; }
 
-    [CommandSwitch("--sort-by")]
+    [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
-    [CommandSwitch("--sources")]
+    [CliOption("--sources")]
     public string? Sources { get; set; }
 
-    [CommandSwitch("--threat-types")]
+    [CliOption("--threat-types")]
     public string? ThreatTypes { get; set; }
 }

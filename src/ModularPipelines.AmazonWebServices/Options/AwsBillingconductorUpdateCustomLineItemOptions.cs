@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billingconductor", "update-custom-line-item")]
+[CliCommand("billingconductor", "update-custom-line-item")]
 public record AwsBillingconductorUpdateCustomLineItemOptions(
-[property: CommandSwitch("--arn")] string Arn
+[property: CliOption("--arn")] string Arn
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--charge-details")]
+    [CliOption("--charge-details")]
     public string? ChargeDetails { get; set; }
 
-    [CommandSwitch("--billing-period-range")]
+    [CliOption("--billing-period-range")]
     public string? BillingPeriodRange { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

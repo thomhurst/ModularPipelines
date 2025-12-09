@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ce", "get-reservation-purchase-recommendation")]
+[CliCommand("ce", "get-reservation-purchase-recommendation")]
 public record AwsCeGetReservationPurchaseRecommendationOptions(
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--service")] string Service
 ) : AwsOptions
 {
-    [CommandSwitch("--account-id")]
+    [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--account-scope")]
+    [CliOption("--account-scope")]
     public string? AccountScope { get; set; }
 
-    [CommandSwitch("--lookback-period-in-days")]
+    [CliOption("--lookback-period-in-days")]
     public string? LookbackPeriodInDays { get; set; }
 
-    [CommandSwitch("--term-in-years")]
+    [CliOption("--term-in-years")]
     public string? TermInYears { get; set; }
 
-    [CommandSwitch("--payment-option")]
+    [CliOption("--payment-option")]
     public string? PaymentOption { get; set; }
 
-    [CommandSwitch("--service-specification")]
+    [CliOption("--service-specification")]
     public string? ServiceSpecification { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--next-page-token")]
+    [CliOption("--next-page-token")]
     public string? NextPageToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

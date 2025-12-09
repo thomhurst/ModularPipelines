@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "endpoint", "delete")]
+[CliSubCommand("dt", "endpoint", "delete")]
 public record AzDtEndpointDeleteOptions(
-[property: CommandSwitch("--dt-name")] string DtName,
-[property: CommandSwitch("--en")] string En
+[property: CliOption("--dt-name")] string DtName,
+[property: CliOption("--en")] string En
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

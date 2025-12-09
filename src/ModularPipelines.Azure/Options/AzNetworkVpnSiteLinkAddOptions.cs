@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vpn-site", "link", "add")]
+[CliSubCommand("network", "vpn-site", "link", "add")]
 public record AzNetworkVpnSiteLinkAddOptions(
-[property: CommandSwitch("--ip-address")] string IpAddress,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--ip-address")] string IpAddress,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--asn")]
+    [CliOption("--asn")]
     public string? Asn { get; set; }
 
-    [CommandSwitch("--bgp-peering-address")]
+    [CliOption("--bgp-peering-address")]
     public string? BgpPeeringAddress { get; set; }
 
-    [CommandSwitch("--fqdn")]
+    [CliOption("--fqdn")]
     public string? Fqdn { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--link-provider-name")]
+    [CliOption("--link-provider-name")]
     public string? LinkProviderName { get; set; }
 
-    [CommandSwitch("--link-speed-in-mbps")]
+    [CliOption("--link-speed-in-mbps")]
     public string? LinkSpeedInMbps { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--site-name")]
+    [CliOption("--site-name")]
     public string? SiteName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

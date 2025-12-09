@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("docdb")]
+[CliSubCommand("docdb")]
 public class AwsDocdbWait
 {
     public AwsDocdbWait(

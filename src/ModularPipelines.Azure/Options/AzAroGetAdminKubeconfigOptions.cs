@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aro", "get-admin-kubeconfig")]
+[CliSubCommand("aro", "get-admin-kubeconfig")]
 public record AzAroGetAdminKubeconfigOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public string? File { get; set; }
 }

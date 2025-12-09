@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse")]
+[CliSubCommand("synapse")]
 public class AzSynapseActivityRun
 {
     public AzSynapseActivityRun(

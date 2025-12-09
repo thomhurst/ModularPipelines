@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "credential-set", "create")]
+[CliSubCommand("acr", "credential-set", "create")]
 public record AzAcrCredentialSetCreateOptions(
-[property: CommandSwitch("--login-server")] string LoginServer,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--password-id")] string PasswordId,
-[property: CommandSwitch("--registry")] string Registry,
-[property: CommandSwitch("--username-id")] string UsernameId
+[property: CliOption("--login-server")] string LoginServer,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--password-id")] string PasswordId,
+[property: CliOption("--registry")] string Registry,
+[property: CliOption("--username-id")] string UsernameId
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("organizations", "update-organizational-unit")]
+[CliCommand("organizations", "update-organizational-unit")]
 public record AwsOrganizationsUpdateOrganizationalUnitOptions(
-[property: CommandSwitch("--organizational-unit-id")] string OrganizationalUnitId
+[property: CliOption("--organizational-unit-id")] string OrganizationalUnitId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

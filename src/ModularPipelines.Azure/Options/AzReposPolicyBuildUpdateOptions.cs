@@ -4,50 +4,50 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repos", "policy", "build", "update")]
+[CliSubCommand("repos", "policy", "build", "update")]
 public record AzReposPolicyBuildUpdateOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--blocking")]
+    [CliFlag("--blocking")]
     public bool? Blocking { get; set; }
 
-    [CommandSwitch("--branch")]
+    [CliOption("--branch")]
     public string? Branch { get; set; }
 
-    [CommandSwitch("--branch-match-type")]
+    [CliOption("--branch-match-type")]
     public string? BranchMatchType { get; set; }
 
-    [CommandSwitch("--build-definition-id")]
+    [CliOption("--build-definition-id")]
     public string? BuildDefinitionId { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [BooleanCommandSwitch("--enabled")]
+    [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
 
-    [BooleanCommandSwitch("--manual-queue-only")]
+    [CliFlag("--manual-queue-only")]
     public bool? ManualQueueOnly { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--path-filter")]
+    [CliOption("--path-filter")]
     public string? PathFilter { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [BooleanCommandSwitch("--queue-on-source-update-only")]
+    [CliFlag("--queue-on-source-update-only")]
     public bool? QueueOnSourceUpdateOnly { get; set; }
 
-    [CommandSwitch("--repository-id")]
+    [CliOption("--repository-id")]
     public string? RepositoryId { get; set; }
 
-    [CommandSwitch("--valid-duration")]
+    [CliOption("--valid-duration")]
     public string? ValidDuration { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("accessanalyzer", "delete-archive-rule")]
+[CliCommand("accessanalyzer", "delete-archive-rule")]
 public record AwsAccessanalyzerDeleteArchiveRuleOptions(
-[property: CommandSwitch("--analyzer-name")] string AnalyzerName,
-[property: CommandSwitch("--rule-name")] string RuleName
+[property: CliOption("--analyzer-name")] string AnalyzerName,
+[property: CliOption("--rule-name")] string RuleName
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logic")]
+[CliSubCommand("logic")]
 public class AzLogicWorkflow
 {
     public AzLogicWorkflow(

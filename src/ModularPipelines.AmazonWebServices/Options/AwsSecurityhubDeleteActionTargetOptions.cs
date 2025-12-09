@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securityhub", "delete-action-target")]
+[CliCommand("securityhub", "delete-action-target")]
 public record AwsSecurityhubDeleteActionTargetOptions(
-[property: CommandSwitch("--action-target-arn")] string ActionTargetArn
+[property: CliOption("--action-target-arn")] string ActionTargetArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

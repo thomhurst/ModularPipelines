@@ -3,76 +3,76 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("get")]
+[CliSubCommand("get")]
 [ExcludeFromCodeCoverage]
-public record KubernetesGetOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesGetOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--all-namespaces")]
+    [CliFlag("--all-namespaces")]
     public virtual bool? AllNamespaces { get; set; }
 
-    [BooleanCommandSwitch("--allow-missing-template-keys")]
+    [CliFlag("--allow-missing-template-keys")]
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--chunk-size", SwitchValueSeparator = " ")]
-    public int? ChunkSize { get; set; }
+    [CliOption("--chunk-size")]
+    public virtual int? ChunkSize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-selector", SwitchValueSeparator = " ")]
-    public string? FieldSelector { get; set; }
+    [CliOption("--field-selector")]
+    public virtual string? FieldSelector { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
-    public string[]? Filename { get; set; }
+    [CliOption("--filename")]
+    public virtual string[]? Filename { get; set; }
 
-    [BooleanCommandSwitch("--ignore-not-found")]
+    [CliFlag("--ignore-not-found")]
     public virtual bool? IgnoreNotFound { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
-    public string? Kustomize { get; set; }
+    [CliOption("--kustomize")]
+    public virtual string? Kustomize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--label-columns", SwitchValueSeparator = " ")]
-    public string[]? LabelColumns { get; set; }
+    [CliOption("--label-columns")]
+    public virtual string[]? LabelColumns { get; set; }
 
-    [BooleanCommandSwitch("--no-headers")]
+    [CliFlag("--no-headers")]
     public virtual bool? NoHeaders { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
-    public string? Output { get; set; }
+    [CliOption("--output")]
+    public virtual string? Output { get; set; }
 
-    [BooleanCommandSwitch("--output-watch-events")]
+    [CliFlag("--output-watch-events")]
     public virtual bool? OutputWatchEvents { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--raw", SwitchValueSeparator = " ")]
-    public string? Raw { get; set; }
+    [CliOption("--raw")]
+    public virtual string? Raw { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
-    public string? Selector { get; set; }
+    [CliOption("--selector")]
+    public virtual string? Selector { get; set; }
 
-    [BooleanCommandSwitch("--server-print")]
+    [CliFlag("--server-print")]
     public virtual bool? ServerPrint { get; set; }
 
-    [BooleanCommandSwitch("--show-kind")]
+    [CliFlag("--show-kind")]
     public virtual bool? ShowKind { get; set; }
 
-    [BooleanCommandSwitch("--show-labels")]
+    [CliFlag("--show-labels")]
     public virtual bool? ShowLabels { get; set; }
 
-    [BooleanCommandSwitch("--show-managed-fields")]
+    [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--sort-by", SwitchValueSeparator = " ")]
-    public string? SortBy { get; set; }
+    [CliOption("--sort-by")]
+    public virtual string? SortBy { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
-    public string? Template { get; set; }
+    [CliOption("--template")]
+    public virtual string? Template { get; set; }
 
-    [BooleanCommandSwitch("--use-openapi-print-columns")]
+    [CliFlag("--use-openapi-print-columns")]
     public virtual bool? UseOpenapiPrintColumns { get; set; }
 
-    [BooleanCommandSwitch("--watch")]
+    [CliFlag("--watch")]
     public virtual bool? Watch { get; set; }
 
-    [BooleanCommandSwitch("--watch-only")]
+    [CliFlag("--watch-only")]
     public virtual bool? WatchOnly { get; set; }
 }

@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "detect-labels")]
+[CliCommand("rekognition", "detect-labels")]
 public record AwsRekognitionDetectLabelsOptions : AwsOptions
 {
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [CommandSwitch("--max-labels")]
+    [CliOption("--max-labels")]
     public int? MaxLabels { get; set; }
 
-    [CommandSwitch("--min-confidence")]
+    [CliOption("--min-confidence")]
     public float? MinConfidence { get; set; }
 
-    [CommandSwitch("--features")]
+    [CliOption("--features")]
     public string[]? Features { get; set; }
 
-    [CommandSwitch("--settings")]
+    [CliOption("--settings")]
     public string? Settings { get; set; }
 
-    [CommandSwitch("--image-bytes")]
+    [CliOption("--image-bytes")]
     public string? ImageBytes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

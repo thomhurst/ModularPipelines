@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resiliencehub", "list-unsupported-app-version-resources")]
+[CliCommand("resiliencehub", "list-unsupported-app-version-resources")]
 public record AwsResiliencehubListUnsupportedAppVersionResourcesOptions(
-[property: CommandSwitch("--app-arn")] string AppArn,
-[property: CommandSwitch("--app-version")] string AppVersion
+[property: CliOption("--app-arn")] string AppArn,
+[property: CliOption("--app-version")] string AppVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--resolution-id")]
+    [CliOption("--resolution-id")]
     public string? ResolutionId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

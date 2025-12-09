@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tnb", "validate-sol-function-package-content")]
+[CliCommand("tnb", "validate-sol-function-package-content")]
 public record AwsTnbValidateSolFunctionPackageContentOptions(
-[property: CommandSwitch("--file")] string File,
-[property: CommandSwitch("--vnf-pkg-id")] string VnfPkgId
+[property: CliOption("--file")] string File,
+[property: CliOption("--vnf-pkg-id")] string VnfPkgId
 ) : AwsOptions
 {
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

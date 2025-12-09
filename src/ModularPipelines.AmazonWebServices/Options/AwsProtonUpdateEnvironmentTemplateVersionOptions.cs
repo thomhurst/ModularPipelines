@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("proton", "update-environment-template-version")]
+[CliCommand("proton", "update-environment-template-version")]
 public record AwsProtonUpdateEnvironmentTemplateVersionOptions(
-[property: CommandSwitch("--major-version")] string MajorVersion,
-[property: CommandSwitch("--minor-version")] string MinorVersion,
-[property: CommandSwitch("--template-name")] string TemplateName
+[property: CliOption("--major-version")] string MajorVersion,
+[property: CliOption("--minor-version")] string MinorVersion,
+[property: CliOption("--template-name")] string TemplateName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticache", "describe-snapshots")]
+[CliCommand("elasticache", "describe-snapshots")]
 public record AwsElasticacheDescribeSnapshotsOptions : AwsOptions
 {
-    [CommandSwitch("--replication-group-id")]
+    [CliOption("--replication-group-id")]
     public string? ReplicationGroupId { get; set; }
 
-    [CommandSwitch("--cache-cluster-id")]
+    [CliOption("--cache-cluster-id")]
     public string? CacheClusterId { get; set; }
 
-    [CommandSwitch("--snapshot-name")]
+    [CliOption("--snapshot-name")]
     public string? SnapshotName { get; set; }
 
-    [CommandSwitch("--snapshot-source")]
+    [CliOption("--snapshot-source")]
     public string? SnapshotSource { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

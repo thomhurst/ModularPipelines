@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ses", "delete-receipt-rule-set")]
+[CliCommand("ses", "delete-receipt-rule-set")]
 public record AwsSesDeleteReceiptRuleSetOptions(
-[property: CommandSwitch("--rule-set-name")] string RuleSetName
+[property: CliOption("--rule-set-name")] string RuleSetName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

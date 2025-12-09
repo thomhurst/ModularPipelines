@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("palo-alto", "cloudngfw", "local-rulestack", "list-app-id")]
+[CliSubCommand("palo-alto", "cloudngfw", "local-rulestack", "list-app-id")]
 public record AzPaloAltoCloudngfwLocalRulestackListAppIdOptions : AzOptions
 {
-    [CommandSwitch("--app-id-version")]
+    [CliOption("--app-id-version")]
     public string? AppIdVersion { get; set; }
 
-    [CommandSwitch("--app-prefix")]
+    [CliOption("--app-prefix")]
     public string? AppPrefix { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--local-rulestack-name")]
+    [CliOption("--local-rulestack-name")]
     public string? LocalRulestackName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--skip")]
+    [CliOption("--skip")]
     public string? Skip { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 }

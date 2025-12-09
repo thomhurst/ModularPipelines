@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmss", "disk", "attach")]
+[CliSubCommand("vmss", "disk", "attach")]
 public record AzVmssDiskAttachOptions : AzOptions
 {
-    [CommandSwitch("--caching")]
+    [CliOption("--caching")]
     public string? Caching { get; set; }
 
-    [CommandSwitch("--disk")]
+    [CliOption("--disk")]
     public string? Disk { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--instance-id")]
+    [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
-    [CommandSwitch("--lun")]
+    [CliOption("--lun")]
     public string? Lun { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--size-gb")]
+    [CliOption("--size-gb")]
     public string? SizeGb { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--vmss-name")]
+    [CliOption("--vmss-name")]
     public string? VmssName { get; set; }
 }

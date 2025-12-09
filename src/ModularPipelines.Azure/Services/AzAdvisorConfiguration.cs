@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("advisor")]
+[CliSubCommand("advisor")]
 public class AzAdvisorConfiguration
 {
     public AzAdvisorConfiguration(

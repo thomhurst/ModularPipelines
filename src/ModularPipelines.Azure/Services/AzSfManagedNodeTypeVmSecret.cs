@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "managed-node-type")]
+[CliCommand("sf", "managed-node-type")]
 public class AzSfManagedNodeTypeVmSecret
 {
     public AzSfManagedNodeTypeVmSecret(

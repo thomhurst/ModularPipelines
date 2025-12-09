@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("trustedadvisor", "list-recommendations")]
+[CliCommand("trustedadvisor", "list-recommendations")]
 public record AwsTrustedadvisorListRecommendationsOptions : AwsOptions
 {
-    [CommandSwitch("--after-last-updated-at")]
+    [CliOption("--after-last-updated-at")]
     public long? AfterLastUpdatedAt { get; set; }
 
-    [CommandSwitch("--aws-service")]
+    [CliOption("--aws-service")]
     public string? AwsService { get; set; }
 
-    [CommandSwitch("--before-last-updated-at")]
+    [CliOption("--before-last-updated-at")]
     public long? BeforeLastUpdatedAt { get; set; }
 
-    [CommandSwitch("--check-identifier")]
+    [CliOption("--check-identifier")]
     public string? CheckIdentifier { get; set; }
 
-    [CommandSwitch("--pillar")]
+    [CliOption("--pillar")]
     public string? Pillar { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

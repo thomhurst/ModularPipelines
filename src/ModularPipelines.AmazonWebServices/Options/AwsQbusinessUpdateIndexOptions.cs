@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qbusiness", "update-index")]
+[CliCommand("qbusiness", "update-index")]
 public record AwsQbusinessUpdateIndexOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--index-id")] string IndexId
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--index-id")] string IndexId
 ) : AwsOptions
 {
-    [CommandSwitch("--capacity-configuration")]
+    [CliOption("--capacity-configuration")]
     public string? CapacityConfiguration { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--document-attribute-configurations")]
+    [CliOption("--document-attribute-configurations")]
     public string[]? DocumentAttributeConfigurations { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

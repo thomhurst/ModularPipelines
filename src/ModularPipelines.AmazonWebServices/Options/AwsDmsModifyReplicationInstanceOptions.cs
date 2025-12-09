@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "modify-replication-instance")]
+[CliCommand("dms", "modify-replication-instance")]
 public record AwsDmsModifyReplicationInstanceOptions(
-[property: CommandSwitch("--replication-instance-arn")] string ReplicationInstanceArn
+[property: CliOption("--replication-instance-arn")] string ReplicationInstanceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--allocated-storage")]
+    [CliOption("--allocated-storage")]
     public int? AllocatedStorage { get; set; }
 
-    [CommandSwitch("--replication-instance-class")]
+    [CliOption("--replication-instance-class")]
     public string? ReplicationInstanceClass { get; set; }
 
-    [CommandSwitch("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids")]
     public string[]? VpcSecurityGroupIds { get; set; }
 
-    [CommandSwitch("--preferred-maintenance-window")]
+    [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
-    [CommandSwitch("--engine-version")]
+    [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CommandSwitch("--replication-instance-identifier")]
+    [CliOption("--replication-instance-identifier")]
     public string? ReplicationInstanceIdentifier { get; set; }
 
-    [CommandSwitch("--network-type")]
+    [CliOption("--network-type")]
     public string? NetworkType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

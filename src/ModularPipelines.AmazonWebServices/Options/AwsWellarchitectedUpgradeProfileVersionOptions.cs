@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "upgrade-profile-version")]
+[CliCommand("wellarchitected", "upgrade-profile-version")]
 public record AwsWellarchitectedUpgradeProfileVersionOptions(
-[property: CommandSwitch("--workload-id")] string WorkloadId,
-[property: CommandSwitch("--profile-arn")] string ProfileArn
+[property: CliOption("--workload-id")] string WorkloadId,
+[property: CliOption("--profile-arn")] string ProfileArn
 ) : AwsOptions
 {
-    [CommandSwitch("--milestone-name")]
+    [CliOption("--milestone-name")]
     public string? MilestoneName { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

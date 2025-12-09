@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "config", "snapshot", "restore")]
+[CliSubCommand("webapp", "config", "snapshot", "restore")]
 public record AzWebappConfigSnapshotRestoreOptions(
-[property: CommandSwitch("--time")] string Time
+[property: CliOption("--time")] string Time
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--restore-content-only")]
+    [CliFlag("--restore-content-only")]
     public bool? RestoreContentOnly { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 
-    [CommandSwitch("--source-name")]
+    [CliOption("--source-name")]
     public string? SourceName { get; set; }
 
-    [CommandSwitch("--source-resource-group")]
+    [CliOption("--source-resource-group")]
     public string? SourceResourceGroup { get; set; }
 
-    [CommandSwitch("--source-slot")]
+    [CliOption("--source-slot")]
     public string? SourceSlot { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

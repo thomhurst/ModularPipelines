@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops", "security", "group", "membership", "add")]
+[CliSubCommand("devops", "security", "group", "membership", "add")]
 public record AzDevopsSecurityGroupMembershipAddOptions(
-[property: CommandSwitch("--group-id")] string GroupId,
-[property: CommandSwitch("--member-id")] string MemberId
+[property: CliOption("--group-id")] string GroupId,
+[property: CliOption("--member-id")] string MemberId
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 }

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transcribe", "create-language-model")]
+[CliCommand("transcribe", "create-language-model")]
 public record AwsTranscribeCreateLanguageModelOptions(
-[property: CommandSwitch("--language-code")] string LanguageCode,
-[property: CommandSwitch("--base-model-name")] string BaseModelName,
-[property: CommandSwitch("--model-name")] string ModelName,
-[property: CommandSwitch("--input-data-config")] string InputDataConfig
+[property: CliOption("--language-code")] string LanguageCode,
+[property: CliOption("--base-model-name")] string BaseModelName,
+[property: CliOption("--model-name")] string ModelName,
+[property: CliOption("--input-data-config")] string InputDataConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

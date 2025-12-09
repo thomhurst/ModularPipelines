@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "adaptive-application-controls", "list")]
+[CliSubCommand("security", "adaptive-application-controls", "list")]
 public record AzSecurityAdaptiveApplicationControlsListOptions : AzOptions;

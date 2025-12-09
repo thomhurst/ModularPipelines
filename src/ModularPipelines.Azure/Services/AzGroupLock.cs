@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("group")]
+[CliSubCommand("group")]
 public class AzGroupLock
 {
     public AzGroupLock(

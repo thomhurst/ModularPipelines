@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mgn", "remove-source-server-action")]
+[CliCommand("mgn", "remove-source-server-action")]
 public record AwsMgnRemoveSourceServerActionOptions(
-[property: CommandSwitch("--action-id")] string ActionId,
-[property: CommandSwitch("--source-server-id")] string SourceServerId
+[property: CliOption("--action-id")] string ActionId,
+[property: CliOption("--source-server-id")] string SourceServerId
 ) : AwsOptions
 {
-    [CommandSwitch("--account-id")]
+    [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

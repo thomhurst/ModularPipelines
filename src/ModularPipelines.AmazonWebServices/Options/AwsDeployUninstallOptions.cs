@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "uninstall")]
+[CliCommand("deploy", "uninstall")]
 public record AwsDeployUninstallOptions : AwsOptions;

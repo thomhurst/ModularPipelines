@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lakeformation", "get-table-objects")]
+[CliCommand("lakeformation", "get-table-objects")]
 public record AwsLakeformationGetTableObjectsOptions(
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--table-name")] string TableName
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--table-name")] string TableName
 ) : AwsOptions
 {
-    [CommandSwitch("--catalog-id")]
+    [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CommandSwitch("--transaction-id")]
+    [CliOption("--transaction-id")]
     public string? TransactionId { get; set; }
 
-    [CommandSwitch("--query-as-of-time")]
+    [CliOption("--query-as-of-time")]
     public long? QueryAsOfTime { get; set; }
 
-    [CommandSwitch("--partition-predicate")]
+    [CliOption("--partition-predicate")]
     public string? PartitionPredicate { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

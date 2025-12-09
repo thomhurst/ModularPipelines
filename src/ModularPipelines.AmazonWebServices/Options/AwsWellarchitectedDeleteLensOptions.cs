@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "delete-lens")]
+[CliCommand("wellarchitected", "delete-lens")]
 public record AwsWellarchitectedDeleteLensOptions(
-[property: CommandSwitch("--lens-alias")] string LensAlias,
-[property: CommandSwitch("--lens-status")] string LensStatus
+[property: CliOption("--lens-alias")] string LensAlias,
+[property: CliOption("--lens-status")] string LensStatus
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation", "signal-resource")]
+[CliCommand("cloudformation", "signal-resource")]
 public record AwsCloudformationSignalResourceOptions(
-[property: CommandSwitch("--stack-name")] string StackName,
-[property: CommandSwitch("--logical-resource-id")] string LogicalResourceId,
-[property: CommandSwitch("--unique-id")] string UniqueId,
-[property: CommandSwitch("--status")] string Status
+[property: CliOption("--stack-name")] string StackName,
+[property: CliOption("--logical-resource-id")] string LogicalResourceId,
+[property: CliOption("--unique-id")] string UniqueId,
+[property: CliOption("--status")] string Status
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

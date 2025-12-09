@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "load-balancing", "create")]
+[CliSubCommand("network", "front-door", "load-balancing", "create")]
 public record AzNetworkFrontDoorLoadBalancingCreateOptions(
-[property: CommandSwitch("--front-door-name")] string FrontDoorName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sample-size")] string SampleSize,
-[property: CommandSwitch("--successful-samples-required")] string SuccessfulSamplesRequired
+[property: CliOption("--front-door-name")] string FrontDoorName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sample-size")] string SampleSize,
+[property: CliOption("--successful-samples-required")] string SuccessfulSamplesRequired
 ) : AzOptions
 {
-    [CommandSwitch("--additional-latency")]
+    [CliOption("--additional-latency")]
     public string? AdditionalLatency { get; set; }
 }

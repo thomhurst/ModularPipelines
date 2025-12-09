@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "domain", "topic")]
+[CliCommand("eventgrid", "domain", "topic")]
 public class AzEventgridDomainTopicEventSubscription
 {
     public AzEventgridDomainTopicEventSubscription(

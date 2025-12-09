@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("peering", "service", "prefix", "delete")]
+[CliSubCommand("peering", "service", "prefix", "delete")]
 public record AzPeeringServicePrefixDeleteOptions(
-[property: CommandSwitch("--peering-service-name")] string PeeringServiceName,
-[property: CommandSwitch("--prefix-name")] string PrefixName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--peering-service-name")] string PeeringServiceName,
+[property: CliOption("--prefix-name")] string PrefixName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

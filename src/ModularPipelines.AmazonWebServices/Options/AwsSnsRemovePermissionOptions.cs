@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sns", "remove-permission")]
+[CliCommand("sns", "remove-permission")]
 public record AwsSnsRemovePermissionOptions(
-[property: CommandSwitch("--topic-arn")] string TopicArn,
-[property: CommandSwitch("--label")] string Label
+[property: CliOption("--topic-arn")] string TopicArn,
+[property: CliOption("--label")] string Label
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

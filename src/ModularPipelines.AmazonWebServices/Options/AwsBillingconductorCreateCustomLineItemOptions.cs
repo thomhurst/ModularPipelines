@@ -5,26 +5,26 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billingconductor", "create-custom-line-item")]
+[CliCommand("billingconductor", "create-custom-line-item")]
 public record AwsBillingconductorCreateCustomLineItemOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--billing-group-arn")] string BillingGroupArn,
-[property: CommandSwitch("--charge-details")] string ChargeDetails
+[property: CliOption("--name")] string Name,
+[property: CliOption("--description")] string Description,
+[property: CliOption("--billing-group-arn")] string BillingGroupArn,
+[property: CliOption("--charge-details")] string ChargeDetails
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--billing-period-range")]
+    [CliOption("--billing-period-range")]
     public string? BillingPeriodRange { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--account-id")]
+    [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

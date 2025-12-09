@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint", "update-apns-voip-channel")]
+[CliCommand("pinpoint", "update-apns-voip-channel")]
 public record AwsPinpointUpdateApnsVoipChannelOptions(
-[property: CommandSwitch("--apns-voip-channel-request")] string ApnsVoipChannelRequest,
-[property: CommandSwitch("--application-id")] string ApplicationId
+[property: CliOption("--apns-voip-channel-request")] string ApnsVoipChannelRequest,
+[property: CliOption("--application-id")] string ApplicationId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

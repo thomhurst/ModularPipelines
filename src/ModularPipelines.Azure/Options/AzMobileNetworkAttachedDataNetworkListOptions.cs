@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mobile-network", "attached-data-network", "list")]
+[CliSubCommand("mobile-network", "attached-data-network", "list")]
 public record AzMobileNetworkAttachedDataNetworkListOptions(
-[property: CommandSwitch("--pccp-name")] string PccpName,
-[property: CommandSwitch("--pcdp-name")] string PcdpName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--pccp-name")] string PccpName,
+[property: CliOption("--pcdp-name")] string PcdpName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

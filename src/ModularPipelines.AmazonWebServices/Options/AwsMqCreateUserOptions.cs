@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mq", "create-user")]
+[CliCommand("mq", "create-user")]
 public record AwsMqCreateUserOptions(
-[property: CommandSwitch("--broker-id")] string BrokerId,
-[property: CommandSwitch("--password")] string Password,
-[property: CommandSwitch("--username")] string Username
+[property: CliOption("--broker-id")] string BrokerId,
+[property: CliOption("--password")] string Password,
+[property: CliOption("--username")] string Username
 ) : AwsOptions
 {
-    [CommandSwitch("--groups")]
+    [CliOption("--groups")]
     public string[]? Groups { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "describe-vocabulary")]
+[CliCommand("connect", "describe-vocabulary")]
 public record AwsConnectDescribeVocabularyOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--vocabulary-id")] string VocabularyId
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--vocabulary-id")] string VocabularyId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

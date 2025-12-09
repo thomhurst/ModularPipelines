@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("grafana", "folder", "update")]
+[CliSubCommand("grafana", "folder", "update")]
 public record AzGrafanaFolderUpdateOptions(
-[property: CommandSwitch("--folder")] string Folder,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--title")] string Title
+[property: CliOption("--folder")] string Folder,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--title")] string Title
 ) : AzOptions
 {
-    [CommandSwitch("--api-key")]
+    [CliOption("--api-key")]
     public string? ApiKey { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "create-user-pool-domain")]
+[CliCommand("cognito-idp", "create-user-pool-domain")]
 public record AwsCognitoIdpCreateUserPoolDomainOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--user-pool-id")] string UserPoolId
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--user-pool-id")] string UserPoolId
 ) : AwsOptions
 {
-    [CommandSwitch("--custom-domain-config")]
+    [CliOption("--custom-domain-config")]
     public string? CustomDomainConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

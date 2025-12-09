@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("relay", "wcfrelay")]
+[CliCommand("relay", "wcfrelay")]
 public class AzRelayWcfrelayAuthorizationRule
 {
     public AzRelayWcfrelayAuthorizationRule(

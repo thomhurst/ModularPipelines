@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "get-credentials")]
+[CliCommand("aks", "get-credentials")]
 public class AzAksGetCredentialsAksPreview
 {
     public AzAksGetCredentialsAksPreview(

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "reload-replication-tables")]
+[CliCommand("dms", "reload-replication-tables")]
 public record AwsDmsReloadReplicationTablesOptions(
-[property: CommandSwitch("--replication-config-arn")] string ReplicationConfigArn,
-[property: CommandSwitch("--tables-to-reload")] string[] TablesToReload
+[property: CliOption("--replication-config-arn")] string ReplicationConfigArn,
+[property: CliOption("--tables-to-reload")] string[] TablesToReload
 ) : AwsOptions
 {
-    [CommandSwitch("--reload-option")]
+    [CliOption("--reload-option")]
     public string? ReloadOption { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

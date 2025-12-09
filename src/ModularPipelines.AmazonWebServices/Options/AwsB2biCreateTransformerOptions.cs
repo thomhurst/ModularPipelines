@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("b2bi", "create-transformer")]
+[CliCommand("b2bi", "create-transformer")]
 public record AwsB2biCreateTransformerOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--file-format")] string FileFormat,
-[property: CommandSwitch("--mapping-template")] string MappingTemplate,
-[property: CommandSwitch("--edi-type")] string EdiType
+[property: CliOption("--name")] string Name,
+[property: CliOption("--file-format")] string FileFormat,
+[property: CliOption("--mapping-template")] string MappingTemplate,
+[property: CliOption("--edi-type")] string EdiType
 ) : AwsOptions
 {
-    [CommandSwitch("--sample-document")]
+    [CliOption("--sample-document")]
     public string? SampleDocument { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

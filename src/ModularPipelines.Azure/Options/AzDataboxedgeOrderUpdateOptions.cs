@@ -4,72 +4,72 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databoxedge", "order", "update")]
+[CliSubCommand("databoxedge", "order", "update")]
 public record AzDataboxedgeOrderUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--address-line1")]
+    [CliOption("--address-line1")]
     public string? AddressLine1 { get; set; }
 
-    [CommandSwitch("--address-line2")]
+    [CliOption("--address-line2")]
     public string? AddressLine2 { get; set; }
 
-    [CommandSwitch("--address-line3")]
+    [CliOption("--address-line3")]
     public string? AddressLine3 { get; set; }
 
-    [CommandSwitch("--city")]
+    [CliOption("--city")]
     public string? City { get; set; }
 
-    [CommandSwitch("--comments")]
+    [CliOption("--comments")]
     public string? Comments { get; set; }
 
-    [CommandSwitch("--company-name")]
+    [CliOption("--company-name")]
     public string? CompanyName { get; set; }
 
-    [CommandSwitch("--contact-person")]
+    [CliOption("--contact-person")]
     public string? ContactPerson { get; set; }
 
-    [CommandSwitch("--country")]
+    [CliOption("--country")]
     public int? Country { get; set; }
 
-    [CommandSwitch("--device-name")]
+    [CliOption("--device-name")]
     public string? DeviceName { get; set; }
 
-    [CommandSwitch("--email-list")]
+    [CliOption("--email-list")]
     public string? EmailList { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--phone")]
+    [CliOption("--phone")]
     public string? Phone { get; set; }
 
-    [CommandSwitch("--postal-code")]
+    [CliOption("--postal-code")]
     public string? PostalCode { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

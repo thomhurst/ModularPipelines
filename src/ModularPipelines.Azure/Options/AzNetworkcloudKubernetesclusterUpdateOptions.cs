@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "kubernetescluster", "update")]
+[CliSubCommand("networkcloud", "kubernetescluster", "update")]
 public record AzNetworkcloudKubernetesclusterUpdateOptions : AzOptions
 {
-    [CommandSwitch("--control-plane-node-configuration")]
+    [CliOption("--control-plane-node-configuration")]
     public string? ControlPlaneNodeConfiguration { get; set; }
 
-    [BooleanCommandSwitch("--generate-ssh-keys")]
+    [CliFlag("--generate-ssh-keys")]
     public bool? GenerateSshKeys { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--kubernetes-cluster-name")]
+    [CliOption("--kubernetes-cluster-name")]
     public string? KubernetesClusterName { get; set; }
 
-    [CommandSwitch("--kubernetes-version")]
+    [CliOption("--kubernetes-version")]
     public string? KubernetesVersion { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--ssh-dest-key-path")]
+    [CliOption("--ssh-dest-key-path")]
     public string? SshDestKeyPath { get; set; }
 
-    [CommandSwitch("--ssh-key-values")]
+    [CliOption("--ssh-key-values")]
     public string? SshKeyValues { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

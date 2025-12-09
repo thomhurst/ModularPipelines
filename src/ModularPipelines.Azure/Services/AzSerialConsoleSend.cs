@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("serial-console")]
+[CliSubCommand("serial-console")]
 public class AzSerialConsoleSend
 {
     public AzSerialConsoleSend(

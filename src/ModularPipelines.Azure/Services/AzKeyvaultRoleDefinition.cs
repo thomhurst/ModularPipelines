@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "role")]
+[CliCommand("keyvault", "role")]
 public class AzKeyvaultRoleDefinition
 {
     public AzKeyvaultRoleDefinition(

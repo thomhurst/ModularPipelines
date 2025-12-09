@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "generate-organizations-access-report")]
+[CliCommand("iam", "generate-organizations-access-report")]
 public record AwsIamGenerateOrganizationsAccessReportOptions(
-[property: CommandSwitch("--entity-path")] string EntityPath
+[property: CliOption("--entity-path")] string EntityPath
 ) : AwsOptions
 {
-    [CommandSwitch("--organizations-policy-id")]
+    [CliOption("--organizations-policy-id")]
     public string? OrganizationsPolicyId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

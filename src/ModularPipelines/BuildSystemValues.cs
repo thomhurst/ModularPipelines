@@ -18,11 +18,13 @@ public static class BuildSystemValues
         /// <summary>
         /// Creates a TeamCity block opened service message.
         /// </summary>
+        /// <returns></returns>
         public static string StartBlock(string name) => $"##teamcity[blockOpened name='{name}']";
 
         /// <summary>
         /// Creates a TeamCity block closed service message.
         /// </summary>
+        /// <returns></returns>
         public static string EndBlock(string name) => $"##teamcity[blockClosed name='{name}']";
     }
 
@@ -34,6 +36,7 @@ public static class BuildSystemValues
         /// <summary>
         /// Creates an Azure Pipelines group start command.
         /// </summary>
+        /// <returns></returns>
         public static string StartBlock(string name) => $"##[group]{name}";
 
         /// <summary>
@@ -50,6 +53,7 @@ public static class BuildSystemValues
         /// <summary>
         /// Creates a GitHub Actions group start command.
         /// </summary>
+        /// <returns></returns>
         public static string StartBlock(string name) => $"::group::{name}";
 
         /// <summary>

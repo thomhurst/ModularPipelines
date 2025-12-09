@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ram", "get-permission")]
+[CliCommand("ram", "get-permission")]
 public record AwsRamGetPermissionOptions(
-[property: CommandSwitch("--permission-arn")] string PermissionArn
+[property: CliOption("--permission-arn")] string PermissionArn
 ) : AwsOptions
 {
-    [CommandSwitch("--permission-version")]
+    [CliOption("--permission-version")]
     public int? PermissionVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

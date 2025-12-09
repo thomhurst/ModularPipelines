@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ds", "create-trust")]
+[CliCommand("ds", "create-trust")]
 public record AwsDsCreateTrustOptions(
-[property: CommandSwitch("--directory-id")] string DirectoryId,
-[property: CommandSwitch("--remote-domain-name")] string RemoteDomainName,
-[property: CommandSwitch("--trust-password")] string TrustPassword,
-[property: CommandSwitch("--trust-direction")] string TrustDirection
+[property: CliOption("--directory-id")] string DirectoryId,
+[property: CliOption("--remote-domain-name")] string RemoteDomainName,
+[property: CliOption("--trust-password")] string TrustPassword,
+[property: CliOption("--trust-direction")] string TrustDirection
 ) : AwsOptions
 {
-    [CommandSwitch("--trust-type")]
+    [CliOption("--trust-type")]
     public string? TrustType { get; set; }
 
-    [CommandSwitch("--conditional-forwarder-ip-addrs")]
+    [CliOption("--conditional-forwarder-ip-addrs")]
     public string[]? ConditionalForwarderIpAddrs { get; set; }
 
-    [CommandSwitch("--selective-auth")]
+    [CliOption("--selective-auth")]
     public string? SelectiveAuth { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

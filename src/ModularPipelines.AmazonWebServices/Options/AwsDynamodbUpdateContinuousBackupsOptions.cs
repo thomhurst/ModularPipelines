@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dynamodb", "update-continuous-backups")]
+[CliCommand("dynamodb", "update-continuous-backups")]
 public record AwsDynamodbUpdateContinuousBackupsOptions(
-[property: CommandSwitch("--table-name")] string TableName,
-[property: CommandSwitch("--point-in-time-recovery-specification")] string PointInTimeRecoverySpecification
+[property: CliOption("--table-name")] string TableName,
+[property: CliOption("--point-in-time-recovery-specification")] string PointInTimeRecoverySpecification
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

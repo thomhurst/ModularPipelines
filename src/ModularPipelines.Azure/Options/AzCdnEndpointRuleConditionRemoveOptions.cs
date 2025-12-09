@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cdn", "endpoint", "rule", "condition", "remove")]
+[CliSubCommand("cdn", "endpoint", "rule", "condition", "remove")]
 public record AzCdnEndpointRuleConditionRemoveOptions(
-[property: CommandSwitch("--index")] string Index,
-[property: CommandSwitch("--rule-name")] string RuleName
+[property: CliOption("--index")] string Index,
+[property: CliOption("--rule-name")] string RuleName
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

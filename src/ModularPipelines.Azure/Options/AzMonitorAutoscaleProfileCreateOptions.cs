@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "autoscale", "profile", "create")]
+[CliSubCommand("monitor", "autoscale", "profile", "create")]
 public record AzMonitorAutoscaleProfileCreateOptions(
-[property: CommandSwitch("--autoscale-name")] string AutoscaleName,
-[property: CommandSwitch("--count")] int Count,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--timezone")] string Timezone
+[property: CliOption("--autoscale-name")] string AutoscaleName,
+[property: CliOption("--count")] int Count,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--timezone")] string Timezone
 ) : AzOptions
 {
-    [CommandSwitch("--copy-rules")]
+    [CliOption("--copy-rules")]
     public string? CopyRules { get; set; }
 
-    [CommandSwitch("--end")]
+    [CliOption("--end")]
     public string? End { get; set; }
 
-    [CommandSwitch("--max-count")]
+    [CliOption("--max-count")]
     public int? MaxCount { get; set; }
 
-    [CommandSwitch("--min-count")]
+    [CliOption("--min-count")]
     public int? MinCount { get; set; }
 
-    [CommandSwitch("--recurrence")]
+    [CliOption("--recurrence")]
     public string? Recurrence { get; set; }
 
-    [CommandSwitch("--start")]
+    [CliOption("--start")]
     public string? Start { get; set; }
 }

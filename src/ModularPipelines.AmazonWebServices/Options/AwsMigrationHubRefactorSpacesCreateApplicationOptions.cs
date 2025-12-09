@@ -5,23 +5,23 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("migration-hub-refactor-spaces", "create-application")]
+[CliCommand("migration-hub-refactor-spaces", "create-application")]
 public record AwsMigrationHubRefactorSpacesCreateApplicationOptions(
-[property: CommandSwitch("--environment-identifier")] string EnvironmentIdentifier,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--proxy-type")] string ProxyType,
-[property: CommandSwitch("--vpc-id")] string VpcId
+[property: CliOption("--environment-identifier")] string EnvironmentIdentifier,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--proxy-type")] string ProxyType,
+[property: CliOption("--vpc-id")] string VpcId
 ) : AwsOptions
 {
-    [CommandSwitch("--api-gateway-proxy")]
+    [CliOption("--api-gateway-proxy")]
     public string? ApiGatewayProxy { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

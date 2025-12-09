@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-vpn-tunnel-options")]
+[CliCommand("ec2", "modify-vpn-tunnel-options")]
 public record AwsEc2ModifyVpnTunnelOptionsOptions(
-[property: CommandSwitch("--vpn-connection-id")] string VpnConnectionId,
-[property: CommandSwitch("--vpn-tunnel-outside-ip-address")] string VpnTunnelOutsideIpAddress,
-[property: CommandSwitch("--tunnel-options")] string TunnelOptions
+[property: CliOption("--vpn-connection-id")] string VpnConnectionId,
+[property: CliOption("--vpn-tunnel-outside-ip-address")] string VpnTunnelOutsideIpAddress,
+[property: CliOption("--tunnel-options")] string TunnelOptions
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

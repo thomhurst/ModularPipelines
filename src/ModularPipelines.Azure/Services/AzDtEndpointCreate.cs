@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "endpoint")]
+[CliCommand("dt", "endpoint")]
 public class AzDtEndpointCreate
 {
     public AzDtEndpointCreate(

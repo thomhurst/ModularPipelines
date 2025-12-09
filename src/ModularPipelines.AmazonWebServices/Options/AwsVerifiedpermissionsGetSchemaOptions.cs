@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("verifiedpermissions", "get-schema")]
+[CliCommand("verifiedpermissions", "get-schema")]
 public record AwsVerifiedpermissionsGetSchemaOptions(
-[property: CommandSwitch("--policy-store-id")] string PolicyStoreId
+[property: CliOption("--policy-store-id")] string PolicyStoreId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

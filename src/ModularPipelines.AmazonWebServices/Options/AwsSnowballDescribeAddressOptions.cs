@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("snowball", "describe-address")]
+[CliCommand("snowball", "describe-address")]
 public record AwsSnowballDescribeAddressOptions(
-[property: CommandSwitch("--address-id")] string AddressId
+[property: CliOption("--address-id")] string AddressId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

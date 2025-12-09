@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptune-graph")]
+[CliSubCommand("neptune-graph")]
 public class AwsNeptuneGraphWait
 {
     public AwsNeptuneGraphWait(

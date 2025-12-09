@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "delete-stream")]
+[CliCommand("iot", "delete-stream")]
 public record AwsIotDeleteStreamOptions(
-[property: CommandSwitch("--stream-id")] string StreamId
+[property: CliOption("--stream-id")] string StreamId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "create-custom-db-engine-version")]
+[CliCommand("rds", "create-custom-db-engine-version")]
 public record AwsRdsCreateCustomDbEngineVersionOptions(
-[property: CommandSwitch("--engine")] string Engine,
-[property: CommandSwitch("--engine-version")] string EngineVersion
+[property: CliOption("--engine")] string Engine,
+[property: CliOption("--engine-version")] string EngineVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--database-installation-files-s3-bucket-name")]
+    [CliOption("--database-installation-files-s3-bucket-name")]
     public string? DatabaseInstallationFilesS3BucketName { get; set; }
 
-    [CommandSwitch("--database-installation-files-s3-prefix")]
+    [CliOption("--database-installation-files-s3-prefix")]
     public string? DatabaseInstallationFilesS3Prefix { get; set; }
 
-    [CommandSwitch("--image-id")]
+    [CliOption("--image-id")]
     public string? ImageId { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--manifest")]
+    [CliOption("--manifest")]
     public string? Manifest { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--source-custom-db-engine-version-identifier")]
+    [CliOption("--source-custom-db-engine-version-identifier")]
     public string? SourceCustomDbEngineVersionIdentifier { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

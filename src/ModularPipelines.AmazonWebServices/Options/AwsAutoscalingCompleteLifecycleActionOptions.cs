@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("autoscaling", "complete-lifecycle-action")]
+[CliCommand("autoscaling", "complete-lifecycle-action")]
 public record AwsAutoscalingCompleteLifecycleActionOptions(
-[property: CommandSwitch("--lifecycle-hook-name")] string LifecycleHookName,
-[property: CommandSwitch("--auto-scaling-group-name")] string AutoScalingGroupName,
-[property: CommandSwitch("--lifecycle-action-result")] string LifecycleActionResult
+[property: CliOption("--lifecycle-hook-name")] string LifecycleHookName,
+[property: CliOption("--auto-scaling-group-name")] string AutoScalingGroupName,
+[property: CliOption("--lifecycle-action-result")] string LifecycleActionResult
 ) : AwsOptions
 {
-    [CommandSwitch("--lifecycle-action-token")]
+    [CliOption("--lifecycle-action-token")]
     public string? LifecycleActionToken { get; set; }
 
-    [CommandSwitch("--instance-id")]
+    [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

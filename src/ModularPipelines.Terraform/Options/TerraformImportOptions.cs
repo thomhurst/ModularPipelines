@@ -4,48 +4,48 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("import")]
+[CliSubCommand("import")]
 [ExcludeFromCodeCoverage]
-public record TerraformImportOptions([property: PositionalArgument(Position = Position.AfterSwitches)]
-    string Address, [property: PositionalArgument(Position = Position.AfterSwitches)]
+public record TerraformImportOptions([property: CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    string Address, [property: CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     string Id) : TerraformOptions
 {
-    [CommandSwitch("-config")]
+    [CliOption("-config")]
     public virtual string? Config { get; set; }
 
-    [BooleanCommandSwitch("-input")]
+    [CliFlag("-input")]
     public virtual bool? Input { get; set; }
 
-    [BooleanCommandSwitch("-lock")]
+    [CliFlag("-lock")]
     public virtual bool? Lock { get; set; }
 
-    [CommandSwitch("-lock-timeout")]
+    [CliOption("-lock-timeout")]
     public virtual string? LockTimeout { get; set; }
 
-    [BooleanCommandSwitch("-no-color")]
+    [CliFlag("-no-color")]
     public virtual bool? NoColor { get; set; }
 
-    [CommandSwitch("-parallelism")]
+    [CliOption("-parallelism")]
     public virtual int? Parallelism { get; set; }
 
-    [CommandSwitch("-provider")]
+    [CliOption("-provider")]
     public virtual string? Provider { get; set; }
 
-    [CommandSwitch("-var")]
+    [CliOption("-var")]
     public virtual IEnumerable<KeyValue>? Vars { get; set; }
 
-    [CommandSwitch("-var-file")]
+    [CliOption("-var-file")]
     public virtual string? VarFile { get; set; }
 
-    [BooleanCommandSwitch("-ignore-remote-version")]
+    [CliFlag("-ignore-remote-version")]
     public virtual bool? IgnoreRemoteVersion { get; set; }
 
-    [BooleanCommandSwitch("-state")]
+    [CliFlag("-state")]
     public virtual bool? State { get; set; }
 
-    [BooleanCommandSwitch("-state-out")]
+    [CliFlag("-state-out")]
     public virtual bool? StateOut { get; set; }
 
-    [BooleanCommandSwitch("-backup")]
+    [CliFlag("-backup")]
     public virtual bool? Backup { get; set; }
 }

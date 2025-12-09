@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecr-public", "set-repository-policy")]
+[CliCommand("ecr-public", "set-repository-policy")]
 public record AwsEcrPublicSetRepositoryPolicyOptions(
-[property: CommandSwitch("--repository-name")] string RepositoryName,
-[property: CommandSwitch("--policy-text")] string PolicyText
+[property: CliOption("--repository-name")] string RepositoryName,
+[property: CliOption("--policy-text")] string PolicyText
 ) : AwsOptions
 {
-    [CommandSwitch("--registry-id")]
+    [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

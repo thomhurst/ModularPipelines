@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "virtual-appliance", "sku", "list")]
+[CliSubCommand("network", "virtual-appliance", "sku", "list")]
 public record AzNetworkVirtualApplianceSkuListOptions : AzOptions;

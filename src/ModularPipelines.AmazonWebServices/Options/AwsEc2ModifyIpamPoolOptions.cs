@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-ipam-pool")]
+[CliCommand("ec2", "modify-ipam-pool")]
 public record AwsEc2ModifyIpamPoolOptions(
-[property: CommandSwitch("--ipam-pool-id")] string IpamPoolId
+[property: CliOption("--ipam-pool-id")] string IpamPoolId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--allocation-min-netmask-length")]
+    [CliOption("--allocation-min-netmask-length")]
     public int? AllocationMinNetmaskLength { get; set; }
 
-    [CommandSwitch("--allocation-max-netmask-length")]
+    [CliOption("--allocation-max-netmask-length")]
     public int? AllocationMaxNetmaskLength { get; set; }
 
-    [CommandSwitch("--allocation-default-netmask-length")]
+    [CliOption("--allocation-default-netmask-length")]
     public int? AllocationDefaultNetmaskLength { get; set; }
 
-    [CommandSwitch("--add-allocation-resource-tags")]
+    [CliOption("--add-allocation-resource-tags")]
     public string[]? AddAllocationResourceTags { get; set; }
 
-    [CommandSwitch("--remove-allocation-resource-tags")]
+    [CliOption("--remove-allocation-resource-tags")]
     public string[]? RemoveAllocationResourceTags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

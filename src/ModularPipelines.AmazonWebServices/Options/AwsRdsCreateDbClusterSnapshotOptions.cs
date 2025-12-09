@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "create-db-cluster-snapshot")]
+[CliCommand("rds", "create-db-cluster-snapshot")]
 public record AwsRdsCreateDbClusterSnapshotOptions(
-[property: CommandSwitch("--db-cluster-snapshot-identifier")] string DbClusterSnapshotIdentifier,
-[property: CommandSwitch("--db-cluster-identifier")] string DbClusterIdentifier
+[property: CliOption("--db-cluster-snapshot-identifier")] string DbClusterSnapshotIdentifier,
+[property: CliOption("--db-cluster-identifier")] string DbClusterIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "describe-vpc-connection")]
+[CliCommand("quicksight", "describe-vpc-connection")]
 public record AwsQuicksightDescribeVpcConnectionOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--vpc-connection-id")] string VpcConnectionId
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--vpc-connection-id")] string VpcConnectionId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

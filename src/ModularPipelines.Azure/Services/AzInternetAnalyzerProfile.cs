@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("internet-analyzer")]
+[CliSubCommand("internet-analyzer")]
 public class AzInternetAnalyzerProfile
 {
     public AzInternetAnalyzerProfile(

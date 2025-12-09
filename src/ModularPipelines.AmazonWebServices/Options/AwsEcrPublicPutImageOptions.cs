@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecr-public", "put-image")]
+[CliCommand("ecr-public", "put-image")]
 public record AwsEcrPublicPutImageOptions(
-[property: CommandSwitch("--repository-name")] string RepositoryName,
-[property: CommandSwitch("--image-manifest")] string ImageManifest
+[property: CliOption("--repository-name")] string RepositoryName,
+[property: CliOption("--image-manifest")] string ImageManifest
 ) : AwsOptions
 {
-    [CommandSwitch("--registry-id")]
+    [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
-    [CommandSwitch("--image-manifest-media-type")]
+    [CliOption("--image-manifest-media-type")]
     public string? ImageManifestMediaType { get; set; }
 
-    [CommandSwitch("--image-tag")]
+    [CliOption("--image-tag")]
     public string? ImageTag { get; set; }
 
-    [CommandSwitch("--image-digest")]
+    [CliOption("--image-digest")]
     public string? ImageDigest { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

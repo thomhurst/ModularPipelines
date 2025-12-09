@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ce", "get-anomaly-monitors")]
+[CliCommand("ce", "get-anomaly-monitors")]
 public record AwsCeGetAnomalyMonitorsOptions : AwsOptions
 {
-    [CommandSwitch("--monitor-arn-list")]
+    [CliOption("--monitor-arn-list")]
     public string[]? MonitorArnList { get; set; }
 
-    [CommandSwitch("--next-page-token")]
+    [CliOption("--next-page-token")]
     public string? NextPageToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

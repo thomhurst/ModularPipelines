@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("memorydb", "delete-subnet-group")]
+[CliCommand("memorydb", "delete-subnet-group")]
 public record AwsMemorydbDeleteSubnetGroupOptions(
-[property: CommandSwitch("--subnet-group-name")] string SubnetGroupName
+[property: CliOption("--subnet-group-name")] string SubnetGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "get-auto-snapshots")]
+[CliCommand("lightsail", "get-auto-snapshots")]
 public record AwsLightsailGetAutoSnapshotsOptions(
-[property: CommandSwitch("--resource-name")] string ResourceName
+[property: CliOption("--resource-name")] string ResourceName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

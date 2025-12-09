@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "manager", "security-admin-config", "rule-collection", "rule", "create")]
+[CliSubCommand("network", "manager", "security-admin-config", "rule-collection", "rule", "create")]
 public record AzNetworkManagerSecurityAdminConfigRuleCollectionRuleCreateOptions(
-[property: CommandSwitch("--access")] string Access,
-[property: CommandSwitch("--configuration-name")] string ConfigurationName,
-[property: CommandSwitch("--direction")] string Direction,
-[property: CommandSwitch("--kind")] string Kind,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--priority")] string Priority,
-[property: CommandSwitch("--protocol")] string Protocol,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--rule-collection-name")] string RuleCollectionName,
-[property: CommandSwitch("--rule-name")] string RuleName
+[property: CliOption("--access")] string Access,
+[property: CliOption("--configuration-name")] string ConfigurationName,
+[property: CliOption("--direction")] string Direction,
+[property: CliOption("--kind")] string Kind,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--priority")] string Priority,
+[property: CliOption("--protocol")] string Protocol,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--rule-collection-name")] string RuleCollectionName,
+[property: CliOption("--rule-name")] string RuleName
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--dest-port-ranges")]
+    [CliOption("--dest-port-ranges")]
     public string? DestPortRanges { get; set; }
 
-    [CommandSwitch("--destinations")]
+    [CliOption("--destinations")]
     public string? Destinations { get; set; }
 
-    [CommandSwitch("--flag")]
+    [CliOption("--flag")]
     public string? Flag { get; set; }
 
-    [CommandSwitch("--source-port-ranges")]
+    [CliOption("--source-port-ranges")]
     public string? SourcePortRanges { get; set; }
 
-    [CommandSwitch("--sources")]
+    [CliOption("--sources")]
     public string? Sources { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security")]
+[CliSubCommand("security")]
 public class AzSecurityAdaptive_network_hardenings
 {
     public AzSecurityAdaptive_network_hardenings(

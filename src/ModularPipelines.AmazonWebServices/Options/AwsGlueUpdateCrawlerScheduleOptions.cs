@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "update-crawler-schedule")]
+[CliCommand("glue", "update-crawler-schedule")]
 public record AwsGlueUpdateCrawlerScheduleOptions(
-[property: CommandSwitch("--crawler-name")] string CrawlerName
+[property: CliOption("--crawler-name")] string CrawlerName
 ) : AwsOptions
 {
-    [CommandSwitch("--schedule")]
+    [CliOption("--schedule")]
     public string? Schedule { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

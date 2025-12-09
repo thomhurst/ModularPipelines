@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("schemas", "delete-discoverer")]
+[CliCommand("schemas", "delete-discoverer")]
 public record AwsSchemasDeleteDiscovererOptions(
-[property: CommandSwitch("--discoverer-id")] string DiscovererId
+[property: CliOption("--discoverer-id")] string DiscovererId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

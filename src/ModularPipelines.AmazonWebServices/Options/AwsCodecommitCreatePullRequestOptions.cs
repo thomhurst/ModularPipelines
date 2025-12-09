@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecommit", "create-pull-request")]
+[CliCommand("codecommit", "create-pull-request")]
 public record AwsCodecommitCreatePullRequestOptions(
-[property: CommandSwitch("--title")] string Title,
-[property: CommandSwitch("--targets")] string[] Targets
+[property: CliOption("--title")] string Title,
+[property: CliOption("--targets")] string[] Targets
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

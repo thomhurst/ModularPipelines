@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "alert-rule")]
+[CliCommand("sentinel", "alert-rule")]
 public class AzSentinelAlertRuleTemplate
 {
     public AzSentinelAlertRuleTemplate(

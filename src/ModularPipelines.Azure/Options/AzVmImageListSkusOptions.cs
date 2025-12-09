@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "image", "list-skus")]
+[CliSubCommand("vm", "image", "list-skus")]
 public record AzVmImageListSkusOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--offer")] string Offer,
-[property: CommandSwitch("--publisher")] string Publisher
+[property: CliOption("--location")] string Location,
+[property: CliOption("--offer")] string Offer,
+[property: CliOption("--publisher")] string Publisher
 ) : AzOptions
 {
-    [CommandSwitch("--edge-zone")]
+    [CliOption("--edge-zone")]
     public string? EdgeZone { get; set; }
 }

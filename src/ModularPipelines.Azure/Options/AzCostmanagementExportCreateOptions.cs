@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("costmanagement", "export", "create")]
+[CliSubCommand("costmanagement", "export", "create")]
 public record AzCostmanagementExportCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--scope")] string Scope,
-[property: CommandSwitch("--storage-account-id")] int StorageAccountId,
-[property: CommandSwitch("--storage-container")] string StorageContainer,
-[property: CommandSwitch("--timeframe")] string Timeframe
+[property: CliOption("--name")] string Name,
+[property: CliOption("--scope")] string Scope,
+[property: CliOption("--storage-account-id")] int StorageAccountId,
+[property: CliOption("--storage-container")] string StorageContainer,
+[property: CliOption("--timeframe")] string Timeframe
 ) : AzOptions
 {
-    [CommandSwitch("--dataset-configuration")]
+    [CliOption("--dataset-configuration")]
     public string? DatasetConfiguration { get; set; }
 
-    [CommandSwitch("--recurrence")]
+    [CliOption("--recurrence")]
     public string? Recurrence { get; set; }
 
-    [CommandSwitch("--recurrence-period")]
+    [CliOption("--recurrence-period")]
     public string? RecurrencePeriod { get; set; }
 
-    [CommandSwitch("--schedule-status")]
+    [CliOption("--schedule-status")]
     public string? ScheduleStatus { get; set; }
 
-    [CommandSwitch("--storage-directory")]
+    [CliOption("--storage-directory")]
     public string? StorageDirectory { get; set; }
 
-    [CommandSwitch("--time-period")]
+    [CliOption("--time-period")]
     public string? TimePeriod { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 }

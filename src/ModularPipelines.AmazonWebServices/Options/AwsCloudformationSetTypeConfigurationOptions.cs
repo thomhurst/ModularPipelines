@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation", "set-type-configuration")]
+[CliCommand("cloudformation", "set-type-configuration")]
 public record AwsCloudformationSetTypeConfigurationOptions(
-[property: CommandSwitch("--configuration")] string Configuration
+[property: CliOption("--configuration")] string Configuration
 ) : AwsOptions
 {
-    [CommandSwitch("--type-arn")]
+    [CliOption("--type-arn")]
     public string? TypeArn { get; set; }
 
-    [CommandSwitch("--configuration-alias")]
+    [CliOption("--configuration-alias")]
     public string? ConfigurationAlias { get; set; }
 
-    [CommandSwitch("--type-name")]
+    [CliOption("--type-name")]
     public string? TypeName { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

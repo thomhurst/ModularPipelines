@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation", "list-stack-instances")]
+[CliCommand("cloudformation", "list-stack-instances")]
 public record AwsCloudformationListStackInstancesOptions(
-[property: CommandSwitch("--stack-set-name")] string StackSetName
+[property: CliOption("--stack-set-name")] string StackSetName
 ) : AwsOptions
 {
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--stack-instance-account")]
+    [CliOption("--stack-instance-account")]
     public string? StackInstanceAccount { get; set; }
 
-    [CommandSwitch("--stack-instance-region")]
+    [CliOption("--stack-instance-region")]
     public string? StackInstanceRegion { get; set; }
 
-    [CommandSwitch("--call-as")]
+    [CliOption("--call-as")]
     public string? CallAs { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

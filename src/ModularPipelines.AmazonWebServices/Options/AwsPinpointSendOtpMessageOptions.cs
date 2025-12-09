@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint", "send-otp-message")]
+[CliCommand("pinpoint", "send-otp-message")]
 public record AwsPinpointSendOtpMessageOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--send-otp-message-request-parameters")] string SendOtpMessageRequestParameters
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--send-otp-message-request-parameters")] string SendOtpMessageRequestParameters
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datafactory", "integration-runtime", "update")]
+[CliSubCommand("datafactory", "integration-runtime", "update")]
 public record AzDatafactoryIntegrationRuntimeUpdateOptions : AzOptions
 {
-    [CommandSwitch("--auto-update")]
+    [CliOption("--auto-update")]
     public string? AutoUpdate { get; set; }
 
-    [CommandSwitch("--factory-name")]
+    [CliOption("--factory-name")]
     public string? FactoryName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--integration-runtime-name")]
+    [CliOption("--integration-runtime-name")]
     public string? IntegrationRuntimeName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--update-delay-offset")]
+    [CliOption("--update-delay-offset")]
     public string? UpdateDelayOffset { get; set; }
 }

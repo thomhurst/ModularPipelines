@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workmail", "put-mailbox-permissions")]
+[CliCommand("workmail", "put-mailbox-permissions")]
 public record AwsWorkmailPutMailboxPermissionsOptions(
-[property: CommandSwitch("--organization-id")] string OrganizationId,
-[property: CommandSwitch("--entity-id")] string EntityId,
-[property: CommandSwitch("--grantee-id")] string GranteeId,
-[property: CommandSwitch("--permission-values")] string[] PermissionValues
+[property: CliOption("--organization-id")] string OrganizationId,
+[property: CliOption("--entity-id")] string EntityId,
+[property: CliOption("--grantee-id")] string GranteeId,
+[property: CliOption("--permission-values")] string[] PermissionValues
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

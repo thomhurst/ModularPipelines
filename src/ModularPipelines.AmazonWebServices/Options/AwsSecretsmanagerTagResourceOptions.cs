@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("secretsmanager", "tag-resource")]
+[CliCommand("secretsmanager", "tag-resource")]
 public record AwsSecretsmanagerTagResourceOptions(
-[property: CommandSwitch("--secret-id")] string SecretId,
-[property: CommandSwitch("--tags")] string[] Tags
+[property: CliOption("--secret-id")] string SecretId,
+[property: CliOption("--tags")] string[] Tags
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

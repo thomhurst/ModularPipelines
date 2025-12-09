@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datadog")]
+[CliSubCommand("datadog")]
 public class AzDatadogTagRule
 {
     public AzDatadogTagRule(

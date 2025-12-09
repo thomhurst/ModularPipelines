@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "notify-when-uploaded")]
+[CliCommand("storagegateway", "notify-when-uploaded")]
 public record AwsStoragegatewayNotifyWhenUploadedOptions(
-[property: CommandSwitch("--file-share-arn")] string FileShareArn
+[property: CliOption("--file-share-arn")] string FileShareArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

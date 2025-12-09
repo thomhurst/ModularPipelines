@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codestar-connections", "get-resource-sync-status")]
+[CliCommand("codestar-connections", "get-resource-sync-status")]
 public record AwsCodestarConnectionsGetResourceSyncStatusOptions(
-[property: CommandSwitch("--resource-name")] string ResourceName,
-[property: CommandSwitch("--sync-type")] string SyncType
+[property: CliOption("--resource-name")] string ResourceName,
+[property: CliOption("--sync-type")] string SyncType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

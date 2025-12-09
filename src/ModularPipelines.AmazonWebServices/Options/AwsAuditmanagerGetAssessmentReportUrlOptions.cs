@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("auditmanager", "get-assessment-report-url")]
+[CliCommand("auditmanager", "get-assessment-report-url")]
 public record AwsAuditmanagerGetAssessmentReportUrlOptions(
-[property: CommandSwitch("--assessment-report-id")] string AssessmentReportId,
-[property: CommandSwitch("--assessment-id")] string AssessmentId
+[property: CliOption("--assessment-report-id")] string AssessmentReportId,
+[property: CliOption("--assessment-id")] string AssessmentId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

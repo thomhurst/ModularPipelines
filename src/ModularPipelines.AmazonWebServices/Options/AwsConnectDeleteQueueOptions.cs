@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "delete-queue")]
+[CliCommand("connect", "delete-queue")]
 public record AwsConnectDeleteQueueOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--queue-id")] string QueueId
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--queue-id")] string QueueId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

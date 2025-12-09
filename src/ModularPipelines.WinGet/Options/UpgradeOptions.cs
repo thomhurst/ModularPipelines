@@ -4,104 +4,104 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.WinGet.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("upgrade")]
+[CliSubCommand("upgrade")]
 public record UpgradeOptions(
-    [property: CommandSwitch("--query")] string Query
+    [property: CliOption("--query")] string Query
 ) : WingetOptions
 {
-    [CommandSwitch("--manifest")]
+    [CliOption("--manifest")]
     public virtual string? Manifest { get; set; }
 
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public virtual string? Id { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public virtual string? Name { get; set; }
 
-    [CommandSwitch("--moniker")]
+    [CliOption("--moniker")]
     public virtual string? Moniker { get; set; }
 
-    [BooleanCommandSwitch("--version")]
+    [CliFlag("--version")]
     public virtual bool? Version { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public virtual string? Source { get; set; }
 
-    [BooleanCommandSwitch("--exact")]
+    [CliFlag("--exact")]
     public virtual bool? Exact { get; set; }
 
-    [BooleanCommandSwitch("--interactive")]
+    [CliFlag("--interactive")]
     public virtual bool? Interactive { get; set; }
 
-    [BooleanCommandSwitch("--silent")]
+    [CliFlag("--silent")]
     public virtual bool? Silent { get; set; } = true;
 
-    [BooleanCommandSwitch("--purge")]
+    [CliFlag("--purge")]
     public virtual bool? Purge { get; set; }
 
-    [CommandSwitch("--log")]
+    [CliOption("--log")]
     public virtual string? Log { get; set; }
 
-    [CommandSwitch("--custom")]
+    [CliOption("--custom")]
     public virtual string[]? Custom { get; set; }
 
-    [CommandSwitch("--override")]
+    [CliOption("--override")]
     public virtual string? Override { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public virtual string? Location { get; set; }
 
-    [CommandSwitch("-scope")]
+    [CliOption("-scope")]
     public virtual string? Scope { get; set; }
 
-    [CommandSwitch("--architecture")]
+    [CliOption("--architecture")]
     public virtual string? Architecture { get; set; }
 
-    [CommandSwitch("--installer-type")]
+    [CliOption("--installer-type")]
     public virtual string? InstallerType { get; set; }
 
-    [CommandSwitch("--locale")]
+    [CliOption("--locale")]
     public virtual string? Locale { get; set; }
 
-    [BooleanCommandSwitch("--ignore-security-hash")]
+    [CliFlag("--ignore-security-hash")]
     public virtual bool? IgnoreSecurityHash { get; set; }
 
-    [BooleanCommandSwitch("--ignore-local-archive-malware-scan")]
+    [CliFlag("--ignore-local-archive-malware-scan")]
     public virtual bool? IgnoreLocalArchiveMalwareScan { get; set; }
 
-    [BooleanCommandSwitch("--accept-package-agreements")]
+    [CliFlag("--accept-package-agreements")]
     public virtual bool? AcceptPackageAgreements { get; set; }
 
-    [CommandSwitch("--accept-source-agreements")]
+    [CliOption("--accept-source-agreements")]
     public virtual string? AcceptSourceAgreements { get; set; }
 
-    [CommandSwitch("--header")]
+    [CliOption("--header")]
     public virtual string? Header { get; set; }
 
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [BooleanCommandSwitch("--include-unknown")]
+    [CliFlag("--include-unknown")]
     public virtual bool? IncludeUnknown { get; set; }
 
-    [BooleanCommandSwitch("--include-pinned")]
+    [CliFlag("--include-pinned")]
     public virtual bool? IncludePinned { get; set; }
 
-    [BooleanCommandSwitch("--uninstall-previous")]
+    [CliFlag("--uninstall-previous")]
     public virtual bool? UninstallPrevious { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--wait")]
+    [CliFlag("--wait")]
     public virtual bool? Wait { get; set; }
 
-    [BooleanCommandSwitch("--open-logs")]
+    [CliFlag("--open-logs")]
     public virtual bool? OpenLogs { get; set; }
 
-    [BooleanCommandSwitch("--verbose-logs")]
+    [CliFlag("--verbose-logs")]
     public virtual bool? VerboseLogs { get; set; }
 
-    [BooleanCommandSwitch("--disable-interactivity")]
+    [CliFlag("--disable-interactivity")]
     public virtual bool? DisableInteractivity { get; set; }
 }

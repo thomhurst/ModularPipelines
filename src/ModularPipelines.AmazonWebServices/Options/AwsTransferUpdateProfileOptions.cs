@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "update-profile")]
+[CliCommand("transfer", "update-profile")]
 public record AwsTransferUpdateProfileOptions(
-[property: CommandSwitch("--profile-id")] string ProfileId
+[property: CliOption("--profile-id")] string ProfileId
 ) : AwsOptions
 {
-    [CommandSwitch("--certificate-ids")]
+    [CliOption("--certificate-ids")]
     public string[]? CertificateIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkfabric", "externalnetwork", "create")]
+[CliSubCommand("networkfabric", "externalnetwork", "create")]
 public record AzNetworkfabricExternalnetworkCreateOptions(
-[property: CommandSwitch("--l3-isolation-domain-name")] string L3IsolationDomainName,
-[property: CommandSwitch("--peering-option")] string PeeringOption,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--resource-name")] string ResourceName
+[property: CliOption("--l3-isolation-domain-name")] string L3IsolationDomainName,
+[property: CliOption("--peering-option")] string PeeringOption,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--resource-name")] string ResourceName
 ) : AzOptions
 {
-    [CommandSwitch("--annotation")]
+    [CliOption("--annotation")]
     public string? Annotation { get; set; }
 
-    [CommandSwitch("--export-route-policy")]
+    [CliOption("--export-route-policy")]
     public string? ExportRoutePolicy { get; set; }
 
-    [CommandSwitch("--export-route-policy-id")]
+    [CliOption("--export-route-policy-id")]
     public string? ExportRoutePolicyId { get; set; }
 
-    [CommandSwitch("--import-route-policy")]
+    [CliOption("--import-route-policy")]
     public string? ImportRoutePolicy { get; set; }
 
-    [CommandSwitch("--import-route-policy-id")]
+    [CliOption("--import-route-policy-id")]
     public string? ImportRoutePolicyId { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--option-a-properties")]
+    [CliOption("--option-a-properties")]
     public string? OptionAProperties { get; set; }
 
-    [CommandSwitch("--option-b-properties")]
+    [CliOption("--option-b-properties")]
     public string? OptionBProperties { get; set; }
 }

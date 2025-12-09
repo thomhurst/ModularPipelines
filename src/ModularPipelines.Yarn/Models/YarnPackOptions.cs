@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pack")]
+[CliSubCommand("pack")]
 public record YarnPackOptions : YarnOptions
 {
-    [BooleanCommandSwitch("--install-if-needed")]
+    [CliFlag("--install-if-needed")]
     public virtual bool? InstallIfNeeded { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 
-    [CommandSwitch("--out")]
+    [CliOption("--out")]
     public virtual string? Out { get; set; }
 }

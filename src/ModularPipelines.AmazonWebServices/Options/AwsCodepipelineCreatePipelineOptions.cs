@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codepipeline", "create-pipeline")]
+[CliCommand("codepipeline", "create-pipeline")]
 public record AwsCodepipelineCreatePipelineOptions(
-[property: CommandSwitch("--pipeline")] string Pipeline
+[property: CliOption("--pipeline")] string Pipeline
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-client-vpn-route")]
+[CliCommand("ec2", "create-client-vpn-route")]
 public record AwsEc2CreateClientVpnRouteOptions(
-[property: CommandSwitch("--client-vpn-endpoint-id")] string ClientVpnEndpointId,
-[property: CommandSwitch("--destination-cidr-block")] string DestinationCidrBlock,
-[property: CommandSwitch("--target-vpc-subnet-id")] string TargetVpcSubnetId
+[property: CliOption("--client-vpn-endpoint-id")] string ClientVpnEndpointId,
+[property: CliOption("--destination-cidr-block")] string DestinationCidrBlock,
+[property: CliOption("--target-vpc-subnet-id")] string TargetVpcSubnetId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

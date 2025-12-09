@@ -5,15 +5,15 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("m2", "start-batch-job")]
+[CliCommand("m2", "start-batch-job")]
 public record AwsM2StartBatchJobOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--batch-job-identifier")] string BatchJobIdentifier
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--batch-job-identifier")] string BatchJobIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--job-params")]
+    [CliOption("--job-params")]
     public IEnumerable<KeyValue>? JobParams { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

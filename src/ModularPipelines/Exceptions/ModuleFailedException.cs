@@ -18,6 +18,7 @@ public class ModuleFailedException : PipelineException
     public Type ModuleType { get; }
 
     /// <summary>
+    /// Initialises a new instance of the <see cref="ModuleFailedException"/> class.
     /// Initializes a new instance of the <see cref="ModuleFailedException"/> class.
     /// </summary>
     /// <param name="module">The module that failed to execute.</param>
@@ -30,6 +31,7 @@ public class ModuleFailedException : PipelineException
     }
 
     /// <summary>
+    /// Initialises a new instance of the <see cref="ModuleFailedException"/> class.
     /// Initializes a new instance of the <see cref="ModuleFailedException"/> class.
     /// </summary>
     /// <param name="moduleType">The type of module that failed to execute.</param>

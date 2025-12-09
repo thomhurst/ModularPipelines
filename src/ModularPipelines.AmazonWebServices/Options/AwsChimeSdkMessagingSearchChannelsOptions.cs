@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-messaging", "search-channels")]
+[CliCommand("chime-sdk-messaging", "search-channels")]
 public record AwsChimeSdkMessagingSearchChannelsOptions(
-[property: CommandSwitch("--fields")] string[] Fields
+[property: CliOption("--fields")] string[] Fields
 ) : AwsOptions
 {
-    [CommandSwitch("--chime-bearer")]
+    [CliOption("--chime-bearer")]
     public string? ChimeBearer { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

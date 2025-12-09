@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-presigned-domain-url")]
+[CliCommand("sagemaker", "create-presigned-domain-url")]
 public record AwsSagemakerCreatePresignedDomainUrlOptions(
-[property: CommandSwitch("--domain-id")] string DomainId,
-[property: CommandSwitch("--user-profile-name")] string UserProfileName
+[property: CliOption("--domain-id")] string DomainId,
+[property: CliOption("--user-profile-name")] string UserProfileName
 ) : AwsOptions
 {
-    [CommandSwitch("--session-expiration-duration-in-seconds")]
+    [CliOption("--session-expiration-duration-in-seconds")]
     public int? SessionExpirationDurationInSeconds { get; set; }
 
-    [CommandSwitch("--expires-in-seconds")]
+    [CliOption("--expires-in-seconds")]
     public int? ExpiresInSeconds { get; set; }
 
-    [CommandSwitch("--space-name")]
+    [CliOption("--space-name")]
     public string? SpaceName { get; set; }
 
-    [CommandSwitch("--landing-uri")]
+    [CliOption("--landing-uri")]
     public string? LandingUri { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-model-card")]
+[CliCommand("sagemaker", "create-model-card")]
 public record AwsSagemakerCreateModelCardOptions(
-[property: CommandSwitch("--model-card-name")] string ModelCardName,
-[property: CommandSwitch("--content")] string Content,
-[property: CommandSwitch("--model-card-status")] string ModelCardStatus
+[property: CliOption("--model-card-name")] string ModelCardName,
+[property: CliOption("--content")] string Content,
+[property: CliOption("--model-card-status")] string ModelCardStatus
 ) : AwsOptions
 {
-    [CommandSwitch("--security-config")]
+    [CliOption("--security-config")]
     public string? SecurityConfig { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

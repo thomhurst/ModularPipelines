@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("costmanagement", "export", "show")]
+[CliSubCommand("costmanagement", "export", "show")]
 public record AzCostmanagementExportShowOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--scope")] string Scope
+[property: CliOption("--name")] string Name,
+[property: CliOption("--scope")] string Scope
 ) : AzOptions;

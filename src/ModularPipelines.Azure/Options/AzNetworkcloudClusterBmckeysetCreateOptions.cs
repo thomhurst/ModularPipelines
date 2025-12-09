@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "cluster", "bmckeyset", "create")]
+[CliSubCommand("networkcloud", "cluster", "bmckeyset", "create")]
 public record AzNetworkcloudClusterBmckeysetCreateOptions(
-[property: CommandSwitch("--azure-group-id")] string AzureGroupId,
-[property: CommandSwitch("--bmc-key-set-name")] string BmcKeySetName,
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--expiration")] string Expiration,
-[property: CommandSwitch("--extended-location")] string ExtendedLocation,
-[property: CommandSwitch("--privilege-level")] string PrivilegeLevel,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--user-list")] string UserList
+[property: CliOption("--azure-group-id")] string AzureGroupId,
+[property: CliOption("--bmc-key-set-name")] string BmcKeySetName,
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--expiration")] string Expiration,
+[property: CliOption("--extended-location")] string ExtendedLocation,
+[property: CliOption("--privilege-level")] string PrivilegeLevel,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--user-list")] string UserList
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apim", "product", "api", "delete")]
+[CliSubCommand("apim", "product", "api", "delete")]
 public record AzApimProductApiDeleteOptions(
-[property: CommandSwitch("--api-id")] string ApiId,
-[property: CommandSwitch("--product-id")] string ProductId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--api-id")] string ApiId,
+[property: CliOption("--product-id")] string ProductId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service-name")] string ServiceName
 ) : AzOptions;

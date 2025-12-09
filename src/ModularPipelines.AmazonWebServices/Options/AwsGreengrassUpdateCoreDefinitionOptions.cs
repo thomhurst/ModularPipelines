@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("greengrass", "update-core-definition")]
+[CliCommand("greengrass", "update-core-definition")]
 public record AwsGreengrassUpdateCoreDefinitionOptions(
-[property: CommandSwitch("--core-definition-id")] string CoreDefinitionId
+[property: CliOption("--core-definition-id")] string CoreDefinitionId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

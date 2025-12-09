@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("partnercenter", "marketplace", "offer")]
+[CliCommand("partnercenter", "marketplace", "offer")]
 public class AzPartnercenterMarketplaceOfferPlan
 {
     public AzPartnercenterMarketplaceOfferPlan(

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("auditmanager", "batch-create-delegation-by-assessment")]
+[CliCommand("auditmanager", "batch-create-delegation-by-assessment")]
 public record AwsAuditmanagerBatchCreateDelegationByAssessmentOptions(
-[property: CommandSwitch("--create-delegation-requests")] string[] CreateDelegationRequests,
-[property: CommandSwitch("--assessment-id")] string AssessmentId
+[property: CliOption("--create-delegation-requests")] string[] CreateDelegationRequests,
+[property: CliOption("--assessment-id")] string AssessmentId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

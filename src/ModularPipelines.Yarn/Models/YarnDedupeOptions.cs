@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dedupe")]
+[CliSubCommand("dedupe")]
 public record YarnDedupeOptions : YarnOptions
 {
-    [CommandSwitch("--strategy")]
+    [CliOption("--strategy")]
     public virtual string? Strategy { get; set; }
 
-    [BooleanCommandSwitch("--check")]
+    [CliFlag("--check")]
     public virtual bool? Check { get; set; }
 
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 
-    [CommandSwitch("--mode")]
+    [CliOption("--mode")]
     public virtual string? Mode { get; set; }
 }

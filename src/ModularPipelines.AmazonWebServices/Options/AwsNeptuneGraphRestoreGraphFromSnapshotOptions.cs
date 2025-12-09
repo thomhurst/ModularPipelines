@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptune-graph", "restore-graph-from-snapshot")]
+[CliCommand("neptune-graph", "restore-graph-from-snapshot")]
 public record AwsNeptuneGraphRestoreGraphFromSnapshotOptions(
-[property: CommandSwitch("--snapshot-identifier")] string SnapshotIdentifier,
-[property: CommandSwitch("--graph-name")] string GraphName
+[property: CliOption("--snapshot-identifier")] string SnapshotIdentifier,
+[property: CliOption("--graph-name")] string GraphName
 ) : AwsOptions
 {
-    [CommandSwitch("--provisioned-memory")]
+    [CliOption("--provisioned-memory")]
     public int? ProvisionedMemory { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--replica-count")]
+    [CliOption("--replica-count")]
     public int? ReplicaCount { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

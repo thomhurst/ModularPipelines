@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation", "wait", "change-set-create-complete")]
+[CliCommand("cloudformation", "wait", "change-set-create-complete")]
 public record AwsCloudformationWaitChangeSetCreateCompleteOptions(
-[property: CommandSwitch("--change-set-name")] string ChangeSetName
+[property: CliOption("--change-set-name")] string ChangeSetName
 ) : AwsOptions
 {
-    [CommandSwitch("--stack-name")]
+    [CliOption("--stack-name")]
     public string? StackName { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

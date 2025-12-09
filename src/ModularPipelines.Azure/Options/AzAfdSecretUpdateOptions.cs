@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("afd", "secret", "update")]
+[CliSubCommand("afd", "secret", "update")]
 public record AzAfdSecretUpdateOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--secret-name")]
+    [CliOption("--secret-name")]
     public string? SecretName { get; set; }
 
-    [CommandSwitch("--secret-source")]
+    [CliOption("--secret-source")]
     public string? SecretSource { get; set; }
 
-    [CommandSwitch("--secret-version")]
+    [CliOption("--secret-version")]
     public string? SecretVersion { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--use-latest-version")]
+    [CliFlag("--use-latest-version")]
     public bool? UseLatestVersion { get; set; }
 }

@@ -40,7 +40,7 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
         }
     }
 
-    private IConsoleWriter ModuleLoggerConsoleWriter => (IConsoleWriter)ModuleLogger;
+    private IConsoleWriter ModuleLoggerConsoleWriter => (IConsoleWriter) ModuleLogger;
 
     public SmartCollapsableLogging(IServiceProvider serviceProvider,
         ISmartCollapsableLoggingStringBlockProvider smartCollapsableLoggingStringBlockProvider,

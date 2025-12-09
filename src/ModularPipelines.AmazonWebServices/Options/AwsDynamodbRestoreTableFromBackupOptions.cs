@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dynamodb", "restore-table-from-backup")]
+[CliCommand("dynamodb", "restore-table-from-backup")]
 public record AwsDynamodbRestoreTableFromBackupOptions(
-[property: CommandSwitch("--target-table-name")] string TargetTableName,
-[property: CommandSwitch("--backup-arn")] string BackupArn
+[property: CliOption("--target-table-name")] string TargetTableName,
+[property: CliOption("--backup-arn")] string BackupArn
 ) : AwsOptions
 {
-    [CommandSwitch("--billing-mode-override")]
+    [CliOption("--billing-mode-override")]
     public string? BillingModeOverride { get; set; }
 
-    [CommandSwitch("--global-secondary-index-override")]
+    [CliOption("--global-secondary-index-override")]
     public string[]? GlobalSecondaryIndexOverride { get; set; }
 
-    [CommandSwitch("--local-secondary-index-override")]
+    [CliOption("--local-secondary-index-override")]
     public string[]? LocalSecondaryIndexOverride { get; set; }
 
-    [CommandSwitch("--provisioned-throughput-override")]
+    [CliOption("--provisioned-throughput-override")]
     public string? ProvisionedThroughputOverride { get; set; }
 
-    [CommandSwitch("--sse-specification-override")]
+    [CliOption("--sse-specification-override")]
     public string? SseSpecificationOverride { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

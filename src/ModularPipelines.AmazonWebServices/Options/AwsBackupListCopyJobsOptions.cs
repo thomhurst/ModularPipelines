@@ -4,51 +4,51 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "list-copy-jobs")]
+[CliCommand("backup", "list-copy-jobs")]
 public record AwsBackupListCopyJobsOptions : AwsOptions
 {
-    [CommandSwitch("--by-resource-arn")]
+    [CliOption("--by-resource-arn")]
     public string? ByResourceArn { get; set; }
 
-    [CommandSwitch("--by-state")]
+    [CliOption("--by-state")]
     public string? ByState { get; set; }
 
-    [CommandSwitch("--by-created-before")]
+    [CliOption("--by-created-before")]
     public long? ByCreatedBefore { get; set; }
 
-    [CommandSwitch("--by-created-after")]
+    [CliOption("--by-created-after")]
     public long? ByCreatedAfter { get; set; }
 
-    [CommandSwitch("--by-resource-type")]
+    [CliOption("--by-resource-type")]
     public string? ByResourceType { get; set; }
 
-    [CommandSwitch("--by-destination-vault-arn")]
+    [CliOption("--by-destination-vault-arn")]
     public string? ByDestinationVaultArn { get; set; }
 
-    [CommandSwitch("--by-account-id")]
+    [CliOption("--by-account-id")]
     public string? ByAccountId { get; set; }
 
-    [CommandSwitch("--by-complete-before")]
+    [CliOption("--by-complete-before")]
     public long? ByCompleteBefore { get; set; }
 
-    [CommandSwitch("--by-complete-after")]
+    [CliOption("--by-complete-after")]
     public long? ByCompleteAfter { get; set; }
 
-    [CommandSwitch("--by-parent-job-id")]
+    [CliOption("--by-parent-job-id")]
     public string? ByParentJobId { get; set; }
 
-    [CommandSwitch("--by-message-category")]
+    [CliOption("--by-message-category")]
     public string? ByMessageCategory { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

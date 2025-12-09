@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "describe-model-card")]
+[CliCommand("sagemaker", "describe-model-card")]
 public record AwsSagemakerDescribeModelCardOptions(
-[property: CommandSwitch("--model-card-name")] string ModelCardName
+[property: CliOption("--model-card-name")] string ModelCardName
 ) : AwsOptions
 {
-    [CommandSwitch("--model-card-version")]
+    [CliOption("--model-card-version")]
     public int? ModelCardVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

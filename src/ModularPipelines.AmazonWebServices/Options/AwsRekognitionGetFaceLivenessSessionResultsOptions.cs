@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "get-face-liveness-session-results")]
+[CliCommand("rekognition", "get-face-liveness-session-results")]
 public record AwsRekognitionGetFaceLivenessSessionResultsOptions(
-[property: CommandSwitch("--session-id")] string SessionId
+[property: CliOption("--session-id")] string SessionId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

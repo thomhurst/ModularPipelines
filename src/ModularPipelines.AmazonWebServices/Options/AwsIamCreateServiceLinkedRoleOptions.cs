@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "create-service-linked-role")]
+[CliCommand("iam", "create-service-linked-role")]
 public record AwsIamCreateServiceLinkedRoleOptions(
-[property: CommandSwitch("--aws-service-name")] string AwsServiceName
+[property: CliOption("--aws-service-name")] string AwsServiceName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--custom-suffix")]
+    [CliOption("--custom-suffix")]
     public string? CustomSuffix { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

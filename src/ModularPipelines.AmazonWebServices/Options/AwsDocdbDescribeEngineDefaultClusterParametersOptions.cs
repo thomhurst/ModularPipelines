@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("docdb", "describe-engine-default-cluster-parameters")]
+[CliCommand("docdb", "describe-engine-default-cluster-parameters")]
 public record AwsDocdbDescribeEngineDefaultClusterParametersOptions(
-[property: CommandSwitch("--db-parameter-group-family")] string DbParameterGroupFamily
+[property: CliOption("--db-parameter-group-family")] string DbParameterGroupFamily
 ) : AwsOptions
 {
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--max-records")]
+    [CliOption("--max-records")]
     public int? MaxRecords { get; set; }
 
-    [CommandSwitch("--marker")]
+    [CliOption("--marker")]
     public string? Marker { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

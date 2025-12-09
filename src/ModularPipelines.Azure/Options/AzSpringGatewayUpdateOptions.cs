@@ -4,111 +4,111 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "gateway", "update")]
+[CliSubCommand("spring", "gateway", "update")]
 public record AzSpringGatewayUpdateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--addon-configs-file")]
+    [CliOption("--addon-configs-file")]
     public string? AddonConfigsFile { get; set; }
 
-    [CommandSwitch("--addon-configs-json")]
+    [CliOption("--addon-configs-json")]
     public string? AddonConfigsJson { get; set; }
 
-    [BooleanCommandSwitch("--allow-credentials")]
+    [CliFlag("--allow-credentials")]
     public bool? AllowCredentials { get; set; }
 
-    [BooleanCommandSwitch("--allow-origin-patterns")]
+    [CliFlag("--allow-origin-patterns")]
     public bool? AllowOriginPatterns { get; set; }
 
-    [BooleanCommandSwitch("--allowed-headers")]
+    [CliFlag("--allowed-headers")]
     public bool? AllowedHeaders { get; set; }
 
-    [BooleanCommandSwitch("--allowed-methods")]
+    [CliFlag("--allowed-methods")]
     public bool? AllowedMethods { get; set; }
 
-    [BooleanCommandSwitch("--allowed-origins")]
+    [CliFlag("--allowed-origins")]
     public bool? AllowedOrigins { get; set; }
 
-    [CommandSwitch("--api-description")]
+    [CliOption("--api-description")]
     public string? ApiDescription { get; set; }
 
-    [CommandSwitch("--api-doc-location")]
+    [CliOption("--api-doc-location")]
     public string? ApiDocLocation { get; set; }
 
-    [CommandSwitch("--api-title")]
+    [CliOption("--api-title")]
     public string? ApiTitle { get; set; }
 
-    [CommandSwitch("--api-version")]
+    [CliOption("--api-version")]
     public string? ApiVersion { get; set; }
 
-    [CommandSwitch("--apm-types")]
+    [CliOption("--apm-types")]
     public string? ApmTypes { get; set; }
 
-    [CommandSwitch("--apms")]
+    [CliOption("--apms")]
     public string? Apms { get; set; }
 
-    [BooleanCommandSwitch("--assign-endpoint")]
+    [CliFlag("--assign-endpoint")]
     public bool? AssignEndpoint { get; set; }
 
-    [CommandSwitch("--certificate-names")]
+    [CliOption("--certificate-names")]
     public string? CertificateNames { get; set; }
 
-    [CommandSwitch("--client-id")]
+    [CliOption("--client-id")]
     public string? ClientId { get; set; }
 
-    [CommandSwitch("--client-secret")]
+    [CliOption("--client-secret")]
     public string? ClientSecret { get; set; }
 
-    [CommandSwitch("--cpu")]
+    [CliOption("--cpu")]
     public string? Cpu { get; set; }
 
-    [BooleanCommandSwitch("--enable-cert-verify")]
+    [CliFlag("--enable-cert-verify")]
     public bool? EnableCertVerify { get; set; }
 
-    [BooleanCommandSwitch("--enable-response-cache")]
+    [CliFlag("--enable-response-cache")]
     public bool? EnableResponseCache { get; set; }
 
-    [CommandSwitch("--exposed-headers")]
+    [CliOption("--exposed-headers")]
     public string? ExposedHeaders { get; set; }
 
-    [BooleanCommandSwitch("--https-only")]
+    [CliFlag("--https-only")]
     public bool? HttpsOnly { get; set; }
 
-    [CommandSwitch("--instance-count")]
+    [CliOption("--instance-count")]
     public int? InstanceCount { get; set; }
 
-    [CommandSwitch("--issuer-uri")]
+    [CliOption("--issuer-uri")]
     public string? IssuerUri { get; set; }
 
-    [CommandSwitch("--max-age")]
+    [CliOption("--max-age")]
     public string? MaxAge { get; set; }
 
-    [CommandSwitch("--memory")]
+    [CliOption("--memory")]
     public string? Memory { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public string? Properties { get; set; }
 
-    [CommandSwitch("--response-cache-scope")]
+    [CliOption("--response-cache-scope")]
     public string? ResponseCacheScope { get; set; }
 
-    [CommandSwitch("--response-cache-size")]
+    [CliOption("--response-cache-size")]
     public string? ResponseCacheSize { get; set; }
 
-    [CommandSwitch("--response-cache-ttl")]
+    [CliOption("--response-cache-ttl")]
     public string? ResponseCacheTtl { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--secrets")]
+    [CliOption("--secrets")]
     public string? Secrets { get; set; }
 
-    [CommandSwitch("--server-url")]
+    [CliOption("--server-url")]
     public string? ServerUrl { get; set; }
 }

@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("swf", "respond-decision-task-completed")]
+[CliCommand("swf", "respond-decision-task-completed")]
 public record AwsSwfRespondDecisionTaskCompletedOptions(
-[property: CommandSwitch("--task-token")] string TaskToken
+[property: CliOption("--task-token")] string TaskToken
 ) : AwsOptions
 {
-    [CommandSwitch("--decisions")]
+    [CliOption("--decisions")]
     public string[]? Decisions { get; set; }
 
-    [CommandSwitch("--execution-context")]
+    [CliOption("--execution-context")]
     public string? ExecutionContext { get; set; }
 
-    [CommandSwitch("--task-list")]
+    [CliOption("--task-list")]
     public string? TaskList { get; set; }
 
-    [CommandSwitch("--task-list-schedule-to-start-timeout")]
+    [CliOption("--task-list-schedule-to-start-timeout")]
     public string? TaskListScheduleToStartTimeout { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

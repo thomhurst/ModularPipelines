@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cdn")]
+[CliSubCommand("cdn")]
 public class AzCdnEndpoint
 {
     public AzCdnEndpoint(

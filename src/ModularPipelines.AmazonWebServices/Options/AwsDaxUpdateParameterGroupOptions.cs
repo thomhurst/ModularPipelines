@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dax", "update-parameter-group")]
+[CliCommand("dax", "update-parameter-group")]
 public record AwsDaxUpdateParameterGroupOptions(
-[property: CommandSwitch("--parameter-group-name")] string ParameterGroupName,
-[property: CommandSwitch("--parameter-name-values")] string[] ParameterNameValues
+[property: CliOption("--parameter-group-name")] string ParameterGroupName,
+[property: CliOption("--parameter-name-values")] string[] ParameterNameValues
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -20,48 +20,48 @@ public record DotNetListPackageOptions : DotNetOptions
         CommandParts = ["list", "[<PROJECT>|<SOLUTION>]", "package"];
     }
 
-    [PositionalArgument(PlaceholderName = "[<PROJECT>|<SOLUTION>]")]
-    public string? ProjectSolution { get; set; }
+    [CliArgument(Name = "[<PROJECT>|<SOLUTION>]")]
+    public virtual string? ProjectSolution { get; set; }
 
-    [CommandSwitch("--config")]
+    [CliOption("--config")]
     public virtual string? Config { get; set; }
 
-    [BooleanCommandSwitch("--deprecated")]
+    [CliFlag("--deprecated")]
     public virtual bool? Deprecated { get; set; }
 
-    [CommandSwitch("--framework")]
+    [CliOption("--framework")]
     public virtual IEnumerable<string>? Framework { get; set; }
 
-    [BooleanCommandSwitch("--highest-minor")]
+    [CliFlag("--highest-minor")]
     public virtual bool? HighestMinor { get; set; }
 
-    [BooleanCommandSwitch("--highest-patch")]
+    [CliFlag("--highest-patch")]
     public virtual bool? HighestPatch { get; set; }
 
-    [BooleanCommandSwitch("--include-prerelease")]
+    [CliFlag("--include-prerelease")]
     public virtual bool? IncludePrerelease { get; set; }
 
-    [BooleanCommandSwitch("--include-transitive")]
+    [CliFlag("--include-transitive")]
     public virtual bool? IncludeTransitive { get; set; }
 
-    [BooleanCommandSwitch("--interactive")]
+    [CliFlag("--interactive")]
     public virtual bool? Interactive { get; set; }
 
-    [BooleanCommandSwitch("--outdated")]
+    [CliFlag("--outdated")]
     public virtual bool? Outdated { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public virtual string? Source { get; set; }
 
-    [CommandSwitch("--verbosity")]
+    [CliOption("--verbosity")]
     public virtual string? Verbosity { get; set; }
 
-    [BooleanCommandSwitch("--vulnerable")]
+    [CliFlag("--vulnerable")]
     public virtual bool? Vulnerable { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 
-    [CommandSwitch("--output-version")]
+    [CliOption("--output-version")]
     public virtual string? OutputVersion { get; set; }
 }

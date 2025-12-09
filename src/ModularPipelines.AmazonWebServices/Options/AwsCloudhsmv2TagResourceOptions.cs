@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudhsmv2", "tag-resource")]
+[CliCommand("cloudhsmv2", "tag-resource")]
 public record AwsCloudhsmv2TagResourceOptions(
-[property: CommandSwitch("--resource-id")] string ResourceId,
-[property: CommandSwitch("--tag-list")] string[] TagList
+[property: CliOption("--resource-id")] string ResourceId,
+[property: CliOption("--tag-list")] string[] TagList
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

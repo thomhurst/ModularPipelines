@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("medical-imaging", "update-image-set-metadata")]
+[CliCommand("medical-imaging", "update-image-set-metadata")]
 public record AwsMedicalImagingUpdateImageSetMetadataOptions(
-[property: CommandSwitch("--datastore-id")] string DatastoreId,
-[property: CommandSwitch("--image-set-id")] string ImageSetId,
-[property: CommandSwitch("--latest-version-id")] string LatestVersionId,
-[property: CommandSwitch("--update-image-set-metadata-updates")] string UpdateImageSetMetadataUpdates
+[property: CliOption("--datastore-id")] string DatastoreId,
+[property: CliOption("--image-set-id")] string ImageSetId,
+[property: CliOption("--latest-version-id")] string LatestVersionId,
+[property: CliOption("--update-image-set-metadata-updates")] string UpdateImageSetMetadataUpdates
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "stop-hyper-parameter-tuning-job")]
+[CliCommand("sagemaker", "stop-hyper-parameter-tuning-job")]
 public record AwsSagemakerStopHyperParameterTuningJobOptions(
-[property: CommandSwitch("--hyper-parameter-tuning-job-name")] string HyperParameterTuningJobName
+[property: CliOption("--hyper-parameter-tuning-job-name")] string HyperParameterTuningJobName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

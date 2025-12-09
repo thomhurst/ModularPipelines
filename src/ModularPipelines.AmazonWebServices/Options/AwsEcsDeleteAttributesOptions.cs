@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "delete-attributes")]
+[CliCommand("ecs", "delete-attributes")]
 public record AwsEcsDeleteAttributesOptions(
-[property: CommandSwitch("--attributes")] string[] Attributes
+[property: CliOption("--attributes")] string[] Attributes
 ) : AwsOptions
 {
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stack-hci-vm")]
+[CliSubCommand("stack-hci-vm")]
 public class AzStackHciVmStoragepath
 {
     public AzStackHciVmStoragepath(

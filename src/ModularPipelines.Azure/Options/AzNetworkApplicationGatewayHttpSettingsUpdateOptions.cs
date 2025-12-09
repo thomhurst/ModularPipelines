@@ -4,64 +4,64 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "http-settings", "update")]
+[CliSubCommand("network", "application-gateway", "http-settings", "update")]
 public record AzNetworkApplicationGatewayHttpSettingsUpdateOptions(
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--affinity-cookie-name")]
+    [CliOption("--affinity-cookie-name")]
     public string? AffinityCookieName { get; set; }
 
-    [CommandSwitch("--auth-certs")]
+    [CliOption("--auth-certs")]
     public string? AuthCerts { get; set; }
 
-    [CommandSwitch("--connection-draining-timeout")]
+    [CliOption("--connection-draining-timeout")]
     public string? ConnectionDrainingTimeout { get; set; }
 
-    [CommandSwitch("--cookie-based-affinity")]
+    [CliOption("--cookie-based-affinity")]
     public string? CookieBasedAffinity { get; set; }
 
-    [BooleanCommandSwitch("--enable-probe")]
+    [CliFlag("--enable-probe")]
     public bool? EnableProbe { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--host-name")]
+    [CliOption("--host-name")]
     public string? HostName { get; set; }
 
-    [BooleanCommandSwitch("--host-name-from-backend-pool")]
+    [CliFlag("--host-name-from-backend-pool")]
     public bool? HostNameFromBackendPool { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--probe")]
+    [CliOption("--probe")]
     public string? Probe { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--root-certs")]
+    [CliOption("--root-certs")]
     public string? RootCerts { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

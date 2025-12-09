@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appconfig", "feature", "filter", "show")]
+[CliSubCommand("appconfig", "feature", "filter", "show")]
 public record AzAppconfigFeatureFilterShowOptions(
-[property: CommandSwitch("--filter-name")] string FilterName
+[property: CliOption("--filter-name")] string FilterName
 ) : AzOptions
 {
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [CommandSwitch("--feature")]
+    [CliOption("--feature")]
     public string? Feature { get; set; }
 
-    [CommandSwitch("--index")]
+    [CliOption("--index")]
     public string? Index { get; set; }
 
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 
-    [CommandSwitch("--label")]
+    [CliOption("--label")]
     public string? Label { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 }

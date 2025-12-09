@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("detective", "start-investigation")]
+[CliCommand("detective", "start-investigation")]
 public record AwsDetectiveStartInvestigationOptions(
-[property: CommandSwitch("--graph-arn")] string GraphArn,
-[property: CommandSwitch("--entity-arn")] string EntityArn,
-[property: CommandSwitch("--scope-start-time")] long ScopeStartTime,
-[property: CommandSwitch("--scope-end-time")] long ScopeEndTime
+[property: CliOption("--graph-arn")] string GraphArn,
+[property: CliOption("--entity-arn")] string EntityArn,
+[property: CliOption("--scope-start-time")] long ScopeStartTime,
+[property: CliOption("--scope-end-time")] long ScopeEndTime
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

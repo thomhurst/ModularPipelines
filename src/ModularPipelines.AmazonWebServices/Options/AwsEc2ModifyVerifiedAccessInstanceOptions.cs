@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-verified-access-instance")]
+[CliCommand("ec2", "modify-verified-access-instance")]
 public record AwsEc2ModifyVerifiedAccessInstanceOptions(
-[property: CommandSwitch("--verified-access-instance-id")] string VerifiedAccessInstanceId
+[property: CliOption("--verified-access-instance-id")] string VerifiedAccessInstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

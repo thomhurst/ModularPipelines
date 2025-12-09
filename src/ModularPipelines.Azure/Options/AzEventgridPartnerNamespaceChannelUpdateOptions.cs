@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "partner", "namespace", "channel", "update")]
+[CliSubCommand("eventgrid", "partner", "namespace", "channel", "update")]
 public record AzEventgridPartnerNamespaceChannelUpdateOptions : AzOptions
 {
-    [CommandSwitch("--aad-app-id")]
+    [CliOption("--aad-app-id")]
     public string? AadAppId { get; set; }
 
-    [CommandSwitch("--aad-tenant-id")]
+    [CliOption("--aad-tenant-id")]
     public string? AadTenantId { get; set; }
 
-    [CommandSwitch("--act-exp-date")]
+    [CliOption("--act-exp-date")]
     public string? ActExpDate { get; set; }
 
-    [CommandSwitch("--endpoint-base-url")]
+    [CliOption("--endpoint-base-url")]
     public string? EndpointBaseUrl { get; set; }
 
-    [CommandSwitch("--endpoint-url")]
+    [CliOption("--endpoint-url")]
     public string? EndpointUrl { get; set; }
 
-    [CommandSwitch("--event-type-kind")]
+    [CliOption("--event-type-kind")]
     public string? EventTypeKind { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--inline-event-type")]
+    [CliOption("--inline-event-type")]
     public string? InlineEventType { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--partner-namespace-name")]
+    [CliOption("--partner-namespace-name")]
     public string? PartnerNamespaceName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

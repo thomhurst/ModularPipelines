@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("waf-regional", "delete-web-acl")]
+[CliCommand("waf-regional", "delete-web-acl")]
 public record AwsWafRegionalDeleteWebAclOptions(
-[property: CommandSwitch("--web-acl-id")] string WebAclId,
-[property: CommandSwitch("--change-token")] string ChangeToken
+[property: CliOption("--web-acl-id")] string WebAclId,
+[property: CliOption("--change-token")] string ChangeToken
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

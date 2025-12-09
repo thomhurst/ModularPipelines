@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deployment", "operation")]
+[CliCommand("deployment", "operation")]
 public class AzDeploymentOperationGroup
 {
     public AzDeploymentOperationGroup(

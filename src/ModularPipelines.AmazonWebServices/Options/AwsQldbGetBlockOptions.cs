@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qldb", "get-block")]
+[CliCommand("qldb", "get-block")]
 public record AwsQldbGetBlockOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--block-address")] string BlockAddress
+[property: CliOption("--name")] string Name,
+[property: CliOption("--block-address")] string BlockAddress
 ) : AwsOptions
 {
-    [CommandSwitch("--digest-tip-address")]
+    [CliOption("--digest-tip-address")]
     public string? DigestTipAddress { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

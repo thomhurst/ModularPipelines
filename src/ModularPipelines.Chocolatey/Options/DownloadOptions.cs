@@ -4,77 +4,77 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("download")]
+[CliSubCommand("download")]
 public record DownloadOptions(
-    [property: PositionalArgument] string Pkg
+    [property: CliArgument] string Pkg
 ) : ChocoOptions
 {
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public virtual string? Source { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public virtual string? Version { get; set; }
 
-    [BooleanCommandSwitch("--prerelease")]
+    [CliFlag("--prerelease")]
     public virtual bool? Prerelease { get; set; }
 
-    [CommandSwitch("--user")]
+    [CliOption("--user")]
     public virtual string? User { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public virtual string? Password { get; set; }
 
-    [CommandSwitch("--cert")]
+    [CliOption("--cert")]
     public virtual string? Cert { get; set; }
 
-    [CommandSwitch("--certpassword")]
+    [CliOption("--certpassword")]
     public virtual string? Certpassword { get; set; }
 
-    [CommandSwitch("--output-directory")]
+    [CliOption("--output-directory")]
     public virtual string? OutputDirectory { get; set; }
 
-    [BooleanCommandSwitch("--ignore-dependencies")]
+    [CliFlag("--ignore-dependencies")]
     public virtual bool? IgnoreDependencies { get; set; }
 
-    [BooleanCommandSwitch("--installed-packages")]
+    [CliFlag("--installed-packages")]
     public virtual bool? InstalledPackages { get; set; }
 
-    [BooleanCommandSwitch("--ignore-unfound-packages")]
+    [CliFlag("--ignore-unfound-packages")]
     public virtual bool? IgnoreUnfoundPackages { get; set; }
 
-    [BooleanCommandSwitch("--disable-package-repository-optimizations")]
+    [CliFlag("--disable-package-repository-optimizations")]
     public virtual bool? DisablePackageRepositoryOptimizations { get; set; }
 
-    [BooleanCommandSwitch("--internalize")]
+    [CliFlag("--internalize")]
     public virtual bool? Internalize { get; set; }
 
-    [CommandSwitch("--resources-location")]
+    [CliOption("--resources-location")]
     public virtual string? ResourcesLocation { get; set; }
 
-    [CommandSwitch("--download-location")]
+    [CliOption("--download-location")]
     public virtual string? DownloadLocation { get; set; }
 
-    [BooleanCommandSwitch("--internalize-all-urls")]
+    [CliFlag("--internalize-all-urls")]
     public virtual bool? InternalizeAllUrls { get; set; }
 
-    [BooleanCommandSwitch("--append-use-original-location")]
+    [CliFlag("--append-use-original-location")]
     public virtual bool? AppendUseOriginalLocation { get; set; }
 
-    [BooleanCommandSwitch("--skip-download-cache")]
+    [CliFlag("--skip-download-cache")]
     public virtual bool? SkipDownloadCache { get; set; }
 
-    [BooleanCommandSwitch("--use-download-cache")]
+    [CliFlag("--use-download-cache")]
     public virtual bool? UseDownloadCache { get; set; }
 
-    [BooleanCommandSwitch("--skip-virus-check")]
+    [CliFlag("--skip-virus-check")]
     public virtual bool? SkipVirusCheck { get; set; }
 
-    [BooleanCommandSwitch("--virus-check")]
+    [CliFlag("--virus-check")]
     public virtual bool? VirusCheck { get; set; }
 
-    [CommandSwitch("--virus-positives-minimum")]
+    [CliOption("--virus-positives-minimum")]
     public virtual string? VirusPositivesMinimum { get; set; }
 
-    [BooleanCommandSwitch("--force-self-service")]
+    [CliFlag("--force-self-service")]
     public virtual bool? ForceSelfService { get; set; }
 }

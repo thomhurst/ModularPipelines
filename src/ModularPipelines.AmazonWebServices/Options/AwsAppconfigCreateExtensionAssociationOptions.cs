@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appconfig", "create-extension-association")]
+[CliCommand("appconfig", "create-extension-association")]
 public record AwsAppconfigCreateExtensionAssociationOptions(
-[property: CommandSwitch("--extension-identifier")] string ExtensionIdentifier,
-[property: CommandSwitch("--resource-identifier")] string ResourceIdentifier
+[property: CliOption("--extension-identifier")] string ExtensionIdentifier,
+[property: CliOption("--resource-identifier")] string ResourceIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--extension-version-number")]
+    [CliOption("--extension-version-number")]
     public int? ExtensionVersionNumber { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public IEnumerable<KeyValue>? Parameters { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup-gateway", "delete-hypervisor")]
+[CliCommand("backup-gateway", "delete-hypervisor")]
 public record AwsBackupGatewayDeleteHypervisorOptions(
-[property: CommandSwitch("--hypervisor-arn")] string HypervisorArn
+[property: CliOption("--hypervisor-arn")] string HypervisorArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

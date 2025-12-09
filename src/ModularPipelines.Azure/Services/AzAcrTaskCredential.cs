@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "task")]
+[CliCommand("acr", "task")]
 public class AzAcrTaskCredential
 {
     public AzAcrTaskCredential(

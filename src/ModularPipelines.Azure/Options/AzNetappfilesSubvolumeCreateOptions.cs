@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "subvolume", "create")]
+[CliSubCommand("netappfiles", "subvolume", "create")]
 public record AzNetappfilesSubvolumeCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--pool-name")] string PoolName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--subvolume-name")] string SubvolumeName,
-[property: CommandSwitch("--volume-name")] string VolumeName
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--pool-name")] string PoolName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--subvolume-name")] string SubvolumeName,
+[property: CliOption("--volume-name")] string VolumeName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--parent-path")]
+    [CliOption("--parent-path")]
     public string? ParentPath { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--size")]
+    [CliOption("--size")]
     public string? Size { get; set; }
 }

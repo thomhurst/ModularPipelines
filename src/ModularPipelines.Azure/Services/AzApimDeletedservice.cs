@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apim")]
+[CliSubCommand("apim")]
 public class AzApimDeletedservice
 {
     public AzApimDeletedservice(

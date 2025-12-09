@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lexv2-models", "create-resource-policy-statement")]
+[CliCommand("lexv2-models", "create-resource-policy-statement")]
 public record AwsLexv2ModelsCreateResourcePolicyStatementOptions(
-[property: CommandSwitch("--resource-arn")] string ResourceArn,
-[property: CommandSwitch("--statement-id")] string StatementId,
-[property: CommandSwitch("--effect")] string Effect,
-[property: CommandSwitch("--principal")] string[] Principal,
-[property: CommandSwitch("--action")] string[] Action
+[property: CliOption("--resource-arn")] string ResourceArn,
+[property: CliOption("--statement-id")] string StatementId,
+[property: CliOption("--effect")] string Effect,
+[property: CliOption("--principal")] string[] Principal,
+[property: CliOption("--action")] string[] Action
 ) : AwsOptions
 {
-    [CommandSwitch("--condition")]
+    [CliOption("--condition")]
     public IEnumerable<KeyValue>? Condition { get; set; }
 
-    [CommandSwitch("--expected-revision-id")]
+    [CliOption("--expected-revision-id")]
     public string? ExpectedRevisionId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dla", "catalog", "credential", "show")]
+[CliSubCommand("dla", "catalog", "credential", "show")]
 public record AzDlaCatalogCredentialShowOptions(
-[property: CommandSwitch("--credential-name")] string CredentialName,
-[property: CommandSwitch("--database-name")] string DatabaseName
+[property: CliOption("--credential-name")] string CredentialName,
+[property: CliOption("--database-name")] string DatabaseName
 ) : AzOptions
 {
-    [CommandSwitch("--account")]
+    [CliOption("--account")]
     public int? Account { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

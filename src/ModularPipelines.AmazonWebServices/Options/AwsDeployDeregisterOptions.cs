@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "deregister")]
+[CliCommand("deploy", "deregister")]
 public record AwsDeployDeregisterOptions(
-[property: CommandSwitch("--instance-name")] string InstanceName
+[property: CliOption("--instance-name")] string InstanceName
 ) : AwsOptions
 {
-    [BooleanCommandSwitch("--no-delete-iam-user")]
+    [CliFlag("--no-delete-iam-user")]
     public bool? NoDeleteIamUser { get; set; }
 }

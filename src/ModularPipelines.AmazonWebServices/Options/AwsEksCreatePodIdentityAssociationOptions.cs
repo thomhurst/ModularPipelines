@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eks", "create-pod-identity-association")]
+[CliCommand("eks", "create-pod-identity-association")]
 public record AwsEksCreatePodIdentityAssociationOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--namespace")] string Namespace,
-[property: CommandSwitch("--service-account")] string ServiceAccount,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--namespace")] string Namespace,
+[property: CliOption("--service-account")] string ServiceAccount,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

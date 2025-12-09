@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "cross-connection", "list-arp-tables")]
+[CliSubCommand("network", "cross-connection", "list-arp-tables")]
 public record AzNetworkCrossConnectionListArpTablesOptions(
-[property: CommandSwitch("--path")] string Path,
-[property: CommandSwitch("--peering-name")] string PeeringName
+[property: CliOption("--path")] string Path,
+[property: CliOption("--peering-name")] string PeeringName
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

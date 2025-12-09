@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databox", "job", "mark-devices-shipped")]
+[CliSubCommand("databox", "job", "mark-devices-shipped")]
 public record AzDataboxJobMarkDevicesShippedOptions(
-[property: CommandSwitch("--deliver-package-details")] string DeliverPackageDetails
+[property: CliOption("--deliver-package-details")] string DeliverPackageDetails
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--job-name")]
+    [CliOption("--job-name")]
     public string? JobName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -4,37 +4,37 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "nodepool", "upgrade", "(aks-preview", "extension)")]
+[CliSubCommand("aks", "nodepool", "upgrade", "(aks-preview", "extension)")]
 public record AzAksNodepoolUpgradeAksPreviewExtensionOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--aks-custom-headers")]
+    [CliOption("--aks-custom-headers")]
     public string? AksCustomHeaders { get; set; }
 
-    [CommandSwitch("--drain-timeout")]
+    [CliOption("--drain-timeout")]
     public string? DrainTimeout { get; set; }
 
-    [CommandSwitch("--kubernetes-version")]
+    [CliOption("--kubernetes-version")]
     public string? KubernetesVersion { get; set; }
 
-    [CommandSwitch("--max-surge")]
+    [CliOption("--max-surge")]
     public string? MaxSurge { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--node-image-only")]
+    [CliFlag("--node-image-only")]
     public bool? NodeImageOnly { get; set; }
 
-    [CommandSwitch("--node-soak-duration")]
+    [CliOption("--node-soak-duration")]
     public string? NodeSoakDuration { get; set; }
 
-    [CommandSwitch("--snapshot-id")]
+    [CliOption("--snapshot-id")]
     public string? SnapshotId { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

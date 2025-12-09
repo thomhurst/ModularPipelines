@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "spark", "statement", "list")]
+[CliSubCommand("synapse", "spark", "statement", "list")]
 public record AzSynapseSparkStatementListOptions(
-[property: CommandSwitch("--session-id")] string SessionId,
-[property: CommandSwitch("--spark-pool-name")] string SparkPoolName,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--session-id")] string SessionId,
+[property: CliOption("--spark-pool-name")] string SparkPoolName,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions;

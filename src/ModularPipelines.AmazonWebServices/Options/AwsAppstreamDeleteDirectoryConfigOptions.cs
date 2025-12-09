@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appstream", "delete-directory-config")]
+[CliCommand("appstream", "delete-directory-config")]
 public record AwsAppstreamDeleteDirectoryConfigOptions(
-[property: CommandSwitch("--directory-name")] string DirectoryName
+[property: CliOption("--directory-name")] string DirectoryName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

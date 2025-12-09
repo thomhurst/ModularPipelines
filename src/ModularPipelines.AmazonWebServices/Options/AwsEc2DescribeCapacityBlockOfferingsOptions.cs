@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "describe-capacity-block-offerings")]
+[CliCommand("ec2", "describe-capacity-block-offerings")]
 public record AwsEc2DescribeCapacityBlockOfferingsOptions(
-[property: CommandSwitch("--instance-type")] string InstanceType,
-[property: CommandSwitch("--instance-count")] int InstanceCount,
-[property: CommandSwitch("--capacity-duration-hours")] int CapacityDurationHours
+[property: CliOption("--instance-type")] string InstanceType,
+[property: CliOption("--instance-count")] int InstanceCount,
+[property: CliOption("--capacity-duration-hours")] int CapacityDurationHours
 ) : AwsOptions
 {
-    [CommandSwitch("--start-date-range")]
+    [CliOption("--start-date-range")]
     public long? StartDateRange { get; set; }
 
-    [CommandSwitch("--end-date-range")]
+    [CliOption("--end-date-range")]
     public long? EndDateRange { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

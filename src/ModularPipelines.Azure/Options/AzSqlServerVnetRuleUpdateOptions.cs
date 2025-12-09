@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "server", "vnet-rule", "update")]
+[CliSubCommand("sql", "server", "vnet-rule", "update")]
 public record AzSqlServerVnetRuleUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--subnet")] string Subnet
+[property: CliOption("--name")] string Name,
+[property: CliOption("--subnet")] string Subnet
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--ignore-missing-endpoint")]
+    [CliFlag("--ignore-missing-endpoint")]
     public bool? IgnoreMissingEndpoint { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--server")]
+    [CliOption("--server")]
     public string? Server { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devcenter", "admin", "project-allowed-environment-type", "show")]
+[CliSubCommand("devcenter", "admin", "project-allowed-environment-type", "show")]
 public record AzDevcenterAdminProjectAllowedEnvironmentTypeShowOptions : AzOptions
 {
-    [CommandSwitch("--environment-type-name")]
+    [CliOption("--environment-type-name")]
     public string? EnvironmentTypeName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

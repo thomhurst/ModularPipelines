@@ -4,99 +4,99 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("providerhub", "resource-type-registration", "create")]
+[CliSubCommand("providerhub", "resource-type-registration", "create")]
 public record AzProviderhubResourceTypeRegistrationCreateOptions(
-[property: CommandSwitch("--provider-namespace")] string ProviderNamespace,
-[property: CommandSwitch("--resource-type")] string ResourceType
+[property: CliOption("--provider-namespace")] string ProviderNamespace,
+[property: CliOption("--resource-type")] string ResourceType
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--allowed-unauthorized-actions")]
+    [CliFlag("--allowed-unauthorized-actions")]
     public bool? AllowedUnauthorizedActions { get; set; }
 
-    [CommandSwitch("--auth-mappings")]
+    [CliOption("--auth-mappings")]
     public string? AuthMappings { get; set; }
 
-    [CommandSwitch("--check-name-availability-specifications")]
+    [CliOption("--check-name-availability-specifications")]
     public string? CheckNameAvailabilitySpecifications { get; set; }
 
-    [CommandSwitch("--creation-begin")]
+    [CliOption("--creation-begin")]
     public string? CreationBegin { get; set; }
 
-    [CommandSwitch("--dav")]
+    [CliOption("--dav")]
     public string? Dav { get; set; }
 
-    [CommandSwitch("--default-api-version")]
+    [CliOption("--default-api-version")]
     public string? DefaultApiVersion { get; set; }
 
-    [CommandSwitch("--deletion-policy")]
+    [CliOption("--deletion-policy")]
     public string? DeletionPolicy { get; set; }
 
-    [BooleanCommandSwitch("--enable-async-operation")]
+    [CliFlag("--enable-async-operation")]
     public bool? EnableAsyncOperation { get; set; }
 
-    [BooleanCommandSwitch("--enable-third-party-s2s")]
+    [CliFlag("--enable-third-party-s2s")]
     public bool? EnableThirdPartyS2s { get; set; }
 
-    [CommandSwitch("--endpoints")]
+    [CliOption("--endpoints")]
     public string? Endpoints { get; set; }
 
-    [CommandSwitch("--extended-locations")]
+    [CliOption("--extended-locations")]
     public string? ExtendedLocations { get; set; }
 
-    [CommandSwitch("--identity-management")]
+    [CliOption("--identity-management")]
     public string? IdentityManagement { get; set; }
 
-    [BooleanCommandSwitch("--is-pure-proxy")]
+    [CliFlag("--is-pure-proxy")]
     public bool? IsPureProxy { get; set; }
 
-    [CommandSwitch("--linked-access-checks")]
+    [CliOption("--linked-access-checks")]
     public string? LinkedAccessChecks { get; set; }
 
-    [CommandSwitch("--logging-rules")]
+    [CliOption("--logging-rules")]
     public string? LoggingRules { get; set; }
 
-    [CommandSwitch("--marketplace-type")]
+    [CliOption("--marketplace-type")]
     public string? MarketplaceType { get; set; }
 
-    [CommandSwitch("--opt-in-headers")]
+    [CliOption("--opt-in-headers")]
     public string? OptInHeaders { get; set; }
 
-    [CommandSwitch("--override-actions")]
+    [CliOption("--override-actions")]
     public string? OverrideActions { get; set; }
 
-    [CommandSwitch("--patch-begin")]
+    [CliOption("--patch-begin")]
     public string? PatchBegin { get; set; }
 
-    [CommandSwitch("--regionality")]
+    [CliOption("--regionality")]
     public string? Regionality { get; set; }
 
-    [CommandSwitch("--req-features-policy")]
+    [CliOption("--req-features-policy")]
     public string? ReqFeaturesPolicy { get; set; }
 
-    [CommandSwitch("--required-features")]
+    [CliOption("--required-features")]
     public string? RequiredFeatures { get; set; }
 
-    [CommandSwitch("--resource-move-policy")]
+    [CliOption("--resource-move-policy")]
     public string? ResourceMovePolicy { get; set; }
 
-    [CommandSwitch("--routing-type")]
+    [CliOption("--routing-type")]
     public string? RoutingType { get; set; }
 
-    [CommandSwitch("--service-tree-infos")]
+    [CliOption("--service-tree-infos")]
     public string? ServiceTreeInfos { get; set; }
 
-    [CommandSwitch("--soft-delete-ttl")]
+    [CliOption("--soft-delete-ttl")]
     public string? SoftDeleteTtl { get; set; }
 
-    [CommandSwitch("--sub-state-rules")]
+    [CliOption("--sub-state-rules")]
     public string? SubStateRules { get; set; }
 
-    [CommandSwitch("--swagger-specifications")]
+    [CliOption("--swagger-specifications")]
     public string? SwaggerSpecifications { get; set; }
 
-    [CommandSwitch("--template-deployment-options")]
+    [CliOption("--template-deployment-options")]
     public string? TemplateDeploymentOptions { get; set; }
 
-    [CommandSwitch("--throttling-rules")]
+    [CliOption("--throttling-rules")]
     public string? ThrottlingRules { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amplify", "delete-domain-association")]
+[CliCommand("amplify", "delete-domain-association")]
 public record AwsAmplifyDeleteDomainAssociationOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--domain-name")] string DomainName
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--domain-name")] string DomainName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

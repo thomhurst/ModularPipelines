@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("footprint", "measurement-endpoint-condition", "create")]
+[CliSubCommand("footprint", "measurement-endpoint-condition", "create")]
 public record AzFootprintMeasurementEndpointConditionCreateOptions(
-[property: CommandSwitch("--constant")] string Constant,
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--operator")] string Operator,
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--variable")] string Variable
+[property: CliOption("--constant")] string Constant,
+[property: CliOption("--endpoint-name")] string EndpointName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--operator")] string Operator,
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--variable")] string Variable
 ) : AzOptions;

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-transit-gateway-policy-table")]
+[CliCommand("ec2", "create-transit-gateway-policy-table")]
 public record AwsEc2CreateTransitGatewayPolicyTableOptions(
-[property: CommandSwitch("--transit-gateway-id")] string TransitGatewayId
+[property: CliOption("--transit-gateway-id")] string TransitGatewayId
 ) : AwsOptions
 {
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

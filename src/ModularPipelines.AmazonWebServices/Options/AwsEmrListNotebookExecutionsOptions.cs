@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr", "list-notebook-executions")]
+[CliCommand("emr", "list-notebook-executions")]
 public record AwsEmrListNotebookExecutionsOptions : AwsOptions
 {
-    [CommandSwitch("--editor-id")]
+    [CliOption("--editor-id")]
     public string? EditorId { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--from")]
+    [CliOption("--from")]
     public long? From { get; set; }
 
-    [CommandSwitch("--to")]
+    [CliOption("--to")]
     public long? To { get; set; }
 
-    [CommandSwitch("--execution-engine-id")]
+    [CliOption("--execution-engine-id")]
     public string? ExecutionEngineId { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

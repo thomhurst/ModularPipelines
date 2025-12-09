@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managed-cassandra", "cluster", "update")]
+[CliSubCommand("managed-cassandra", "cluster", "update")]
 public record AzManagedCassandraClusterUpdateOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--authentication-method")]
+    [CliOption("--authentication-method")]
     public string? AuthenticationMethod { get; set; }
 
-    [CommandSwitch("--cassandra-version")]
+    [CliOption("--cassandra-version")]
     public string? CassandraVersion { get; set; }
 
-    [CommandSwitch("--client-certificates")]
+    [CliOption("--client-certificates")]
     public string? ClientCertificates { get; set; }
 
-    [CommandSwitch("--external-gossip-certificates")]
+    [CliOption("--external-gossip-certificates")]
     public string? ExternalGossipCertificates { get; set; }
 
-    [CommandSwitch("--external-seed-nodes")]
+    [CliOption("--external-seed-nodes")]
     public string? ExternalSeedNodes { get; set; }
 
-    [CommandSwitch("--hours-between-backups")]
+    [CliOption("--hours-between-backups")]
     public string? HoursBetweenBackups { get; set; }
 
-    [CommandSwitch("--identity-type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--repair-enabled")]
+    [CliFlag("--repair-enabled")]
     public bool? RepairEnabled { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

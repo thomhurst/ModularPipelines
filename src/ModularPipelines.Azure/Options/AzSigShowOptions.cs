@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sig", "show")]
+[CliSubCommand("sig", "show")]
 public record AzSigShowOptions : AzOptions
 {
-    [CommandSwitch("--gallery-name")]
+    [CliOption("--gallery-name")]
     public string? GalleryName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--select")]
+    [CliOption("--select")]
     public string? Select { get; set; }
 
-    [CommandSwitch("--sharing-groups")]
+    [CliOption("--sharing-groups")]
     public string? SharingGroups { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

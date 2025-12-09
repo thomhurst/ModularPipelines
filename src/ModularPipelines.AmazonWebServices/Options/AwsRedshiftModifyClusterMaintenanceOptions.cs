@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "modify-cluster-maintenance")]
+[CliCommand("redshift", "modify-cluster-maintenance")]
 public record AwsRedshiftModifyClusterMaintenanceOptions(
-[property: CommandSwitch("--cluster-identifier")] string ClusterIdentifier
+[property: CliOption("--cluster-identifier")] string ClusterIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--defer-maintenance-identifier")]
+    [CliOption("--defer-maintenance-identifier")]
     public string? DeferMaintenanceIdentifier { get; set; }
 
-    [CommandSwitch("--defer-maintenance-start-time")]
+    [CliOption("--defer-maintenance-start-time")]
     public long? DeferMaintenanceStartTime { get; set; }
 
-    [CommandSwitch("--defer-maintenance-end-time")]
+    [CliOption("--defer-maintenance-end-time")]
     public long? DeferMaintenanceEndTime { get; set; }
 
-    [CommandSwitch("--defer-maintenance-duration")]
+    [CliOption("--defer-maintenance-duration")]
     public int? DeferMaintenanceDuration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

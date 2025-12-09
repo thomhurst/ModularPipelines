@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmss", "diagnostics", "set")]
+[CliSubCommand("vmss", "diagnostics", "set")]
 public record AzVmssDiagnosticsSetOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--settings")] string Settings,
-[property: CommandSwitch("--vmss-name")] string VmssName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--settings")] string Settings,
+[property: CliOption("--vmss-name")] string VmssName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-auto-upgrade-minor-version")]
+    [CliFlag("--no-auto-upgrade-minor-version")]
     public bool? NoAutoUpgradeMinorVersion { get; set; }
 
-    [CommandSwitch("--protected-settings")]
+    [CliOption("--protected-settings")]
     public string? ProtectedSettings { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 }

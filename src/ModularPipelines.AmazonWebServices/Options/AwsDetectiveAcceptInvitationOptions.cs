@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("detective", "accept-invitation")]
+[CliCommand("detective", "accept-invitation")]
 public record AwsDetectiveAcceptInvitationOptions(
-[property: CommandSwitch("--graph-arn")] string GraphArn
+[property: CliOption("--graph-arn")] string GraphArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

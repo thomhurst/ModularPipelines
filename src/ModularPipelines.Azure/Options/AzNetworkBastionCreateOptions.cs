@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "bastion", "create")]
+[CliSubCommand("network", "bastion", "create")]
 public record AzNetworkBastionCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--public-ip-address")] string PublicIpAddress,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vnet-name")] string VnetName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--public-ip-address")] string PublicIpAddress,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vnet-name")] string VnetName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--disable-copy-paste")]
+    [CliFlag("--disable-copy-paste")]
     public bool? DisableCopyPaste { get; set; }
 
-    [BooleanCommandSwitch("--enable-ip-connect")]
+    [CliFlag("--enable-ip-connect")]
     public bool? EnableIpConnect { get; set; }
 
-    [BooleanCommandSwitch("--enable-tunneling")]
+    [CliFlag("--enable-tunneling")]
     public bool? EnableTunneling { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--scale-units")]
+    [CliOption("--scale-units")]
     public string? ScaleUnits { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

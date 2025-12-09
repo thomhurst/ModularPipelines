@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "node", "delete")]
+[CliSubCommand("batch", "node", "delete")]
 public record AzBatchNodeDeleteOptions(
-[property: CommandSwitch("--pool-id")] string PoolId
+[property: CliOption("--pool-id")] string PoolId
 ) : AzOptions
 {
-    [CommandSwitch("--account-endpoint")]
+    [CliOption("--account-endpoint")]
     public int? AccountEndpoint { get; set; }
 
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--if-modified-since")]
+    [CliOption("--if-modified-since")]
     public string? IfModifiedSince { get; set; }
 
-    [CommandSwitch("--if-none-match")]
+    [CliOption("--if-none-match")]
     public string? IfNoneMatch { get; set; }
 
-    [CommandSwitch("--if-unmodified-since")]
+    [CliOption("--if-unmodified-since")]
     public string? IfUnmodifiedSince { get; set; }
 
-    [CommandSwitch("--json-file")]
+    [CliOption("--json-file")]
     public string? JsonFile { get; set; }
 
-    [CommandSwitch("--node-deallocation-option")]
+    [CliOption("--node-deallocation-option")]
     public string? NodeDeallocationOption { get; set; }
 
-    [CommandSwitch("--node-list")]
+    [CliOption("--node-list")]
     public string? NodeList { get; set; }
 
-    [CommandSwitch("--resize-timeout")]
+    [CliOption("--resize-timeout")]
     public string? ResizeTimeout { get; set; }
 }

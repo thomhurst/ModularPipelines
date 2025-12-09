@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("b2bi", "update-transformer")]
+[CliCommand("b2bi", "update-transformer")]
 public record AwsB2biUpdateTransformerOptions(
-[property: CommandSwitch("--transformer-id")] string TransformerId
+[property: CliOption("--transformer-id")] string TransformerId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--file-format")]
+    [CliOption("--file-format")]
     public string? FileFormat { get; set; }
 
-    [CommandSwitch("--mapping-template")]
+    [CliOption("--mapping-template")]
     public string? MappingTemplate { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--edi-type")]
+    [CliOption("--edi-type")]
     public string? EdiType { get; set; }
 
-    [CommandSwitch("--sample-document")]
+    [CliOption("--sample-document")]
     public string? SampleDocument { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

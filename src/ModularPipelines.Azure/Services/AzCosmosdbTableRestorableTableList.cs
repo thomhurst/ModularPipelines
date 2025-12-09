@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "table", "restorable-table")]
+[CliCommand("cosmosdb", "table", "restorable-table")]
 public class AzCosmosdbTableRestorableTableList
 {
     public AzCosmosdbTableRestorableTableList(

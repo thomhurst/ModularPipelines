@@ -5,15 +5,15 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "update-region-settings")]
+[CliCommand("backup", "update-region-settings")]
 public record AwsBackupUpdateRegionSettingsOptions : AwsOptions
 {
-    [CommandSwitch("--resource-type-opt-in-preference")]
+    [CliOption("--resource-type-opt-in-preference")]
     public IEnumerable<KeyValue>? ResourceTypeOptInPreference { get; set; }
 
-    [CommandSwitch("--resource-type-management-preference")]
+    [CliOption("--resource-type-management-preference")]
     public IEnumerable<KeyValue>? ResourceTypeManagementPreference { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

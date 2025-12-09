@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "twin", "component", "show")]
+[CliSubCommand("dt", "twin", "component", "show")]
 public record AzDtTwinComponentShowOptions(
-[property: CommandSwitch("--component")] string Component,
-[property: CommandSwitch("--dt-name")] string DtName,
-[property: CommandSwitch("--twin-id")] string TwinId
+[property: CliOption("--component")] string Component,
+[property: CliOption("--dt-name")] string DtName,
+[property: CliOption("--twin-id")] string TwinId
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "file", "upload-batch")]
+[CliCommand("storage", "file", "upload-batch")]
 public class AzStorageFileUploadBatchStoragePreview
 {
     public AzStorageFileUploadBatchStoragePreview(

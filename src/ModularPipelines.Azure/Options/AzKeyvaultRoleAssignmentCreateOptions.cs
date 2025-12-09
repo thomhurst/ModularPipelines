@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "role", "assignment", "create")]
+[CliSubCommand("keyvault", "role", "assignment", "create")]
 public record AzKeyvaultRoleAssignmentCreateOptions(
-[property: CommandSwitch("--role")] string Role,
-[property: CommandSwitch("--scope")] string Scope
+[property: CliOption("--role")] string Role,
+[property: CliOption("--scope")] string Scope
 ) : AzOptions
 {
-    [CommandSwitch("--assignee")]
+    [CliOption("--assignee")]
     public string? Assignee { get; set; }
 
-    [CommandSwitch("--assignee-object-id")]
+    [CliOption("--assignee-object-id")]
     public string? AssigneeObjectId { get; set; }
 
-    [CommandSwitch("--assignee-principal-type")]
+    [CliOption("--assignee-principal-type")]
     public string? AssigneePrincipalType { get; set; }
 
-    [CommandSwitch("--hsm-name")]
+    [CliOption("--hsm-name")]
     public string? HsmName { get; set; }
 
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 }

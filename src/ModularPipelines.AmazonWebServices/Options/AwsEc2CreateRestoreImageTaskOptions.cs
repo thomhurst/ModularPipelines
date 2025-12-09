@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-restore-image-task")]
+[CliCommand("ec2", "create-restore-image-task")]
 public record AwsEc2CreateRestoreImageTaskOptions(
-[property: CommandSwitch("--bucket")] string Bucket,
-[property: CommandSwitch("--object-key")] string ObjectKey
+[property: CliOption("--bucket")] string Bucket,
+[property: CliOption("--object-key")] string ObjectKey
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

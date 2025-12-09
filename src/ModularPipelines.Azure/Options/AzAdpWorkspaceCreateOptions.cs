@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("adp", "workspace", "create")]
+[CliSubCommand("adp", "workspace", "create")]
 public record AzAdpWorkspaceCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--data-location")]
+    [CliOption("--data-location")]
     public string? DataLocation { get; set; }
 
-    [CommandSwitch("--direct-read-access")]
+    [CliOption("--direct-read-access")]
     public string? DirectReadAccess { get; set; }
 
-    [CommandSwitch("--domain-name-scope")]
+    [CliOption("--domain-name-scope")]
     public string? DomainNameScope { get; set; }
 
-    [CommandSwitch("--encryption")]
+    [CliOption("--encryption")]
     public string? Encryption { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--source-resource-id")]
+    [CliOption("--source-resource-id")]
     public string? SourceResourceId { get; set; }
 
-    [CommandSwitch("--storage-account-count")]
+    [CliOption("--storage-account-count")]
     public int? StorageAccountCount { get; set; }
 
-    [CommandSwitch("--storage-sku")]
+    [CliOption("--storage-sku")]
     public string? StorageSku { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

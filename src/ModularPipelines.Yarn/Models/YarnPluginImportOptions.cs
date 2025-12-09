@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("plugin", "import")]
+[CliCommand("plugin", "import")]
 public record YarnPluginImportOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Name
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Name
 ) : YarnOptions
 {
-    [BooleanCommandSwitch("--checksum")]
+    [CliFlag("--checksum")]
     public virtual bool? Checksum { get; set; }
 }

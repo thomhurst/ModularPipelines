@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "dapr", "enable")]
+[CliSubCommand("containerapp", "dapr", "enable")]
 public record AzContainerappDaprEnableOptions : AzOptions
 {
-    [BooleanCommandSwitch("--dal")]
+    [CliFlag("--dal")]
     public bool? Dal { get; set; }
 
-    [CommandSwitch("--dapr-app-id")]
+    [CliOption("--dapr-app-id")]
     public string? DaprAppId { get; set; }
 
-    [CommandSwitch("--dapr-app-port")]
+    [CliOption("--dapr-app-port")]
     public string? DaprAppPort { get; set; }
 
-    [CommandSwitch("--dapr-app-protocol")]
+    [CliOption("--dapr-app-protocol")]
     public string? DaprAppProtocol { get; set; }
 
-    [CommandSwitch("--dapr-http-max-request-size")]
+    [CliOption("--dapr-http-max-request-size")]
     public string? DaprHttpMaxRequestSize { get; set; }
 
-    [CommandSwitch("--dapr-http-read-buffer-size")]
+    [CliOption("--dapr-http-read-buffer-size")]
     public string? DaprHttpReadBufferSize { get; set; }
 
-    [CommandSwitch("--dapr-log-level")]
+    [CliOption("--dapr-log-level")]
     public string? DaprLogLevel { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

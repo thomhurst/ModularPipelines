@@ -5,30 +5,30 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "test-invoke-authorizer")]
+[CliCommand("apigateway", "test-invoke-authorizer")]
 public record AwsApigatewayTestInvokeAuthorizerOptions(
-[property: CommandSwitch("--rest-api-id")] string RestApiId,
-[property: CommandSwitch("--authorizer-id")] string AuthorizerId
+[property: CliOption("--rest-api-id")] string RestApiId,
+[property: CliOption("--authorizer-id")] string AuthorizerId
 ) : AwsOptions
 {
-    [CommandSwitch("--headers")]
+    [CliOption("--headers")]
     public IEnumerable<KeyValue>? Headers { get; set; }
 
-    [CommandSwitch("--multi-value-headers")]
+    [CliOption("--multi-value-headers")]
     public IEnumerable<KeyValue>? MultiValueHeaders { get; set; }
 
-    [CommandSwitch("--path-with-query-string")]
+    [CliOption("--path-with-query-string")]
     public string? PathWithQueryString { get; set; }
 
-    [CommandSwitch("--body")]
+    [CliOption("--body")]
     public string? Body { get; set; }
 
-    [CommandSwitch("--stage-variables")]
+    [CliOption("--stage-variables")]
     public IEnumerable<KeyValue>? StageVariables { get; set; }
 
-    [CommandSwitch("--additional-context")]
+    [CliOption("--additional-context")]
     public IEnumerable<KeyValue>? AdditionalContext { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

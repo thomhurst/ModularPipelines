@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rbin", "create-rule")]
+[CliCommand("rbin", "create-rule")]
 public record AwsRbinCreateRuleOptions(
-[property: CommandSwitch("--retention-period")] string RetentionPeriod,
-[property: CommandSwitch("--resource-type")] string ResourceType
+[property: CliOption("--retention-period")] string RetentionPeriod,
+[property: CliOption("--resource-type")] string ResourceType
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--resource-tags")]
+    [CliOption("--resource-tags")]
     public string[]? ResourceTags { get; set; }
 
-    [CommandSwitch("--lock-configuration")]
+    [CliOption("--lock-configuration")]
     public string? LockConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

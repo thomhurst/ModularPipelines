@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("capacity", "reservation", "update")]
+[CliSubCommand("capacity", "reservation", "update")]
 public record AzCapacityReservationUpdateOptions(
-[property: CommandSwitch("--capacity-reservation-group")] string CapacityReservationGroup,
-[property: CommandSwitch("--capacity-reservation-name")] string CapacityReservationName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--capacity-reservation-group")] string CapacityReservationGroup,
+[property: CliOption("--capacity-reservation-name")] string CapacityReservationName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--capacity")]
+    [CliOption("--capacity")]
     public string? Capacity { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

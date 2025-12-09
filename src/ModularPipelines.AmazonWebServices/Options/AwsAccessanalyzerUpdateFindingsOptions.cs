@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("accessanalyzer", "update-findings")]
+[CliCommand("accessanalyzer", "update-findings")]
 public record AwsAccessanalyzerUpdateFindingsOptions(
-[property: CommandSwitch("--analyzer-arn")] string AnalyzerArn,
-[property: CommandSwitch("--status")] string Status
+[property: CliOption("--analyzer-arn")] string AnalyzerArn,
+[property: CliOption("--status")] string Status
 ) : AwsOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string[]? Ids { get; set; }
 
-    [CommandSwitch("--resource-arn")]
+    [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("blueprint")]
+[CliSubCommand("blueprint")]
 public class AzBlueprintResourceGroup
 {
     public AzBlueprintResourceGroup(

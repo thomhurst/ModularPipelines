@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint", "update-push-template")]
+[CliCommand("pinpoint", "update-push-template")]
 public record AwsPinpointUpdatePushTemplateOptions(
-[property: CommandSwitch("--push-notification-template-request")] string PushNotificationTemplateRequest,
-[property: CommandSwitch("--template-name")] string TemplateName
+[property: CliOption("--push-notification-template-request")] string PushNotificationTemplateRequest,
+[property: CliOption("--template-name")] string TemplateName
 ) : AwsOptions
 {
-    [CommandSwitch("--template-version")]
+    [CliOption("--template-version")]
     public string? TemplateVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

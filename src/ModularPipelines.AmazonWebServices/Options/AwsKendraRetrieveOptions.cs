@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kendra", "retrieve")]
+[CliCommand("kendra", "retrieve")]
 public record AwsKendraRetrieveOptions(
-[property: CommandSwitch("--index-id")] string IndexId,
-[property: CommandSwitch("--query-text")] string QueryText
+[property: CliOption("--index-id")] string IndexId,
+[property: CliOption("--query-text")] string QueryText
 ) : AwsOptions
 {
-    [CommandSwitch("--attribute-filter")]
+    [CliOption("--attribute-filter")]
     public string? AttributeFilter { get; set; }
 
-    [CommandSwitch("--requested-document-attributes")]
+    [CliOption("--requested-document-attributes")]
     public string[]? RequestedDocumentAttributes { get; set; }
 
-    [CommandSwitch("--document-relevance-override-configurations")]
+    [CliOption("--document-relevance-override-configurations")]
     public string[]? DocumentRelevanceOverrideConfigurations { get; set; }
 
-    [CommandSwitch("--page-number")]
+    [CliOption("--page-number")]
     public int? PageNumber { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--user-context")]
+    [CliOption("--user-context")]
     public string? UserContext { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "execute-command")]
+[CliCommand("ecs", "execute-command")]
 public record AwsEcsExecuteCommandOptions(
-[property: CommandSwitch("--command")] string Command,
-[property: CommandSwitch("--task")] string Task
+[property: CliOption("--command")] string Command,
+[property: CliOption("--task")] string Task
 ) : AwsOptions
 {
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--container")]
+    [CliOption("--container")]
     public string? Container { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

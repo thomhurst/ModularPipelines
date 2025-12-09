@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecr-public", "get-login-password")]
+[CliCommand("ecr-public", "get-login-password")]
 public record AwsEcrPublicGetLoginPasswordOptions : AwsOptions;

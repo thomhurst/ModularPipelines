@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dls", "fs", "upload")]
+[CliSubCommand("dls", "fs", "upload")]
 public record AzDlsFsUploadOptions(
-[property: CommandSwitch("--destination-path")] string DestinationPath,
-[property: CommandSwitch("--source-path")] string SourcePath
+[property: CliOption("--destination-path")] string DestinationPath,
+[property: CliOption("--source-path")] string SourcePath
 ) : AzOptions
 {
-    [CommandSwitch("--account")]
+    [CliOption("--account")]
     public int? Account { get; set; }
 
-    [CommandSwitch("--block-size")]
+    [CliOption("--block-size")]
     public string? BlockSize { get; set; }
 
-    [CommandSwitch("--buffer-size")]
+    [CliOption("--buffer-size")]
     public string? BufferSize { get; set; }
 
-    [CommandSwitch("--chunk-size")]
+    [CliOption("--chunk-size")]
     public string? ChunkSize { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--overwrite")]
+    [CliFlag("--overwrite")]
     public bool? Overwrite { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--thread-count")]
+    [CliOption("--thread-count")]
     public int? ThreadCount { get; set; }
 }

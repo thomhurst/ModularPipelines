@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("support", "describe-create-case-options")]
+[CliCommand("support", "describe-create-case-options")]
 public record AwsSupportDescribeCreateCaseOptionsOptions(
-[property: CommandSwitch("--issue-type")] string IssueType,
-[property: CommandSwitch("--service-code")] string ServiceCode,
-[property: CommandSwitch("--language")] string Language,
-[property: CommandSwitch("--category-code")] string CategoryCode
+[property: CliOption("--issue-type")] string IssueType,
+[property: CliOption("--service-code")] string ServiceCode,
+[property: CliOption("--language")] string Language,
+[property: CliOption("--category-code")] string CategoryCode
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

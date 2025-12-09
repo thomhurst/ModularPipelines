@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("reservations")]
+[CliSubCommand("reservations")]
 public class AzReservationsReservationOrderId
 {
     public AzReservationsReservationOrderId(

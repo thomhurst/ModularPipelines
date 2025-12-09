@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("blueprint", "resource-group", "list")]
+[CliSubCommand("blueprint", "resource-group", "list")]
 public record AzBlueprintResourceGroupListOptions(
-[property: CommandSwitch("--blueprint-name")] string BlueprintName
+[property: CliOption("--blueprint-name")] string BlueprintName
 ) : AzOptions
 {
-    [CommandSwitch("--management-group")]
+    [CliOption("--management-group")]
     public string? ManagementGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

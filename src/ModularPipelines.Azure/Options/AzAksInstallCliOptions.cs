@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "install-cli")]
+[CliSubCommand("aks", "install-cli")]
 public record AzAksInstallCliOptions : AzOptions
 {
-    [CommandSwitch("--base-src-url")]
+    [CliOption("--base-src-url")]
     public string? BaseSrcUrl { get; set; }
 
-    [CommandSwitch("--client-version")]
+    [CliOption("--client-version")]
     public string? ClientVersion { get; set; }
 
-    [CommandSwitch("--install-location")]
+    [CliOption("--install-location")]
     public string? InstallLocation { get; set; }
 
-    [CommandSwitch("--kubelogin-base-src-url")]
+    [CliOption("--kubelogin-base-src-url")]
     public string? KubeloginBaseSrcUrl { get; set; }
 
-    [CommandSwitch("--kubelogin-install-location")]
+    [CliOption("--kubelogin-install-location")]
     public string? KubeloginInstallLocation { get; set; }
 
-    [CommandSwitch("--kubelogin-version")]
+    [CliOption("--kubelogin-version")]
     public string? KubeloginVersion { get; set; }
 }

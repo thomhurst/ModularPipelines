@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagesync")]
+[CliSubCommand("storagesync")]
 public class AzStoragesyncRegisteredServer
 {
     public AzStoragesyncRegisteredServer(

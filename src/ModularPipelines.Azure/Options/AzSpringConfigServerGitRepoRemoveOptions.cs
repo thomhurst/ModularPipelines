@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "config-server", "git", "repo", "remove")]
+[CliSubCommand("spring", "config-server", "git", "repo", "remove")]
 public record AzSpringConfigServerGitRepoRemoveOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--repo-name")] string RepoName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--repo-name")] string RepoName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--defer")]
+    [CliOption("--defer")]
     public string? Defer { get; set; }
 }

@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("completion")]
+[CliSubCommand("completion")]
 [ExcludeFromCodeCoverage]
-public record KubernetesCompletionOptions([property: PositionalArgument] string Shell) : KubernetesOptions
+public record KubernetesCompletionOptions([property: CliArgument] string Shell) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--no-headers")]
+    [CliFlag("--no-headers")]
     public virtual bool? NoHeaders { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
-    public string? Output { get; set; }
+    [CliOption("--output")]
+    public virtual string? Output { get; set; }
 }

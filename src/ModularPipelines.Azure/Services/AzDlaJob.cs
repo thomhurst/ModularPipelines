@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dla")]
+[CliSubCommand("dla")]
 public class AzDlaJob
 {
     public AzDlaJob(

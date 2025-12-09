@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stage")]
+[CliSubCommand("stage")]
 public record YarnStageOptions : YarnOptions
 {
-    [BooleanCommandSwitch("--commit")]
+    [CliFlag("--commit")]
     public virtual bool? Commit { get; set; }
 
-    [BooleanCommandSwitch("--reset")]
+    [CliFlag("--reset")]
     public virtual bool? Reset { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 }

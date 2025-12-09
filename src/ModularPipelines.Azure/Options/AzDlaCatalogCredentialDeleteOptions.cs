@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dla", "catalog", "credential", "delete")]
+[CliSubCommand("dla", "catalog", "credential", "delete")]
 public record AzDlaCatalogCredentialDeleteOptions(
-[property: CommandSwitch("--credential-name")] string CredentialName,
-[property: CommandSwitch("--database-name")] string DatabaseName
+[property: CliOption("--credential-name")] string CredentialName,
+[property: CliOption("--database-name")] string DatabaseName
 ) : AzOptions
 {
-    [CommandSwitch("--account")]
+    [CliOption("--account")]
     public int? Account { get; set; }
 
-    [BooleanCommandSwitch("--cascade")]
+    [CliFlag("--cascade")]
     public bool? Cascade { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

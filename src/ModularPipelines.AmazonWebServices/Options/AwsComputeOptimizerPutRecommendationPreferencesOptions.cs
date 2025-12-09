@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute-optimizer", "put-recommendation-preferences")]
+[CliCommand("compute-optimizer", "put-recommendation-preferences")]
 public record AwsComputeOptimizerPutRecommendationPreferencesOptions(
-[property: CommandSwitch("--resource-type")] string ResourceType
+[property: CliOption("--resource-type")] string ResourceType
 ) : AwsOptions
 {
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--enhanced-infrastructure-metrics")]
+    [CliOption("--enhanced-infrastructure-metrics")]
     public string? EnhancedInfrastructureMetrics { get; set; }
 
-    [CommandSwitch("--inferred-workload-types")]
+    [CliOption("--inferred-workload-types")]
     public string? InferredWorkloadTypes { get; set; }
 
-    [CommandSwitch("--external-metrics-preference")]
+    [CliOption("--external-metrics-preference")]
     public string? ExternalMetricsPreference { get; set; }
 
-    [CommandSwitch("--look-back-period")]
+    [CliOption("--look-back-period")]
     public string? LookBackPeriod { get; set; }
 
-    [CommandSwitch("--utilization-preferences")]
+    [CliOption("--utilization-preferences")]
     public string[]? UtilizationPreferences { get; set; }
 
-    [CommandSwitch("--preferred-resources")]
+    [CliOption("--preferred-resources")]
     public string[]? PreferredResources { get; set; }
 
-    [CommandSwitch("--savings-estimation-mode")]
+    [CliOption("--savings-estimation-mode")]
     public string? SavingsEstimationMode { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

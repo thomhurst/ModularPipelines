@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "create-game-server-group")]
+[CliCommand("gamelift", "create-game-server-group")]
 public record AwsGameliftCreateGameServerGroupOptions(
-[property: CommandSwitch("--game-server-group-name")] string GameServerGroupName,
-[property: CommandSwitch("--role-arn")] string RoleArn,
-[property: CommandSwitch("--min-size")] int MinSize,
-[property: CommandSwitch("--max-size")] int MaxSize,
-[property: CommandSwitch("--launch-template")] string LaunchTemplate,
-[property: CommandSwitch("--instance-definitions")] string[] InstanceDefinitions
+[property: CliOption("--game-server-group-name")] string GameServerGroupName,
+[property: CliOption("--role-arn")] string RoleArn,
+[property: CliOption("--min-size")] int MinSize,
+[property: CliOption("--max-size")] int MaxSize,
+[property: CliOption("--launch-template")] string LaunchTemplate,
+[property: CliOption("--instance-definitions")] string[] InstanceDefinitions
 ) : AwsOptions
 {
-    [CommandSwitch("--auto-scaling-policy")]
+    [CliOption("--auto-scaling-policy")]
     public string? AutoScalingPolicy { get; set; }
 
-    [CommandSwitch("--balancing-strategy")]
+    [CliOption("--balancing-strategy")]
     public string? BalancingStrategy { get; set; }
 
-    [CommandSwitch("--game-server-protection-policy")]
+    [CliOption("--game-server-protection-policy")]
     public string? GameServerProtectionPolicy { get; set; }
 
-    [CommandSwitch("--vpc-subnets")]
+    [CliOption("--vpc-subnets")]
     public string[]? VpcSubnets { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

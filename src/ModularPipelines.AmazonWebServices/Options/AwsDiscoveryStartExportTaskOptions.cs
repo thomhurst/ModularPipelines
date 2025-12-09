@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("discovery", "start-export-task")]
+[CliCommand("discovery", "start-export-task")]
 public record AwsDiscoveryStartExportTaskOptions : AwsOptions
 {
-    [CommandSwitch("--export-data-format")]
+    [CliOption("--export-data-format")]
     public string[]? ExportDataFormat { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public long? StartTime { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public long? EndTime { get; set; }
 
-    [CommandSwitch("--preferences")]
+    [CliOption("--preferences")]
     public string? Preferences { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -3,121 +3,121 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("run")]
+[CliSubCommand("run")]
 [ExcludeFromCodeCoverage]
-public record KubernetesRunOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesRunOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--allow-missing-template-keys")]
+    [CliFlag("--allow-missing-template-keys")]
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--annotations", SwitchValueSeparator = " ")]
-    public string[]? Annotations { get; set; }
+    [CliOption("--annotations")]
+    public virtual string[]? Annotations { get; set; }
 
-    [BooleanCommandSwitch("--attach")]
+    [CliFlag("--attach")]
     public virtual bool? Attach { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cascade", SwitchValueSeparator = " ")]
-    public string? Cascade { get; set; }
+    [CliOption("--cascade")]
+    public virtual string? Cascade { get; set; }
 
-    [BooleanCommandSwitch("--command")]
+    [CliFlag("--command")]
     public virtual bool? Command { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
-    public string? DryRun { get; set; }
+    [CliOption("--dry-run")]
+    public virtual string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--env", SwitchValueSeparator = " ")]
-    public string[]? Env { get; set; }
+    [CliOption("--env")]
+    public virtual string[]? Env { get; set; }
 
-    [BooleanCommandSwitch("--expose")]
+    [CliFlag("--expose")]
     public virtual bool? Expose { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
-    public string? FieldManager { get; set; }
+    [CliOption("--field-manager")]
+    public virtual string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
-    public string[]? Filename { get; set; }
+    [CliOption("--filename")]
+    public virtual string[]? Filename { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--grace-period", SwitchValueSeparator = " ")]
-    public int? GracePeriod { get; set; }
+    [CliOption("--grace-period")]
+    public virtual int? GracePeriod { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--hostport", SwitchValueSeparator = " ")]
-    public int? Hostport { get; set; }
+    [CliOption("--hostport")]
+    public virtual int? Hostport { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--image", SwitchValueSeparator = " ")]
-    public string? Image { get; set; }
+    [CliOption("--image")]
+    public virtual string? Image { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--image-pull-policy", SwitchValueSeparator = " ")]
-    public string? ImagePullPolicy { get; set; }
+    [CliOption("--image-pull-policy")]
+    public virtual string? ImagePullPolicy { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
-    public string? Kustomize { get; set; }
+    [CliOption("--kustomize")]
+    public virtual string? Kustomize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--labels", SwitchValueSeparator = " ")]
-    public string? Labels { get; set; }
+    [CliOption("--labels")]
+    public virtual string? Labels { get; set; }
 
-    [BooleanCommandSwitch("--leave-stdin-open")]
+    [CliFlag("--leave-stdin-open")]
     public virtual bool? LeaveStdinOpen { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--limits", SwitchValueSeparator = " ")]
-    public string? Limits { get; set; }
+    [CliOption("--limits")]
+    public virtual string? Limits { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
-    public string? Output { get; set; }
+    [CliOption("--output")]
+    public virtual string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--overrides", SwitchValueSeparator = " ")]
-    public string? Overrides { get; set; }
+    [CliOption("--overrides")]
+    public virtual string? Overrides { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--pod-running-timeout", SwitchValueSeparator = " ")]
-    public string? PodRunningTimeout { get; set; }
+    [CliOption("--pod-running-timeout")]
+    public virtual string? PodRunningTimeout { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--port", SwitchValueSeparator = " ")]
-    public string? Port { get; set; }
+    [CliOption("--port")]
+    public virtual string? Port { get; set; }
 
-    [BooleanCommandSwitch("--privileged")]
+    [CliFlag("--privileged")]
     public virtual bool? Privileged { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--record")]
+    [CliFlag("--record")]
     public virtual bool? Record { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--requests", SwitchValueSeparator = " ")]
-    public string? Requests { get; set; }
+    [CliOption("--requests")]
+    public virtual string? Requests { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--restart", SwitchValueSeparator = " ")]
-    public string? Restart { get; set; }
+    [CliOption("--restart")]
+    public virtual string? Restart { get; set; }
 
-    [BooleanCommandSwitch("--rm")]
+    [CliFlag("--rm")]
     public virtual bool? Rm { get; set; }
 
-    [BooleanCommandSwitch("--save-config")]
+    [CliFlag("--save-config")]
     public virtual bool? SaveConfig { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--serviceaccount", SwitchValueSeparator = " ")]
-    public string? Serviceaccount { get; set; }
+    [CliOption("--serviceaccount")]
+    public virtual string? Serviceaccount { get; set; }
 
-    [BooleanCommandSwitch("--show-managed-fields")]
+    [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
-    [BooleanCommandSwitch("--stdin")]
+    [CliFlag("--stdin")]
     public virtual bool? Stdin { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
-    public string? Template { get; set; }
+    [CliOption("--template")]
+    public virtual string? Template { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
-    public string? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public virtual string? Timeout { get; set; }
 
-    [BooleanCommandSwitch("--tty")]
+    [CliFlag("--tty")]
     public virtual bool? Tty { get; set; }
 
-    [BooleanCommandSwitch("--wait")]
+    [CliFlag("--wait")]
     public virtual bool? Wait { get; set; }
 }

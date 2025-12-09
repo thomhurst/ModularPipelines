@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker-featurestore-runtime", "batch-get-record")]
+[CliCommand("sagemaker-featurestore-runtime", "batch-get-record")]
 public record AwsSagemakerFeaturestoreRuntimeBatchGetRecordOptions(
-[property: CommandSwitch("--identifiers")] string[] Identifiers
+[property: CliOption("--identifiers")] string[] Identifiers
 ) : AwsOptions
 {
-    [CommandSwitch("--expiration-time-response")]
+    [CliOption("--expiration-time-response")]
     public string? ExpirationTimeResponse { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

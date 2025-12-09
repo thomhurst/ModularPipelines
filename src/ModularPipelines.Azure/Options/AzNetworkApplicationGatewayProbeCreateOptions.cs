@@ -4,49 +4,49 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "probe", "create")]
+[CliSubCommand("network", "application-gateway", "probe", "create")]
 public record AzNetworkApplicationGatewayProbeCreateOptions(
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--from-http-settings")]
+    [CliFlag("--from-http-settings")]
     public bool? FromHttpSettings { get; set; }
 
-    [BooleanCommandSwitch("--from-settings")]
+    [CliFlag("--from-settings")]
     public bool? FromSettings { get; set; }
 
-    [CommandSwitch("--host")]
+    [CliOption("--host")]
     public string? Host { get; set; }
 
-    [CommandSwitch("--interval")]
+    [CliOption("--interval")]
     public int? Interval { get; set; }
 
-    [CommandSwitch("--match-body")]
+    [CliOption("--match-body")]
     public string? MatchBody { get; set; }
 
-    [CommandSwitch("--match-status-codes")]
+    [CliOption("--match-status-codes")]
     public string? MatchStatusCodes { get; set; }
 
-    [CommandSwitch("--min-servers")]
+    [CliOption("--min-servers")]
     public string? MinServers { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--threshold")]
+    [CliOption("--threshold")]
     public string? Threshold { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

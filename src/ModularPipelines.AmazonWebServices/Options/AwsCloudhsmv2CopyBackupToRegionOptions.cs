@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudhsmv2", "copy-backup-to-region")]
+[CliCommand("cloudhsmv2", "copy-backup-to-region")]
 public record AwsCloudhsmv2CopyBackupToRegionOptions(
-[property: CommandSwitch("--destination-region")] string DestinationRegion,
-[property: CommandSwitch("--backup-id")] string BackupId
+[property: CliOption("--destination-region")] string DestinationRegion,
+[property: CliOption("--backup-id")] string BackupId
 ) : AwsOptions
 {
-    [CommandSwitch("--tag-list")]
+    [CliOption("--tag-list")]
     public string[]? TagList { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

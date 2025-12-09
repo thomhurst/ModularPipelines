@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspace")]
+[CliSubCommand("workspace")]
 public record YarnWorkspaceOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string WorkspaceName,
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string CommandName
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string WorkspaceName,
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string CommandName
 ) : YarnOptions;

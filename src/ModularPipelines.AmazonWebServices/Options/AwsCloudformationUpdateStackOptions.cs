@@ -4,53 +4,53 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation", "update-stack")]
+[CliCommand("cloudformation", "update-stack")]
 public record AwsCloudformationUpdateStackOptions(
-[property: CommandSwitch("--stack-name")] string StackName
+[property: CliOption("--stack-name")] string StackName
 ) : AwsOptions
 {
-    [CommandSwitch("--template-body")]
+    [CliOption("--template-body")]
     public string? TemplateBody { get; set; }
 
-    [CommandSwitch("--template-url")]
+    [CliOption("--template-url")]
     public string? TemplateUrl { get; set; }
 
-    [CommandSwitch("--stack-policy-during-update-body")]
+    [CliOption("--stack-policy-during-update-body")]
     public string? StackPolicyDuringUpdateBody { get; set; }
 
-    [CommandSwitch("--stack-policy-during-update-url")]
+    [CliOption("--stack-policy-during-update-url")]
     public string? StackPolicyDuringUpdateUrl { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--capabilities")]
+    [CliOption("--capabilities")]
     public string[]? Capabilities { get; set; }
 
-    [CommandSwitch("--resource-types")]
+    [CliOption("--resource-types")]
     public string[]? ResourceTypes { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--rollback-configuration")]
+    [CliOption("--rollback-configuration")]
     public string? RollbackConfiguration { get; set; }
 
-    [CommandSwitch("--stack-policy-body")]
+    [CliOption("--stack-policy-body")]
     public string? StackPolicyBody { get; set; }
 
-    [CommandSwitch("--stack-policy-url")]
+    [CliOption("--stack-policy-url")]
     public string? StackPolicyUrl { get; set; }
 
-    [CommandSwitch("--notification-arns")]
+    [CliOption("--notification-arns")]
     public string[]? NotificationArns { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

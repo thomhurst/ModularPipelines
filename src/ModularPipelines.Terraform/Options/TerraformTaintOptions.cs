@@ -3,31 +3,31 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("taint")]
+[CliSubCommand("taint")]
 [ExcludeFromCodeCoverage]
 public record TerraformTaintOptions : TerraformOptions
 {
-    [BooleanCommandSwitch("-replace")]
+    [CliFlag("-replace")]
     public virtual bool? Replace { get; set; }
 
-    [BooleanCommandSwitch("-allow-missing")]
+    [CliFlag("-allow-missing")]
     public virtual bool? AllowMissing { get; set; }
 
-    [BooleanCommandSwitch("-lock")]
+    [CliFlag("-lock")]
     public virtual bool? Lock { get; set; }
 
-    [CommandSwitch("-lock-timeout")]
+    [CliOption("-lock-timeout")]
     public virtual string? LockTimeout { get; set; }
 
-    [BooleanCommandSwitch("-ignore-remote-version")]
+    [CliFlag("-ignore-remote-version")]
     public virtual bool? IgnoreRemoteVersion { get; set; }
 
-    [BooleanCommandSwitch("-state")]
+    [CliFlag("-state")]
     public virtual bool? State { get; set; }
 
-    [BooleanCommandSwitch("-state-out")]
+    [CliFlag("-state-out")]
     public virtual bool? StateOut { get; set; }
 
-    [BooleanCommandSwitch("-backup")]
+    [CliFlag("-backup")]
     public virtual bool? Backup { get; set; }
 }

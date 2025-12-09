@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "disassociate-flow")]
+[CliCommand("connect", "disassociate-flow")]
 public record AwsConnectDisassociateFlowOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--resource-id")] string ResourceId,
-[property: CommandSwitch("--resource-type")] string ResourceType
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--resource-id")] string ResourceId,
+[property: CliOption("--resource-type")] string ResourceType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

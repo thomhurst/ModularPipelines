@@ -5,25 +5,25 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutmetrics", "create-alert")]
+[CliCommand("lookoutmetrics", "create-alert")]
 public record AwsLookoutmetricsCreateAlertOptions(
-[property: CommandSwitch("--alert-name")] string AlertName,
-[property: CommandSwitch("--anomaly-detector-arn")] string AnomalyDetectorArn,
-[property: CommandSwitch("--action")] string Action
+[property: CliOption("--alert-name")] string AlertName,
+[property: CliOption("--anomaly-detector-arn")] string AnomalyDetectorArn,
+[property: CliOption("--action")] string Action
 ) : AwsOptions
 {
-    [CommandSwitch("--alert-sensitivity-threshold")]
+    [CliOption("--alert-sensitivity-threshold")]
     public int? AlertSensitivityThreshold { get; set; }
 
-    [CommandSwitch("--alert-description")]
+    [CliOption("--alert-description")]
     public string? AlertDescription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--alert-filters")]
+    [CliOption("--alert-filters")]
     public string? AlertFilters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

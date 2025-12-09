@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "reset-address-attribute")]
+[CliCommand("ec2", "reset-address-attribute")]
 public record AwsEc2ResetAddressAttributeOptions(
-[property: CommandSwitch("--allocation-id")] string AllocationId,
-[property: CommandSwitch("--attribute")] string Attribute
+[property: CliOption("--allocation-id")] string AllocationId,
+[property: CliOption("--attribute")] string Attribute
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

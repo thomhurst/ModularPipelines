@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces", "describe-applications")]
+[CliCommand("workspaces", "describe-applications")]
 public record AwsWorkspacesDescribeApplicationsOptions : AwsOptions
 {
-    [CommandSwitch("--application-ids")]
+    [CliOption("--application-ids")]
     public string[]? ApplicationIds { get; set; }
 
-    [CommandSwitch("--compute-type-names")]
+    [CliOption("--compute-type-names")]
     public string[]? ComputeTypeNames { get; set; }
 
-    [CommandSwitch("--license-type")]
+    [CliOption("--license-type")]
     public string? LicenseType { get; set; }
 
-    [CommandSwitch("--operating-system-names")]
+    [CliOption("--operating-system-names")]
     public string[]? OperatingSystemNames { get; set; }
 
-    [CommandSwitch("--owner")]
+    [CliOption("--owner")]
     public string? Owner { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

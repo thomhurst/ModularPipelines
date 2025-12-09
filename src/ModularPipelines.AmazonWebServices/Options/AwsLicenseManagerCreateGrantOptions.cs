@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("license-manager", "create-grant")]
+[CliCommand("license-manager", "create-grant")]
 public record AwsLicenseManagerCreateGrantOptions(
-[property: CommandSwitch("--client-token")] string ClientToken,
-[property: CommandSwitch("--grant-name")] string GrantName,
-[property: CommandSwitch("--license-arn")] string LicenseArn,
-[property: CommandSwitch("--principals")] string[] Principals,
-[property: CommandSwitch("--home-region")] string HomeRegion,
-[property: CommandSwitch("--allowed-operations")] string[] AllowedOperations
+[property: CliOption("--client-token")] string ClientToken,
+[property: CliOption("--grant-name")] string GrantName,
+[property: CliOption("--license-arn")] string LicenseArn,
+[property: CliOption("--principals")] string[] Principals,
+[property: CliOption("--home-region")] string HomeRegion,
+[property: CliOption("--allowed-operations")] string[] AllowedOperations
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

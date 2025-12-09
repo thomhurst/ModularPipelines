@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("clouddirectory", "put-schema-from-json")]
+[CliCommand("clouddirectory", "put-schema-from-json")]
 public record AwsClouddirectoryPutSchemaFromJsonOptions(
-[property: CommandSwitch("--schema-arn")] string SchemaArn,
-[property: CommandSwitch("--document")] string Document
+[property: CliOption("--schema-arn")] string SchemaArn,
+[property: CliOption("--document")] string Document
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

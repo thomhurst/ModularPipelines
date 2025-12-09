@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "manager", "connect-config", "create")]
+[CliSubCommand("network", "manager", "connect-config", "create")]
 public record AzNetworkManagerConnectConfigCreateOptions(
-[property: CommandSwitch("--applies-to-groups")] string AppliesToGroups,
-[property: CommandSwitch("--configuration-name")] string ConfigurationName,
-[property: CommandSwitch("--connectivity-topology")] string ConnectivityTopology,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--applies-to-groups")] string AppliesToGroups,
+[property: CliOption("--configuration-name")] string ConfigurationName,
+[property: CliOption("--connectivity-topology")] string ConnectivityTopology,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--delete-existing-peering")]
+    [CliFlag("--delete-existing-peering")]
     public bool? DeleteExistingPeering { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--hub")]
+    [CliOption("--hub")]
     public string? Hub { get; set; }
 
-    [BooleanCommandSwitch("--is-global")]
+    [CliFlag("--is-global")]
     public bool? IsGlobal { get; set; }
 }

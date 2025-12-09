@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("signalr", "custom-certificate", "update")]
+[CliSubCommand("signalr", "custom-certificate", "update")]
 public record AzSignalrCustomCertificateUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--signalr-name")] string SignalrName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--signalr-name")] string SignalrName
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--keyvault-base-uri")]
+    [CliOption("--keyvault-base-uri")]
     public string? KeyvaultBaseUri { get; set; }
 
-    [CommandSwitch("--keyvault-secret-name")]
+    [CliOption("--keyvault-secret-name")]
     public string? KeyvaultSecretName { get; set; }
 
-    [CommandSwitch("--keyvault-secret-version")]
+    [CliOption("--keyvault-secret-version")]
     public string? KeyvaultSecretVersion { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 }

@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bicep", "format")]
+[CliSubCommand("bicep", "format")]
 public record AzBicepFormatOptions(
-[property: CommandSwitch("--file")] string File
+[property: CliOption("--file")] string File
 ) : AzOptions
 {
-    [CommandSwitch("--indent-kind")]
+    [CliOption("--indent-kind")]
     public string? IndentKind { get; set; }
 
-    [CommandSwitch("--indent-size")]
+    [CliOption("--indent-size")]
     public int? IndentSize { get; set; }
 
-    [BooleanCommandSwitch("--insert-final-newline")]
+    [CliFlag("--insert-final-newline")]
     public bool? InsertFinalNewline { get; set; }
 
-    [CommandSwitch("--newline")]
+    [CliOption("--newline")]
     public string? Newline { get; set; }
 
-    [CommandSwitch("--outdir")]
+    [CliOption("--outdir")]
     public string? Outdir { get; set; }
 
-    [CommandSwitch("--outfile")]
+    [CliOption("--outfile")]
     public string? Outfile { get; set; }
 
-    [CommandSwitch("--stdout")]
+    [CliOption("--stdout")]
     public string? Stdout { get; set; }
 }

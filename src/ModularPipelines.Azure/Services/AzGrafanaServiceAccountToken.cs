@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("grafana", "service-account")]
+[CliCommand("grafana", "service-account")]
 public class AzGrafanaServiceAccountToken
 {
     public AzGrafanaServiceAccountToken(

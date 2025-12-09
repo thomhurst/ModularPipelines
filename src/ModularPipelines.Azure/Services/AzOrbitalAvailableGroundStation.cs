@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("orbital")]
+[CliSubCommand("orbital")]
 public class AzOrbitalAvailableGroundStation
 {
     public AzOrbitalAvailableGroundStation(

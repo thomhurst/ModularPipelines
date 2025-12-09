@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lexv2-models", "batch-create-custom-vocabulary-item")]
+[CliCommand("lexv2-models", "batch-create-custom-vocabulary-item")]
 public record AwsLexv2ModelsBatchCreateCustomVocabularyItemOptions(
-[property: CommandSwitch("--bot-id")] string BotId,
-[property: CommandSwitch("--bot-version")] string BotVersion,
-[property: CommandSwitch("--locale-id")] string LocaleId,
-[property: CommandSwitch("--custom-vocabulary-item-list")] string[] CustomVocabularyItemList
+[property: CliOption("--bot-id")] string BotId,
+[property: CliOption("--bot-version")] string BotVersion,
+[property: CliOption("--locale-id")] string LocaleId,
+[property: CliOption("--custom-vocabulary-item-list")] string[] CustomVocabularyItemList
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

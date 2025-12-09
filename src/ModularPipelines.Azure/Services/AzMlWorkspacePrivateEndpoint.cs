@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "workspace")]
+[CliCommand("ml", "workspace")]
 public class AzMlWorkspacePrivateEndpoint
 {
     public AzMlWorkspacePrivateEndpoint(

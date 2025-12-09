@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("comprehend", "describe-dataset")]
+[CliCommand("comprehend", "describe-dataset")]
 public record AwsComprehendDescribeDatasetOptions(
-[property: CommandSwitch("--dataset-arn")] string DatasetArn
+[property: CliOption("--dataset-arn")] string DatasetArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

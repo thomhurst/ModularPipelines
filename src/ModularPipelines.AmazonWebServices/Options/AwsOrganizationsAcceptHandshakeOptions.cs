@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("organizations", "accept-handshake")]
+[CliCommand("organizations", "accept-handshake")]
 public record AwsOrganizationsAcceptHandshakeOptions(
-[property: CommandSwitch("--handshake-id")] string HandshakeId
+[property: CliOption("--handshake-id")] string HandshakeId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

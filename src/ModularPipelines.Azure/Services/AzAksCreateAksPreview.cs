@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "create")]
+[CliCommand("aks", "create")]
 public class AzAksCreateAksPreview
 {
     public AzAksCreateAksPreview(

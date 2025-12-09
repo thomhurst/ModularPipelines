@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("query")]
+[CliSubCommand("query")]
 public record NpmQueryOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Selector
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Selector
 ) : NpmOptions
 {
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public virtual bool? Global { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public virtual string[]? Workspace { get; set; }
 
-    [BooleanCommandSwitch("--workspaces")]
+    [CliFlag("--workspaces")]
     public virtual bool? Workspaces { get; set; }
 
-    [BooleanCommandSwitch("--include-workspace-root")]
+    [CliFlag("--include-workspace-root")]
     public virtual bool? IncludeWorkspaceRoot { get; set; }
 
-    [BooleanCommandSwitch("--package-lock-only")]
+    [CliFlag("--package-lock-only")]
     public virtual bool? PackageLockOnly { get; set; }
 }

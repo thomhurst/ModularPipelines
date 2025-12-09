@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("textract", "list-adapter-versions")]
+[CliCommand("textract", "list-adapter-versions")]
 public record AwsTextractListAdapterVersionsOptions : AwsOptions
 {
-    [CommandSwitch("--adapter-id")]
+    [CliOption("--adapter-id")]
     public string? AdapterId { get; set; }
 
-    [CommandSwitch("--after-creation-time")]
+    [CliOption("--after-creation-time")]
     public long? AfterCreationTime { get; set; }
 
-    [CommandSwitch("--before-creation-time")]
+    [CliOption("--before-creation-time")]
     public long? BeforeCreationTime { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

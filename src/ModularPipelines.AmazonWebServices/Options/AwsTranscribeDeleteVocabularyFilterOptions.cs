@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transcribe", "delete-vocabulary-filter")]
+[CliCommand("transcribe", "delete-vocabulary-filter")]
 public record AwsTranscribeDeleteVocabularyFilterOptions(
-[property: CommandSwitch("--vocabulary-filter-name")] string VocabularyFilterName
+[property: CliOption("--vocabulary-filter-name")] string VocabularyFilterName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

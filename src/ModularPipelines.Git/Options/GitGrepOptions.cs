@@ -3,145 +3,145 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("grep")]
+[CliSubCommand("grep")]
 [ExcludeFromCodeCoverage]
 public record GitGrepOptions : GitOptions
 {
-    [BooleanCommandSwitch("--cached")]
+    [CliFlag("--cached")]
     public virtual bool? Cached { get; set; }
 
-    [BooleanCommandSwitch("--no-index")]
+    [CliFlag("--no-index")]
     public virtual bool? NoIndex { get; set; }
 
-    [BooleanCommandSwitch("--untracked")]
+    [CliFlag("--untracked")]
     public virtual bool? Untracked { get; set; }
 
-    [BooleanCommandSwitch("--no-exclude-standard")]
+    [CliFlag("--no-exclude-standard")]
     public virtual bool? NoExcludeStandard { get; set; }
 
-    [BooleanCommandSwitch("--exclude-standard")]
+    [CliFlag("--exclude-standard")]
     public virtual bool? ExcludeStandard { get; set; }
 
-    [BooleanCommandSwitch("--recurse-submodules")]
+    [CliFlag("--recurse-submodules")]
     public virtual bool? RecurseSubmodules { get; set; }
 
-    [BooleanCommandSwitch("--text")]
+    [CliFlag("--text")]
     public virtual bool? Text { get; set; }
 
-    [BooleanCommandSwitch("--textconv")]
+    [CliFlag("--textconv")]
     public virtual bool? Textconv { get; set; }
 
-    [BooleanCommandSwitch("--no-textconv")]
+    [CliFlag("--no-textconv")]
     public virtual bool? NoTextconv { get; set; }
 
-    [BooleanCommandSwitch("--ignore-case")]
+    [CliFlag("--ignore-case")]
     public virtual bool? IgnoreCase { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--max-depth")]
-    public string? MaxDepth { get; set; }
+    [CliOption("--max-depth", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? MaxDepth { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [BooleanCommandSwitch("--no-recursive")]
+    [CliFlag("--no-recursive")]
     public virtual bool? NoRecursive { get; set; }
 
-    [BooleanCommandSwitch("--word-regexp")]
+    [CliFlag("--word-regexp")]
     public virtual bool? WordRegexp { get; set; }
 
-    [BooleanCommandSwitch("--invert-match")]
+    [CliFlag("--invert-match")]
     public virtual bool? InvertMatch { get; set; }
 
-    [BooleanCommandSwitch("--full-name")]
+    [CliFlag("--full-name")]
     public virtual bool? FullName { get; set; }
 
-    [BooleanCommandSwitch("--extended-regexp")]
+    [CliFlag("--extended-regexp")]
     public virtual bool? ExtendedRegexp { get; set; }
 
-    [BooleanCommandSwitch("--basic-regexp")]
+    [CliFlag("--basic-regexp")]
     public virtual bool? BasicRegexp { get; set; }
 
-    [BooleanCommandSwitch("--perl-regexp")]
+    [CliFlag("--perl-regexp")]
     public virtual bool? PerlRegexp { get; set; }
 
-    [BooleanCommandSwitch("--fixed-strings")]
+    [CliFlag("--fixed-strings")]
     public virtual bool? FixedStrings { get; set; }
 
-    [BooleanCommandSwitch("--line-number")]
+    [CliFlag("--line-number")]
     public virtual bool? LineNumber { get; set; }
 
-    [BooleanCommandSwitch("--column")]
+    [CliFlag("--column")]
     public virtual bool? Column { get; set; }
 
-    [BooleanCommandSwitch("--files-with-matches")]
+    [CliFlag("--files-with-matches")]
     public virtual bool? FilesWithMatches { get; set; }
 
-    [BooleanCommandSwitch("--name-only")]
+    [CliFlag("--name-only")]
     public virtual bool? NameOnly { get; set; }
 
-    [BooleanCommandSwitch("--files-without-match")]
+    [CliFlag("--files-without-match")]
     public virtual bool? FilesWithoutMatch { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--open-files-in-pager")]
-    public string? OpenFilesInPager { get; set; }
+    [CliOption("--open-files-in-pager", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? OpenFilesInPager { get; set; }
 
-    [BooleanCommandSwitch("--null")]
+    [CliFlag("--null")]
     public virtual bool? Null { get; set; }
 
-    [BooleanCommandSwitch("--only-matching")]
+    [CliFlag("--only-matching")]
     public virtual bool? OnlyMatching { get; set; }
 
-    [BooleanCommandSwitch("--c")]
+    [CliFlag("--c")]
     public virtual bool? C { get; set; }
 
-    [BooleanCommandSwitch("--count")]
+    [CliFlag("--count")]
     public virtual bool? Count { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--color")]
-    public string? Color { get; set; }
+    [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Color { get; set; }
 
-    [BooleanCommandSwitch("--no-color")]
+    [CliFlag("--no-color")]
     public virtual bool? NoColor { get; set; }
 
-    [BooleanCommandSwitch("--break")]
+    [CliFlag("--break")]
     public virtual bool? Break { get; set; }
 
-    [BooleanCommandSwitch("--heading")]
+    [CliFlag("--heading")]
     public virtual bool? Heading { get; set; }
 
-    [BooleanCommandSwitch("--show-function")]
+    [CliFlag("--show-function")]
     public virtual bool? ShowFunction { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--context")]
-    public string? Context { get; set; }
+    [CliOption("--context", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Context { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--after-context")]
-    public string? AfterContext { get; set; }
+    [CliOption("--after-context", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? AfterContext { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--before-context")]
-    public string? BeforeContext { get; set; }
+    [CliOption("--before-context", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? BeforeContext { get; set; }
 
-    [BooleanCommandSwitch("--function-context")]
+    [CliFlag("--function-context")]
     public virtual bool? FunctionContext { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--max-count")]
-    public string? MaxCount { get; set; }
+    [CliOption("--max-count", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? MaxCount { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--threads")]
-    public string? Threads { get; set; }
+    [CliOption("--threads", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Threads { get; set; }
 
-    [BooleanCommandSwitch("--and")]
+    [CliFlag("--and")]
     public virtual bool? And { get; set; }
 
-    [BooleanCommandSwitch("--or")]
+    [CliFlag("--or")]
     public virtual bool? Or { get; set; }
 
-    [BooleanCommandSwitch("--not")]
+    [CliFlag("--not")]
     public virtual bool? Not { get; set; }
 
-    [BooleanCommandSwitch("--all-match")]
+    [CliFlag("--all-match")]
     public virtual bool? AllMatch { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-transit-gateway-peering-attachment")]
+[CliCommand("ec2", "create-transit-gateway-peering-attachment")]
 public record AwsEc2CreateTransitGatewayPeeringAttachmentOptions(
-[property: CommandSwitch("--transit-gateway-id")] string TransitGatewayId,
-[property: CommandSwitch("--peer-transit-gateway-id")] string PeerTransitGatewayId,
-[property: CommandSwitch("--peer-account-id")] string PeerAccountId,
-[property: CommandSwitch("--peer-region")] string PeerRegion
+[property: CliOption("--transit-gateway-id")] string TransitGatewayId,
+[property: CliOption("--peer-transit-gateway-id")] string PeerTransitGatewayId,
+[property: CliOption("--peer-account-id")] string PeerAccountId,
+[property: CliOption("--peer-region")] string PeerRegion
 ) : AwsOptions
 {
-    [CommandSwitch("--options")]
+    [CliOption("--options")]
     public string? Options { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

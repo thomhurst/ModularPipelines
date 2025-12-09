@@ -5,30 +5,30 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "create-stream-processor")]
+[CliCommand("rekognition", "create-stream-processor")]
 public record AwsRekognitionCreateStreamProcessorOptions(
-[property: CommandSwitch("--input")] string Input,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--settings")] string Settings,
-[property: CommandSwitch("--role-arn")] string RoleArn,
-[property: CommandSwitch("--stream-processor-output")] string StreamProcessorOutput
+[property: CliOption("--input")] string Input,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--settings")] string Settings,
+[property: CliOption("--role-arn")] string RoleArn,
+[property: CliOption("--stream-processor-output")] string StreamProcessorOutput
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--notification-channel")]
+    [CliOption("--notification-channel")]
     public string? NotificationChannel { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--regions-of-interest")]
+    [CliOption("--regions-of-interest")]
     public string[]? RegionsOfInterest { get; set; }
 
-    [CommandSwitch("--data-sharing-preference")]
+    [CliOption("--data-sharing-preference")]
     public string? DataSharingPreference { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

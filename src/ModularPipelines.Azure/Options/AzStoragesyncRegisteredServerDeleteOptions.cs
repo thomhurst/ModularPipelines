@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagesync", "registered-server", "delete")]
+[CliSubCommand("storagesync", "registered-server", "delete")]
 public record AzStoragesyncRegisteredServerDeleteOptions(
-[property: CommandSwitch("--server-id")] string ServerId,
-[property: CommandSwitch("--storage-sync-service")] string StorageSyncService
+[property: CliOption("--server-id")] string ServerId,
+[property: CliOption("--storage-sync-service")] string StorageSyncService
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

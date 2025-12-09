@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "put-runtime-management-config")]
+[CliCommand("lambda", "put-runtime-management-config")]
 public record AwsLambdaPutRuntimeManagementConfigOptions(
-[property: CommandSwitch("--function-name")] string FunctionName,
-[property: CommandSwitch("--update-runtime-on")] string UpdateRuntimeOn
+[property: CliOption("--function-name")] string FunctionName,
+[property: CliOption("--update-runtime-on")] string UpdateRuntimeOn
 ) : AwsOptions
 {
-    [CommandSwitch("--qualifier")]
+    [CliOption("--qualifier")]
     public string? Qualifier { get; set; }
 
-    [CommandSwitch("--runtime-version-arn")]
+    [CliOption("--runtime-version-arn")]
     public string? RuntimeVersionArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

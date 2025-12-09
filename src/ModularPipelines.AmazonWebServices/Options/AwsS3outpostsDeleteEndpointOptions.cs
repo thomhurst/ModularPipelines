@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3outposts", "delete-endpoint")]
+[CliCommand("s3outposts", "delete-endpoint")]
 public record AwsS3outpostsDeleteEndpointOptions(
-[property: CommandSwitch("--endpoint-id")] string EndpointId,
-[property: CommandSwitch("--outpost-id")] string OutpostId
+[property: CliOption("--endpoint-id")] string EndpointId,
+[property: CliOption("--outpost-id")] string OutpostId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

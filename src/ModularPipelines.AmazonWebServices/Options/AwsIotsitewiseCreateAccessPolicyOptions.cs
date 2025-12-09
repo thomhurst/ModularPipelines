@@ -5,19 +5,19 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotsitewise", "create-access-policy")]
+[CliCommand("iotsitewise", "create-access-policy")]
 public record AwsIotsitewiseCreateAccessPolicyOptions(
-[property: CommandSwitch("--access-policy-identity")] string AccessPolicyIdentity,
-[property: CommandSwitch("--access-policy-resource")] string AccessPolicyResource,
-[property: CommandSwitch("--access-policy-permission")] string AccessPolicyPermission
+[property: CliOption("--access-policy-identity")] string AccessPolicyIdentity,
+[property: CliOption("--access-policy-resource")] string AccessPolicyResource,
+[property: CliOption("--access-policy-permission")] string AccessPolicyPermission
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

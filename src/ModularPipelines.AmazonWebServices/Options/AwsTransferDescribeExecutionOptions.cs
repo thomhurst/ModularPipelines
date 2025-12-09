@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "describe-execution")]
+[CliCommand("transfer", "describe-execution")]
 public record AwsTransferDescribeExecutionOptions(
-[property: CommandSwitch("--execution-id")] string ExecutionId,
-[property: CommandSwitch("--workflow-id")] string WorkflowId
+[property: CliOption("--execution-id")] string ExecutionId,
+[property: CliOption("--workflow-id")] string WorkflowId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

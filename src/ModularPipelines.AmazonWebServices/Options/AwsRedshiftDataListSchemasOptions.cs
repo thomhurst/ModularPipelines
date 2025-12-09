@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift-data", "list-schemas")]
+[CliCommand("redshift-data", "list-schemas")]
 public record AwsRedshiftDataListSchemasOptions(
-[property: CommandSwitch("--database")] string Database
+[property: CliOption("--database")] string Database
 ) : AwsOptions
 {
-    [CommandSwitch("--cluster-identifier")]
+    [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
 
-    [CommandSwitch("--connected-database")]
+    [CliOption("--connected-database")]
     public string? ConnectedDatabase { get; set; }
 
-    [CommandSwitch("--db-user")]
+    [CliOption("--db-user")]
     public string? DbUser { get; set; }
 
-    [CommandSwitch("--schema-pattern")]
+    [CliOption("--schema-pattern")]
     public string? SchemaPattern { get; set; }
 
-    [CommandSwitch("--secret-arn")]
+    [CliOption("--secret-arn")]
     public string? SecretArn { get; set; }
 
-    [CommandSwitch("--workgroup-name")]
+    [CliOption("--workgroup-name")]
     public string? WorkgroupName { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

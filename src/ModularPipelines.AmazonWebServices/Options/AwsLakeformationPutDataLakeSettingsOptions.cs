@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lakeformation", "put-data-lake-settings")]
+[CliCommand("lakeformation", "put-data-lake-settings")]
 public record AwsLakeformationPutDataLakeSettingsOptions(
-[property: CommandSwitch("--data-lake-settings")] string DataLakeSettings
+[property: CliOption("--data-lake-settings")] string DataLakeSettings
 ) : AwsOptions
 {
-    [CommandSwitch("--catalog-id")]
+    [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

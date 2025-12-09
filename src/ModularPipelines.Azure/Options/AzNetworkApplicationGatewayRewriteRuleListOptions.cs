@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "rewrite-rule", "list")]
+[CliSubCommand("network", "application-gateway", "rewrite-rule", "list")]
 public record AzNetworkApplicationGatewayRewriteRuleListOptions(
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--rule-set-name")] string RuleSetName
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--rule-set-name")] string RuleSetName
 ) : AzOptions;

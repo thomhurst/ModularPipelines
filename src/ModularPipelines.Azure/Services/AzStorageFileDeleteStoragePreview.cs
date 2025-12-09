@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "file", "delete")]
+[CliCommand("storage", "file", "delete")]
 public class AzStorageFileDeleteStoragePreview
 {
     public AzStorageFileDeleteStoragePreview(

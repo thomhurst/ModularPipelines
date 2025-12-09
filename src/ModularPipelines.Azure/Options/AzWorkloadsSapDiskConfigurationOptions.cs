@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workloads", "sap-disk-configuration")]
+[CliSubCommand("workloads", "sap-disk-configuration")]
 public record AzWorkloadsSapDiskConfigurationOptions : AzOptions
 {
-    [CommandSwitch("--app-location")]
+    [CliOption("--app-location")]
     public string? AppLocation { get; set; }
 
-    [CommandSwitch("--database-type")]
+    [CliOption("--database-type")]
     public string? DatabaseType { get; set; }
 
-    [CommandSwitch("--db-vm-sku")]
+    [CliOption("--db-vm-sku")]
     public string? DbVmSku { get; set; }
 
-    [CommandSwitch("--deployment-type")]
+    [CliOption("--deployment-type")]
     public string? DeploymentType { get; set; }
 
-    [CommandSwitch("--environment")]
+    [CliOption("--environment")]
     public string? Environment { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--sap-product")]
+    [CliOption("--sap-product")]
     public string? SapProduct { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

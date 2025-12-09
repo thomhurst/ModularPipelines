@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "backend-pool", "create")]
+[CliSubCommand("network", "front-door", "backend-pool", "create")]
 public record AzNetworkFrontDoorBackendPoolCreateOptions(
-[property: CommandSwitch("--address")] string Address,
-[property: CommandSwitch("--front-door-name")] string FrontDoorName,
-[property: CommandSwitch("--load-balancing")] string LoadBalancing,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--probe")] string Probe,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--address")] string Address,
+[property: CliOption("--front-door-name")] string FrontDoorName,
+[property: CliOption("--load-balancing")] string LoadBalancing,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--probe")] string Probe,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--backend-host-header")]
+    [CliOption("--backend-host-header")]
     public string? BackendHostHeader { get; set; }
 
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CommandSwitch("--http-port")]
+    [CliOption("--http-port")]
     public string? HttpPort { get; set; }
 
-    [CommandSwitch("--https-port")]
+    [CliOption("--https-port")]
     public string? HttpsPort { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--weight")]
+    [CliOption("--weight")]
     public string? Weight { get; set; }
 }

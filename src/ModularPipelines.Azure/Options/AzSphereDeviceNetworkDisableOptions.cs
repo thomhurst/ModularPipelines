@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sphere", "device", "network", "disable")]
+[CliSubCommand("sphere", "device", "network", "disable")]
 public record AzSphereDeviceNetworkDisableOptions(
-[property: CommandSwitch("--interface")] string Interface
+[property: CliOption("--interface")] string Interface
 ) : AzOptions
 {
-    [CommandSwitch("--device")]
+    [CliOption("--device")]
     public string? Device { get; set; }
 }

@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workloads", "monitor", "create")]
+[CliSubCommand("workloads", "monitor", "create")]
 public record AzWorkloadsMonitorCreateOptions(
-[property: CommandSwitch("--monitor-name")] string MonitorName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--monitor-name")] string MonitorName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--app-location")]
+    [CliOption("--app-location")]
     public string? AppLocation { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--log-analytics-workspace-arm-id")]
+    [CliOption("--log-analytics-workspace-arm-id")]
     public string? LogAnalyticsWorkspaceArmId { get; set; }
 
-    [CommandSwitch("--managed-rg-name")]
+    [CliOption("--managed-rg-name")]
     public string? ManagedRgName { get; set; }
 
-    [CommandSwitch("--monitor-subnet")]
+    [CliOption("--monitor-subnet")]
     public string? MonitorSubnet { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--routing-preference")]
+    [CliOption("--routing-preference")]
     public string? RoutingPreference { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--zone-redundancy-preference")]
+    [CliOption("--zone-redundancy-preference")]
     public string? ZoneRedundancyPreference { get; set; }
 }

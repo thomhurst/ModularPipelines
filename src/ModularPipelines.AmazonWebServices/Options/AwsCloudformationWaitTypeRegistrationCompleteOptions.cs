@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation", "wait", "type-registration-complete")]
+[CliCommand("cloudformation", "wait", "type-registration-complete")]
 public record AwsCloudformationWaitTypeRegistrationCompleteOptions(
-[property: CommandSwitch("--registration-token")] string RegistrationToken
+[property: CliOption("--registration-token")] string RegistrationToken
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

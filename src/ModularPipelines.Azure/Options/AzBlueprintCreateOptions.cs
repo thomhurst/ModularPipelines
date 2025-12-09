@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("blueprint", "create")]
+[CliSubCommand("blueprint", "create")]
 public record AzBlueprintCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--target-scope")] string TargetScope
+[property: CliOption("--name")] string Name,
+[property: CliOption("--target-scope")] string TargetScope
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--management-group")]
+    [CliOption("--management-group")]
     public string? ManagementGroup { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--resource-groups")]
+    [CliOption("--resource-groups")]
     public string? ResourceGroups { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

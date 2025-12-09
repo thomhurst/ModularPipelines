@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks")]
+[CliSubCommand("aks")]
 public class AzAksUpdate
 {
     public AzAksUpdate(

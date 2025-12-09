@@ -5,34 +5,34 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pi", "describe-dimension-keys")]
+[CliCommand("pi", "describe-dimension-keys")]
 public record AwsPiDescribeDimensionKeysOptions(
-[property: CommandSwitch("--service-type")] string ServiceType,
-[property: CommandSwitch("--identifier")] string Identifier,
-[property: CommandSwitch("--start-time")] long StartTime,
-[property: CommandSwitch("--end-time")] long EndTime,
-[property: CommandSwitch("--metric")] string Metric,
-[property: CommandSwitch("--group-by")] string GroupBy
+[property: CliOption("--service-type")] string ServiceType,
+[property: CliOption("--identifier")] string Identifier,
+[property: CliOption("--start-time")] long StartTime,
+[property: CliOption("--end-time")] long EndTime,
+[property: CliOption("--metric")] string Metric,
+[property: CliOption("--group-by")] string GroupBy
 ) : AwsOptions
 {
-    [CommandSwitch("--period-in-seconds")]
+    [CliOption("--period-in-seconds")]
     public int? PeriodInSeconds { get; set; }
 
-    [CommandSwitch("--additional-metrics")]
+    [CliOption("--additional-metrics")]
     public string[]? AdditionalMetrics { get; set; }
 
-    [CommandSwitch("--partition-by")]
+    [CliOption("--partition-by")]
     public string? PartitionBy { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public IEnumerable<KeyValue>? Filter { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

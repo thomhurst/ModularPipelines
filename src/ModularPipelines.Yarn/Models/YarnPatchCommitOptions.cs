@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("patch-commit")]
+[CliSubCommand("patch-commit")]
 public record YarnPatchCommitOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string PatchFolder
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string PatchFolder
 ) : YarnOptions
 {
-    [BooleanCommandSwitch("--save")]
+    [CliFlag("--save")]
     public virtual bool? Save { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataexchange", "delete-data-set")]
+[CliCommand("dataexchange", "delete-data-set")]
 public record AwsDataexchangeDeleteDataSetOptions(
-[property: CommandSwitch("--data-set-id")] string DataSetId
+[property: CliOption("--data-set-id")] string DataSetId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "spark")]
+[CliCommand("synapse", "spark")]
 public class AzSynapseSparkJob
 {
     public AzSynapseSparkJob(

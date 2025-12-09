@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elastictranscoder", "update-pipeline-status")]
+[CliCommand("elastictranscoder", "update-pipeline-status")]
 public record AwsElastictranscoderUpdatePipelineStatusOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--status")] string Status
+[property: CliOption("--id")] string Id,
+[property: CliOption("--status")] string Status
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

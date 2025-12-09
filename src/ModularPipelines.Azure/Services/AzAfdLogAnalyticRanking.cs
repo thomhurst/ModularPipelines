@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("afd", "log-analytic")]
+[CliCommand("afd", "log-analytic")]
 public class AzAfdLogAnalyticRanking
 {
     public AzAfdLogAnalyticRanking(

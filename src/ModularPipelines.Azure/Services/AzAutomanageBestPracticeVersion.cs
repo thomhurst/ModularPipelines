@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automanage", "best-practice")]
+[CliCommand("automanage", "best-practice")]
 public class AzAutomanageBestPracticeVersion
 {
     public AzAutomanageBestPracticeVersion(

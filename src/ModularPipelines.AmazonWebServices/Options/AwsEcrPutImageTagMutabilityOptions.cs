@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecr", "put-image-tag-mutability")]
+[CliCommand("ecr", "put-image-tag-mutability")]
 public record AwsEcrPutImageTagMutabilityOptions(
-[property: CommandSwitch("--repository-name")] string RepositoryName,
-[property: CommandSwitch("--image-tag-mutability")] string ImageTagMutability
+[property: CliOption("--repository-name")] string RepositoryName,
+[property: CliOption("--image-tag-mutability")] string ImageTagMutability
 ) : AwsOptions
 {
-    [CommandSwitch("--registry-id")]
+    [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

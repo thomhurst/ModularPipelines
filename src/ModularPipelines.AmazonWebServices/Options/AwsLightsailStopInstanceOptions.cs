@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "stop-instance")]
+[CliCommand("lightsail", "stop-instance")]
 public record AwsLightsailStopInstanceOptions(
-[property: CommandSwitch("--instance-name")] string InstanceName
+[property: CliOption("--instance-name")] string InstanceName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

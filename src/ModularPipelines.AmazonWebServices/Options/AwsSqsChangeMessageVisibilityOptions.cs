@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sqs", "change-message-visibility")]
+[CliCommand("sqs", "change-message-visibility")]
 public record AwsSqsChangeMessageVisibilityOptions(
-[property: CommandSwitch("--queue-url")] string QueueUrl,
-[property: CommandSwitch("--receipt-handle")] string ReceiptHandle,
-[property: CommandSwitch("--visibility-timeout")] int VisibilityTimeout
+[property: CliOption("--queue-url")] string QueueUrl,
+[property: CliOption("--receipt-handle")] string ReceiptHandle,
+[property: CliOption("--visibility-timeout")] int VisibilityTimeout
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

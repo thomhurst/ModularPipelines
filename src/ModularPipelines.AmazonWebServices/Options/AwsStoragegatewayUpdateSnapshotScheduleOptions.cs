@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "update-snapshot-schedule")]
+[CliCommand("storagegateway", "update-snapshot-schedule")]
 public record AwsStoragegatewayUpdateSnapshotScheduleOptions(
-[property: CommandSwitch("--volume-arn")] string VolumeArn,
-[property: CommandSwitch("--start-at")] int StartAt,
-[property: CommandSwitch("--recurrence-in-hours")] int RecurrenceInHours
+[property: CliOption("--volume-arn")] string VolumeArn,
+[property: CliOption("--start-at")] int StartAt,
+[property: CliOption("--recurrence-in-hours")] int RecurrenceInHours
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

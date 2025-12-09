@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("waf-regional", "update-rule")]
+[CliCommand("waf-regional", "update-rule")]
 public record AwsWafRegionalUpdateRuleOptions(
-[property: CommandSwitch("--rule-id")] string RuleId,
-[property: CommandSwitch("--change-token")] string ChangeToken,
-[property: CommandSwitch("--updates")] string[] Updates
+[property: CliOption("--rule-id")] string RuleId,
+[property: CliOption("--change-token")] string ChangeToken,
+[property: CliOption("--updates")] string[] Updates
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

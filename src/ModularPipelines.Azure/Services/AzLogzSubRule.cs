@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logz")]
+[CliSubCommand("logz")]
 public class AzLogzSubRule
 {
     public AzLogzSubRule(

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "wait", "deployment-successful")]
+[CliCommand("deploy", "wait", "deployment-successful")]
 public record AwsDeployWaitDeploymentSuccessfulOptions(
-[property: CommandSwitch("--deployment-id")] string DeploymentId
+[property: CliOption("--deployment-id")] string DeploymentId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

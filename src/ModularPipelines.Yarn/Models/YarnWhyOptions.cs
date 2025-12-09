@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("why")]
+[CliSubCommand("why")]
 public record YarnWhyOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Package
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Package
 ) : YarnOptions
 {
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 
-    [BooleanCommandSwitch("--peers")]
+    [CliFlag("--peers")]
     public virtual bool? Peers { get; set; }
 }

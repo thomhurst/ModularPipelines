@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "get-map-glyphs")]
+[CliCommand("location", "get-map-glyphs")]
 public record AwsLocationGetMapGlyphsOptions(
-[property: CommandSwitch("--font-stack")] string FontStack,
-[property: CommandSwitch("--font-unicode-range")] string FontUnicodeRange,
-[property: CommandSwitch("--map-name")] string MapName
+[property: CliOption("--font-stack")] string FontStack,
+[property: CliOption("--font-unicode-range")] string FontUnicodeRange,
+[property: CliOption("--map-name")] string MapName
 ) : AwsOptions
 {
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 }

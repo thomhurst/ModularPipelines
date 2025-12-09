@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "du", "device", "health", "list")]
+[CliSubCommand("iot", "du", "device", "health", "list")]
 public record AzIotDuDeviceHealthListOptions(
-[property: CommandSwitch("--account")] int Account,
-[property: CommandSwitch("--filter")] string Filter,
-[property: CommandSwitch("--instance")] string Instance
+[property: CliOption("--account")] int Account,
+[property: CliOption("--filter")] string Filter,
+[property: CliOption("--instance")] string Instance
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

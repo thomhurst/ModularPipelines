@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("peering", "received-route", "list")]
+[CliSubCommand("peering", "received-route", "list")]
 public record AzPeeringReceivedRouteListOptions(
-[property: CommandSwitch("--peering-name")] string PeeringName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--peering-name")] string PeeringName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--as-path")]
+    [CliOption("--as-path")]
     public string? AsPath { get; set; }
 
-    [CommandSwitch("--origin-as-validation-state")]
+    [CliOption("--origin-as-validation-state")]
     public string? OriginAsValidationState { get; set; }
 
-    [CommandSwitch("--prefix")]
+    [CliOption("--prefix")]
     public string? Prefix { get; set; }
 
-    [CommandSwitch("--rpki-validation-state")]
+    [CliOption("--rpki-validation-state")]
     public string? RpkiValidationState { get; set; }
 
-    [CommandSwitch("--skip-token")]
+    [CliOption("--skip-token")]
     public string? SkipToken { get; set; }
 }

@@ -4,60 +4,60 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "sql", "pool", "threat-policy", "update")]
+[CliSubCommand("synapse", "sql", "pool", "threat-policy", "update")]
 public record AzSynapseSqlPoolThreatPolicyUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--disabled-alerts")]
+    [CliFlag("--disabled-alerts")]
     public bool? DisabledAlerts { get; set; }
 
-    [BooleanCommandSwitch("--email-account-admins")]
+    [CliFlag("--email-account-admins")]
     public bool? EmailAccountAdmins { get; set; }
 
-    [CommandSwitch("--email-addresses")]
+    [CliOption("--email-addresses")]
     public string? EmailAddresses { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--retention-days")]
+    [CliOption("--retention-days")]
     public string? RetentionDays { get; set; }
 
-    [CommandSwitch("--security-alert-policy-name")]
+    [CliOption("--security-alert-policy-name")]
     public string? SecurityAlertPolicyName { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [CommandSwitch("--storage-account")]
+    [CliOption("--storage-account")]
     public int? StorageAccount { get; set; }
 
-    [CommandSwitch("--storage-endpoint")]
+    [CliOption("--storage-endpoint")]
     public string? StorageEndpoint { get; set; }
 
-    [CommandSwitch("--storage-key")]
+    [CliOption("--storage-key")]
     public string? StorageKey { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

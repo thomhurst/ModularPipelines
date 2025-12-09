@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "file", "copy", "start-batch")]
+[CliCommand("storage", "file", "copy", "start-batch")]
 public class AzStorageFileCopyStartBatchStoragePreview
 {
     public AzStorageFileCopyStartBatchStoragePreview(

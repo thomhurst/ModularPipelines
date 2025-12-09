@@ -3,43 +3,43 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("kustomize")]
+[CliSubCommand("kustomize")]
 [ExcludeFromCodeCoverage]
-public record KubernetesKustomizeOptions([property: PositionalArgument] string Dir) : KubernetesOptions
+public record KubernetesKustomizeOptions([property: CliArgument] string Dir) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--as-current-user")]
+    [CliFlag("--as-current-user")]
     public virtual bool? AsCurrentUser { get; set; }
 
-    [BooleanCommandSwitch("--enable-alpha-plugins")]
+    [CliFlag("--enable-alpha-plugins")]
     public virtual bool? EnableAlphaPlugins { get; set; }
 
-    [BooleanCommandSwitch("--enable-helm")]
+    [CliFlag("--enable-helm")]
     public virtual bool? EnableHelm { get; set; }
 
-    [BooleanCommandSwitch("--enable-managedby-label")]
+    [CliFlag("--enable-managedby-label")]
     public virtual bool? EnableManagedbyLabel { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--env", SwitchValueSeparator = " ")]
-    public string[]? Env { get; set; }
+    [CliOption("--env")]
+    public virtual string[]? Env { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--helm-command", SwitchValueSeparator = " ")]
-    public string? HelmCommand { get; set; }
+    [CliOption("--helm-command")]
+    public virtual string? HelmCommand { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--load-restrictor", SwitchValueSeparator = " ")]
-    public string? LoadRestrictor { get; set; }
+    [CliOption("--load-restrictor")]
+    public virtual string? LoadRestrictor { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--mount", SwitchValueSeparator = " ")]
-    public string[]? Mount { get; set; }
+    [CliOption("--mount")]
+    public virtual string[]? Mount { get; set; }
 
-    [BooleanCommandSwitch("--network")]
+    [CliFlag("--network")]
     public virtual bool? Network { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--network-name", SwitchValueSeparator = " ")]
-    public string? NetworkName { get; set; }
+    [CliOption("--network-name")]
+    public virtual string? NetworkName { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
-    public string? Output { get; set; }
+    [CliOption("--output")]
+    public virtual string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--reorder", SwitchValueSeparator = " ")]
-    public string? Reorder { get; set; }
+    [CliOption("--reorder")]
+    public virtual string? Reorder { get; set; }
 }

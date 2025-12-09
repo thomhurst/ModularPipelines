@@ -5,41 +5,41 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("forecast", "create-predictor")]
+[CliCommand("forecast", "create-predictor")]
 public record AwsForecastCreatePredictorOptions(
-[property: CommandSwitch("--predictor-name")] string PredictorName,
-[property: CommandSwitch("--forecast-horizon")] int ForecastHorizon,
-[property: CommandSwitch("--input-data-config")] string InputDataConfig,
-[property: CommandSwitch("--featurization-config")] string FeaturizationConfig
+[property: CliOption("--predictor-name")] string PredictorName,
+[property: CliOption("--forecast-horizon")] int ForecastHorizon,
+[property: CliOption("--input-data-config")] string InputDataConfig,
+[property: CliOption("--featurization-config")] string FeaturizationConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--algorithm-arn")]
+    [CliOption("--algorithm-arn")]
     public string? AlgorithmArn { get; set; }
 
-    [CommandSwitch("--forecast-types")]
+    [CliOption("--forecast-types")]
     public string[]? ForecastTypes { get; set; }
 
-    [CommandSwitch("--auto-ml-override-strategy")]
+    [CliOption("--auto-ml-override-strategy")]
     public string? AutoMlOverrideStrategy { get; set; }
 
-    [CommandSwitch("--training-parameters")]
+    [CliOption("--training-parameters")]
     public IEnumerable<KeyValue>? TrainingParameters { get; set; }
 
-    [CommandSwitch("--evaluation-parameters")]
+    [CliOption("--evaluation-parameters")]
     public string? EvaluationParameters { get; set; }
 
-    [CommandSwitch("--hpo-config")]
+    [CliOption("--hpo-config")]
     public string? HpoConfig { get; set; }
 
-    [CommandSwitch("--encryption-config")]
+    [CliOption("--encryption-config")]
     public string? EncryptionConfig { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--optimization-metric")]
+    [CliOption("--optimization-metric")]
     public string? OptimizationMetric { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,38 +5,38 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("imagebuilder", "create-image")]
+[CliCommand("imagebuilder", "create-image")]
 public record AwsImagebuilderCreateImageOptions(
-[property: CommandSwitch("--infrastructure-configuration-arn")] string InfrastructureConfigurationArn
+[property: CliOption("--infrastructure-configuration-arn")] string InfrastructureConfigurationArn
 ) : AwsOptions
 {
-    [CommandSwitch("--image-recipe-arn")]
+    [CliOption("--image-recipe-arn")]
     public string? ImageRecipeArn { get; set; }
 
-    [CommandSwitch("--container-recipe-arn")]
+    [CliOption("--container-recipe-arn")]
     public string? ContainerRecipeArn { get; set; }
 
-    [CommandSwitch("--distribution-configuration-arn")]
+    [CliOption("--distribution-configuration-arn")]
     public string? DistributionConfigurationArn { get; set; }
 
-    [CommandSwitch("--image-tests-configuration")]
+    [CliOption("--image-tests-configuration")]
     public string? ImageTestsConfiguration { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--image-scanning-configuration")]
+    [CliOption("--image-scanning-configuration")]
     public string? ImageScanningConfiguration { get; set; }
 
-    [CommandSwitch("--workflows")]
+    [CliOption("--workflows")]
     public string[]? Workflows { get; set; }
 
-    [CommandSwitch("--execution-role")]
+    [CliOption("--execution-role")]
     public string? ExecutionRole { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventhubs", "georecovery-alias")]
+[CliCommand("eventhubs", "georecovery-alias")]
 public class AzEventhubsGeorecoveryAliasAuthorizationRule
 {
     public AzEventhubsGeorecoveryAliasAuthorizationRule(

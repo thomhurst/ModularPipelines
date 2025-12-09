@@ -4,70 +4,70 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "managed-service", "create")]
+[CliSubCommand("sf", "managed-service", "create")]
 public record AzSfManagedServiceCreateOptions(
-[property: CommandSwitch("--application")] string Application,
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service-type")] string ServiceType,
-[property: CommandSwitch("--state")] string State
+[property: CliOption("--application")] string Application,
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service-type")] string ServiceType,
+[property: CliOption("--state")] string State
 ) : AzOptions
 {
-    [CommandSwitch("--activation-mode")]
+    [CliOption("--activation-mode")]
     public string? ActivationMode { get; set; }
 
-    [CommandSwitch("--default-move-cost")]
+    [CliOption("--default-move-cost")]
     public string? DefaultMoveCost { get; set; }
 
-    [BooleanCommandSwitch("--has-persisted-state")]
+    [CliFlag("--has-persisted-state")]
     public bool? HasPersistedState { get; set; }
 
-    [CommandSwitch("--high-key")]
+    [CliOption("--high-key")]
     public string? HighKey { get; set; }
 
-    [CommandSwitch("--instance-count")]
+    [CliOption("--instance-count")]
     public int? InstanceCount { get; set; }
 
-    [CommandSwitch("--keep-duration")]
+    [CliOption("--keep-duration")]
     public string? KeepDuration { get; set; }
 
-    [CommandSwitch("--low-key")]
+    [CliOption("--low-key")]
     public string? LowKey { get; set; }
 
-    [CommandSwitch("--min-inst-pct")]
+    [CliOption("--min-inst-pct")]
     public string? MinInstPct { get; set; }
 
-    [CommandSwitch("--min-instance-count")]
+    [CliOption("--min-instance-count")]
     public int? MinInstanceCount { get; set; }
 
-    [CommandSwitch("--min-replica")]
+    [CliOption("--min-replica")]
     public string? MinReplica { get; set; }
 
-    [CommandSwitch("--partition-count")]
+    [CliOption("--partition-count")]
     public int? PartitionCount { get; set; }
 
-    [CommandSwitch("--partition-names")]
+    [CliOption("--partition-names")]
     public string? PartitionNames { get; set; }
 
-    [CommandSwitch("--partition-scheme")]
+    [CliOption("--partition-scheme")]
     public string? PartitionScheme { get; set; }
 
-    [CommandSwitch("--placement-constraints")]
+    [CliOption("--placement-constraints")]
     public string? PlacementConstraints { get; set; }
 
-    [CommandSwitch("--plcmt-time-limit")]
+    [CliOption("--plcmt-time-limit")]
     public string? PlcmtTimeLimit { get; set; }
 
-    [CommandSwitch("--quorum-loss-wait")]
+    [CliOption("--quorum-loss-wait")]
     public string? QuorumLossWait { get; set; }
 
-    [CommandSwitch("--replica-restart-wait")]
+    [CliOption("--replica-restart-wait")]
     public string? ReplicaRestartWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--target-replica")]
+    [CliOption("--target-replica")]
     public string? TargetReplica { get; set; }
 }

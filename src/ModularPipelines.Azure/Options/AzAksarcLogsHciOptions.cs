@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aksarc", "logs", "hci")]
+[CliSubCommand("aksarc", "logs", "hci")]
 public record AzAksarcLogsHciOptions(
-[property: CommandSwitch("--credentials-dir")] string CredentialsDir
+[property: CliOption("--credentials-dir")] string CredentialsDir
 ) : AzOptions
 {
-    [CommandSwitch("--ip")]
+    [CliOption("--ip")]
     public string? Ip { get; set; }
 
-    [CommandSwitch("--kubeconfig")]
+    [CliOption("--kubeconfig")]
     public string? Kubeconfig { get; set; }
 
-    [CommandSwitch("--out-dir")]
+    [CliOption("--out-dir")]
     public string? OutDir { get; set; }
 }

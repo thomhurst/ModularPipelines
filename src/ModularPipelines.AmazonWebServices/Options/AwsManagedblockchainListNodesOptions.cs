@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managedblockchain", "list-nodes")]
+[CliCommand("managedblockchain", "list-nodes")]
 public record AwsManagedblockchainListNodesOptions(
-[property: CommandSwitch("--network-id")] string NetworkId
+[property: CliOption("--network-id")] string NetworkId
 ) : AwsOptions
 {
-    [CommandSwitch("--member-id")]
+    [CliOption("--member-id")]
     public string? MemberId { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

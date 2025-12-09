@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces-web", "associate-user-access-logging-settings")]
+[CliCommand("workspaces-web", "associate-user-access-logging-settings")]
 public record AwsWorkspacesWebAssociateUserAccessLoggingSettingsOptions(
-[property: CommandSwitch("--portal-arn")] string PortalArn,
-[property: CommandSwitch("--user-access-logging-settings-arn")] string UserAccessLoggingSettingsArn
+[property: CliOption("--portal-arn")] string PortalArn,
+[property: CliOption("--user-access-logging-settings-arn")] string UserAccessLoggingSettingsArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

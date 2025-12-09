@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("athena", "create-named-query")]
+[CliCommand("athena", "create-named-query")]
 public record AwsAthenaCreateNamedQueryOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--database")] string Database,
-[property: CommandSwitch("--query-string")] string QueryString
+[property: CliOption("--name")] string Name,
+[property: CliOption("--database")] string Database,
+[property: CliOption("--query-string")] string QueryString
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--work-group")]
+    [CliOption("--work-group")]
     public string? WorkGroup { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

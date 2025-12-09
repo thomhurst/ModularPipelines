@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime", "update-user-settings")]
+[CliCommand("chime", "update-user-settings")]
 public record AwsChimeUpdateUserSettingsOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--user-id")] string UserId,
-[property: CommandSwitch("--user-settings")] string UserSettings
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--user-id")] string UserId,
+[property: CliOption("--user-settings")] string UserSettings
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

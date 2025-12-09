@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aosm")]
+[CliSubCommand("aosm")]
 public class AzAosmNfd
 {
     public AzAosmNfd(

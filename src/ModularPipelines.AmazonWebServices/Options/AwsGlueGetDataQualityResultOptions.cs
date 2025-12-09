@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "get-data-quality-result")]
+[CliCommand("glue", "get-data-quality-result")]
 public record AwsGlueGetDataQualityResultOptions(
-[property: CommandSwitch("--result-id")] string ResultId
+[property: CliOption("--result-id")] string ResultId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

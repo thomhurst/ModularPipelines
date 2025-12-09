@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "delete-dynamic-thing-group")]
+[CliCommand("iot", "delete-dynamic-thing-group")]
 public record AwsIotDeleteDynamicThingGroupOptions(
-[property: CommandSwitch("--thing-group-name")] string ThingGroupName
+[property: CliOption("--thing-group-name")] string ThingGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--expected-version")]
+    [CliOption("--expected-version")]
     public long? ExpectedVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

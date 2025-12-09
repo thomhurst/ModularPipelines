@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arc-zonal-shift", "update-practice-run-configuration")]
+[CliCommand("arc-zonal-shift", "update-practice-run-configuration")]
 public record AwsArcZonalShiftUpdatePracticeRunConfigurationOptions(
-[property: CommandSwitch("--resource-identifier")] string ResourceIdentifier
+[property: CliOption("--resource-identifier")] string ResourceIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--blocked-dates")]
+    [CliOption("--blocked-dates")]
     public string[]? BlockedDates { get; set; }
 
-    [CommandSwitch("--blocked-windows")]
+    [CliOption("--blocked-windows")]
     public string[]? BlockedWindows { get; set; }
 
-    [CommandSwitch("--blocking-alarms")]
+    [CliOption("--blocking-alarms")]
     public string[]? BlockingAlarms { get; set; }
 
-    [CommandSwitch("--outcome-alarms")]
+    [CliOption("--outcome-alarms")]
     public string[]? OutcomeAlarms { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

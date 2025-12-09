@@ -173,7 +173,7 @@ internal class ModuleExecutor : IModuleExecutor
         var parallelOptions = new ParallelOptions
         {
             MaxDegreeOfParallelism = maxDegreeOfParallelism,
-            CancellationToken = cancellationTokenSource.Token
+            CancellationToken = cancellationTokenSource.Token,
         };
 
         Exception? firstException = null;
@@ -428,7 +428,7 @@ internal class ModuleExecutor : IModuleExecutor
         // Use reflection to create the typed execution context
         var resultType = module.ResultType;
         var contextType = typeof(ModuleExecutionContext<>).MakeGenericType(resultType);
-        return (ModuleExecutionContext)Activator.CreateInstance(contextType, module, moduleType)!;
+        return (ModuleExecutionContext) Activator.CreateInstance(contextType, module, moduleType)!;
     }
 
     private async Task<IModuleResult> ExecuteTypedModule(
@@ -443,12 +443,12 @@ internal class ModuleExecutor : IModuleExecutor
         var executeMethod = typeof(IModuleExecutionPipeline).GetMethod(nameof(IModuleExecutionPipeline.ExecuteAsync))!
             .MakeGenericMethod(resultType);
 
-        var task = (Task)executeMethod.Invoke(_executionPipeline, new object[] { module, executionContext, moduleContext, cancellationToken })!;
+        var task = (Task) executeMethod.Invoke(_executionPipeline, new object[] { module, executionContext, moduleContext, cancellationToken })!;
         await task;
 
         // Get the result from the completed task
         var resultProperty = task.GetType().GetProperty("Result")!;
-        return (IModuleResult)resultProperty.GetValue(task)!;
+        return (IModuleResult) resultProperty.GetValue(task)!;
     }
 
     private async Task<IDisposable> WaitForParallelLimiter(Type moduleType)
@@ -505,7 +505,7 @@ internal class ModuleExecutor : IModuleExecutor
     {
         var loggerType = typeof(ModuleLogger<>).MakeGenericType(moduleType);
         return _loggerContainer.GetLogger(loggerType)
-            ?? (IModuleLogger)scopedServiceProvider.GetRequiredService(loggerType);
+            ?? (IModuleLogger) scopedServiceProvider.GetRequiredService(loggerType);
     }
 
     private void RegisterTerminatedResultsForCancelledModules(IReadOnlyList<IModule> modules, Exception exception)
@@ -533,13 +533,13 @@ internal class ModuleExecutor : IModuleExecutor
 
         // Create execution context with PipelineTerminated status
         var contextType = typeof(ModuleExecutionContext<>).MakeGenericType(resultType);
-        var executionContext = (ModuleExecutionContext)Activator.CreateInstance(contextType, module, moduleType)!;
+        var executionContext = (ModuleExecutionContext) Activator.CreateInstance(contextType, module, moduleType)!;
         executionContext.Status = Enums.Status.PipelineTerminated;
         executionContext.Exception = exception;
 
         // Create ModuleResult<T> with the exception
         var resultGenericType = typeof(ModuleResult<>).MakeGenericType(resultType);
-        var result = (IModuleResult)Activator.CreateInstance(
+        var result = (IModuleResult) Activator.CreateInstance(
             resultGenericType,
             System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance,
             null,

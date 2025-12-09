@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mysql", "server")]
+[CliCommand("mysql", "server")]
 public class AzMysqlServerVnetRule
 {
     public AzMysqlServerVnetRule(

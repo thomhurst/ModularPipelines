@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "blob", "service-properties", "update", "(storage-blob-preview", "extension)")]
+[CliSubCommand("storage", "blob", "service-properties", "update", "(storage-blob-preview", "extension)")]
 public record AzStorageBlobServicePropertiesUpdateStorageBlobPreviewExtensionOptions : AzOptions
 {
-    [CommandSwitch("--404-document")]
+    [CliOption("--404-document")]
     public string? Path404Document { get; set; }
 
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--blob-endpoint")]
+    [CliOption("--blob-endpoint")]
     public string? BlobEndpoint { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--default-index-path")]
+    [CliOption("--default-index-path")]
     public string? DefaultIndexPath { get; set; }
 
-    [BooleanCommandSwitch("--delete-retention")]
+    [CliFlag("--delete-retention")]
     public bool? DeleteRetention { get; set; }
 
-    [CommandSwitch("--delete-retention-period")]
+    [CliOption("--delete-retention-period")]
     public string? DeleteRetentionPeriod { get; set; }
 
-    [CommandSwitch("--index-document")]
+    [CliOption("--index-document")]
     public string? IndexDocument { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [BooleanCommandSwitch("--static-website")]
+    [CliFlag("--static-website")]
     public bool? StaticWebsite { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

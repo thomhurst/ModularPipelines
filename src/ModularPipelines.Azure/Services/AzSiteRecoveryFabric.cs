@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("site-recovery")]
+[CliSubCommand("site-recovery")]
 public class AzSiteRecoveryFabric
 {
     public AzSiteRecoveryFabric(

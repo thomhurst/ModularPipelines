@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "list-metric-values")]
+[CliCommand("iot", "list-metric-values")]
 public record AwsIotListMetricValuesOptions(
-[property: CommandSwitch("--thing-name")] string ThingName,
-[property: CommandSwitch("--metric-name")] string MetricName,
-[property: CommandSwitch("--start-time")] long StartTime,
-[property: CommandSwitch("--end-time")] long EndTime
+[property: CliOption("--thing-name")] string ThingName,
+[property: CliOption("--metric-name")] string MetricName,
+[property: CliOption("--start-time")] long StartTime,
+[property: CliOption("--end-time")] long EndTime
 ) : AwsOptions
 {
-    [CommandSwitch("--dimension-name")]
+    [CliOption("--dimension-name")]
     public string? DimensionName { get; set; }
 
-    [CommandSwitch("--dimension-value-operator")]
+    [CliOption("--dimension-value-operator")]
     public string? DimensionValueOperator { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

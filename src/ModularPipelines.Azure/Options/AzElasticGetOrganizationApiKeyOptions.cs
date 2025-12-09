@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elastic", "get-organization-api-key")]
+[CliSubCommand("elastic", "get-organization-api-key")]
 public record AzElasticGetOrganizationApiKeyOptions : AzOptions
 {
-    [CommandSwitch("--email-id")]
+    [CliOption("--email-id")]
     public string? EmailId { get; set; }
 }

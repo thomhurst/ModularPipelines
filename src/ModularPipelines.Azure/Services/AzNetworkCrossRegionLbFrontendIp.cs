@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "cross-region-lb")]
+[CliCommand("network", "cross-region-lb")]
 public class AzNetworkCrossRegionLbFrontendIp
 {
     public AzNetworkCrossRegionLbFrontendIp(

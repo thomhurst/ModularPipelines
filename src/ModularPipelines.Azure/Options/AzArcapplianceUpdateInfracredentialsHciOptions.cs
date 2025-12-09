@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arcappliance", "update-infracredentials", "hci")]
+[CliSubCommand("arcappliance", "update-infracredentials", "hci")]
 public record AzArcapplianceUpdateInfracredentialsHciOptions(
-[property: CommandSwitch("--kubeconfig")] string Kubeconfig
+[property: CliOption("--kubeconfig")] string Kubeconfig
 ) : AzOptions
 {
-    [CommandSwitch("--cloudagent")]
+    [CliOption("--cloudagent")]
     public string? Cloudagent { get; set; }
 
-    [CommandSwitch("--loginconfigfile")]
+    [CliOption("--loginconfigfile")]
     public string? Loginconfigfile { get; set; }
 }

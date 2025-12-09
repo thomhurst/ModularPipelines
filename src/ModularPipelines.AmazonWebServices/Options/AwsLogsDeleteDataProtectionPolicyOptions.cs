@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logs", "delete-data-protection-policy")]
+[CliCommand("logs", "delete-data-protection-policy")]
 public record AwsLogsDeleteDataProtectionPolicyOptions(
-[property: CommandSwitch("--log-group-identifier")] string LogGroupIdentifier
+[property: CliOption("--log-group-identifier")] string LogGroupIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

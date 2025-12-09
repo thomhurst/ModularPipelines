@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("peering", "service")]
+[CliCommand("peering", "service")]
 public class AzPeeringServicePrefix
 {
     public AzPeeringServicePrefix(

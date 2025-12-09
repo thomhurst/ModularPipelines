@@ -4,75 +4,75 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "postgres", "cluster", "create")]
+[CliSubCommand("cosmosdb", "postgres", "cluster", "create")]
 public record AzCosmosdbPostgresClusterCreateOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--administrator-login-password")]
+    [CliOption("--administrator-login-password")]
     public string? AdministratorLoginPassword { get; set; }
 
-    [CommandSwitch("--citus-version")]
+    [CliOption("--citus-version")]
     public string? CitusVersion { get; set; }
 
-    [BooleanCommandSwitch("--coord-public-ip-access")]
+    [CliFlag("--coord-public-ip-access")]
     public bool? CoordPublicIpAccess { get; set; }
 
-    [CommandSwitch("--coord-server-edition")]
+    [CliOption("--coord-server-edition")]
     public string? CoordServerEdition { get; set; }
 
-    [CommandSwitch("--coordinator-storage")]
+    [CliOption("--coordinator-storage")]
     public string? CoordinatorStorage { get; set; }
 
-    [CommandSwitch("--coordinator-v-cores")]
+    [CliOption("--coordinator-v-cores")]
     public string? CoordinatorVCores { get; set; }
 
-    [BooleanCommandSwitch("--enable-ha")]
+    [CliFlag("--enable-ha")]
     public bool? EnableHa { get; set; }
 
-    [BooleanCommandSwitch("--enable-shards-on-coord")]
+    [CliFlag("--enable-shards-on-coord")]
     public bool? EnableShardsOnCoord { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--maintenance-window")]
+    [CliOption("--maintenance-window")]
     public string? MaintenanceWindow { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--node-count")]
+    [CliOption("--node-count")]
     public int? NodeCount { get; set; }
 
-    [BooleanCommandSwitch("--node-enable-public-ip-access")]
+    [CliFlag("--node-enable-public-ip-access")]
     public bool? NodeEnablePublicIpAccess { get; set; }
 
-    [CommandSwitch("--node-server-edition")]
+    [CliOption("--node-server-edition")]
     public string? NodeServerEdition { get; set; }
 
-    [CommandSwitch("--node-storage")]
+    [CliOption("--node-storage")]
     public string? NodeStorage { get; set; }
 
-    [CommandSwitch("--node-v-cores")]
+    [CliOption("--node-v-cores")]
     public string? NodeVCores { get; set; }
 
-    [CommandSwitch("--point-in-time-utc")]
+    [CliOption("--point-in-time-utc")]
     public string? PointInTimeUtc { get; set; }
 
-    [CommandSwitch("--postgresql-version")]
+    [CliOption("--postgresql-version")]
     public string? PostgresqlVersion { get; set; }
 
-    [CommandSwitch("--preferred-primary-zone")]
+    [CliOption("--preferred-primary-zone")]
     public string? PreferredPrimaryZone { get; set; }
 
-    [CommandSwitch("--source-location")]
+    [CliOption("--source-location")]
     public string? SourceLocation { get; set; }
 
-    [CommandSwitch("--source-resource-id")]
+    [CliOption("--source-resource-id")]
     public string? SourceResourceId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

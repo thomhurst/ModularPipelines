@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "cross-connection")]
+[CliCommand("network", "cross-connection")]
 public class AzNetworkCrossConnectionPeering
 {
     public AzNetworkCrossConnectionPeering(

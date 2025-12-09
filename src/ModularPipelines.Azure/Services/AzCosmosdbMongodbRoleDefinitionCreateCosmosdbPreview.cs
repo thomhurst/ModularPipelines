@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "mongodb", "role", "definition", "create")]
+[CliCommand("cosmosdb", "mongodb", "role", "definition", "create")]
 public class AzCosmosdbMongodbRoleDefinitionCreateCosmosdbPreview
 {
     public AzCosmosdbMongodbRoleDefinitionCreateCosmosdbPreview(

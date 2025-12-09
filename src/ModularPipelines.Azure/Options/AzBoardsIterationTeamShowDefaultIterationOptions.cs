@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("boards", "iteration", "team", "show-default-iteration")]
+[CliSubCommand("boards", "iteration", "team", "show-default-iteration")]
 public record AzBoardsIterationTeamShowDefaultIterationOptions(
-[property: CommandSwitch("--team")] string Team
+[property: CliOption("--team")] string Team
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 }

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appfabric", "update-app-authorization")]
+[CliCommand("appfabric", "update-app-authorization")]
 public record AwsAppfabricUpdateAppAuthorizationOptions(
-[property: CommandSwitch("--app-bundle-identifier")] string AppBundleIdentifier,
-[property: CommandSwitch("--app-authorization-identifier")] string AppAuthorizationIdentifier
+[property: CliOption("--app-bundle-identifier")] string AppBundleIdentifier,
+[property: CliOption("--app-authorization-identifier")] string AppAuthorizationIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--credential")]
+    [CliOption("--credential")]
     public string? Credential { get; set; }
 
-    [CommandSwitch("--tenant")]
+    [CliOption("--tenant")]
     public string? Tenant { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

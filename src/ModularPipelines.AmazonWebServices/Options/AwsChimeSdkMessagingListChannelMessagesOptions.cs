@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-messaging", "list-channel-messages")]
+[CliCommand("chime-sdk-messaging", "list-channel-messages")]
 public record AwsChimeSdkMessagingListChannelMessagesOptions(
-[property: CommandSwitch("--channel-arn")] string ChannelArn,
-[property: CommandSwitch("--chime-bearer")] string ChimeBearer
+[property: CliOption("--channel-arn")] string ChannelArn,
+[property: CliOption("--chime-bearer")] string ChimeBearer
 ) : AwsOptions
 {
-    [CommandSwitch("--sort-order")]
+    [CliOption("--sort-order")]
     public string? SortOrder { get; set; }
 
-    [CommandSwitch("--not-before")]
+    [CliOption("--not-before")]
     public long? NotBefore { get; set; }
 
-    [CommandSwitch("--not-after")]
+    [CliOption("--not-after")]
     public long? NotAfter { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--sub-channel-id")]
+    [CliOption("--sub-channel-id")]
     public string? SubChannelId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

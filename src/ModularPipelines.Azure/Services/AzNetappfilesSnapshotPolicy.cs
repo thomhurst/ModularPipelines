@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "snapshot")]
+[CliCommand("netappfiles", "snapshot")]
 public class AzNetappfilesSnapshotPolicy
 {
     public AzNetappfilesSnapshotPolicy(

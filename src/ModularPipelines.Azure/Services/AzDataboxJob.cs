@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databox")]
+[CliSubCommand("databox")]
 public class AzDataboxJob
 {
     public AzDataboxJob(

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("relay")]
+[CliSubCommand("relay")]
 public class AzRelayHyco
 {
     public AzRelayHyco(

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bot", "msteams", "create")]
+[CliSubCommand("bot", "msteams", "create")]
 public record AzBotMsteamsCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--add-disabled")]
+    [CliFlag("--add-disabled")]
     public bool? AddDisabled { get; set; }
 
-    [CommandSwitch("--calling-web-hook")]
+    [CliOption("--calling-web-hook")]
     public string? CallingWebHook { get; set; }
 
-    [BooleanCommandSwitch("--enable-calling")]
+    [CliFlag("--enable-calling")]
     public bool? EnableCalling { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

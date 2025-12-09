@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot1click-projects", "associate-device-with-placement")]
+[CliCommand("iot1click-projects", "associate-device-with-placement")]
 public record AwsIot1clickProjectsAssociateDeviceWithPlacementOptions(
-[property: CommandSwitch("--project-name")] string ProjectName,
-[property: CommandSwitch("--placement-name")] string PlacementName,
-[property: CommandSwitch("--device-id")] string DeviceId,
-[property: CommandSwitch("--device-template-name")] string DeviceTemplateName
+[property: CliOption("--project-name")] string ProjectName,
+[property: CliOption("--placement-name")] string PlacementName,
+[property: CliOption("--device-id")] string DeviceId,
+[property: CliOption("--device-template-name")] string DeviceTemplateName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

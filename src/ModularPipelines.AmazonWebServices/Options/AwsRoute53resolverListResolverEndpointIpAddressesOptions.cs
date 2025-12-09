@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53resolver", "list-resolver-endpoint-ip-addresses")]
+[CliCommand("route53resolver", "list-resolver-endpoint-ip-addresses")]
 public record AwsRoute53resolverListResolverEndpointIpAddressesOptions(
-[property: CommandSwitch("--resolver-endpoint-id")] string ResolverEndpointId
+[property: CliOption("--resolver-endpoint-id")] string ResolverEndpointId
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

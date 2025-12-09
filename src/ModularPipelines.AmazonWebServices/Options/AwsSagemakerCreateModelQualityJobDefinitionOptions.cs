@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-model-quality-job-definition")]
+[CliCommand("sagemaker", "create-model-quality-job-definition")]
 public record AwsSagemakerCreateModelQualityJobDefinitionOptions(
-[property: CommandSwitch("--job-definition-name")] string JobDefinitionName,
-[property: CommandSwitch("--model-quality-app-specification")] string ModelQualityAppSpecification,
-[property: CommandSwitch("--model-quality-job-input")] string ModelQualityJobInput,
-[property: CommandSwitch("--model-quality-job-output-config")] string ModelQualityJobOutputConfig,
-[property: CommandSwitch("--job-resources")] string JobResources,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--job-definition-name")] string JobDefinitionName,
+[property: CliOption("--model-quality-app-specification")] string ModelQualityAppSpecification,
+[property: CliOption("--model-quality-job-input")] string ModelQualityJobInput,
+[property: CliOption("--model-quality-job-output-config")] string ModelQualityJobOutputConfig,
+[property: CliOption("--job-resources")] string JobResources,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--model-quality-baseline-config")]
+    [CliOption("--model-quality-baseline-config")]
     public string? ModelQualityBaselineConfig { get; set; }
 
-    [CommandSwitch("--network-config")]
+    [CliOption("--network-config")]
     public string? NetworkConfig { get; set; }
 
-    [CommandSwitch("--stopping-condition")]
+    [CliOption("--stopping-condition")]
     public string? StoppingCondition { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

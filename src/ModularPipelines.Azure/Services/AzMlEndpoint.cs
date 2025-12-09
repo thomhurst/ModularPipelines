@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml")]
+[CliSubCommand("ml")]
 public class AzMlEndpoint
 {
     public AzMlEndpoint(

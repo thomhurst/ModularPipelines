@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "app-insights", "component", "connect-webapp")]
+[CliSubCommand("monitor", "app-insights", "component", "connect-webapp")]
 public record AzMonitorAppInsightsComponentConnectWebappOptions(
-[property: CommandSwitch("--web-app")] string WebApp
+[property: CliOption("--web-app")] string WebApp
 ) : AzOptions
 {
-    [CommandSwitch("--app")]
+    [CliOption("--app")]
     public string? App { get; set; }
 
-    [BooleanCommandSwitch("--enable-debugger")]
+    [CliFlag("--enable-debugger")]
     public bool? EnableDebugger { get; set; }
 
-    [BooleanCommandSwitch("--enable-profiler")]
+    [CliFlag("--enable-profiler")]
     public bool? EnableProfiler { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

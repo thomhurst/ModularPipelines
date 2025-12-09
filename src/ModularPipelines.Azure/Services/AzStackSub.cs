@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stack")]
+[CliSubCommand("stack")]
 public class AzStackSub
 {
     public AzStackSub(

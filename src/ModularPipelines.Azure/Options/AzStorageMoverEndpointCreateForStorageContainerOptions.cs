@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage-mover", "endpoint", "create-for-storage-container")]
+[CliSubCommand("storage-mover", "endpoint", "create-for-storage-container")]
 public record AzStorageMoverEndpointCreateForStorageContainerOptions(
-[property: CommandSwitch("--container-name")] string ContainerName,
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--storage-account-id")] int StorageAccountId,
-[property: CommandSwitch("--storage-mover-name")] string StorageMoverName
+[property: CliOption("--container-name")] string ContainerName,
+[property: CliOption("--endpoint-name")] string EndpointName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--storage-account-id")] int StorageAccountId,
+[property: CliOption("--storage-mover-name")] string StorageMoverName
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 }

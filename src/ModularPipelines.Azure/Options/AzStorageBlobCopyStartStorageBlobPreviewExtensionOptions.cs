@@ -4,111 +4,111 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "blob", "copy", "start", "(storage-blob-preview", "extension)")]
+[CliSubCommand("storage", "blob", "copy", "start", "(storage-blob-preview", "extension)")]
 public record AzStorageBlobCopyStartStorageBlobPreviewExtensionOptions(
-[property: CommandSwitch("--destination-blob")] string DestinationBlob,
-[property: CommandSwitch("--destination-container")] string DestinationContainer
+[property: CliOption("--destination-blob")] string DestinationBlob,
+[property: CliOption("--destination-container")] string DestinationContainer
 ) : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--blob-endpoint")]
+    [CliOption("--blob-endpoint")]
     public string? BlobEndpoint { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--destination-blob-type")]
+    [CliOption("--destination-blob-type")]
     public string? DestinationBlobType { get; set; }
 
-    [CommandSwitch("--destination-if-match")]
+    [CliOption("--destination-if-match")]
     public string? DestinationIfMatch { get; set; }
 
-    [CommandSwitch("--destination-if-modified-since")]
+    [CliOption("--destination-if-modified-since")]
     public string? DestinationIfModifiedSince { get; set; }
 
-    [CommandSwitch("--destination-if-none-match")]
+    [CliOption("--destination-if-none-match")]
     public string? DestinationIfNoneMatch { get; set; }
 
-    [CommandSwitch("--destination-if-unmodified-since")]
+    [CliOption("--destination-if-unmodified-since")]
     public string? DestinationIfUnmodifiedSince { get; set; }
 
-    [CommandSwitch("--destination-lease-id")]
+    [CliOption("--destination-lease-id")]
     public string? DestinationLeaseId { get; set; }
 
-    [CommandSwitch("--destination-tags-condition")]
+    [CliOption("--destination-tags-condition")]
     public string? DestinationTagsCondition { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public string? Metadata { get; set; }
 
-    [CommandSwitch("--rehydrate-priority")]
+    [CliOption("--rehydrate-priority")]
     public string? RehydratePriority { get; set; }
 
-    [BooleanCommandSwitch("--requires-sync")]
+    [CliFlag("--requires-sync")]
     public bool? RequiresSync { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--source-account-key")]
+    [CliOption("--source-account-key")]
     public int? SourceAccountKey { get; set; }
 
-    [CommandSwitch("--source-account-name")]
+    [CliOption("--source-account-name")]
     public int? SourceAccountName { get; set; }
 
-    [CommandSwitch("--source-blob")]
+    [CliOption("--source-blob")]
     public string? SourceBlob { get; set; }
 
-    [CommandSwitch("--source-container")]
+    [CliOption("--source-container")]
     public string? SourceContainer { get; set; }
 
-    [CommandSwitch("--source-if-match")]
+    [CliOption("--source-if-match")]
     public string? SourceIfMatch { get; set; }
 
-    [CommandSwitch("--source-if-modified-since")]
+    [CliOption("--source-if-modified-since")]
     public string? SourceIfModifiedSince { get; set; }
 
-    [CommandSwitch("--source-if-none-match")]
+    [CliOption("--source-if-none-match")]
     public string? SourceIfNoneMatch { get; set; }
 
-    [CommandSwitch("--source-if-unmodified-since")]
+    [CliOption("--source-if-unmodified-since")]
     public string? SourceIfUnmodifiedSince { get; set; }
 
-    [CommandSwitch("--source-lease-id")]
+    [CliOption("--source-lease-id")]
     public string? SourceLeaseId { get; set; }
 
-    [CommandSwitch("--source-path")]
+    [CliOption("--source-path")]
     public string? SourcePath { get; set; }
 
-    [CommandSwitch("--source-sas")]
+    [CliOption("--source-sas")]
     public string? SourceSas { get; set; }
 
-    [CommandSwitch("--source-share")]
+    [CliOption("--source-share")]
     public string? SourceShare { get; set; }
 
-    [CommandSwitch("--source-snapshot")]
+    [CliOption("--source-snapshot")]
     public string? SourceSnapshot { get; set; }
 
-    [CommandSwitch("--source-tags-condition")]
+    [CliOption("--source-tags-condition")]
     public string? SourceTagsCondition { get; set; }
 
-    [CommandSwitch("--source-uri")]
+    [CliOption("--source-uri")]
     public string? SourceUri { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

@@ -6,7 +6,7 @@ namespace ModularPipelines.Engine.BuildSystemFormatters;
 /// </summary>
 /// <remarks>
 /// Azure Pipelines uses logging commands in the format ##[command]value
-/// Documentation: https://learn.microsoft.com/en-us/azure/devops/pipelines/scripts/logging-commands
+/// Documentation: https://learn.microsoft.com/en-us/azure/devops/pipelines/scripts/logging-commands.
 /// </remarks>
 /// <example>
 /// <code>

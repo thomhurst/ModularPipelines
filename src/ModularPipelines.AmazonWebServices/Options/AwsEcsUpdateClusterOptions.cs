@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "update-cluster")]
+[CliCommand("ecs", "update-cluster")]
 public record AwsEcsUpdateClusterOptions(
-[property: CommandSwitch("--cluster")] string Cluster
+[property: CliOption("--cluster")] string Cluster
 ) : AwsOptions
 {
-    [CommandSwitch("--settings")]
+    [CliOption("--settings")]
     public string[]? Settings { get; set; }
 
-    [CommandSwitch("--configuration")]
+    [CliOption("--configuration")]
     public string? Configuration { get; set; }
 
-    [CommandSwitch("--service-connect-defaults")]
+    [CliOption("--service-connect-defaults")]
     public string? ServiceConnectDefaults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

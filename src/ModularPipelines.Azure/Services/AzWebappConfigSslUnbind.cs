@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "config", "ssl")]
+[CliCommand("webapp", "config", "ssl")]
 public class AzWebappConfigSslUnbind
 {
     public AzWebappConfigSslUnbind(

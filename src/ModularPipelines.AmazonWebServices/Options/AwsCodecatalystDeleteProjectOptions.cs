@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecatalyst", "delete-project")]
+[CliCommand("codecatalyst", "delete-project")]
 public record AwsCodecatalystDeleteProjectOptions(
-[property: CommandSwitch("--space-name")] string SpaceName,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--space-name")] string SpaceName,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "update-classifier")]
+[CliCommand("glue", "update-classifier")]
 public record AwsGlueUpdateClassifierOptions : AwsOptions
 {
-    [CommandSwitch("--grok-classifier")]
+    [CliOption("--grok-classifier")]
     public string? GrokClassifier { get; set; }
 
-    [CommandSwitch("--xml-classifier")]
+    [CliOption("--xml-classifier")]
     public string? XmlClassifier { get; set; }
 
-    [CommandSwitch("--json-classifier")]
+    [CliOption("--json-classifier")]
     public string? JsonClassifier { get; set; }
 
-    [CommandSwitch("--csv-classifier")]
+    [CliOption("--csv-classifier")]
     public string? CsvClassifier { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

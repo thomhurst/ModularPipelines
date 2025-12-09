@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vnet-gateway", "vpn-client", "ipsec-policy", "set")]
+[CliSubCommand("network", "vnet-gateway", "vpn-client", "ipsec-policy", "set")]
 public record AzNetworkVnetGatewayVpnClientIpsecPolicySetOptions(
-[property: CommandSwitch("--dh-group")] string DhGroup,
-[property: CommandSwitch("--ike-encryption")] string IkeEncryption,
-[property: CommandSwitch("--ike-integrity")] string IkeIntegrity,
-[property: CommandSwitch("--ipsec-encryption")] string IpsecEncryption,
-[property: CommandSwitch("--ipsec-integrity")] string IpsecIntegrity,
-[property: CommandSwitch("--pfs-group")] string PfsGroup,
-[property: CommandSwitch("--sa-lifetime")] string SaLifetime,
-[property: CommandSwitch("--sa-max-size")] string SaMaxSize
+[property: CliOption("--dh-group")] string DhGroup,
+[property: CliOption("--ike-encryption")] string IkeEncryption,
+[property: CliOption("--ike-integrity")] string IkeIntegrity,
+[property: CliOption("--ipsec-encryption")] string IpsecEncryption,
+[property: CliOption("--ipsec-integrity")] string IpsecIntegrity,
+[property: CliOption("--pfs-group")] string PfsGroup,
+[property: CliOption("--sa-lifetime")] string SaLifetime,
+[property: CliOption("--sa-max-size")] string SaMaxSize
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

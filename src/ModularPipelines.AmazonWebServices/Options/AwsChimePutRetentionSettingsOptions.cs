@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime", "put-retention-settings")]
+[CliCommand("chime", "put-retention-settings")]
 public record AwsChimePutRetentionSettingsOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--retention-settings")] string RetentionSettings
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--retention-settings")] string RetentionSettings
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

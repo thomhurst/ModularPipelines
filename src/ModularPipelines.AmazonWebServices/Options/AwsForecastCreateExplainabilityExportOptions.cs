@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("forecast", "create-explainability-export")]
+[CliCommand("forecast", "create-explainability-export")]
 public record AwsForecastCreateExplainabilityExportOptions(
-[property: CommandSwitch("--explainability-export-name")] string ExplainabilityExportName,
-[property: CommandSwitch("--explainability-arn")] string ExplainabilityArn,
-[property: CommandSwitch("--destination")] string Destination
+[property: CliOption("--explainability-export-name")] string ExplainabilityExportName,
+[property: CliOption("--explainability-arn")] string ExplainabilityArn,
+[property: CliOption("--destination")] string Destination
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public string? Format { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

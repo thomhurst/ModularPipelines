@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("frauddetector", "create-detector-version")]
+[CliCommand("frauddetector", "create-detector-version")]
 public record AwsFrauddetectorCreateDetectorVersionOptions(
-[property: CommandSwitch("--detector-id")] string DetectorId,
-[property: CommandSwitch("--rules")] string[] Rules
+[property: CliOption("--detector-id")] string DetectorId,
+[property: CliOption("--rules")] string[] Rules
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--external-model-endpoints")]
+    [CliOption("--external-model-endpoints")]
     public string[]? ExternalModelEndpoints { get; set; }
 
-    [CommandSwitch("--model-versions")]
+    [CliOption("--model-versions")]
     public string[]? ModelVersions { get; set; }
 
-    [CommandSwitch("--rule-execution-mode")]
+    [CliOption("--rule-execution-mode")]
     public string? RuleExecutionMode { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

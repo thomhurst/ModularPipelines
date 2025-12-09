@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("customer-profiles", "search-profiles")]
+[CliCommand("customer-profiles", "search-profiles")]
 public record AwsCustomerProfilesSearchProfilesOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--key-name")] string KeyName,
-[property: CommandSwitch("--values")] string[] Values
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--key-name")] string KeyName,
+[property: CliOption("--values")] string[] Values
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--additional-search-keys")]
+    [CliOption("--additional-search-keys")]
     public string[]? AdditionalSearchKeys { get; set; }
 
-    [CommandSwitch("--logical-operator")]
+    [CliOption("--logical-operator")]
     public string? LogicalOperator { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

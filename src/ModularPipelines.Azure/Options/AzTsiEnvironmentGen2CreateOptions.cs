@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tsi", "environment", "gen2", "create")]
+[CliSubCommand("tsi", "environment", "gen2", "create")]
 public record AzTsiEnvironmentGen2CreateOptions(
-[property: CommandSwitch("--environment-name")] string EnvironmentName,
-[property: CommandSwitch("--id-properties")] string IdProperties,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sku")] string Sku,
-[property: CommandSwitch("--storage-config")] string StorageConfig
+[property: CliOption("--environment-name")] string EnvironmentName,
+[property: CliOption("--id-properties")] string IdProperties,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sku")] string Sku,
+[property: CliOption("--storage-config")] string StorageConfig
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--warm-store-config")]
+    [CliOption("--warm-store-config")]
     public string? WarmStoreConfig { get; set; }
 }

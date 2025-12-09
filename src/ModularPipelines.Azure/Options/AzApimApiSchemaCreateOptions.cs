@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apim", "api", "schema", "create")]
+[CliSubCommand("apim", "api", "schema", "create")]
 public record AzApimApiSchemaCreateOptions(
-[property: CommandSwitch("--api-id")] string ApiId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--schema-id")] string SchemaId,
-[property: CommandSwitch("--schema-type")] string SchemaType,
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--api-id")] string ApiId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--schema-id")] string SchemaId,
+[property: CliOption("--schema-type")] string SchemaType,
+[property: CliOption("--service-name")] string ServiceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--schema-content")]
+    [CliOption("--schema-content")]
     public string? SchemaContent { get; set; }
 
-    [CommandSwitch("--schema-name")]
+    [CliOption("--schema-name")]
     public string? SchemaName { get; set; }
 
-    [CommandSwitch("--schema-path")]
+    [CliOption("--schema-path")]
     public string? SchemaPath { get; set; }
 }

@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sqs", "send-message")]
+[CliCommand("sqs", "send-message")]
 public record AwsSqsSendMessageOptions(
-[property: CommandSwitch("--queue-url")] string QueueUrl,
-[property: CommandSwitch("--message-body")] string MessageBody
+[property: CliOption("--queue-url")] string QueueUrl,
+[property: CliOption("--message-body")] string MessageBody
 ) : AwsOptions
 {
-    [CommandSwitch("--delay-seconds")]
+    [CliOption("--delay-seconds")]
     public int? DelaySeconds { get; set; }
 
-    [CommandSwitch("--message-attributes")]
+    [CliOption("--message-attributes")]
     public IEnumerable<KeyValue>? MessageAttributes { get; set; }
 
-    [CommandSwitch("--message-system-attributes")]
+    [CliOption("--message-system-attributes")]
     public IEnumerable<KeyValue>? MessageSystemAttributes { get; set; }
 
-    [CommandSwitch("--message-deduplication-id")]
+    [CliOption("--message-deduplication-id")]
     public string? MessageDeduplicationId { get; set; }
 
-    [CommandSwitch("--message-group-id")]
+    [CliOption("--message-group-id")]
     public string? MessageGroupId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

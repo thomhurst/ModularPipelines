@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmss")]
+[CliSubCommand("vmss")]
 public class AzVmssDiagnostics
 {
     public AzVmssDiagnostics(

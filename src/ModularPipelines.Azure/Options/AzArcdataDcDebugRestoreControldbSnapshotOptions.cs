@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arcdata", "dc", "debug", "restore-controldb-snapshot")]
+[CliSubCommand("arcdata", "dc", "debug", "restore-controldb-snapshot")]
 public record AzArcdataDcDebugRestoreControldbSnapshotOptions(
-[property: CommandSwitch("--backup-file")] string BackupFile,
-[property: CommandSwitch("--k8s-namespace")] string K8sNamespace
+[property: CliOption("--backup-file")] string BackupFile,
+[property: CliOption("--k8s-namespace")] string K8sNamespace
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--use-k8s")]
+    [CliFlag("--use-k8s")]
     public bool? UseK8s { get; set; }
 }

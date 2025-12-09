@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "mi", "partner-cert", "create")]
+[CliSubCommand("sql", "mi", "partner-cert", "create")]
 public record AzSqlMiPartnerCertCreateOptions(
-[property: CommandSwitch("--certificate-name")] string CertificateName,
-[property: CommandSwitch("--instance-name")] string InstanceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--certificate-name")] string CertificateName,
+[property: CliOption("--instance-name")] string InstanceName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--public-blob")]
+    [CliOption("--public-blob")]
     public string? PublicBlob { get; set; }
 }

@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotevents", "create-alarm-model")]
+[CliCommand("iotevents", "create-alarm-model")]
 public record AwsIoteventsCreateAlarmModelOptions(
-[property: CommandSwitch("--alarm-model-name")] string AlarmModelName,
-[property: CommandSwitch("--role-arn")] string RoleArn,
-[property: CommandSwitch("--alarm-rule")] string AlarmRule
+[property: CliOption("--alarm-model-name")] string AlarmModelName,
+[property: CliOption("--role-arn")] string RoleArn,
+[property: CliOption("--alarm-rule")] string AlarmRule
 ) : AwsOptions
 {
-    [CommandSwitch("--alarm-model-description")]
+    [CliOption("--alarm-model-description")]
     public string? AlarmModelDescription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 
-    [CommandSwitch("--severity")]
+    [CliOption("--severity")]
     public int? Severity { get; set; }
 
-    [CommandSwitch("--alarm-notification")]
+    [CliOption("--alarm-notification")]
     public string? AlarmNotification { get; set; }
 
-    [CommandSwitch("--alarm-event-actions")]
+    [CliOption("--alarm-event-actions")]
     public string? AlarmEventActions { get; set; }
 
-    [CommandSwitch("--alarm-capabilities")]
+    [CliOption("--alarm-capabilities")]
     public string? AlarmCapabilities { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

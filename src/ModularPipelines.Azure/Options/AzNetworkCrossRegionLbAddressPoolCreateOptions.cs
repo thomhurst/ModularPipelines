@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "cross-region-lb", "address-pool", "create")]
+[CliSubCommand("network", "cross-region-lb", "address-pool", "create")]
 public record AzNetworkCrossRegionLbAddressPoolCreateOptions(
-[property: CommandSwitch("--address-pool-name")] string AddressPoolName,
-[property: CommandSwitch("--lb-name")] string LbName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--address-pool-name")] string AddressPoolName,
+[property: CliOption("--lb-name")] string LbName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--backend-address")]
+    [CliOption("--backend-address")]
     public string? BackendAddress { get; set; }
 
-    [CommandSwitch("--drain-period")]
+    [CliOption("--drain-period")]
     public string? DrainPeriod { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--sync-mode")]
+    [CliOption("--sync-mode")]
     public string? SyncMode { get; set; }
 }

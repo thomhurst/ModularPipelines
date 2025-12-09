@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securitylake", "update-subscriber")]
+[CliCommand("securitylake", "update-subscriber")]
 public record AwsSecuritylakeUpdateSubscriberOptions(
-[property: CommandSwitch("--subscriber-id")] string SubscriberId
+[property: CliOption("--subscriber-id")] string SubscriberId
 ) : AwsOptions
 {
-    [CommandSwitch("--sources")]
+    [CliOption("--sources")]
     public string[]? Sources { get; set; }
 
-    [CommandSwitch("--subscriber-description")]
+    [CliOption("--subscriber-description")]
     public string? SubscriberDescription { get; set; }
 
-    [CommandSwitch("--subscriber-identity")]
+    [CliOption("--subscriber-identity")]
     public string? SubscriberIdentity { get; set; }
 
-    [CommandSwitch("--subscriber-name")]
+    [CliOption("--subscriber-name")]
     public string? SubscriberName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

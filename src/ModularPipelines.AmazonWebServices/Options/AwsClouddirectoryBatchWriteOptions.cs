@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("clouddirectory", "batch-write")]
+[CliCommand("clouddirectory", "batch-write")]
 public record AwsClouddirectoryBatchWriteOptions(
-[property: CommandSwitch("--directory-arn")] string DirectoryArn,
-[property: CommandSwitch("--operations")] string[] Operations
+[property: CliOption("--directory-arn")] string DirectoryArn,
+[property: CliOption("--operations")] string[] Operations
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

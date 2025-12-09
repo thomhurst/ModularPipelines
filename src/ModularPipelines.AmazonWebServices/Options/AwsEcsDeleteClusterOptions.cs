@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "delete-cluster")]
+[CliCommand("ecs", "delete-cluster")]
 public record AwsEcsDeleteClusterOptions(
-[property: CommandSwitch("--cluster")] string Cluster
+[property: CliOption("--cluster")] string Cluster
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

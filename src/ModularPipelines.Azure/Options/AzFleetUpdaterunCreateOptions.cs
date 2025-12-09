@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fleet", "updaterun", "create")]
+[CliSubCommand("fleet", "updaterun", "create")]
 public record AzFleetUpdaterunCreateOptions(
-[property: CommandSwitch("--fleet-name")] string FleetName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--upgrade-type")] string UpgradeType
+[property: CliOption("--fleet-name")] string FleetName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--upgrade-type")] string UpgradeType
 ) : AzOptions
 {
-    [CommandSwitch("--kubernetes-version")]
+    [CliOption("--kubernetes-version")]
     public string? KubernetesVersion { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--node-image-selection")]
+    [CliOption("--node-image-selection")]
     public string? NodeImageSelection { get; set; }
 
-    [CommandSwitch("--stages")]
+    [CliOption("--stages")]
     public string? Stages { get; set; }
 
-    [CommandSwitch("--update-strategy-name")]
+    [CliOption("--update-strategy-name")]
     public string? UpdateStrategyName { get; set; }
 }

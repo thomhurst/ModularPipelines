@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cache", "clean")]
+[CliCommand("cache", "clean")]
 public record YarnCacheCleanOptions : YarnOptions
 {
-    [BooleanCommandSwitch("--mirror")]
+    [CliFlag("--mirror")]
     public virtual bool? Mirror { get; set; }
 
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 }

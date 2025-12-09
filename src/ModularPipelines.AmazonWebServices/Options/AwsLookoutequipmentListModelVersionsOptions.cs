@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutequipment", "list-model-versions")]
+[CliCommand("lookoutequipment", "list-model-versions")]
 public record AwsLookoutequipmentListModelVersionsOptions(
-[property: CommandSwitch("--model-name")] string ModelName
+[property: CliOption("--model-name")] string ModelName
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--source-type")]
+    [CliOption("--source-type")]
     public string? SourceType { get; set; }
 
-    [CommandSwitch("--created-at-end-time")]
+    [CliOption("--created-at-end-time")]
     public long? CreatedAtEndTime { get; set; }
 
-    [CommandSwitch("--created-at-start-time")]
+    [CliOption("--created-at-start-time")]
     public long? CreatedAtStartTime { get; set; }
 
-    [CommandSwitch("--max-model-version")]
+    [CliOption("--max-model-version")]
     public long? MaxModelVersion { get; set; }
 
-    [CommandSwitch("--min-model-version")]
+    [CliOption("--min-model-version")]
     public long? MinModelVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

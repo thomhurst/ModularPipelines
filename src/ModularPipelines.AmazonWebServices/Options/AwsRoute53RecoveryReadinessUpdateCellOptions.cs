@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53-recovery-readiness", "update-cell")]
+[CliCommand("route53-recovery-readiness", "update-cell")]
 public record AwsRoute53RecoveryReadinessUpdateCellOptions(
-[property: CommandSwitch("--cell-name")] string CellName,
-[property: CommandSwitch("--cells")] string[] Cells
+[property: CliOption("--cell-name")] string CellName,
+[property: CliOption("--cells")] string[] Cells
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

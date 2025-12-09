@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-pipeline")]
+[CliCommand("sagemaker", "create-pipeline")]
 public record AwsSagemakerCreatePipelineOptions(
-[property: CommandSwitch("--pipeline-name")] string PipelineName,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--pipeline-name")] string PipelineName,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--pipeline-display-name")]
+    [CliOption("--pipeline-display-name")]
     public string? PipelineDisplayName { get; set; }
 
-    [CommandSwitch("--pipeline-definition")]
+    [CliOption("--pipeline-definition")]
     public string? PipelineDefinition { get; set; }
 
-    [CommandSwitch("--pipeline-definition-s3-location")]
+    [CliOption("--pipeline-definition-s3-location")]
     public string? PipelineDefinitionS3Location { get; set; }
 
-    [CommandSwitch("--pipeline-description")]
+    [CliOption("--pipeline-description")]
     public string? PipelineDescription { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--parallelism-configuration")]
+    [CliOption("--parallelism-configuration")]
     public string? ParallelismConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

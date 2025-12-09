@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring")]
+[CliSubCommand("spring")]
 public class AzSpringCertificate
 {
     public AzSpringCertificate(

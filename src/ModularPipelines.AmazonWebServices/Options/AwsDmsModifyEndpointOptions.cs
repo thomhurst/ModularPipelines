@@ -4,107 +4,107 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "modify-endpoint")]
+[CliCommand("dms", "modify-endpoint")]
 public record AwsDmsModifyEndpointOptions(
-[property: CommandSwitch("--endpoint-arn")] string EndpointArn
+[property: CliOption("--endpoint-arn")] string EndpointArn
 ) : AwsOptions
 {
-    [CommandSwitch("--endpoint-identifier")]
+    [CliOption("--endpoint-identifier")]
     public string? EndpointIdentifier { get; set; }
 
-    [CommandSwitch("--endpoint-type")]
+    [CliOption("--endpoint-type")]
     public string? EndpointType { get; set; }
 
-    [CommandSwitch("--engine-name")]
+    [CliOption("--engine-name")]
     public string? EngineName { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--server-name")]
+    [CliOption("--server-name")]
     public string? ServerName { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--database-name")]
+    [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [CommandSwitch("--extra-connection-attributes")]
+    [CliOption("--extra-connection-attributes")]
     public string? ExtraConnectionAttributes { get; set; }
 
-    [CommandSwitch("--certificate-arn")]
+    [CliOption("--certificate-arn")]
     public string? CertificateArn { get; set; }
 
-    [CommandSwitch("--ssl-mode")]
+    [CliOption("--ssl-mode")]
     public string? SslMode { get; set; }
 
-    [CommandSwitch("--service-access-role-arn")]
+    [CliOption("--service-access-role-arn")]
     public string? ServiceAccessRoleArn { get; set; }
 
-    [CommandSwitch("--external-table-definition")]
+    [CliOption("--external-table-definition")]
     public string? ExternalTableDefinition { get; set; }
 
-    [CommandSwitch("--dynamo-db-settings")]
+    [CliOption("--dynamo-db-settings")]
     public string? DynamoDbSettings { get; set; }
 
-    [CommandSwitch("--s3-settings")]
+    [CliOption("--s3-settings")]
     public string? S3Settings { get; set; }
 
-    [CommandSwitch("--dms-transfer-settings")]
+    [CliOption("--dms-transfer-settings")]
     public string? DmsTransferSettings { get; set; }
 
-    [CommandSwitch("--mongo-db-settings")]
+    [CliOption("--mongo-db-settings")]
     public string? MongoDbSettings { get; set; }
 
-    [CommandSwitch("--kinesis-settings")]
+    [CliOption("--kinesis-settings")]
     public string? KinesisSettings { get; set; }
 
-    [CommandSwitch("--kafka-settings")]
+    [CliOption("--kafka-settings")]
     public string? KafkaSettings { get; set; }
 
-    [CommandSwitch("--elasticsearch-settings")]
+    [CliOption("--elasticsearch-settings")]
     public string? ElasticsearchSettings { get; set; }
 
-    [CommandSwitch("--neptune-settings")]
+    [CliOption("--neptune-settings")]
     public string? NeptuneSettings { get; set; }
 
-    [CommandSwitch("--redshift-settings")]
+    [CliOption("--redshift-settings")]
     public string? RedshiftSettings { get; set; }
 
-    [CommandSwitch("--postgre-sql-settings")]
+    [CliOption("--postgre-sql-settings")]
     public string? PostgreSqlSettings { get; set; }
 
-    [CommandSwitch("--my-sql-settings")]
+    [CliOption("--my-sql-settings")]
     public string? MySqlSettings { get; set; }
 
-    [CommandSwitch("--oracle-settings")]
+    [CliOption("--oracle-settings")]
     public string? OracleSettings { get; set; }
 
-    [CommandSwitch("--sybase-settings")]
+    [CliOption("--sybase-settings")]
     public string? SybaseSettings { get; set; }
 
-    [CommandSwitch("--microsoft-sql-server-settings")]
+    [CliOption("--microsoft-sql-server-settings")]
     public string? MicrosoftSqlServerSettings { get; set; }
 
-    [CommandSwitch("--ibm-db2-settings")]
+    [CliOption("--ibm-db2-settings")]
     public string? IbmDb2Settings { get; set; }
 
-    [CommandSwitch("--doc-db-settings")]
+    [CliOption("--doc-db-settings")]
     public string? DocDbSettings { get; set; }
 
-    [CommandSwitch("--redis-settings")]
+    [CliOption("--redis-settings")]
     public string? RedisSettings { get; set; }
 
-    [CommandSwitch("--gcp-my-sql-settings")]
+    [CliOption("--gcp-my-sql-settings")]
     public string? GcpMySqlSettings { get; set; }
 
-    [CommandSwitch("--timestream-settings")]
+    [CliOption("--timestream-settings")]
     public string? TimestreamSettings { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

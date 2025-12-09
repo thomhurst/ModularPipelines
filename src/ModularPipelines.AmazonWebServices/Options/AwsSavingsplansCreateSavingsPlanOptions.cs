@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("savingsplans", "create-savings-plan")]
+[CliCommand("savingsplans", "create-savings-plan")]
 public record AwsSavingsplansCreateSavingsPlanOptions(
-[property: CommandSwitch("--savings-plan-offering-id")] string SavingsPlanOfferingId,
-[property: CommandSwitch("--commitment")] string Commitment
+[property: CliOption("--savings-plan-offering-id")] string SavingsPlanOfferingId,
+[property: CliOption("--commitment")] string Commitment
 ) : AwsOptions
 {
-    [CommandSwitch("--upfront-payment-amount")]
+    [CliOption("--upfront-payment-amount")]
     public string? UpfrontPaymentAmount { get; set; }
 
-    [CommandSwitch("--purchase-time")]
+    [CliOption("--purchase-time")]
     public long? PurchaseTime { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

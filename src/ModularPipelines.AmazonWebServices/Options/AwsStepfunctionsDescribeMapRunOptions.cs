@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stepfunctions", "describe-map-run")]
+[CliCommand("stepfunctions", "describe-map-run")]
 public record AwsStepfunctionsDescribeMapRunOptions(
-[property: CommandSwitch("--map-run-arn")] string MapRunArn
+[property: CliOption("--map-run-arn")] string MapRunArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

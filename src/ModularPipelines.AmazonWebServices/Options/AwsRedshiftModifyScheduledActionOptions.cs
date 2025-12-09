@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "modify-scheduled-action")]
+[CliCommand("redshift", "modify-scheduled-action")]
 public record AwsRedshiftModifyScheduledActionOptions(
-[property: CommandSwitch("--scheduled-action-name")] string ScheduledActionName,
-[property: CommandSwitch("--schedule")] string Schedule
+[property: CliOption("--scheduled-action-name")] string ScheduledActionName,
+[property: CliOption("--schedule")] string Schedule
 ) : AwsOptions
 {
-    [CommandSwitch("--target-action")]
+    [CliOption("--target-action")]
     public string? TargetAction { get; set; }
 
-    [CommandSwitch("--iam-role")]
+    [CliOption("--iam-role")]
     public string? IamRole { get; set; }
 
-    [CommandSwitch("--scheduled-action-description")]
+    [CliOption("--scheduled-action-description")]
     public string? ScheduledActionDescription { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public long? StartTime { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public long? EndTime { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutequipment", "create-label-group")]
+[CliCommand("lookoutequipment", "create-label-group")]
 public record AwsLookoutequipmentCreateLabelGroupOptions(
-[property: CommandSwitch("--label-group-name")] string LabelGroupName
+[property: CliOption("--label-group-name")] string LabelGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--fault-codes")]
+    [CliOption("--fault-codes")]
     public string[]? FaultCodes { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

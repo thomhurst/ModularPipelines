@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "cache", "create")]
+[CliSubCommand("acr", "cache", "create")]
 public record AzAcrCacheCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--registry")] string Registry,
-[property: CommandSwitch("--source-repo")] string SourceRepo,
-[property: CommandSwitch("--target-repo")] string TargetRepo
+[property: CliOption("--name")] string Name,
+[property: CliOption("--registry")] string Registry,
+[property: CliOption("--source-repo")] string SourceRepo,
+[property: CliOption("--target-repo")] string TargetRepo
 ) : AzOptions
 {
-    [CommandSwitch("--cred-set")]
+    [CliOption("--cred-set")]
     public string? CredSet { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

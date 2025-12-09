@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tsi", "access-policy", "create")]
+[CliSubCommand("tsi", "access-policy", "create")]
 public record AzTsiAccessPolicyCreateOptions(
-[property: CommandSwitch("--access-policy-name")] string AccessPolicyName,
-[property: CommandSwitch("--environment-name")] string EnvironmentName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--access-policy-name")] string AccessPolicyName,
+[property: CliOption("--environment-name")] string EnvironmentName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--principal-object-id")]
+    [CliOption("--principal-object-id")]
     public string? PrincipalObjectId { get; set; }
 
-    [CommandSwitch("--roles")]
+    [CliOption("--roles")]
     public string? Roles { get; set; }
 }

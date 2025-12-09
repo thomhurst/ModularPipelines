@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("proton", "create-template-sync-config")]
+[CliCommand("proton", "create-template-sync-config")]
 public record AwsProtonCreateTemplateSyncConfigOptions(
-[property: CommandSwitch("--branch")] string Branch,
-[property: CommandSwitch("--repository-name")] string RepositoryName,
-[property: CommandSwitch("--repository-provider")] string RepositoryProvider,
-[property: CommandSwitch("--template-name")] string TemplateName,
-[property: CommandSwitch("--template-type")] string TemplateType
+[property: CliOption("--branch")] string Branch,
+[property: CliOption("--repository-name")] string RepositoryName,
+[property: CliOption("--repository-provider")] string RepositoryProvider,
+[property: CliOption("--template-name")] string TemplateName,
+[property: CliOption("--template-type")] string TemplateType
 ) : AwsOptions
 {
-    [CommandSwitch("--subdirectory")]
+    [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

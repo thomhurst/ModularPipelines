@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("payment-cryptography-data", "generate-pin-data")]
+[CliCommand("payment-cryptography-data", "generate-pin-data")]
 public record AwsPaymentCryptographyDataGeneratePinDataOptions(
-[property: CommandSwitch("--encryption-key-identifier")] string EncryptionKeyIdentifier,
-[property: CommandSwitch("--generation-attributes")] string GenerationAttributes,
-[property: CommandSwitch("--generation-key-identifier")] string GenerationKeyIdentifier,
-[property: CommandSwitch("--pin-block-format")] string PinBlockFormat,
-[property: CommandSwitch("--primary-account-number")] string PrimaryAccountNumber
+[property: CliOption("--encryption-key-identifier")] string EncryptionKeyIdentifier,
+[property: CliOption("--generation-attributes")] string GenerationAttributes,
+[property: CliOption("--generation-key-identifier")] string GenerationKeyIdentifier,
+[property: CliOption("--pin-block-format")] string PinBlockFormat,
+[property: CliOption("--primary-account-number")] string PrimaryAccountNumber
 ) : AwsOptions
 {
-    [CommandSwitch("--pin-data-length")]
+    [CliOption("--pin-data-length")]
     public int? PinDataLength { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

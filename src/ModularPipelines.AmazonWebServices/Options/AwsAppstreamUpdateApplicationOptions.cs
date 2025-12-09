@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appstream", "update-application")]
+[CliCommand("appstream", "update-application")]
 public record AwsAppstreamUpdateApplicationOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--icon-s3-location")]
+    [CliOption("--icon-s3-location")]
     public string? IconS3Location { get; set; }
 
-    [CommandSwitch("--launch-path")]
+    [CliOption("--launch-path")]
     public string? LaunchPath { get; set; }
 
-    [CommandSwitch("--working-directory")]
+    [CliOption("--working-directory")]
     public string? AwsAppsWorkingDirectory { get; set; }
 
-    [CommandSwitch("--launch-parameters")]
+    [CliOption("--launch-parameters")]
     public string? LaunchParameters { get; set; }
 
-    [CommandSwitch("--app-block-arn")]
+    [CliOption("--app-block-arn")]
     public string? AppBlockArn { get; set; }
 
-    [CommandSwitch("--attributes-to-delete")]
+    [CliOption("--attributes-to-delete")]
     public string[]? AttributesToDelete { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

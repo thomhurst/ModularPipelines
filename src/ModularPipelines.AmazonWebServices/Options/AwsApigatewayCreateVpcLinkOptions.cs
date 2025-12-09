@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "create-vpc-link")]
+[CliCommand("apigateway", "create-vpc-link")]
 public record AwsApigatewayCreateVpcLinkOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--target-arns")] string[] TargetArns
+[property: CliOption("--name")] string Name,
+[property: CliOption("--target-arns")] string[] TargetArns
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

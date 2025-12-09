@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesis-video-signaling", "get-ice-server-config")]
+[CliCommand("kinesis-video-signaling", "get-ice-server-config")]
 public record AwsKinesisVideoSignalingGetIceServerConfigOptions(
-[property: CommandSwitch("--channel-arn")] string ChannelArn
+[property: CliOption("--channel-arn")] string ChannelArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-id")]
+    [CliOption("--client-id")]
     public string? ClientId { get; set; }
 
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

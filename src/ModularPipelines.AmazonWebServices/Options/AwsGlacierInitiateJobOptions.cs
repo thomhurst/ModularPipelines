@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glacier", "initiate-job")]
+[CliCommand("glacier", "initiate-job")]
 public record AwsGlacierInitiateJobOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--vault-name")] string VaultName
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--vault-name")] string VaultName
 ) : AwsOptions
 {
-    [CommandSwitch("--job-parameters")]
+    [CliOption("--job-parameters")]
     public string? JobParameters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

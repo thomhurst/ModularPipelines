@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logs", "create-export-task")]
+[CliCommand("logs", "create-export-task")]
 public record AwsLogsCreateExportTaskOptions(
-[property: CommandSwitch("--log-group-name")] string LogGroupName,
-[property: CommandSwitch("--from")] long From,
-[property: CommandSwitch("--to")] long To,
-[property: CommandSwitch("--destination")] string Destination
+[property: CliOption("--log-group-name")] string LogGroupName,
+[property: CliOption("--from")] long From,
+[property: CliOption("--to")] long To,
+[property: CliOption("--destination")] string Destination
 ) : AwsOptions
 {
-    [CommandSwitch("--task-name")]
+    [CliOption("--task-name")]
     public string? TaskName { get; set; }
 
-    [CommandSwitch("--log-stream-name-prefix")]
+    [CliOption("--log-stream-name-prefix")]
     public string? LogStreamNamePrefix { get; set; }
 
-    [CommandSwitch("--destination-prefix")]
+    [CliOption("--destination-prefix")]
     public string? DestinationPrefix { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

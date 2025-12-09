@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("license-manager", "check-in-license")]
+[CliCommand("license-manager", "check-in-license")]
 public record AwsLicenseManagerCheckInLicenseOptions(
-[property: CommandSwitch("--license-consumption-token")] string LicenseConsumptionToken
+[property: CliOption("--license-consumption-token")] string LicenseConsumptionToken
 ) : AwsOptions
 {
-    [CommandSwitch("--beneficiary")]
+    [CliOption("--beneficiary")]
     public string? Beneficiary { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

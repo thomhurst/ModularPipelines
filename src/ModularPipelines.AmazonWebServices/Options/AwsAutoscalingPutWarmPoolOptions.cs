@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("autoscaling", "put-warm-pool")]
+[CliCommand("autoscaling", "put-warm-pool")]
 public record AwsAutoscalingPutWarmPoolOptions(
-[property: CommandSwitch("--auto-scaling-group-name")] string AutoScalingGroupName
+[property: CliOption("--auto-scaling-group-name")] string AutoScalingGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--max-group-prepared-capacity")]
+    [CliOption("--max-group-prepared-capacity")]
     public int? MaxGroupPreparedCapacity { get; set; }
 
-    [CommandSwitch("--min-size")]
+    [CliOption("--min-size")]
     public int? MinSize { get; set; }
 
-    [CommandSwitch("--pool-state")]
+    [CliOption("--pool-state")]
     public string? PoolState { get; set; }
 
-    [CommandSwitch("--instance-reuse-policy")]
+    [CliOption("--instance-reuse-policy")]
     public string? InstanceReusePolicy { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

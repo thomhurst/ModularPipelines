@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("grafana")]
+[CliSubCommand("grafana")]
 public class AzGrafanaFolder
 {
     public AzGrafanaFolder(

@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "namespace", "permission-binding", "create")]
+[CliSubCommand("eventgrid", "namespace", "permission-binding", "create")]
 public record AzEventgridNamespacePermissionBindingCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--client-group-name")]
+    [CliOption("--client-group-name")]
     public string? ClientGroupName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--permission")]
+    [CliOption("--permission")]
     public string? Permission { get; set; }
 
-    [CommandSwitch("--topic-space-name")]
+    [CliOption("--topic-space-name")]
     public string? TopicSpaceName { get; set; }
 }

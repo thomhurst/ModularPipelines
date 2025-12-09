@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataprotection", "backup-vault", "create")]
+[CliSubCommand("dataprotection", "backup-vault", "create")]
 public record AzDataprotectionBackupVaultCreateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--storage-setting")] string StorageSetting,
-[property: CommandSwitch("--vault-name")] string VaultName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--storage-setting")] string StorageSetting,
+[property: CliOption("--vault-name")] string VaultName
 ) : AzOptions
 {
-    [CommandSwitch("--azure-monitor-alerts-for-job-failures")]
+    [CliOption("--azure-monitor-alerts-for-job-failures")]
     public string? AzureMonitorAlertsForJobFailures { get; set; }
 
-    [CommandSwitch("--cross-subscription-restore-state")]
+    [CliOption("--cross-subscription-restore-state")]
     public string? CrossSubscriptionRestoreState { get; set; }
 
-    [CommandSwitch("--e-tag")]
+    [CliOption("--e-tag")]
     public string? ETag { get; set; }
 
-    [CommandSwitch("--immutability-state")]
+    [CliOption("--immutability-state")]
     public string? ImmutabilityState { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--retention-duration-in-days")]
+    [CliOption("--retention-duration-in-days")]
     public string? RetentionDurationInDays { get; set; }
 
-    [CommandSwitch("--soft-delete-state")]
+    [CliOption("--soft-delete-state")]
     public string? SoftDeleteState { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 }

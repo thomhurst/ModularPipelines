@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectcases", "get-template")]
+[CliCommand("connectcases", "get-template")]
 public record AwsConnectcasesGetTemplateOptions(
-[property: CommandSwitch("--domain-id")] string DomainId,
-[property: CommandSwitch("--template-id")] string TemplateId
+[property: CliOption("--domain-id")] string DomainId,
+[property: CliOption("--template-id")] string TemplateId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

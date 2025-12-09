@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sphere", "device-group", "update")]
+[CliSubCommand("sphere", "device-group", "update")]
 public record AzSphereDeviceGroupUpdateOptions(
-[property: CommandSwitch("--catalog")] string Catalog,
-[property: CommandSwitch("--device-group")] string DeviceGroup,
-[property: CommandSwitch("--product")] string Product,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--catalog")] string Catalog,
+[property: CliOption("--device-group")] string DeviceGroup,
+[property: CliOption("--product")] string Product,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--allow-crash-dumps-collection")]
+    [CliFlag("--allow-crash-dumps-collection")]
     public bool? AllowCrashDumpsCollection { get; set; }
 
-    [CommandSwitch("--application-update")]
+    [CliOption("--application-update")]
     public string? ApplicationUpdate { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--os-feed")]
+    [CliOption("--os-feed")]
     public string? OsFeed { get; set; }
 
-    [CommandSwitch("--regional-data-boundary")]
+    [CliOption("--regional-data-boundary")]
     public string? RegionalDataBoundary { get; set; }
 }

@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops", "wiki", "page", "delete")]
+[CliSubCommand("devops", "wiki", "page", "delete")]
 public record AzDevopsWikiPageDeleteOptions(
-[property: CommandSwitch("--path")] string Path,
-[property: CommandSwitch("--wiki")] string Wiki
+[property: CliOption("--path")] string Path,
+[property: CliOption("--wiki")] string Wiki
 ) : AzOptions
 {
-    [CommandSwitch("--comment")]
+    [CliOption("--comment")]
     public string? Comment { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

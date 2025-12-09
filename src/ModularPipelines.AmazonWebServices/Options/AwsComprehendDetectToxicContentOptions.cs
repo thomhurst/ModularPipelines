@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("comprehend", "detect-toxic-content")]
+[CliCommand("comprehend", "detect-toxic-content")]
 public record AwsComprehendDetectToxicContentOptions(
-[property: CommandSwitch("--text-segments")] string[] TextSegments,
-[property: CommandSwitch("--language-code")] string LanguageCode
+[property: CliOption("--text-segments")] string[] TextSegments,
+[property: CliOption("--language-code")] string LanguageCode
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

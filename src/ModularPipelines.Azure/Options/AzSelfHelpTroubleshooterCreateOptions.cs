@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("self-help", "troubleshooter", "create")]
+[CliSubCommand("self-help", "troubleshooter", "create")]
 public record AzSelfHelpTroubleshooterCreateOptions(
-[property: CommandSwitch("--scope")] string Scope,
-[property: CommandSwitch("--troubleshooter-name")] string TroubleshooterName
+[property: CliOption("--scope")] string Scope,
+[property: CliOption("--troubleshooter-name")] string TroubleshooterName
 ) : AzOptions
 {
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--solution-id")]
+    [CliOption("--solution-id")]
     public string? SolutionId { get; set; }
 }

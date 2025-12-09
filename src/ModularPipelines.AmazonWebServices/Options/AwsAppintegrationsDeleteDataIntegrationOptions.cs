@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appintegrations", "delete-data-integration")]
+[CliCommand("appintegrations", "delete-data-integration")]
 public record AwsAppintegrationsDeleteDataIntegrationOptions(
-[property: CommandSwitch("--data-integration-identifier")] string DataIntegrationIdentifier
+[property: CliOption("--data-integration-identifier")] string DataIntegrationIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

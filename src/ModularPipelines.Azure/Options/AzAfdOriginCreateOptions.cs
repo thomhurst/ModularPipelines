@@ -4,46 +4,46 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("afd", "origin", "create")]
+[CliSubCommand("afd", "origin", "create")]
 public record AzAfdOriginCreateOptions(
-[property: BooleanCommandSwitch("--enabled-state")] bool EnabledState,
-[property: CommandSwitch("--host-name")] string HostName,
-[property: CommandSwitch("--origin-group-name")] string OriginGroupName,
-[property: CommandSwitch("--origin-name")] string OriginName,
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliFlag("--enabled-state")] bool EnabledState,
+[property: CliOption("--host-name")] string HostName,
+[property: CliOption("--origin-group-name")] string OriginGroupName,
+[property: CliOption("--origin-name")] string OriginName,
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--enable-private-link")]
+    [CliFlag("--enable-private-link")]
     public bool? EnablePrivateLink { get; set; }
 
-    [BooleanCommandSwitch("--enforce-certificate-name-check")]
+    [CliFlag("--enforce-certificate-name-check")]
     public bool? EnforceCertificateNameCheck { get; set; }
 
-    [CommandSwitch("--http-port")]
+    [CliOption("--http-port")]
     public string? HttpPort { get; set; }
 
-    [CommandSwitch("--https-port")]
+    [CliOption("--https-port")]
     public string? HttpsPort { get; set; }
 
-    [CommandSwitch("--origin-host-header")]
+    [CliOption("--origin-host-header")]
     public string? OriginHostHeader { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--private-link-location")]
+    [CliOption("--private-link-location")]
     public string? PrivateLinkLocation { get; set; }
 
-    [CommandSwitch("--private-link-request-message")]
+    [CliOption("--private-link-request-message")]
     public string? PrivateLinkRequestMessage { get; set; }
 
-    [CommandSwitch("--private-link-resource")]
+    [CliOption("--private-link-resource")]
     public string? PrivateLinkResource { get; set; }
 
-    [CommandSwitch("--private-link-sub-resource-type")]
+    [CliOption("--private-link-sub-resource-type")]
     public string? PrivateLinkSubResourceType { get; set; }
 
-    [CommandSwitch("--weight")]
+    [CliOption("--weight")]
     public string? Weight { get; set; }
 }

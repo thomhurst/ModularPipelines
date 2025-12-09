@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("afd", "route", "create")]
+[CliSubCommand("afd", "route", "create")]
 public record AzAfdRouteCreateOptions(
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--forwarding-protocol")] string ForwardingProtocol,
-[property: CommandSwitch("--https-redirect")] string HttpsRedirect,
-[property: CommandSwitch("--origin-group")] string OriginGroup,
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--route-name")] string RouteName,
-[property: CommandSwitch("--supported-protocols")] string SupportedProtocols
+[property: CliOption("--endpoint-name")] string EndpointName,
+[property: CliOption("--forwarding-protocol")] string ForwardingProtocol,
+[property: CliOption("--https-redirect")] string HttpsRedirect,
+[property: CliOption("--origin-group")] string OriginGroup,
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--route-name")] string RouteName,
+[property: CliOption("--supported-protocols")] string SupportedProtocols
 ) : AzOptions
 {
-    [CommandSwitch("--content-types-to-compress")]
+    [CliOption("--content-types-to-compress")]
     public string? ContentTypesToCompress { get; set; }
 
-    [CommandSwitch("--custom-domains")]
+    [CliOption("--custom-domains")]
     public string? CustomDomains { get; set; }
 
-    [BooleanCommandSwitch("--enable-caching")]
+    [CliFlag("--enable-caching")]
     public bool? EnableCaching { get; set; }
 
-    [BooleanCommandSwitch("--enable-compression")]
+    [CliFlag("--enable-compression")]
     public bool? EnableCompression { get; set; }
 
-    [BooleanCommandSwitch("--enabled-state")]
+    [CliFlag("--enabled-state")]
     public bool? EnabledState { get; set; }
 
-    [CommandSwitch("--link-to-default-domain")]
+    [CliOption("--link-to-default-domain")]
     public string? LinkToDefaultDomain { get; set; }
 
-    [CommandSwitch("--origin-path")]
+    [CliOption("--origin-path")]
     public string? OriginPath { get; set; }
 
-    [CommandSwitch("--patterns-to-match")]
+    [CliOption("--patterns-to-match")]
     public string? PatternsToMatch { get; set; }
 
-    [CommandSwitch("--query-parameters")]
+    [CliOption("--query-parameters")]
     public string? QueryParameters { get; set; }
 
-    [CommandSwitch("--query-string-caching-behavior")]
+    [CliOption("--query-string-caching-behavior")]
     public string? QueryStringCachingBehavior { get; set; }
 
-    [CommandSwitch("--rule-sets")]
+    [CliOption("--rule-sets")]
     public string? RuleSets { get; set; }
 }

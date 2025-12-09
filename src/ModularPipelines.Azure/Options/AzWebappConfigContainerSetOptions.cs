@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "config", "container", "set")]
+[CliSubCommand("webapp", "config", "container", "set")]
 public record AzWebappConfigContainerSetOptions : AzOptions
 {
-    [CommandSwitch("--docker-custom-image-name")]
+    [CliOption("--docker-custom-image-name")]
     public string? DockerCustomImageName { get; set; }
 
-    [CommandSwitch("--docker-registry-server-password")]
+    [CliOption("--docker-registry-server-password")]
     public string? DockerRegistryServerPassword { get; set; }
 
-    [CommandSwitch("--docker-registry-server-url")]
+    [CliOption("--docker-registry-server-url")]
     public string? DockerRegistryServerUrl { get; set; }
 
-    [CommandSwitch("--docker-registry-server-user")]
+    [CliOption("--docker-registry-server-user")]
     public string? DockerRegistryServerUser { get; set; }
 
-    [BooleanCommandSwitch("--enable-app-service-storage")]
+    [CliFlag("--enable-app-service-storage")]
     public bool? EnableAppServiceStorage { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--multicontainer-config-file")]
+    [CliOption("--multicontainer-config-file")]
     public string? MulticontainerConfigFile { get; set; }
 
-    [CommandSwitch("--multicontainer-config-type")]
+    [CliOption("--multicontainer-config-type")]
     public string? MulticontainerConfigType { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

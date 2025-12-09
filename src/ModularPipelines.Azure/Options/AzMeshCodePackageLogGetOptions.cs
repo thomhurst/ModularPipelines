@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mesh", "code-package-log", "get")]
+[CliSubCommand("mesh", "code-package-log", "get")]
 public record AzMeshCodePackageLogGetOptions : AzOptions
 {
-    [CommandSwitch("--app-name")]
+    [CliOption("--app-name")]
     public string? AppName { get; set; }
 
-    [CommandSwitch("--code-package-name")]
+    [CliOption("--code-package-name")]
     public string? CodePackageName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--replica-name")]
+    [CliOption("--replica-name")]
     public string? ReplicaName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--service-name")]
+    [CliOption("--service-name")]
     public string? ServiceName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tail")]
+    [CliOption("--tail")]
     public string? Tail { get; set; }
 }
