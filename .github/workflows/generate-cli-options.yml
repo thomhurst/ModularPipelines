@@ -151,7 +151,7 @@ jobs:
 
       - name: Create Pull Request for ${{ matrix.tool }}
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "chore: Update ${{ matrix.tool }} CLI options"
@@ -276,7 +276,7 @@ jobs:
 
       - name: Create Pull Request for ${{ matrix.tool }}
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "chore: Update ${{ matrix.tool }} CLI options"
