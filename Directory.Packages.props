@@ -84,7 +84,7 @@
     <PackageVersion Include="vertical-spectreconsolelogger" Version="0.10.1-dev.20241201.35" />
     <PackageVersion Include="YamlDotNet" Version="16.3.0" />
     <PackageVersion Include="AngleSharp" Version="1.4.0" />
-    <PackageVersion Include="Microsoft.Playwright" Version="1.49.0" />
+    <PackageVersion Include="Microsoft.Playwright" Version="1.57.0" />
     <PackageVersion Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
     <PackageVersion Include="Verify.Xunit" Version="28.6.1" />
     <PackageVersion Include="xunit" Version="2.9.3" />
