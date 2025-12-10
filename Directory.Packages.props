@@ -79,9 +79,9 @@
     <PackageVersion Include="System.Text.Json" Version="9.0.6" />
     <PackageVersion Include="TestableIO.System.IO.Abstractions" Version="22.1.0" />
     <PackageVersion Include="TestableIO.System.IO.Abstractions.TestingHelpers" Version="22.1.0" />
-    <PackageVersion Include="TUnit" Version="1.5.33" />
-    <PackageVersion Include="TUnit.Assertions" Version="1.5.33" />
-    <PackageVersion Include="TUnit.Core" Version="1.5.33" />
+    <PackageVersion Include="TUnit" Version="1.5.35" />
+    <PackageVersion Include="TUnit.Assertions" Version="1.5.35" />
+    <PackageVersion Include="TUnit.Core" Version="1.5.35" />
     <PackageVersion Include="vertical-spectreconsolelogger" Version="0.10.1-dev.20241201.35" />
     <PackageVersion Include="YamlDotNet" Version="16.3.0" />
     <PackageVersion Include="AngleSharp" Version="1.4.0" />
