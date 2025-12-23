@@ -100,7 +100,6 @@ internal static class DependencyInjectionSetup
             .AddScoped<ModularPipelines.Http.IHttpRequestFormatter, ModularPipelines.Http.HttpRequestFormatter>()
             .AddScoped<ModularPipelines.Http.IHttpResponseFormatter, ModularPipelines.Http.HttpResponseFormatter>()
             .AddScoped<ILogEventBuffer, LogEventBuffer>()
-            .AddScoped<ICollapsibleSectionManager, CollapsibleSectionManager>()
             .AddScoped<ILoggerLifecycleCoordinator, LoggerLifecycleCoordinator>();
 
         // Singletons
@@ -142,18 +141,16 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IModuleResultRepository, NoOpModuleResultRepository>()
             .AddSingleton<IModuleEstimatedTimeProvider, FileSystemModuleEstimatedTimeProvider>()
             .AddSingleton<ISafeModuleEstimatedTimeProvider, SafeModuleEstimatedTimeProvider>()
-            .AddSingleton<ICollapsableLogging, SmartCollapsableLogging>()
-            .AddSingleton<IInternalCollapsableLogging, SmartCollapsableLogging>()
             .AddSingleton<IPipelineFileWriter, PipelineFileWriter>()
             .AddSingleton<EngineCancellationToken>()
             .AddSingleton<IModuleLoggerContainer, ModuleLoggerContainer>()
+            .AddSingleton<IModuleOutputWriterFactory, ModuleOutputWriterFactory>()
             .AddSingleton<IOptionsProvider, OptionsProvider>()
             .AddSingleton<ISecretProvider, SecretProvider>()
             .AddSingleton<ISecretObfuscator, SecretObfuscator>()
             .AddSingleton<IBuildSystemSecretMasker, BuildSystemSecretMasker>()
             .AddSingleton<IBuildSystemDetector, BuildSystemDetector>()
             .AddSingleton<IBuildSystemFormatterProvider, BuildSystemFormatterProvider>()
-            .AddSingleton<ISmartCollapsableLoggingStringBlockProvider, SmartCollapsableLoggingStringBlockProvider>()
             .AddSingleton<IModuleConditionHandler, ModuleConditionHandler>()
             .AddSingleton<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>()
             .AddSingleton<IConsoleWriter, ConsoleWriter>()
