@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Engine;
 
 namespace ModularPipelines.Logging;
@@ -18,6 +19,7 @@ internal class ModuleOutputWriter : IModuleOutputWriter, IDisposable
     /// </summary>
     private static readonly object FlushLock = new();
 
+    private readonly IServiceScope _scope;
     private readonly ILogEventBuffer _buffer;
     private readonly IBuildSystemFormatter _formatter;
     private readonly IConsoleWriter _consoleWriter;
@@ -27,13 +29,14 @@ internal class ModuleOutputWriter : IModuleOutputWriter, IDisposable
     private bool _isDisposed;
 
     public ModuleOutputWriter(
-        ILogEventBuffer buffer,
+        IServiceScope scope,
         IBuildSystemFormatterProvider formatterProvider,
         IConsoleWriter consoleWriter,
         ISecretObfuscator secretObfuscator,
         string moduleName)
     {
-        _buffer = buffer;
+        _scope = scope;
+        _buffer = scope.ServiceProvider.GetRequiredService<ILogEventBuffer>();
         _formatter = formatterProvider.GetFormatter();
         _consoleWriter = consoleWriter;
         _secretObfuscator = secretObfuscator;
@@ -141,6 +144,7 @@ internal class ModuleOutputWriter : IModuleOutputWriter, IDisposable
             }
         }
 
+        _scope.Dispose();
         GC.SuppressFinalize(this);
     }
 

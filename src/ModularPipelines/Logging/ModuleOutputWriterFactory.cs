@@ -28,12 +28,11 @@ internal class ModuleOutputWriterFactory : IModuleOutputWriterFactory
     /// <inheritdoc />
     public ModuleOutputWriter Create(string moduleName)
     {
-        // Get a fresh scoped buffer for this module
+        // Get a fresh scope for this module
         var scope = _serviceProvider.CreateScope();
-        var buffer = scope.ServiceProvider.GetRequiredService<ILogEventBuffer>();
 
         return new ModuleOutputWriter(
-            buffer,
+            scope,
             _formatterProvider,
             _consoleWriter,
             _secretObfuscator,
