@@ -39,27 +39,35 @@ public interface IModuleRegistrationContext
     /// <summary>
     /// Checks if a specific module type is registered.
     /// </summary>
-    bool IsModuleRegistered<TModule>() where TModule : IModule;
+    /// <returns></returns>
+    bool IsModuleRegistered<TModule>()
+        where TModule : IModule;
 
     /// <summary>
     /// Checks if a specific module type is registered.
     /// </summary>
+    /// <returns></returns>
     bool IsModuleRegistered(Type moduleType);
 
     /// <summary>
     /// Gets all registered module types that are assignable to the specified base type.
     /// </summary>
-    IEnumerable<Type> GetModulesAssignableTo<TBase>() where TBase : IModule;
+    /// <returns></returns>
+    IEnumerable<Type> GetModulesAssignableTo<TBase>()
+        where TBase : IModule;
 
     /// <summary>
     /// Gets all registered module types that have the specified attribute.
     /// </summary>
-    IEnumerable<Type> GetModulesWithAttribute<TAttribute>() where TAttribute : Attribute;
+    /// <returns></returns>
+    IEnumerable<Type> GetModulesWithAttribute<TAttribute>()
+        where TAttribute : Attribute;
 
     /// <summary>
     /// Adds a dependency on another module.
     /// </summary>
-    void AddDependency<TModule>() where TModule : IModule;
+    void AddDependency<TModule>()
+        where TModule : IModule;
 
     /// <summary>
     /// Adds a dependency on another module.
@@ -69,7 +77,8 @@ public interface IModuleRegistrationContext
     /// <summary>
     /// Adds dependencies on all modules assignable to the specified base type.
     /// </summary>
-    void AddDependencyOnAll<TBase>() where TBase : IModule;
+    void AddDependencyOnAll<TBase>()
+        where TBase : IModule;
 
     /// <summary>
     /// Adds dependencies on all modules matching the specified predicate.
@@ -79,7 +88,8 @@ public interface IModuleRegistrationContext
     /// <summary>
     /// Removes a dependency on another module.
     /// </summary>
-    void RemoveDependency<TModule>() where TModule : IModule;
+    void RemoveDependency<TModule>()
+        where TModule : IModule;
 
     /// <summary>
     /// Gets the service collection for registering additional services.
@@ -94,5 +104,6 @@ public interface IModuleRegistrationContext
     /// <summary>
     /// Gets metadata that was set during registration.
     /// </summary>
+    /// <returns></returns>
     T? GetMetadata<T>(string key);
 }

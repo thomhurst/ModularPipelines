@@ -9,7 +9,7 @@ namespace ModularPipelines.Attributes.Events;
 public interface IModuleSkippedEventReceiver
 {
     /// <summary>
-    /// Gets whether to continue execution if this receiver throws an exception.
+    /// Gets a value indicating whether gets whether to continue execution if this receiver throws an exception.
     /// Default is false (propagate exceptions).
     /// </summary>
     bool ContinueOnError => false;

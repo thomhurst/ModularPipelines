@@ -58,16 +58,21 @@ public interface IModuleEventContext
     /// <summary>
     /// Resolves a service from the DI container.
     /// </summary>
-    T GetService<T>() where T : notnull;
+    /// <returns></returns>
+    T GetService<T>()
+        where T : notnull;
 
     /// <summary>
     /// Resolves a service from the DI container, or null if not registered.
     /// </summary>
-    T? GetServiceOrDefault<T>() where T : class;
+    /// <returns></returns>
+    T? GetServiceOrDefault<T>()
+        where T : class;
 
     /// <summary>
     /// Gets metadata that was set during registration.
     /// </summary>
+    /// <returns></returns>
     T? GetMetadata<T>(string key);
 
     /// <summary>
