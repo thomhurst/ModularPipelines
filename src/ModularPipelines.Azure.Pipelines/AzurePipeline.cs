@@ -6,15 +6,15 @@ namespace ModularPipelines.Azure.Pipelines;
 internal class AzurePipeline : IAzurePipeline
 {
     private readonly IEnvironmentContext _environment;
-    private readonly IModuleLoggerProvider _moduleLoggerProvider;
+    private readonly IModuleOutputWriter _outputWriter;
 
     public AzurePipeline(AzurePipelineVariables variables,
         IEnvironmentContext environment,
-        IModuleLoggerProvider moduleLoggerProvider)
+        IModuleOutputWriterFactory outputWriterFactory)
     {
         _environment = environment;
-        _moduleLoggerProvider = moduleLoggerProvider;
         Variables = variables;
+        _outputWriter = outputWriterFactory.Create("AzurePipeline");
     }
 
     public bool IsRunningOnAzurePipelines
@@ -22,18 +22,18 @@ internal class AzurePipeline : IAzurePipeline
 
     public AzurePipelineVariables Variables { get; }
 
-    public void StartConsoleLogGroup(string name)
+    public void WriteLine(string message)
     {
-        LogToConsole(BuildSystemValues.AzurePipelines.StartBlock(name));
+        _outputWriter.WriteLine(message);
     }
 
-    public void EndConsoleLogGroup(string name)
+    public void WriteLineDirect(string message)
     {
-        LogToConsole(BuildSystemValues.AzurePipelines.EndBlock);
+        _outputWriter.WriteLineDirect(message);
     }
 
-    public void LogToConsole(string value)
+    public IDisposable BeginSection(string name)
     {
-        ((IConsoleWriter) _moduleLoggerProvider.GetLogger()).LogToConsole(value);
+        return _outputWriter.BeginSection(name);
     }
 }

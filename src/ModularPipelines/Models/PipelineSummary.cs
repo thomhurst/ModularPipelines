@@ -10,6 +10,10 @@ namespace ModularPipelines.Models;
 public record PipelineSummary
 {
     private readonly IModuleResultRegistry? _resultRegistry;
+    private readonly IMetricsCollector? _metricsCollector;
+    private readonly int _maxParallelism;
+    private PipelineMetrics? _cachedMetrics;
+    private IReadOnlyList<ModuleTimeline>? _cachedTimelines;
 
     /// <summary>
     /// Gets the modules that are part of the pipeline.
@@ -37,6 +41,20 @@ public record PipelineSummary
     /// </summary>
     [JsonInclude]
     public DateTimeOffset End { get; private set; }
+
+    /// <summary>
+    /// Gets the execution metrics for the pipeline.
+    /// Contains parallelism factor, peak concurrency, and efficiency metrics.
+    /// </summary>
+    [JsonInclude]
+    public PipelineMetrics? Metrics => _cachedMetrics ??= _metricsCollector?.ComputeMetrics(Start, End, _maxParallelism);
+
+    /// <summary>
+    /// Gets the timeline information for each module.
+    /// Contains detailed timing data for when each module was ready, queued, started, and completed.
+    /// </summary>
+    [JsonInclude]
+    public IReadOnlyList<ModuleTimeline>? ModuleTimelines => _cachedTimelines ??= _metricsCollector?.GetTimelines();
 
     [JsonConstructor]
     internal PipelineSummary(
@@ -69,6 +87,19 @@ public record PipelineSummary
         : this(modules, totalDuration, start, end)
     {
         _resultRegistry = resultRegistry;
+    }
+
+    internal PipelineSummary(IReadOnlyList<IModule> modules,
+        TimeSpan totalDuration,
+        DateTimeOffset start,
+        DateTimeOffset end,
+        IModuleResultRegistry resultRegistry,
+        IMetricsCollector metricsCollector,
+        int maxParallelism)
+        : this(modules, totalDuration, start, end, resultRegistry)
+    {
+        _metricsCollector = metricsCollector;
+        _maxParallelism = maxParallelism;
     }
 
     /// <summary>

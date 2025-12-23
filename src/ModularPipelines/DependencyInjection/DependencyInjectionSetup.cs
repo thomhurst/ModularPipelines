@@ -5,6 +5,8 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Linux;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Attributes;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Executors;
 using ModularPipelines.Events;
 using ModularPipelines.Extensions;
@@ -97,9 +99,7 @@ internal static class DependencyInjectionSetup
             .AddScoped<ModularPipelines.Http.IHttpLogger, ModularPipelines.Http.HttpLogger>()
             .AddScoped<ModularPipelines.Http.IHttpRequestFormatter, ModularPipelines.Http.HttpRequestFormatter>()
             .AddScoped<ModularPipelines.Http.IHttpResponseFormatter, ModularPipelines.Http.HttpResponseFormatter>()
-            .AddScoped<ILogEventBuffer, LogEventBuffer>()
-            .AddScoped<ICollapsibleSectionManager, CollapsibleSectionManager>()
-            .AddScoped<ILoggerLifecycleCoordinator, LoggerLifecycleCoordinator>();
+            .AddScoped<ILogEventBuffer, LogEventBuffer>();
 
         // Singletons
         services
@@ -140,18 +140,16 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IModuleResultRepository, NoOpModuleResultRepository>()
             .AddSingleton<IModuleEstimatedTimeProvider, FileSystemModuleEstimatedTimeProvider>()
             .AddSingleton<ISafeModuleEstimatedTimeProvider, SafeModuleEstimatedTimeProvider>()
-            .AddSingleton<ICollapsableLogging, SmartCollapsableLogging>()
-            .AddSingleton<IInternalCollapsableLogging, SmartCollapsableLogging>()
             .AddSingleton<IPipelineFileWriter, PipelineFileWriter>()
             .AddSingleton<EngineCancellationToken>()
             .AddSingleton<IModuleLoggerContainer, ModuleLoggerContainer>()
+            .AddSingleton<IModuleOutputWriterFactory, ModuleOutputWriterFactory>()
             .AddSingleton<IOptionsProvider, OptionsProvider>()
             .AddSingleton<ISecretProvider, SecretProvider>()
             .AddSingleton<ISecretObfuscator, SecretObfuscator>()
             .AddSingleton<IBuildSystemSecretMasker, BuildSystemSecretMasker>()
             .AddSingleton<IBuildSystemDetector, BuildSystemDetector>()
             .AddSingleton<IBuildSystemFormatterProvider, BuildSystemFormatterProvider>()
-            .AddSingleton<ISmartCollapsableLoggingStringBlockProvider, SmartCollapsableLoggingStringBlockProvider>()
             .AddSingleton<IModuleConditionHandler, ModuleConditionHandler>()
             .AddSingleton<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>()
             .AddSingleton<IConsoleWriter, ConsoleWriter>()
@@ -160,6 +158,16 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IFormattedLogValuesObfuscator, FormattedLogValuesObfuscator>()
             .AddSingleton<IDependencyTreeFormatter, DependencyTreeFormatter>()
             .AddSingleton<ICommandModelProvider, CommandModelProvider>()
-            .AddSingleton<ICommandArgumentBuilder, CommandArgumentBuilder>();
+            .AddSingleton<ICommandArgumentBuilder, CommandArgumentBuilder>()
+
+            // Attribute event system
+            .AddSingleton<IModuleDependencyRegistry, ModuleDependencyRegistry>()
+            .AddSingleton<IModuleMetadataRegistry, ModuleMetadataRegistry>()
+            .AddSingleton<IModuleAttributeEventService, ModuleAttributeEventService>()
+            .AddSingleton<IAttributeEventInvoker, AttributeEventInvoker>()
+            .AddSingleton<IRegistrationEventExecutor, RegistrationEventExecutor>()
+
+            // Metrics collection
+            .AddSingleton<IMetricsCollector, MetricsCollector>();
     }
 }

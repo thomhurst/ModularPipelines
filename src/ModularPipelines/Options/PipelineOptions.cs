@@ -60,4 +60,10 @@ public record PipelineOptions
     /// Gets or sets the default command logging level for all commands.
     /// </summary>
     public CommandLogging DefaultCommandLogging { get; set; } = CommandLogging.Default;
+
+    /// <summary>
+    /// Gets or sets the concurrency options for module execution.
+    /// Controls parallelism limits and resource-based throttling.
+    /// </summary>
+    public ConcurrencyOptions Concurrency { get; set; } = new();
 }
