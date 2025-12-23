@@ -78,6 +78,7 @@ public class SubDomainClassGenerator : ICodeGenerator
 
         sb.AppendLine("using ModularPipelines.Context;");
         sb.AppendLine("using ModularPipelines.Models;");
+        sb.AppendLine("using ModularPipelines.Options;");
         sb.AppendLine($"using {tool.TargetNamespace}.Options;");
         sb.AppendLine();
 
@@ -164,7 +165,7 @@ public class SubDomainClassGenerator : ICodeGenerator
 
     private static void GenerateExecuteMethod(StringBuilder sb, CliCommandDefinition command)
     {
-        // Generate Execute() method for the parent command (e.g., "helm completion" when sub-commands exist)
+        // First overload: without logging options
         sb.AppendLine("    /// <summary>");
         if (!string.IsNullOrEmpty(command.Description))
         {
@@ -182,13 +183,39 @@ public class SubDomainClassGenerator : ICodeGenerator
         sb.AppendLine($"        {command.ClassName}? options = default,");
         sb.AppendLine("        CancellationToken cancellationToken = default)");
         sb.AppendLine("    {");
-        sb.AppendLine($"        return await _command.ExecuteCommandLineTool(options ?? new {command.ClassName}(), cancellationToken);");
+        sb.AppendLine("        return await Execute(options, null, cancellationToken);");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+
+        // Second overload: with logging options
+        sb.AppendLine("    /// <summary>");
+        if (!string.IsNullOrEmpty(command.Description))
+        {
+            sb.AppendLine($"    /// {EscapeXmlComment(command.Description)}");
+        }
+        else
+        {
+            sb.AppendLine("    /// Executes the parent command directly.");
+        }
+        sb.AppendLine("    /// </summary>");
+        sb.AppendLine("    /// <param name=\"options\">The command options.</param>");
+        sb.AppendLine("    /// <param name=\"loggingOptions\">The logging options for this command execution.</param>");
+        sb.AppendLine("    /// <param name=\"cancellationToken\">Cancellation token.</param>");
+        sb.AppendLine("    /// <returns>The command result.</returns>");
+        sb.AppendLine($"    public virtual async Task<CommandResult> Execute(");
+        sb.AppendLine($"        {command.ClassName}? options,");
+        sb.AppendLine("        CommandLoggingOptions? loggingOptions,");
+        sb.AppendLine("        CancellationToken cancellationToken = default)");
+        sb.AppendLine("    {");
+        sb.AppendLine($"        return await _command.ExecuteCommandLineTool(options ?? new {command.ClassName}(), loggingOptions, cancellationToken);");
         sb.AppendLine("    }");
     }
 
     private static void GenerateMethod(StringBuilder sb, CliCommandDefinition command, CommandTreeNode node)
     {
-        // XML documentation
+        var methodName = GetMethodName(command, node);
+
+        // First overload: without logging options
         if (!string.IsNullOrEmpty(command.Description))
         {
             sb.AppendLine("    /// <summary>");
@@ -199,15 +226,32 @@ public class SubDomainClassGenerator : ICodeGenerator
             sb.AppendLine("    /// <returns>The command result.</returns>");
         }
 
-        // Method name from the last command part
-        // Handle hyphens within the command part (e.g., "accept-ownership-status" -> "AcceptOwnershipStatus")
-        var methodName = GetMethodName(command, node);
-
         sb.AppendLine($"    public virtual async Task<CommandResult> {methodName}(");
         sb.AppendLine($"        {command.ClassName} options,");
         sb.AppendLine("        CancellationToken cancellationToken = default)");
         sb.AppendLine("    {");
-        sb.AppendLine("        return await _command.ExecuteCommandLineTool(options, cancellationToken);");
+        sb.AppendLine($"        return await {methodName}(options, null, cancellationToken);");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+
+        // Second overload: with logging options
+        if (!string.IsNullOrEmpty(command.Description))
+        {
+            sb.AppendLine("    /// <summary>");
+            sb.AppendLine($"    /// {EscapeXmlComment(command.Description)}");
+            sb.AppendLine("    /// </summary>");
+            sb.AppendLine("    /// <param name=\"options\">The command options.</param>");
+            sb.AppendLine("    /// <param name=\"loggingOptions\">The logging options for this command execution.</param>");
+            sb.AppendLine("    /// <param name=\"cancellationToken\">Cancellation token.</param>");
+            sb.AppendLine("    /// <returns>The command result.</returns>");
+        }
+
+        sb.AppendLine($"    public virtual async Task<CommandResult> {methodName}(");
+        sb.AppendLine($"        {command.ClassName} options,");
+        sb.AppendLine("        CommandLoggingOptions? loggingOptions,");
+        sb.AppendLine("        CancellationToken cancellationToken = default)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);");
         sb.AppendLine("    }");
     }
 
