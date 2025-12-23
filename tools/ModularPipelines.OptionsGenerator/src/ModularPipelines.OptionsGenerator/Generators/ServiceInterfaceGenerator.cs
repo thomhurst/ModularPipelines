@@ -34,6 +34,7 @@ public class ServiceInterfaceGenerator : ICodeGenerator
         GeneratorUtils.GenerateFileHeader(sb);
 
         sb.AppendLine("using ModularPipelines.Models;");
+        sb.AppendLine("using ModularPipelines.Options;");
         sb.AppendLine($"using {tool.TargetNamespace}.Options;");
         sb.AppendLine();
 
@@ -105,7 +106,10 @@ public class ServiceInterfaceGenerator : ICodeGenerator
 
     private static void GenerateMethodSignature(StringBuilder sb, CliCommandDefinition command)
     {
-        // XML documentation
+        // Generate method name from command parts
+        var methodName = GenerateMethodName(command);
+
+        // First overload: without logging options
         if (!string.IsNullOrEmpty(command.Description))
         {
             sb.AppendLine("    /// <summary>");
@@ -116,10 +120,22 @@ public class ServiceInterfaceGenerator : ICodeGenerator
             sb.AppendLine("    /// <returns>The command result.</returns>");
         }
 
-        // Generate method name from command parts
-        var methodName = GenerateMethodName(command);
-
         sb.AppendLine($"    Task<CommandResult> {methodName}({command.ClassName} options, CancellationToken cancellationToken = default);");
+        sb.AppendLine();
+
+        // Second overload: with logging options
+        if (!string.IsNullOrEmpty(command.Description))
+        {
+            sb.AppendLine("    /// <summary>");
+            sb.AppendLine($"    /// {EscapeXmlComment(command.Description)}");
+            sb.AppendLine("    /// </summary>");
+            sb.AppendLine("    /// <param name=\"options\">The command options.</param>");
+            sb.AppendLine("    /// <param name=\"loggingOptions\">The logging options for this command execution.</param>");
+            sb.AppendLine("    /// <param name=\"cancellationToken\">Cancellation token.</param>");
+            sb.AppendLine("    /// <returns>The command result.</returns>");
+        }
+
+        sb.AppendLine($"    Task<CommandResult> {methodName}({command.ClassName} options, CommandLoggingOptions? loggingOptions, CancellationToken cancellationToken = default);");
     }
 
     private static string GenerateMethodName(CliCommandDefinition command)

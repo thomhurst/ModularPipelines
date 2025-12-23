@@ -11,16 +11,20 @@ public interface ICommandLogger
     /// Logs the details of a command execution.
     /// </summary>
     /// <param name="options">The command line tool options used for execution.</param>
+    /// <param name="loggingOptions">The logging options to control output behavior.</param>
     /// <param name="inputToLog">The input command to log.</param>
     /// <param name="exitCode">The exit code returned by the command.</param>
     /// <param name="runTime">The time taken to execute the command.</param>
     /// <param name="standardOutput">The standard output from the command.</param>
     /// <param name="standardError">The standard error from the command.</param>
     /// <param name="commandWorkingDirPath">The working directory where the command was executed.</param>
-    void Log(CommandLineToolOptions options,
+    void Log(
+        CommandLineToolOptions options,
+        CommandLoggingOptions? loggingOptions,
         string? inputToLog,
         int? exitCode,
         TimeSpan? runTime,
         string standardOutput,
-        string standardError, string commandWorkingDirPath);
+        string standardError,
+        string commandWorkingDirPath);
 }
