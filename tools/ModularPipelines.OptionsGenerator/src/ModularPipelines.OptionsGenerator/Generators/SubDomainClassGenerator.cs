@@ -257,8 +257,11 @@ public class SubDomainClassGenerator : ICodeGenerator
 
     private static string GetMethodName(CliCommandDefinition command, CommandTreeNode node)
     {
-        // The method name should be the last command part that makes this a leaf command
-        // For most cases, this is the last part in CommandParts
+        return GetMethodNameFromCommand(command);
+    }
+
+    private static string GetMethodNameFromCommand(CliCommandDefinition command)
+    {
         if (command.CommandParts.Length == 0)
         {
             return "Execute";
