@@ -99,8 +99,7 @@ internal static class DependencyInjectionSetup
             .AddScoped<ModularPipelines.Http.IHttpLogger, ModularPipelines.Http.HttpLogger>()
             .AddScoped<ModularPipelines.Http.IHttpRequestFormatter, ModularPipelines.Http.HttpRequestFormatter>()
             .AddScoped<ModularPipelines.Http.IHttpResponseFormatter, ModularPipelines.Http.HttpResponseFormatter>()
-            .AddScoped<ILogEventBuffer, LogEventBuffer>()
-            .AddScoped<ILoggerLifecycleCoordinator, LoggerLifecycleCoordinator>();
+            .AddScoped<ILogEventBuffer, LogEventBuffer>();
 
         // Singletons
         services
