@@ -1,3 +1,4 @@
+using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -108,6 +109,22 @@ internal class ModuleState
     /// Gets or sets lock keys that this module requires (for keyed NotInParallel constraints).
     /// </summary>
     public string[] RequiredLockKeys { get; set; }
+
+    /// <summary>
+    /// Gets or sets the execution priority of this module.
+    /// Higher priority modules are scheduled before lower priority ones when multiple are ready.
+    /// </summary>
+    public ModulePriority Priority { get; set; } = ModulePriority.Normal;
+
+    /// <summary>
+    /// Gets or sets the execution type hint for resource-based throttling.
+    /// </summary>
+    public ExecutionType ExecutionType { get; set; } = ExecutionType.Default;
+
+    /// <summary>
+    /// Gets or sets when all dependencies were satisfied and the module became ready.
+    /// </summary>
+    public DateTimeOffset? ReadyTime { get; set; }
 
     /// <summary>
     /// Gets a value indicating whether checks if this module is ready to execute (all dependencies resolved and constraints satisfied)

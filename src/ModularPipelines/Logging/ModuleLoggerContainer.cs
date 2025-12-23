@@ -9,13 +9,30 @@ namespace ModularPipelines.Logging;
 /// and ensures they are properly flushed and disposed in the correct order
 /// (ordered by last log written time) to maintain logical output ordering.
 /// </remarks>
-internal class ModuleLoggerContainer : IModuleLoggerContainer
+internal class ModuleLoggerContainer : IModuleLoggerContainer, IDisposable
 {
     private readonly List<ModuleLogger> _loggers = new();
+    private bool _isDisposed;
 
     public void FlushAndDisposeAll()
     {
-        foreach (var logger in _loggers.OrderBy(x => x.LastLogWritten).ToList())
+        lock (_loggers)
+        {
+            if (_isDisposed)
+            {
+                return;
+            }
+
+            _isDisposed = true;
+        }
+
+        List<ModuleLogger> snapshot;
+        lock (_loggers)
+        {
+            snapshot = _loggers.ToList();
+        }
+
+        foreach (var logger in snapshot.Where(x => x != null).OrderBy(x => x.LastLogWritten))
         {
             logger.Dispose();
         }
@@ -23,11 +40,22 @@ internal class ModuleLoggerContainer : IModuleLoggerContainer
 
     public IModuleLogger? GetLogger(Type type)
     {
-        return _loggers.FirstOrDefault(logger => logger.GetType() == type);
+        lock (_loggers)
+        {
+            return _loggers.FirstOrDefault(logger => logger.GetType() == type);
+        }
     }
 
     public void AddLogger(ModuleLogger logger)
     {
-        _loggers.Add(logger);
+        lock (_loggers)
+        {
+            _loggers.Add(logger);
+        }
+    }
+
+    public void Dispose()
+    {
+        FlushAndDisposeAll();
     }
 }

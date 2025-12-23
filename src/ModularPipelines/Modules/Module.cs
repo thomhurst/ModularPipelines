@@ -16,7 +16,6 @@ namespace ModularPipelines.Modules;
 /// <item><see cref="Behaviors.IRetryable{T}"/> - Configure retry policy</item>
 /// <item><see cref="Behaviors.IIgnoreFailures"/> - Handle failures gracefully</item>
 /// <item><see cref="Behaviors.IHookable"/> - Add before/after execution hooks</item>
-/// <item><see cref="Behaviors.IHistoryAware"/> - Enable result caching</item>
 /// <item><see cref="Behaviors.IAlwaysRun"/> - Run even when pipeline fails</item>
 /// </list>
 /// </remarks>

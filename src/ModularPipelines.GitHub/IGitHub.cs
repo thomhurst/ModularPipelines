@@ -1,9 +1,9 @@
-using ModularPipelines.Interfaces;
+using ModularPipelines.Logging;
 using Octokit;
 
 namespace ModularPipelines.GitHub;
 
-public interface IGitHub : ICollapsableLogging
+public interface IGitHub : IModuleOutputWriter
 {
     IGitHubClient Client { get; }
 
