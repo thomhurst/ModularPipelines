@@ -313,7 +313,8 @@ public class CodeGeneratorOrchestrator
 
     /// <summary>
     /// Cleans up old generated files before regenerating.
-    /// Deletes .Generated.cs files and specific hand-written files that will be replaced.
+    /// Deletes all .cs files in Options, Services, Extensions directories since they'll be regenerated.
+    /// Preserves Enums directory (only deletes .Generated.cs there) to keep manually-defined enums.
     /// </summary>
     private void CleanupGeneratedFiles(string outputDirectory, string toolOutputDirectory, string namespacePrefix)
     {
@@ -323,10 +324,10 @@ public class CodeGeneratorOrchestrator
             return;
         }
 
-        // Subdirectories that contain generated code
-        var generatedSubdirectories = new[] { "Options", "Services", "Extensions", "Enums" };
+        // Directories where ALL .cs files should be deleted (completely regenerated)
+        var fullyRegeneratedDirs = new[] { "Options", "Services", "Extensions" };
 
-        foreach (var subDir in generatedSubdirectories)
+        foreach (var subDir in fullyRegeneratedDirs)
         {
             var subDirPath = Path.Combine(toolPath, subDir);
             if (!Directory.Exists(subDirPath))
@@ -334,48 +335,42 @@ public class CodeGeneratorOrchestrator
                 continue;
             }
 
-            // Delete all .Generated.cs files in this directory
-            var generatedFiles = Directory.GetFiles(subDirPath, "*.Generated.cs", SearchOption.TopDirectoryOnly);
-            foreach (var file in generatedFiles)
+            // Delete ALL .cs files in this directory (they will be regenerated)
+            var allCsFiles = Directory.GetFiles(subDirPath, "*.cs", SearchOption.TopDirectoryOnly);
+            foreach (var file in allCsFiles)
             {
                 try
                 {
                     File.Delete(file);
-                    _logger.LogDebug("Deleted old generated file: {File}", file);
+                    _logger.LogDebug("Deleted file for regeneration: {File}", file);
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogWarning(ex, "Failed to delete old generated file: {File}", file);
+                    _logger.LogWarning(ex, "Failed to delete file: {File}", file);
                 }
             }
         }
 
-        // Delete specific hand-written files that will be replaced by generated versions
-        var handWrittenFilesToDelete = new[]
+        // For Enums directory, only delete .Generated.cs files (preserve manually-defined enums)
+        var enumsPath = Path.Combine(toolPath, "Enums");
+        if (Directory.Exists(enumsPath))
         {
-            Path.Combine(toolPath, "Options", $"{namespacePrefix}Options.cs"),
-            Path.Combine(toolPath, "Extensions", $"{namespacePrefix}Extensions.cs"),
-            Path.Combine(toolPath, "Services", $"I{namespacePrefix}.cs"),
-            Path.Combine(toolPath, "Services", $"{namespacePrefix}.cs")
-        };
-
-        foreach (var file in handWrittenFilesToDelete)
-        {
-            if (File.Exists(file))
+            var generatedEnumFiles = Directory.GetFiles(enumsPath, "*.Generated.cs", SearchOption.TopDirectoryOnly);
+            foreach (var file in generatedEnumFiles)
             {
                 try
                 {
                     File.Delete(file);
-                    _logger.LogInformation("Deleted hand-written file that will be replaced: {File}", file);
+                    _logger.LogDebug("Deleted old generated enum file: {File}", file);
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogWarning(ex, "Failed to delete hand-written file: {File}", file);
+                    _logger.LogWarning(ex, "Failed to delete old generated enum file: {File}", file);
                 }
             }
         }
 
-        _logger.LogInformation("Cleaned up old generated files in {Path}", toolPath);
+        _logger.LogInformation("Cleaned up old files in {Path}", toolPath);
     }
 }
 

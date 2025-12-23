@@ -88,7 +88,7 @@ internal interface ILogEventBuffer
 /// </summary>
 internal class StringOrLogEvent
 {
-    public (Microsoft.Extensions.Logging.LogLevel LogLevel, Microsoft.Extensions.Logging.EventId EventId, object State, Exception? Exception, Func<object, Exception?, string> Formatter)? LogEvent
+    public (Microsoft.Extensions.Logging.LogLevel LogLevel, Microsoft.Extensions.Logging.EventId EventId, object State, Exception? Exception, Func<object, Exception?, string> Formatter, string? Category)? LogEvent
     {
         get;
         private init;
@@ -104,6 +104,11 @@ internal class StringOrLogEvent
     };
 
     public static implicit operator StringOrLogEvent((Microsoft.Extensions.Logging.LogLevel LogLevel, Microsoft.Extensions.Logging.EventId EventId, object State, Exception? Exception, Func<object, Exception?, string> Formatter) value) => new()
+    {
+        LogEvent = (value.LogLevel, value.EventId, value.State, value.Exception, value.Formatter, null),
+    };
+
+    public static implicit operator StringOrLogEvent((Microsoft.Extensions.Logging.LogLevel LogLevel, Microsoft.Extensions.Logging.EventId EventId, object State, Exception? Exception, Func<object, Exception?, string> Formatter, string Category) value) => new()
     {
         LogEvent = value,
     };

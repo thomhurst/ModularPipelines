@@ -4,7 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Attributes.Events;
 using ModularPipelines.Context;
+using ModularPipelines.Engine.Attributes;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Events;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
@@ -32,6 +35,11 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IModuleLoggerContainer _loggerContainer;
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly IModuleResultRegistry _resultRegistry;
+    private readonly IRegistrationEventExecutor _registrationEventExecutor;
+    private readonly IModuleAttributeEventService _attributeEventService;
+    private readonly IAttributeEventInvoker _attributeEventInvoker;
+    private readonly IModuleMetadataRegistry _metadataRegistry;
+    private readonly IMetricsCollector _metricsCollector;
 
     public ModuleExecutor(
         IPipelineSetupExecutor pipelineSetupExecutor,
@@ -48,7 +56,12 @@ internal class ModuleExecutor : IModuleExecutor
         IServiceProvider serviceProvider,
         IModuleLoggerContainer loggerContainer,
         EngineCancellationToken engineCancellationToken,
-        IModuleResultRegistry resultRegistry)
+        IModuleResultRegistry resultRegistry,
+        IRegistrationEventExecutor registrationEventExecutor,
+        IModuleAttributeEventService attributeEventService,
+        IAttributeEventInvoker attributeEventInvoker,
+        IModuleMetadataRegistry metadataRegistry,
+        IMetricsCollector metricsCollector)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _pipelineOptions = pipelineOptions;
@@ -65,6 +78,11 @@ internal class ModuleExecutor : IModuleExecutor
         _loggerContainer = loggerContainer;
         _engineCancellationToken = engineCancellationToken;
         _resultRegistry = resultRegistry;
+        _registrationEventExecutor = registrationEventExecutor;
+        _attributeEventService = attributeEventService;
+        _attributeEventInvoker = attributeEventInvoker;
+        _metadataRegistry = metadataRegistry;
+        _metricsCollector = metricsCollector;
     }
 
     /// <summary>
@@ -84,7 +102,7 @@ internal class ModuleExecutor : IModuleExecutor
 
         try
         {
-            scheduler = InitializeScheduler(modules);
+            scheduler = await InitializeSchedulerAsync(modules);
             return await ExecuteWithSchedulerAsync(modules, scheduler);
         }
         catch (Exception outerEx)
@@ -105,9 +123,15 @@ internal class ModuleExecutor : IModuleExecutor
         }
     }
 
-    private IModuleScheduler InitializeScheduler(IReadOnlyList<IModule> modules)
+    private async Task<IModuleScheduler> InitializeSchedulerAsync(IReadOnlyList<IModule> modules)
     {
         _logger.LogDebug("Initializing unified scheduler for {Count} modules", modules.Count);
+
+        // Record pipeline start time for metrics
+        _metricsCollector.SetPipelineStartTime(DateTimeOffset.UtcNow);
+
+        // Invoke registration events before dependency resolution
+        await _registrationEventExecutor.InvokeRegistrationEventsAsync(modules);
 
         var scheduler = _schedulerFactory.Create();
         scheduler.InitializeModules(modules);
@@ -377,9 +401,20 @@ internal class ModuleExecutor : IModuleExecutor
         await _mediator.Publish(new ModuleStartedNotification(moduleState, estimatedDuration));
 
         using var semaphoreHandle = await WaitForParallelLimiter(moduleType);
+        using var executionTypeHandle = await WaitForExecutionTypeLimiter(moduleState);
+
+        // Track start time for lifecycle events
+        var startTime = DateTimeOffset.UtcNow;
+        var moduleAttributes = moduleType.GetCustomAttributes(inherit: true).OfType<Attribute>().ToList();
 
         try
         {
+            // Invoke OnModuleReady lifecycle event (dependencies satisfied, about to execute)
+            await InvokeReadyEventAsync(module, moduleType, moduleAttributes, moduleState.ReadyTime ?? startTime, pipelineContext, scopedServiceProvider, cancellationToken);
+
+            // Invoke OnModuleStart lifecycle event
+            await InvokeStartEventAsync(module, moduleType, moduleAttributes, startTime, pipelineContext, scopedServiceProvider, cancellationToken);
+
             // Execute via the ModuleExecutionPipeline using reflection to handle the generic type
             var result = await ExecuteTypedModule(module, executionContext, moduleContext, cancellationToken);
 
@@ -388,6 +423,9 @@ internal class ModuleExecutor : IModuleExecutor
 
             if (executionContext.Status == Enums.Status.Skipped)
             {
+                // Invoke OnModuleSkipped lifecycle event
+                await InvokeSkippedEventAsync(module, moduleType, moduleAttributes, startTime, Enums.Status.Skipped, pipelineContext, scopedServiceProvider, executionContext.SkipResult!, cancellationToken);
+
                 await _mediator.Publish(new ModuleSkippedNotification(moduleState, executionContext.SkipResult));
                 return;
             }
@@ -395,19 +433,26 @@ internal class ModuleExecutor : IModuleExecutor
             await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(moduleType, executionContext.Duration);
             await _pipelineSetupExecutor.OnAfterModuleEndAsync(moduleState);
 
+            // Invoke OnModuleEnd lifecycle event
+            await InvokeEndEventAsync(module, moduleType, moduleAttributes, startTime, executionContext.Status, pipelineContext, scopedServiceProvider, result, cancellationToken);
+
             var isSuccessful = executionContext.Status == Enums.Status.Successful;
             await _mediator.Publish(new ModuleCompletedNotification(moduleState, isSuccessful));
         }
-        catch
+        catch (Exception ex)
         {
             // Even when an exception is thrown, we need to register the result if one was set
             // The ModuleExecutionPipeline sets the result before throwing
-            if (executionContext.ExecutionTask.IsCompletedSuccessfully)
+            // Check IsCompleted instead of IsCompletedSuccessfully to handle all completion states
+            if (executionContext.ExecutionTask.IsCompleted && !executionContext.ExecutionTask.IsFaulted && !executionContext.ExecutionTask.IsCanceled)
             {
                 var result = executionContext.ExecutionTask.Result;
                 moduleState.Result = result;
                 _resultRegistry.RegisterResult(moduleType, result);
             }
+
+            // Invoke OnModuleFailed lifecycle event
+            await InvokeFailedEventAsync(module, moduleType, moduleAttributes, startTime, pipelineContext, scopedServiceProvider, ex, cancellationToken);
 
             throw;
         }
@@ -459,6 +504,23 @@ internal class ModuleExecutor : IModuleExecutor
         if (parallelLimitAttributeType != null)
         {
             return await _parallelLimitProvider.GetLock(parallelLimitAttributeType).WaitAsync();
+        }
+
+        return NoOpDisposable.Instance;
+    }
+
+    private async Task<IDisposable> WaitForExecutionTypeLimiter(ModuleState moduleState)
+    {
+        var executionTypeLock = _parallelLimitProvider.GetExecutionTypeLock(moduleState.ExecutionType);
+
+        if (executionTypeLock != null)
+        {
+            _logger.LogDebug(
+                "Module {ModuleName} waiting for {ExecutionType} execution slot",
+                MarkupFormatter.FormatModuleName(moduleState.ModuleType.Name),
+                moduleState.ExecutionType);
+
+            return await executionTypeLock.WaitAsync();
         }
 
         return NoOpDisposable.Instance;
@@ -547,5 +609,157 @@ internal class ModuleExecutor : IModuleExecutor
             null)!;
 
         _resultRegistry.RegisterResult(moduleType, result);
+    }
+
+    private async Task InvokeReadyEventAsync(
+        IModule module,
+        Type moduleType,
+        IReadOnlyList<Attribute> moduleAttributes,
+        DateTimeOffset readyTime,
+        IPipelineContext pipelineContext,
+        IServiceProvider scopedServiceProvider,
+        CancellationToken cancellationToken)
+    {
+        var receivers = _attributeEventService.GetReadyReceivers(moduleType);
+        if (receivers.Count == 0)
+        {
+            return;
+        }
+
+        var pipelineStartTime = _metricsCollector.GetPipelineStartTime() ?? readyTime;
+
+        var eventContext = new ModuleReadyContext(
+            module,
+            moduleType,
+            moduleAttributes,
+            readyTime,
+            pipelineStartTime,
+            pipelineContext,
+            scopedServiceProvider,
+            _metadataRegistry,
+            cancellationToken);
+
+        await _attributeEventInvoker.InvokeReadyReceiversAsync(receivers, eventContext);
+    }
+
+    private async Task InvokeStartEventAsync(
+        IModule module,
+        Type moduleType,
+        IReadOnlyList<Attribute> moduleAttributes,
+        DateTimeOffset startTime,
+        IPipelineContext pipelineContext,
+        IServiceProvider scopedServiceProvider,
+        CancellationToken cancellationToken)
+    {
+        var receivers = _attributeEventService.GetStartReceivers(moduleType);
+        if (receivers.Count == 0)
+        {
+            return;
+        }
+
+        var eventContext = new ModuleEventContext(
+            module,
+            moduleType,
+            moduleAttributes,
+            startTime,
+            Enums.Status.Processing,
+            pipelineContext,
+            scopedServiceProvider,
+            _metadataRegistry,
+            cancellationToken);
+
+        await _attributeEventInvoker.InvokeStartReceiversAsync(receivers, eventContext);
+    }
+
+    private async Task InvokeEndEventAsync(
+        IModule module,
+        Type moduleType,
+        IReadOnlyList<Attribute> moduleAttributes,
+        DateTimeOffset startTime,
+        Enums.Status status,
+        IPipelineContext pipelineContext,
+        IServiceProvider scopedServiceProvider,
+        IModuleResult result,
+        CancellationToken cancellationToken)
+    {
+        var receivers = _attributeEventService.GetEndReceivers(moduleType);
+        if (receivers.Count == 0)
+        {
+            return;
+        }
+
+        var eventContext = new ModuleEventContext(
+            module,
+            moduleType,
+            moduleAttributes,
+            startTime,
+            status,
+            pipelineContext,
+            scopedServiceProvider,
+            _metadataRegistry,
+            cancellationToken);
+
+        await _attributeEventInvoker.InvokeEndReceiversAsync(receivers, eventContext, (ModuleResult)result);
+    }
+
+    private async Task InvokeFailedEventAsync(
+        IModule module,
+        Type moduleType,
+        IReadOnlyList<Attribute> moduleAttributes,
+        DateTimeOffset startTime,
+        IPipelineContext pipelineContext,
+        IServiceProvider scopedServiceProvider,
+        Exception exception,
+        CancellationToken cancellationToken)
+    {
+        var receivers = _attributeEventService.GetFailureReceivers(moduleType);
+        if (receivers.Count == 0)
+        {
+            return;
+        }
+
+        var eventContext = new ModuleEventContext(
+            module,
+            moduleType,
+            moduleAttributes,
+            startTime,
+            Enums.Status.Failed,
+            pipelineContext,
+            scopedServiceProvider,
+            _metadataRegistry,
+            cancellationToken);
+
+        await _attributeEventInvoker.InvokeFailureReceiversAsync(receivers, eventContext, exception);
+    }
+
+    private async Task InvokeSkippedEventAsync(
+        IModule module,
+        Type moduleType,
+        IReadOnlyList<Attribute> moduleAttributes,
+        DateTimeOffset startTime,
+        Enums.Status status,
+        IPipelineContext pipelineContext,
+        IServiceProvider scopedServiceProvider,
+        SkipDecision skipReason,
+        CancellationToken cancellationToken)
+    {
+        var receivers = _attributeEventService.GetSkippedReceivers(moduleType);
+        if (receivers.Count == 0)
+        {
+            return;
+        }
+
+        var eventContext = new ModuleEventContext(
+            module,
+            moduleType,
+            moduleAttributes,
+            startTime,
+            status,
+            pipelineContext,
+            scopedServiceProvider,
+            _metadataRegistry,
+            cancellationToken);
+
+        await _attributeEventInvoker.InvokeSkippedReceiversAsync(receivers, eventContext, skipReason);
     }
 }

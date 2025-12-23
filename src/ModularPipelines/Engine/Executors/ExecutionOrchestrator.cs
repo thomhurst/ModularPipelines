@@ -27,6 +27,8 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
     private readonly IModuleResultRegistry _resultRegistry;
     private readonly IModuleResultRepository _resultRepository;
     private readonly IPipelineContextProvider _pipelineContextProvider;
+    private readonly IMetricsCollector _metricsCollector;
+    private readonly IParallelLimitProvider _parallelLimitProvider;
 
     private readonly object _lock = new();
 
@@ -44,7 +46,9 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         IExceptionBuffer exceptionBuffer,
         IModuleResultRegistry resultRegistry,
         IModuleResultRepository resultRepository,
-        IPipelineContextProvider pipelineContextProvider)
+        IPipelineContextProvider pipelineContextProvider,
+        IMetricsCollector metricsCollector,
+        IParallelLimitProvider parallelLimitProvider)
     {
         _pipelineInitializer = pipelineInitializer;
         _moduleDisposeExecutor = moduleDisposeExecutor;
@@ -59,6 +63,8 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         _resultRegistry = resultRegistry;
         _resultRepository = resultRepository;
         _pipelineContextProvider = pipelineContextProvider;
+        _metricsCollector = metricsCollector;
+        _parallelLimitProvider = parallelLimitProvider;
     }
 
     public async Task<PipelineSummary> ExecuteAsync(CancellationToken cancellationToken = default)
@@ -155,7 +161,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         PipelineSummary? pipelineSummary)
     {
         var end = DateTimeOffset.UtcNow;
-        pipelineSummary ??= new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end, _resultRegistry);
+        pipelineSummary ??= new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end, _resultRegistry, _metricsCollector, _parallelLimitProvider.GetMaxDegreeOfParallelism());
 
         _consolePrinter.PrintResults(pipelineSummary);
 
@@ -207,7 +213,6 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
             var resultType = module.ResultType;
 
             // For ignored modules, always check for historical data if a repository is configured
-            // (This is different from skipped modules which require IHistoryAware)
             if (_resultRepository.GetType() != typeof(NoOpModuleResultRepository))
             {
                 var historicalResult = await TryGetHistoricalResultAsync(module, moduleType, resultType, pipelineContext);

@@ -308,7 +308,41 @@ internal class ProgressPrinter : IProgressPrinter,
 
         Console.WriteLine();
         AnsiConsole.Write(table.Expand());
+
+        // Print execution metrics if available
+        PrintMetrics(pipelineSummary);
+
         Console.WriteLine();
+    }
+
+    private static void PrintMetrics(PipelineSummary pipelineSummary)
+    {
+        var metrics = pipelineSummary.Metrics;
+        if (metrics == null)
+        {
+            return;
+        }
+
+        Console.WriteLine();
+        AnsiConsole.MarkupLine("[bold underline]Execution Metrics[/]");
+
+        var metricsTable = new Table
+        {
+            Border = TableBorder.Rounded,
+            ShowHeaders = false,
+        };
+
+        metricsTable.AddColumn("Metric");
+        metricsTable.AddColumn("Value");
+
+        metricsTable.AddRow("[cyan]Parallelism Factor[/]", $"[bold]{metrics.ParallelismFactor:F2}x[/]");
+        metricsTable.AddRow("[cyan]Peak Concurrency[/]", $"[bold]{metrics.PeakConcurrency}[/] modules");
+        metricsTable.AddRow("[cyan]Avg Concurrency[/]", $"[bold]{metrics.AverageConcurrency:F2}[/] modules");
+        metricsTable.AddRow("[cyan]Efficiency[/]", $"[bold]{metrics.Efficiency * 100:F0}%[/]");
+        metricsTable.AddRow("[cyan]Sequential Time[/]", $"[dim]{metrics.TotalModuleExecutionTime.ToDisplayString()}[/]");
+        metricsTable.AddRow("[cyan]Wall-Clock Time[/]", $"[dim]{metrics.WallClockDuration.ToDisplayString()}[/]");
+
+        AnsiConsole.Write(metricsTable);
     }
 
     private static string GetSuccessColor(ModuleState moduleState)
