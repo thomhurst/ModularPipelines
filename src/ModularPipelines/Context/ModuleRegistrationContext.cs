@@ -38,6 +38,28 @@ internal class ModuleRegistrationContext : IModuleRegistrationContext
         _metadataRegistry = metadataRegistry;
     }
 
+    /// <summary>
+    /// Initialises a new instance without IServiceCollection (for post-container-build scenarios).
+    /// </summary>
+    public ModuleRegistrationContext(
+        Type moduleType,
+        IReadOnlyList<Attribute> moduleAttributes,
+        IConfiguration configuration,
+        IHostEnvironment environment,
+        IReadOnlyList<Type> registeredModuleTypes,
+        IModuleDependencyRegistry dependencyRegistry,
+        IModuleMetadataRegistry metadataRegistry)
+    {
+        ModuleType = moduleType;
+        ModuleAttributes = moduleAttributes;
+        Configuration = configuration;
+        Environment = environment;
+        _registeredModuleTypes = registeredModuleTypes;
+        Services = null!;
+        _dependencyRegistry = dependencyRegistry;
+        _metadataRegistry = metadataRegistry;
+    }
+
     public Type ModuleType { get; }
 
     public IReadOnlyList<Attribute> ModuleAttributes { get; }

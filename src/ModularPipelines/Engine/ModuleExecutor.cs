@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Events;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
@@ -32,6 +33,7 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IModuleLoggerContainer _loggerContainer;
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly IModuleResultRegistry _resultRegistry;
+    private readonly IRegistrationEventExecutor _registrationEventExecutor;
 
     public ModuleExecutor(
         IPipelineSetupExecutor pipelineSetupExecutor,
@@ -48,7 +50,8 @@ internal class ModuleExecutor : IModuleExecutor
         IServiceProvider serviceProvider,
         IModuleLoggerContainer loggerContainer,
         EngineCancellationToken engineCancellationToken,
-        IModuleResultRegistry resultRegistry)
+        IModuleResultRegistry resultRegistry,
+        IRegistrationEventExecutor registrationEventExecutor)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _pipelineOptions = pipelineOptions;
@@ -65,6 +68,7 @@ internal class ModuleExecutor : IModuleExecutor
         _loggerContainer = loggerContainer;
         _engineCancellationToken = engineCancellationToken;
         _resultRegistry = resultRegistry;
+        _registrationEventExecutor = registrationEventExecutor;
     }
 
     /// <summary>
@@ -84,7 +88,7 @@ internal class ModuleExecutor : IModuleExecutor
 
         try
         {
-            scheduler = InitializeScheduler(modules);
+            scheduler = await InitializeSchedulerAsync(modules);
             return await ExecuteWithSchedulerAsync(modules, scheduler);
         }
         catch (Exception outerEx)
@@ -105,9 +109,12 @@ internal class ModuleExecutor : IModuleExecutor
         }
     }
 
-    private IModuleScheduler InitializeScheduler(IReadOnlyList<IModule> modules)
+    private async Task<IModuleScheduler> InitializeSchedulerAsync(IReadOnlyList<IModule> modules)
     {
         _logger.LogDebug("Initializing unified scheduler for {Count} modules", modules.Count);
+
+        // Invoke registration events before dependency resolution
+        await _registrationEventExecutor.InvokeRegistrationEventsAsync(modules);
 
         var scheduler = _schedulerFactory.Create();
         scheduler.InitializeModules(modules);
