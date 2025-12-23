@@ -34,6 +34,30 @@ internal class AttributeEventInvoker : IAttributeEventInvoker
         }
     }
 
+    public async Task InvokeReadyReceiversAsync(
+        IEnumerable<IModuleReadyEventReceiver> receivers,
+        IModuleReadyContext context)
+    {
+        foreach (var receiver in receivers)
+        {
+            try
+            {
+                await receiver.OnModuleReadyAsync(context);
+            }
+            catch (Exception ex)
+            {
+                if (receiver.ContinueOnError)
+                {
+                    _logger.LogWarning(ex, "Ready receiver {Type} failed, continuing", receiver.GetType().Name);
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+    }
+
     public async Task InvokeStartReceiversAsync(
         IEnumerable<IModuleStartEventReceiver> receivers,
         IModuleEventContext context)

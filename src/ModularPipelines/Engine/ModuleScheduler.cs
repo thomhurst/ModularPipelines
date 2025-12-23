@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine.Constraints;
 using ModularPipelines.Engine.Dependencies;
+using ModularPipelines.Enums;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
@@ -22,6 +23,7 @@ internal class ModuleScheduler : IModuleScheduler
     private readonly TimeProvider _timeProvider;
     private readonly SchedulerOptions _options;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
+    private readonly IMetricsCollector _metricsCollector;
     private readonly ConcurrentDictionary<Type, ModuleState> _moduleStates;
     private readonly HashSet<ModuleState> _queuedModules;
     private readonly HashSet<ModuleState> _executingModules;
@@ -36,12 +38,13 @@ internal class ModuleScheduler : IModuleScheduler
     private bool _schedulerCompleted;
     private bool _isDisposed;
 
-    public ModuleScheduler(ILogger logger, TimeProvider timeProvider, IOptions<SchedulerOptions> options, IModuleDependencyRegistry dependencyRegistry)
+    public ModuleScheduler(ILogger logger, TimeProvider timeProvider, IOptions<SchedulerOptions> options, IModuleDependencyRegistry dependencyRegistry, IMetricsCollector metricsCollector)
     {
         _logger = logger;
         _timeProvider = timeProvider;
         _options = options.Value;
         _dependencyRegistry = dependencyRegistry;
+        _metricsCollector = metricsCollector;
         _moduleStates = new ConcurrentDictionary<Type, ModuleState>();
         _queuedModules = new HashSet<ModuleState>();
         _executingModules = new HashSet<ModuleState>();
@@ -107,6 +110,28 @@ internal class ModuleScheduler : IModuleScheduler
                         MarkupFormatter.FormatModuleName(moduleType.Name),
                         string.Join(", ", state.RequiredLockKeys));
                 }
+            }
+
+            // Read priority attribute
+            var priorityAttr = moduleType.GetCustomAttribute<PriorityAttribute>();
+            if (priorityAttr != null)
+            {
+                state.Priority = priorityAttr.Priority;
+                _logger.LogDebug(
+                    "Module {ModuleName} has priority: {Priority}",
+                    MarkupFormatter.FormatModuleName(moduleType.Name),
+                    state.Priority);
+            }
+
+            // Read execution hint attribute
+            var executionHintAttr = moduleType.GetCustomAttribute<ExecutionHintAttribute>();
+            if (executionHintAttr != null)
+            {
+                state.ExecutionType = executionHintAttr.ExecutionType;
+                _logger.LogDebug(
+                    "Module {ModuleName} has execution type: {ExecutionType}",
+                    MarkupFormatter.FormatModuleName(moduleType.Name),
+                    state.ExecutionType);
             }
 
             // Use the overload that includes dynamic dependencies from registration events
@@ -405,6 +430,10 @@ internal class ModuleScheduler : IModuleScheduler
                 _executingModules.Add(state);
                 state.ExecutionStartTime = _timeProvider.GetUtcNow();
 
+                // Record metrics
+                _metricsCollector.RecordModuleStarted(moduleType, state.ExecutionStartTime.Value);
+                _metricsCollector.RecordConcurrencySnapshot(_executingModules.Count, state.ExecutionStartTime.Value);
+
                 return true;
             }
 
@@ -427,6 +456,12 @@ internal class ModuleScheduler : IModuleScheduler
             _executingModules.Remove(state);
             state.State = ModuleExecutionState.Completed;
             state.CompletionTime = _timeProvider.GetUtcNow();
+
+            // Record metrics
+            var wasSkipped = state.SkipResult != null && state.SkipResult != Models.SkipDecision.DoNotSkip;
+            var status = wasSkipped ? Enums.Status.Skipped : (success ? Enums.Status.Successful : Enums.Status.Failed);
+            _metricsCollector.RecordModuleCompleted(moduleType, state.CompletionTime.Value, success, wasSkipped, status);
+            _metricsCollector.RecordConcurrencySnapshot(_executingModules.Count, state.CompletionTime.Value);
 
             _logger.LogDebug(
                 "Module {ModuleName} completed with lock keys: [{Keys}] (Active: Q={Queued}, E={Executing})",
@@ -563,8 +598,10 @@ internal class ModuleScheduler : IModuleScheduler
     {
         lock (_stateLock)
         {
+            // Sort by priority descending so higher priority modules are queued first
             var potentiallyReadyModules = _moduleStates.Values
                 .Where(m => m.IsReadyToExecute)
+                .OrderByDescending(m => (int)m.Priority)
                 .ToList();
 
             var modulesToQueue = new List<ModuleState>();
@@ -576,8 +613,16 @@ internal class ModuleScheduler : IModuleScheduler
                     continue;
                 }
 
+                // Set ReadyTime if not already set (for modules with no dependencies)
+                var now = _timeProvider.GetUtcNow();
+                moduleState.ReadyTime ??= now;
+
+                // Record metrics
+                _metricsCollector.RecordModuleReady(moduleState.ModuleType, moduleState.ReadyTime.Value, moduleState.Priority, moduleState.ExecutionType);
+                _metricsCollector.RecordModuleQueued(moduleState.ModuleType, now);
+
                 moduleState.State = ModuleExecutionState.Queued;
-                moduleState.QueuedTime = _timeProvider.GetUtcNow();
+                moduleState.QueuedTime = now;
                 _queuedModules.Add(moduleState);
 
                 modulesToQueue.Add(moduleState);
@@ -688,6 +733,7 @@ internal class ModuleScheduler : IModuleScheduler
 
             if (dependent.IsReadyToExecute)
             {
+                dependent.ReadyTime = _timeProvider.GetUtcNow();
                 _logger.LogDebug(
                     "Dependent module {DependentName} now ready to execute (all dependencies met)",
                     MarkupFormatter.FormatModuleName(dependent.ModuleType.Name));

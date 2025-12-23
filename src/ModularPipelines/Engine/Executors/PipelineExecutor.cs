@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -13,6 +14,8 @@ internal class PipelineExecutor : IPipelineExecutor
     private readonly ILogger<PipelineExecutor> _logger;
     private readonly ISecondaryExceptionContainer _secondaryExceptionContainer;
     private readonly IModuleResultRegistry _resultRegistry;
+    private readonly IMetricsCollector _metricsCollector;
+    private readonly IParallelLimitProvider _parallelLimitProvider;
 
     public PipelineExecutor(
         IPipelineSetupExecutor pipelineSetupExecutor,
@@ -20,7 +23,9 @@ internal class PipelineExecutor : IPipelineExecutor
         EngineCancellationToken engineCancellationToken,
         ILogger<PipelineExecutor> logger,
         ISecondaryExceptionContainer secondaryExceptionContainer,
-        IModuleResultRegistry resultRegistry)
+        IModuleResultRegistry resultRegistry,
+        IMetricsCollector metricsCollector,
+        IParallelLimitProvider parallelLimitProvider)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _moduleExecutor = moduleExecutor;
@@ -28,6 +33,8 @@ internal class PipelineExecutor : IPipelineExecutor
         _logger = logger;
         _secondaryExceptionContainer = secondaryExceptionContainer;
         _resultRegistry = resultRegistry;
+        _metricsCollector = metricsCollector;
+        _parallelLimitProvider = parallelLimitProvider;
     }
 
     public async Task<PipelineSummary> ExecuteAsync(List<IModule> runnableModules,
@@ -46,7 +53,7 @@ internal class PipelineExecutor : IPipelineExecutor
         {
             var end = DateTimeOffset.UtcNow;
 
-            pipelineSummary = new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end, _resultRegistry);
+            pipelineSummary = new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end, _resultRegistry, _metricsCollector, _parallelLimitProvider.GetMaxDegreeOfParallelism());
 
             await _pipelineSetupExecutor.OnEndAsync(pipelineSummary);
         }

@@ -15,6 +15,9 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
     public IReadOnlyList<IModuleRegistrationEventReceiver> GetRegistrationReceivers(Type moduleType)
         => GetCache(moduleType).RegistrationReceivers;
 
+    public IReadOnlyList<IModuleReadyEventReceiver> GetReadyReceivers(Type moduleType)
+        => GetCache(moduleType).ReadyReceivers;
+
     public IReadOnlyList<IModuleStartEventReceiver> GetStartReceivers(Type moduleType)
         => GetCache(moduleType).StartReceivers;
 
@@ -36,6 +39,7 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
         var attributes = moduleType.GetCustomAttributes(inherit: true);
 
         var registrationReceivers = new List<IModuleRegistrationEventReceiver>();
+        var readyReceivers = new List<IModuleReadyEventReceiver>();
         var startReceivers = new List<IModuleStartEventReceiver>();
         var endReceivers = new List<IModuleEndEventReceiver>();
         var failureReceivers = new List<IModuleFailureEventReceiver>();
@@ -46,6 +50,11 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
             if (attribute is IModuleRegistrationEventReceiver registration)
             {
                 registrationReceivers.Add(registration);
+            }
+
+            if (attribute is IModuleReadyEventReceiver ready)
+            {
+                readyReceivers.Add(ready);
             }
 
             if (attribute is IModuleStartEventReceiver start)
@@ -71,6 +80,7 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
 
         return new AttributeReceiverCache(
             registrationReceivers,
+            readyReceivers,
             startReceivers,
             endReceivers,
             failureReceivers,
@@ -79,6 +89,7 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
 
     private sealed record AttributeReceiverCache(
         IReadOnlyList<IModuleRegistrationEventReceiver> RegistrationReceivers,
+        IReadOnlyList<IModuleReadyEventReceiver> ReadyReceivers,
         IReadOnlyList<IModuleStartEventReceiver> StartReceivers,
         IReadOnlyList<IModuleEndEventReceiver> EndReceivers,
         IReadOnlyList<IModuleFailureEventReceiver> FailureReceivers,

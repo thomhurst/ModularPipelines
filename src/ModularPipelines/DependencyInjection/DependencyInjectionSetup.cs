@@ -169,6 +169,9 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IModuleMetadataRegistry, ModuleMetadataRegistry>()
             .AddSingleton<IModuleAttributeEventService, ModuleAttributeEventService>()
             .AddSingleton<IAttributeEventInvoker, AttributeEventInvoker>()
-            .AddSingleton<IRegistrationEventExecutor, RegistrationEventExecutor>();
+            .AddSingleton<IRegistrationEventExecutor, RegistrationEventExecutor>()
+
+            // Metrics collection
+            .AddSingleton<IMetricsCollector, MetricsCollector>();
     }
 }
