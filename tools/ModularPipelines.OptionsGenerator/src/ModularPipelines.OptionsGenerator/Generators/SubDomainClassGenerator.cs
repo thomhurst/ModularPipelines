@@ -47,9 +47,29 @@ public class SubDomainClassGenerator : ICodeGenerator
         List<GeneratedFile> files,
         CliCommandDefinition? parentCommand = null)
     {
+        // Build map of commands that collide with child property names
+        // These will become Execute() methods on the child classes instead
+        var collidingCommands = new Dictionary<string, CliCommandDefinition>(StringComparer.OrdinalIgnoreCase);
+        foreach (var command in node.Commands)
+        {
+            var methodName = GetMethodNameFromCommand(command);
+            var matchingChild = node.Children.Values
+                .FirstOrDefault(c => c.PascalSegment.Equals(methodName, StringComparison.OrdinalIgnoreCase));
+
+            if (matchingChild != null)
+            {
+                collidingCommands[matchingChild.Segment] = command;
+            }
+        }
+
         // Generate file for this node
-        // Only pass parentCommand for the root node (depth 0)
-        var content = GenerateNodeClass(node, tool, node.Depth == 0 ? parentCommand : null);
+        // Pass parentCommand only for root nodes (depth 0), and pass excluded commands
+        var content = GenerateNodeClass(
+            node,
+            tool,
+            node.Depth == 0 ? parentCommand : null,
+            collidingCommands.Values.ToHashSet());
+
         var fileName = $"{node.ClassName}.cs";
         var relativePath = Path.Combine(tool.OutputDirectory, "Services", fileName);
 
@@ -59,17 +79,20 @@ public class SubDomainClassGenerator : ICodeGenerator
             Content = content
         });
 
-        // Recursively generate files for children (no parent command for nested nodes)
+        // Recursively generate files for children
+        // Pass colliding command as parentCommand so it becomes Execute() on the child
         foreach (var child in node.Children.Values.OrderBy(c => c.PascalSegment))
         {
-            GenerateFilesFromTree(child, tool, files);
+            collidingCommands.TryGetValue(child.Segment, out var childParentCommand);
+            GenerateFilesFromTree(child, tool, files, childParentCommand);
         }
     }
 
     private static string GenerateNodeClass(
         CommandTreeNode node,
         CliToolDefinition tool,
-        CliCommandDefinition? parentCommand = null)
+        CliCommandDefinition? parentCommand = null,
+        HashSet<CliCommandDefinition>? excludedCommands = null)
     {
         var sb = new StringBuilder();
 
@@ -135,7 +158,12 @@ public class SubDomainClassGenerator : ICodeGenerator
         }
 
         // Methods for direct commands at this level
-        var hasCommands = node.Commands.Count > 0 || parentCommand is not null;
+        // Filter out commands that collide with child property names
+        var filteredCommands = excludedCommands != null
+            ? node.Commands.Where(c => !excludedCommands.Contains(c)).ToList()
+            : node.Commands;
+
+        var hasCommands = filteredCommands.Count > 0 || parentCommand is not null;
         if (hasCommands)
         {
             sb.AppendLine();
@@ -149,7 +177,7 @@ public class SubDomainClassGenerator : ICodeGenerator
                 sb.AppendLine();
             }
 
-            foreach (var command in node.Commands.OrderBy(c => c.ClassName))
+            foreach (var command in filteredCommands.OrderBy(c => c.ClassName))
             {
                 GenerateMethod(sb, command, node);
                 sb.AppendLine();
