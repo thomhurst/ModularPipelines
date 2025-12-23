@@ -36,6 +36,7 @@ public class ServiceImplementationGenerator : ICodeGenerator
 
         sb.AppendLine("using ModularPipelines.Context;");
         sb.AppendLine("using ModularPipelines.Models;");
+        sb.AppendLine("using ModularPipelines.Options;");
         sb.AppendLine($"using {tool.TargetNamespace}.Options;");
         sb.AppendLine();
 
@@ -165,7 +166,7 @@ public class ServiceImplementationGenerator : ICodeGenerator
         var hasRequiredParams = command.RequiredOptions.Count > 0 ||
                                 command.PositionalArguments.Any(p => p.IsRequired);
 
-        // XML documentation
+        // First overload: without logging options (delegates to the one with logging options)
         sb.AppendLine("    /// <inheritdoc />");
 
         // Method signature - nullable options if no required params
@@ -178,14 +179,41 @@ public class ServiceImplementationGenerator : ICodeGenerator
         sb.AppendLine("        CancellationToken cancellationToken = default)");
         sb.AppendLine("    {");
 
-        // Method body
+        // Delegate to the overload with logging options
         if (hasRequiredParams)
         {
-            sb.AppendLine("        return await _command.ExecuteCommandLineTool(options, cancellationToken);");
+            sb.AppendLine($"        return await {methodName}(options, null, cancellationToken);");
         }
         else
         {
-            sb.AppendLine($"        return await _command.ExecuteCommandLineTool(options ?? new {command.ClassName}(), cancellationToken);");
+            sb.AppendLine($"        return await {methodName}(options, null, cancellationToken);");
+        }
+
+        sb.AppendLine("    }");
+        sb.AppendLine();
+
+        // Second overload: with logging options
+        sb.AppendLine("    /// <inheritdoc />");
+
+        // For the second overload, options must be required (not nullable) so we can distinguish overloads
+        var optionsParamWithLogging = hasRequiredParams
+            ? $"{command.ClassName} options"
+            : $"{command.ClassName}? options";
+
+        sb.AppendLine($"    public virtual async Task<CommandResult> {methodName}(");
+        sb.AppendLine($"        {optionsParamWithLogging},");
+        sb.AppendLine("        CommandLoggingOptions? loggingOptions,");
+        sb.AppendLine("        CancellationToken cancellationToken = default)");
+        sb.AppendLine("    {");
+
+        // Method body
+        if (hasRequiredParams)
+        {
+            sb.AppendLine("        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);");
+        }
+        else
+        {
+            sb.AppendLine($"        return await _command.ExecuteCommandLineTool(options ?? new {command.ClassName}(), loggingOptions, cancellationToken);");
         }
 
         sb.AppendLine("    }");
