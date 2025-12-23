@@ -86,3 +86,60 @@ where `appsettings.json` is constructed as follows:
 Once configured, Modular Pipelines will handle authentication and authorization automatically by utilizing the provided access token and will deliver a GitHub client that is ready for immediate use.
 
 **Important Note:** This is just an example; **do not store any confidential data in appsettings.json, .env files, and similar.** Use secret storage, key-vault services, etc., for storing sensitive data, and then use the described configuration practices as shown in the example above.
+
+## HTTP Logging
+
+By default, GitHub API requests log only the **HTTP status code** and **duration** to avoid verbose output. This is especially important when uploading large files, as logging the entire request/response body can generate thousands of lines of output.
+
+You can control the HTTP logging level using the `HttpLogging` property in `GitHubOptions`. The available options are:
+
+- `HttpLoggingType.None` - No HTTP logging
+- `HttpLoggingType.Request` - Log HTTP requests
+- `HttpLoggingType.Response` - Log HTTP responses
+- `HttpLoggingType.StatusCode` - Log HTTP status codes
+- `HttpLoggingType.Duration` - Log request duration
+
+You can combine these flags using the bitwise OR operator (`|`).
+
+### Setting HTTP Logging for GitHub
+
+Configure HTTP logging through `GitHubOptions`:
+
+```cs
+await PipelineHostBuilder.Create()
+    .ConfigureServices((context, collection) =>
+    {
+        collection.Configure<GitHubOptions>(options =>
+        {
+            // Disable all HTTP logging
+            options.HttpLogging = HttpLoggingType.None;
+            
+            // Or enable only specific logging
+            options.HttpLogging = HttpLoggingType.StatusCode | HttpLoggingType.Duration;
+            
+            // Or enable full logging (use with caution)
+            options.HttpLogging = HttpLoggingType.Request | HttpLoggingType.Response | 
+                                  HttpLoggingType.StatusCode | HttpLoggingType.Duration;
+        });
+    })
+    .ExecutePipelineAsync();
+```
+
+### Setting Default HTTP Logging
+
+You can also set a default HTTP logging level for all HTTP requests (not just GitHub) using `PipelineOptions`:
+
+```cs
+await PipelineHostBuilder.Create()
+    .ConfigureServices((context, collection) =>
+    {
+        collection.Configure<PipelineOptions>(options =>
+        {
+            // This applies to all HTTP requests unless overridden
+            options.DefaultHttpLogging = HttpLoggingType.StatusCode | HttpLoggingType.Duration;
+        });
+    })
+    .ExecutePipelineAsync();
+```
+
+If `GitHubOptions.HttpLogging` is not set, the value from `PipelineOptions.DefaultHttpLogging` will be used.
