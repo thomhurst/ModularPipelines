@@ -433,7 +433,8 @@ internal class ModuleExecutor : IModuleExecutor
         {
             // Even when an exception is thrown, we need to register the result if one was set
             // The ModuleExecutionPipeline sets the result before throwing
-            if (executionContext.ExecutionTask.IsCompletedSuccessfully)
+            // Check IsCompleted instead of IsCompletedSuccessfully to handle all completion states
+            if (executionContext.ExecutionTask.IsCompleted && !executionContext.ExecutionTask.IsFaulted && !executionContext.ExecutionTask.IsCanceled)
             {
                 var result = executionContext.ExecutionTask.Result;
                 moduleState.Result = result;
