@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 
 namespace ModularPipelines.Logging;
@@ -24,6 +25,7 @@ internal class ModuleOutputWriter : IModuleOutputWriter, IDisposable
     private readonly IBuildSystemFormatter _formatter;
     private readonly IConsoleWriter _consoleWriter;
     private readonly ISecretObfuscator _secretObfuscator;
+    private readonly ILogger _logger;
     private readonly ModuleOutputContext _context;
     private readonly object _writeLock = new();
     private bool _isDisposed;
@@ -33,6 +35,7 @@ internal class ModuleOutputWriter : IModuleOutputWriter, IDisposable
         IBuildSystemFormatterProvider formatterProvider,
         IConsoleWriter consoleWriter,
         ISecretObfuscator secretObfuscator,
+        ILogger logger,
         string moduleName)
     {
         _scope = scope;
@@ -40,6 +43,7 @@ internal class ModuleOutputWriter : IModuleOutputWriter, IDisposable
         _formatter = formatterProvider.GetFormatter();
         _consoleWriter = consoleWriter;
         _secretObfuscator = secretObfuscator;
+        _logger = logger;
         _context = new ModuleOutputContext(moduleName);
     }
 
@@ -57,6 +61,23 @@ internal class ModuleOutputWriter : IModuleOutputWriter, IDisposable
 
             var obfuscated = _secretObfuscator.Obfuscate(message, null) ?? message;
             _buffer.Add(obfuscated);
+        }
+    }
+
+    /// <summary>
+    /// Adds a log event to the buffer.
+    /// This method is for internal framework use only.
+    /// </summary>
+    internal void AddLogEvent(StringOrLogEvent logEvent)
+    {
+        lock (_writeLock)
+        {
+            if (_isDisposed)
+            {
+                return;
+            }
+
+            _buffer.Add(logEvent);
         }
     }
 
@@ -133,6 +154,13 @@ internal class ModuleOutputWriter : IModuleOutputWriter, IDisposable
                 if (evt.IsString && evt.StringValue != null)
                 {
                     _consoleWriter.LogToConsole(evt.StringValue);
+                }
+                else if (evt.LogEvent.HasValue)
+                {
+                    var logEvent = evt.LogEvent.Value;
+
+                    // Replay the log event through the injected logger
+                    _logger.Log(logEvent.LogLevel, logEvent.EventId, logEvent.State, logEvent.Exception, logEvent.Formatter);
                 }
             }
 

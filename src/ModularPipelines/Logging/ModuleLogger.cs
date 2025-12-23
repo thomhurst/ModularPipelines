@@ -55,10 +55,11 @@ internal abstract class ModuleLogger : IModuleLogger, IConsoleWriter
 
 internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, IConsoleWriter, ILogger<T>
 {
+    private static readonly string CategoryName = typeof(T).FullName ?? typeof(T).Name;
+
     private readonly ILogger<T> _defaultLogger;
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly IFormattedLogValuesObfuscator _formattedLogValuesObfuscator;
-    private readonly ILogEventBuffer _logEventBuffer;
     private readonly ModuleOutputWriter _outputWriter;
 
     private bool _isDisposed;
@@ -68,14 +69,12 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, IConsoleWriter, IL
         IModuleLoggerContainer moduleLoggerContainer,
         ISecretObfuscator secretObfuscator,
         IFormattedLogValuesObfuscator formattedLogValuesObfuscator,
-        ILogEventBuffer logEventBuffer,
         IModuleOutputWriterFactory outputWriterFactory)
     {
         _defaultLogger = defaultLogger;
         _secretObfuscator = secretObfuscator;
         _formattedLogValuesObfuscator = formattedLogValuesObfuscator;
-        _logEventBuffer = logEventBuffer;
-        _outputWriter = outputWriterFactory.Create(typeof(T).Name);
+        _outputWriter = outputWriterFactory.Create(typeof(T).Name, defaultLogger);
         moduleLoggerContainer.AddLogger(this);
 
         Disposer.RegisterOnShutdown(this);
@@ -109,9 +108,9 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, IConsoleWriter, IL
 
             var mappedFormatter = MapFormatter(formatter);
 
-            var valueTuple = (logLevel, eventId, state, exception, mappedFormatter);
+            var logEvent = (logLevel, eventId, (object)state!, exception, mappedFormatter, CategoryName);
 
-            _logEventBuffer.Add(valueTuple!);
+            _outputWriter.AddLogEvent(logEvent);
 
             LastLogWritten = DateTime.UtcNow;
         }

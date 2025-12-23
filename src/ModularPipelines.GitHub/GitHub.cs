@@ -37,7 +37,7 @@ internal class GitHub : IGitHub
 
         _client = new Lazy<IGitHubClient>(InitializeClient);
         RepositoryInfo = gitHubRepositoryInfo;
-        _outputWriter = outputWriterFactory.Create("GitHub");
+        _outputWriter = outputWriterFactory.Create("GitHub", moduleLoggerProvider.GetLogger());
     }
 
     public void WriteLine(string message)
