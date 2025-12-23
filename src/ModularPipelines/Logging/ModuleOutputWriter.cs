@@ -43,6 +43,8 @@ internal class ModuleOutputWriter : IModuleOutputWriter, IDisposable
     /// <inheritdoc />
     public void WriteLine(string message)
     {
+        ArgumentNullException.ThrowIfNull(message);
+
         lock (_writeLock)
         {
             if (_isDisposed)
@@ -56,8 +58,15 @@ internal class ModuleOutputWriter : IModuleOutputWriter, IDisposable
     }
 
     /// <inheritdoc />
+    /// <remarks>
+    /// This method is not thread-safe and does not use internal locking.
+    /// Callers should ensure single-threaded access or provide their own synchronization.
+    /// Intended for use in scenarios where the caller controls execution order (e.g., critical messages during long operations).
+    /// </remarks>
     public void WriteLineDirect(string message)
     {
+        ArgumentNullException.ThrowIfNull(message);
+
         var obfuscated = _secretObfuscator.Obfuscate(message, null) ?? message;
         _consoleWriter.LogToConsole(obfuscated);
     }
@@ -65,14 +74,21 @@ internal class ModuleOutputWriter : IModuleOutputWriter, IDisposable
     /// <inheritdoc />
     public IDisposable BeginSection(string name)
     {
+        ArgumentNullException.ThrowIfNull(name);
+
         return new OutputSection(this, name);
     }
 
     /// <summary>
     /// Sets the exception for failed module status in section header.
+    /// This method is for internal framework use only and is called by the module execution engine
+    /// when a module fails to record the exception for display in the output section header.
     /// </summary>
-    public void SetException(Exception exception)
+    /// <param name="exception">The exception that caused the module to fail.</param>
+    internal void SetException(Exception exception)
     {
+        ArgumentNullException.ThrowIfNull(exception);
+
         _context.Exception = exception;
     }
 
