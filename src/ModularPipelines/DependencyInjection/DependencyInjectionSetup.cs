@@ -5,6 +5,8 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Linux;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Attributes;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Executors;
 using ModularPipelines.Events;
 using ModularPipelines.Extensions;
@@ -160,6 +162,13 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IFormattedLogValuesObfuscator, FormattedLogValuesObfuscator>()
             .AddSingleton<IDependencyTreeFormatter, DependencyTreeFormatter>()
             .AddSingleton<ICommandModelProvider, CommandModelProvider>()
-            .AddSingleton<ICommandArgumentBuilder, CommandArgumentBuilder>();
+            .AddSingleton<ICommandArgumentBuilder, CommandArgumentBuilder>()
+
+            // Attribute event system
+            .AddSingleton<IModuleDependencyRegistry, ModuleDependencyRegistry>()
+            .AddSingleton<IModuleMetadataRegistry, ModuleMetadataRegistry>()
+            .AddSingleton<IModuleAttributeEventService, ModuleAttributeEventService>()
+            .AddSingleton<IAttributeEventInvoker, AttributeEventInvoker>()
+            .AddSingleton<IRegistrationEventExecutor, RegistrationEventExecutor>();
     }
 }

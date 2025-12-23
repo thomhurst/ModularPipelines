@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine.Constraints;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
@@ -20,6 +21,7 @@ internal class ModuleScheduler : IModuleScheduler
     private readonly ILogger _logger;
     private readonly TimeProvider _timeProvider;
     private readonly SchedulerOptions _options;
+    private readonly IModuleDependencyRegistry _dependencyRegistry;
     private readonly ConcurrentDictionary<Type, ModuleState> _moduleStates;
     private readonly HashSet<ModuleState> _queuedModules;
     private readonly HashSet<ModuleState> _executingModules;
@@ -34,11 +36,12 @@ internal class ModuleScheduler : IModuleScheduler
     private bool _schedulerCompleted;
     private bool _isDisposed;
 
-    public ModuleScheduler(ILogger logger, TimeProvider timeProvider, IOptions<SchedulerOptions> options)
+    public ModuleScheduler(ILogger logger, TimeProvider timeProvider, IOptions<SchedulerOptions> options, IModuleDependencyRegistry dependencyRegistry)
     {
         _logger = logger;
         _timeProvider = timeProvider;
         _options = options.Value;
+        _dependencyRegistry = dependencyRegistry;
         _moduleStates = new ConcurrentDictionary<Type, ModuleState>();
         _queuedModules = new HashSet<ModuleState>();
         _executingModules = new HashSet<ModuleState>();
@@ -106,8 +109,8 @@ internal class ModuleScheduler : IModuleScheduler
                 }
             }
 
-            // Use the overload that handles DependsOnAllModulesInheritingFromAttribute
-            var dependencies = ModuleDependencyResolver.GetDependencies(moduleType, availableModuleTypes);
+            // Use the overload that includes dynamic dependencies from registration events
+            var dependencies = ModuleDependencyResolver.GetAllDependencies(moduleType, availableModuleTypes, _dependencyRegistry);
 
             foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
             {
