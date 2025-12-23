@@ -6,6 +6,7 @@ using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests.Attributes;
 
+[NotInParallel(nameof(MetadataCrossPhaseIntegrationTests))]
 public class MetadataCrossPhaseIntegrationTests : TestBase
 {
     private static readonly List<string> EventLog = new();

@@ -9,6 +9,7 @@ using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests.Attributes;
 
+[NotInParallel(nameof(LifecycleEventIntegrationTests))]
 public class LifecycleEventIntegrationTests : TestBase
 {
     private static readonly List<string> EventLog = new();

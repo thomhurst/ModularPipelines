@@ -5,6 +5,7 @@ using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests.Attributes;
 
+[NotInParallel(nameof(DynamicDependencyIntegrationTests))]
 public class DynamicDependencyIntegrationTests : TestBase
 {
     private static readonly List<string> ExecutionOrder = new();
