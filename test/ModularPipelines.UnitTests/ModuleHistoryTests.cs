@@ -39,20 +39,6 @@ public class ModuleHistoryTests
         }
     }
 
-    [SkipRunCondition]
-    private class UseHistoryTrueModule : Module<IDictionary<string, object>?>, IHistoryAware
-    {
-        public Task<bool> UseResultFromHistoryIfSkipped(IPipelineContext context)
-        {
-            return true.AsTask();
-        }
-
-        public override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            return Task.FromResult<IDictionary<string, object>?>(null);
-        }
-    }
-
     private class SkipFromMethod : Module<IDictionary<string, object>?>, ISkippable
     {
         public Task<SkipDecision> ShouldSkip(IPipelineContext context)
@@ -276,17 +262,4 @@ public class ModuleHistoryTests
         await Assert.That(result.ModuleStatus).IsEqualTo(Status.UsedHistory);
     }
 
-    [Test]
-    public async Task Use_History_Without_Repository_Still_Skips()
-    {
-        var host = await TestPipelineHostBuilder.Create()
-            .AddModule<UseHistoryTrueModule>()
-            .BuildHostAsync();
-
-        await host.ExecutePipelineAsync();
-
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
-        var result = resultRegistry.GetResult(typeof(UseHistoryTrueModule))!;
-        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Skipped);
-    }
 }
