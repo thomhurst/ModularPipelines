@@ -207,7 +207,6 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
             var resultType = module.ResultType;
 
             // For ignored modules, always check for historical data if a repository is configured
-            // (This is different from skipped modules which require IHistoryAware)
             if (_resultRepository.GetType() != typeof(NoOpModuleResultRepository))
             {
                 var historicalResult = await TryGetHistoricalResultAsync(module, moduleType, resultType, pipelineContext);

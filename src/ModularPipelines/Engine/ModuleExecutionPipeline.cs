@@ -40,7 +40,6 @@ internal interface IModuleExecutionPipeline
 /// <item><see cref="ITimeoutable"/> - Execution timeout</item>
 /// <item><see cref="IRetryable{T}"/> - Retry policy</item>
 /// <item><see cref="IIgnoreFailures"/> - Failure handling</item>
-/// <item><see cref="IHistoryAware"/> - Historical result caching</item>
 /// <item><see cref="IAlwaysRun"/> - Run even on pipeline failure</item>
 /// </list>
 /// </remarks>
@@ -179,34 +178,14 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         // For skipped modules with a history repository configured, check for cached results
         if (_resultRepository.GetType() != typeof(NoOpModuleResultRepository))
         {
-            // If module implements IHistoryAware, respect its decision
-            if (module is IHistoryAware historyAware)
+            var historicalResult = await _resultRepository.GetResultAsync<T>(module, moduleContext);
+            if (historicalResult != null)
             {
-                if (await historyAware.UseResultFromHistoryIfSkipped(moduleContext))
-                {
-                    var historicalResult = await _resultRepository.GetResultAsync<T>(module, moduleContext);
-                    if (historicalResult != null)
-                    {
-                        executionContext.Status = Status.UsedHistory;
-                        historicalResult.ModuleStatus = Status.UsedHistory;
-                        executionContext.SetTypedResult(historicalResult);
-                        logger.LogDebug("Using historical result for skipped module");
-                        return historicalResult;
-                    }
-                }
-            }
-            else
-            {
-                // For modules without IHistoryAware, always check history
-                var historicalResult = await _resultRepository.GetResultAsync<T>(module, moduleContext);
-                if (historicalResult != null)
-                {
-                    executionContext.Status = Status.UsedHistory;
-                    historicalResult.ModuleStatus = Status.UsedHistory;
-                    executionContext.SetTypedResult(historicalResult);
-                    logger.LogDebug("Using historical result for skipped module");
-                    return historicalResult;
-                }
+                executionContext.Status = Status.UsedHistory;
+                historicalResult.ModuleStatus = Status.UsedHistory;
+                executionContext.SetTypedResult(historicalResult);
+                logger.LogDebug("Using historical result for skipped module");
+                return historicalResult;
             }
         }
 
