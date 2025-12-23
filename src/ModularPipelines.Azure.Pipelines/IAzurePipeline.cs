@@ -1,8 +1,8 @@
-using ModularPipelines.Interfaces;
+using ModularPipelines.Logging;
 
 namespace ModularPipelines.Azure.Pipelines;
 
-public interface IAzurePipeline : ICollapsableLogging
+public interface IAzurePipeline : IModuleOutputWriter
 {
     public bool IsRunningOnAzurePipelines { get; }
 

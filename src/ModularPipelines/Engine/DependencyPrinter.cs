@@ -9,19 +9,22 @@ internal class DependencyPrinter : IDependencyPrinter
 {
     private readonly IDependencyChainProvider _dependencyChainProvider;
     private readonly ILogger<DependencyPrinter> _logger;
-    private readonly IInternalCollapsableLogging _collapsableLogging;
+    private readonly IConsoleWriter _consoleWriter;
+    private readonly IBuildSystemFormatter _formatter;
     private readonly IOptions<PipelineOptions> _options;
     private readonly IDependencyTreeFormatter _treeFormatter;
 
     public DependencyPrinter(IDependencyChainProvider dependencyChainProvider,
         ILogger<DependencyPrinter> logger,
-        IInternalCollapsableLogging collapsableLogging,
+        IConsoleWriter consoleWriter,
+        IBuildSystemFormatterProvider formatterProvider,
         IOptions<PipelineOptions> options,
         IDependencyTreeFormatter treeFormatter)
     {
         _dependencyChainProvider = dependencyChainProvider;
         _logger = logger;
-        _collapsableLogging = collapsableLogging;
+        _consoleWriter = consoleWriter;
+        _formatter = formatterProvider.GetFormatter();
         _options = options;
         _treeFormatter = treeFormatter;
     }
@@ -46,9 +49,21 @@ internal class DependencyPrinter : IDependencyPrinter
         }
 
         _logger.LogDebug("\n");
-        _collapsableLogging.StartConsoleLogGroupDirectToConsole("Dependency Chains", LogLevel.Debug);
+
+        var startCommand = _formatter.GetStartBlockCommand("Dependency Chains");
+        if (startCommand != null)
+        {
+            _consoleWriter.LogToConsole(startCommand);
+        }
+
         _logger.LogDebug("The following dependency chains have been detected:\r\n{Chain}", value);
-        _collapsableLogging.EndConsoleLogGroupDirectToConsole("Dependency Chains", LogLevel.Debug);
+
+        var endCommand = _formatter.GetEndBlockCommand("Dependency Chains");
+        if (endCommand != null)
+        {
+            _consoleWriter.LogToConsole(endCommand);
+        }
+
         _logger.LogDebug("\n");
     }
 }

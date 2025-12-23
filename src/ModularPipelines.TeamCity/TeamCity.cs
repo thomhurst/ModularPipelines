@@ -4,29 +4,29 @@ namespace ModularPipelines.TeamCity;
 
 internal class TeamCity : ITeamCity
 {
-    private readonly IModuleLoggerProvider _moduleLoggerProvider;
+    private readonly ModuleOutputWriter _outputWriter;
 
     public TeamCity(ITeamCityEnvironmentVariables environmentVariables,
-        IModuleLoggerProvider moduleLoggerProvider)
+        IModuleOutputWriterFactory outputWriterFactory)
     {
-        _moduleLoggerProvider = moduleLoggerProvider;
         EnvironmentVariables = environmentVariables;
+        _outputWriter = outputWriterFactory.Create("TeamCity");
     }
 
     public ITeamCityEnvironmentVariables EnvironmentVariables { get; }
 
-    public void StartConsoleLogGroup(string name)
+    public void WriteLine(string message)
     {
-        LogToConsole(BuildSystemValues.TeamCity.StartBlock(name));
+        _outputWriter.WriteLine(message);
     }
 
-    public void EndConsoleLogGroup(string name)
+    public void WriteLineDirect(string message)
     {
-        LogToConsole(BuildSystemValues.TeamCity.EndBlock(name));
+        _outputWriter.WriteLineDirect(message);
     }
 
-    public void LogToConsole(string value)
+    public IDisposable BeginSection(string name)
     {
-        ((IConsoleWriter) _moduleLoggerProvider.GetLogger()).LogToConsole(value);
+        return _outputWriter.BeginSection(name);
     }
 }
