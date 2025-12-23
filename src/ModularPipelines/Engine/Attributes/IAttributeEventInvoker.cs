@@ -10,6 +10,8 @@ internal interface IAttributeEventInvoker
 {
     Task InvokeRegistrationReceiversAsync(IEnumerable<IModuleRegistrationEventReceiver> receivers, IModuleRegistrationContext context);
 
+    Task InvokeReadyReceiversAsync(IEnumerable<IModuleReadyEventReceiver> receivers, IModuleReadyContext context);
+
     Task InvokeStartReceiversAsync(IEnumerable<IModuleStartEventReceiver> receivers, IModuleEventContext context);
 
     Task InvokeEndReceiversAsync(IEnumerable<IModuleEndEventReceiver> receivers, IModuleEventContext context, ModuleResult result);

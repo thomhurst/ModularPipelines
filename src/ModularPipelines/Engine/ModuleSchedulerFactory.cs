@@ -14,21 +14,24 @@ internal class ModuleSchedulerFactory : IModuleSchedulerFactory
     private readonly TimeProvider _timeProvider;
     private readonly IOptions<SchedulerOptions> _schedulerOptions;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
+    private readonly IMetricsCollector _metricsCollector;
 
     public ModuleSchedulerFactory(
         ILogger<ModuleScheduler> logger,
         TimeProvider timeProvider,
         IOptions<SchedulerOptions> schedulerOptions,
-        IModuleDependencyRegistry dependencyRegistry)
+        IModuleDependencyRegistry dependencyRegistry,
+        IMetricsCollector metricsCollector)
     {
         _logger = logger;
         _timeProvider = timeProvider;
         _schedulerOptions = schedulerOptions;
         _dependencyRegistry = dependencyRegistry;
+        _metricsCollector = metricsCollector;
     }
 
     public IModuleScheduler Create()
     {
-        return new ModuleScheduler(_logger, _timeProvider, _schedulerOptions, _dependencyRegistry);
+        return new ModuleScheduler(_logger, _timeProvider, _schedulerOptions, _dependencyRegistry, _metricsCollector);
     }
 }

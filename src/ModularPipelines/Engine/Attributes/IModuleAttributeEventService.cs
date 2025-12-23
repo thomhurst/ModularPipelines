@@ -9,6 +9,8 @@ internal interface IModuleAttributeEventService
 {
     IReadOnlyList<IModuleRegistrationEventReceiver> GetRegistrationReceivers(Type moduleType);
 
+    IReadOnlyList<IModuleReadyEventReceiver> GetReadyReceivers(Type moduleType);
+
     IReadOnlyList<IModuleStartEventReceiver> GetStartReceivers(Type moduleType);
 
     IReadOnlyList<IModuleEndEventReceiver> GetEndReceivers(Type moduleType);
