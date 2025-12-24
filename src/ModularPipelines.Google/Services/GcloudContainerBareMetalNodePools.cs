@@ -37,9 +37,8 @@ public class GcloudContainerBareMetalNodePools
         GcloudContainerBareMetalNodePoolsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalNodePoolsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a node pool in an      Anthos cluster on bare metal
@@ -51,9 +50,8 @@ public class GcloudContainerBareMetalNodePools
         GcloudContainerBareMetalNodePoolsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalNodePoolsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a node pool in      an Anthos cluster on bare metal
@@ -65,9 +63,8 @@ public class GcloudContainerBareMetalNodePools
         GcloudContainerBareMetalNodePoolsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalNodePoolsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enroll a node pool of a      user cluster in Anthos on bare metal
@@ -79,9 +76,8 @@ public class GcloudContainerBareMetalNodePools
         GcloudContainerBareMetalNodePoolsEnrollOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalNodePoolsEnrollOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list node pools in an Anthos      cluster on bare metal
@@ -93,9 +89,8 @@ public class GcloudContainerBareMetalNodePools
         GcloudContainerBareMetalNodePoolsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalNodePoolsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a node pool in an      Anthos cluster on bare metal
@@ -107,9 +102,8 @@ public class GcloudContainerBareMetalNodePools
         GcloudContainerBareMetalNodePoolsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalNodePoolsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

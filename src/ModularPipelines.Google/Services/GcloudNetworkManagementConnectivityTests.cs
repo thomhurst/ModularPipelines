@@ -37,9 +37,8 @@ public class GcloudNetworkManagementConnectivityTests
         GcloudNetworkManagementConnectivityTestsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementConnectivityTestsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a connectivity      test
@@ -51,9 +50,8 @@ public class GcloudNetworkManagementConnectivityTests
         GcloudNetworkManagementConnectivityTestsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementConnectivityTestsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a      connectivity test
@@ -65,9 +63,8 @@ public class GcloudNetworkManagementConnectivityTests
         GcloudNetworkManagementConnectivityTestsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementConnectivityTestsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list connectivity tests
@@ -79,9 +76,8 @@ public class GcloudNetworkManagementConnectivityTests
         GcloudNetworkManagementConnectivityTestsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementConnectivityTestsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// rerun a connectivity      test
@@ -93,9 +89,8 @@ public class GcloudNetworkManagementConnectivityTests
         GcloudNetworkManagementConnectivityTestsRerunOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementConnectivityTestsRerunOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an existing      connectivity test
@@ -107,9 +102,8 @@ public class GcloudNetworkManagementConnectivityTests
         GcloudNetworkManagementConnectivityTestsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementConnectivityTestsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

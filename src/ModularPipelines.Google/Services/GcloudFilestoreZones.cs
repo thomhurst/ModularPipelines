@@ -37,9 +37,8 @@ public class GcloudFilestoreZones
         GcloudFilestoreZonesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreZonesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

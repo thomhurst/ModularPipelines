@@ -37,9 +37,8 @@ public class GcloudDataplexEnvironmentsSessions
         GcloudDataplexEnvironmentsSessionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexEnvironmentsSessionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

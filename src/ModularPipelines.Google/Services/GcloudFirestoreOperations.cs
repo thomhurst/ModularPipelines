@@ -37,9 +37,8 @@ public class GcloudFirestoreOperations
         GcloudFirestoreOperationsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreOperationsCancelOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a completed Cloud Firestore      admin operation
@@ -51,9 +50,8 @@ public class GcloudFirestoreOperations
         GcloudFirestoreOperationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreOperationsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// retrieves information about a Cloud      Firestore admin operation
@@ -65,9 +63,8 @@ public class GcloudFirestoreOperations
         GcloudFirestoreOperationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreOperationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list pending Cloud Firestore admin      operations and their status
@@ -79,9 +76,8 @@ public class GcloudFirestoreOperations
         GcloudFirestoreOperationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreOperationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

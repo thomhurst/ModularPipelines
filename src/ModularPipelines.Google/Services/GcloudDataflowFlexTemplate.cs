@@ -37,9 +37,8 @@ public class GcloudDataflowFlexTemplate
         GcloudDataflowFlexTemplateBuildOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowFlexTemplateBuildOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// runs a job from the specified path
@@ -51,9 +50,8 @@ public class GcloudDataflowFlexTemplate
         GcloudDataflowFlexTemplateRunOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowFlexTemplateRunOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudContainerBinauthzAttestations
         GcloudContainerBinauthzAttestationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestationsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Binary Authorization      attestations
@@ -51,9 +50,8 @@ public class GcloudContainerBinauthzAttestations
         GcloudContainerBinauthzAttestationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

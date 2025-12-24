@@ -37,9 +37,8 @@ public class GcloudLoggingLogs
         GcloudLoggingLogsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudLoggingLogsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list your project's logs
@@ -51,9 +50,8 @@ public class GcloudLoggingLogs
         GcloudLoggingLogsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudLoggingLogsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

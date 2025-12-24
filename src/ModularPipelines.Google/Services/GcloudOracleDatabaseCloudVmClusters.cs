@@ -47,9 +47,8 @@ public class GcloudOracleDatabaseCloudVmClusters
         GcloudOracleDatabaseCloudVmClustersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudVmClustersCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a CloudVmCluster
@@ -61,9 +60,8 @@ public class GcloudOracleDatabaseCloudVmClusters
         GcloudOracleDatabaseCloudVmClustersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudVmClustersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe      cloudVmClusters
@@ -75,9 +73,8 @@ public class GcloudOracleDatabaseCloudVmClusters
         GcloudOracleDatabaseCloudVmClustersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudVmClustersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all CloudVmClusters
@@ -89,9 +86,8 @@ public class GcloudOracleDatabaseCloudVmClusters
         GcloudOracleDatabaseCloudVmClustersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudVmClustersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

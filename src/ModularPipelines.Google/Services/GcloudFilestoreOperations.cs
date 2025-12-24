@@ -37,9 +37,8 @@ public class GcloudFilestoreOperations
         GcloudFilestoreOperationsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreOperationsCancelOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Filestore operation
@@ -51,9 +50,8 @@ public class GcloudFilestoreOperations
         GcloudFilestoreOperationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreOperationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all Filestore operations
@@ -65,9 +63,8 @@ public class GcloudFilestoreOperations
         GcloudFilestoreOperationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreOperationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

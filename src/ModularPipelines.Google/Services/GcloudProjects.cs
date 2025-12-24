@@ -37,9 +37,8 @@ public class GcloudProjects
         GcloudProjectsOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudProjectsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add IAM policy binding for a      project
@@ -51,9 +50,8 @@ public class GcloudProjects
         GcloudProjectsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudProjectsAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a new project
@@ -65,9 +63,8 @@ public class GcloudProjects
         GcloudProjectsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudProjectsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a project
@@ -79,9 +76,8 @@ public class GcloudProjects
         GcloudProjectsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudProjectsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show metadata for a project
@@ -93,9 +89,8 @@ public class GcloudProjects
         GcloudProjectsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudProjectsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get IAM policies for a project      and its ancestors
@@ -107,9 +102,8 @@ public class GcloudProjects
         GcloudProjectsGetAncestorsIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudProjectsGetAncestorsIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the ancestors for a project
@@ -121,9 +115,8 @@ public class GcloudProjects
         GcloudProjectsGetAncestorsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudProjectsGetAncestorsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get IAM policy for a project
@@ -135,9 +128,8 @@ public class GcloudProjects
         GcloudProjectsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudProjectsGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list projects accessible by the active account
@@ -149,9 +141,8 @@ public class GcloudProjects
         GcloudProjectsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudProjectsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove IAM policy binding for a      project
@@ -163,9 +154,8 @@ public class GcloudProjects
         GcloudProjectsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudProjectsRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set IAM policy for a project
@@ -177,9 +167,8 @@ public class GcloudProjects
         GcloudProjectsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudProjectsSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// undelete a project
@@ -191,9 +180,8 @@ public class GcloudProjects
         GcloudProjectsUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudProjectsUndeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update the name of a project
@@ -205,9 +193,8 @@ public class GcloudProjects
         GcloudProjectsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudProjectsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

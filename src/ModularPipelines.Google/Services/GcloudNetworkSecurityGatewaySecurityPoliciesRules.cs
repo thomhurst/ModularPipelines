@@ -37,9 +37,8 @@ public class GcloudNetworkSecurityGatewaySecurityPoliciesRules
         GcloudNetworkSecurityGatewaySecurityPoliciesRulesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityGatewaySecurityPoliciesRulesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export      Gateway Security Policy Rule
@@ -51,9 +50,8 @@ public class GcloudNetworkSecurityGatewaySecurityPoliciesRules
         GcloudNetworkSecurityGatewaySecurityPoliciesRulesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityGatewaySecurityPoliciesRulesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import      Gateway Security Policy Rule
@@ -65,9 +63,8 @@ public class GcloudNetworkSecurityGatewaySecurityPoliciesRules
         GcloudNetworkSecurityGatewaySecurityPoliciesRulesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityGatewaySecurityPoliciesRulesImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Gateway      Security Policy Rules
@@ -79,9 +76,8 @@ public class GcloudNetworkSecurityGatewaySecurityPoliciesRules
         GcloudNetworkSecurityGatewaySecurityPoliciesRulesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityGatewaySecurityPoliciesRulesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

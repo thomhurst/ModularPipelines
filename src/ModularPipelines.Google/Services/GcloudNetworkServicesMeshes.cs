@@ -37,9 +37,8 @@ public class GcloudNetworkServicesMeshes
         GcloudNetworkServicesMeshesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMeshesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a mesh
@@ -51,9 +50,8 @@ public class GcloudNetworkServicesMeshes
         GcloudNetworkServicesMeshesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMeshesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export a mesh
@@ -65,9 +63,8 @@ public class GcloudNetworkServicesMeshes
         GcloudNetworkServicesMeshesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMeshesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import a mesh
@@ -79,9 +76,8 @@ public class GcloudNetworkServicesMeshes
         GcloudNetworkServicesMeshesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMeshesImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list meshes
@@ -93,9 +89,8 @@ public class GcloudNetworkServicesMeshes
         GcloudNetworkServicesMeshesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMeshesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

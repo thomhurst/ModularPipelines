@@ -37,9 +37,8 @@ public class GcloudDatabaseMigrationConnectionProfilesCreate
         GcloudDatabaseMigrationConnectionProfilesCreateAlloydbOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesCreateAlloydbOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a      Database Migration Service connection profile for Cloud SQL
@@ -51,9 +50,8 @@ public class GcloudDatabaseMigrationConnectionProfilesCreate
         GcloudDatabaseMigrationConnectionProfilesCreateCloudsqlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesCreateCloudsqlOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a      Database Migration Service connection profile for MySQL
@@ -65,9 +63,8 @@ public class GcloudDatabaseMigrationConnectionProfilesCreate
         GcloudDatabaseMigrationConnectionProfilesCreateMysqlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesCreateMysqlOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a      Database Migration Service connection profile for Oracle
@@ -79,9 +76,8 @@ public class GcloudDatabaseMigrationConnectionProfilesCreate
         GcloudDatabaseMigrationConnectionProfilesCreateOracleOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesCreateOracleOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a      Database Migration Service connection profile for PostgreSQL
@@ -93,9 +89,8 @@ public class GcloudDatabaseMigrationConnectionProfilesCreate
         GcloudDatabaseMigrationConnectionProfilesCreatePostgresqlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesCreatePostgresqlOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a      Database Migration Service connection profile for SQL Server
@@ -107,9 +102,8 @@ public class GcloudDatabaseMigrationConnectionProfilesCreate
         GcloudDatabaseMigrationConnectionProfilesCreateSqlserverOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesCreateSqlserverOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudBigtableLogicalViews
         GcloudBigtableLogicalViewsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableLogicalViewsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Bigtable logical view
@@ -51,9 +50,8 @@ public class GcloudBigtableLogicalViews
         GcloudBigtableLogicalViewsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableLogicalViewsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an existing Bigtable      logical view
@@ -65,9 +63,8 @@ public class GcloudBigtableLogicalViews
         GcloudBigtableLogicalViewsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableLogicalViewsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list existing Bigtable logical views
@@ -79,9 +76,8 @@ public class GcloudBigtableLogicalViews
         GcloudBigtableLogicalViewsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableLogicalViewsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Bigtable logical view
@@ -93,9 +89,8 @@ public class GcloudBigtableLogicalViews
         GcloudBigtableLogicalViewsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableLogicalViewsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

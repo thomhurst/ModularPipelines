@@ -37,9 +37,8 @@ public class GcloudDeploymentManagerOperations
         GcloudDeploymentManagerOperationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeploymentManagerOperationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list operations in a project
@@ -51,9 +50,8 @@ public class GcloudDeploymentManagerOperations
         GcloudDeploymentManagerOperationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeploymentManagerOperationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// wait for all operations      specified to complete before returning
@@ -65,9 +63,8 @@ public class GcloudDeploymentManagerOperations
         GcloudDeploymentManagerOperationsWaitOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeploymentManagerOperationsWaitOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

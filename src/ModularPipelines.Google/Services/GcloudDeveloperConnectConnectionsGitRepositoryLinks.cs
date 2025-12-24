@@ -37,9 +37,8 @@ public class GcloudDeveloperConnectConnectionsGitRepositoryLinks
         GcloudDeveloperConnectConnectionsGitRepositoryLinksCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectConnectionsGitRepositoryLinksCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a      single git repository link
@@ -51,9 +50,8 @@ public class GcloudDeveloperConnectConnectionsGitRepositoryLinks
         GcloudDeveloperConnectConnectionsGitRepositoryLinksDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectConnectionsGitRepositoryLinksDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get      details of a single git repository link
@@ -65,9 +63,8 @@ public class GcloudDeveloperConnectConnectionsGitRepositoryLinks
         GcloudDeveloperConnectConnectionsGitRepositoryLinksDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectConnectionsGitRepositoryLinksDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// token      - fetch the read token of a given gitRepositoryLink
@@ -79,9 +76,8 @@ public class GcloudDeveloperConnectConnectionsGitRepositoryLinks
         GcloudDeveloperConnectConnectionsGitRepositoryLinksFetchReadTokenOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectConnectionsGitRepositoryLinksFetchReadTokenOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// links      fetch-read-write-token - fetch the read/write token of a given      gitRepositoryLink
@@ -93,9 +89,8 @@ public class GcloudDeveloperConnectConnectionsGitRepositoryLinks
         GcloudDeveloperConnectConnectionsGitRepositoryLinksFetchReadWriteTokenOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectConnectionsGitRepositoryLinksFetchReadWriteTokenOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all      git repository links in a connection
@@ -107,9 +102,8 @@ public class GcloudDeveloperConnectConnectionsGitRepositoryLinks
         GcloudDeveloperConnectConnectionsGitRepositoryLinksListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectConnectionsGitRepositoryLinksListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

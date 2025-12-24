@@ -37,9 +37,8 @@ public class GcloudComputeMachineImages
         GcloudComputeMachineImagesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeMachineImagesAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Compute Engine machine      image
@@ -51,9 +50,8 @@ public class GcloudComputeMachineImages
         GcloudComputeMachineImagesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeMachineImagesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Compute Engine machine      image
@@ -65,9 +63,8 @@ public class GcloudComputeMachineImages
         GcloudComputeMachineImagesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeMachineImagesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute Engine machine      image
@@ -79,9 +76,8 @@ public class GcloudComputeMachineImages
         GcloudComputeMachineImagesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeMachineImagesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a      Compute Engine machine image
@@ -93,9 +89,8 @@ public class GcloudComputeMachineImages
         GcloudComputeMachineImagesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeMachineImagesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Compute Engine machine      image from virtual appliance in OVA/OVF format
@@ -107,9 +102,8 @@ public class GcloudComputeMachineImages
         GcloudComputeMachineImagesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeMachineImagesImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine machine      images
@@ -121,9 +115,8 @@ public class GcloudComputeMachineImages
         GcloudComputeMachineImagesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeMachineImagesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove IAM policy      binding from the IAM policy of a Compute Engine machine image
@@ -135,9 +128,8 @@ public class GcloudComputeMachineImages
         GcloudComputeMachineImagesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeMachineImagesRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for a      Compute Engine machine image
@@ -149,9 +141,8 @@ public class GcloudComputeMachineImages
         GcloudComputeMachineImagesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeMachineImagesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

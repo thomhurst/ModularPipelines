@@ -37,9 +37,8 @@ public class GcloudEdgeCacheServices
         GcloudEdgeCacheServicesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheServicesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about an      EdgeCacheService resource
@@ -51,9 +50,8 @@ public class GcloudEdgeCacheServices
         GcloudEdgeCacheServicesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheServicesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export an EdgeCacheService resource
@@ -65,9 +63,8 @@ public class GcloudEdgeCacheServices
         GcloudEdgeCacheServicesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheServicesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import an EdgeCacheService resource
@@ -79,9 +76,8 @@ public class GcloudEdgeCacheServices
         GcloudEdgeCacheServicesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheServicesImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// invalidate the cache for an      EdgeCacheService resource
@@ -93,9 +89,8 @@ public class GcloudEdgeCacheServices
         GcloudEdgeCacheServicesInvalidateCacheOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheServicesInvalidateCacheOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all EdgeCacheService resources in a      project
@@ -107,9 +102,8 @@ public class GcloudEdgeCacheServices
         GcloudEdgeCacheServicesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheServicesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an EdgeCacheService resource
@@ -121,9 +115,8 @@ public class GcloudEdgeCacheServices
         GcloudEdgeCacheServicesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheServicesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

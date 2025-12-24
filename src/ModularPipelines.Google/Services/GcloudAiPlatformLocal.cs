@@ -37,9 +37,8 @@ public class GcloudAiPlatformLocal
         GcloudAiPlatformLocalPredictOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformLocalPredictOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// run an AI Platform training job locally
@@ -51,9 +50,8 @@ public class GcloudAiPlatformLocal
         GcloudAiPlatformLocalTrainOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformLocalTrainOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

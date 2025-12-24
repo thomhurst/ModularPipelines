@@ -37,9 +37,8 @@ public class GcloudOracleDatabaseDatabases
         GcloudOracleDatabaseDatabasesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseDatabasesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all Databases
@@ -51,9 +50,8 @@ public class GcloudOracleDatabaseDatabases
         GcloudOracleDatabaseDatabasesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseDatabasesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

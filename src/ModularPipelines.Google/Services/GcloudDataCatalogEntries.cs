@@ -37,9 +37,8 @@ public class GcloudDataCatalogEntries
         GcloudDataCatalogEntriesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntriesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Data Catalog entry
@@ -51,9 +50,8 @@ public class GcloudDataCatalogEntries
         GcloudDataCatalogEntriesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntriesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Data Catalog entry
@@ -65,9 +63,8 @@ public class GcloudDataCatalogEntries
         GcloudDataCatalogEntriesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntriesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all entries in a Data Catalog entry      group
@@ -79,9 +76,8 @@ public class GcloudDataCatalogEntries
         GcloudDataCatalogEntriesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntriesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lookup a Data Catalog entry by its      target name
@@ -93,9 +89,8 @@ public class GcloudDataCatalogEntries
         GcloudDataCatalogEntriesLookupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntriesLookupOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// star a Data Catalog entry
@@ -107,9 +102,8 @@ public class GcloudDataCatalogEntries
         GcloudDataCatalogEntriesStarOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntriesStarOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// unstar a Data Catalog entry
@@ -121,9 +115,8 @@ public class GcloudDataCatalogEntries
         GcloudDataCatalogEntriesUnstarOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntriesUnstarOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Data Catalog entry
@@ -135,9 +128,8 @@ public class GcloudDataCatalogEntries
         GcloudDataCatalogEntriesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntriesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

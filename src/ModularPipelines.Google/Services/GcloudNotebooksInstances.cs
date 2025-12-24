@@ -37,9 +37,8 @@ public class GcloudNotebooksInstances
         GcloudNotebooksInstancesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for creating an instance
@@ -51,9 +50,8 @@ public class GcloudNotebooksInstances
         GcloudNotebooksInstancesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for deleting instances
@@ -65,9 +63,8 @@ public class GcloudNotebooksInstances
         GcloudNotebooksInstancesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for describing instances
@@ -79,9 +76,8 @@ public class GcloudNotebooksInstances
         GcloudNotebooksInstancesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for diagnose instances
@@ -93,9 +89,8 @@ public class GcloudNotebooksInstances
         GcloudNotebooksInstancesDiagnoseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesDiagnoseOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for checking if a notebook      instance is healthy
@@ -107,9 +102,8 @@ public class GcloudNotebooksInstances
         GcloudNotebooksInstancesGetHealthOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesGetHealthOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get IAM policy for an instance
@@ -121,9 +115,8 @@ public class GcloudNotebooksInstances
         GcloudNotebooksInstancesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for checking if a      notebook instance is upgradeable
@@ -135,9 +128,8 @@ public class GcloudNotebooksInstances
         GcloudNotebooksInstancesIsUpgradeableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesIsUpgradeableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for listing instances
@@ -149,9 +141,8 @@ public class GcloudNotebooksInstances
         GcloudNotebooksInstancesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for migrating instances
@@ -163,9 +154,8 @@ public class GcloudNotebooksInstances
         GcloudNotebooksInstancesMigrateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesMigrateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for registering instances
@@ -177,9 +167,8 @@ public class GcloudNotebooksInstances
         GcloudNotebooksInstancesRegisterOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesRegisterOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove IAM policy      binding for an instance
@@ -191,9 +180,8 @@ public class GcloudNotebooksInstances
         GcloudNotebooksInstancesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for resetting instances
@@ -205,9 +193,8 @@ public class GcloudNotebooksInstances
         GcloudNotebooksInstancesResetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesResetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for rolling back instances
@@ -219,9 +206,8 @@ public class GcloudNotebooksInstances
         GcloudNotebooksInstancesRollbackOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesRollbackOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for an      Instance
@@ -233,9 +219,8 @@ public class GcloudNotebooksInstances
         GcloudNotebooksInstancesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for starting instances
@@ -247,9 +232,8 @@ public class GcloudNotebooksInstances
         GcloudNotebooksInstancesStartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesStartOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for stopping instances
@@ -261,9 +245,8 @@ public class GcloudNotebooksInstances
         GcloudNotebooksInstancesStopOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesStopOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for updating instances
@@ -275,9 +258,8 @@ public class GcloudNotebooksInstances
         GcloudNotebooksInstancesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for upgrading instances
@@ -289,9 +271,8 @@ public class GcloudNotebooksInstances
         GcloudNotebooksInstancesUpgradeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesUpgradeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

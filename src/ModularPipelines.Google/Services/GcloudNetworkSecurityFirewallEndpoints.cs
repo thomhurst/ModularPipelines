@@ -37,9 +37,8 @@ public class GcloudNetworkSecurityFirewallEndpoints
         GcloudNetworkSecurityFirewallEndpointsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityFirewallEndpointsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Firewall Plus      endpoint
@@ -51,9 +50,8 @@ public class GcloudNetworkSecurityFirewallEndpoints
         GcloudNetworkSecurityFirewallEndpointsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityFirewallEndpointsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Firewall      Plus endpoint
@@ -65,9 +63,8 @@ public class GcloudNetworkSecurityFirewallEndpoints
         GcloudNetworkSecurityFirewallEndpointsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityFirewallEndpointsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Firewall Plus      endpoints
@@ -79,9 +76,8 @@ public class GcloudNetworkSecurityFirewallEndpoints
         GcloudNetworkSecurityFirewallEndpointsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityFirewallEndpointsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Firewall Plus      endpoint
@@ -93,9 +89,8 @@ public class GcloudNetworkSecurityFirewallEndpoints
         GcloudNetworkSecurityFirewallEndpointsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityFirewallEndpointsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

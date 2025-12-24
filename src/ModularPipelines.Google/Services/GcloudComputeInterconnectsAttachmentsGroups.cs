@@ -37,9 +37,8 @@ public class GcloudComputeInterconnectsAttachmentsGroups
         GcloudComputeInterconnectsAttachmentsGroupsAddMembersOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsGroupsAddMembersOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Compute      Engine interconnect attachment group
@@ -51,9 +50,8 @@ public class GcloudComputeInterconnectsAttachmentsGroups
         GcloudComputeInterconnectsAttachmentsGroupsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsGroupsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete Compute      Engine interconnect attachment groups
@@ -65,9 +63,8 @@ public class GcloudComputeInterconnectsAttachmentsGroups
         GcloudComputeInterconnectsAttachmentsGroupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsGroupsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a      Compute Engine interconnect attachment group
@@ -79,9 +76,8 @@ public class GcloudComputeInterconnectsAttachmentsGroups
         GcloudComputeInterconnectsAttachmentsGroupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsGroupsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the operational status of a Compute Engine interconnect attachment      group
@@ -93,9 +89,8 @@ public class GcloudComputeInterconnectsAttachmentsGroups
         GcloudComputeInterconnectsAttachmentsGroupsGetOperationalStatusOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsGroupsGetOperationalStatusOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list interconnect      attachment groups
@@ -107,9 +102,8 @@ public class GcloudComputeInterconnectsAttachmentsGroups
         GcloudComputeInterconnectsAttachmentsGroupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsGroupsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove      member interconnect attachments from a Compute Engine interconnect      attachment group
@@ -121,9 +115,8 @@ public class GcloudComputeInterconnectsAttachmentsGroups
         GcloudComputeInterconnectsAttachmentsGroupsRemoveMembersOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsGroupsRemoveMembersOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute      Engine interconnect attachment group
@@ -135,9 +128,8 @@ public class GcloudComputeInterconnectsAttachmentsGroups
         GcloudComputeInterconnectsAttachmentsGroupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsGroupsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

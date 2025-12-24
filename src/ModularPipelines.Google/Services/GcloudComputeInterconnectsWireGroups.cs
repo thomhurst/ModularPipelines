@@ -37,9 +37,8 @@ public class GcloudComputeInterconnectsWireGroups
         GcloudComputeInterconnectsWireGroupsAddEndpointOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsWireGroupsAddEndpointOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add      interconnect to a Compute Engine wire group
@@ -51,9 +50,8 @@ public class GcloudComputeInterconnectsWireGroups
         GcloudComputeInterconnectsWireGroupsAddInterconnectOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsWireGroupsAddInterconnectOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Compute Engine      wire group
@@ -65,9 +63,8 @@ public class GcloudComputeInterconnectsWireGroups
         GcloudComputeInterconnectsWireGroupsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsWireGroupsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete Compute Engine      wire groups
@@ -79,9 +76,8 @@ public class GcloudComputeInterconnectsWireGroups
         GcloudComputeInterconnectsWireGroupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsWireGroupsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute      Engine wire group
@@ -93,9 +89,8 @@ public class GcloudComputeInterconnectsWireGroups
         GcloudComputeInterconnectsWireGroupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsWireGroupsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine      wire groups
@@ -107,9 +102,8 @@ public class GcloudComputeInterconnectsWireGroups
         GcloudComputeInterconnectsWireGroupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsWireGroupsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove endpoint      from a Compute Engine wire group
@@ -121,9 +115,8 @@ public class GcloudComputeInterconnectsWireGroups
         GcloudComputeInterconnectsWireGroupsRemoveEndpointOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsWireGroupsRemoveEndpointOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove      interconnect from a wire group
@@ -135,9 +128,8 @@ public class GcloudComputeInterconnectsWireGroups
         GcloudComputeInterconnectsWireGroupsRemoveInterconnectOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsWireGroupsRemoveInterconnectOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine      wire group
@@ -149,9 +141,8 @@ public class GcloudComputeInterconnectsWireGroups
         GcloudComputeInterconnectsWireGroupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsWireGroupsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

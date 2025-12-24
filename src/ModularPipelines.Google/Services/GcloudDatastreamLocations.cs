@@ -37,9 +37,8 @@ public class GcloudDatastreamLocations
         GcloudDatastreamLocationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamLocationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Datastream static ips      per location
@@ -51,9 +50,8 @@ public class GcloudDatastreamLocations
         GcloudDatastreamLocationsFetchStaticIpsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamLocationsFetchStaticIpsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Datastream locations
@@ -65,9 +63,8 @@ public class GcloudDatastreamLocations
         GcloudDatastreamLocationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamLocationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

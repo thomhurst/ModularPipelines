@@ -37,9 +37,8 @@ public class GcloudApiGatewayGateways
         GcloudApiGatewayGatewaysAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApiGatewayGatewaysAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a new gateway
@@ -51,9 +50,8 @@ public class GcloudApiGatewayGateways
         GcloudApiGatewayGatewaysCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApiGatewayGatewaysCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an API Gateway
@@ -65,9 +63,8 @@ public class GcloudApiGatewayGateways
         GcloudApiGatewayGatewaysDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApiGatewayGatewaysDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about a specific      gateway
@@ -79,9 +76,8 @@ public class GcloudApiGatewayGateways
         GcloudApiGatewayGatewaysDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApiGatewayGatewaysDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a      gateway
@@ -93,9 +89,8 @@ public class GcloudApiGatewayGateways
         GcloudApiGatewayGatewaysGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApiGatewayGatewaysGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list API Gateways
@@ -107,9 +102,8 @@ public class GcloudApiGatewayGateways
         GcloudApiGatewayGatewaysListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApiGatewayGatewaysListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove IAM policy      binding from a gateway
@@ -121,9 +115,8 @@ public class GcloudApiGatewayGateways
         GcloudApiGatewayGatewaysRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApiGatewayGatewaysRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an API Gateway
@@ -135,9 +128,8 @@ public class GcloudApiGatewayGateways
         GcloudApiGatewayGatewaysUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApiGatewayGatewaysUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -47,9 +47,8 @@ public class GcloudVmwareNetworkPeerings
         GcloudVmwareNetworkPeeringsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPeeringsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Google Cloud VMware Engine      VPC network peering
@@ -61,9 +60,8 @@ public class GcloudVmwareNetworkPeerings
         GcloudVmwareNetworkPeeringsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPeeringsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Google Cloud VMware      Engine VPC network peering
@@ -75,9 +73,8 @@ public class GcloudVmwareNetworkPeerings
         GcloudVmwareNetworkPeeringsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPeeringsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Cloud VMware Engine VPC      network peerings
@@ -89,9 +86,8 @@ public class GcloudVmwareNetworkPeerings
         GcloudVmwareNetworkPeeringsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPeeringsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Google Cloud VMware Engine      VPC network peering
@@ -103,9 +99,8 @@ public class GcloudVmwareNetworkPeerings
         GcloudVmwareNetworkPeeringsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPeeringsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

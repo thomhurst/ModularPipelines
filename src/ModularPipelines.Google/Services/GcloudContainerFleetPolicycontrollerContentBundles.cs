@@ -37,9 +37,8 @@ public class GcloudContainerFleetPolicycontrollerContentBundles
         GcloudContainerFleetPolicycontrollerContentBundlesRemoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPolicycontrollerContentBundlesRemoveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// sets bundle      installation for Policy Controller content
@@ -51,9 +50,8 @@ public class GcloudContainerFleetPolicycontrollerContentBundles
         GcloudContainerFleetPolicycontrollerContentBundlesSetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPolicycontrollerContentBundlesSetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

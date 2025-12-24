@@ -37,9 +37,8 @@ public class GcloudIamPolicyBindings
         GcloudIamPolicyBindingsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPolicyBindingsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete PolicyBinding instance
@@ -51,9 +50,8 @@ public class GcloudIamPolicyBindings
         GcloudIamPolicyBindingsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPolicyBindingsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get PolicyBinding instance
@@ -65,9 +63,8 @@ public class GcloudIamPolicyBindings
         GcloudIamPolicyBindingsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPolicyBindingsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list PolicyBinding instances
@@ -79,9 +76,8 @@ public class GcloudIamPolicyBindings
         GcloudIamPolicyBindingsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPolicyBindingsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// search policy      bindings by target
@@ -93,9 +89,8 @@ public class GcloudIamPolicyBindings
         GcloudIamPolicyBindingsSearchTargetPolicyBindingsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPolicyBindingsSearchTargetPolicyBindingsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update PolicyBinding instance
@@ -107,9 +102,8 @@ public class GcloudIamPolicyBindings
         GcloudIamPolicyBindingsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPolicyBindingsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

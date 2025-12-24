@@ -47,9 +47,8 @@ public class GcloudDataCatalogTaxonomies
         GcloudDataCatalogTaxonomiesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTaxonomiesAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Policy Tag Taxonomy
@@ -61,9 +60,8 @@ public class GcloudDataCatalogTaxonomies
         GcloudDataCatalogTaxonomiesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTaxonomiesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export a list of taxonomies from a      certain project
@@ -75,9 +73,8 @@ public class GcloudDataCatalogTaxonomies
         GcloudDataCatalogTaxonomiesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTaxonomiesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a      Policy Tag Taxonomy
@@ -89,9 +86,8 @@ public class GcloudDataCatalogTaxonomies
         GcloudDataCatalogTaxonomiesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTaxonomiesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export a file with serialized      taxonomies to a certain project
@@ -103,9 +99,8 @@ public class GcloudDataCatalogTaxonomies
         GcloudDataCatalogTaxonomiesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTaxonomiesImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud Policy Tag Taxonomies
@@ -117,9 +112,8 @@ public class GcloudDataCatalogTaxonomies
         GcloudDataCatalogTaxonomiesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTaxonomiesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an IAM      policy binding from a policy tag taxonomy
@@ -131,9 +125,8 @@ public class GcloudDataCatalogTaxonomies
         GcloudDataCatalogTaxonomiesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTaxonomiesRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for a      Policy Tag taxonomy
@@ -145,9 +138,8 @@ public class GcloudDataCatalogTaxonomies
         GcloudDataCatalogTaxonomiesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTaxonomiesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

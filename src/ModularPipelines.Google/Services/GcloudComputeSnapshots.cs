@@ -37,9 +37,8 @@ public class GcloudComputeSnapshots
         GcloudComputeSnapshotsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSnapshotsAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add labels to Google Compute Engine      snapshots
@@ -51,9 +50,8 @@ public class GcloudComputeSnapshots
         GcloudComputeSnapshotsAddLabelsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSnapshotsAddLabelsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create Compute Engine snapshots
@@ -65,9 +63,8 @@ public class GcloudComputeSnapshots
         GcloudComputeSnapshotsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSnapshotsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete Compute Engine snapshots
@@ -79,9 +76,8 @@ public class GcloudComputeSnapshots
         GcloudComputeSnapshotsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSnapshotsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute Engine snapshot
@@ -93,9 +89,8 @@ public class GcloudComputeSnapshots
         GcloudComputeSnapshotsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSnapshotsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a Compute      Engine snapshot
@@ -107,9 +102,8 @@ public class GcloudComputeSnapshots
         GcloudComputeSnapshotsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSnapshotsGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine snapshots
@@ -121,9 +115,8 @@ public class GcloudComputeSnapshots
         GcloudComputeSnapshotsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSnapshotsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove IAM policy      binding from a Compute Engine snapshot
@@ -135,9 +128,8 @@ public class GcloudComputeSnapshots
         GcloudComputeSnapshotsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSnapshotsRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove labels from Google Compute      Engine snapshots
@@ -149,9 +141,8 @@ public class GcloudComputeSnapshots
         GcloudComputeSnapshotsRemoveLabelsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSnapshotsRemoveLabelsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for a Compute      Engine snapshot
@@ -163,9 +154,8 @@ public class GcloudComputeSnapshots
         GcloudComputeSnapshotsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSnapshotsSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine snapshot
@@ -177,9 +167,8 @@ public class GcloudComputeSnapshots
         GcloudComputeSnapshotsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSnapshotsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

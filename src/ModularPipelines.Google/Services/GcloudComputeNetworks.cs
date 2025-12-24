@@ -59,9 +59,8 @@ public class GcloudComputeNetworks
         GcloudComputeNetworksCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete Compute Engine networks
@@ -73,9 +72,8 @@ public class GcloudComputeNetworks
         GcloudComputeNetworksDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute Engine network
@@ -87,9 +85,8 @@ public class GcloudComputeNetworks
         GcloudComputeNetworksDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the effective      firewalls of a Compute Engine network
@@ -101,9 +98,8 @@ public class GcloudComputeNetworks
         GcloudComputeNetworksGetEffectiveFirewallsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksGetEffectiveFirewallsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine networks
@@ -115,9 +111,8 @@ public class GcloudComputeNetworks
         GcloudComputeNetworksListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine network
@@ -129,9 +124,8 @@ public class GcloudComputeNetworks
         GcloudComputeNetworksUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

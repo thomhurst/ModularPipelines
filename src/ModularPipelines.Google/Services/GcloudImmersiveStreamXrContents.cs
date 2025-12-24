@@ -37,9 +37,8 @@ public class GcloudImmersiveStreamXrContents
         GcloudImmersiveStreamXrContentsBuildOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrContentsBuildOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create an Immersive Stream for      XR content resource
@@ -51,9 +50,8 @@ public class GcloudImmersiveStreamXrContents
         GcloudImmersiveStreamXrContentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrContentsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an Immersive Stream for      XR content resource
@@ -65,9 +63,8 @@ public class GcloudImmersiveStreamXrContents
         GcloudImmersiveStreamXrContentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrContentsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a specific      Immersive Stream for XR content resource
@@ -79,9 +76,8 @@ public class GcloudImmersiveStreamXrContents
         GcloudImmersiveStreamXrContentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrContentsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Immersive Stream for XR      content resources
@@ -93,9 +89,8 @@ public class GcloudImmersiveStreamXrContents
         GcloudImmersiveStreamXrContentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrContentsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an Immersive Stream for      XR content resource
@@ -107,9 +102,8 @@ public class GcloudImmersiveStreamXrContents
         GcloudImmersiveStreamXrContentsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrContentsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

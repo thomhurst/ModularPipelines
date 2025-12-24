@@ -37,9 +37,8 @@ public class GcloudPrivatecaTemplates
         GcloudPrivatecaTemplatesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaTemplatesAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a new certificate template
@@ -51,9 +50,8 @@ public class GcloudPrivatecaTemplates
         GcloudPrivatecaTemplatesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaTemplatesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a certificate template
@@ -65,9 +63,8 @@ public class GcloudPrivatecaTemplates
         GcloudPrivatecaTemplatesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaTemplatesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about a certificate      template
@@ -79,9 +76,8 @@ public class GcloudPrivatecaTemplates
         GcloudPrivatecaTemplatesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaTemplatesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a      certificate template
@@ -93,9 +89,8 @@ public class GcloudPrivatecaTemplates
         GcloudPrivatecaTemplatesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaTemplatesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list certificate templates within a      project
@@ -107,9 +102,8 @@ public class GcloudPrivatecaTemplates
         GcloudPrivatecaTemplatesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaTemplatesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove IAM policy      binding for a certificate template
@@ -121,9 +115,8 @@ public class GcloudPrivatecaTemplates
         GcloudPrivatecaTemplatesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaTemplatesRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// replicate a certificate template to      multiple locations
@@ -135,9 +128,8 @@ public class GcloudPrivatecaTemplates
         GcloudPrivatecaTemplatesReplicateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaTemplatesReplicateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for a      certificate template
@@ -149,9 +141,8 @@ public class GcloudPrivatecaTemplates
         GcloudPrivatecaTemplatesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaTemplatesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a certificate template
@@ -163,9 +154,8 @@ public class GcloudPrivatecaTemplates
         GcloudPrivatecaTemplatesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaTemplatesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

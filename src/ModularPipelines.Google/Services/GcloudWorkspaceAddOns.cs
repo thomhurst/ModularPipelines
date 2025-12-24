@@ -47,9 +47,8 @@ public class GcloudWorkspaceAddOns
         GcloudWorkspaceAddOnsOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// gets the authorization      information for deployments in a given project
@@ -61,9 +60,8 @@ public class GcloudWorkspaceAddOns
         GcloudWorkspaceAddOnsGetAuthorizationOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsGetAuthorizationOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudVmwareNodeTypes
         GcloudVmwareNodeTypesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNodeTypesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list supported Google Cloud VMware Engine      node types
@@ -51,9 +50,8 @@ public class GcloudVmwareNodeTypes
         GcloudVmwareNodeTypesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNodeTypesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

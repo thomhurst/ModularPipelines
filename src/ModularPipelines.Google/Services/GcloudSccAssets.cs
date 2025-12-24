@@ -37,9 +37,8 @@ public class GcloudSccAssets
         GcloudSccAssetsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccAssetsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the Parent for an asset given its      resource name or asset id
@@ -51,9 +50,8 @@ public class GcloudSccAssets
         GcloudSccAssetsGetParentOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccAssetsGetParentOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the Project for an asset given its      resource name or asset id
@@ -65,9 +63,8 @@ public class GcloudSccAssets
         GcloudSccAssetsGetProjectOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccAssetsGetProjectOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// filter an organization's assets and groups them      by their specified properties
@@ -79,9 +76,8 @@ public class GcloudSccAssets
         GcloudSccAssetsGroupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccAssetsGroupOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list an assets's security marks
@@ -93,9 +89,8 @@ public class GcloudSccAssets
         GcloudSccAssetsListMarksOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccAssetsListMarksOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud Security Command Center assets
@@ -107,9 +102,8 @@ public class GcloudSccAssets
         GcloudSccAssetsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccAssetsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// scan an organization for      new/modified/deleted assets
@@ -121,9 +115,8 @@ public class GcloudSccAssets
         GcloudSccAssetsRunDiscoveryOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccAssetsRunDiscoveryOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update Cloud Security Command Center      asset's security marks
@@ -135,9 +128,8 @@ public class GcloudSccAssets
         GcloudSccAssetsUpdateMarksOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccAssetsUpdateMarksOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

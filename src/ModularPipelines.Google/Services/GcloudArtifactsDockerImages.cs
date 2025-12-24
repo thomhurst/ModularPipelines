@@ -37,9 +37,8 @@ public class GcloudArtifactsDockerImages
         GcloudArtifactsDockerImagesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsDockerImagesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an Artifact Registry      container image
@@ -51,9 +50,8 @@ public class GcloudArtifactsDockerImages
         GcloudArtifactsDockerImagesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsDockerImagesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// Demand Scanning      operation
@@ -65,9 +63,8 @@ public class GcloudArtifactsDockerImages
         GcloudArtifactsDockerImagesGetOperationOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsDockerImagesGetOperationOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Artifact Registry container      images
@@ -79,9 +76,8 @@ public class GcloudArtifactsDockerImages
         GcloudArtifactsDockerImagesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsDockerImagesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// Demand      Scanning vulnerabilities
@@ -93,9 +89,8 @@ public class GcloudArtifactsDockerImages
         GcloudArtifactsDockerImagesListVulnerabilitiesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsDockerImagesListVulnerabilitiesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// perform a vulnerability scan on a      container image
@@ -107,9 +102,8 @@ public class GcloudArtifactsDockerImages
         GcloudArtifactsDockerImagesScanOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsDockerImagesScanOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

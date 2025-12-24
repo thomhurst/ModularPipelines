@@ -37,9 +37,8 @@ public class GcloudComputeNetworkFirewallPoliciesAssociations
         GcloudComputeNetworkFirewallPoliciesAssociationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkFirewallPoliciesAssociationsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a new      association between a firewall policy and an network or folder resource
@@ -51,9 +50,8 @@ public class GcloudComputeNetworkFirewallPoliciesAssociations
         GcloudComputeNetworkFirewallPoliciesAssociationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkFirewallPoliciesAssociationsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

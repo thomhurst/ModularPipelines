@@ -37,9 +37,8 @@ public class GcloudIamWorkloadIdentityPoolsProvidersKeysOperations
         GcloudIamWorkloadIdentityPoolsProvidersKeysOperationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsProvidersKeysOperationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

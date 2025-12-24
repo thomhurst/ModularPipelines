@@ -37,9 +37,8 @@ public class GcloudAiTensorboards
         GcloudAiTensorboardsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiTensorboardsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an existing Vertex AI Tensorboard
@@ -51,9 +50,8 @@ public class GcloudAiTensorboards
         GcloudAiTensorboardsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiTensorboardsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// gets detailed Tensorboard information      about the given Tensorboard id
@@ -65,9 +63,8 @@ public class GcloudAiTensorboards
         GcloudAiTensorboardsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiTensorboardsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists the Tensorboards of the given project      and region
@@ -79,9 +76,8 @@ public class GcloudAiTensorboards
         GcloudAiTensorboardsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiTensorboardsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an existing Vertex AI Tensorboard
@@ -93,9 +89,8 @@ public class GcloudAiTensorboards
         GcloudAiTensorboardsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiTensorboardsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudPrivatecaCertificates
         GcloudPrivatecaCertificatesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaCertificatesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get metadata for a certificate
@@ -51,9 +50,8 @@ public class GcloudPrivatecaCertificates
         GcloudPrivatecaCertificatesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaCertificatesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// encoded certificate to      a file
@@ -65,9 +63,8 @@ public class GcloudPrivatecaCertificates
         GcloudPrivatecaCertificatesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaCertificatesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list certificates within a project
@@ -79,9 +76,8 @@ public class GcloudPrivatecaCertificates
         GcloudPrivatecaCertificatesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaCertificatesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// revoke a certificate
@@ -93,9 +89,8 @@ public class GcloudPrivatecaCertificates
         GcloudPrivatecaCertificatesRevokeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaCertificatesRevokeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an existing certificate
@@ -107,9 +102,8 @@ public class GcloudPrivatecaCertificates
         GcloudPrivatecaCertificatesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaCertificatesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

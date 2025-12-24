@@ -37,9 +37,8 @@ public class GcloudContainerHubConfigManagement
         GcloudContainerHubConfigManagementDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubConfigManagementDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disable the Config      Management feature
@@ -51,9 +50,8 @@ public class GcloudContainerHubConfigManagement
         GcloudContainerHubConfigManagementDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubConfigManagementDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

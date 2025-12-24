@@ -37,9 +37,8 @@ public class GcloudAlloydbInstances
         GcloudAlloydbInstancesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbInstancesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// creates a new AlloyDB SECONDARY      instance within a given cluster
@@ -51,9 +50,8 @@ public class GcloudAlloydbInstances
         GcloudAlloydbInstancesCreateSecondaryOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbInstancesCreateSecondaryOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes an AlloyDB instance within a      given cluster
@@ -65,9 +63,8 @@ public class GcloudAlloydbInstances
         GcloudAlloydbInstancesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbInstancesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describes an AlloyDB instance within a      given cluster
@@ -79,9 +76,8 @@ public class GcloudAlloydbInstances
         GcloudAlloydbInstancesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbInstancesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// failover an AlloyDB instance within a      given cluster
@@ -93,9 +89,8 @@ public class GcloudAlloydbInstances
         GcloudAlloydbInstancesFailoverOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbInstancesFailoverOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// inject fault on an AlloyDB instance      within a given cluster
@@ -107,9 +102,8 @@ public class GcloudAlloydbInstances
         GcloudAlloydbInstancesInjectFaultOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbInstancesInjectFaultOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists AlloyDB instances in a given cluster
@@ -121,9 +115,8 @@ public class GcloudAlloydbInstances
         GcloudAlloydbInstancesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbInstancesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// restarts an AlloyDB instance within a      given cluster
@@ -135,9 +128,8 @@ public class GcloudAlloydbInstances
         GcloudAlloydbInstancesRestartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbInstancesRestartOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates an AlloyDB instance within a      given cluster
@@ -149,9 +141,8 @@ public class GcloudAlloydbInstances
         GcloudAlloydbInstancesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbInstancesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

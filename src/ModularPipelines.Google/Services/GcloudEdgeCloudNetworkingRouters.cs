@@ -37,9 +37,8 @@ public class GcloudEdgeCloudNetworkingRouters
         GcloudEdgeCloudNetworkingRoutersAddBgpPeerOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingRoutersAddBgpPeerOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add an interface to a      Distributed Cloud Edge Network router
@@ -51,9 +50,8 @@ public class GcloudEdgeCloudNetworkingRouters
         GcloudEdgeCloudNetworkingRoutersAddInterfaceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingRoutersAddInterfaceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Distributed Cloud      Edge Network router
@@ -65,9 +63,8 @@ public class GcloudEdgeCloudNetworkingRouters
         GcloudEdgeCloudNetworkingRoutersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingRoutersCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Distributed Cloud      Edge Network router
@@ -79,9 +76,8 @@ public class GcloudEdgeCloudNetworkingRouters
         GcloudEdgeCloudNetworkingRoutersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingRoutersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about the      Distributed Cloud Edge Network router
@@ -93,9 +89,8 @@ public class GcloudEdgeCloudNetworkingRouters
         GcloudEdgeCloudNetworkingRoutersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingRoutersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the status of a      specified Distributed Cloud Edge Network router
@@ -107,9 +102,8 @@ public class GcloudEdgeCloudNetworkingRouters
         GcloudEdgeCloudNetworkingRoutersGetStatusOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingRoutersGetStatusOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Distributed Cloud Edge      Network routers
@@ -121,9 +115,8 @@ public class GcloudEdgeCloudNetworkingRouters
         GcloudEdgeCloudNetworkingRoutersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingRoutersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove a BGP peer      from a Distributed Cloud Edge Network router
@@ -135,9 +128,8 @@ public class GcloudEdgeCloudNetworkingRouters
         GcloudEdgeCloudNetworkingRoutersRemoveBgpPeerOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingRoutersRemoveBgpPeerOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an interface      on a Distributed Cloud Edge Network router
@@ -149,9 +141,8 @@ public class GcloudEdgeCloudNetworkingRouters
         GcloudEdgeCloudNetworkingRoutersRemoveInterfaceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingRoutersRemoveInterfaceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

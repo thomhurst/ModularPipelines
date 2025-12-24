@@ -37,9 +37,8 @@ public class GcloudMetastoreServicesImport
         GcloudMetastoreServicesImportGcsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMetastoreServicesImportGcsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -47,9 +47,8 @@ public class GcloudDataplexLakes
         GcloudDataplexLakesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexLakesAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// authorize a service agent to manage      resources
@@ -61,9 +60,8 @@ public class GcloudDataplexLakes
         GcloudDataplexLakesAuthorizeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexLakesAuthorizeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Dataplex lake resource
@@ -75,9 +73,8 @@ public class GcloudDataplexLakes
         GcloudDataplexLakesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexLakesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deauthorize a service agent from      managing resources
@@ -89,9 +86,8 @@ public class GcloudDataplexLakes
         GcloudDataplexLakesDeauthorizeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexLakesDeauthorizeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Dataplex lake resource
@@ -103,9 +99,8 @@ public class GcloudDataplexLakes
         GcloudDataplexLakesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexLakesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Dataplex lake resource
@@ -117,9 +112,8 @@ public class GcloudDataplexLakes
         GcloudDataplexLakesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexLakesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a Dataplex      lake resource
@@ -131,9 +125,8 @@ public class GcloudDataplexLakes
         GcloudDataplexLakesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexLakesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Dataplex lake resources under a project
@@ -145,9 +138,8 @@ public class GcloudDataplexLakes
         GcloudDataplexLakesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexLakesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove IAM policy binding      from a Dataplex lake resource
@@ -159,9 +151,8 @@ public class GcloudDataplexLakes
         GcloudDataplexLakesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexLakesRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy to a Dataplex      lake as defined in a JSON or YAML file
@@ -173,9 +164,8 @@ public class GcloudDataplexLakes
         GcloudDataplexLakesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexLakesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Dataplex lake resource
@@ -187,9 +177,8 @@ public class GcloudDataplexLakes
         GcloudDataplexLakesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexLakesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

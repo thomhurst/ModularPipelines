@@ -37,9 +37,8 @@ public class GcloudContainerFleetIngress
         GcloudContainerFleetIngressDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetIngressDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// cluster Ingress      Feature
@@ -51,9 +50,8 @@ public class GcloudContainerFleetIngress
         GcloudContainerFleetIngressDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetIngressDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// cluster Ingress      Feature
@@ -65,9 +63,8 @@ public class GcloudContainerFleetIngress
         GcloudContainerFleetIngressEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetIngressEnableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// cluster Ingress      Feature
@@ -79,9 +76,8 @@ public class GcloudContainerFleetIngress
         GcloudContainerFleetIngressUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetIngressUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

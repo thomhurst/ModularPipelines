@@ -59,9 +59,8 @@ public class GcloudDataplexDatascans
         GcloudDataplexDatascansDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexDatascansDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Dataplex datascan resource
@@ -73,9 +72,8 @@ public class GcloudDataplexDatascans
         GcloudDataplexDatascansDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexDatascansDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a      Dataplex datascan resource
@@ -87,9 +85,8 @@ public class GcloudDataplexDatascans
         GcloudDataplexDatascansGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexDatascansGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Dataplex Datascan resources under a      project
@@ -101,9 +98,8 @@ public class GcloudDataplexDatascans
         GcloudDataplexDatascansListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexDatascansListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// run a Dataplex DataScan resource
@@ -115,9 +111,8 @@ public class GcloudDataplexDatascans
         GcloudDataplexDatascansRunOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexDatascansRunOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy to a Dataplex      datascan as defined in a JSON or YAML file
@@ -129,9 +124,8 @@ public class GcloudDataplexDatascans
         GcloudDataplexDatascansSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexDatascansSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

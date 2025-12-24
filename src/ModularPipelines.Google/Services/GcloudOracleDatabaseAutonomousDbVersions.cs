@@ -37,9 +37,8 @@ public class GcloudOracleDatabaseAutonomousDbVersions
         GcloudOracleDatabaseAutonomousDbVersionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDbVersionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudContainerFleetMembershipsSupportAccess
         GcloudContainerFleetMembershipsSupportAccessDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsSupportAccessDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disable support      access for the specified membership
@@ -51,9 +50,8 @@ public class GcloudContainerFleetMembershipsSupportAccess
         GcloudContainerFleetMembershipsSupportAccessDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsSupportAccessDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enable support      access for the specified membership
@@ -65,9 +63,8 @@ public class GcloudContainerFleetMembershipsSupportAccess
         GcloudContainerFleetMembershipsSupportAccessEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsSupportAccessEnableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// generates YAML      for anthos support RBAC policies
@@ -79,9 +76,8 @@ public class GcloudContainerFleetMembershipsSupportAccess
         GcloudContainerFleetMembershipsSupportAccessGetYamlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsSupportAccessGetYamlOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

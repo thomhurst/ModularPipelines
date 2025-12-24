@@ -37,9 +37,8 @@ public class GcloudIdentityGroupsMemberships
         GcloudIdentityGroupsMembershipsAddOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIdentityGroupsMembershipsAddOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// check a      potential member for transitive membership in a group
@@ -51,9 +50,8 @@ public class GcloudIdentityGroupsMemberships
         GcloudIdentityGroupsMembershipsCheckTransitiveMembershipOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIdentityGroupsMembershipsCheckTransitiveMembershipOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a membership from an      existing group
@@ -65,9 +63,8 @@ public class GcloudIdentityGroupsMemberships
         GcloudIdentityGroupsMembershipsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIdentityGroupsMembershipsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a membership in a      group
@@ -79,9 +76,8 @@ public class GcloudIdentityGroupsMemberships
         GcloudIdentityGroupsMembershipsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIdentityGroupsMembershipsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get a membership      graph of just a member or both a member and a group
@@ -93,9 +89,8 @@ public class GcloudIdentityGroupsMemberships
         GcloudIdentityGroupsMembershipsGetMembershipGraphOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIdentityGroupsMembershipsGetMembershipGraphOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list memberships in an existing      group
@@ -107,9 +102,8 @@ public class GcloudIdentityGroupsMemberships
         GcloudIdentityGroupsMembershipsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIdentityGroupsMembershipsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add/remove/modify membership roles of a membership in a group
@@ -121,9 +115,8 @@ public class GcloudIdentityGroupsMemberships
         GcloudIdentityGroupsMembershipsModifyMembershipRolesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIdentityGroupsMembershipsModifyMembershipRolesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// search      transitive groups of a member
@@ -135,9 +128,8 @@ public class GcloudIdentityGroupsMemberships
         GcloudIdentityGroupsMembershipsSearchTransitiveGroupsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIdentityGroupsMembershipsSearchTransitiveGroupsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// search      transitive memberships of a group
@@ -149,9 +141,8 @@ public class GcloudIdentityGroupsMemberships
         GcloudIdentityGroupsMembershipsSearchTransitiveMembershipsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIdentityGroupsMembershipsSearchTransitiveMembershipsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

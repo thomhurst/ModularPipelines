@@ -37,9 +37,8 @@ public class GcloudVmwarePrivateCloudsDnsForwarding
         GcloudVmwarePrivateCloudsDnsForwardingDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsDnsForwardingDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Google Cloud      VMware Engine dns-forwarding
@@ -51,9 +50,8 @@ public class GcloudVmwarePrivateCloudsDnsForwarding
         GcloudVmwarePrivateCloudsDnsForwardingUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsDnsForwardingUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

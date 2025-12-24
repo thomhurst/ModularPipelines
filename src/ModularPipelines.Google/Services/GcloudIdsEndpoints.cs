@@ -37,9 +37,8 @@ public class GcloudIdsEndpoints
         GcloudIdsEndpointsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIdsEndpointsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud IDS endpoint
@@ -51,9 +50,8 @@ public class GcloudIdsEndpoints
         GcloudIdsEndpointsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIdsEndpointsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Cloud IDS endpoint
@@ -65,9 +63,8 @@ public class GcloudIdsEndpoints
         GcloudIdsEndpointsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIdsEndpointsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud IDS endpoints
@@ -79,9 +76,8 @@ public class GcloudIdsEndpoints
         GcloudIdsEndpointsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIdsEndpointsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an existing Cloud IDS endpoint
@@ -93,9 +89,8 @@ public class GcloudIdsEndpoints
         GcloudIdsEndpointsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIdsEndpointsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

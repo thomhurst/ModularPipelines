@@ -37,9 +37,8 @@ public class GcloudEventarcMessageBuses
         GcloudEventarcMessageBusesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcMessageBusesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an Eventarc message bus
@@ -51,9 +50,8 @@ public class GcloudEventarcMessageBuses
         GcloudEventarcMessageBusesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcMessageBusesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an Eventarc message bus
@@ -65,9 +63,8 @@ public class GcloudEventarcMessageBuses
         GcloudEventarcMessageBusesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcMessageBusesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Eventarc enrollments      attached to an Eventarc message bus
@@ -79,9 +76,8 @@ public class GcloudEventarcMessageBuses
         GcloudEventarcMessageBusesListEnrollmentsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcMessageBusesListEnrollmentsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Eventarc message buses
@@ -93,9 +89,8 @@ public class GcloudEventarcMessageBuses
         GcloudEventarcMessageBusesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcMessageBusesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// publish to an Eventarc message bus
@@ -107,9 +102,8 @@ public class GcloudEventarcMessageBuses
         GcloudEventarcMessageBusesPublishOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcMessageBusesPublishOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an Eventarc message bus
@@ -121,9 +115,8 @@ public class GcloudEventarcMessageBuses
         GcloudEventarcMessageBusesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcMessageBusesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

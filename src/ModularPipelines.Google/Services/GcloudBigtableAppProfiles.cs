@@ -37,9 +37,8 @@ public class GcloudBigtableAppProfiles
         GcloudBigtableAppProfilesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableAppProfilesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Bigtable app profile
@@ -51,9 +50,8 @@ public class GcloudBigtableAppProfiles
         GcloudBigtableAppProfilesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableAppProfilesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an existing Bigtable app      profile
@@ -65,9 +63,8 @@ public class GcloudBigtableAppProfiles
         GcloudBigtableAppProfilesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableAppProfilesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Bigtable app profiles
@@ -79,9 +76,8 @@ public class GcloudBigtableAppProfiles
         GcloudBigtableAppProfilesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableAppProfilesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Bigtable app profile
@@ -93,9 +89,8 @@ public class GcloudBigtableAppProfiles
         GcloudBigtableAppProfilesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableAppProfilesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

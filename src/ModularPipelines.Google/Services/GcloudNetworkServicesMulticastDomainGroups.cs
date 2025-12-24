@@ -37,9 +37,8 @@ public class GcloudNetworkServicesMulticastDomainGroups
         GcloudNetworkServicesMulticastDomainGroupsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainGroupsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a multicast      domain group
@@ -51,9 +50,8 @@ public class GcloudNetworkServicesMulticastDomainGroups
         GcloudNetworkServicesMulticastDomainGroupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainGroupsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a      multicast domain group
@@ -65,9 +63,8 @@ public class GcloudNetworkServicesMulticastDomainGroups
         GcloudNetworkServicesMulticastDomainGroupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainGroupsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list multicast      domain groups
@@ -79,9 +76,8 @@ public class GcloudNetworkServicesMulticastDomainGroups
         GcloudNetworkServicesMulticastDomainGroupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainGroupsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a multicast      domain group
@@ -93,9 +89,8 @@ public class GcloudNetworkServicesMulticastDomainGroups
         GcloudNetworkServicesMulticastDomainGroupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainGroupsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

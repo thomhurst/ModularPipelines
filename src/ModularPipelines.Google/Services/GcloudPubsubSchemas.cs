@@ -37,9 +37,8 @@ public class GcloudPubsubSchemas
         GcloudPubsubSchemasCommitOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasCommitOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Pub/Sub schema
@@ -51,9 +50,8 @@ public class GcloudPubsubSchemas
         GcloudPubsubSchemasCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Pub/Sub schema
@@ -65,9 +63,8 @@ public class GcloudPubsubSchemas
         GcloudPubsubSchemasDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Pub/Sub schema revision
@@ -79,9 +76,8 @@ public class GcloudPubsubSchemas
         GcloudPubsubSchemasDeleteRevisionOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasDeleteRevisionOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details of a Pub/Sub schema
@@ -93,9 +89,8 @@ public class GcloudPubsubSchemas
         GcloudPubsubSchemasDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Pub/Sub schemas
@@ -107,9 +102,8 @@ public class GcloudPubsubSchemas
         GcloudPubsubSchemasListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list revisions of a Pub/Sub schema
@@ -121,9 +115,8 @@ public class GcloudPubsubSchemas
         GcloudPubsubSchemasListRevisionsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasListRevisionsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// roll back a Pub/Sub schema to a specified      revision
@@ -135,9 +128,8 @@ public class GcloudPubsubSchemas
         GcloudPubsubSchemasRollbackOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasRollbackOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// validate a message against a      Pub/Sub schema
@@ -149,9 +141,8 @@ public class GcloudPubsubSchemas
         GcloudPubsubSchemasValidateMessageOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasValidateMessageOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// validate a Pub/Sub schema
@@ -163,9 +154,8 @@ public class GcloudPubsubSchemas
         GcloudPubsubSchemasValidateSchemaOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasValidateSchemaOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

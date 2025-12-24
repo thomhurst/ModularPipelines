@@ -37,9 +37,8 @@ public class GcloudSpannerInstancePartitions
         GcloudSpannerInstancePartitionsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerInstancePartitionsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Spanner instance      partition. You can't delete the default instance partition using this      command
@@ -51,9 +50,8 @@ public class GcloudSpannerInstancePartitions
         GcloudSpannerInstancePartitionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerInstancePartitionsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Spanner instance      partition
@@ -65,9 +63,8 @@ public class GcloudSpannerInstancePartitions
         GcloudSpannerInstancePartitionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerInstancePartitionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the Spanner instance      partitions contained within the given instance
@@ -79,9 +76,8 @@ public class GcloudSpannerInstancePartitions
         GcloudSpannerInstancePartitionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerInstancePartitionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Spanner instance      partition. You can't update the default instance partition using this      command
@@ -93,9 +89,8 @@ public class GcloudSpannerInstancePartitions
         GcloudSpannerInstancePartitionsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerInstancePartitionsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

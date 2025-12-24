@@ -37,9 +37,8 @@ public class GcloudNetworkSecurityInterceptDeployments
         GcloudNetworkSecurityInterceptDeploymentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptDeploymentsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an Intercept      Deployment
@@ -51,9 +50,8 @@ public class GcloudNetworkSecurityInterceptDeployments
         GcloudNetworkSecurityInterceptDeploymentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptDeploymentsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an      Intercept Deployment
@@ -65,9 +63,8 @@ public class GcloudNetworkSecurityInterceptDeployments
         GcloudNetworkSecurityInterceptDeploymentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptDeploymentsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Intercept      Deployments
@@ -79,9 +76,8 @@ public class GcloudNetworkSecurityInterceptDeployments
         GcloudNetworkSecurityInterceptDeploymentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptDeploymentsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an Intercept      Deployment
@@ -93,9 +89,8 @@ public class GcloudNetworkSecurityInterceptDeployments
         GcloudNetworkSecurityInterceptDeploymentsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptDeploymentsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

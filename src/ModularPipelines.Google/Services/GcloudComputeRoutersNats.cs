@@ -47,9 +47,8 @@ public class GcloudComputeRoutersNats
         GcloudComputeRoutersNatsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersNatsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove a NAT from a Compute Engine      router
@@ -61,9 +60,8 @@ public class GcloudComputeRoutersNats
         GcloudComputeRoutersNatsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersNatsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a NAT in a Compute Engine      router
@@ -75,9 +73,8 @@ public class GcloudComputeRoutersNats
         GcloudComputeRoutersNatsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersNatsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists the NATs on a Compute Engine      router
@@ -89,9 +86,8 @@ public class GcloudComputeRoutersNats
         GcloudComputeRoutersNatsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersNatsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a NAT on a Compute Engine      router
@@ -103,9 +99,8 @@ public class GcloudComputeRoutersNats
         GcloudComputeRoutersNatsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersNatsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

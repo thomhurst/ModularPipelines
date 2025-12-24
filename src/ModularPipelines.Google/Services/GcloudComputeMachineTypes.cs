@@ -37,9 +37,8 @@ public class GcloudComputeMachineTypes
         GcloudComputeMachineTypesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeMachineTypesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine machine      types
@@ -51,9 +50,8 @@ public class GcloudComputeMachineTypes
         GcloudComputeMachineTypesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeMachineTypesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

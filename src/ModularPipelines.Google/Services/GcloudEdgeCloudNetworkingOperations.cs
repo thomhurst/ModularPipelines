@@ -37,9 +37,8 @@ public class GcloudEdgeCloudNetworkingOperations
         GcloudEdgeCloudNetworkingOperationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingOperationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// running edge      network operation until it completes
@@ -51,9 +50,8 @@ public class GcloudEdgeCloudNetworkingOperations
         GcloudEdgeCloudNetworkingOperationsWaitOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingOperationsWaitOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

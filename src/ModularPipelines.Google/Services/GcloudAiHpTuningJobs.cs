@@ -37,9 +37,8 @@ public class GcloudAiHpTuningJobs
         GcloudAiHpTuningJobsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiHpTuningJobsCancelOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a hyperparameter tuning job
@@ -51,9 +50,8 @@ public class GcloudAiHpTuningJobs
         GcloudAiHpTuningJobsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiHpTuningJobsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get detail information about the      hyperparameter tuning job by given id
@@ -65,9 +63,8 @@ public class GcloudAiHpTuningJobs
         GcloudAiHpTuningJobsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiHpTuningJobsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list existing hyperparameter tuning jobs
@@ -79,9 +76,8 @@ public class GcloudAiHpTuningJobs
         GcloudAiHpTuningJobsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiHpTuningJobsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// stream logs from a running Vertex AI      hyperparameter tuning job
@@ -93,9 +89,8 @@ public class GcloudAiHpTuningJobs
         GcloudAiHpTuningJobsStreamLogsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiHpTuningJobsStreamLogsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

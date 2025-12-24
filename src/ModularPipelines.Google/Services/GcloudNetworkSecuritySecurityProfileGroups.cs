@@ -37,9 +37,8 @@ public class GcloudNetworkSecuritySecurityProfileGroups
         GcloudNetworkSecuritySecurityProfileGroupsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfileGroupsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Security      Profile Group
@@ -51,9 +50,8 @@ public class GcloudNetworkSecuritySecurityProfileGroups
         GcloudNetworkSecuritySecurityProfileGroupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfileGroupsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a      Security Profile Group
@@ -65,9 +63,8 @@ public class GcloudNetworkSecuritySecurityProfileGroups
         GcloudNetworkSecuritySecurityProfileGroupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfileGroupsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Security      Profile groups
@@ -79,9 +76,8 @@ public class GcloudNetworkSecuritySecurityProfileGroups
         GcloudNetworkSecuritySecurityProfileGroupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfileGroupsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Security      Profile Group
@@ -93,9 +89,8 @@ public class GcloudNetworkSecuritySecurityProfileGroups
         GcloudNetworkSecuritySecurityProfileGroupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfileGroupsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

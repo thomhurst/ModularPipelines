@@ -37,9 +37,8 @@ public class GcloudApigeeDeployments
         GcloudApigeeDeploymentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApigeeDeploymentsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Apigee API proxy deployments
@@ -51,9 +50,8 @@ public class GcloudApigeeDeployments
         GcloudApigeeDeploymentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApigeeDeploymentsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

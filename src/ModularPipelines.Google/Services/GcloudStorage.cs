@@ -95,9 +95,8 @@ public class GcloudStorage
         GcloudStorageOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// outputs the contents of one or more URLs to stdout
@@ -109,9 +108,8 @@ public class GcloudStorage
         GcloudStorageCatOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageCatOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// upload, download, and copy Cloud Storage objects
@@ -123,9 +121,8 @@ public class GcloudStorage
         GcloudStorageCpOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageCpOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// diagnose Google Cloud Storage
@@ -137,9 +134,8 @@ public class GcloudStorage
         GcloudStorageDiagnoseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageDiagnoseOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// displays the amount of space in bytes used by storage      resources
@@ -151,9 +147,8 @@ public class GcloudStorage
         GcloudStorageDuOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageDuOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// calculates hashes on local or cloud files
@@ -165,9 +160,8 @@ public class GcloudStorage
         GcloudStorageHashOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageHashOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud Storage buckets and objects
@@ -179,9 +173,8 @@ public class GcloudStorage
         GcloudStorageLsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageLsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// moves or renames objects
@@ -193,9 +186,8 @@ public class GcloudStorage
         GcloudStorageMvOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageMvOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deleted objects
@@ -207,9 +199,8 @@ public class GcloudStorage
         GcloudStorageRestoreOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageRestoreOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete objects and buckets
@@ -221,9 +212,8 @@ public class GcloudStorage
         GcloudStorageRmOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageRmOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// synchronize content of two buckets/directories
@@ -235,9 +225,8 @@ public class GcloudStorage
         GcloudStorageRsyncOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageRsyncOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// manage a project's Cloud Storage service      agent, which is used to perform Cloud KMS operations
@@ -249,9 +238,8 @@ public class GcloudStorage
         GcloudStorageServiceAgentOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageServiceAgentOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// generate a URL with embedded authentication that      can be used by anyone
@@ -263,9 +251,8 @@ public class GcloudStorage
         GcloudStorageSignUrlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageSignUrlOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudDesignCenterSpacesCatalogsShares
         GcloudDesignCenterSpacesCatalogsSharesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsSharesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a share
@@ -51,9 +50,8 @@ public class GcloudDesignCenterSpacesCatalogsShares
         GcloudDesignCenterSpacesCatalogsSharesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsSharesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a share
@@ -65,9 +63,8 @@ public class GcloudDesignCenterSpacesCatalogsShares
         GcloudDesignCenterSpacesCatalogsSharesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsSharesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list shares
@@ -79,9 +76,8 @@ public class GcloudDesignCenterSpacesCatalogsShares
         GcloudDesignCenterSpacesCatalogsSharesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsSharesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// sync a share
@@ -93,9 +89,8 @@ public class GcloudDesignCenterSpacesCatalogsShares
         GcloudDesignCenterSpacesCatalogsSharesSyncOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsSharesSyncOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

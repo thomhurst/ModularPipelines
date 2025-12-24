@@ -37,9 +37,8 @@ public class GcloudContainerAiProfilesManifests
         GcloudContainerAiProfilesManifestsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAiProfilesManifestsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

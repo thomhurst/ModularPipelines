@@ -37,9 +37,8 @@ public class GcloudComputeInterconnectsLocations
         GcloudComputeInterconnectsLocationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsLocationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine      interconnect locations
@@ -51,9 +50,8 @@ public class GcloudComputeInterconnectsLocations
         GcloudComputeInterconnectsLocationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsLocationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

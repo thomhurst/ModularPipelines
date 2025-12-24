@@ -37,9 +37,8 @@ public class GcloudServiceDirectoryServices
         GcloudServiceDirectoryServicesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryServicesAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// creates a service
@@ -51,9 +50,8 @@ public class GcloudServiceDirectoryServices
         GcloudServiceDirectoryServicesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryServicesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a service
@@ -65,9 +63,8 @@ public class GcloudServiceDirectoryServices
         GcloudServiceDirectoryServicesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryServicesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describes a service
@@ -79,9 +76,8 @@ public class GcloudServiceDirectoryServices
         GcloudServiceDirectoryServicesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryServicesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// gets IAM policy for a      service
@@ -93,9 +89,8 @@ public class GcloudServiceDirectoryServices
         GcloudServiceDirectoryServicesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryServicesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists services
@@ -107,9 +102,8 @@ public class GcloudServiceDirectoryServices
         GcloudServiceDirectoryServicesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryServicesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// removes IAM      policy binding from a service
@@ -121,9 +115,8 @@ public class GcloudServiceDirectoryServices
         GcloudServiceDirectoryServicesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryServicesRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// resolves a service
@@ -135,9 +128,8 @@ public class GcloudServiceDirectoryServices
         GcloudServiceDirectoryServicesResolveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryServicesResolveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// sets IAM policy for a      service
@@ -149,9 +141,8 @@ public class GcloudServiceDirectoryServices
         GcloudServiceDirectoryServicesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryServicesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates a service
@@ -163,9 +154,8 @@ public class GcloudServiceDirectoryServices
         GcloudServiceDirectoryServicesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryServicesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

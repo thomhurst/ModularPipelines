@@ -37,9 +37,8 @@ public class GcloudVmwareNetworkPoliciesExternalAccessRules
         GcloudVmwareNetworkPoliciesExternalAccessRulesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPoliciesExternalAccessRulesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a      VMware Engine external access rule
@@ -51,9 +50,8 @@ public class GcloudVmwareNetworkPoliciesExternalAccessRules
         GcloudVmwareNetworkPoliciesExternalAccessRulesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPoliciesExternalAccessRulesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a      VMware Engine external access rule
@@ -65,9 +63,8 @@ public class GcloudVmwareNetworkPoliciesExternalAccessRules
         GcloudVmwareNetworkPoliciesExternalAccessRulesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPoliciesExternalAccessRulesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list VMware      Engine external access rules
@@ -79,9 +76,8 @@ public class GcloudVmwareNetworkPoliciesExternalAccessRules
         GcloudVmwareNetworkPoliciesExternalAccessRulesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPoliciesExternalAccessRulesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a      VMware Engine network policy
@@ -93,9 +89,8 @@ public class GcloudVmwareNetworkPoliciesExternalAccessRules
         GcloudVmwareNetworkPoliciesExternalAccessRulesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPoliciesExternalAccessRulesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

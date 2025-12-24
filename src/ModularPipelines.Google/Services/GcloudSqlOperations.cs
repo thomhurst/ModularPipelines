@@ -37,9 +37,8 @@ public class GcloudSqlOperations
         GcloudSqlOperationsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlOperationsCancelOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// retrieves information about a Cloud SQL      instance operation
@@ -51,9 +50,8 @@ public class GcloudSqlOperations
         GcloudSqlOperationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlOperationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists all instance operations for the given      Cloud SQL instance
@@ -65,9 +63,8 @@ public class GcloudSqlOperations
         GcloudSqlOperationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlOperationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// waits for one or more operations to complete
@@ -79,9 +76,8 @@ public class GcloudSqlOperations
         GcloudSqlOperationsWaitOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlOperationsWaitOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

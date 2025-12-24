@@ -59,9 +59,8 @@ public class GcloudFirebaseTestAndroid
         GcloudFirebaseTestAndroidListDeviceCapacitiesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestAndroidListDeviceCapacitiesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// invoke a test in Firebase Test Lab for      Android and view test results
@@ -73,9 +72,8 @@ public class GcloudFirebaseTestAndroid
         GcloudFirebaseTestAndroidRunOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestAndroidRunOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

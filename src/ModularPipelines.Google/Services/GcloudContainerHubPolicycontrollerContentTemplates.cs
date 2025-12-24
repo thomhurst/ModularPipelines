@@ -37,9 +37,8 @@ public class GcloudContainerHubPolicycontrollerContentTemplates
         GcloudContainerHubPolicycontrollerContentTemplatesDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubPolicycontrollerContentTemplatesDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// installs      the template library for Policy Controller
@@ -51,9 +50,8 @@ public class GcloudContainerHubPolicycontrollerContentTemplates
         GcloudContainerHubPolicycontrollerContentTemplatesEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubPolicycontrollerContentTemplatesEnableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

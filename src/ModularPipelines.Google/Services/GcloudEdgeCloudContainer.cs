@@ -77,9 +77,8 @@ public class GcloudEdgeCloudContainer
         GcloudEdgeCloudContainerGetServerConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerGetServerConfigOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

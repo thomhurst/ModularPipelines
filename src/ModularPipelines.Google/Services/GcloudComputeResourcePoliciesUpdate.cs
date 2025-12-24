@@ -37,9 +37,8 @@ public class GcloudComputeResourcePoliciesUpdate
         GcloudComputeResourcePoliciesUpdateInstanceScheduleOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeResourcePoliciesUpdateInstanceScheduleOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a      Compute Engine Snapshot Schedule Resource Policy
@@ -51,9 +50,8 @@ public class GcloudComputeResourcePoliciesUpdate
         GcloudComputeResourcePoliciesUpdateSnapshotScheduleOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeResourcePoliciesUpdateSnapshotScheduleOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudComposerEnvironmentsUserWorkloadsSecrets
         GcloudComposerEnvironmentsUserWorkloadsSecretsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsSecretsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a user      workloads Secret
@@ -51,9 +50,8 @@ public class GcloudComposerEnvironmentsUserWorkloadsSecrets
         GcloudComposerEnvironmentsUserWorkloadsSecretsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsSecretsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get details      about a user workloads Secret
@@ -65,9 +63,8 @@ public class GcloudComposerEnvironmentsUserWorkloadsSecrets
         GcloudComposerEnvironmentsUserWorkloadsSecretsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsSecretsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list user      workloads Secrets
@@ -79,9 +76,8 @@ public class GcloudComposerEnvironmentsUserWorkloadsSecrets
         GcloudComposerEnvironmentsUserWorkloadsSecretsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsSecretsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a user      workloads Secret
@@ -93,9 +89,8 @@ public class GcloudComposerEnvironmentsUserWorkloadsSecrets
         GcloudComposerEnvironmentsUserWorkloadsSecretsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsSecretsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

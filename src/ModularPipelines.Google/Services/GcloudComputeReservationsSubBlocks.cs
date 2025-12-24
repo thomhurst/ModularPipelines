@@ -37,9 +37,8 @@ public class GcloudComputeReservationsSubBlocks
         GcloudComputeReservationsSubBlocksDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeReservationsSubBlocksDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Compute Engine      reservation sub-blocks
@@ -51,9 +50,8 @@ public class GcloudComputeReservationsSubBlocks
         GcloudComputeReservationsSubBlocksListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeReservationsSubBlocksListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// perform      maintenance on a reservation sub-block
@@ -65,9 +63,8 @@ public class GcloudComputeReservationsSubBlocks
         GcloudComputeReservationsSubBlocksPerformMaintenanceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeReservationsSubBlocksPerformMaintenanceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// report a      sub-block within a reservation as faulty
@@ -79,9 +76,8 @@ public class GcloudComputeReservationsSubBlocks
         GcloudComputeReservationsSubBlocksReportSubblockAsFaultyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeReservationsSubBlocksReportSubblockAsFaultyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

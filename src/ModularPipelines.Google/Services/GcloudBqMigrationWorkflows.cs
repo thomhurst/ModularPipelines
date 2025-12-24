@@ -37,9 +37,8 @@ public class GcloudBqMigrationWorkflows
         GcloudBqMigrationWorkflowsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBqMigrationWorkflowsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete migration workflows
@@ -51,9 +50,8 @@ public class GcloudBqMigrationWorkflows
         GcloudBqMigrationWorkflowsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBqMigrationWorkflowsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe migration workflows
@@ -65,9 +63,8 @@ public class GcloudBqMigrationWorkflows
         GcloudBqMigrationWorkflowsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBqMigrationWorkflowsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list migration workflows
@@ -79,9 +76,8 @@ public class GcloudBqMigrationWorkflows
         GcloudBqMigrationWorkflowsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBqMigrationWorkflowsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudBmsVolumesLuns
         GcloudBmsVolumesLunsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsVolumesLunsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Bare Metal Solution LUNs in a project
@@ -51,9 +50,8 @@ public class GcloudBmsVolumesLuns
         GcloudBmsVolumesLunsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsVolumesLunsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

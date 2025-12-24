@@ -37,9 +37,8 @@ public class GcloudDeploymentManagerManifests
         GcloudDeploymentManagerManifestsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeploymentManagerManifestsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list manifests in a deployment
@@ -51,9 +50,8 @@ public class GcloudDeploymentManagerManifests
         GcloudDeploymentManagerManifestsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeploymentManagerManifestsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

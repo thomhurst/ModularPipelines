@@ -37,9 +37,8 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// creates one or more Cloud Pub/Sub topics
@@ -51,9 +50,8 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes one or more Cloud Pub/Sub topics
@@ -65,9 +63,8 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describes a Cloud Pub/Sub topic
@@ -79,9 +76,8 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// detaches one or more Cloud      Pub/Sub subscriptions
@@ -93,9 +89,8 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsDetachSubscriptionOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsDetachSubscriptionOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a Cloud      Pub/Sub Topic
@@ -107,9 +102,8 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists Cloud Pub/Sub topics within a project
@@ -121,9 +115,8 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists Cloud Pub/Sub subscriptions      from a given topic
@@ -135,9 +128,8 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsListSubscriptionsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsListSubscriptionsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// publishes a message to the specified topic
@@ -149,9 +141,8 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsPublishOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsPublishOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove IAM policy binding      of a topic
@@ -163,9 +154,8 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set IAM policy for a topic
@@ -177,9 +167,8 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates an existing Cloud Pub/Sub topic
@@ -191,9 +180,8 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

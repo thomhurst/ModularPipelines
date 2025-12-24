@@ -37,9 +37,8 @@ public class GcloudVmwarePrivateConnectionsRoutes
         GcloudVmwarePrivateConnectionsRoutesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateConnectionsRoutesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

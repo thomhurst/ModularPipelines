@@ -37,9 +37,8 @@ public class GcloudNetworkServicesServiceBindings
         GcloudNetworkServicesServiceBindingsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesServiceBindingsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete service binding
@@ -51,9 +50,8 @@ public class GcloudNetworkServicesServiceBindings
         GcloudNetworkServicesServiceBindingsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesServiceBindingsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a service      binding
@@ -65,9 +63,8 @@ public class GcloudNetworkServicesServiceBindings
         GcloudNetworkServicesServiceBindingsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesServiceBindingsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export a service binding
@@ -79,9 +76,8 @@ public class GcloudNetworkServicesServiceBindings
         GcloudNetworkServicesServiceBindingsExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesServiceBindingsExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import a service binding
@@ -93,9 +89,8 @@ public class GcloudNetworkServicesServiceBindings
         GcloudNetworkServicesServiceBindingsImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesServiceBindingsImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list service bindings
@@ -107,9 +102,8 @@ public class GcloudNetworkServicesServiceBindings
         GcloudNetworkServicesServiceBindingsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesServiceBindingsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a service binding
@@ -121,9 +115,8 @@ public class GcloudNetworkServicesServiceBindings
         GcloudNetworkServicesServiceBindingsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesServiceBindingsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

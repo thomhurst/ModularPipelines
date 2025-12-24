@@ -37,9 +37,8 @@ public class GcloudContainerHubPolicycontrollerContentBundles
         GcloudContainerHubPolicycontrollerContentBundlesRemoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubPolicycontrollerContentBundlesRemoveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// sets bundle      installation for Policy Controller content
@@ -51,9 +50,8 @@ public class GcloudContainerHubPolicycontrollerContentBundles
         GcloudContainerHubPolicycontrollerContentBundlesSetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubPolicycontrollerContentBundlesSetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudTelcoAutomationOperations
         GcloudTelcoAutomationOperationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTelcoAutomationOperationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// running telco      automation operation until it completes
@@ -51,9 +50,8 @@ public class GcloudTelcoAutomationOperations
         GcloudTelcoAutomationOperationsWaitOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTelcoAutomationOperationsWaitOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

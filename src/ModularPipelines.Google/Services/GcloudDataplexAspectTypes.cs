@@ -37,9 +37,8 @@ public class GcloudDataplexAspectTypes
         GcloudDataplexAspectTypesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexAspectTypesAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Dataplex Aspect Type
@@ -51,9 +50,8 @@ public class GcloudDataplexAspectTypes
         GcloudDataplexAspectTypesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexAspectTypesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Dataplex Aspect Type
@@ -65,9 +63,8 @@ public class GcloudDataplexAspectTypes
         GcloudDataplexAspectTypesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexAspectTypesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Dataplex Aspect Type
@@ -79,9 +76,8 @@ public class GcloudDataplexAspectTypes
         GcloudDataplexAspectTypesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexAspectTypesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// retrieve a Dataplex Aspect      Type IAM policy
@@ -93,9 +89,8 @@ public class GcloudDataplexAspectTypes
         GcloudDataplexAspectTypesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexAspectTypesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Dataplex Aspect Types
@@ -107,9 +102,8 @@ public class GcloudDataplexAspectTypes
         GcloudDataplexAspectTypesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexAspectTypesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove IAM policy      binding from a Dataplex Aspect Type
@@ -121,9 +115,8 @@ public class GcloudDataplexAspectTypes
         GcloudDataplexAspectTypesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexAspectTypesRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set an IAM policy binding for      a Dataplex Aspect Type as defined in a JSON or YAML file
@@ -135,9 +128,8 @@ public class GcloudDataplexAspectTypes
         GcloudDataplexAspectTypesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexAspectTypesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Dataplex Aspect Type
@@ -149,9 +141,8 @@ public class GcloudDataplexAspectTypes
         GcloudDataplexAspectTypesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexAspectTypesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

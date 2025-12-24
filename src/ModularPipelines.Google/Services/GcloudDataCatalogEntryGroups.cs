@@ -37,9 +37,8 @@ public class GcloudDataCatalogEntryGroups
         GcloudDataCatalogEntryGroupsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntryGroupsAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Data Catalog entry group
@@ -51,9 +50,8 @@ public class GcloudDataCatalogEntryGroups
         GcloudDataCatalogEntryGroupsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntryGroupsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Data Catalog entry group
@@ -65,9 +63,8 @@ public class GcloudDataCatalogEntryGroups
         GcloudDataCatalogEntryGroupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntryGroupsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Data Catalog entry      group
@@ -79,9 +76,8 @@ public class GcloudDataCatalogEntryGroups
         GcloudDataCatalogEntryGroupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntryGroupsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a      Data Catalog entry group
@@ -93,9 +89,8 @@ public class GcloudDataCatalogEntryGroups
         GcloudDataCatalogEntryGroupsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntryGroupsGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all entry groups in a Data      Catalog location
@@ -107,9 +102,8 @@ public class GcloudDataCatalogEntryGroups
         GcloudDataCatalogEntryGroupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntryGroupsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an IAM      policy binding from a Data Catalog entry group
@@ -121,9 +115,8 @@ public class GcloudDataCatalogEntryGroups
         GcloudDataCatalogEntryGroupsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntryGroupsRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for a      Data Catalog entry group
@@ -135,9 +128,8 @@ public class GcloudDataCatalogEntryGroups
         GcloudDataCatalogEntryGroupsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntryGroupsSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Data Catalog entry group
@@ -149,9 +141,8 @@ public class GcloudDataCatalogEntryGroups
         GcloudDataCatalogEntryGroupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntryGroupsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

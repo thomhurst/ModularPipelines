@@ -37,9 +37,8 @@ public class GcloudComputeUrlMaps
         GcloudComputeUrlMapsAddHostRuleOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeUrlMapsAddHostRuleOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add a path matcher to a URL map
@@ -51,9 +50,8 @@ public class GcloudComputeUrlMaps
         GcloudComputeUrlMapsAddPathMatcherOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeUrlMapsAddPathMatcherOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a URL map
@@ -65,9 +63,8 @@ public class GcloudComputeUrlMaps
         GcloudComputeUrlMapsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeUrlMapsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete URL maps
@@ -79,9 +76,8 @@ public class GcloudComputeUrlMaps
         GcloudComputeUrlMapsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeUrlMapsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a URL map
@@ -93,9 +89,8 @@ public class GcloudComputeUrlMaps
         GcloudComputeUrlMapsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeUrlMapsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// modify URL maps
@@ -107,9 +102,8 @@ public class GcloudComputeUrlMaps
         GcloudComputeUrlMapsEditOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeUrlMapsEditOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export a URL map
@@ -121,9 +115,8 @@ public class GcloudComputeUrlMaps
         GcloudComputeUrlMapsExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeUrlMapsExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import a URL map
@@ -135,9 +128,8 @@ public class GcloudComputeUrlMaps
         GcloudComputeUrlMapsImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeUrlMapsImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// invalidate specified objects      for a URL map in Cloud CDN caches
@@ -149,9 +141,8 @@ public class GcloudComputeUrlMaps
         GcloudComputeUrlMapsInvalidateCdnCacheOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeUrlMapsInvalidateCdnCacheOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud CDN cache      invalidations for a URL map
@@ -163,9 +154,8 @@ public class GcloudComputeUrlMaps
         GcloudComputeUrlMapsListCdnCacheInvalidationsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeUrlMapsListCdnCacheInvalidationsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine URL maps
@@ -177,9 +167,8 @@ public class GcloudComputeUrlMaps
         GcloudComputeUrlMapsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeUrlMapsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove a host rule from a URL      map
@@ -191,9 +180,8 @@ public class GcloudComputeUrlMaps
         GcloudComputeUrlMapsRemoveHostRuleOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeUrlMapsRemoveHostRuleOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove a path matcher from a      URL map
@@ -205,9 +193,8 @@ public class GcloudComputeUrlMaps
         GcloudComputeUrlMapsRemovePathMatcherOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeUrlMapsRemovePathMatcherOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// change the default service or      default bucket of a URL map
@@ -219,9 +206,8 @@ public class GcloudComputeUrlMaps
         GcloudComputeUrlMapsSetDefaultServiceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeUrlMapsSetDefaultServiceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// validate a URL map
@@ -233,9 +219,8 @@ public class GcloudComputeUrlMaps
         GcloudComputeUrlMapsValidateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeUrlMapsValidateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

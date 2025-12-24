@@ -37,9 +37,8 @@ public class GcloudBuildsRepositories
         GcloudBuildsRepositoriesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsRepositoriesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud Build Repository
@@ -51,9 +50,8 @@ public class GcloudBuildsRepositories
         GcloudBuildsRepositoriesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsRepositoriesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Cloud Build Repository
@@ -65,9 +63,8 @@ public class GcloudBuildsRepositories
         GcloudBuildsRepositoriesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsRepositoriesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all Cloud Build repositories in a      connection
@@ -79,9 +76,8 @@ public class GcloudBuildsRepositories
         GcloudBuildsRepositoriesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsRepositoriesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

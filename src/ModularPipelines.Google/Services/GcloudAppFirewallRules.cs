@@ -37,9 +37,8 @@ public class GcloudAppFirewallRules
         GcloudAppFirewallRulesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppFirewallRulesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a specified firewall rule
@@ -51,9 +50,8 @@ public class GcloudAppFirewallRules
         GcloudAppFirewallRulesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppFirewallRulesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// prints the fields of a specified      firewall rule
@@ -65,9 +63,8 @@ public class GcloudAppFirewallRules
         GcloudAppFirewallRulesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppFirewallRulesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists the firewall rules
@@ -79,9 +76,8 @@ public class GcloudAppFirewallRules
         GcloudAppFirewallRulesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppFirewallRulesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// display firewall rules that match a      given IP
@@ -93,9 +89,8 @@ public class GcloudAppFirewallRules
         GcloudAppFirewallRulesTestIpOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppFirewallRulesTestIpOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates a firewall rule
@@ -107,9 +102,8 @@ public class GcloudAppFirewallRules
         GcloudAppFirewallRulesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppFirewallRulesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

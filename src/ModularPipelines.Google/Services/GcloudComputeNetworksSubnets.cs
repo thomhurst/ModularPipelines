@@ -37,9 +37,8 @@ public class GcloudComputeNetworksSubnets
         GcloudComputeNetworksSubnetsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksSubnetsAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// define a subnet for a network in      custom subnet mode
@@ -51,9 +50,8 @@ public class GcloudComputeNetworksSubnets
         GcloudComputeNetworksSubnetsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksSubnetsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete Google Cloud subnetworks
@@ -65,9 +63,8 @@ public class GcloudComputeNetworksSubnets
         GcloudComputeNetworksSubnetsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksSubnetsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute Engine      subnetwork
@@ -79,9 +76,8 @@ public class GcloudComputeNetworksSubnets
         GcloudComputeNetworksSubnetsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksSubnetsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// expand the IP range of a      Compute Engine subnetwork
@@ -93,9 +89,8 @@ public class GcloudComputeNetworksSubnets
         GcloudComputeNetworksSubnetsExpandIpRangeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksSubnetsExpandIpRangeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a      Compute Engine subnetwork
@@ -107,9 +102,8 @@ public class GcloudComputeNetworksSubnets
         GcloudComputeNetworksSubnetsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksSubnetsGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine      subnetworks
@@ -121,9 +115,8 @@ public class GcloudComputeNetworksSubnets
         GcloudComputeNetworksSubnetsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksSubnetsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Compute Engine      subnetworks permitted for use
@@ -135,9 +128,8 @@ public class GcloudComputeNetworksSubnets
         GcloudComputeNetworksSubnetsListUsableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksSubnetsListUsableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an IAM      policy binding from a Compute Engine subnetwork
@@ -149,9 +141,8 @@ public class GcloudComputeNetworksSubnets
         GcloudComputeNetworksSubnetsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksSubnetsRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for a      Compute Engine subnetwork
@@ -163,9 +154,8 @@ public class GcloudComputeNetworksSubnets
         GcloudComputeNetworksSubnetsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksSubnetsSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates properties of an existing      Compute Engine subnetwork
@@ -177,9 +167,8 @@ public class GcloudComputeNetworksSubnets
         GcloudComputeNetworksSubnetsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksSubnetsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

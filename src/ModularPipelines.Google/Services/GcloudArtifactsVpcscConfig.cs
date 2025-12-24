@@ -37,9 +37,8 @@ public class GcloudArtifactsVpcscConfig
         GcloudArtifactsVpcscConfigAllowOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsVpcscConfigAllowOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deny access to upstream sources      outside the service perimeter for Artifact Registry remote repositories      inside the perimeter
@@ -51,9 +50,8 @@ public class GcloudArtifactsVpcscConfig
         GcloudArtifactsVpcscConfigDenyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsVpcscConfigDenyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe the current Artifact      Registry configuration for VPC Service Controls
@@ -65,9 +63,8 @@ public class GcloudArtifactsVpcscConfig
         GcloudArtifactsVpcscConfigDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsVpcscConfigDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudFirebaseTestIosModels
         GcloudFirebaseTestIosModelsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestIosModelsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all iOS models available for      testing
@@ -51,9 +50,8 @@ public class GcloudFirebaseTestIosModels
         GcloudFirebaseTestIosModelsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestIosModelsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudContainerAwsNodePools
         GcloudContainerAwsNodePoolsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsNodePoolsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a node pool in an Anthos      cluster on AWS
@@ -51,9 +50,8 @@ public class GcloudContainerAwsNodePools
         GcloudContainerAwsNodePoolsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsNodePoolsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a node pool in an      Anthos cluster on AWS
@@ -65,9 +63,8 @@ public class GcloudContainerAwsNodePools
         GcloudContainerAwsNodePoolsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsNodePoolsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list node pools in an Anthos cluster      on AWS
@@ -79,9 +76,8 @@ public class GcloudContainerAwsNodePools
         GcloudContainerAwsNodePoolsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsNodePoolsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// rollback a node pool in an      Anthos cluster on AWS
@@ -93,9 +89,8 @@ public class GcloudContainerAwsNodePools
         GcloudContainerAwsNodePoolsRollbackOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsNodePoolsRollbackOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a node pool in an Anthos      cluster on AWS
@@ -107,9 +102,8 @@ public class GcloudContainerAwsNodePools
         GcloudContainerAwsNodePoolsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsNodePoolsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

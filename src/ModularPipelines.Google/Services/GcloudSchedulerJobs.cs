@@ -53,9 +53,8 @@ public class GcloudSchedulerJobs
         GcloudSchedulerJobsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about a job
@@ -67,9 +66,8 @@ public class GcloudSchedulerJobs
         GcloudSchedulerJobsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list jobs
@@ -81,9 +79,8 @@ public class GcloudSchedulerJobs
         GcloudSchedulerJobsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// pause the execution of a job
@@ -95,9 +92,8 @@ public class GcloudSchedulerJobs
         GcloudSchedulerJobsPauseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsPauseOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// resume execution of a paused job
@@ -109,9 +105,8 @@ public class GcloudSchedulerJobs
         GcloudSchedulerJobsResumeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsResumeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// demand execution of a job
@@ -123,9 +118,8 @@ public class GcloudSchedulerJobs
         GcloudSchedulerJobsRunOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsRunOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

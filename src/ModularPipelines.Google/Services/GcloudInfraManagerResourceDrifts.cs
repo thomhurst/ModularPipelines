@@ -37,9 +37,8 @@ public class GcloudInfraManagerResourceDrifts
         GcloudInfraManagerResourceDriftsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerResourceDriftsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list resource drifts
@@ -51,9 +50,8 @@ public class GcloudInfraManagerResourceDrifts
         GcloudInfraManagerResourceDriftsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerResourceDriftsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

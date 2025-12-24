@@ -37,9 +37,8 @@ public class GcloudSqlImport
         GcloudSqlImportBakOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlImportBakOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// imports data into a Cloud SQL instance from a CSV      file
@@ -51,9 +50,8 @@ public class GcloudSqlImport
         GcloudSqlImportCsvOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlImportCsvOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// imports data into a Cloud SQL instance from a SQL      dump file
@@ -65,9 +63,8 @@ public class GcloudSqlImport
         GcloudSqlImportSqlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlImportSqlOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import TDE certificate into a Cloud SQL for SQL      Server instance
@@ -79,9 +76,8 @@ public class GcloudSqlImport
         GcloudSqlImportTdeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlImportTdeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

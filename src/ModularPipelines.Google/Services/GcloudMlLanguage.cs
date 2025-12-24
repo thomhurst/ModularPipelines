@@ -37,9 +37,8 @@ public class GcloudMlLanguage
         GcloudMlLanguageAnalyzeEntitiesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlLanguageAnalyzeEntitiesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// use Google Cloud Natural      Language API to identify entity-level sentiment
@@ -51,9 +50,8 @@ public class GcloudMlLanguage
         GcloudMlLanguageAnalyzeEntitySentimentOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlLanguageAnalyzeEntitySentimentOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// use Google Cloud Natural Language      API to identify sentiments in a text
@@ -65,9 +63,8 @@ public class GcloudMlLanguage
         GcloudMlLanguageAnalyzeSentimentOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlLanguageAnalyzeSentimentOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// use Google Cloud Natural Language API      to identify linguistic information
@@ -79,9 +76,8 @@ public class GcloudMlLanguage
         GcloudMlLanguageAnalyzeSyntaxOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlLanguageAnalyzeSyntaxOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// classifies input document into      categories
@@ -93,9 +89,8 @@ public class GcloudMlLanguage
         GcloudMlLanguageClassifyTextOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlLanguageClassifyTextOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

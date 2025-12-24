@@ -37,9 +37,8 @@ public class GcloudBigtableBackups
         GcloudBigtableBackupsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableBackupsAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// copy a Cloud Bigtable backup to a new backup
@@ -51,9 +50,8 @@ public class GcloudBigtableBackups
         GcloudBigtableBackupsCopyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableBackupsCopyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// creates a backup of a Cloud Bigtable table
@@ -65,9 +63,8 @@ public class GcloudBigtableBackups
         GcloudBigtableBackupsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableBackupsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an existing backup
@@ -79,9 +76,8 @@ public class GcloudBigtableBackups
         GcloudBigtableBackupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableBackupsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// retrieves information about a backup
@@ -93,9 +89,8 @@ public class GcloudBigtableBackups
         GcloudBigtableBackupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableBackupsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get an IAM policy on a Cloud      Bigtable Backup
@@ -107,9 +102,8 @@ public class GcloudBigtableBackups
         GcloudBigtableBackupsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableBackupsGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list existing Bigtable backups
@@ -121,9 +115,8 @@ public class GcloudBigtableBackups
         GcloudBigtableBackupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableBackupsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an IAM policy      binding from a Cloud Bigtable Backup
@@ -135,9 +128,8 @@ public class GcloudBigtableBackups
         GcloudBigtableBackupsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableBackupsRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set an IAM policy on a Cloud      Bigtable Backup
@@ -149,9 +141,8 @@ public class GcloudBigtableBackups
         GcloudBigtableBackupsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableBackupsSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a backup, only supported for the      following fields: --expiration-date and --retention-period
@@ -163,9 +154,8 @@ public class GcloudBigtableBackups
         GcloudBigtableBackupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableBackupsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

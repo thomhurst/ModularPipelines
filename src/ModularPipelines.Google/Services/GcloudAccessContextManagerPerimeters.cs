@@ -47,9 +47,8 @@ public class GcloudAccessContextManagerPerimeters
         GcloudAccessContextManagerPerimetersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPerimetersCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a service      perimeter
@@ -61,9 +60,8 @@ public class GcloudAccessContextManagerPerimeters
         GcloudAccessContextManagerPerimetersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPerimetersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about a      service perimeter
@@ -75,9 +73,8 @@ public class GcloudAccessContextManagerPerimeters
         GcloudAccessContextManagerPerimetersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPerimetersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list service perimeters
@@ -89,9 +86,8 @@ public class GcloudAccessContextManagerPerimeters
         GcloudAccessContextManagerPerimetersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPerimetersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// replace all existing      service perimeters
@@ -103,9 +99,8 @@ public class GcloudAccessContextManagerPerimeters
         GcloudAccessContextManagerPerimetersReplaceAllOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPerimetersReplaceAllOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update the enforced      configuration for an existing Service Perimeter
@@ -117,9 +112,8 @@ public class GcloudAccessContextManagerPerimeters
         GcloudAccessContextManagerPerimetersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPerimetersUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

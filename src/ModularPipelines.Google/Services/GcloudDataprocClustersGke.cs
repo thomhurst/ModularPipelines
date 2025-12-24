@@ -37,9 +37,8 @@ public class GcloudDataprocClustersGke
         GcloudDataprocClustersGkeCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocClustersGkeCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

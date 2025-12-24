@@ -37,9 +37,8 @@ public class GcloudResourceManagerFolders
         GcloudResourceManagerFoldersAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerFoldersAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a new folder
@@ -51,9 +50,8 @@ public class GcloudResourceManagerFolders
         GcloudResourceManagerFoldersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerFoldersCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a folder
@@ -65,9 +63,8 @@ public class GcloudResourceManagerFolders
         GcloudResourceManagerFoldersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerFoldersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show metadata for a folder
@@ -79,9 +76,8 @@ public class GcloudResourceManagerFolders
         GcloudResourceManagerFoldersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerFoldersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get IAM policies      for a folder and its ancestors
@@ -93,9 +89,8 @@ public class GcloudResourceManagerFolders
         GcloudResourceManagerFoldersGetAncestorsIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerFoldersGetAncestorsIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get IAM policy for a      folder
@@ -107,9 +102,8 @@ public class GcloudResourceManagerFolders
         GcloudResourceManagerFoldersGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerFoldersGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list folders accessible by the      active account
@@ -121,9 +115,8 @@ public class GcloudResourceManagerFolders
         GcloudResourceManagerFoldersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerFoldersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// move a folder to a new position      within the same organization
@@ -135,9 +128,8 @@ public class GcloudResourceManagerFolders
         GcloudResourceManagerFoldersMoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerFoldersMoveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove IAM      policy binding for a folder
@@ -149,9 +141,8 @@ public class GcloudResourceManagerFolders
         GcloudResourceManagerFoldersRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerFoldersRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set IAM policy for a      folder
@@ -163,9 +154,8 @@ public class GcloudResourceManagerFolders
         GcloudResourceManagerFoldersSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerFoldersSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// undelete a folder
@@ -177,9 +167,8 @@ public class GcloudResourceManagerFolders
         GcloudResourceManagerFoldersUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerFoldersUndeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update the display name of a      folder
@@ -191,9 +180,8 @@ public class GcloudResourceManagerFolders
         GcloudResourceManagerFoldersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerFoldersUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

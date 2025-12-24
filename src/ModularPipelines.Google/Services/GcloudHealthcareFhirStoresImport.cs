@@ -37,9 +37,8 @@ public class GcloudHealthcareFhirStoresImport
         GcloudHealthcareFhirStoresImportGcsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresImportGcsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

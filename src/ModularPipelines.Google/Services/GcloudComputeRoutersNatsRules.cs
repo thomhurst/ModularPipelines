@@ -37,9 +37,8 @@ public class GcloudComputeRoutersNatsRules
         GcloudComputeRoutersNatsRulesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersNatsRulesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Rule in a Compute      Engine NAT
@@ -51,9 +50,8 @@ public class GcloudComputeRoutersNatsRules
         GcloudComputeRoutersNatsRulesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersNatsRulesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Rule in a Compute      Engine NAT
@@ -65,9 +63,8 @@ public class GcloudComputeRoutersNatsRules
         GcloudComputeRoutersNatsRulesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersNatsRulesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists the NATs on a Compute Engine      router
@@ -79,9 +76,8 @@ public class GcloudComputeRoutersNatsRules
         GcloudComputeRoutersNatsRulesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersNatsRulesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Rule in a Compute      Engine NAT
@@ -93,9 +89,8 @@ public class GcloudComputeRoutersNatsRules
         GcloudComputeRoutersNatsRulesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersNatsRulesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

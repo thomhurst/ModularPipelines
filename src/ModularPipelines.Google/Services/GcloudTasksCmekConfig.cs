@@ -37,9 +37,8 @@ public class GcloudTasksCmekConfig
         GcloudTasksCmekConfigDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTasksCmekConfigDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enable, disable, or edit CMEK      configuration for Cloud Tasks in the specified location
@@ -51,9 +50,8 @@ public class GcloudTasksCmekConfig
         GcloudTasksCmekConfigUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTasksCmekConfigUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

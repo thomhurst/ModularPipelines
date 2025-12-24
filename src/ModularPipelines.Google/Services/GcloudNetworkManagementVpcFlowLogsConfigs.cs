@@ -37,9 +37,8 @@ public class GcloudNetworkManagementVpcFlowLogsConfigs
         GcloudNetworkManagementVpcFlowLogsConfigsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementVpcFlowLogsConfigsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes the      specified VPC Flow Logs configuration
@@ -51,9 +50,8 @@ public class GcloudNetworkManagementVpcFlowLogsConfigs
         GcloudNetworkManagementVpcFlowLogsConfigsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementVpcFlowLogsConfigsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe the      details of a specific VPC Flow Logs configuration
@@ -65,9 +63,8 @@ public class GcloudNetworkManagementVpcFlowLogsConfigs
         GcloudNetworkManagementVpcFlowLogsConfigsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementVpcFlowLogsConfigsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all VPC Flow      Logs configurations
@@ -79,9 +76,8 @@ public class GcloudNetworkManagementVpcFlowLogsConfigs
         GcloudNetworkManagementVpcFlowLogsConfigsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementVpcFlowLogsConfigsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// configs      query-org-vpc-flow-logs-configs - fetch all organization-level VPC Flow      Logs configurations associated with the project
@@ -93,9 +89,8 @@ public class GcloudNetworkManagementVpcFlowLogsConfigs
         GcloudNetworkManagementVpcFlowLogsConfigsQueryOrgVpcFlowLogsConfigsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementVpcFlowLogsConfigsQueryOrgVpcFlowLogsConfigsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// configs      show-effective-flow-logs-configs - show all effective VPC Flow Logs      configurations for a resource
@@ -107,9 +102,8 @@ public class GcloudNetworkManagementVpcFlowLogsConfigs
         GcloudNetworkManagementVpcFlowLogsConfigsShowEffectiveFlowLogsConfigsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementVpcFlowLogsConfigsShowEffectiveFlowLogsConfigsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates one or      more fields in an existing VPC Flow Logs configuration
@@ -121,9 +115,8 @@ public class GcloudNetworkManagementVpcFlowLogsConfigs
         GcloudNetworkManagementVpcFlowLogsConfigsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkManagementVpcFlowLogsConfigsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

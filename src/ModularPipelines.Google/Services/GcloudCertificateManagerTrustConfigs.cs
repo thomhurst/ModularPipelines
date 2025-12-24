@@ -37,9 +37,8 @@ public class GcloudCertificateManagerTrustConfigs
         GcloudCertificateManagerTrustConfigsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerTrustConfigsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete TrustConfig
@@ -51,9 +50,8 @@ public class GcloudCertificateManagerTrustConfigs
         GcloudCertificateManagerTrustConfigsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerTrustConfigsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about a      TrustConfig
@@ -65,9 +63,8 @@ public class GcloudCertificateManagerTrustConfigs
         GcloudCertificateManagerTrustConfigsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerTrustConfigsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export TrustConfig
@@ -79,9 +76,8 @@ public class GcloudCertificateManagerTrustConfigs
         GcloudCertificateManagerTrustConfigsExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerTrustConfigsExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import TrustConfig
@@ -93,9 +89,8 @@ public class GcloudCertificateManagerTrustConfigs
         GcloudCertificateManagerTrustConfigsImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerTrustConfigsImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all TrustConfigs in a      project
@@ -107,9 +102,8 @@ public class GcloudCertificateManagerTrustConfigs
         GcloudCertificateManagerTrustConfigsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerTrustConfigsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update TrustConfig
@@ -121,9 +115,8 @@ public class GcloudCertificateManagerTrustConfigs
         GcloudCertificateManagerTrustConfigsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerTrustConfigsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

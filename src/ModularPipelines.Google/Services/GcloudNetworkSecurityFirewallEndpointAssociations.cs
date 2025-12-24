@@ -37,9 +37,8 @@ public class GcloudNetworkSecurityFirewallEndpointAssociations
         GcloudNetworkSecurityFirewallEndpointAssociationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityFirewallEndpointAssociationsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a      Firewall Plus endpoint association
@@ -51,9 +50,8 @@ public class GcloudNetworkSecurityFirewallEndpointAssociations
         GcloudNetworkSecurityFirewallEndpointAssociationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityFirewallEndpointAssociationsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe      a Firewall Plus endpoint association
@@ -65,9 +63,8 @@ public class GcloudNetworkSecurityFirewallEndpointAssociations
         GcloudNetworkSecurityFirewallEndpointAssociationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityFirewallEndpointAssociationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Firewall      Plus endpoint associations
@@ -79,9 +76,8 @@ public class GcloudNetworkSecurityFirewallEndpointAssociations
         GcloudNetworkSecurityFirewallEndpointAssociationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityFirewallEndpointAssociationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a      Firewall Plus endpoint association
@@ -93,9 +89,8 @@ public class GcloudNetworkSecurityFirewallEndpointAssociations
         GcloudNetworkSecurityFirewallEndpointAssociationsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityFirewallEndpointAssociationsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudNotebooksRuntimes
         GcloudNotebooksRuntimesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksRuntimesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for deleting runtimes
@@ -51,9 +50,8 @@ public class GcloudNotebooksRuntimes
         GcloudNotebooksRuntimesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksRuntimesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for describing runtimes
@@ -65,9 +63,8 @@ public class GcloudNotebooksRuntimes
         GcloudNotebooksRuntimesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksRuntimesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for diagnose runtimes
@@ -79,9 +76,8 @@ public class GcloudNotebooksRuntimes
         GcloudNotebooksRuntimesDiagnoseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksRuntimesDiagnoseOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for listing runtimes
@@ -93,9 +89,8 @@ public class GcloudNotebooksRuntimes
         GcloudNotebooksRuntimesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksRuntimesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for migrating runtimes
@@ -107,9 +102,8 @@ public class GcloudNotebooksRuntimes
         GcloudNotebooksRuntimesMigrateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksRuntimesMigrateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for resetting runtimes
@@ -121,9 +115,8 @@ public class GcloudNotebooksRuntimes
         GcloudNotebooksRuntimesResetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksRuntimesResetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for starting runtimes
@@ -135,9 +128,8 @@ public class GcloudNotebooksRuntimes
         GcloudNotebooksRuntimesStartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksRuntimesStartOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for stopping runtimes
@@ -149,9 +141,8 @@ public class GcloudNotebooksRuntimes
         GcloudNotebooksRuntimesStopOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksRuntimesStopOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for switching runtimes
@@ -163,9 +154,8 @@ public class GcloudNotebooksRuntimes
         GcloudNotebooksRuntimesSwitchOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksRuntimesSwitchOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

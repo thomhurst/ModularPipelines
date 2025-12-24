@@ -37,9 +37,8 @@ public class GcloudNetworkSecurityBackendAuthenticationConfigs
         GcloudNetworkSecurityBackendAuthenticationConfigsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityBackendAuthenticationConfigsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete      BackendAuthenticationConfig
@@ -51,9 +50,8 @@ public class GcloudNetworkSecurityBackendAuthenticationConfigs
         GcloudNetworkSecurityBackendAuthenticationConfigsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityBackendAuthenticationConfigsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe      BackendAuthenticationConfig
@@ -65,9 +63,8 @@ public class GcloudNetworkSecurityBackendAuthenticationConfigs
         GcloudNetworkSecurityBackendAuthenticationConfigsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityBackendAuthenticationConfigsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export      BackendAuthenticationConfig
@@ -79,9 +76,8 @@ public class GcloudNetworkSecurityBackendAuthenticationConfigs
         GcloudNetworkSecurityBackendAuthenticationConfigsExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityBackendAuthenticationConfigsExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import      BackendAuthenticationConfigs
@@ -93,9 +89,8 @@ public class GcloudNetworkSecurityBackendAuthenticationConfigs
         GcloudNetworkSecurityBackendAuthenticationConfigsImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityBackendAuthenticationConfigsImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      BackendAuthenticationConfigs
@@ -107,9 +102,8 @@ public class GcloudNetworkSecurityBackendAuthenticationConfigs
         GcloudNetworkSecurityBackendAuthenticationConfigsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityBackendAuthenticationConfigsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

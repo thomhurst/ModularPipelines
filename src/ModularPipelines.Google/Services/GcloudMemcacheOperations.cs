@@ -37,9 +37,8 @@ public class GcloudMemcacheOperations
         GcloudMemcacheOperationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemcacheOperationsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// display metadata for a Memorystore      Memcached operation
@@ -51,9 +50,8 @@ public class GcloudMemcacheOperations
         GcloudMemcacheOperationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemcacheOperationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Memorystore Memcached operations
@@ -65,9 +63,8 @@ public class GcloudMemcacheOperations
         GcloudMemcacheOperationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemcacheOperationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

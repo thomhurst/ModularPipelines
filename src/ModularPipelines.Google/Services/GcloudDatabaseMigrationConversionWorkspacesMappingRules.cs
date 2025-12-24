@@ -37,9 +37,8 @@ public class GcloudDatabaseMigrationConversionWorkspacesMappingRules
         GcloudDatabaseMigrationConversionWorkspacesMappingRulesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesMappingRulesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

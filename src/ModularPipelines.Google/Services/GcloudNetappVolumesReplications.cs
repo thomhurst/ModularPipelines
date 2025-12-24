@@ -37,9 +37,8 @@ public class GcloudNetappVolumesReplications
         GcloudNetappVolumesReplicationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesReplicationsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud NetApp Volume      Replication
@@ -51,9 +50,8 @@ public class GcloudNetappVolumesReplications
         GcloudNetappVolumesReplicationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesReplicationsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Cloud NetApp      Volume Replication
@@ -65,9 +63,8 @@ public class GcloudNetappVolumesReplications
         GcloudNetappVolumesReplicationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesReplicationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// establish peering      for Hybrid replication
@@ -79,9 +76,8 @@ public class GcloudNetappVolumesReplications
         GcloudNetappVolumesReplicationsEstablishPeeringOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesReplicationsEstablishPeeringOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud NetApp Volume      Replications
@@ -93,9 +89,8 @@ public class GcloudNetappVolumesReplications
         GcloudNetappVolumesReplicationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesReplicationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// resume a Cloud NetApp Volume      Replication
@@ -107,9 +102,8 @@ public class GcloudNetappVolumesReplications
         GcloudNetappVolumesReplicationsResumeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesReplicationsResumeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// reverse a Cloud NetApp Volume      Replication's direction
@@ -121,9 +115,8 @@ public class GcloudNetappVolumesReplications
         GcloudNetappVolumesReplicationsReverseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesReplicationsReverseOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// stop a Cloud NetApp Volume      Replication
@@ -135,9 +128,8 @@ public class GcloudNetappVolumesReplications
         GcloudNetappVolumesReplicationsStopOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesReplicationsStopOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// sync a Cloud NetApp Volume      Replication
@@ -149,9 +141,8 @@ public class GcloudNetappVolumesReplications
         GcloudNetappVolumesReplicationsSyncOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesReplicationsSyncOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud NetApp Volume      Replication
@@ -163,9 +154,8 @@ public class GcloudNetappVolumesReplications
         GcloudNetappVolumesReplicationsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesReplicationsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudNetworkConnectivityHubsGroups
         GcloudNetworkConnectivityHubsGroupsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsGroupsAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a group
@@ -51,9 +50,8 @@ public class GcloudNetworkConnectivityHubsGroups
         GcloudNetworkConnectivityHubsGroupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsGroupsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy      for a group resource
@@ -65,9 +63,8 @@ public class GcloudNetworkConnectivityHubsGroups
         GcloudNetworkConnectivityHubsGroupsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsGroupsGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list groups
@@ -79,9 +76,8 @@ public class GcloudNetworkConnectivityHubsGroups
         GcloudNetworkConnectivityHubsGroupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsGroupsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove      an IAM policy binding from the IAM policy of a group resource
@@ -93,9 +89,8 @@ public class GcloudNetworkConnectivityHubsGroups
         GcloudNetworkConnectivityHubsGroupsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsGroupsRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy      of a group resource
@@ -107,9 +102,8 @@ public class GcloudNetworkConnectivityHubsGroups
         GcloudNetworkConnectivityHubsGroupsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsGroupsSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a group
@@ -121,9 +115,8 @@ public class GcloudNetworkConnectivityHubsGroups
         GcloudNetworkConnectivityHubsGroupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsGroupsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

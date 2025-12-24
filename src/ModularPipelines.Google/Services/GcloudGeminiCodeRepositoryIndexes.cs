@@ -47,9 +47,8 @@ public class GcloudGeminiCodeRepositoryIndexes
         GcloudGeminiCodeRepositoryIndexesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeRepositoryIndexesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a code repository      index instance
@@ -61,9 +60,8 @@ public class GcloudGeminiCodeRepositoryIndexes
         GcloudGeminiCodeRepositoryIndexesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeRepositoryIndexesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get details of a code      repository index instance
@@ -75,9 +73,8 @@ public class GcloudGeminiCodeRepositoryIndexes
         GcloudGeminiCodeRepositoryIndexesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeRepositoryIndexesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all code repository index      instances in a specified project and location
@@ -89,9 +86,8 @@ public class GcloudGeminiCodeRepositoryIndexes
         GcloudGeminiCodeRepositoryIndexesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeRepositoryIndexesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update the configuration of      a code repository index instance
@@ -103,9 +99,8 @@ public class GcloudGeminiCodeRepositoryIndexes
         GcloudGeminiCodeRepositoryIndexesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeRepositoryIndexesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

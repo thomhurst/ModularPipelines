@@ -37,9 +37,8 @@ public class GcloudBillingProjects
         GcloudBillingProjectsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBillingProjectsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// link a project with a billing account
@@ -51,9 +50,8 @@ public class GcloudBillingProjects
         GcloudBillingProjectsLinkOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBillingProjectsLinkOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all active projects associated with the      specified billing account
@@ -65,9 +63,8 @@ public class GcloudBillingProjects
         GcloudBillingProjectsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBillingProjectsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// unlink the account (if any) linked with a      project
@@ -79,9 +76,8 @@ public class GcloudBillingProjects
         GcloudBillingProjectsUnlinkOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBillingProjectsUnlinkOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

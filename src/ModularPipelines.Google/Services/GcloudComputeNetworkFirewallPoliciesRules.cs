@@ -37,9 +37,8 @@ public class GcloudComputeNetworkFirewallPoliciesRules
         GcloudComputeNetworkFirewallPoliciesRulesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkFirewallPoliciesRulesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a Compute      Engine network firewall policy rule
@@ -51,9 +50,8 @@ public class GcloudComputeNetworkFirewallPoliciesRules
         GcloudComputeNetworkFirewallPoliciesRulesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkFirewallPoliciesRulesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describes a      Compute Engine network firewall policy rule
@@ -65,9 +63,8 @@ public class GcloudComputeNetworkFirewallPoliciesRules
         GcloudComputeNetworkFirewallPoliciesRulesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkFirewallPoliciesRulesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates a Compute      Engine network firewall policy rule
@@ -79,9 +76,8 @@ public class GcloudComputeNetworkFirewallPoliciesRules
         GcloudComputeNetworkFirewallPoliciesRulesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkFirewallPoliciesRulesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

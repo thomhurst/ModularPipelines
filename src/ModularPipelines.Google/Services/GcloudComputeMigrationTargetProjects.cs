@@ -37,9 +37,8 @@ public class GcloudComputeMigrationTargetProjects
         GcloudComputeMigrationTargetProjectsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeMigrationTargetProjectsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

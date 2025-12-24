@@ -37,9 +37,8 @@ public class GcloudComputeOsConfigPatchDeployments
         GcloudComputeOsConfigPatchDeploymentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPatchDeploymentsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete the specified      patch deployment
@@ -51,9 +50,8 @@ public class GcloudComputeOsConfigPatchDeployments
         GcloudComputeOsConfigPatchDeploymentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPatchDeploymentsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe the      specified patch deployment
@@ -65,9 +63,8 @@ public class GcloudComputeOsConfigPatchDeployments
         GcloudComputeOsConfigPatchDeploymentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPatchDeploymentsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list patch deployments in      a project
@@ -79,9 +76,8 @@ public class GcloudComputeOsConfigPatchDeployments
         GcloudComputeOsConfigPatchDeploymentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPatchDeploymentsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// pause patch deployment      in a project
@@ -93,9 +89,8 @@ public class GcloudComputeOsConfigPatchDeployments
         GcloudComputeOsConfigPatchDeploymentsPauseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPatchDeploymentsPauseOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// resume patch deployment      in a project
@@ -107,9 +102,8 @@ public class GcloudComputeOsConfigPatchDeployments
         GcloudComputeOsConfigPatchDeploymentsResumeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPatchDeploymentsResumeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update patch deployment      in a project
@@ -121,9 +115,8 @@ public class GcloudComputeOsConfigPatchDeployments
         GcloudComputeOsConfigPatchDeploymentsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPatchDeploymentsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

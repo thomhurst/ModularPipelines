@@ -37,9 +37,8 @@ public class GcloudContainerFleetPackagesResourceBundlesReleases
         GcloudContainerFleetPackagesResourceBundlesReleasesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPackagesResourceBundlesReleasesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete      Package Rollouts Release
@@ -51,9 +50,8 @@ public class GcloudContainerFleetPackagesResourceBundlesReleases
         GcloudContainerFleetPackagesResourceBundlesReleasesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPackagesResourceBundlesReleasesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe Package Rollouts Release
@@ -65,9 +63,8 @@ public class GcloudContainerFleetPackagesResourceBundlesReleases
         GcloudContainerFleetPackagesResourceBundlesReleasesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPackagesResourceBundlesReleasesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      Releases of a Resource Bundle
@@ -79,9 +76,8 @@ public class GcloudContainerFleetPackagesResourceBundlesReleases
         GcloudContainerFleetPackagesResourceBundlesReleasesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPackagesResourceBundlesReleasesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update      Package Rollouts Release
@@ -93,9 +89,8 @@ public class GcloudContainerFleetPackagesResourceBundlesReleases
         GcloudContainerFleetPackagesResourceBundlesReleasesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPackagesResourceBundlesReleasesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

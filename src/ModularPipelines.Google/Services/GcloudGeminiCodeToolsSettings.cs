@@ -47,9 +47,8 @@ public class GcloudGeminiCodeToolsSettings
         GcloudGeminiCodeToolsSettingsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeToolsSettingsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete codeToolsSettings
@@ -61,9 +60,8 @@ public class GcloudGeminiCodeToolsSettings
         GcloudGeminiCodeToolsSettingsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeToolsSettingsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe codeToolsSettings
@@ -75,9 +73,8 @@ public class GcloudGeminiCodeToolsSettings
         GcloudGeminiCodeToolsSettingsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeToolsSettingsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list codeToolsSettings
@@ -89,9 +86,8 @@ public class GcloudGeminiCodeToolsSettings
         GcloudGeminiCodeToolsSettingsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeToolsSettingsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update codeToolsSettings
@@ -103,9 +99,8 @@ public class GcloudGeminiCodeToolsSettings
         GcloudGeminiCodeToolsSettingsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeToolsSettingsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

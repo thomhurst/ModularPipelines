@@ -37,9 +37,8 @@ public class GcloudMigrationVmsImageImports
         GcloudMigrationVmsImageImportsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMigrationVmsImageImportsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an Image Import resource
@@ -51,9 +50,8 @@ public class GcloudMigrationVmsImageImports
         GcloudMigrationVmsImageImportsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMigrationVmsImageImportsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an Image Import
@@ -65,9 +63,8 @@ public class GcloudMigrationVmsImageImports
         GcloudMigrationVmsImageImportsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMigrationVmsImageImportsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Image Imports
@@ -79,9 +76,8 @@ public class GcloudMigrationVmsImageImports
         GcloudMigrationVmsImageImportsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMigrationVmsImageImportsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

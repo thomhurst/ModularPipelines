@@ -37,9 +37,8 @@ public class GcloudIapSettings
         GcloudIapSettingsGetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapSettingsGetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the setting for an IAP resource
@@ -51,9 +50,8 @@ public class GcloudIapSettings
         GcloudIapSettingsSetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapSettingsSetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

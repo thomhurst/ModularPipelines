@@ -37,9 +37,8 @@ public class GcloudComputeStoragePools
         GcloudComputeStoragePoolsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeStoragePoolsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a storage pool
@@ -51,9 +50,8 @@ public class GcloudComputeStoragePools
         GcloudComputeStoragePoolsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeStoragePoolsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a storage pool
@@ -65,9 +63,8 @@ public class GcloudComputeStoragePools
         GcloudComputeStoragePoolsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeStoragePoolsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy of a      storage pool
@@ -79,9 +76,8 @@ public class GcloudComputeStoragePools
         GcloudComputeStoragePoolsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeStoragePoolsGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// view the disks that are in a      storage pool
@@ -93,9 +89,8 @@ public class GcloudComputeStoragePools
         GcloudComputeStoragePoolsListDisksOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeStoragePoolsListDisksOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// view storage pools
@@ -107,9 +102,8 @@ public class GcloudComputeStoragePools
         GcloudComputeStoragePoolsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeStoragePoolsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy of the      given storage pool
@@ -121,9 +115,8 @@ public class GcloudComputeStoragePools
         GcloudComputeStoragePoolsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeStoragePoolsSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a storage pool
@@ -135,9 +128,8 @@ public class GcloudComputeStoragePools
         GcloudComputeStoragePoolsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeStoragePoolsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

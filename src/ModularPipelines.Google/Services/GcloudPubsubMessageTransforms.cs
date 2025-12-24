@@ -37,9 +37,8 @@ public class GcloudPubsubMessageTransforms
         GcloudPubsubMessageTransformsTestOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubMessageTransformsTestOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// validates a message transform
@@ -51,9 +50,8 @@ public class GcloudPubsubMessageTransforms
         GcloudPubsubMessageTransformsValidateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubMessageTransformsValidateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudMlVision
         GcloudMlVisionDetectDocumentOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlVisionDetectDocumentOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// detect faces within an image
@@ -51,9 +50,8 @@ public class GcloudMlVision
         GcloudMlVisionDetectFacesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlVisionDetectFacesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// detect general attributes of an      image
@@ -65,9 +63,8 @@ public class GcloudMlVision
         GcloudMlVisionDetectImagePropertiesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlVisionDetectImagePropertiesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// detect broad sets of categories within an      image
@@ -79,9 +76,8 @@ public class GcloudMlVision
         GcloudMlVisionDetectLabelsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlVisionDetectLabelsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// made      structures within an image
@@ -93,9 +89,8 @@ public class GcloudMlVision
         GcloudMlVisionDetectLandmarksOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlVisionDetectLandmarksOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// detect popular product logos within an      image
@@ -107,9 +102,8 @@ public class GcloudMlVision
         GcloudMlVisionDetectLogosOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlVisionDetectLogosOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// detect and extract multiple objects in an      image with object localization
@@ -121,9 +115,8 @@ public class GcloudMlVision
         GcloudMlVisionDetectObjectsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlVisionDetectObjectsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// detect explicit content in an image
@@ -135,9 +128,8 @@ public class GcloudMlVision
         GcloudMlVisionDetectSafeSearchOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlVisionDetectSafeSearchOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// detect and extract text within an image
@@ -149,9 +141,8 @@ public class GcloudMlVision
         GcloudMlVisionDetectTextOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlVisionDetectTextOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// detect and transcribe text from PDF      files stored in Google Cloud Storage
@@ -163,9 +154,8 @@ public class GcloudMlVision
         GcloudMlVisionDetectTextPdfOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlVisionDetectTextPdfOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// detect and transcribe text from TIFF      files stored in Google Cloud Storage
@@ -177,9 +167,8 @@ public class GcloudMlVision
         GcloudMlVisionDetectTextTiffOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlVisionDetectTextTiffOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// detect entities in an image from similar      images on the web
@@ -191,9 +180,8 @@ public class GcloudMlVision
         GcloudMlVisionDetectWebOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlVisionDetectWebOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// suggest a bounding box in an image
@@ -205,9 +193,8 @@ public class GcloudMlVision
         GcloudMlVisionSuggestCropOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlVisionSuggestCropOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

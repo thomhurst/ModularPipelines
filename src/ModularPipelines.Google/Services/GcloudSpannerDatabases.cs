@@ -65,9 +65,8 @@ public class GcloudSpannerDatabases
         GcloudSpannerDatabasesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// change quorum of a Cloud Spanner      database
@@ -79,9 +78,8 @@ public class GcloudSpannerDatabases
         GcloudSpannerDatabasesChangeQuorumOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesChangeQuorumOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Cloud Spanner database
@@ -93,9 +91,8 @@ public class GcloudSpannerDatabases
         GcloudSpannerDatabasesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud Spanner database
@@ -107,9 +104,8 @@ public class GcloudSpannerDatabases
         GcloudSpannerDatabasesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Cloud Spanner database
@@ -121,9 +117,8 @@ public class GcloudSpannerDatabases
         GcloudSpannerDatabasesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// executes a SQL query against a Cloud      Spanner database
@@ -135,9 +130,8 @@ public class GcloudSpannerDatabases
         GcloudSpannerDatabasesExecuteSqlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesExecuteSqlOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a Cloud      Spanner database
@@ -149,9 +143,8 @@ public class GcloudSpannerDatabases
         GcloudSpannerDatabasesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the Cloud Spanner databases contained      within the given instance
@@ -163,9 +156,8 @@ public class GcloudSpannerDatabases
         GcloudSpannerDatabasesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove IAM policy      binding of a Cloud Spanner database
@@ -177,9 +169,8 @@ public class GcloudSpannerDatabases
         GcloudSpannerDatabasesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// restore a Cloud Spanner database
@@ -191,9 +182,8 @@ public class GcloudSpannerDatabases
         GcloudSpannerDatabasesRestoreOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesRestoreOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for a Cloud      Spanner database
@@ -205,9 +195,8 @@ public class GcloudSpannerDatabases
         GcloudSpannerDatabasesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud Spanner database
@@ -219,9 +208,8 @@ public class GcloudSpannerDatabases
         GcloudSpannerDatabasesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudPubsubSnapshots
         GcloudPubsubSnapshotsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSnapshotsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes one or more Cloud Pub/Sub      snapshots
@@ -51,9 +50,8 @@ public class GcloudPubsubSnapshots
         GcloudPubsubSnapshotsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSnapshotsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describes a Cloud Pub/Sub snapshot
@@ -65,9 +63,8 @@ public class GcloudPubsubSnapshots
         GcloudPubsubSnapshotsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSnapshotsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists all the snapshots in a given project
@@ -79,9 +76,8 @@ public class GcloudPubsubSnapshots
         GcloudPubsubSnapshotsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSnapshotsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudRedisInstances
         GcloudRedisInstancesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Redis instance
@@ -51,9 +50,8 @@ public class GcloudRedisInstances
         GcloudRedisInstancesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show metadata for a Memorystore Redis      instance
@@ -65,9 +63,8 @@ public class GcloudRedisInstances
         GcloudRedisInstancesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export data from a Memorystore Redis      instance to Google Cloud Storage
@@ -79,9 +76,8 @@ public class GcloudRedisInstances
         GcloudRedisInstancesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// failover a standard tier Cloud      Memorystore for Redis instance from the master node to its replica
@@ -93,9 +89,8 @@ public class GcloudRedisInstances
         GcloudRedisInstancesFailoverOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesFailoverOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show AUTH string for a Memorystore      Redis instance
@@ -107,9 +102,8 @@ public class GcloudRedisInstances
         GcloudRedisInstancesGetAuthStringOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesGetAuthStringOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import data to a Memorystore Redis instance      from Google Cloud Storage
@@ -121,9 +115,8 @@ public class GcloudRedisInstances
         GcloudRedisInstancesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Memorystore Redis instances
@@ -135,9 +128,8 @@ public class GcloudRedisInstances
         GcloudRedisInstancesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// reschedule maintenance      window for a Redis instance
@@ -149,9 +141,8 @@ public class GcloudRedisInstances
         GcloudRedisInstancesRescheduleMaintenanceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesRescheduleMaintenanceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update Memorystore Redis instances
@@ -163,9 +154,8 @@ public class GcloudRedisInstances
         GcloudRedisInstancesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// upgrade a Memorystore for Redis instance      to a specified Redis version
@@ -177,9 +167,8 @@ public class GcloudRedisInstances
         GcloudRedisInstancesUpgradeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesUpgradeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

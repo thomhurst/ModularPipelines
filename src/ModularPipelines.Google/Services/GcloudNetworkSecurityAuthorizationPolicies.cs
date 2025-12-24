@@ -37,9 +37,8 @@ public class GcloudNetworkSecurityAuthorizationPolicies
         GcloudNetworkSecurityAuthorizationPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityAuthorizationPoliciesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export      authorization policy
@@ -51,9 +50,8 @@ public class GcloudNetworkSecurityAuthorizationPolicies
         GcloudNetworkSecurityAuthorizationPoliciesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityAuthorizationPoliciesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import      authorization policy
@@ -65,9 +63,8 @@ public class GcloudNetworkSecurityAuthorizationPolicies
         GcloudNetworkSecurityAuthorizationPoliciesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityAuthorizationPoliciesImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list authorization      policies
@@ -79,9 +76,8 @@ public class GcloudNetworkSecurityAuthorizationPolicies
         GcloudNetworkSecurityAuthorizationPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityAuthorizationPoliciesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

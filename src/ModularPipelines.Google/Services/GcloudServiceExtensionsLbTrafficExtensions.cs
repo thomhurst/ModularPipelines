@@ -37,9 +37,8 @@ public class GcloudServiceExtensionsLbTrafficExtensions
         GcloudServiceExtensionsLbTrafficExtensionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsLbTrafficExtensionsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an      LbTrafficExtension resource
@@ -51,9 +50,8 @@ public class GcloudServiceExtensionsLbTrafficExtensions
         GcloudServiceExtensionsLbTrafficExtensionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsLbTrafficExtensionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import an      LbTrafficExtension resource
@@ -65,9 +63,8 @@ public class GcloudServiceExtensionsLbTrafficExtensions
         GcloudServiceExtensionsLbTrafficExtensionsImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsLbTrafficExtensionsImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      LbTrafficExtension resources
@@ -79,9 +76,8 @@ public class GcloudServiceExtensionsLbTrafficExtensions
         GcloudServiceExtensionsLbTrafficExtensionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsLbTrafficExtensionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

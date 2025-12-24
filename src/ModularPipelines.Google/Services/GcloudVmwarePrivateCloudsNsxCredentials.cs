@@ -37,9 +37,8 @@ public class GcloudVmwarePrivateCloudsNsxCredentials
         GcloudVmwarePrivateCloudsNsxCredentialsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsNsxCredentialsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// reset VMware NSX      sign-in credentials associated with a Google Cloud VMware Engine      private cloud
@@ -51,9 +50,8 @@ public class GcloudVmwarePrivateCloudsNsxCredentials
         GcloudVmwarePrivateCloudsNsxCredentialsResetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsNsxCredentialsResetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

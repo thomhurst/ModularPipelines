@@ -37,9 +37,8 @@ public class GcloudVmwarePrivateCloudsManagementDnsZoneBindings
         GcloudVmwarePrivateCloudsManagementDnsZoneBindingsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsManagementDnsZoneBindingsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a      management DNS zone binding
@@ -51,9 +50,8 @@ public class GcloudVmwarePrivateCloudsManagementDnsZoneBindings
         GcloudVmwarePrivateCloudsManagementDnsZoneBindingsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsManagementDnsZoneBindingsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a management DNS zone binding
@@ -65,9 +63,8 @@ public class GcloudVmwarePrivateCloudsManagementDnsZoneBindings
         GcloudVmwarePrivateCloudsManagementDnsZoneBindingsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsManagementDnsZoneBindingsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      management DNS zone bindings in a VMware Engine private cloud
@@ -79,9 +76,8 @@ public class GcloudVmwarePrivateCloudsManagementDnsZoneBindings
         GcloudVmwarePrivateCloudsManagementDnsZoneBindingsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsManagementDnsZoneBindingsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// repair a      management DNS zone binding
@@ -93,9 +89,8 @@ public class GcloudVmwarePrivateCloudsManagementDnsZoneBindings
         GcloudVmwarePrivateCloudsManagementDnsZoneBindingsRepairOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsManagementDnsZoneBindingsRepairOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a      management DNS zone binding
@@ -107,9 +102,8 @@ public class GcloudVmwarePrivateCloudsManagementDnsZoneBindings
         GcloudVmwarePrivateCloudsManagementDnsZoneBindingsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsManagementDnsZoneBindingsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

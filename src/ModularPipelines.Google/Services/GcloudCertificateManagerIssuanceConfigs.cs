@@ -37,9 +37,8 @@ public class GcloudCertificateManagerIssuanceConfigs
         GcloudCertificateManagerIssuanceConfigsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerIssuanceConfigsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Certificate      Issuance Config
@@ -51,9 +50,8 @@ public class GcloudCertificateManagerIssuanceConfigs
         GcloudCertificateManagerIssuanceConfigsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerIssuanceConfigsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about a      Certificate Issuance Config
@@ -65,9 +63,8 @@ public class GcloudCertificateManagerIssuanceConfigs
         GcloudCertificateManagerIssuanceConfigsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerIssuanceConfigsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all Certificate      Issuance Configs in a project
@@ -79,9 +76,8 @@ public class GcloudCertificateManagerIssuanceConfigs
         GcloudCertificateManagerIssuanceConfigsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerIssuanceConfigsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Certificate      Issuance Config
@@ -93,9 +89,8 @@ public class GcloudCertificateManagerIssuanceConfigs
         GcloudCertificateManagerIssuanceConfigsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerIssuanceConfigsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

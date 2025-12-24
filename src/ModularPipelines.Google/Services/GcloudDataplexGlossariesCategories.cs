@@ -37,9 +37,8 @@ public class GcloudDataplexGlossariesCategories
         GcloudDataplexGlossariesCategoriesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesCategoriesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a glossary category
@@ -51,9 +50,8 @@ public class GcloudDataplexGlossariesCategories
         GcloudDataplexGlossariesCategoriesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesCategoriesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describes a glossary      category
@@ -65,9 +63,8 @@ public class GcloudDataplexGlossariesCategories
         GcloudDataplexGlossariesCategoriesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesCategoriesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list glossary categories
@@ -79,9 +76,8 @@ public class GcloudDataplexGlossariesCategories
         GcloudDataplexGlossariesCategoriesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesCategoriesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates a glossary category
@@ -93,9 +89,8 @@ public class GcloudDataplexGlossariesCategories
         GcloudDataplexGlossariesCategoriesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesCategoriesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

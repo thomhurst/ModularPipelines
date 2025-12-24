@@ -89,9 +89,8 @@ public class GcloudComputeOsConfig
         GcloudComputeOsConfigTroubleshootOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigTroubleshootOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

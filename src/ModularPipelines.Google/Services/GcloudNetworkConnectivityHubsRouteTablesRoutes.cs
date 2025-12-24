@@ -37,9 +37,8 @@ public class GcloudNetworkConnectivityHubsRouteTablesRoutes
         GcloudNetworkConnectivityHubsRouteTablesRoutesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsRouteTablesRoutesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list routes
@@ -51,9 +50,8 @@ public class GcloudNetworkConnectivityHubsRouteTablesRoutes
         GcloudNetworkConnectivityHubsRouteTablesRoutesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsRouteTablesRoutesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

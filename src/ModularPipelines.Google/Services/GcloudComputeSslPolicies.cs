@@ -37,9 +37,8 @@ public class GcloudComputeSslPolicies
         GcloudComputeSslPoliciesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSslPoliciesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete Compute Engine SSL policies
@@ -51,9 +50,8 @@ public class GcloudComputeSslPolicies
         GcloudComputeSslPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSslPoliciesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute Engine ssl policy
@@ -65,9 +63,8 @@ public class GcloudComputeSslPolicies
         GcloudComputeSslPoliciesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSslPoliciesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list available      features that can be specified in an SSL policy
@@ -79,9 +76,8 @@ public class GcloudComputeSslPolicies
         GcloudComputeSslPoliciesListAvailableFeaturesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSslPoliciesListAvailableFeaturesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine SSL policies
@@ -93,9 +89,8 @@ public class GcloudComputeSslPolicies
         GcloudComputeSslPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSslPoliciesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine SSL policy
@@ -107,9 +102,8 @@ public class GcloudComputeSslPolicies
         GcloudComputeSslPoliciesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSslPoliciesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

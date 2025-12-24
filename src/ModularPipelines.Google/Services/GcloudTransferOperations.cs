@@ -37,9 +37,8 @@ public class GcloudTransferOperations
         GcloudTransferOperationsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferOperationsCancelOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get configuration and latest transfer      operation details
@@ -51,9 +50,8 @@ public class GcloudTransferOperations
         GcloudTransferOperationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferOperationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Transfer Service transfer operations
@@ -65,9 +63,8 @@ public class GcloudTransferOperations
         GcloudTransferOperationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferOperationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// track progress in real time for a      transfer operation
@@ -79,9 +76,8 @@ public class GcloudTransferOperations
         GcloudTransferOperationsMonitorOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferOperationsMonitorOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// pause a currently running transfer      operation
@@ -93,9 +89,8 @@ public class GcloudTransferOperations
         GcloudTransferOperationsPauseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferOperationsPauseOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// resume a currently paused transfer      operation
@@ -107,9 +102,8 @@ public class GcloudTransferOperations
         GcloudTransferOperationsResumeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferOperationsResumeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudAiPlatformVersions
         GcloudAiPlatformVersionsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformVersionsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an existing AI Platform version
@@ -51,9 +50,8 @@ public class GcloudAiPlatformVersions
         GcloudAiPlatformVersionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformVersionsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an existing AI Platform      version
@@ -65,9 +63,8 @@ public class GcloudAiPlatformVersions
         GcloudAiPlatformVersionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformVersionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list existing AI Platform versions
@@ -79,9 +76,8 @@ public class GcloudAiPlatformVersions
         GcloudAiPlatformVersionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformVersionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// sets an existing AI Platform      version as the default for its model
@@ -93,9 +89,8 @@ public class GcloudAiPlatformVersions
         GcloudAiPlatformVersionsSetDefaultOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformVersionsSetDefaultOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an AI Platform version
@@ -107,9 +102,8 @@ public class GcloudAiPlatformVersions
         GcloudAiPlatformVersionsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformVersionsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

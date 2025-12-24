@@ -37,9 +37,8 @@ public class GcloudFirebaseTestAndroidLocales
         GcloudFirebaseTestAndroidLocalesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestAndroidLocalesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all Android locales      available for testing internationalized apps
@@ -51,9 +50,8 @@ public class GcloudFirebaseTestAndroidLocales
         GcloudFirebaseTestAndroidLocalesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestAndroidLocalesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

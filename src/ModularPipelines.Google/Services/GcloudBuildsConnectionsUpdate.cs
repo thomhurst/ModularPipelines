@@ -37,9 +37,8 @@ public class GcloudBuildsConnectionsUpdate
         GcloudBuildsConnectionsUpdateBitbucketCloudOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsConnectionsUpdateBitbucketCloudOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud      Build Connection of type Bitbucket Data Center
@@ -51,9 +50,8 @@ public class GcloudBuildsConnectionsUpdate
         GcloudBuildsConnectionsUpdateBitbucketDataCenterOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsConnectionsUpdateBitbucketDataCenterOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud Build      Connection of type GitHub Enterprise
@@ -65,9 +63,8 @@ public class GcloudBuildsConnectionsUpdate
         GcloudBuildsConnectionsUpdateGithubEnterpriseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsConnectionsUpdateGithubEnterpriseOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud Build Connection      of type GitHub
@@ -79,9 +76,8 @@ public class GcloudBuildsConnectionsUpdate
         GcloudBuildsConnectionsUpdateGithubOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsConnectionsUpdateGithubOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud Build Connection      of type gitlab.com or GitLab Enterprise
@@ -93,9 +89,8 @@ public class GcloudBuildsConnectionsUpdate
         GcloudBuildsConnectionsUpdateGitlabOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsConnectionsUpdateGitlabOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

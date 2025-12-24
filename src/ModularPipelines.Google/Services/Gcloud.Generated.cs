@@ -633,60 +633,48 @@ internal class Gcloud : IGcloud
         GcloudCheatSheetOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCheatSheetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
-    /// <inheritdoc />
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Docker(
         GcloudDockerOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDockerOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
-    /// <inheritdoc />
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Feedback(
         GcloudFeedbackOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFeedbackOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
-    /// <inheritdoc />
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Info(
         GcloudInfoOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfoOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
-    /// <inheritdoc />
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Init(
         GcloudInitOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInitOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
-    /// <inheritdoc />
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Survey(
         GcloudSurveyOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSurveyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
-    /// <inheritdoc />
 
     #endregion
 }

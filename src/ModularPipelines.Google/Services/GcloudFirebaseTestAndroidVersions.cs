@@ -37,9 +37,8 @@ public class GcloudFirebaseTestAndroidVersions
         GcloudFirebaseTestAndroidVersionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestAndroidVersionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all Android OS versions      available for testing
@@ -51,9 +50,8 @@ public class GcloudFirebaseTestAndroidVersions
         GcloudFirebaseTestAndroidVersionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestAndroidVersionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

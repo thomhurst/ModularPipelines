@@ -37,9 +37,8 @@ public class GcloudAiIndexEndpoints
         GcloudAiIndexEndpointsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexEndpointsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an existing Vertex AI index      endpoint
@@ -51,9 +50,8 @@ public class GcloudAiIndexEndpoints
         GcloudAiIndexEndpointsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexEndpointsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deploy an index to a Vertex AI      index endpoint
@@ -65,9 +63,8 @@ public class GcloudAiIndexEndpoints
         GcloudAiIndexEndpointsDeployIndexOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexEndpointsDeployIndexOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// gets detailed index endpoint      information about the given index endpoint id
@@ -79,9 +76,8 @@ public class GcloudAiIndexEndpoints
         GcloudAiIndexEndpointsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexEndpointsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists the index endpoints of the given      project and region
@@ -93,9 +89,8 @@ public class GcloudAiIndexEndpoints
         GcloudAiIndexEndpointsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexEndpointsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// mutate an existing      deployed index from a Vertex AI index endpoint
@@ -107,9 +102,8 @@ public class GcloudAiIndexEndpoints
         GcloudAiIndexEndpointsMutateDeployedIndexOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexEndpointsMutateDeployedIndexOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// undeploy an index from a Vertex      AI index endpoint
@@ -121,9 +115,8 @@ public class GcloudAiIndexEndpoints
         GcloudAiIndexEndpointsUndeployIndexOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexEndpointsUndeployIndexOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an Vertex AI index endpoint
@@ -135,9 +128,8 @@ public class GcloudAiIndexEndpoints
         GcloudAiIndexEndpointsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexEndpointsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

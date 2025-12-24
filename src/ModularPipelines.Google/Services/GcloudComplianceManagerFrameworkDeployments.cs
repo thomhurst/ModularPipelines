@@ -37,9 +37,8 @@ public class GcloudComplianceManagerFrameworkDeployments
         GcloudComplianceManagerFrameworkDeploymentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerFrameworkDeploymentsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a framework      deployment
@@ -51,9 +50,8 @@ public class GcloudComplianceManagerFrameworkDeployments
         GcloudComplianceManagerFrameworkDeploymentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerFrameworkDeploymentsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get a framework      deployment
@@ -65,9 +63,8 @@ public class GcloudComplianceManagerFrameworkDeployments
         GcloudComplianceManagerFrameworkDeploymentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerFrameworkDeploymentsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list framework      deployments
@@ -79,9 +76,8 @@ public class GcloudComplianceManagerFrameworkDeployments
         GcloudComplianceManagerFrameworkDeploymentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerFrameworkDeploymentsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

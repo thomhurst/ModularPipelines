@@ -37,9 +37,8 @@ public class GcloudContainerFleetFleetobservability
         GcloudContainerFleetFleetobservabilityDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetFleetobservabilityDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disables the Fleet      Observability Feature
@@ -51,9 +50,8 @@ public class GcloudContainerFleetFleetobservability
         GcloudContainerFleetFleetobservabilityDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetFleetobservabilityDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enables the Fleet      Observability Feature
@@ -65,9 +63,8 @@ public class GcloudContainerFleetFleetobservability
         GcloudContainerFleetFleetobservabilityEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetFleetobservabilityEnableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates the Fleet      Observability Feature resource
@@ -79,9 +76,8 @@ public class GcloudContainerFleetFleetobservability
         GcloudContainerFleetFleetobservabilityUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetFleetobservabilityUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

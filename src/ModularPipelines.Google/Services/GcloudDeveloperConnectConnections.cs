@@ -47,9 +47,8 @@ public class GcloudDeveloperConnectConnections
         GcloudDeveloperConnectConnectionsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectConnectionsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a single connection
@@ -61,9 +60,8 @@ public class GcloudDeveloperConnectConnections
         GcloudDeveloperConnectConnectionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectConnectionsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get details of a single      connection resource
@@ -75,9 +73,8 @@ public class GcloudDeveloperConnectConnections
         GcloudDeveloperConnectConnectionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectConnectionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list connections
@@ -89,9 +86,8 @@ public class GcloudDeveloperConnectConnections
         GcloudDeveloperConnectConnectionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectConnectionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update the parameters of a      single connection
@@ -103,9 +99,8 @@ public class GcloudDeveloperConnectConnections
         GcloudDeveloperConnectConnectionsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectConnectionsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

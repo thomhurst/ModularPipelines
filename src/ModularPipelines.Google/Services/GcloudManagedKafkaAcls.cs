@@ -37,9 +37,8 @@ public class GcloudManagedKafkaAcls
         GcloudManagedKafkaAclsAddAclEntryOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaAclsAddAclEntryOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Managed Service for Apache      Kafka acl
@@ -51,9 +50,8 @@ public class GcloudManagedKafkaAcls
         GcloudManagedKafkaAclsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaAclsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Managed Service for Apache      Kafka ACL
@@ -65,9 +63,8 @@ public class GcloudManagedKafkaAcls
         GcloudManagedKafkaAclsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaAclsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Managed Service for Apache      Kafka acl
@@ -79,9 +76,8 @@ public class GcloudManagedKafkaAcls
         GcloudManagedKafkaAclsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaAclsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all Managed Service for Apache Kafka      acls in a given cluster
@@ -93,9 +89,8 @@ public class GcloudManagedKafkaAcls
         GcloudManagedKafkaAclsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaAclsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an acl entry from a      Managed Service for Apache Kafka acl
@@ -107,9 +102,8 @@ public class GcloudManagedKafkaAcls
         GcloudManagedKafkaAclsRemoveAclEntryOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaAclsRemoveAclEntryOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Managed Service for Apache      Kafka acl
@@ -121,9 +115,8 @@ public class GcloudManagedKafkaAcls
         GcloudManagedKafkaAclsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaAclsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

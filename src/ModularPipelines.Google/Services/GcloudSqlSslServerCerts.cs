@@ -37,9 +37,8 @@ public class GcloudSqlSslServerCerts
         GcloudSqlSslServerCertsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlSslServerCertsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all server certificates for a Cloud      SQL instance
@@ -51,9 +50,8 @@ public class GcloudSqlSslServerCerts
         GcloudSqlSslServerCertsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlSslServerCertsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// roll back to the previous server      certificate for a Cloud SQL instance
@@ -65,9 +63,8 @@ public class GcloudSqlSslServerCerts
         GcloudSqlSslServerCertsRollbackOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlSslServerCertsRollbackOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// rotate in the upcoming server      certificate for a Cloud SQL instance
@@ -79,9 +76,8 @@ public class GcloudSqlSslServerCerts
         GcloudSqlSslServerCertsRotateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlSslServerCertsRotateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

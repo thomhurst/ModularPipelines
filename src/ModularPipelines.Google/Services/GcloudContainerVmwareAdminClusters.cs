@@ -37,9 +37,8 @@ public class GcloudContainerVmwareAdminClusters
         GcloudContainerVmwareAdminClustersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareAdminClustersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enroll an Anthos on VMware      admin cluster
@@ -51,9 +50,8 @@ public class GcloudContainerVmwareAdminClusters
         GcloudContainerVmwareAdminClustersEnrollOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareAdminClustersEnrollOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Anthos on VMware admin      clusters
@@ -65,9 +63,8 @@ public class GcloudContainerVmwareAdminClusters
         GcloudContainerVmwareAdminClustersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareAdminClustersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// unenroll an Anthos on      VMware admin cluster
@@ -79,9 +76,8 @@ public class GcloudContainerVmwareAdminClusters
         GcloudContainerVmwareAdminClustersUnenrollOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareAdminClustersUnenrollOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an Anthos on VMware      admin cluster
@@ -93,9 +89,8 @@ public class GcloudContainerVmwareAdminClusters
         GcloudContainerVmwareAdminClustersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareAdminClustersUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

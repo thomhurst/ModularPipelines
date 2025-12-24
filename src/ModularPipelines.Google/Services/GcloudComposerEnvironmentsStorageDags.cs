@@ -37,9 +37,8 @@ public class GcloudComposerEnvironmentsStorageDags
         GcloudComposerEnvironmentsStorageDagsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsStorageDagsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export DAGs from an      environment into local storage or Cloud Storage
@@ -51,9 +50,8 @@ public class GcloudComposerEnvironmentsStorageDags
         GcloudComposerEnvironmentsStorageDagsExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsStorageDagsExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import DAGs from local      storage or Cloud Storage into an environment
@@ -65,9 +63,8 @@ public class GcloudComposerEnvironmentsStorageDags
         GcloudComposerEnvironmentsStorageDagsImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsStorageDagsImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the DAG files for a      Cloud Composer environment
@@ -79,9 +76,8 @@ public class GcloudComposerEnvironmentsStorageDags
         GcloudComposerEnvironmentsStorageDagsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsStorageDagsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

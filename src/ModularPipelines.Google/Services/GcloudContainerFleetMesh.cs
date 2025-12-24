@@ -37,9 +37,8 @@ public class GcloudContainerFleetMesh
         GcloudContainerFleetMeshDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMeshDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disable Service Mesh Feature
@@ -51,9 +50,8 @@ public class GcloudContainerFleetMesh
         GcloudContainerFleetMeshDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMeshDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enable Service Mesh Feature
@@ -65,9 +63,8 @@ public class GcloudContainerFleetMesh
         GcloudContainerFleetMeshEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMeshEnableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update the configuration of the      Service Mesh Feature
@@ -79,9 +76,8 @@ public class GcloudContainerFleetMesh
         GcloudContainerFleetMeshUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMeshUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

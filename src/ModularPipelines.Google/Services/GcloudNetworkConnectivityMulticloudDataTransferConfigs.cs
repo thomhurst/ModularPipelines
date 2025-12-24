@@ -47,9 +47,8 @@ public class GcloudNetworkConnectivityMulticloudDataTransferConfigs
         GcloudNetworkConnectivityMulticloudDataTransferConfigsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityMulticloudDataTransferConfigsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a multicloudDataTransferConfig
@@ -61,9 +60,8 @@ public class GcloudNetworkConnectivityMulticloudDataTransferConfigs
         GcloudNetworkConnectivityMulticloudDataTransferConfigsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityMulticloudDataTransferConfigsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a multicloudDataTransferConfig
@@ -75,9 +73,8 @@ public class GcloudNetworkConnectivityMulticloudDataTransferConfigs
         GcloudNetworkConnectivityMulticloudDataTransferConfigsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityMulticloudDataTransferConfigsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      multicloudDataTransferConfigs
@@ -89,9 +86,8 @@ public class GcloudNetworkConnectivityMulticloudDataTransferConfigs
         GcloudNetworkConnectivityMulticloudDataTransferConfigsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityMulticloudDataTransferConfigsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a multicloudDataTransferConfig
@@ -103,9 +99,8 @@ public class GcloudNetworkConnectivityMulticloudDataTransferConfigs
         GcloudNetworkConnectivityMulticloudDataTransferConfigsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityMulticloudDataTransferConfigsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

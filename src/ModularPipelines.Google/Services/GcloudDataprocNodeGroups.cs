@@ -37,9 +37,8 @@ public class GcloudDataprocNodeGroups
         GcloudDataprocNodeGroupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocNodeGroupsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// resize the number of nodes in the node      group
@@ -51,9 +50,8 @@ public class GcloudDataprocNodeGroups
         GcloudDataprocNodeGroupsResizeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocNodeGroupsResizeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

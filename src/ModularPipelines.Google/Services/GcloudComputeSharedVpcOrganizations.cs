@@ -37,9 +37,8 @@ public class GcloudComputeSharedVpcOrganizations
         GcloudComputeSharedVpcOrganizationsListHostProjectsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSharedVpcOrganizationsListHostProjectsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

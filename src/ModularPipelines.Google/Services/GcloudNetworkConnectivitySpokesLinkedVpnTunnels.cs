@@ -37,9 +37,8 @@ public class GcloudNetworkConnectivitySpokesLinkedVpnTunnels
         GcloudNetworkConnectivitySpokesLinkedVpnTunnelsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesLinkedVpnTunnelsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a VPN      spoke
@@ -51,9 +50,8 @@ public class GcloudNetworkConnectivitySpokesLinkedVpnTunnels
         GcloudNetworkConnectivitySpokesLinkedVpnTunnelsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesLinkedVpnTunnelsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

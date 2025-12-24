@@ -37,9 +37,8 @@ public class GcloudNetworkSecuritySecurityProfilesThreatPrevention
         GcloudNetworkSecuritySecurityProfilesThreatPreventionAddOverrideOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesThreatPreventionAddOverrideOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create      a new Threat Prevention Profile
@@ -51,9 +50,8 @@ public class GcloudNetworkSecuritySecurityProfilesThreatPrevention
         GcloudNetworkSecuritySecurityProfilesThreatPreventionCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesThreatPreventionCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete      a Security Profile
@@ -65,9 +63,8 @@ public class GcloudNetworkSecuritySecurityProfilesThreatPrevention
         GcloudNetworkSecuritySecurityProfilesThreatPreventionDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesThreatPreventionDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// override      - delete overrides of Threat Prevention Profile
@@ -79,9 +76,8 @@ public class GcloudNetworkSecuritySecurityProfilesThreatPrevention
         GcloudNetworkSecuritySecurityProfilesThreatPreventionDeleteOverrideOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesThreatPreventionDeleteOverrideOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      Threat Prevention Security Profiles
@@ -93,9 +89,8 @@ public class GcloudNetworkSecuritySecurityProfilesThreatPrevention
         GcloudNetworkSecuritySecurityProfilesThreatPreventionListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesThreatPreventionListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// overrides      - list overrides of Threat Prevention Profile
@@ -107,9 +102,8 @@ public class GcloudNetworkSecuritySecurityProfilesThreatPrevention
         GcloudNetworkSecuritySecurityProfilesThreatPreventionListOverridesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesThreatPreventionListOverridesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// override      - update Overrides of Threat Prevention Profile
@@ -121,9 +115,8 @@ public class GcloudNetworkSecuritySecurityProfilesThreatPrevention
         GcloudNetworkSecuritySecurityProfilesThreatPreventionUpdateOverrideOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesThreatPreventionUpdateOverrideOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

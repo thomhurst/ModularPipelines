@@ -37,9 +37,8 @@ public class GcloudHealthcareFhirStoresExport
         GcloudHealthcareFhirStoresExportBqOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresExportBqOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export Cloud Healthcare API FHIR      resources to Google Cloud Storage
@@ -51,9 +50,8 @@ public class GcloudHealthcareFhirStoresExport
         GcloudHealthcareFhirStoresExportGcsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresExportGcsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

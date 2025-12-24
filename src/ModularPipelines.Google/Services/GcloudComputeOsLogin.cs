@@ -47,9 +47,8 @@ public class GcloudComputeOsLogin
         GcloudComputeOsLoginDescribeProfileOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsLoginDescribeProfileOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove the posix account      information for the current user
@@ -61,9 +60,8 @@ public class GcloudComputeOsLogin
         GcloudComputeOsLoginRemoveProfileOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsLoginRemoveProfileOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

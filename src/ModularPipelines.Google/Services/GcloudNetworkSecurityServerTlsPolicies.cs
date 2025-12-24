@@ -37,9 +37,8 @@ public class GcloudNetworkSecurityServerTlsPolicies
         GcloudNetworkSecurityServerTlsPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityServerTlsPoliciesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe      ServerTlsPolicy
@@ -51,9 +50,8 @@ public class GcloudNetworkSecurityServerTlsPolicies
         GcloudNetworkSecurityServerTlsPoliciesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityServerTlsPoliciesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export ServerTlsPolicy
@@ -65,9 +63,8 @@ public class GcloudNetworkSecurityServerTlsPolicies
         GcloudNetworkSecurityServerTlsPoliciesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityServerTlsPoliciesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import ServerTlsPolicy
@@ -79,9 +76,8 @@ public class GcloudNetworkSecurityServerTlsPolicies
         GcloudNetworkSecurityServerTlsPoliciesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityServerTlsPoliciesImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list ServerTlsPolicies
@@ -93,9 +89,8 @@ public class GcloudNetworkSecurityServerTlsPolicies
         GcloudNetworkSecurityServerTlsPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityServerTlsPoliciesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

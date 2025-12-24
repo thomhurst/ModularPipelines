@@ -37,9 +37,8 @@ public class GcloudEventarcAuditLogsProviderServiceNames
         GcloudEventarcAuditLogsProviderServiceNamesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcAuditLogsProviderServiceNamesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

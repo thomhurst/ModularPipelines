@@ -37,9 +37,8 @@ public class GcloudVmwarePrivateCloudsUpgrades
         GcloudVmwarePrivateCloudsUpgradesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsUpgradesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list upgrades for a Google      Cloud VMware Engine private cloud
@@ -51,9 +50,8 @@ public class GcloudVmwarePrivateCloudsUpgrades
         GcloudVmwarePrivateCloudsUpgradesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsUpgradesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

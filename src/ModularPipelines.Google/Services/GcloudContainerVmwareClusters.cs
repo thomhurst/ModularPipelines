@@ -37,9 +37,8 @@ public class GcloudContainerVmwareClusters
         GcloudContainerVmwareClustersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareClustersCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an Anthos cluster on      VMware
@@ -51,9 +50,8 @@ public class GcloudContainerVmwareClusters
         GcloudContainerVmwareClustersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareClustersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an Anthos cluster on      VMware
@@ -65,9 +63,8 @@ public class GcloudContainerVmwareClusters
         GcloudContainerVmwareClustersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareClustersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enroll an Anthos cluster on      VMware
@@ -79,9 +76,8 @@ public class GcloudContainerVmwareClusters
         GcloudContainerVmwareClustersEnrollOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareClustersEnrollOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Anthos clusters on VMware
@@ -93,9 +89,8 @@ public class GcloudContainerVmwareClusters
         GcloudContainerVmwareClustersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareClustersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// query versions for      creating or upgrading an Anthos on VMware user cluster
@@ -107,9 +102,8 @@ public class GcloudContainerVmwareClusters
         GcloudContainerVmwareClustersQueryVersionConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareClustersQueryVersionConfigOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an Anthos cluster on      VMware
@@ -121,9 +115,8 @@ public class GcloudContainerVmwareClusters
         GcloudContainerVmwareClustersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareClustersUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// centrally upgrade an Anthos      cluster on VMware
@@ -135,9 +128,8 @@ public class GcloudContainerVmwareClusters
         GcloudContainerVmwareClustersUpgradeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareClustersUpgradeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

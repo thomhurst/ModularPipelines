@@ -53,9 +53,8 @@ public class GcloudComputeHealthChecks
         GcloudComputeHealthChecksDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthChecksDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// display detailed information about      a health check
@@ -67,9 +66,8 @@ public class GcloudComputeHealthChecks
         GcloudComputeHealthChecksDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthChecksDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine health      checks
@@ -81,9 +79,8 @@ public class GcloudComputeHealthChecks
         GcloudComputeHealthChecksListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthChecksListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

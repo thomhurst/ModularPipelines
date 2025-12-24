@@ -37,9 +37,8 @@ public class GcloudContainerAzureClients
         GcloudContainerAzureClientsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAzureClientsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an Azure client
@@ -51,9 +50,8 @@ public class GcloudContainerAzureClients
         GcloudContainerAzureClientsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAzureClientsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an Azure client
@@ -65,9 +63,8 @@ public class GcloudContainerAzureClients
         GcloudContainerAzureClientsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAzureClientsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the public certificate      of an Azure client
@@ -79,9 +76,8 @@ public class GcloudContainerAzureClients
         GcloudContainerAzureClientsGetPublicCertOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAzureClientsGetPublicCertOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Azure clients
@@ -93,9 +89,8 @@ public class GcloudContainerAzureClients
         GcloudContainerAzureClientsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAzureClientsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

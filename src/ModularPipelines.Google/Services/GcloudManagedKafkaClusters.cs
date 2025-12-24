@@ -37,9 +37,8 @@ public class GcloudManagedKafkaClusters
         GcloudManagedKafkaClustersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaClustersCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Managed Service for Apache      Kafka cluster
@@ -51,9 +50,8 @@ public class GcloudManagedKafkaClusters
         GcloudManagedKafkaClustersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaClustersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Managed Service for      Apache Kafka cluster
@@ -65,9 +63,8 @@ public class GcloudManagedKafkaClusters
         GcloudManagedKafkaClustersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaClustersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all Managed Service for Apache      Kafka clusters in a given location
@@ -79,9 +76,8 @@ public class GcloudManagedKafkaClusters
         GcloudManagedKafkaClustersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaClustersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Managed Service for Apache      Kafka cluster
@@ -93,9 +89,8 @@ public class GcloudManagedKafkaClusters
         GcloudManagedKafkaClustersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaClustersUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudVmwarePrivateCloudsExternalAddresses
         GcloudVmwarePrivateCloudsExternalAddressesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsExternalAddressesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete external IP      address from a VMware Engine private cloud
@@ -51,9 +50,8 @@ public class GcloudVmwarePrivateCloudsExternalAddresses
         GcloudVmwarePrivateCloudsExternalAddressesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsExternalAddressesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an      external IP address in a VMware Engine private cloud
@@ -65,9 +63,8 @@ public class GcloudVmwarePrivateCloudsExternalAddresses
         GcloudVmwarePrivateCloudsExternalAddressesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsExternalAddressesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list external IP      addresses in a VMware Engine private cloud
@@ -79,9 +76,8 @@ public class GcloudVmwarePrivateCloudsExternalAddresses
         GcloudVmwarePrivateCloudsExternalAddressesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsExternalAddressesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an external      IP address in a VMware Engine private cloud
@@ -93,9 +89,8 @@ public class GcloudVmwarePrivateCloudsExternalAddresses
         GcloudVmwarePrivateCloudsExternalAddressesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsExternalAddressesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

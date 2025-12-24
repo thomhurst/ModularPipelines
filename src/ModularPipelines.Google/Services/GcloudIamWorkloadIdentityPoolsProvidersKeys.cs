@@ -47,9 +47,8 @@ public class GcloudIamWorkloadIdentityPoolsProvidersKeys
         GcloudIamWorkloadIdentityPoolsProvidersKeysCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsProvidersKeysCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a      workload identity pool provider key
@@ -61,9 +60,8 @@ public class GcloudIamWorkloadIdentityPoolsProvidersKeys
         GcloudIamWorkloadIdentityPoolsProvidersKeysDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsProvidersKeysDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a      workload identity pool provider key
@@ -75,9 +73,8 @@ public class GcloudIamWorkloadIdentityPoolsProvidersKeys
         GcloudIamWorkloadIdentityPoolsProvidersKeysDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsProvidersKeysDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list workload      identity pool provider keys
@@ -89,9 +86,8 @@ public class GcloudIamWorkloadIdentityPoolsProvidersKeys
         GcloudIamWorkloadIdentityPoolsProvidersKeysListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsProvidersKeysListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// undelete a      workload identity pool provider key
@@ -103,9 +99,8 @@ public class GcloudIamWorkloadIdentityPoolsProvidersKeys
         GcloudIamWorkloadIdentityPoolsProvidersKeysUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsProvidersKeysUndeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

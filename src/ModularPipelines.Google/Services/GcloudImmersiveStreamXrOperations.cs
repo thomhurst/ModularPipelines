@@ -37,9 +37,8 @@ public class GcloudImmersiveStreamXrOperations
         GcloudImmersiveStreamXrOperationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrOperationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Immersive Stream for XR      operations
@@ -51,9 +50,8 @@ public class GcloudImmersiveStreamXrOperations
         GcloudImmersiveStreamXrOperationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrOperationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// running Immersive      Stream for XR operation until it completes
@@ -65,9 +63,8 @@ public class GcloudImmersiveStreamXrOperations
         GcloudImmersiveStreamXrOperationsWaitOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrOperationsWaitOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

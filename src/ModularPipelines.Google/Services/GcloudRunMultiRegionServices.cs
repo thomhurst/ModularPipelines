@@ -37,9 +37,8 @@ public class GcloudRunMultiRegionServices
         GcloudRunMultiRegionServicesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRunMultiRegionServicesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// command to describe a      multi-region service
@@ -51,9 +50,8 @@ public class GcloudRunMultiRegionServices
         GcloudRunMultiRegionServicesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRunMultiRegionServicesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// region      services
@@ -65,9 +63,8 @@ public class GcloudRunMultiRegionServices
         GcloudRunMultiRegionServicesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRunMultiRegionServicesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// region      service from YAML
@@ -79,9 +76,8 @@ public class GcloudRunMultiRegionServices
         GcloudRunMultiRegionServicesReplaceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRunMultiRegionServicesReplaceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update environment variables,      add/remove regions, and other configuration settings in Multi-Region      Services
@@ -93,9 +89,8 @@ public class GcloudRunMultiRegionServices
         GcloudRunMultiRegionServicesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRunMultiRegionServicesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

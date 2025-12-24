@@ -37,9 +37,8 @@ public class GcloudComputePacketMirrorings
         GcloudComputePacketMirroringsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePacketMirroringsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Compute Engine packet      mirroring policy
@@ -51,9 +50,8 @@ public class GcloudComputePacketMirrorings
         GcloudComputePacketMirroringsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePacketMirroringsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute Engine      packet mirroring policy
@@ -65,9 +63,8 @@ public class GcloudComputePacketMirrorings
         GcloudComputePacketMirroringsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePacketMirroringsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine packet      mirroring policies
@@ -79,9 +76,8 @@ public class GcloudComputePacketMirrorings
         GcloudComputePacketMirroringsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePacketMirroringsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine packet      mirroring policy
@@ -93,9 +89,8 @@ public class GcloudComputePacketMirrorings
         GcloudComputePacketMirroringsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePacketMirroringsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

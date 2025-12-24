@@ -37,9 +37,8 @@ public class GcloudComputeVpnTunnels
         GcloudComputeVpnTunnelsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeVpnTunnelsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete VPN tunnels
@@ -51,9 +50,8 @@ public class GcloudComputeVpnTunnels
         GcloudComputeVpnTunnelsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeVpnTunnelsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute Engine VPN tunnel
@@ -65,9 +63,8 @@ public class GcloudComputeVpnTunnels
         GcloudComputeVpnTunnelsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeVpnTunnelsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine VPN tunnels
@@ -79,9 +76,8 @@ public class GcloudComputeVpnTunnels
         GcloudComputeVpnTunnelsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeVpnTunnelsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

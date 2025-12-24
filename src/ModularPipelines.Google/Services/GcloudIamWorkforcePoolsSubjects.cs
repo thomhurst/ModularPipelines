@@ -47,9 +47,8 @@ public class GcloudIamWorkforcePoolsSubjects
         GcloudIamWorkforcePoolsSubjectsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsSubjectsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// undelete a workforce pool      subject
@@ -61,9 +60,8 @@ public class GcloudIamWorkforcePoolsSubjects
         GcloudIamWorkforcePoolsSubjectsUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsSubjectsUndeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

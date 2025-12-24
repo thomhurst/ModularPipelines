@@ -37,9 +37,8 @@ public class GcloudContainerAwsClusters
         GcloudContainerAwsClustersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsClustersCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an Anthos cluster on AWS
@@ -51,9 +50,8 @@ public class GcloudContainerAwsClusters
         GcloudContainerAwsClustersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsClustersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an Anthos cluster on AWS
@@ -65,9 +63,8 @@ public class GcloudContainerAwsClusters
         GcloudContainerAwsClustersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsClustersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get credentials of an      Anthos cluster on AWS
@@ -79,9 +76,8 @@ public class GcloudContainerAwsClusters
         GcloudContainerAwsClustersGetCredentialsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsClustersGetCredentialsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Anthos clusters on AWS
@@ -93,9 +89,8 @@ public class GcloudContainerAwsClusters
         GcloudContainerAwsClustersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsClustersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an Anthos cluster on AWS
@@ -107,9 +102,8 @@ public class GcloudContainerAwsClusters
         GcloudContainerAwsClustersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsClustersUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

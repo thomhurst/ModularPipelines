@@ -37,9 +37,8 @@ public class GcloudBuildsTriggersUpdate
         GcloudBuildsTriggersUpdateBitbucketCloudOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersUpdateBitbucketCloudOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates Bitbucket      Data Center trigger used by Cloud Build
@@ -51,9 +50,8 @@ public class GcloudBuildsTriggersUpdate
         GcloudBuildsTriggersUpdateBitbucketDataCenterOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersUpdateBitbucketDataCenterOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates Bitbucket Server      trigger used by Cloud Build
@@ -65,9 +63,8 @@ public class GcloudBuildsTriggersUpdate
         GcloudBuildsTriggersUpdateBitbucketserverOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersUpdateBitbucketserverOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates Cloud      Source Repositories trigger used by Cloud Build
@@ -79,9 +76,8 @@ public class GcloudBuildsTriggersUpdate
         GcloudBuildsTriggersUpdateCloudSourceRepositoriesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersUpdateCloudSourceRepositoriesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update GitHub trigger used by Cloud      Build
@@ -93,9 +89,8 @@ public class GcloudBuildsTriggersUpdate
         GcloudBuildsTriggersUpdateGithubOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersUpdateGithubOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates GitLab trigger used by Cloud      Build
@@ -107,9 +102,8 @@ public class GcloudBuildsTriggersUpdate
         GcloudBuildsTriggersUpdateGitlabOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersUpdateGitlabOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates a manual trigger used by      Cloud Build
@@ -121,9 +115,8 @@ public class GcloudBuildsTriggersUpdate
         GcloudBuildsTriggersUpdateManualOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersUpdateManualOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Pub/Sub trigger used by      Cloud Build
@@ -135,9 +128,8 @@ public class GcloudBuildsTriggersUpdate
         GcloudBuildsTriggersUpdatePubsubOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersUpdatePubsubOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Webhook trigger used by      Cloud Build
@@ -149,9 +141,8 @@ public class GcloudBuildsTriggersUpdate
         GcloudBuildsTriggersUpdateWebhookOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersUpdateWebhookOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

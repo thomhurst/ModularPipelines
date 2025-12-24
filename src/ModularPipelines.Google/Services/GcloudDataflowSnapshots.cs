@@ -37,9 +37,8 @@ public class GcloudDataflowSnapshots
         GcloudDataflowSnapshotsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowSnapshotsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud Dataflow snapshot
@@ -51,9 +50,8 @@ public class GcloudDataflowSnapshots
         GcloudDataflowSnapshotsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowSnapshotsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Cloud Dataflow snapshot
@@ -65,9 +63,8 @@ public class GcloudDataflowSnapshots
         GcloudDataflowSnapshotsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowSnapshotsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all Cloud Dataflow snapshots in a      project in the specified region, optionally filtered by job ID
@@ -79,9 +76,8 @@ public class GcloudDataflowSnapshots
         GcloudDataflowSnapshotsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowSnapshotsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

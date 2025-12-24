@@ -47,9 +47,8 @@ public class GcloudParametermanagerParameters
         GcloudParametermanagerParametersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerParametersCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a single Parameter      Manager parameter resource
@@ -61,9 +60,8 @@ public class GcloudParametermanagerParameters
         GcloudParametermanagerParametersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerParametersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// gets a single Parameter      Manager parameter
@@ -75,9 +73,8 @@ public class GcloudParametermanagerParameters
         GcloudParametermanagerParametersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerParametersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists Parameter Manager      parameters
@@ -89,9 +86,8 @@ public class GcloudParametermanagerParameters
         GcloudParametermanagerParametersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerParametersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates the metadata of an      Parameter Manager parameter resource
@@ -103,9 +99,8 @@ public class GcloudParametermanagerParameters
         GcloudParametermanagerParametersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerParametersUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

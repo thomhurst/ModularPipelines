@@ -37,9 +37,8 @@ public class GcloudIapOauthBrands
         GcloudIapOauthBrandsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapOauthBrandsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Cloud OAuth brand
@@ -51,9 +50,8 @@ public class GcloudIapOauthBrands
         GcloudIapOauthBrandsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapOauthBrandsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud OAuth brands in the project
@@ -65,9 +63,8 @@ public class GcloudIapOauthBrands
         GcloudIapOauthBrandsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapOauthBrandsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

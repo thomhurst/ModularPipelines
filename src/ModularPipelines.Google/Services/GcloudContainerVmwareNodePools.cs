@@ -37,9 +37,8 @@ public class GcloudContainerVmwareNodePools
         GcloudContainerVmwareNodePoolsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareNodePoolsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a node pool in an Anthos      cluster on VMware
@@ -51,9 +50,8 @@ public class GcloudContainerVmwareNodePools
         GcloudContainerVmwareNodePoolsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareNodePoolsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a node pool in an      Anthos cluster on VMware
@@ -65,9 +63,8 @@ public class GcloudContainerVmwareNodePools
         GcloudContainerVmwareNodePoolsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareNodePoolsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enroll a node pool in an Anthos      cluster on VMware
@@ -79,9 +76,8 @@ public class GcloudContainerVmwareNodePools
         GcloudContainerVmwareNodePoolsEnrollOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareNodePoolsEnrollOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list node pools in an Anthos      cluster on VMware
@@ -93,9 +89,8 @@ public class GcloudContainerVmwareNodePools
         GcloudContainerVmwareNodePoolsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareNodePoolsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a node pool in an Anthos      cluster on VMware
@@ -107,9 +102,8 @@ public class GcloudContainerVmwareNodePools
         GcloudContainerVmwareNodePoolsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareNodePoolsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

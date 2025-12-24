@@ -37,9 +37,8 @@ public class GcloudComputeDisksBulk
         GcloudComputeDisksBulkCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksBulkCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudWorkspaceAddOnsDeployments
         GcloudWorkspaceAddOnsDeploymentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Google Workspace      Add-ons deployment
@@ -51,9 +50,8 @@ public class GcloudWorkspaceAddOnsDeployments
         GcloudWorkspaceAddOnsDeploymentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Google Workspace      Add-ons deployment
@@ -65,9 +63,8 @@ public class GcloudWorkspaceAddOnsDeployments
         GcloudWorkspaceAddOnsDeploymentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// install a Google Workspace      Add-ons deployment
@@ -79,9 +76,8 @@ public class GcloudWorkspaceAddOnsDeployments
         GcloudWorkspaceAddOnsDeploymentsInstallOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsInstallOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the install      status of a Google Workspace Add-ons deployment
@@ -93,9 +89,8 @@ public class GcloudWorkspaceAddOnsDeployments
         GcloudWorkspaceAddOnsDeploymentsInstallStatusOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsInstallStatusOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// ons      deployments
@@ -107,9 +102,8 @@ public class GcloudWorkspaceAddOnsDeployments
         GcloudWorkspaceAddOnsDeploymentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// replace a Google Workspace      Add-ons deployment
@@ -121,9 +115,8 @@ public class GcloudWorkspaceAddOnsDeployments
         GcloudWorkspaceAddOnsDeploymentsReplaceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsReplaceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// uninstall a Google      Workspace Add-ons deployment
@@ -135,9 +128,8 @@ public class GcloudWorkspaceAddOnsDeployments
         GcloudWorkspaceAddOnsDeploymentsUninstallOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsUninstallOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

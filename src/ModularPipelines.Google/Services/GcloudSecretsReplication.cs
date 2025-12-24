@@ -37,9 +37,8 @@ public class GcloudSecretsReplication
         GcloudSecretsReplicationGetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSecretsReplicationGetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set a secret's replication
@@ -51,9 +50,8 @@ public class GcloudSecretsReplication
         GcloudSecretsReplicationSetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSecretsReplicationSetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a secret replica's metadata
@@ -65,9 +63,8 @@ public class GcloudSecretsReplication
         GcloudSecretsReplicationUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSecretsReplicationUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

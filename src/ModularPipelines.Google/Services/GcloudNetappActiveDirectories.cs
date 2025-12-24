@@ -37,9 +37,8 @@ public class GcloudNetappActiveDirectories
         GcloudNetappActiveDirectoriesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappActiveDirectoriesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud NetApp Active      Directory
@@ -51,9 +50,8 @@ public class GcloudNetappActiveDirectories
         GcloudNetappActiveDirectoriesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappActiveDirectoriesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show metadata for a Cloud      NetApp Active Directory
@@ -65,9 +63,8 @@ public class GcloudNetappActiveDirectories
         GcloudNetappActiveDirectoriesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappActiveDirectoriesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud NetApp Active      Directories
@@ -79,9 +76,8 @@ public class GcloudNetappActiveDirectories
         GcloudNetappActiveDirectoriesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappActiveDirectoriesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud NetApp Active      Directory
@@ -93,9 +89,8 @@ public class GcloudNetappActiveDirectories
         GcloudNetappActiveDirectoriesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappActiveDirectoriesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudNetappBackupVaultsBackups
         GcloudNetappBackupVaultsBackupsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappBackupVaultsBackupsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud NetApp Backup
@@ -51,9 +50,8 @@ public class GcloudNetappBackupVaultsBackups
         GcloudNetappBackupVaultsBackupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappBackupVaultsBackupsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Cloud NetApp      Backup
@@ -65,9 +63,8 @@ public class GcloudNetappBackupVaultsBackups
         GcloudNetappBackupVaultsBackupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappBackupVaultsBackupsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud NetApp Backups
@@ -79,9 +76,8 @@ public class GcloudNetappBackupVaultsBackups
         GcloudNetappBackupVaultsBackupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappBackupVaultsBackupsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud NetApp Backup
@@ -93,9 +89,8 @@ public class GcloudNetappBackupVaultsBackups
         GcloudNetappBackupVaultsBackupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappBackupVaultsBackupsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

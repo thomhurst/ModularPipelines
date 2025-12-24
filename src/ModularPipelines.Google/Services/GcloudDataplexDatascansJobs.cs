@@ -37,9 +37,8 @@ public class GcloudDataplexDatascansJobs
         GcloudDataplexDatascansJobsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexDatascansJobsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list job runs of a Dataplex datascan      resource
@@ -51,9 +50,8 @@ public class GcloudDataplexDatascansJobs
         GcloudDataplexDatascansJobsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexDatascansJobsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

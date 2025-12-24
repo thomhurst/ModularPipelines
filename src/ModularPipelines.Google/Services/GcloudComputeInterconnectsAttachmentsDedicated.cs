@@ -37,9 +37,8 @@ public class GcloudComputeInterconnectsAttachmentsDedicated
         GcloudComputeInterconnectsAttachmentsDedicatedCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsDedicatedCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a      Compute Engine dedicated interconnect attachment
@@ -51,9 +50,8 @@ public class GcloudComputeInterconnectsAttachmentsDedicated
         GcloudComputeInterconnectsAttachmentsDedicatedUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsDedicatedUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

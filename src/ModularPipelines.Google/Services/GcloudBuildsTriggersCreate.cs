@@ -37,9 +37,8 @@ public class GcloudBuildsTriggersCreate
         GcloudBuildsTriggersCreateBitbucketCloudOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersCreateBitbucketCloudOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a build      trigger for a 2nd-gen Bitbucket Data Center repository
@@ -51,9 +50,8 @@ public class GcloudBuildsTriggersCreate
         GcloudBuildsTriggersCreateBitbucketDataCenterOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersCreateBitbucketDataCenterOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a build trigger for      a Bitbucket Server repository
@@ -65,9 +63,8 @@ public class GcloudBuildsTriggersCreate
         GcloudBuildsTriggersCreateBitbucketserverOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersCreateBitbucketserverOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a build      trigger from a Cloud Source Repository
@@ -79,9 +76,8 @@ public class GcloudBuildsTriggersCreate
         GcloudBuildsTriggersCreateCloudSourceRepositoriesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersCreateCloudSourceRepositoriesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a build trigger for a GitHub      repository
@@ -93,9 +89,8 @@ public class GcloudBuildsTriggersCreate
         GcloudBuildsTriggersCreateGithubOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersCreateGithubOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// gen      GitLab repository
@@ -107,9 +102,8 @@ public class GcloudBuildsTriggersCreate
         GcloudBuildsTriggersCreateGitlabOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersCreateGitlabOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a build trigger with a manual      trigger event
@@ -121,9 +115,8 @@ public class GcloudBuildsTriggersCreate
         GcloudBuildsTriggersCreateManualOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersCreateManualOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a build trigger with a      Pub/Sub trigger event
@@ -135,9 +128,8 @@ public class GcloudBuildsTriggersCreate
         GcloudBuildsTriggersCreatePubsubOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersCreatePubsubOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a build trigger with a      Webhook trigger event
@@ -149,9 +141,8 @@ public class GcloudBuildsTriggersCreate
         GcloudBuildsTriggersCreateWebhookOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersCreateWebhookOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

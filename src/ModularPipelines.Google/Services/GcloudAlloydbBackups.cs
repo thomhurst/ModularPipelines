@@ -37,9 +37,8 @@ public class GcloudAlloydbBackups
         GcloudAlloydbBackupsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbBackupsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes an AlloyDB backup within a given      project
@@ -51,9 +50,8 @@ public class GcloudAlloydbBackups
         GcloudAlloydbBackupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbBackupsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describes an AlloyDB backup in a given      project and region
@@ -65,9 +63,8 @@ public class GcloudAlloydbBackups
         GcloudAlloydbBackupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbBackupsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists AlloyDB backups in a given project
@@ -79,9 +76,8 @@ public class GcloudAlloydbBackups
         GcloudAlloydbBackupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbBackupsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

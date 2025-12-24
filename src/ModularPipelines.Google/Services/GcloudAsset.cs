@@ -59,9 +59,8 @@ public class GcloudAsset
         GcloudAssetOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// analyzes IAM policies that      match a request asynchronously and writes the results to Google Cloud      Storage or BigQuery destination
@@ -73,9 +72,8 @@ public class GcloudAsset
         GcloudAssetAnalyzeIamPolicyLongrunningOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetAnalyzeIamPolicyLongrunningOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// analyzes IAM policies that match a      request
@@ -87,9 +85,8 @@ public class GcloudAsset
         GcloudAssetAnalyzeIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetAnalyzeIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// analyzes resource move
@@ -101,9 +98,8 @@ public class GcloudAsset
         GcloudAssetAnalyzeMoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetAnalyzeMoveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// analyze organization policies under a      scope
@@ -115,9 +111,8 @@ public class GcloudAsset
         GcloudAssetAnalyzeOrgPoliciesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetAnalyzeOrgPoliciesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// analyze organization      policies governed assets under a scope
@@ -129,9 +124,8 @@ public class GcloudAsset
         GcloudAssetAnalyzeOrgPolicyGovernedAssetsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetAnalyzeOrgPolicyGovernedAssetsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// analyze organization      policies governed containers under a scope
@@ -143,9 +137,8 @@ public class GcloudAsset
         GcloudAssetAnalyzeOrgPolicyGovernedContainersOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetAnalyzeOrgPolicyGovernedContainersOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export the cloud assets to Google Cloud      Storage/BigQuery
@@ -157,9 +150,8 @@ public class GcloudAsset
         GcloudAssetExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get effective IAM policies for a      specified list of resources within accessible scope, such as a project,      folder or organization
@@ -171,9 +163,8 @@ public class GcloudAsset
         GcloudAssetGetEffectiveIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetGetEffectiveIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the update history of assets that overlaps a      time window
@@ -185,9 +176,8 @@ public class GcloudAsset
         GcloudAssetGetHistoryOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetGetHistoryOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the Cloud assets
@@ -199,9 +189,8 @@ public class GcloudAsset
         GcloudAssetListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// query the Cloud assets
@@ -213,9 +202,8 @@ public class GcloudAsset
         GcloudAssetQueryOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetQueryOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// searches all IAM policies within the      specified accessible scope, such as a project, folder or organization
@@ -227,9 +215,8 @@ public class GcloudAsset
         GcloudAssetSearchAllIamPoliciesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetSearchAllIamPoliciesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// searches all Cloud resources within the      specified accessible scope, such as a project, folder or organization
@@ -241,9 +228,8 @@ public class GcloudAsset
         GcloudAssetSearchAllResourcesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetSearchAllResourcesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

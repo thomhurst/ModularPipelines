@@ -37,9 +37,8 @@ public class GcloudSccPostureTemplates
         GcloudSccPostureTemplatesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccPostureTemplatesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the details of the Cloud Security      Command Center posture templates
@@ -51,9 +50,8 @@ public class GcloudSccPostureTemplates
         GcloudSccPostureTemplatesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccPostureTemplatesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

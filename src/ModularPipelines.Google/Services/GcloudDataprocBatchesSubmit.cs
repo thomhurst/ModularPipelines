@@ -37,9 +37,8 @@ public class GcloudDataprocBatchesSubmit
         GcloudDataprocBatchesSubmitPysparkOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocBatchesSubmitPysparkOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// submit a Spark batch job
@@ -51,9 +50,8 @@ public class GcloudDataprocBatchesSubmit
         GcloudDataprocBatchesSubmitSparkOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocBatchesSubmitSparkOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// submit a Spark R batch job
@@ -65,9 +63,8 @@ public class GcloudDataprocBatchesSubmit
         GcloudDataprocBatchesSubmitSparkROptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocBatchesSubmitSparkROptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// submit a Spark SQL batch job
@@ -79,9 +76,8 @@ public class GcloudDataprocBatchesSubmit
         GcloudDataprocBatchesSubmitSparkSqlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocBatchesSubmitSparkSqlOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

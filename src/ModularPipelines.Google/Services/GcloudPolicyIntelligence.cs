@@ -53,9 +53,8 @@ public class GcloudPolicyIntelligence
         GcloudPolicyIntelligenceOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPolicyIntelligenceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// query activities on cloud      resource
@@ -67,9 +66,8 @@ public class GcloudPolicyIntelligence
         GcloudPolicyIntelligenceQueryActivityOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPolicyIntelligenceQueryActivityOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudSqlUsers
         GcloudSqlUsersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlUsersCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a Cloud SQL user in a given instance
@@ -51,9 +50,8 @@ public class GcloudSqlUsers
         GcloudSqlUsersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlUsersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// retrieves information about a Cloud SQL user in      a given instance
@@ -65,9 +63,8 @@ public class GcloudSqlUsers
         GcloudSqlUsersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlUsersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists Cloud SQL users in a given instance
@@ -79,9 +76,8 @@ public class GcloudSqlUsers
         GcloudSqlUsersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlUsersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// changes a user's password in a given      instance
@@ -93,9 +89,8 @@ public class GcloudSqlUsers
         GcloudSqlUsersSetPasswordOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlUsersSetPasswordOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// replaces a user's password policy in      a given instance
@@ -107,9 +102,8 @@ public class GcloudSqlUsers
         GcloudSqlUsersSetPasswordPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlUsersSetPasswordPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

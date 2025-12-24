@@ -37,9 +37,8 @@ public class GcloudNetworkConnectivityPolicyBasedRoutes
         GcloudNetworkConnectivityPolicyBasedRoutesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityPolicyBasedRoutesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a      policy-based route
@@ -51,9 +50,8 @@ public class GcloudNetworkConnectivityPolicyBasedRoutes
         GcloudNetworkConnectivityPolicyBasedRoutesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityPolicyBasedRoutesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a      policy-based route
@@ -65,9 +63,8 @@ public class GcloudNetworkConnectivityPolicyBasedRoutes
         GcloudNetworkConnectivityPolicyBasedRoutesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityPolicyBasedRoutesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// based      routes
@@ -79,9 +76,8 @@ public class GcloudNetworkConnectivityPolicyBasedRoutes
         GcloudNetworkConnectivityPolicyBasedRoutesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityPolicyBasedRoutesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

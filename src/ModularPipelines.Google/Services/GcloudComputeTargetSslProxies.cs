@@ -37,9 +37,8 @@ public class GcloudComputeTargetSslProxies
         GcloudComputeTargetSslProxiesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetSslProxiesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete target SSL proxies
@@ -51,9 +50,8 @@ public class GcloudComputeTargetSslProxies
         GcloudComputeTargetSslProxiesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetSslProxiesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// display detailed information      about a target SSL proxy
@@ -65,9 +63,8 @@ public class GcloudComputeTargetSslProxies
         GcloudComputeTargetSslProxiesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetSslProxiesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine target      SSL proxies
@@ -79,9 +76,8 @@ public class GcloudComputeTargetSslProxies
         GcloudComputeTargetSslProxiesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetSslProxiesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a target SSL proxy
@@ -93,9 +89,8 @@ public class GcloudComputeTargetSslProxies
         GcloudComputeTargetSslProxiesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetSslProxiesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

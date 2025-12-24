@@ -107,9 +107,8 @@ public class GcloudSql
         GcloudSqlOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// connects to a Cloud SQL instance
@@ -121,9 +120,8 @@ public class GcloudSql
         GcloudSqlConnectOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlConnectOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// generate an IAM login token for Cloud SQL
@@ -135,9 +133,8 @@ public class GcloudSql
         GcloudSqlGenerateLoginTokenOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlGenerateLoginTokenOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// reschedule a Cloud SQL instance's      maintenance
@@ -149,9 +146,8 @@ public class GcloudSql
         GcloudSqlRescheduleMaintenanceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlRescheduleMaintenanceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

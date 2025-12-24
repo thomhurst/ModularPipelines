@@ -37,9 +37,8 @@ public class GcloudNetworkServicesRouteViews
         GcloudNetworkServicesRouteViewsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesRouteViewsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// route View for a Mesh or Gateway
@@ -51,9 +50,8 @@ public class GcloudNetworkServicesRouteViews
         GcloudNetworkServicesRouteViewsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesRouteViewsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

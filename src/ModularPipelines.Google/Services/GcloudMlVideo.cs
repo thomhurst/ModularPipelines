@@ -47,9 +47,8 @@ public class GcloudMlVideo
         GcloudMlVideoDetectExplicitContentOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlVideoDetectExplicitContentOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// detect general labels for videos
@@ -61,9 +60,8 @@ public class GcloudMlVideo
         GcloudMlVideoDetectLabelsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlVideoDetectLabelsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// detect shot changes in videos
@@ -75,9 +73,8 @@ public class GcloudMlVideo
         GcloudMlVideoDetectShotChangesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlVideoDetectShotChangesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

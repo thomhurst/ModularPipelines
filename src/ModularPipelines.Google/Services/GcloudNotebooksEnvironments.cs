@@ -37,9 +37,8 @@ public class GcloudNotebooksEnvironments
         GcloudNotebooksEnvironmentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksEnvironmentsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for deleting environments
@@ -51,9 +50,8 @@ public class GcloudNotebooksEnvironments
         GcloudNotebooksEnvironmentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksEnvironmentsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for describing      environments
@@ -65,9 +63,8 @@ public class GcloudNotebooksEnvironments
         GcloudNotebooksEnvironmentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksEnvironmentsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request for listing environments
@@ -79,9 +76,8 @@ public class GcloudNotebooksEnvironments
         GcloudNotebooksEnvironmentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksEnvironmentsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

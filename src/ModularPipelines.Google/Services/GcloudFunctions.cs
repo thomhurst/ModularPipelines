@@ -65,9 +65,8 @@ public class GcloudFunctions
         GcloudFunctionsOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// adds an IAM policy binding for a      Google Cloud Function
@@ -79,9 +78,8 @@ public class GcloudFunctions
         GcloudFunctionsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// adds an invoker binding to      the IAM policy of a Google Cloud Function
@@ -93,9 +91,8 @@ public class GcloudFunctions
         GcloudFunctionsAddInvokerPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsAddInvokerPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// triggers execution of a Google Cloud Function
@@ -107,9 +104,8 @@ public class GcloudFunctions
         GcloudFunctionsCallOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsCallOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Google Cloud Function
@@ -121,9 +117,8 @@ public class GcloudFunctions
         GcloudFunctionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create or update a Google Cloud Function
@@ -135,9 +130,8 @@ public class GcloudFunctions
         GcloudFunctionsDeployOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsDeployOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// display details of a Google Cloud Function
@@ -149,9 +143,8 @@ public class GcloudFunctions
         GcloudFunctionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// detach a Cloud Functions v2 function from its      existing environment and make it a native Cloud Run function
@@ -163,9 +156,8 @@ public class GcloudFunctions
         GcloudFunctionsDetachOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsDetachOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get IAM policy for a Google Cloud      Function
@@ -177,9 +169,8 @@ public class GcloudFunctions
         GcloudFunctionsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Cloud Functions
@@ -191,9 +182,8 @@ public class GcloudFunctions
         GcloudFunctionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// removes an IAM policy binding      from a Google Cloud Function
@@ -205,9 +195,8 @@ public class GcloudFunctions
         GcloudFunctionsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// removes an invoker binding      from the IAM policy of a Google Cloud Function
@@ -219,9 +208,8 @@ public class GcloudFunctions
         GcloudFunctionsRemoveInvokerPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsRemoveInvokerPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// sets IAM policy for a Google Cloud      Function
@@ -233,9 +221,8 @@ public class GcloudFunctions
         GcloudFunctionsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

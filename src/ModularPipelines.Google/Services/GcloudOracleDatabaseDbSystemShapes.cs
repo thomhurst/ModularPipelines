@@ -37,9 +37,8 @@ public class GcloudOracleDatabaseDbSystemShapes
         GcloudOracleDatabaseDbSystemShapesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseDbSystemShapesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

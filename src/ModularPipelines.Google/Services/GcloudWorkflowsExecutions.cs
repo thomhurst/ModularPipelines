@@ -37,9 +37,8 @@ public class GcloudWorkflowsExecutions
         GcloudWorkflowsExecutionsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkflowsExecutionsCancelOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show metadata for the last      cached workflow execution
@@ -51,9 +50,8 @@ public class GcloudWorkflowsExecutions
         GcloudWorkflowsExecutionsDescribeLastOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkflowsExecutionsDescribeLastOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show metadata for a workflow      execution
@@ -65,9 +63,8 @@ public class GcloudWorkflowsExecutions
         GcloudWorkflowsExecutionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkflowsExecutionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list workflow executions
@@ -79,9 +76,8 @@ public class GcloudWorkflowsExecutions
         GcloudWorkflowsExecutionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkflowsExecutionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// wait for the last cached workflow      execution to complete
@@ -93,9 +89,8 @@ public class GcloudWorkflowsExecutions
         GcloudWorkflowsExecutionsWaitLastOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkflowsExecutionsWaitLastOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// wait for an execution to complete
@@ -107,9 +102,8 @@ public class GcloudWorkflowsExecutions
         GcloudWorkflowsExecutionsWaitOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkflowsExecutionsWaitOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

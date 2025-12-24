@@ -37,9 +37,8 @@ public class GcloudVmwareNetworks
         GcloudVmwareNetworksCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworksCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Google Cloud VMware Engine network
@@ -51,9 +50,8 @@ public class GcloudVmwareNetworks
         GcloudVmwareNetworksDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworksDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Google Cloud VMware Engine      network
@@ -65,9 +63,8 @@ public class GcloudVmwareNetworks
         GcloudVmwareNetworksDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworksDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Cloud VMware Engine networks
@@ -79,9 +76,8 @@ public class GcloudVmwareNetworks
         GcloudVmwareNetworksListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworksListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Google Cloud VMware Engine network
@@ -93,9 +89,8 @@ public class GcloudVmwareNetworks
         GcloudVmwareNetworksUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworksUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

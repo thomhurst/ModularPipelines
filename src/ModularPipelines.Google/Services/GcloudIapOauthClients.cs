@@ -37,9 +37,8 @@ public class GcloudIapOauthClients
         GcloudIapOauthClientsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapOauthClientsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud IAP OAuth client
@@ -51,9 +50,8 @@ public class GcloudIapOauthClients
         GcloudIapOauthClientsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapOauthClientsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Cloud IAP OAuth client
@@ -65,9 +63,8 @@ public class GcloudIapOauthClients
         GcloudIapOauthClientsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapOauthClientsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud IAP OAuth clients in the Cloud      OAuth brand
@@ -79,9 +76,8 @@ public class GcloudIapOauthClients
         GcloudIapOauthClientsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapOauthClientsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// reset a Cloud IAP OAuth client      secret
@@ -93,9 +89,8 @@ public class GcloudIapOauthClients
         GcloudIapOauthClientsResetSecretOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapOauthClientsResetSecretOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

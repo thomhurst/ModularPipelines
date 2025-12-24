@@ -37,9 +37,8 @@ public class GcloudComputeNetworkProfiles
         GcloudComputeNetworkProfilesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkProfilesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list network profiles
@@ -51,9 +50,8 @@ public class GcloudComputeNetworkProfiles
         GcloudComputeNetworkProfilesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkProfilesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

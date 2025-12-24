@@ -37,9 +37,8 @@ public class GcloudComputeOsConfigPolicyOrchestrators
         GcloudComputeOsConfigPolicyOrchestratorsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPolicyOrchestratorsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a policy      orchestrator
@@ -51,9 +50,8 @@ public class GcloudComputeOsConfigPolicyOrchestrators
         GcloudComputeOsConfigPolicyOrchestratorsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPolicyOrchestratorsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a policy      orchestrator
@@ -65,9 +63,8 @@ public class GcloudComputeOsConfigPolicyOrchestrators
         GcloudComputeOsConfigPolicyOrchestratorsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPolicyOrchestratorsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list policy      orchestrators
@@ -79,9 +76,8 @@ public class GcloudComputeOsConfigPolicyOrchestrators
         GcloudComputeOsConfigPolicyOrchestratorsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPolicyOrchestratorsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a policy      orchestrator
@@ -93,9 +89,8 @@ public class GcloudComputeOsConfigPolicyOrchestrators
         GcloudComputeOsConfigPolicyOrchestratorsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPolicyOrchestratorsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

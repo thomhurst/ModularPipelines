@@ -47,9 +47,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersAddBgpPeerOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersAddBgpPeerOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add an interface to a Compute Engine      router
@@ -61,9 +60,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersAddInterfaceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersAddInterfaceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add an empty route policy to a      Compute Engine router
@@ -75,9 +73,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersAddRoutePolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersAddRoutePolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// adds a new term to an      existing route policy of a Comute Engine router
@@ -89,9 +86,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersAddRoutePolicyTermOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersAddRoutePolicyTermOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Compute Engine router
@@ -103,9 +99,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete Compute Engine routers
@@ -117,9 +112,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute Engine router
@@ -131,9 +125,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// download a route policy from      a Compute Engine router
@@ -145,9 +138,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersDownloadRoutePolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersDownloadRoutePolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// display NAT IP information in a      router
@@ -159,9 +151,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersGetNatIpInfoOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersGetNatIpInfoOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// display NAT Mapping      information in a router
@@ -173,9 +164,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersGetNatMappingInfoOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersGetNatMappingInfoOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get a route policy from a Compute      Engine router
@@ -187,9 +177,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersGetRoutePolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersGetRoutePolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get status of a Compute Engine router
@@ -201,9 +190,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersGetStatusOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersGetStatusOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list routes advertised and learned      on individual BGP sessions, both pre- and post-policy evaluation
@@ -215,9 +203,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersListBgpRoutesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersListBgpRoutesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine routers
@@ -229,9 +216,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list route policies from a      Compute Engine router
@@ -243,9 +229,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersListRoutePoliciesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersListRoutePoliciesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove a BGP peer from a Compute      Engine router
@@ -257,9 +242,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersRemoveBgpPeerOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersRemoveBgpPeerOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an interface from a      Compute Engine router
@@ -271,9 +255,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersRemoveInterfaceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersRemoveInterfaceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove a route policy from a      Compute Engine router
@@ -285,9 +268,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersRemoveRoutePolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersRemoveRoutePolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove a route policy      term of a Compute Engine router
@@ -299,9 +281,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersRemoveRoutePolicyTermOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersRemoveRoutePolicyTermOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a BGP peer on a Compute      Engine router
@@ -313,9 +294,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersUpdateBgpPeerOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersUpdateBgpPeerOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an interface on a Compute      Engine router
@@ -327,9 +307,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersUpdateInterfaceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersUpdateInterfaceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine router
@@ -341,9 +320,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates a term of an      existing route policy of a Comute Engine router
@@ -355,9 +333,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersUpdateRoutePolicyTermOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersUpdateRoutePolicyTermOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// upload a route policy into a      Compute Engine router
@@ -369,9 +346,8 @@ public class GcloudComputeRouters
         GcloudComputeRoutersUploadRoutePolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersUploadRoutePolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

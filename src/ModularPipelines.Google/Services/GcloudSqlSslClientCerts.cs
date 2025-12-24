@@ -37,9 +37,8 @@ public class GcloudSqlSslClientCerts
         GcloudSqlSslClientCertsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlSslClientCertsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a client certificate for a      Cloud SQL instance
@@ -51,9 +50,8 @@ public class GcloudSqlSslClientCerts
         GcloudSqlSslClientCertsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlSslClientCertsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// retrieve information about a client      cert for a Cloud SQL instance
@@ -65,9 +63,8 @@ public class GcloudSqlSslClientCerts
         GcloudSqlSslClientCertsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlSslClientCertsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all client certs for a Cloud SQL      instance
@@ -79,9 +76,8 @@ public class GcloudSqlSslClientCerts
         GcloudSqlSslClientCertsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlSslClientCertsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

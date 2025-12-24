@@ -53,9 +53,8 @@ public class GcloudContainerFleetPackages
         GcloudContainerFleetPackagesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPackagesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete Package Rollouts Fleet      Package
@@ -67,9 +66,8 @@ public class GcloudContainerFleetPackages
         GcloudContainerFleetPackagesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPackagesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe Package Rollouts Fleet      Package
@@ -81,9 +79,8 @@ public class GcloudContainerFleetPackages
         GcloudContainerFleetPackagesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPackagesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Package Rollouts Fleet Packages
@@ -95,9 +92,8 @@ public class GcloudContainerFleetPackages
         GcloudContainerFleetPackagesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPackagesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update Package Rollouts Fleet      Package
@@ -109,9 +105,8 @@ public class GcloudContainerFleetPackages
         GcloudContainerFleetPackagesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPackagesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

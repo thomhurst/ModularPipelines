@@ -37,9 +37,8 @@ public class GcloudSqlDatabases
         GcloudSqlDatabasesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlDatabasesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a Cloud SQL database
@@ -51,9 +50,8 @@ public class GcloudSqlDatabases
         GcloudSqlDatabasesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlDatabasesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// displays configuration and metadata about a      Cloud SQL database
@@ -65,9 +63,8 @@ public class GcloudSqlDatabases
         GcloudSqlDatabasesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlDatabasesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists databases for a Cloud SQL instance
@@ -79,9 +76,8 @@ public class GcloudSqlDatabases
         GcloudSqlDatabasesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlDatabasesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// patches the settings of a Cloud SQL database
@@ -93,9 +89,8 @@ public class GcloudSqlDatabases
         GcloudSqlDatabasesPatchOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlDatabasesPatchOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

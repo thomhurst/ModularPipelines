@@ -37,9 +37,8 @@ public class GcloudNetworkConnectivitySpokesLinkedRouterAppliances
         GcloudNetworkConnectivitySpokesLinkedRouterAppliancesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesLinkedRouterAppliancesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update      a Router appliance spoke
@@ -51,9 +50,8 @@ public class GcloudNetworkConnectivitySpokesLinkedRouterAppliances
         GcloudNetworkConnectivitySpokesLinkedRouterAppliancesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesLinkedRouterAppliancesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudComplianceManagerCloudControlDeployments
         GcloudComplianceManagerCloudControlDeploymentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerCloudControlDeploymentsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud      Control Deployments
@@ -51,9 +50,8 @@ public class GcloudComplianceManagerCloudControlDeployments
         GcloudComplianceManagerCloudControlDeploymentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerCloudControlDeploymentsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

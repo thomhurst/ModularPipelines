@@ -37,9 +37,8 @@ public class GcloudRecommenderInsightTypeConfig
         GcloudRecommenderInsightTypeConfigDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecommenderInsightTypeConfigDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an insight type      configuration
@@ -51,9 +50,8 @@ public class GcloudRecommenderInsightTypeConfig
         GcloudRecommenderInsightTypeConfigUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecommenderInsightTypeConfigUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

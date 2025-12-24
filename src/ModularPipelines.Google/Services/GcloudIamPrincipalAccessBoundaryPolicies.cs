@@ -37,9 +37,8 @@ public class GcloudIamPrincipalAccessBoundaryPolicies
         GcloudIamPrincipalAccessBoundaryPoliciesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPrincipalAccessBoundaryPoliciesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete      PrincipalAccessBoundaryPolicy instance
@@ -51,9 +50,8 @@ public class GcloudIamPrincipalAccessBoundaryPolicies
         GcloudIamPrincipalAccessBoundaryPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPrincipalAccessBoundaryPoliciesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get      PrincipalAccessBoundaryPolicy instance
@@ -65,9 +63,8 @@ public class GcloudIamPrincipalAccessBoundaryPolicies
         GcloudIamPrincipalAccessBoundaryPoliciesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPrincipalAccessBoundaryPoliciesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      PrincipalAccessBoundaryPolicy instances
@@ -79,9 +76,8 @@ public class GcloudIamPrincipalAccessBoundaryPolicies
         GcloudIamPrincipalAccessBoundaryPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPrincipalAccessBoundaryPoliciesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// search Principal Access Boundary Policy Bindings
@@ -93,9 +89,8 @@ public class GcloudIamPrincipalAccessBoundaryPolicies
         GcloudIamPrincipalAccessBoundaryPoliciesSearchPolicyBindingsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPrincipalAccessBoundaryPoliciesSearchPolicyBindingsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update      PrincipalAccessBoundaryPolicy instance
@@ -107,9 +102,8 @@ public class GcloudIamPrincipalAccessBoundaryPolicies
         GcloudIamPrincipalAccessBoundaryPoliciesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPrincipalAccessBoundaryPoliciesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

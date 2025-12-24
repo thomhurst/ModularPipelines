@@ -37,9 +37,8 @@ public class GcloudAccessContextManagerSupportedServices
         GcloudAccessContextManagerSupportedServicesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerSupportedServicesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists all VPC      Service Controls supported services
@@ -51,9 +50,8 @@ public class GcloudAccessContextManagerSupportedServices
         GcloudAccessContextManagerSupportedServicesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerSupportedServicesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

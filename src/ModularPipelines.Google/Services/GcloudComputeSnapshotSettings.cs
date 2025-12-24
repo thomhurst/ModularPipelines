@@ -37,9 +37,8 @@ public class GcloudComputeSnapshotSettings
         GcloudComputeSnapshotSettingsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSnapshotSettingsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update snapshot settings
@@ -51,9 +50,8 @@ public class GcloudComputeSnapshotSettings
         GcloudComputeSnapshotSettingsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSnapshotSettingsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

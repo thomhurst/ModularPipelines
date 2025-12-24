@@ -37,9 +37,8 @@ public class GcloudRedisClustersBackups
         GcloudRedisClustersBackupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersBackupsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show metadata for a Memorystore      for Redis Cluster backup
@@ -51,9 +50,8 @@ public class GcloudRedisClustersBackups
         GcloudRedisClustersBackupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersBackupsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export a Redis cluster backup to a      Google Cloud Storage bucket
@@ -65,9 +63,8 @@ public class GcloudRedisClustersBackups
         GcloudRedisClustersBackupsExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersBackupsExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list backups under a backup collection      in a region
@@ -79,9 +76,8 @@ public class GcloudRedisClustersBackups
         GcloudRedisClustersBackupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersBackupsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

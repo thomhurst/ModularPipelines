@@ -37,9 +37,8 @@ public class GcloudContainerAzureNodePools
         GcloudContainerAzureNodePoolsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAzureNodePoolsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a node pool in an Anthos      cluster on Azure
@@ -51,9 +50,8 @@ public class GcloudContainerAzureNodePools
         GcloudContainerAzureNodePoolsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAzureNodePoolsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a node pool in an      Anthos cluster on Azure
@@ -65,9 +63,8 @@ public class GcloudContainerAzureNodePools
         GcloudContainerAzureNodePoolsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAzureNodePoolsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list node pools in an Anthos      cluster on Azure
@@ -79,9 +76,8 @@ public class GcloudContainerAzureNodePools
         GcloudContainerAzureNodePoolsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAzureNodePoolsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a node pool in an Anthos      cluster on Azure
@@ -93,9 +89,8 @@ public class GcloudContainerAzureNodePools
         GcloudContainerAzureNodePoolsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAzureNodePoolsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

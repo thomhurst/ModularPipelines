@@ -37,9 +37,8 @@ public class GcloudBackupDrBackupPlanRevisions
         GcloudBackupDrBackupPlanRevisionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlanRevisionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list backup plan revisions
@@ -51,9 +50,8 @@ public class GcloudBackupDrBackupPlanRevisions
         GcloudBackupDrBackupPlanRevisionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlanRevisionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

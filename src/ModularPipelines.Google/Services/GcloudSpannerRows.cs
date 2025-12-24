@@ -37,9 +37,8 @@ public class GcloudSpannerRows
         GcloudSpannerRowsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerRowsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// insert a row in a Cloud Spanner database
@@ -51,9 +50,8 @@ public class GcloudSpannerRows
         GcloudSpannerRowsInsertOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerRowsInsertOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a row in a Cloud Spanner database
@@ -65,9 +63,8 @@ public class GcloudSpannerRows
         GcloudSpannerRowsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerRowsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

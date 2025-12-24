@@ -37,9 +37,8 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Compute Engine      node group
@@ -51,9 +50,8 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Compute Engine      node group
@@ -65,9 +63,8 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute      Engine node group
@@ -79,9 +76,8 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy      for a Compute Engine node group
@@ -93,9 +89,8 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Compute Engine      sole-tenant nodes present in a nodegroup
@@ -107,9 +102,8 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsListNodesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsListNodesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine      node groups
@@ -121,9 +115,8 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// perform      maintenance on nodes in a Compute Engine node group
@@ -135,9 +128,8 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsPerformMaintenanceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsPerformMaintenanceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove      IAM policy binding from a Compute Engine node group
@@ -149,9 +141,8 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy      for a Compute Engine node group
@@ -163,9 +154,8 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// simulate maintenance of a Compute Engine node group
@@ -177,9 +167,8 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsSimulateMaintenanceEventOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsSimulateMaintenanceEventOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine      node group
@@ -191,9 +180,8 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

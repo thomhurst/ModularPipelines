@@ -53,9 +53,8 @@ public class GcloudContainerFleetMemberships
         GcloudContainerFleetMembershipsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a membership
@@ -67,9 +66,8 @@ public class GcloudContainerFleetMemberships
         GcloudContainerFleetMembershipsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// generate RBAC      policy files for connected clusters by the user
@@ -81,9 +79,8 @@ public class GcloudContainerFleetMemberships
         GcloudContainerFleetMembershipsGenerateGatewayRbacOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsGenerateGatewayRbacOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// fetch credentials for      a fleet-registered cluster to be used in Connect Gateway
@@ -95,9 +92,8 @@ public class GcloudContainerFleetMemberships
         GcloudContainerFleetMembershipsGetCredentialsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsGetCredentialsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list memberships
@@ -109,9 +105,8 @@ public class GcloudContainerFleetMemberships
         GcloudContainerFleetMembershipsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// register a cluster with a      fleet
@@ -123,9 +118,8 @@ public class GcloudContainerFleetMemberships
         GcloudContainerFleetMembershipsRegisterOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsRegisterOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// unregister a cluster from a      fleet
@@ -137,9 +131,8 @@ public class GcloudContainerFleetMemberships
         GcloudContainerFleetMembershipsUnregisterOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsUnregisterOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a membership
@@ -151,9 +144,8 @@ public class GcloudContainerFleetMemberships
         GcloudContainerFleetMembershipsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudComputeInstanceGroupsManagedAllInstancesConfig
         GcloudComputeInstanceGroupsManagedAllInstancesConfigDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedAllInstancesConfigDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update      the all-instances configuration of a managed instance group
@@ -51,9 +50,8 @@ public class GcloudComputeInstanceGroupsManagedAllInstancesConfig
         GcloudComputeInstanceGroupsManagedAllInstancesConfigUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedAllInstancesConfigUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

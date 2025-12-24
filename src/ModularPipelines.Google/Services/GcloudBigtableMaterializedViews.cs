@@ -37,9 +37,8 @@ public class GcloudBigtableMaterializedViews
         GcloudBigtableMaterializedViewsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableMaterializedViewsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Bigtable materialized      view
@@ -51,9 +50,8 @@ public class GcloudBigtableMaterializedViews
         GcloudBigtableMaterializedViewsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableMaterializedViewsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an existing Bigtable      materialized view
@@ -65,9 +63,8 @@ public class GcloudBigtableMaterializedViews
         GcloudBigtableMaterializedViewsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableMaterializedViewsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list existing Bigtable      materialized views
@@ -79,9 +76,8 @@ public class GcloudBigtableMaterializedViews
         GcloudBigtableMaterializedViewsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableMaterializedViewsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Bigtable materialized      view
@@ -93,9 +89,8 @@ public class GcloudBigtableMaterializedViews
         GcloudBigtableMaterializedViewsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableMaterializedViewsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

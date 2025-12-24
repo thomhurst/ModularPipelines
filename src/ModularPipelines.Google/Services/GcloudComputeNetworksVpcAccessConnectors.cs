@@ -37,9 +37,8 @@ public class GcloudComputeNetworksVpcAccessConnectors
         GcloudComputeNetworksVpcAccessConnectorsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksVpcAccessConnectorsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a VPC Access      connector
@@ -51,9 +50,8 @@ public class GcloudComputeNetworksVpcAccessConnectors
         GcloudComputeNetworksVpcAccessConnectorsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksVpcAccessConnectorsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show metadata for      a VPC Access connector
@@ -65,9 +63,8 @@ public class GcloudComputeNetworksVpcAccessConnectors
         GcloudComputeNetworksVpcAccessConnectorsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksVpcAccessConnectorsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list VPC Access      connectors
@@ -79,9 +76,8 @@ public class GcloudComputeNetworksVpcAccessConnectors
         GcloudComputeNetworksVpcAccessConnectorsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksVpcAccessConnectorsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a VPC Access      connector
@@ -93,9 +89,8 @@ public class GcloudComputeNetworksVpcAccessConnectors
         GcloudComputeNetworksVpcAccessConnectorsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksVpcAccessConnectorsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

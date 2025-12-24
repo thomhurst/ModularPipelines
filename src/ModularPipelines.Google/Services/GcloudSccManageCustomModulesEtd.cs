@@ -37,9 +37,8 @@ public class GcloudSccManageCustomModulesEtd
         GcloudSccManageCustomModulesEtdCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesEtdCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an Event Threat      Detection custom module
@@ -51,9 +50,8 @@ public class GcloudSccManageCustomModulesEtd
         GcloudSccManageCustomModulesEtdDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesEtdDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the effective      details of a Event Threat Detection effective custom module
@@ -65,9 +63,8 @@ public class GcloudSccManageCustomModulesEtd
         GcloudSccManageCustomModulesEtdDescribeEffectiveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesEtdDescribeEffectiveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the details of a Event      Threat Detection custom module
@@ -79,9 +76,8 @@ public class GcloudSccManageCustomModulesEtd
         GcloudSccManageCustomModulesEtdDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesEtdDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the details of      the resident and descendant Event Threat Detection custom modules
@@ -93,9 +89,8 @@ public class GcloudSccManageCustomModulesEtd
         GcloudSccManageCustomModulesEtdListDescendantOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesEtdListDescendantOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the details of      an Event Threat Detection effective custom module
@@ -107,9 +102,8 @@ public class GcloudSccManageCustomModulesEtd
         GcloudSccManageCustomModulesEtdListEffectiveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesEtdListEffectiveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list details of resident and      inherited Event Threat Detection Custom Modules
@@ -121,9 +115,8 @@ public class GcloudSccManageCustomModulesEtd
         GcloudSccManageCustomModulesEtdListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesEtdListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an Event Threat      Detection custom module
@@ -135,9 +128,8 @@ public class GcloudSccManageCustomModulesEtd
         GcloudSccManageCustomModulesEtdUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesEtdUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// command to validate an ETD      custom module
@@ -149,9 +141,8 @@ public class GcloudSccManageCustomModulesEtd
         GcloudSccManageCustomModulesEtdValidateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesEtdValidateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

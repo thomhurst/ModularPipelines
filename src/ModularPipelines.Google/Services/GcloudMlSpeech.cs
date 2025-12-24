@@ -47,9 +47,8 @@ public class GcloudMlSpeech
         GcloudMlSpeechRecognizeLongRunningOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlSpeechRecognizeLongRunningOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get transcripts of short      (less than 60 seconds) audio from an audio file
@@ -61,9 +60,8 @@ public class GcloudMlSpeech
         GcloudMlSpeechRecognizeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlSpeechRecognizeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudNetworkConnectivitySpokesLinkedInterconnectAttachments
         GcloudNetworkConnectivitySpokesLinkedInterconnectAttachmentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesLinkedInterconnectAttachmentsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a VLAN attachment spoke
@@ -51,9 +50,8 @@ public class GcloudNetworkConnectivitySpokesLinkedInterconnectAttachments
         GcloudNetworkConnectivitySpokesLinkedInterconnectAttachmentsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesLinkedInterconnectAttachmentsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

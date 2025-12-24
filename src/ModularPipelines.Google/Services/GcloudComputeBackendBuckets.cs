@@ -37,9 +37,8 @@ public class GcloudComputeBackendBuckets
         GcloudComputeBackendBucketsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeBackendBucketsAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add Cloud CDN Signed      URL key to a backend bucket
@@ -51,9 +50,8 @@ public class GcloudComputeBackendBuckets
         GcloudComputeBackendBucketsAddSignedUrlKeyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeBackendBucketsAddSignedUrlKeyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a backend bucket
@@ -65,9 +63,8 @@ public class GcloudComputeBackendBuckets
         GcloudComputeBackendBucketsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeBackendBucketsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete backend buckets
@@ -79,9 +76,8 @@ public class GcloudComputeBackendBuckets
         GcloudComputeBackendBucketsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeBackendBucketsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete Cloud CDN      Signed URL key from a backend bucket
@@ -93,9 +89,8 @@ public class GcloudComputeBackendBuckets
         GcloudComputeBackendBucketsDeleteSignedUrlKeyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeBackendBucketsDeleteSignedUrlKeyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a backend bucket
@@ -107,9 +102,8 @@ public class GcloudComputeBackendBuckets
         GcloudComputeBackendBucketsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeBackendBucketsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a      Compute Engine backend bucket
@@ -121,9 +115,8 @@ public class GcloudComputeBackendBuckets
         GcloudComputeBackendBucketsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeBackendBucketsGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine backend      buckets
@@ -135,9 +128,8 @@ public class GcloudComputeBackendBuckets
         GcloudComputeBackendBucketsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeBackendBucketsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an IAM      policy binding from a Compute Engine backend bucket
@@ -149,9 +141,8 @@ public class GcloudComputeBackendBuckets
         GcloudComputeBackendBucketsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeBackendBucketsRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy binding      for a Compute Engine backend bucket
@@ -163,9 +154,8 @@ public class GcloudComputeBackendBuckets
         GcloudComputeBackendBucketsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeBackendBucketsSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a backend bucket
@@ -177,9 +167,8 @@ public class GcloudComputeBackendBuckets
         GcloudComputeBackendBucketsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeBackendBucketsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudContainerSubnets
         GcloudContainerSubnetsListUsableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerSubnetsListUsableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

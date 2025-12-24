@@ -53,9 +53,8 @@ public class GcloudComputeInstanceGroups
         GcloudComputeInstanceGroupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists the named ports for      an instance group resource
@@ -67,9 +66,8 @@ public class GcloudComputeInstanceGroups
         GcloudComputeInstanceGroupsGetNamedPortsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsGetNamedPortsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list instances present in      the instance group
@@ -81,9 +79,8 @@ public class GcloudComputeInstanceGroups
         GcloudComputeInstanceGroupsListInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsListInstancesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine instance      groups
@@ -95,9 +92,8 @@ public class GcloudComputeInstanceGroups
         GcloudComputeInstanceGroupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// sets the list of named      ports for an instance group
@@ -109,9 +105,8 @@ public class GcloudComputeInstanceGroups
         GcloudComputeInstanceGroupsSetNamedPortsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsSetNamedPortsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

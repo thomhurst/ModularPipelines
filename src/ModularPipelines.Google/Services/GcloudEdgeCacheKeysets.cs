@@ -37,9 +37,8 @@ public class GcloudEdgeCacheKeysets
         GcloudEdgeCacheKeysetsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheKeysetsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an EdgeCacheKeyset resource
@@ -51,9 +50,8 @@ public class GcloudEdgeCacheKeysets
         GcloudEdgeCacheKeysetsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheKeysetsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about an EdgeCacheKeyset      resource
@@ -65,9 +63,8 @@ public class GcloudEdgeCacheKeysets
         GcloudEdgeCacheKeysetsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheKeysetsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export an EdgeCacheKeyset resource
@@ -79,9 +76,8 @@ public class GcloudEdgeCacheKeysets
         GcloudEdgeCacheKeysetsExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheKeysetsExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import an EdgeCacheKeyset resource
@@ -93,9 +89,8 @@ public class GcloudEdgeCacheKeysets
         GcloudEdgeCacheKeysetsImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheKeysetsImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list EdgeCacheKeyset resources
@@ -107,9 +102,8 @@ public class GcloudEdgeCacheKeysets
         GcloudEdgeCacheKeysetsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheKeysetsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an EdgeCacheKeyset resource
@@ -121,9 +115,8 @@ public class GcloudEdgeCacheKeysets
         GcloudEdgeCacheKeysetsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheKeysetsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

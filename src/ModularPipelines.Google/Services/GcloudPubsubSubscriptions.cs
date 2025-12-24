@@ -37,9 +37,8 @@ public class GcloudPubsubSubscriptions
         GcloudPubsubSubscriptionsAckOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsAckOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add IAM policy binding      to a subscription
@@ -51,9 +50,8 @@ public class GcloudPubsubSubscriptions
         GcloudPubsubSubscriptionsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// creates one or more Cloud Pub/Sub      subscriptions
@@ -65,9 +63,8 @@ public class GcloudPubsubSubscriptions
         GcloudPubsubSubscriptionsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes one or more Cloud Pub/Sub      subscriptions
@@ -79,9 +76,8 @@ public class GcloudPubsubSubscriptions
         GcloudPubsubSubscriptionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describes a Cloud Pub/Sub      subscription
@@ -93,9 +89,8 @@ public class GcloudPubsubSubscriptions
         GcloudPubsubSubscriptionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a Cloud      Pub/Sub Subscription
@@ -107,9 +102,8 @@ public class GcloudPubsubSubscriptions
         GcloudPubsubSubscriptionsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists Cloud Pub/Sub subscriptions
@@ -121,9 +115,8 @@ public class GcloudPubsubSubscriptions
         GcloudPubsubSubscriptionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// modifies the ACK      deadline for a specific Cloud Pub/Sub message
@@ -135,9 +128,8 @@ public class GcloudPubsubSubscriptions
         GcloudPubsubSubscriptionsModifyMessageAckDeadlineOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsModifyMessageAckDeadlineOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// modifies the push      configuration of a Cloud Pub/Sub subscription
@@ -149,9 +141,8 @@ public class GcloudPubsubSubscriptions
         GcloudPubsubSubscriptionsModifyPushConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsModifyPushConfigOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// pulls one or more Cloud Pub/Sub messages      from a subscription
@@ -163,9 +154,8 @@ public class GcloudPubsubSubscriptions
         GcloudPubsubSubscriptionsPullOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsPullOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove IAM policy      binding of a subscription
@@ -177,9 +167,8 @@ public class GcloudPubsubSubscriptions
         GcloudPubsubSubscriptionsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// resets a subscription's backlog to a      point in time or to a given snapshot
@@ -191,9 +180,8 @@ public class GcloudPubsubSubscriptions
         GcloudPubsubSubscriptionsSeekOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsSeekOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set IAM policy for a      subscription
@@ -205,9 +193,8 @@ public class GcloudPubsubSubscriptions
         GcloudPubsubSubscriptionsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates an existing Cloud Pub/Sub      subscription
@@ -219,9 +206,8 @@ public class GcloudPubsubSubscriptions
         GcloudPubsubSubscriptionsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSubscriptionsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudHealthcareDatasets
         GcloudHealthcareDatasetsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDatasetsAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Cloud Healthcare API dataset
@@ -51,9 +50,8 @@ public class GcloudHealthcareDatasets
         GcloudHealthcareDatasetsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDatasetsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a new Cloud Healthcare API      dataset containing de-identified data from the source dataset
@@ -65,9 +63,8 @@ public class GcloudHealthcareDatasets
         GcloudHealthcareDatasetsDeidentifyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDatasetsDeidentifyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud Healthcare API dataset
@@ -79,9 +76,8 @@ public class GcloudHealthcareDatasets
         GcloudHealthcareDatasetsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDatasetsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Cloud Healthcare API      dataset
@@ -93,9 +89,8 @@ public class GcloudHealthcareDatasets
         GcloudHealthcareDatasetsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDatasetsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// retrieve the IAM policy for a      Cloud Healthcare API dataset
@@ -107,9 +102,8 @@ public class GcloudHealthcareDatasets
         GcloudHealthcareDatasetsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDatasetsGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud Healthcare API datasets
@@ -121,9 +115,8 @@ public class GcloudHealthcareDatasets
         GcloudHealthcareDatasetsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDatasetsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an IAM policy      binding to a Cloud Healthcare API dataset
@@ -135,9 +128,8 @@ public class GcloudHealthcareDatasets
         GcloudHealthcareDatasetsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDatasetsRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for a Cloud      Healthcare API dataset
@@ -149,9 +141,8 @@ public class GcloudHealthcareDatasets
         GcloudHealthcareDatasetsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDatasetsSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud Healthcare API dataset
@@ -163,9 +154,8 @@ public class GcloudHealthcareDatasets
         GcloudHealthcareDatasetsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDatasetsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

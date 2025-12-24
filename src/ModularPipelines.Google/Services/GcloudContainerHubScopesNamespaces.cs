@@ -37,9 +37,8 @@ public class GcloudContainerHubScopesNamespaces
         GcloudContainerHubScopesNamespacesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubScopesNamespacesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a fleet namespace
@@ -51,9 +50,8 @@ public class GcloudContainerHubScopesNamespaces
         GcloudContainerHubScopesNamespacesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubScopesNamespacesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show fleet namespace info
@@ -65,9 +63,8 @@ public class GcloudContainerHubScopesNamespaces
         GcloudContainerHubScopesNamespacesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubScopesNamespacesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// fetch credentials      for a membership with a particular namespace
@@ -79,9 +76,8 @@ public class GcloudContainerHubScopesNamespaces
         GcloudContainerHubScopesNamespacesGetCredentialsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubScopesNamespacesGetCredentialsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list fleet namespaces in a      project
@@ -93,9 +89,8 @@ public class GcloudContainerHubScopesNamespaces
         GcloudContainerHubScopesNamespacesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubScopesNamespacesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a fleet namespace
@@ -107,9 +102,8 @@ public class GcloudContainerHubScopesNamespaces
         GcloudContainerHubScopesNamespacesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubScopesNamespacesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

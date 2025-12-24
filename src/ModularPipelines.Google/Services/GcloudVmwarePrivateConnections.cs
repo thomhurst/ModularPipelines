@@ -47,9 +47,8 @@ public class GcloudVmwarePrivateConnections
         GcloudVmwarePrivateConnectionsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateConnectionsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Google Cloud Private      Connection
@@ -61,9 +60,8 @@ public class GcloudVmwarePrivateConnections
         GcloudVmwarePrivateConnectionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateConnectionsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Google Cloud      Private Connection
@@ -75,9 +73,8 @@ public class GcloudVmwarePrivateConnections
         GcloudVmwarePrivateConnectionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateConnectionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Cloud Private      Connections
@@ -89,9 +86,8 @@ public class GcloudVmwarePrivateConnections
         GcloudVmwarePrivateConnectionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateConnectionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Google Cloud Private      Connection
@@ -103,9 +99,8 @@ public class GcloudVmwarePrivateConnections
         GcloudVmwarePrivateConnectionsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateConnectionsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudServiceExtensionsAuthzExtensions
         GcloudServiceExtensionsAuthzExtensionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsAuthzExtensionsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an      AuthzExtension resource
@@ -51,9 +50,8 @@ public class GcloudServiceExtensionsAuthzExtensions
         GcloudServiceExtensionsAuthzExtensionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsAuthzExtensionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import an      AuthzExtension resource
@@ -65,9 +63,8 @@ public class GcloudServiceExtensionsAuthzExtensions
         GcloudServiceExtensionsAuthzExtensionsImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsAuthzExtensionsImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list AuthzExtension      resources
@@ -79,9 +76,8 @@ public class GcloudServiceExtensionsAuthzExtensions
         GcloudServiceExtensionsAuthzExtensionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsAuthzExtensionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

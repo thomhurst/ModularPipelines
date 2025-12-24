@@ -37,9 +37,8 @@ public class GcloudComposerEnvironmentsStoragePlugins
         GcloudComposerEnvironmentsStoragePluginsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsStoragePluginsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export plugins from      an environment into local storage or Cloud Storage
@@ -51,9 +50,8 @@ public class GcloudComposerEnvironmentsStoragePlugins
         GcloudComposerEnvironmentsStoragePluginsExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsStoragePluginsExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import plugins from      local storage or Cloud Storage into an environment
@@ -65,9 +63,8 @@ public class GcloudComposerEnvironmentsStoragePlugins
         GcloudComposerEnvironmentsStoragePluginsImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsStoragePluginsImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the plugins for a      Cloud Composer environment
@@ -79,9 +76,8 @@ public class GcloudComposerEnvironmentsStoragePlugins
         GcloudComposerEnvironmentsStoragePluginsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsStoragePluginsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

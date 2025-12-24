@@ -37,9 +37,8 @@ public class GcloudComposerEnvironmentsUserWorkloadsConfigMaps
         GcloudComposerEnvironmentsUserWorkloadsConfigMapsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsConfigMapsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a      user workloads ConfigMap
@@ -51,9 +50,8 @@ public class GcloudComposerEnvironmentsUserWorkloadsConfigMaps
         GcloudComposerEnvironmentsUserWorkloadsConfigMapsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsConfigMapsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get      details about a user workloads ConfigMap
@@ -65,9 +63,8 @@ public class GcloudComposerEnvironmentsUserWorkloadsConfigMaps
         GcloudComposerEnvironmentsUserWorkloadsConfigMapsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsConfigMapsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list user      workloads ConfigMaps
@@ -79,9 +76,8 @@ public class GcloudComposerEnvironmentsUserWorkloadsConfigMaps
         GcloudComposerEnvironmentsUserWorkloadsConfigMapsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsConfigMapsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a      user workloads ConfigMap
@@ -93,9 +89,8 @@ public class GcloudComposerEnvironmentsUserWorkloadsConfigMaps
         GcloudComposerEnvironmentsUserWorkloadsConfigMapsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsConfigMapsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

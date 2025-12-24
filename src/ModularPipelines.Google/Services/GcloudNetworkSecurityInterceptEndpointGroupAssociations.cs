@@ -37,9 +37,8 @@ public class GcloudNetworkSecurityInterceptEndpointGroupAssociations
         GcloudNetworkSecurityInterceptEndpointGroupAssociationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptEndpointGroupAssociationsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an Intercept Endpoint Group Association
@@ -51,9 +50,8 @@ public class GcloudNetworkSecurityInterceptEndpointGroupAssociations
         GcloudNetworkSecurityInterceptEndpointGroupAssociationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptEndpointGroupAssociationsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an Intercept Endpoint Group Association
@@ -65,9 +63,8 @@ public class GcloudNetworkSecurityInterceptEndpointGroupAssociations
         GcloudNetworkSecurityInterceptEndpointGroupAssociationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptEndpointGroupAssociationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      Intercept Endpoint Group Associations
@@ -79,9 +76,8 @@ public class GcloudNetworkSecurityInterceptEndpointGroupAssociations
         GcloudNetworkSecurityInterceptEndpointGroupAssociationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptEndpointGroupAssociationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an Intercept Endpoint Group Association
@@ -93,9 +89,8 @@ public class GcloudNetworkSecurityInterceptEndpointGroupAssociations
         GcloudNetworkSecurityInterceptEndpointGroupAssociationsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptEndpointGroupAssociationsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

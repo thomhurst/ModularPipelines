@@ -37,9 +37,8 @@ public class GcloudComputeTpusAcceleratorTypes
         GcloudComputeTpusAcceleratorTypesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusAcceleratorTypesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list available accelerator      types for Cloud TPUs
@@ -51,9 +50,8 @@ public class GcloudComputeTpusAcceleratorTypes
         GcloudComputeTpusAcceleratorTypesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusAcceleratorTypesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

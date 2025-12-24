@@ -37,9 +37,8 @@ public class GcloudServicesApiKeys
         GcloudServicesApiKeysCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesApiKeysCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an API key
@@ -51,9 +50,8 @@ public class GcloudServicesApiKeys
         GcloudServicesApiKeysDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesApiKeysDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an API key's metadata
@@ -65,9 +63,8 @@ public class GcloudServicesApiKeys
         GcloudServicesApiKeysDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesApiKeysDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the key string of an API key
@@ -79,9 +76,8 @@ public class GcloudServicesApiKeys
         GcloudServicesApiKeysGetKeyStringOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesApiKeysGetKeyStringOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists API keys
@@ -93,9 +89,8 @@ public class GcloudServicesApiKeys
         GcloudServicesApiKeysListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesApiKeysListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// look up resource name of a key string
@@ -107,9 +102,8 @@ public class GcloudServicesApiKeys
         GcloudServicesApiKeysLookupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesApiKeysLookupOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// undelete an API key
@@ -121,9 +115,8 @@ public class GcloudServicesApiKeys
         GcloudServicesApiKeysUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesApiKeysUndeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an API key's metadata
@@ -135,9 +128,8 @@ public class GcloudServicesApiKeys
         GcloudServicesApiKeysUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesApiKeysUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

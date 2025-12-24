@@ -53,9 +53,8 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsAcceptSpokeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsAcceptSpokeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// accept a proposal to      update a spoke in a hub
@@ -67,9 +66,8 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsAcceptSpokeUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsAcceptSpokeUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add an IAM policy      binding to the IAM policy of a hub resource
@@ -81,9 +79,8 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a new hub
@@ -95,9 +92,8 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a hub
@@ -109,9 +105,8 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a hub
@@ -123,9 +118,8 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a      hub resource
@@ -137,9 +131,8 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list hubs
@@ -151,9 +144,8 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list hub spokes
@@ -165,9 +157,8 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsListSpokesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsListSpokesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// query the status of Private      Service Connect propagation for a hub
@@ -179,9 +170,8 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsQueryStatusOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsQueryStatusOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// reject a spoke from a hub
@@ -193,9 +183,8 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsRejectSpokeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsRejectSpokeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// reject a proposal to      update a spoke in a hub
@@ -207,9 +196,8 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsRejectSpokeUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsRejectSpokeUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an IAM      policy binding from the IAM policy of a hub resource
@@ -221,9 +209,8 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy of a      hub resource
@@ -235,9 +222,8 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a hub
@@ -249,9 +235,8 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

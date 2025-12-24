@@ -37,9 +37,8 @@ public class GcloudOracleDatabaseExadbVmClusters
         GcloudOracleDatabaseExadbVmClustersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseExadbVmClustersCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete exadbVmClusters
@@ -51,9 +50,8 @@ public class GcloudOracleDatabaseExadbVmClusters
         GcloudOracleDatabaseExadbVmClustersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseExadbVmClustersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe      exadbVmClusters
@@ -65,9 +63,8 @@ public class GcloudOracleDatabaseExadbVmClusters
         GcloudOracleDatabaseExadbVmClustersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseExadbVmClustersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list exadbVmClusters
@@ -79,9 +76,8 @@ public class GcloudOracleDatabaseExadbVmClusters
         GcloudOracleDatabaseExadbVmClustersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseExadbVmClustersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove      exadbVmClusters
@@ -93,9 +89,8 @@ public class GcloudOracleDatabaseExadbVmClusters
         GcloudOracleDatabaseExadbVmClustersRemoveVirtualMachineOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseExadbVmClustersRemoveVirtualMachineOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update exadbVmClusters
@@ -107,9 +102,8 @@ public class GcloudOracleDatabaseExadbVmClusters
         GcloudOracleDatabaseExadbVmClustersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseExadbVmClustersUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

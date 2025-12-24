@@ -37,9 +37,8 @@ public class GcloudComputeReservationsBlocks
         GcloudComputeReservationsBlocksDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeReservationsBlocksDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Compute Engine reservation      blocks
@@ -51,9 +50,8 @@ public class GcloudComputeReservationsBlocks
         GcloudComputeReservationsBlocksListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeReservationsBlocksListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// perform      maintenance on a reservation block within a reservation
@@ -65,9 +63,8 @@ public class GcloudComputeReservationsBlocks
         GcloudComputeReservationsBlocksPerformMaintenanceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeReservationsBlocksPerformMaintenanceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

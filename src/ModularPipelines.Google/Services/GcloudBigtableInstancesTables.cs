@@ -37,9 +37,8 @@ public class GcloudBigtableInstancesTables
         GcloudBigtableInstancesTablesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableInstancesTablesAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a new Cloud Bigtable table
@@ -51,9 +50,8 @@ public class GcloudBigtableInstancesTables
         GcloudBigtableInstancesTablesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableInstancesTablesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud Bigtable table
@@ -65,9 +63,8 @@ public class GcloudBigtableInstancesTables
         GcloudBigtableInstancesTablesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableInstancesTablesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// retrieve information about a      table
@@ -79,9 +76,8 @@ public class GcloudBigtableInstancesTables
         GcloudBigtableInstancesTablesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableInstancesTablesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get an IAM policy on a      Cloud Bigtable table
@@ -93,9 +89,8 @@ public class GcloudBigtableInstancesTables
         GcloudBigtableInstancesTablesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableInstancesTablesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list existing Bigtable instance      tables
@@ -107,9 +102,8 @@ public class GcloudBigtableInstancesTables
         GcloudBigtableInstancesTablesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableInstancesTablesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an IAM      policy binding from a Cloud Bigtable table
@@ -121,9 +115,8 @@ public class GcloudBigtableInstancesTables
         GcloudBigtableInstancesTablesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableInstancesTablesRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// restore a Cloud Bigtable backup      to a new table
@@ -135,9 +128,8 @@ public class GcloudBigtableInstancesTables
         GcloudBigtableInstancesTablesRestoreOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableInstancesTablesRestoreOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set an IAM policy on a      Cloud Bigtable table
@@ -149,9 +141,8 @@ public class GcloudBigtableInstancesTables
         GcloudBigtableInstancesTablesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableInstancesTablesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// undelete a previously deleted      Cloud Bigtable table
@@ -163,9 +154,8 @@ public class GcloudBigtableInstancesTables
         GcloudBigtableInstancesTablesUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableInstancesTablesUndeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an existing Cloud Bigtable      table
@@ -177,9 +167,8 @@ public class GcloudBigtableInstancesTables
         GcloudBigtableInstancesTablesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableInstancesTablesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

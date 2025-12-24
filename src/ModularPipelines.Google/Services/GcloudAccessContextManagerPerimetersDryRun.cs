@@ -37,9 +37,8 @@ public class GcloudAccessContextManagerPerimetersDryRun
         GcloudAccessContextManagerPerimetersDryRunCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPerimetersDryRunCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// mark the Service      Perimeter as deleted in the dry-run mode
@@ -51,9 +50,8 @@ public class GcloudAccessContextManagerPerimetersDryRun
         GcloudAccessContextManagerPerimetersDryRunDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPerimetersDryRunDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// display the      dry-run mode configuration for a Service Perimeter
@@ -65,9 +63,8 @@ public class GcloudAccessContextManagerPerimetersDryRun
         GcloudAccessContextManagerPerimetersDryRunDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPerimetersDryRunDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// run      mode configuration of a Service Perimeter
@@ -79,9 +76,8 @@ public class GcloudAccessContextManagerPerimetersDryRun
         GcloudAccessContextManagerPerimetersDryRunDropOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPerimetersDryRunDropOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enforces the      dry-run mode configuration for all Service Perimeters
@@ -93,9 +89,8 @@ public class GcloudAccessContextManagerPerimetersDryRun
         GcloudAccessContextManagerPerimetersDryRunEnforceAllOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPerimetersDryRunEnforceAllOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enforces a      Service Perimeter's dry-run configuration
@@ -107,9 +102,8 @@ public class GcloudAccessContextManagerPerimetersDryRun
         GcloudAccessContextManagerPerimetersDryRunEnforceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPerimetersDryRunEnforceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the effective      dry-run configuration across all Service Perimeters
@@ -121,9 +115,8 @@ public class GcloudAccessContextManagerPerimetersDryRun
         GcloudAccessContextManagerPerimetersDryRunListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPerimetersDryRunListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update the      dry-run mode configuration for a Service Perimeter
@@ -135,9 +128,8 @@ public class GcloudAccessContextManagerPerimetersDryRun
         GcloudAccessContextManagerPerimetersDryRunUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPerimetersDryRunUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

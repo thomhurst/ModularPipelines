@@ -59,9 +59,8 @@ public class GcloudMetastoreServices
         GcloudMetastoreServicesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMetastoreServicesAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// alter metadata      resource location
@@ -73,9 +72,8 @@ public class GcloudMetastoreServices
         GcloudMetastoreServicesAlterMetadataResourceLocationOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMetastoreServicesAlterMetadataResourceLocationOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// alter metadata table      properties
@@ -87,9 +85,8 @@ public class GcloudMetastoreServices
         GcloudMetastoreServicesAlterTablePropertiesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMetastoreServicesAlterTablePropertiesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Dataproc Metastore service
@@ -101,9 +98,8 @@ public class GcloudMetastoreServices
         GcloudMetastoreServicesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMetastoreServicesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete one or more Dataproc Metastore      services
@@ -115,9 +111,8 @@ public class GcloudMetastoreServices
         GcloudMetastoreServicesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMetastoreServicesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Dataproc Metastore service
@@ -129,9 +124,8 @@ public class GcloudMetastoreServices
         GcloudMetastoreServicesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMetastoreServicesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for the      service
@@ -143,9 +137,8 @@ public class GcloudMetastoreServices
         GcloudMetastoreServicesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMetastoreServicesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Dataproc Metastore services
@@ -157,9 +150,8 @@ public class GcloudMetastoreServices
         GcloudMetastoreServicesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMetastoreServicesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// move table to another      database
@@ -171,9 +163,8 @@ public class GcloudMetastoreServices
         GcloudMetastoreServicesMoveTableToDatabaseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMetastoreServicesMoveTableToDatabaseOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// execute a SQL query against a      Dataproc Metastore Service's metadata
@@ -185,9 +176,8 @@ public class GcloudMetastoreServices
         GcloudMetastoreServicesQueryMetadataOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMetastoreServicesQueryMetadataOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an IAM policy      binding from a service
@@ -199,9 +189,8 @@ public class GcloudMetastoreServices
         GcloudMetastoreServicesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMetastoreServicesRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// restore a Dataproc Metastore service
@@ -213,9 +202,8 @@ public class GcloudMetastoreServices
         GcloudMetastoreServicesRestoreOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMetastoreServicesRestoreOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for the      service
@@ -227,9 +215,8 @@ public class GcloudMetastoreServices
         GcloudMetastoreServicesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMetastoreServicesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Dataproc Metastore service
@@ -241,9 +228,8 @@ public class GcloudMetastoreServices
         GcloudMetastoreServicesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMetastoreServicesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

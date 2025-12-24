@@ -37,9 +37,8 @@ public class GcloudComputeInstancesNetworkInterfaces
         GcloudComputeInstancesNetworkInterfacesAddOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesNetworkInterfacesAddOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Dynamic      Network Interface from a Compute Engine instance
@@ -51,9 +50,8 @@ public class GcloudComputeInstancesNetworkInterfaces
         GcloudComputeInstancesNetworkInterfacesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesNetworkInterfacesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get      the effective firewalls for a Compute Engine virtual machine network      interface
@@ -65,9 +63,8 @@ public class GcloudComputeInstancesNetworkInterfaces
         GcloudComputeInstancesNetworkInterfacesGetEffectiveFirewallsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesNetworkInterfacesGetEffectiveFirewallsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute      Engine virtual machine network interface
@@ -79,9 +76,8 @@ public class GcloudComputeInstancesNetworkInterfaces
         GcloudComputeInstancesNetworkInterfacesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesNetworkInterfacesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudInfraManagerRevisions
         GcloudInfraManagerRevisionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerRevisionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export a terraform state      file
@@ -51,9 +50,8 @@ public class GcloudInfraManagerRevisions
         GcloudInfraManagerRevisionsExportStatefileOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerRevisionsExportStatefileOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list revisions
@@ -65,9 +63,8 @@ public class GcloudInfraManagerRevisions
         GcloudInfraManagerRevisionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerRevisionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

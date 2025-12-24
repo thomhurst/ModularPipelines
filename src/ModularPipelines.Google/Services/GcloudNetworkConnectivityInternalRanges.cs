@@ -37,9 +37,8 @@ public class GcloudNetworkConnectivityInternalRanges
         GcloudNetworkConnectivityInternalRangesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityInternalRangesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an internal      range
@@ -51,9 +50,8 @@ public class GcloudNetworkConnectivityInternalRanges
         GcloudNetworkConnectivityInternalRangesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityInternalRangesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an internal      range
@@ -65,9 +63,8 @@ public class GcloudNetworkConnectivityInternalRanges
         GcloudNetworkConnectivityInternalRangesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityInternalRangesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list internal ranges
@@ -79,9 +76,8 @@ public class GcloudNetworkConnectivityInternalRanges
         GcloudNetworkConnectivityInternalRangesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityInternalRangesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an internal      range
@@ -93,9 +89,8 @@ public class GcloudNetworkConnectivityInternalRanges
         GcloudNetworkConnectivityInternalRangesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityInternalRangesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudSecretsVersions
         GcloudSecretsVersionsAccessOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSecretsVersionsAccessOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a new version of an existing secret
@@ -51,9 +50,8 @@ public class GcloudSecretsVersions
         GcloudSecretsVersionsAddOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSecretsVersionsAddOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe metadata about the secret      version
@@ -65,9 +63,8 @@ public class GcloudSecretsVersions
         GcloudSecretsVersionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSecretsVersionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// destroy a secret version's metadata and      secret data
@@ -79,9 +76,8 @@ public class GcloudSecretsVersions
         GcloudSecretsVersionsDestroyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSecretsVersionsDestroyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disable the version of the provided      secret
@@ -93,9 +89,8 @@ public class GcloudSecretsVersions
         GcloudSecretsVersionsDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSecretsVersionsDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enable the version of the provided secret
@@ -107,9 +102,8 @@ public class GcloudSecretsVersions
         GcloudSecretsVersionsEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSecretsVersionsEnableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all versions for a secret
@@ -121,9 +115,8 @@ public class GcloudSecretsVersions
         GcloudSecretsVersionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSecretsVersionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

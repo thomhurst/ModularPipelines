@@ -37,9 +37,8 @@ public class GcloudComputeInstancesBulk
         GcloudComputeInstancesBulkCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesBulkCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

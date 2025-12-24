@@ -37,9 +37,8 @@ public class GcloudDataprocWorkflowTemplatesAddJob
         GcloudDataprocWorkflowTemplatesAddJobHadoopOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesAddJobHadoopOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add a Hive job to the      workflow template
@@ -51,9 +50,8 @@ public class GcloudDataprocWorkflowTemplatesAddJob
         GcloudDataprocWorkflowTemplatesAddJobHiveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesAddJobHiveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add a Pig job to the      workflow template
@@ -65,9 +63,8 @@ public class GcloudDataprocWorkflowTemplatesAddJob
         GcloudDataprocWorkflowTemplatesAddJobPigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesAddJobPigOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add a Presto job to the      workflow template
@@ -79,9 +76,8 @@ public class GcloudDataprocWorkflowTemplatesAddJob
         GcloudDataprocWorkflowTemplatesAddJobPrestoOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesAddJobPrestoOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add a PySpark job to      the workflow template
@@ -93,9 +89,8 @@ public class GcloudDataprocWorkflowTemplatesAddJob
         GcloudDataprocWorkflowTemplatesAddJobPysparkOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesAddJobPysparkOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add a Spark job to the      workflow template
@@ -107,9 +102,8 @@ public class GcloudDataprocWorkflowTemplatesAddJob
         GcloudDataprocWorkflowTemplatesAddJobSparkOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesAddJobSparkOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add a SparkR job to      the workflow template
@@ -121,9 +115,8 @@ public class GcloudDataprocWorkflowTemplatesAddJob
         GcloudDataprocWorkflowTemplatesAddJobSparkROptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesAddJobSparkROptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add a SparkSql job      to the workflow template
@@ -135,9 +128,8 @@ public class GcloudDataprocWorkflowTemplatesAddJob
         GcloudDataprocWorkflowTemplatesAddJobSparkSqlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesAddJobSparkSqlOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add a Trino job to the      workflow template
@@ -149,9 +141,8 @@ public class GcloudDataprocWorkflowTemplatesAddJob
         GcloudDataprocWorkflowTemplatesAddJobTrinoOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesAddJobTrinoOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

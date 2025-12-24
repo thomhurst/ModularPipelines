@@ -37,9 +37,8 @@ public class GcloudDataplexEncryptionConfig
         GcloudDataplexEncryptionConfigCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexEncryptionConfigCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an EncryptionConfig
@@ -51,9 +50,8 @@ public class GcloudDataplexEncryptionConfig
         GcloudDataplexEncryptionConfigDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexEncryptionConfigDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an Encryption Config
@@ -65,9 +63,8 @@ public class GcloudDataplexEncryptionConfig
         GcloudDataplexEncryptionConfigUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexEncryptionConfigUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

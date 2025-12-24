@@ -47,9 +47,8 @@ public class GcloudServicesVpcPeerings
         GcloudServicesVpcPeeringsConnectOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesVpcPeeringsConnectOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a private service connection      to a service for a project network
@@ -61,9 +60,8 @@ public class GcloudServicesVpcPeerings
         GcloudServicesVpcPeeringsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesVpcPeeringsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disable VPC      Service Controls for the peering connection
@@ -75,9 +73,8 @@ public class GcloudServicesVpcPeerings
         GcloudServicesVpcPeeringsDisableVpcServiceControlsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesVpcPeeringsDisableVpcServiceControlsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enable VPC      Service Controls for the peering connection
@@ -89,9 +86,8 @@ public class GcloudServicesVpcPeerings
         GcloudServicesVpcPeeringsEnableVpcServiceControlsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesVpcPeeringsEnableVpcServiceControlsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get VPC state of      Service Controls for the peering connection
@@ -103,9 +99,8 @@ public class GcloudServicesVpcPeerings
         GcloudServicesVpcPeeringsGetVpcServiceControlsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesVpcPeeringsGetVpcServiceControlsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list connections to a service via VPC      peering for a project network
@@ -117,9 +112,8 @@ public class GcloudServicesVpcPeerings
         GcloudServicesVpcPeeringsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesVpcPeeringsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a private service connection      to a service for a project network
@@ -131,9 +125,8 @@ public class GcloudServicesVpcPeerings
         GcloudServicesVpcPeeringsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesVpcPeeringsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

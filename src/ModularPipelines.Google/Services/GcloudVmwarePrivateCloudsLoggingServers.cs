@@ -37,9 +37,8 @@ public class GcloudVmwarePrivateCloudsLoggingServers
         GcloudVmwarePrivateCloudsLoggingServersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsLoggingServersCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// server      from a VMware Engine private cloud
@@ -51,9 +50,8 @@ public class GcloudVmwarePrivateCloudsLoggingServers
         GcloudVmwarePrivateCloudsLoggingServersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsLoggingServersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Google      Cloud VMware Engine logging-server
@@ -65,9 +63,8 @@ public class GcloudVmwarePrivateCloudsLoggingServers
         GcloudVmwarePrivateCloudsLoggingServersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsLoggingServersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// server in      a Google Cloud VMware Engine private cloud
@@ -79,9 +76,8 @@ public class GcloudVmwarePrivateCloudsLoggingServers
         GcloudVmwarePrivateCloudsLoggingServersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsLoggingServersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Google Cloud      VMware Engine logging-server
@@ -93,9 +89,8 @@ public class GcloudVmwarePrivateCloudsLoggingServers
         GcloudVmwarePrivateCloudsLoggingServersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsLoggingServersUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudVmwareDnsBindPermission
         GcloudVmwareDnsBindPermissionDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareDnsBindPermissionDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// grants a DNS Bind Permission
@@ -51,9 +50,8 @@ public class GcloudVmwareDnsBindPermission
         GcloudVmwareDnsBindPermissionGrantOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareDnsBindPermissionGrantOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// revokes a DNS Bind Permission
@@ -65,9 +63,8 @@ public class GcloudVmwareDnsBindPermission
         GcloudVmwareDnsBindPermissionRevokeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareDnsBindPermissionRevokeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

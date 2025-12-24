@@ -59,9 +59,8 @@ public class GcloudContainerBinauthz
         GcloudContainerBinauthzCreateSignaturePayloadOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzCreateSignaturePayloadOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

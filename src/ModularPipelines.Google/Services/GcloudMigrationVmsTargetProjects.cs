@@ -37,9 +37,8 @@ public class GcloudMigrationVmsTargetProjects
         GcloudMigrationVmsTargetProjectsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMigrationVmsTargetProjectsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

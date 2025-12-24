@@ -37,9 +37,8 @@ public class GcloudDeployDeployPolicies
         GcloudDeployDeployPoliciesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployDeployPoliciesAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a deploy policy
@@ -51,9 +50,8 @@ public class GcloudDeployDeployPolicies
         GcloudDeployDeployPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployDeployPoliciesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about a deploy policy
@@ -65,9 +63,8 @@ public class GcloudDeployDeployPolicies
         GcloudDeployDeployPoliciesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployDeployPoliciesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// returns the .yaml definition of the      specified deploy policy
@@ -79,9 +76,8 @@ public class GcloudDeployDeployPolicies
         GcloudDeployDeployPoliciesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployDeployPoliciesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a      Cloud Deploy Policy
@@ -93,9 +89,8 @@ public class GcloudDeployDeployPolicies
         GcloudDeployDeployPoliciesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployDeployPoliciesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an IAM      policy binding for a Cloud Deploy Policy
@@ -107,9 +102,8 @@ public class GcloudDeployDeployPolicies
         GcloudDeployDeployPoliciesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployDeployPoliciesRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for a      Cloud Deploy Policy
@@ -121,9 +115,8 @@ public class GcloudDeployDeployPolicies
         GcloudDeployDeployPoliciesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployDeployPoliciesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

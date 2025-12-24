@@ -53,9 +53,8 @@ public class GcloudContainerFleetPolicycontroller
         GcloudContainerFleetPolicycontrollerDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPolicycontrollerDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// detach Policy Controller      Feature
@@ -67,9 +66,8 @@ public class GcloudContainerFleetPolicycontroller
         GcloudContainerFleetPolicycontrollerDetachOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPolicycontrollerDetachOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disable (Uninstall)      Policy Controller
@@ -81,9 +79,8 @@ public class GcloudContainerFleetPolicycontroller
         GcloudContainerFleetPolicycontrollerDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPolicycontrollerDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enable Policy Controller      Feature
@@ -95,9 +92,8 @@ public class GcloudContainerFleetPolicycontroller
         GcloudContainerFleetPolicycontrollerEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPolicycontrollerEnableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// suspend Policy Controller      Feature
@@ -109,9 +105,8 @@ public class GcloudContainerFleetPolicycontroller
         GcloudContainerFleetPolicycontrollerSuspendOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPolicycontrollerSuspendOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates the configuration      of Policy Controller Feature
@@ -123,9 +118,8 @@ public class GcloudContainerFleetPolicycontroller
         GcloudContainerFleetPolicycontrollerUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPolicycontrollerUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

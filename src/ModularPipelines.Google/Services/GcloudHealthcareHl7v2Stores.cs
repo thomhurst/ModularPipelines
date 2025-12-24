@@ -53,9 +53,8 @@ public class GcloudHealthcareHl7v2Stores
         GcloudHealthcareHl7v2StoresAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Cloud Healthcare API HL7v2      store
@@ -67,9 +66,8 @@ public class GcloudHealthcareHl7v2Stores
         GcloudHealthcareHl7v2StoresCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud Healthcare API HL7v2      store
@@ -81,9 +79,8 @@ public class GcloudHealthcareHl7v2Stores
         GcloudHealthcareHl7v2StoresDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Cloud Healthcare API      HL7v2 store
@@ -95,9 +92,8 @@ public class GcloudHealthcareHl7v2Stores
         GcloudHealthcareHl7v2StoresDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// retrieve the IAM policy for      a Cloud Healthcare API HL7v2 store
@@ -109,9 +105,8 @@ public class GcloudHealthcareHl7v2Stores
         GcloudHealthcareHl7v2StoresGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud Healthcare API HL7v2      stores
@@ -123,9 +118,8 @@ public class GcloudHealthcareHl7v2Stores
         GcloudHealthcareHl7v2StoresListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// gets the metrics for a Cloud      Healthcare API HL7v2 store
@@ -137,9 +131,8 @@ public class GcloudHealthcareHl7v2Stores
         GcloudHealthcareHl7v2StoresMetricsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresMetricsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an IAM      policy binding from a Cloud Healthcare API HL7v2 store
@@ -151,9 +144,8 @@ public class GcloudHealthcareHl7v2Stores
         GcloudHealthcareHl7v2StoresRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for a      Cloud Healthcare API HL7v2 store
@@ -165,9 +157,8 @@ public class GcloudHealthcareHl7v2Stores
         GcloudHealthcareHl7v2StoresSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud Healthcare API HL7v2      store
@@ -179,9 +170,8 @@ public class GcloudHealthcareHl7v2Stores
         GcloudHealthcareHl7v2StoresUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

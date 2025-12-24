@@ -37,9 +37,8 @@ public class GcloudTranscoderTemplates
         GcloudTranscoderTemplatesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTranscoderTemplatesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete transcoder job templates
@@ -51,9 +50,8 @@ public class GcloudTranscoderTemplates
         GcloudTranscoderTemplatesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTranscoderTemplatesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe transcoder job templates
@@ -65,9 +63,8 @@ public class GcloudTranscoderTemplates
         GcloudTranscoderTemplatesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTranscoderTemplatesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list transcoder job templates
@@ -79,9 +76,8 @@ public class GcloudTranscoderTemplates
         GcloudTranscoderTemplatesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTranscoderTemplatesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

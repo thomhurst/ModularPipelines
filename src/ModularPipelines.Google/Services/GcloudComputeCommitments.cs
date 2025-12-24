@@ -37,9 +37,8 @@ public class GcloudComputeCommitments
         GcloudComputeCommitmentsCreateLicenseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeCommitmentsCreateLicenseOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create Compute Engine commitments
@@ -51,9 +50,8 @@ public class GcloudComputeCommitments
         GcloudComputeCommitmentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeCommitmentsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute Engine commitment
@@ -65,9 +63,8 @@ public class GcloudComputeCommitments
         GcloudComputeCommitmentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeCommitmentsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Compute Engine commitments
@@ -79,9 +76,8 @@ public class GcloudComputeCommitments
         GcloudComputeCommitmentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeCommitmentsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update Compute Engine commitments
@@ -93,9 +89,8 @@ public class GcloudComputeCommitments
         GcloudComputeCommitmentsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeCommitmentsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

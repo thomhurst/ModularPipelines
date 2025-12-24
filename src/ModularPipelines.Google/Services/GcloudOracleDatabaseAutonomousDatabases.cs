@@ -37,9 +37,8 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an      AutonomousDatabase
@@ -51,9 +50,8 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get details of an      AutonomousDatabase
@@ -65,9 +63,8 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// failovers a standby      AutonomousDatabase to a new primary
@@ -79,9 +76,8 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesFailoverOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesFailoverOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// generate      wallet for an AutonomousDatabase
@@ -93,9 +89,8 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesGenerateWalletOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesGenerateWalletOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all      AutonomousDatabases
@@ -107,9 +102,8 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// restarts an      AutonomousDatabase
@@ -121,9 +115,8 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesRestartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesRestartOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// restore an      AutonomousDatabase
@@ -135,9 +128,8 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesRestoreOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesRestoreOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// starts an      AutonomousDatabase
@@ -149,9 +141,8 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesStartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesStartOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// stops an      AutonomousDatabase
@@ -163,9 +154,8 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesStopOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesStopOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// switchovers an      AutonomousDatabase to a new primary
@@ -177,9 +167,8 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesSwitchoverOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesSwitchoverOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an      AutonomousDatabase
@@ -191,9 +180,8 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

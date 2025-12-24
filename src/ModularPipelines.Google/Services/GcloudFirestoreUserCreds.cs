@@ -37,9 +37,8 @@ public class GcloudFirestoreUserCreds
         GcloudFirestoreUserCredsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreUserCredsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a Cloud Firestore user creds
@@ -51,9 +50,8 @@ public class GcloudFirestoreUserCreds
         GcloudFirestoreUserCredsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreUserCredsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describes a Cloud Firestore user      creds
@@ -65,9 +63,8 @@ public class GcloudFirestoreUserCreds
         GcloudFirestoreUserCredsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreUserCredsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disables a Cloud Firestore user creds
@@ -79,9 +76,8 @@ public class GcloudFirestoreUserCreds
         GcloudFirestoreUserCredsDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreUserCredsDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enables a Cloud Firestore user creds
@@ -93,9 +89,8 @@ public class GcloudFirestoreUserCreds
         GcloudFirestoreUserCredsEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreUserCredsEnableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists user creds under a Cloud Firestore      database
@@ -107,9 +102,8 @@ public class GcloudFirestoreUserCreds
         GcloudFirestoreUserCredsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreUserCredsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// resets a Cloud Firestore user      creds
@@ -121,9 +115,8 @@ public class GcloudFirestoreUserCreds
         GcloudFirestoreUserCredsResetPasswordOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreUserCredsResetPasswordOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudSccManageCustomModulesSha
         GcloudSccManageCustomModulesShaCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesShaCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Security Health      Analytics custom module
@@ -51,9 +50,8 @@ public class GcloudSccManageCustomModulesSha
         GcloudSccManageCustomModulesShaDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesShaDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get effective the      details of a Security Health Analytics effective custom module
@@ -65,9 +63,8 @@ public class GcloudSccManageCustomModulesSha
         GcloudSccManageCustomModulesShaDescribeEffectiveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesShaDescribeEffectiveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the details of a      Security Health Analytics custom module
@@ -79,9 +76,8 @@ public class GcloudSccManageCustomModulesSha
         GcloudSccManageCustomModulesShaDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesShaDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the details of      the resident and descendant Security Health Analytics custom modules
@@ -93,9 +89,8 @@ public class GcloudSccManageCustomModulesSha
         GcloudSccManageCustomModulesShaListDescendantOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesShaListDescendantOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the details of      an Security Health Analytics effective custom module
@@ -107,9 +102,8 @@ public class GcloudSccManageCustomModulesSha
         GcloudSccManageCustomModulesShaListEffectiveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesShaListEffectiveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the details of Security      Health Analyics custom modules
@@ -121,9 +115,8 @@ public class GcloudSccManageCustomModulesSha
         GcloudSccManageCustomModulesShaListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesShaListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// command to simulate a SHA      custom module
@@ -135,9 +128,8 @@ public class GcloudSccManageCustomModulesSha
         GcloudSccManageCustomModulesShaSimulateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesShaSimulateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Security Health      Analytics custom module
@@ -149,9 +141,8 @@ public class GcloudSccManageCustomModulesSha
         GcloudSccManageCustomModulesShaUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesShaUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

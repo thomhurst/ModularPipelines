@@ -37,9 +37,8 @@ public class GcloudAnthosAuth
         GcloudAnthosAuthLoginOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAnthosAuthLoginOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

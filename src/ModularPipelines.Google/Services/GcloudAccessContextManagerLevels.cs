@@ -47,9 +47,8 @@ public class GcloudAccessContextManagerLevels
         GcloudAccessContextManagerLevelsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerLevelsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an access level
@@ -61,9 +60,8 @@ public class GcloudAccessContextManagerLevels
         GcloudAccessContextManagerLevelsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerLevelsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about an      access level
@@ -75,9 +73,8 @@ public class GcloudAccessContextManagerLevels
         GcloudAccessContextManagerLevelsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerLevelsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list access levels
@@ -89,9 +86,8 @@ public class GcloudAccessContextManagerLevels
         GcloudAccessContextManagerLevelsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerLevelsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// replace all existing      access levels
@@ -103,9 +99,8 @@ public class GcloudAccessContextManagerLevels
         GcloudAccessContextManagerLevelsReplaceAllOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerLevelsReplaceAllOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an existing access      level
@@ -117,9 +112,8 @@ public class GcloudAccessContextManagerLevels
         GcloudAccessContextManagerLevelsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerLevelsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

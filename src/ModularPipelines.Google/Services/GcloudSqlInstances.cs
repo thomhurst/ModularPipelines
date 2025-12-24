@@ -37,9 +37,8 @@ public class GcloudSqlInstances
         GcloudSqlInstancesAcquireSsrsLeaseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesAcquireSsrsLeaseOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// clones a Cloud SQL instance
@@ -51,9 +50,8 @@ public class GcloudSqlInstances
         GcloudSqlInstancesCloneOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesCloneOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// creates a new Cloud SQL instance
@@ -65,9 +63,8 @@ public class GcloudSqlInstances
         GcloudSqlInstancesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a Cloud SQL instance
@@ -79,9 +76,8 @@ public class GcloudSqlInstances
         GcloudSqlInstancesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// displays configuration and metadata about a      Cloud SQL instance
@@ -93,9 +89,8 @@ public class GcloudSqlInstances
         GcloudSqlInstancesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// exports data from a Cloud SQL instance
@@ -107,9 +102,8 @@ public class GcloudSqlInstances
         GcloudSqlInstancesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// availability Cloud SQL      instance to failover
@@ -121,9 +115,8 @@ public class GcloudSqlInstances
         GcloudSqlInstancesFailoverOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesFailoverOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// displays the latest      recovery time to which a Cloud SQL instance can be restored to
@@ -135,9 +128,8 @@ public class GcloudSqlInstances
         GcloudSqlInstancesGetLatestRecoveryTimeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesGetLatestRecoveryTimeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// imports data into a Cloud SQL instance from      Google Cloud Storage
@@ -149,9 +141,8 @@ public class GcloudSqlInstances
         GcloudSqlInstancesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists Cloud SQL instances in a given project
@@ -163,9 +154,8 @@ public class GcloudSqlInstances
         GcloudSqlInstancesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates the settings of a Cloud SQL instance
@@ -177,9 +167,8 @@ public class GcloudSqlInstances
         GcloudSqlInstancesPatchOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesPatchOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// performs a point in time      restore for a Cloud SQL instance managed by Google Cloud Backup and      Disaster Recovery Service
@@ -191,9 +180,8 @@ public class GcloudSqlInstances
         GcloudSqlInstancesPointInTimeRestoreOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesPointInTimeRestoreOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// checks      for a major version upgrade of a Cloud SQL instance
@@ -205,9 +193,8 @@ public class GcloudSqlInstances
         GcloudSqlInstancesPreCheckMajorVersionUpgradeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesPreCheckMajorVersionUpgradeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// promotes Cloud SQL read replica to a      stand-alone instance
@@ -219,9 +206,8 @@ public class GcloudSqlInstances
         GcloudSqlInstancesPromoteReplicaOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesPromoteReplicaOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// reencrypts a Cloud SQL CMEK instance
@@ -233,9 +219,8 @@ public class GcloudSqlInstances
         GcloudSqlInstancesReencryptOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesReencryptOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// releases a SQL Server Reporting      Services lease on a Cloud SQL instance
@@ -247,9 +232,8 @@ public class GcloudSqlInstances
         GcloudSqlInstancesReleaseSsrsLeaseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesReleaseSsrsLeaseOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// reset SSL materials according to      the reset SSL mode
@@ -261,9 +245,8 @@ public class GcloudSqlInstances
         GcloudSqlInstancesResetSslConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesResetSslConfigOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// restarts a Cloud SQL instance
@@ -275,9 +258,8 @@ public class GcloudSqlInstances
         GcloudSqlInstancesRestartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesRestartOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// restores a backup of a Cloud SQL      instance
@@ -289,9 +271,8 @@ public class GcloudSqlInstances
         GcloudSqlInstancesRestoreBackupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesRestoreBackupOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// switches over a Cloud SQL instance to one      of its replicas
@@ -303,9 +284,8 @@ public class GcloudSqlInstances
         GcloudSqlInstancesSwitchoverOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesSwitchoverOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

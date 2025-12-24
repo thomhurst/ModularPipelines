@@ -37,9 +37,8 @@ public class GcloudComputeNetworkFirewallPoliciesMirroringRules
         GcloudComputeNetworkFirewallPoliciesMirroringRulesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkFirewallPoliciesMirroringRulesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a      Compute Engine network firewall policy packet mirroirng rule
@@ -51,9 +50,8 @@ public class GcloudComputeNetworkFirewallPoliciesMirroringRules
         GcloudComputeNetworkFirewallPoliciesMirroringRulesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkFirewallPoliciesMirroringRulesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describes a Compute Engine network firewall policy pakcet mirroring      rule
@@ -65,9 +63,8 @@ public class GcloudComputeNetworkFirewallPoliciesMirroringRules
         GcloudComputeNetworkFirewallPoliciesMirroringRulesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkFirewallPoliciesMirroringRulesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates a      Compute Engine network firewall policy packet mirroring rule
@@ -79,9 +76,8 @@ public class GcloudComputeNetworkFirewallPoliciesMirroringRules
         GcloudComputeNetworkFirewallPoliciesMirroringRulesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkFirewallPoliciesMirroringRulesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

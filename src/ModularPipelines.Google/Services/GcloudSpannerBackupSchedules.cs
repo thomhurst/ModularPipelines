@@ -37,9 +37,8 @@ public class GcloudSpannerBackupSchedules
         GcloudSpannerBackupSchedulesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerBackupSchedulesAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Cloud Spanner backup      schedule
@@ -51,9 +50,8 @@ public class GcloudSpannerBackupSchedules
         GcloudSpannerBackupSchedulesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerBackupSchedulesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud Spanner backup      schedule
@@ -65,9 +63,8 @@ public class GcloudSpannerBackupSchedules
         GcloudSpannerBackupSchedulesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerBackupSchedulesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Cloud Spanner backup      schedule
@@ -79,9 +76,8 @@ public class GcloudSpannerBackupSchedules
         GcloudSpannerBackupSchedulesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerBackupSchedulesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a      Cloud Spanner backup schedule
@@ -93,9 +89,8 @@ public class GcloudSpannerBackupSchedules
         GcloudSpannerBackupSchedulesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerBackupSchedulesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud Spanner backup schedules
@@ -107,9 +102,8 @@ public class GcloudSpannerBackupSchedules
         GcloudSpannerBackupSchedulesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerBackupSchedulesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove IAM      policy binding of a Cloud Spanner backup schedule
@@ -121,9 +115,8 @@ public class GcloudSpannerBackupSchedules
         GcloudSpannerBackupSchedulesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerBackupSchedulesRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for a      Cloud Spanner backup schedule
@@ -135,9 +128,8 @@ public class GcloudSpannerBackupSchedules
         GcloudSpannerBackupSchedulesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerBackupSchedulesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud Spanner backup      schedule
@@ -149,9 +141,8 @@ public class GcloudSpannerBackupSchedules
         GcloudSpannerBackupSchedulesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerBackupSchedulesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

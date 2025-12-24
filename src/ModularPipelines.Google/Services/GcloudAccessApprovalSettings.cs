@@ -37,9 +37,8 @@ public class GcloudAccessApprovalSettings
         GcloudAccessApprovalSettingsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessApprovalSettingsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get Access Approval settings
@@ -51,9 +50,8 @@ public class GcloudAccessApprovalSettings
         GcloudAccessApprovalSettingsGetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessApprovalSettingsGetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update Access Approval settings
@@ -65,9 +63,8 @@ public class GcloudAccessApprovalSettings
         GcloudAccessApprovalSettingsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessApprovalSettingsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudComputeTpusTpuVmAcceleratorTypes
         GcloudComputeTpusTpuVmAcceleratorTypesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmAcceleratorTypesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list available      accelerator types for Cloud TPU VM nodes
@@ -51,9 +50,8 @@ public class GcloudComputeTpusTpuVmAcceleratorTypes
         GcloudComputeTpusTpuVmAcceleratorTypesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmAcceleratorTypesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

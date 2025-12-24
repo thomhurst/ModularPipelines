@@ -37,9 +37,8 @@ public class GcloudComputePublicAdvertisedPrefixes
         GcloudComputePublicAdvertisedPrefixesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePublicAdvertisedPrefixesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a Compute Engine      public advertised prefix
@@ -51,9 +50,8 @@ public class GcloudComputePublicAdvertisedPrefixes
         GcloudComputePublicAdvertisedPrefixesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePublicAdvertisedPrefixesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describes a Compute      Engine public advertised prefix
@@ -65,9 +63,8 @@ public class GcloudComputePublicAdvertisedPrefixes
         GcloudComputePublicAdvertisedPrefixesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePublicAdvertisedPrefixesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine      public advertised prefixes
@@ -79,9 +76,8 @@ public class GcloudComputePublicAdvertisedPrefixes
         GcloudComputePublicAdvertisedPrefixesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePublicAdvertisedPrefixesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates a Compute Engine      public advertised prefix
@@ -93,9 +89,8 @@ public class GcloudComputePublicAdvertisedPrefixes
         GcloudComputePublicAdvertisedPrefixesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePublicAdvertisedPrefixesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

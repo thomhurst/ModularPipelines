@@ -37,9 +37,8 @@ public class GcloudNetworkConnectivityServiceConnectionPolicies
         GcloudNetworkConnectivityServiceConnectionPoliciesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityServiceConnectionPoliciesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a      service connection policy
@@ -51,9 +50,8 @@ public class GcloudNetworkConnectivityServiceConnectionPolicies
         GcloudNetworkConnectivityServiceConnectionPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityServiceConnectionPoliciesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe      a service connection policy
@@ -65,9 +63,8 @@ public class GcloudNetworkConnectivityServiceConnectionPolicies
         GcloudNetworkConnectivityServiceConnectionPoliciesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityServiceConnectionPoliciesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list service      connection policies
@@ -79,9 +76,8 @@ public class GcloudNetworkConnectivityServiceConnectionPolicies
         GcloudNetworkConnectivityServiceConnectionPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityServiceConnectionPoliciesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a      service connection policy
@@ -93,9 +89,8 @@ public class GcloudNetworkConnectivityServiceConnectionPolicies
         GcloudNetworkConnectivityServiceConnectionPoliciesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityServiceConnectionPoliciesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudContainerAttachedClusters
         GcloudContainerAttachedClustersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAttachedClustersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an Attached cluster
@@ -51,9 +50,8 @@ public class GcloudContainerAttachedClusters
         GcloudContainerAttachedClustersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAttachedClustersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// generate      Install Manifest for an Attached cluster
@@ -65,9 +63,8 @@ public class GcloudContainerAttachedClusters
         GcloudContainerAttachedClustersGenerateInstallManifestOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAttachedClustersGenerateInstallManifestOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get credentials of an      Attached cluster
@@ -79,9 +76,8 @@ public class GcloudContainerAttachedClusters
         GcloudContainerAttachedClustersGetCredentialsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAttachedClustersGetCredentialsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import fleet membership for an      Attached cluster
@@ -93,9 +89,8 @@ public class GcloudContainerAttachedClusters
         GcloudContainerAttachedClustersImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAttachedClustersImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Attached clusters
@@ -107,9 +102,8 @@ public class GcloudContainerAttachedClusters
         GcloudContainerAttachedClustersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAttachedClustersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// register an Attached cluster
@@ -121,9 +115,8 @@ public class GcloudContainerAttachedClusters
         GcloudContainerAttachedClustersRegisterOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAttachedClustersRegisterOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an Attached cluster
@@ -135,9 +128,8 @@ public class GcloudContainerAttachedClusters
         GcloudContainerAttachedClustersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAttachedClustersUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

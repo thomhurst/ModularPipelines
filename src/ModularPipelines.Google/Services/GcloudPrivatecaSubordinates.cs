@@ -37,9 +37,8 @@ public class GcloudPrivatecaSubordinates
         GcloudPrivatecaSubordinatesActivateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaSubordinatesActivateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a new subordinate certificate      authority
@@ -51,9 +50,8 @@ public class GcloudPrivatecaSubordinates
         GcloudPrivatecaSubordinatesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaSubordinatesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a subordinate certificate      authority
@@ -65,9 +63,8 @@ public class GcloudPrivatecaSubordinates
         GcloudPrivatecaSubordinatesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaSubordinatesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get metadata for a subordinate      certificate authority
@@ -79,9 +76,8 @@ public class GcloudPrivatecaSubordinates
         GcloudPrivatecaSubordinatesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaSubordinatesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disable a subordinate certificate      authority
@@ -93,9 +89,8 @@ public class GcloudPrivatecaSubordinates
         GcloudPrivatecaSubordinatesDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaSubordinatesDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enable a subordinate certificate      authority
@@ -107,9 +102,8 @@ public class GcloudPrivatecaSubordinates
         GcloudPrivatecaSubordinatesEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaSubordinatesEnableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the CSR for a subordinate      certificate authority that has not yet been activated
@@ -121,9 +115,8 @@ public class GcloudPrivatecaSubordinates
         GcloudPrivatecaSubordinatesGetCsrOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaSubordinatesGetCsrOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list subordinate certificate      authorities
@@ -135,9 +128,8 @@ public class GcloudPrivatecaSubordinates
         GcloudPrivatecaSubordinatesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaSubordinatesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// undelete a subordinate certificate      authority
@@ -149,9 +141,8 @@ public class GcloudPrivatecaSubordinates
         GcloudPrivatecaSubordinatesUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaSubordinatesUndeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an existing subordinate      certificate authority
@@ -163,9 +154,8 @@ public class GcloudPrivatecaSubordinates
         GcloudPrivatecaSubordinatesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaSubordinatesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudBuildsWorkerPools
         GcloudBuildsWorkerPoolsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsWorkerPoolsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a worker pool from Cloud Build
@@ -51,9 +50,8 @@ public class GcloudBuildsWorkerPools
         GcloudBuildsWorkerPoolsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsWorkerPoolsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a worker pool used by Cloud      Build
@@ -65,9 +63,8 @@ public class GcloudBuildsWorkerPools
         GcloudBuildsWorkerPoolsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsWorkerPoolsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all worker pools in a Google Cloud      project
@@ -79,9 +76,8 @@ public class GcloudBuildsWorkerPools
         GcloudBuildsWorkerPoolsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsWorkerPoolsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a worker pool used by Cloud      Build
@@ -93,9 +89,8 @@ public class GcloudBuildsWorkerPools
         GcloudBuildsWorkerPoolsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsWorkerPoolsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

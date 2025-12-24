@@ -37,9 +37,8 @@ public class GcloudEdgeCloudNetworkingSubnets
         GcloudEdgeCloudNetworkingSubnetsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingSubnetsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Distributed Cloud      Edge Network subnet
@@ -51,9 +50,8 @@ public class GcloudEdgeCloudNetworkingSubnets
         GcloudEdgeCloudNetworkingSubnetsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingSubnetsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about the      Distributed Cloud Edge Network subnet
@@ -65,9 +63,8 @@ public class GcloudEdgeCloudNetworkingSubnets
         GcloudEdgeCloudNetworkingSubnetsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingSubnetsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Distributed Cloud Edge      Network subnets
@@ -79,9 +76,8 @@ public class GcloudEdgeCloudNetworkingSubnets
         GcloudEdgeCloudNetworkingSubnetsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingSubnetsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

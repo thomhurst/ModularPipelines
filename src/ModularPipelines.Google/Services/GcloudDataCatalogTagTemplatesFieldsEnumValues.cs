@@ -37,9 +37,8 @@ public class GcloudDataCatalogTagTemplatesFieldsEnumValues
         GcloudDataCatalogTagTemplatesFieldsEnumValuesRenameOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagTemplatesFieldsEnumValuesRenameOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

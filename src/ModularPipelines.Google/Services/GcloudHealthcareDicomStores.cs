@@ -53,9 +53,8 @@ public class GcloudHealthcareDicomStores
         GcloudHealthcareDicomStoresAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Cloud Healthcare API DICOM      store
@@ -67,9 +66,8 @@ public class GcloudHealthcareDicomStores
         GcloudHealthcareDicomStoresCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// identify data from the      source store and write it to the destination store
@@ -81,9 +79,8 @@ public class GcloudHealthcareDicomStores
         GcloudHealthcareDicomStoresDeidentifyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresDeidentifyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud Healthcare API DICOM      store
@@ -95,9 +92,8 @@ public class GcloudHealthcareDicomStores
         GcloudHealthcareDicomStoresDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Cloud Healthcare API      DICOM store
@@ -109,9 +105,8 @@ public class GcloudHealthcareDicomStores
         GcloudHealthcareDicomStoresDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// retrieve the IAM policy for      a Cloud Healthcare API DICOM store
@@ -123,9 +118,8 @@ public class GcloudHealthcareDicomStores
         GcloudHealthcareDicomStoresGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud Healthcare API DICOM      stores
@@ -137,9 +131,8 @@ public class GcloudHealthcareDicomStores
         GcloudHealthcareDicomStoresListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the metrics for a Cloud      Healthcare API DICOM store
@@ -151,9 +144,8 @@ public class GcloudHealthcareDicomStores
         GcloudHealthcareDicomStoresMetricsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresMetricsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an IAM      policy binding from a Cloud Healthcare API DICOM store
@@ -165,9 +157,8 @@ public class GcloudHealthcareDicomStores
         GcloudHealthcareDicomStoresRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for a      Cloud Healthcare API DICOM store
@@ -179,9 +170,8 @@ public class GcloudHealthcareDicomStores
         GcloudHealthcareDicomStoresSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud Healthcare API DICOM      store
@@ -193,9 +183,8 @@ public class GcloudHealthcareDicomStores
         GcloudHealthcareDicomStoresUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

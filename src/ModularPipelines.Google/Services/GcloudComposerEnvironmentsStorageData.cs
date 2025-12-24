@@ -37,9 +37,8 @@ public class GcloudComposerEnvironmentsStorageData
         GcloudComposerEnvironmentsStorageDataDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsStorageDataDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export data from an      environment into local storage or Cloud Storage
@@ -51,9 +50,8 @@ public class GcloudComposerEnvironmentsStorageData
         GcloudComposerEnvironmentsStorageDataExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsStorageDataExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import data from local      storage or Cloud Storage into an environment
@@ -65,9 +63,8 @@ public class GcloudComposerEnvironmentsStorageData
         GcloudComposerEnvironmentsStorageDataImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsStorageDataImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the data for a Cloud      Composer environment
@@ -79,9 +76,8 @@ public class GcloudComposerEnvironmentsStorageData
         GcloudComposerEnvironmentsStorageDataListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsStorageDataListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

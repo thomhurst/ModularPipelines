@@ -37,9 +37,8 @@ public class GcloudComputeInterconnectsAttachmentsL2Forwarding
         GcloudComputeInterconnectsAttachmentsL2ForwardingAddMappingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsL2ForwardingAddMappingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a      Compute Engine L2 forwarding interconnect attachment
@@ -51,9 +50,8 @@ public class GcloudComputeInterconnectsAttachmentsL2Forwarding
         GcloudComputeInterconnectsAttachmentsL2ForwardingCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsL2ForwardingCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute Engine L2 forwarding interconnect attachment
@@ -65,9 +63,8 @@ public class GcloudComputeInterconnectsAttachmentsL2Forwarding
         GcloudComputeInterconnectsAttachmentsL2ForwardingDescribeMappingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsL2ForwardingDescribeMappingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      Google Compute Engine interconnect attachments
@@ -79,9 +76,8 @@ public class GcloudComputeInterconnectsAttachmentsL2Forwarding
         GcloudComputeInterconnectsAttachmentsL2ForwardingListMappingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsL2ForwardingListMappingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove vlan to ip mapping rule to an L2-forwarding attachment
@@ -93,9 +89,8 @@ public class GcloudComputeInterconnectsAttachmentsL2Forwarding
         GcloudComputeInterconnectsAttachmentsL2ForwardingRemoveMappingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsL2ForwardingRemoveMappingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update vlan to ip mapping rule to an L2-forwarding attachment
@@ -107,9 +102,8 @@ public class GcloudComputeInterconnectsAttachmentsL2Forwarding
         GcloudComputeInterconnectsAttachmentsL2ForwardingUpdateMappingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsL2ForwardingUpdateMappingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a      Compute Engine L2 forwarding interconnect attachment
@@ -121,9 +115,8 @@ public class GcloudComputeInterconnectsAttachmentsL2Forwarding
         GcloudComputeInterconnectsAttachmentsL2ForwardingUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsL2ForwardingUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

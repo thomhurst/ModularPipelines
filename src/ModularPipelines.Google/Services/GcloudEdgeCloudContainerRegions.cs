@@ -37,9 +37,8 @@ public class GcloudEdgeCloudContainerRegions
         GcloudEdgeCloudContainerRegionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerRegionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Edge Container regions
@@ -51,9 +50,8 @@ public class GcloudEdgeCloudContainerRegions
         GcloudEdgeCloudContainerRegionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerRegionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

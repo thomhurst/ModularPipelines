@@ -37,9 +37,8 @@ public class GcloudDataplexTasksJobs
         GcloudDataplexTasksJobsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexTasksJobsCancelOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Dataplex job running a      particular task
@@ -51,9 +50,8 @@ public class GcloudDataplexTasksJobs
         GcloudDataplexTasksJobsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexTasksJobsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list job runs of a Dataplex task resource
@@ -65,9 +63,8 @@ public class GcloudDataplexTasksJobs
         GcloudDataplexTasksJobsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexTasksJobsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

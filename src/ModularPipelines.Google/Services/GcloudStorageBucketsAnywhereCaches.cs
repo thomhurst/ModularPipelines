@@ -37,9 +37,8 @@ public class GcloudStorageBucketsAnywhereCaches
         GcloudStorageBucketsAnywhereCachesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBucketsAnywhereCachesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// returns details of      Anywhere Cache instance of a bucket
@@ -51,9 +50,8 @@ public class GcloudStorageBucketsAnywhereCaches
         GcloudStorageBucketsAnywhereCachesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBucketsAnywhereCachesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disable Anywhere Cache      instances
@@ -65,9 +63,8 @@ public class GcloudStorageBucketsAnywhereCaches
         GcloudStorageBucketsAnywhereCachesDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBucketsAnywhereCachesDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all Anywhere Cache      instances of a bucket
@@ -79,9 +76,8 @@ public class GcloudStorageBucketsAnywhereCaches
         GcloudStorageBucketsAnywhereCachesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBucketsAnywhereCachesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// pause Anywhere Cache      instances
@@ -93,9 +89,8 @@ public class GcloudStorageBucketsAnywhereCaches
         GcloudStorageBucketsAnywhereCachesPauseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBucketsAnywhereCachesPauseOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// resume Anywhere Cache      instances
@@ -107,9 +102,8 @@ public class GcloudStorageBucketsAnywhereCaches
         GcloudStorageBucketsAnywhereCachesResumeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBucketsAnywhereCachesResumeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update Anywhere Cache      instances
@@ -121,9 +115,8 @@ public class GcloudStorageBucketsAnywhereCaches
         GcloudStorageBucketsAnywhereCachesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBucketsAnywhereCachesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

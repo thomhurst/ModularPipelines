@@ -37,9 +37,8 @@ public class GcloudNetworkServicesServiceLbPolicies
         GcloudNetworkServicesServiceLbPoliciesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesServiceLbPoliciesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete service LB      policy
@@ -51,9 +50,8 @@ public class GcloudNetworkServicesServiceLbPolicies
         GcloudNetworkServicesServiceLbPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesServiceLbPoliciesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a service      LB policy
@@ -65,9 +63,8 @@ public class GcloudNetworkServicesServiceLbPolicies
         GcloudNetworkServicesServiceLbPoliciesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesServiceLbPoliciesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export service LB      policy
@@ -79,9 +76,8 @@ public class GcloudNetworkServicesServiceLbPolicies
         GcloudNetworkServicesServiceLbPoliciesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesServiceLbPoliciesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import service LB      policy
@@ -93,9 +89,8 @@ public class GcloudNetworkServicesServiceLbPolicies
         GcloudNetworkServicesServiceLbPoliciesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesServiceLbPoliciesImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list ServiceLbPolicies
@@ -107,9 +102,8 @@ public class GcloudNetworkServicesServiceLbPolicies
         GcloudNetworkServicesServiceLbPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesServiceLbPoliciesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a service LB      policy
@@ -121,9 +115,8 @@ public class GcloudNetworkServicesServiceLbPolicies
         GcloudNetworkServicesServiceLbPoliciesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesServiceLbPoliciesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

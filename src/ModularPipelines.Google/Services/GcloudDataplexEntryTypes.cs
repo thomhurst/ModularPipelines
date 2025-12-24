@@ -37,9 +37,8 @@ public class GcloudDataplexEntryTypes
         GcloudDataplexEntryTypesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexEntryTypesAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Dataplex Entry Type
@@ -51,9 +50,8 @@ public class GcloudDataplexEntryTypes
         GcloudDataplexEntryTypesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexEntryTypesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Dataplex Entry Type
@@ -65,9 +63,8 @@ public class GcloudDataplexEntryTypes
         GcloudDataplexEntryTypesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexEntryTypesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Dataplex Entry Type
@@ -79,9 +76,8 @@ public class GcloudDataplexEntryTypes
         GcloudDataplexEntryTypesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexEntryTypesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// retrieve a Dataplex Entry Type      IAM policy
@@ -93,9 +89,8 @@ public class GcloudDataplexEntryTypes
         GcloudDataplexEntryTypesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexEntryTypesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Dataplex Entry Types
@@ -107,9 +102,8 @@ public class GcloudDataplexEntryTypes
         GcloudDataplexEntryTypesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexEntryTypesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove IAM policy      binding from a Dataplex Entry Type
@@ -121,9 +115,8 @@ public class GcloudDataplexEntryTypes
         GcloudDataplexEntryTypesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexEntryTypesRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set an IAM policy binding for      a Dataplex Entry Type as defined in a JSON or YAML file
@@ -135,9 +128,8 @@ public class GcloudDataplexEntryTypes
         GcloudDataplexEntryTypesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexEntryTypesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Dataplex Entry Type
@@ -149,9 +141,8 @@ public class GcloudDataplexEntryTypes
         GcloudDataplexEntryTypesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexEntryTypesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

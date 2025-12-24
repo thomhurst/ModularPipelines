@@ -47,9 +47,8 @@ public class GcloudIamWorkloadIdentityPoolsNamespaces
         GcloudIamWorkloadIdentityPoolsNamespacesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsNamespacesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a workload      identity pool namespace
@@ -61,9 +60,8 @@ public class GcloudIamWorkloadIdentityPoolsNamespaces
         GcloudIamWorkloadIdentityPoolsNamespacesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsNamespacesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a      workload identity pool namespace
@@ -75,9 +73,8 @@ public class GcloudIamWorkloadIdentityPoolsNamespaces
         GcloudIamWorkloadIdentityPoolsNamespacesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsNamespacesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list workload identity      pool namespaces
@@ -89,9 +86,8 @@ public class GcloudIamWorkloadIdentityPoolsNamespaces
         GcloudIamWorkloadIdentityPoolsNamespacesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsNamespacesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// undelete a      workload identity pool namespace
@@ -103,9 +99,8 @@ public class GcloudIamWorkloadIdentityPoolsNamespaces
         GcloudIamWorkloadIdentityPoolsNamespacesUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsNamespacesUndeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update workload      identity pool namespace
@@ -117,9 +112,8 @@ public class GcloudIamWorkloadIdentityPoolsNamespaces
         GcloudIamWorkloadIdentityPoolsNamespacesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsNamespacesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudStorageBucketsNotifications
         GcloudStorageBucketsNotificationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBucketsNotificationsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete notification      configurations from a bucket
@@ -51,9 +50,8 @@ public class GcloudStorageBucketsNotifications
         GcloudStorageBucketsNotificationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBucketsNotificationsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show metadata for a      notification configuration
@@ -65,9 +63,8 @@ public class GcloudStorageBucketsNotifications
         GcloudStorageBucketsNotificationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBucketsNotificationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the notification      configurations belonging to a given bucket
@@ -79,9 +76,8 @@ public class GcloudStorageBucketsNotifications
         GcloudStorageBucketsNotificationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBucketsNotificationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

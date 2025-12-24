@@ -37,9 +37,8 @@ public class GcloudBackupDrDataSourceReferences
         GcloudBackupDrDataSourceReferencesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrDataSourceReferencesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// fetch      Data Source References for a given resource type and location
@@ -51,9 +50,8 @@ public class GcloudBackupDrDataSourceReferences
         GcloudBackupDrDataSourceReferencesFetchForResourceTypeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrDataSourceReferencesFetchForResourceTypeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Backup and DR data      source references
@@ -65,9 +63,8 @@ public class GcloudBackupDrDataSourceReferences
         GcloudBackupDrDataSourceReferencesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrDataSourceReferencesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

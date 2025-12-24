@@ -37,9 +37,8 @@ public class GcloudArtifactsDockerTags
         GcloudArtifactsDockerTagsAddOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsDockerTagsAddOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a tag from a container image      in Artifact Registry
@@ -51,9 +50,8 @@ public class GcloudArtifactsDockerTags
         GcloudArtifactsDockerTagsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsDockerTagsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all tags associated with a      container image in Artifact Registry
@@ -65,9 +63,8 @@ public class GcloudArtifactsDockerTags
         GcloudArtifactsDockerTagsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsDockerTagsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

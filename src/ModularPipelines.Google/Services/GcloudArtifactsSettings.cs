@@ -37,9 +37,8 @@ public class GcloudArtifactsSettings
         GcloudArtifactsSettingsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsSettingsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disables      redirection from Container Registry to Artifact Registry
@@ -51,9 +50,8 @@ public class GcloudArtifactsSettings
         GcloudArtifactsSettingsDisableUpgradeRedirectionOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsSettingsDisableUpgradeRedirectionOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enables redirection      from Container Registry to Artifact Registry
@@ -65,9 +63,8 @@ public class GcloudArtifactsSettings
         GcloudArtifactsSettingsEnableUpgradeRedirectionOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsSettingsEnableUpgradeRedirectionOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

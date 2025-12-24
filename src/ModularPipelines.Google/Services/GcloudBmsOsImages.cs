@@ -37,9 +37,8 @@ public class GcloudBmsOsImages
         GcloudBmsOsImagesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsOsImagesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Bare Metal Solution OS images in a project
@@ -51,9 +50,8 @@ public class GcloudBmsOsImages
         GcloudBmsOsImagesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsOsImagesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

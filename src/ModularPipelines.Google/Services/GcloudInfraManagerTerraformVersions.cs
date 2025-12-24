@@ -37,9 +37,8 @@ public class GcloudInfraManagerTerraformVersions
         GcloudInfraManagerTerraformVersionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerTerraformVersionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Terraform versions
@@ -51,9 +50,8 @@ public class GcloudInfraManagerTerraformVersions
         GcloudInfraManagerTerraformVersionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerTerraformVersionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

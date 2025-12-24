@@ -37,9 +37,8 @@ public class GcloudBmsVolumesSnapshots
         GcloudBmsVolumesSnapshotsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsVolumesSnapshotsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Bare Metal Solution boot      volume snapshot
@@ -51,9 +50,8 @@ public class GcloudBmsVolumesSnapshots
         GcloudBmsVolumesSnapshotsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsVolumesSnapshotsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list snapshots for a Bare Metal      Solution boot volume
@@ -65,9 +63,8 @@ public class GcloudBmsVolumesSnapshots
         GcloudBmsVolumesSnapshotsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsVolumesSnapshotsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

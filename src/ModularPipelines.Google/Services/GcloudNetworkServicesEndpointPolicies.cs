@@ -37,9 +37,8 @@ public class GcloudNetworkServicesEndpointPolicies
         GcloudNetworkServicesEndpointPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesEndpointPoliciesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an endpoint      policy
@@ -51,9 +50,8 @@ public class GcloudNetworkServicesEndpointPolicies
         GcloudNetworkServicesEndpointPoliciesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesEndpointPoliciesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export endpoint policy
@@ -65,9 +63,8 @@ public class GcloudNetworkServicesEndpointPolicies
         GcloudNetworkServicesEndpointPoliciesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesEndpointPoliciesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import endpoint policy
@@ -79,9 +76,8 @@ public class GcloudNetworkServicesEndpointPolicies
         GcloudNetworkServicesEndpointPoliciesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesEndpointPoliciesImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list endpoint policies
@@ -93,9 +89,8 @@ public class GcloudNetworkServicesEndpointPolicies
         GcloudNetworkServicesEndpointPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesEndpointPoliciesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

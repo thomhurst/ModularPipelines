@@ -37,9 +37,8 @@ public class GcloudNetappVolumesQuotaRules
         GcloudNetappVolumesQuotaRulesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesQuotaRulesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud NetApp Volume      QuotaRule
@@ -51,9 +50,8 @@ public class GcloudNetappVolumesQuotaRules
         GcloudNetappVolumesQuotaRulesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesQuotaRulesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Cloud NetApp Volume      Quota Rule
@@ -65,9 +63,8 @@ public class GcloudNetappVolumesQuotaRules
         GcloudNetappVolumesQuotaRulesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesQuotaRulesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud NetApp Volume      QuotaRules
@@ -79,9 +76,8 @@ public class GcloudNetappVolumesQuotaRules
         GcloudNetappVolumesQuotaRulesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesQuotaRulesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud NetApp Volume      QuotaRule
@@ -93,9 +89,8 @@ public class GcloudNetappVolumesQuotaRules
         GcloudNetappVolumesQuotaRulesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesQuotaRulesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

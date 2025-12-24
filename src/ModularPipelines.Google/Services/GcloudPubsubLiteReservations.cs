@@ -37,9 +37,8 @@ public class GcloudPubsubLiteReservations
         GcloudPubsubLiteReservationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteReservationsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Pub/Sub Lite reservation
@@ -51,9 +50,8 @@ public class GcloudPubsubLiteReservations
         GcloudPubsubLiteReservationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteReservationsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Pub/Sub Lite      reservation
@@ -65,9 +63,8 @@ public class GcloudPubsubLiteReservations
         GcloudPubsubLiteReservationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteReservationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Pub/Sub Lite reservations
@@ -79,9 +76,8 @@ public class GcloudPubsubLiteReservations
         GcloudPubsubLiteReservationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteReservationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Pub/Sub Lite topics for      a given Lite reservation
@@ -93,9 +89,8 @@ public class GcloudPubsubLiteReservations
         GcloudPubsubLiteReservationsListTopicsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteReservationsListTopicsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Pub/Sub Lite reservation
@@ -107,9 +102,8 @@ public class GcloudPubsubLiteReservations
         GcloudPubsubLiteReservationsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteReservationsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

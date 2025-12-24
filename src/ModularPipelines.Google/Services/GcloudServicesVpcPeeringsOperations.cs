@@ -37,9 +37,8 @@ public class GcloudServicesVpcPeeringsOperations
         GcloudServicesVpcPeeringsOperationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesVpcPeeringsOperationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// waits for an operation to      complete for a given operation name
@@ -51,9 +50,8 @@ public class GcloudServicesVpcPeeringsOperations
         GcloudServicesVpcPeeringsOperationsWaitOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesVpcPeeringsOperationsWaitOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

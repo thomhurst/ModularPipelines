@@ -37,9 +37,8 @@ public class GcloudArtifactsSbom
         GcloudArtifactsSbomExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsSbomExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list SBOM file references
@@ -51,9 +50,8 @@ public class GcloudArtifactsSbom
         GcloudArtifactsSbomListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsSbomListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// upload an SBOM file and create a reference      occurrence
@@ -65,9 +63,8 @@ public class GcloudArtifactsSbom
         GcloudArtifactsSbomLoadOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsSbomLoadOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

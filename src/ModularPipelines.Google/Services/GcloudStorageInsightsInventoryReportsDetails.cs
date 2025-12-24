@@ -37,9 +37,8 @@ public class GcloudStorageInsightsInventoryReportsDetails
         GcloudStorageInsightsInventoryReportsDetailsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsInventoryReportsDetailsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list inventory      report details
@@ -51,9 +50,8 @@ public class GcloudStorageInsightsInventoryReportsDetails
         GcloudStorageInsightsInventoryReportsDetailsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsInventoryReportsDetailsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

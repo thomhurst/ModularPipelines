@@ -37,9 +37,8 @@ public class GcloudBackupDrBackupPlans
         GcloudBackupDrBackupPlansCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlansCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a Backup Plan
@@ -51,9 +50,8 @@ public class GcloudBackupDrBackupPlans
         GcloudBackupDrBackupPlansDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlansDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details of the backup plan
@@ -65,9 +63,8 @@ public class GcloudBackupDrBackupPlans
         GcloudBackupDrBackupPlansDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlansDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list backup plans in the project
@@ -79,9 +76,8 @@ public class GcloudBackupDrBackupPlans
         GcloudBackupDrBackupPlansListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlansListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a specific backup plan
@@ -93,9 +89,8 @@ public class GcloudBackupDrBackupPlans
         GcloudBackupDrBackupPlansUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlansUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

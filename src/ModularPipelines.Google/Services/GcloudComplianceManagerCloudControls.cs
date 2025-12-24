@@ -37,9 +37,8 @@ public class GcloudComplianceManagerCloudControls
         GcloudComplianceManagerCloudControlsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerCloudControlsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a cloud control
@@ -51,9 +50,8 @@ public class GcloudComplianceManagerCloudControls
         GcloudComplianceManagerCloudControlsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerCloudControlsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get a cloud control
@@ -65,9 +63,8 @@ public class GcloudComplianceManagerCloudControls
         GcloudComplianceManagerCloudControlsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerCloudControlsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list cloud controls
@@ -79,9 +76,8 @@ public class GcloudComplianceManagerCloudControls
         GcloudComplianceManagerCloudControlsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerCloudControlsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

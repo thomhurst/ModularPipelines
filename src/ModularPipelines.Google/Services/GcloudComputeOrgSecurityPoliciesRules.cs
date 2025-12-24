@@ -37,9 +37,8 @@ public class GcloudComputeOrgSecurityPoliciesRules
         GcloudComputeOrgSecurityPoliciesRulesAddPreconfigWafExclusionOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOrgSecurityPoliciesRulesAddPreconfigWafExclusionOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Compute Engine      organizationsecurity policy rule
@@ -51,9 +50,8 @@ public class GcloudComputeOrgSecurityPoliciesRules
         GcloudComputeOrgSecurityPoliciesRulesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOrgSecurityPoliciesRulesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Compute Engine      organization security policy rule
@@ -65,9 +63,8 @@ public class GcloudComputeOrgSecurityPoliciesRules
         GcloudComputeOrgSecurityPoliciesRulesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOrgSecurityPoliciesRulesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute      Engine organization security policy rule
@@ -79,9 +76,8 @@ public class GcloudComputeOrgSecurityPoliciesRules
         GcloudComputeOrgSecurityPoliciesRulesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOrgSecurityPoliciesRulesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an exclusion configuration for preconfigured WAF evaluation from      a security policy rule
@@ -93,9 +89,8 @@ public class GcloudComputeOrgSecurityPoliciesRules
         GcloudComputeOrgSecurityPoliciesRulesRemovePreconfigWafExclusionOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOrgSecurityPoliciesRulesRemovePreconfigWafExclusionOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine      security policy rule
@@ -107,9 +102,8 @@ public class GcloudComputeOrgSecurityPoliciesRules
         GcloudComputeOrgSecurityPoliciesRulesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOrgSecurityPoliciesRulesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

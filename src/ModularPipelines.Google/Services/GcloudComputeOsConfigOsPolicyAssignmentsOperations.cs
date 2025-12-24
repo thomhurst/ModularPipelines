@@ -37,9 +37,8 @@ public class GcloudComputeOsConfigOsPolicyAssignmentsOperations
         GcloudComputeOsConfigOsPolicyAssignmentsOperationsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigOsPolicyAssignmentsOperationsCancelOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an OS policy assignment operation
@@ -51,9 +50,8 @@ public class GcloudComputeOsConfigOsPolicyAssignmentsOperations
         GcloudComputeOsConfigOsPolicyAssignmentsOperationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigOsPolicyAssignmentsOperationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

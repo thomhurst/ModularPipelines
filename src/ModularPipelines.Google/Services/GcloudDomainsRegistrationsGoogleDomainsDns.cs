@@ -37,9 +37,8 @@ public class GcloudDomainsRegistrationsGoogleDomainsDns
         GcloudDomainsRegistrationsGoogleDomainsDnsExportDnsRecordSetsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsGoogleDomainsDnsExportDnsRecordSetsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get      forwarding configuration of a specific Cloud Domains registration
@@ -51,9 +50,8 @@ public class GcloudDomainsRegistrationsGoogleDomainsDns
         GcloudDomainsRegistrationsGoogleDomainsDnsGetForwardingConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsGoogleDomainsDnsGetForwardingConfigOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudRunDomainMappings
         GcloudRunDomainMappingsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRunDomainMappingsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete domain mappings for Cloud Run      for Anthos
@@ -51,9 +50,8 @@ public class GcloudRunDomainMappings
         GcloudRunDomainMappingsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRunDomainMappingsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe domain mappings for Cloud      Run for Anthos
@@ -65,9 +63,8 @@ public class GcloudRunDomainMappings
         GcloudRunDomainMappingsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRunDomainMappingsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists domain mappings for Cloud Run for      Anthos
@@ -79,9 +76,8 @@ public class GcloudRunDomainMappings
         GcloudRunDomainMappingsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRunDomainMappingsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

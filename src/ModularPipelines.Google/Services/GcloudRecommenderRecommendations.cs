@@ -37,9 +37,8 @@ public class GcloudRecommenderRecommendations
         GcloudRecommenderRecommendationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecommenderRecommendationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list operations for a      recommendation
@@ -51,9 +50,8 @@ public class GcloudRecommenderRecommendations
         GcloudRecommenderRecommendationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecommenderRecommendationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// mark a recommendation's      state as CLAIMED
@@ -65,9 +63,8 @@ public class GcloudRecommenderRecommendations
         GcloudRecommenderRecommendationsMarkClaimedOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecommenderRecommendationsMarkClaimedOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// mark recommendation's      state as DISMISSED
@@ -79,9 +76,8 @@ public class GcloudRecommenderRecommendations
         GcloudRecommenderRecommendationsMarkDismissedOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecommenderRecommendationsMarkDismissedOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// mark a recommendation's      state as FAILED
@@ -93,9 +89,8 @@ public class GcloudRecommenderRecommendations
         GcloudRecommenderRecommendationsMarkFailedOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecommenderRecommendationsMarkFailedOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// mark a recommendation's      state as SUCCEEDED
@@ -107,9 +102,8 @@ public class GcloudRecommenderRecommendations
         GcloudRecommenderRecommendationsMarkSucceededOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecommenderRecommendationsMarkSucceededOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

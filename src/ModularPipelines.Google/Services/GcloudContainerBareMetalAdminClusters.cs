@@ -37,9 +37,8 @@ public class GcloudContainerBareMetalAdminClusters
         GcloudContainerBareMetalAdminClustersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalAdminClustersCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an Anthos on      bare metal admin cluster
@@ -51,9 +50,8 @@ public class GcloudContainerBareMetalAdminClusters
         GcloudContainerBareMetalAdminClustersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalAdminClustersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enroll an Anthos on      bare metal admin cluster
@@ -65,9 +63,8 @@ public class GcloudContainerBareMetalAdminClusters
         GcloudContainerBareMetalAdminClustersEnrollOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalAdminClustersEnrollOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Anthos on bare metal      admin clusters
@@ -79,9 +76,8 @@ public class GcloudContainerBareMetalAdminClusters
         GcloudContainerBareMetalAdminClustersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalAdminClustersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// query      versions for creating or upgrading an Anthos on bare metal admin      cluster
@@ -93,9 +89,8 @@ public class GcloudContainerBareMetalAdminClusters
         GcloudContainerBareMetalAdminClustersQueryVersionConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalAdminClustersQueryVersionConfigOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// unenroll an Anthos on      bare metal admin cluster so that it is no longer managed by the Anthos      On-Prem API
@@ -107,9 +102,8 @@ public class GcloudContainerBareMetalAdminClusters
         GcloudContainerBareMetalAdminClustersUnenrollOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalAdminClustersUnenrollOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an Anthos on      bare metal admin cluster
@@ -121,9 +115,8 @@ public class GcloudContainerBareMetalAdminClusters
         GcloudContainerBareMetalAdminClustersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalAdminClustersUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudVmwarePrivateCloudsHcxActivationkeys
         GcloudVmwarePrivateCloudsHcxActivationkeysCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsHcxActivationkeysCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a      Google Cloud VMware HCX activation key
@@ -51,9 +50,8 @@ public class GcloudVmwarePrivateCloudsHcxActivationkeys
         GcloudVmwarePrivateCloudsHcxActivationkeysDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsHcxActivationkeysDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list HCX activation      keys in a Google Cloud VMware Engine private cloud
@@ -65,9 +63,8 @@ public class GcloudVmwarePrivateCloudsHcxActivationkeys
         GcloudVmwarePrivateCloudsHcxActivationkeysListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsHcxActivationkeysListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

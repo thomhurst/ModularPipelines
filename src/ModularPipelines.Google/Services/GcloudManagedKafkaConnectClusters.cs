@@ -37,9 +37,8 @@ public class GcloudManagedKafkaConnectClusters
         GcloudManagedKafkaConnectClustersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectClustersCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Managed Service for      Apache Kafka connect cluster
@@ -51,9 +50,8 @@ public class GcloudManagedKafkaConnectClusters
         GcloudManagedKafkaConnectClustersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectClustersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Managed Service      for Apache Kafka connect cluster
@@ -65,9 +63,8 @@ public class GcloudManagedKafkaConnectClusters
         GcloudManagedKafkaConnectClustersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectClustersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all Managed Service for      Apache Kafka connect clusters in a given location
@@ -79,9 +76,8 @@ public class GcloudManagedKafkaConnectClusters
         GcloudManagedKafkaConnectClustersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectClustersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Managed Service for      Apache Kafka for BigQuery connect cluster
@@ -93,9 +89,8 @@ public class GcloudManagedKafkaConnectClusters
         GcloudManagedKafkaConnectClustersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectClustersUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

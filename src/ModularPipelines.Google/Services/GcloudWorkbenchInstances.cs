@@ -37,9 +37,8 @@ public class GcloudWorkbenchInstances
         GcloudWorkbenchInstancesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// checks if a      workbench instance is upgradeable
@@ -51,9 +50,8 @@ public class GcloudWorkbenchInstances
         GcloudWorkbenchInstancesCheckInstanceUpgradabilityOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesCheckInstanceUpgradabilityOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// creates a workbench instance
@@ -65,9 +63,8 @@ public class GcloudWorkbenchInstances
         GcloudWorkbenchInstancesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a workbench instance
@@ -79,9 +76,8 @@ public class GcloudWorkbenchInstances
         GcloudWorkbenchInstancesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describes a workbench instance
@@ -93,9 +89,8 @@ public class GcloudWorkbenchInstances
         GcloudWorkbenchInstancesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// diagnoses a workbench instance
@@ -107,9 +102,8 @@ public class GcloudWorkbenchInstances
         GcloudWorkbenchInstancesDiagnoseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesDiagnoseOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describes the valid configurations      for workbench instances
@@ -121,9 +115,8 @@ public class GcloudWorkbenchInstances
         GcloudWorkbenchInstancesGetConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesGetConfigOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// gets IAM policy for a workbench      instance
@@ -135,9 +128,8 @@ public class GcloudWorkbenchInstances
         GcloudWorkbenchInstancesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists workbench instances
@@ -149,9 +141,8 @@ public class GcloudWorkbenchInstances
         GcloudWorkbenchInstancesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// removes IAM policy      binding for a workbench instance
@@ -163,9 +154,8 @@ public class GcloudWorkbenchInstances
         GcloudWorkbenchInstancesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// resets a workbench instance
@@ -177,9 +167,8 @@ public class GcloudWorkbenchInstances
         GcloudWorkbenchInstancesResetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesResetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// resizes the workbench instance's      disk
@@ -191,9 +180,8 @@ public class GcloudWorkbenchInstances
         GcloudWorkbenchInstancesResizeDiskOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesResizeDiskOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// restores the workbench instance to a      snapshot state
@@ -205,9 +193,8 @@ public class GcloudWorkbenchInstances
         GcloudWorkbenchInstancesRestoreOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesRestoreOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// rolls back a workbench instance
@@ -219,9 +206,8 @@ public class GcloudWorkbenchInstances
         GcloudWorkbenchInstancesRollbackOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesRollbackOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// sets the IAM policy for a      workbench instance
@@ -233,9 +219,8 @@ public class GcloudWorkbenchInstances
         GcloudWorkbenchInstancesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// starts a workbench instance
@@ -247,9 +232,8 @@ public class GcloudWorkbenchInstances
         GcloudWorkbenchInstancesStartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesStartOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// stops a workbench instance
@@ -261,9 +245,8 @@ public class GcloudWorkbenchInstances
         GcloudWorkbenchInstancesStopOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesStopOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates a workbench instance
@@ -275,9 +258,8 @@ public class GcloudWorkbenchInstances
         GcloudWorkbenchInstancesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// upgrades a workbench instance
@@ -289,9 +271,8 @@ public class GcloudWorkbenchInstances
         GcloudWorkbenchInstancesUpgradeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesUpgradeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

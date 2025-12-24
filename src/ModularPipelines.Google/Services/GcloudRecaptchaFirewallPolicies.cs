@@ -37,9 +37,8 @@ public class GcloudRecaptchaFirewallPolicies
         GcloudRecaptchaFirewallPoliciesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaFirewallPoliciesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete one or more reCAPTCHA      Firewall Policies
@@ -51,9 +50,8 @@ public class GcloudRecaptchaFirewallPolicies
         GcloudRecaptchaFirewallPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaFirewallPoliciesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe reCAPTCHA Firewall      Policy
@@ -65,9 +63,8 @@ public class GcloudRecaptchaFirewallPolicies
         GcloudRecaptchaFirewallPoliciesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaFirewallPoliciesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list reCAPTCHA Firewall Policies
@@ -79,9 +76,8 @@ public class GcloudRecaptchaFirewallPolicies
         GcloudRecaptchaFirewallPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaFirewallPoliciesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// reorder all Firewall Policies
@@ -93,9 +89,8 @@ public class GcloudRecaptchaFirewallPolicies
         GcloudRecaptchaFirewallPoliciesReorderOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaFirewallPoliciesReorderOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Firewall Policy
@@ -107,9 +102,8 @@ public class GcloudRecaptchaFirewallPolicies
         GcloudRecaptchaFirewallPoliciesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaFirewallPoliciesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

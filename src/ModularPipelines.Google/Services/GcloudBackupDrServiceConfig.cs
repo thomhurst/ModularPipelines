@@ -37,9 +37,8 @@ public class GcloudBackupDrServiceConfig
         GcloudBackupDrServiceConfigInitOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrServiceConfigInitOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

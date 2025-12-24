@@ -37,9 +37,8 @@ public class GcloudGeminiCodeRepositoryIndexesRepositoryGroups
         GcloudGeminiCodeRepositoryIndexesRepositoryGroupsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeRepositoryIndexesRepositoryGroupsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a      repository group from a given code repository index instance
@@ -51,9 +50,8 @@ public class GcloudGeminiCodeRepositoryIndexesRepositoryGroups
         GcloudGeminiCodeRepositoryIndexesRepositoryGroupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeRepositoryIndexesRepositoryGroupsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get      details of a code repository index instance
@@ -65,9 +63,8 @@ public class GcloudGeminiCodeRepositoryIndexesRepositoryGroups
         GcloudGeminiCodeRepositoryIndexesRepositoryGroupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeRepositoryIndexesRepositoryGroupsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a code repository index repository group
@@ -79,9 +76,8 @@ public class GcloudGeminiCodeRepositoryIndexesRepositoryGroups
         GcloudGeminiCodeRepositoryIndexesRepositoryGroupsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeRepositoryIndexesRepositoryGroupsGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all      repository group for a given code repository index instance
@@ -93,9 +89,8 @@ public class GcloudGeminiCodeRepositoryIndexesRepositoryGroups
         GcloudGeminiCodeRepositoryIndexesRepositoryGroupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeRepositoryIndexesRepositoryGroupsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a code repository index repository group
@@ -107,9 +102,8 @@ public class GcloudGeminiCodeRepositoryIndexesRepositoryGroups
         GcloudGeminiCodeRepositoryIndexesRepositoryGroupsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeRepositoryIndexesRepositoryGroupsSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update the      configuration of a repository group
@@ -121,9 +115,8 @@ public class GcloudGeminiCodeRepositoryIndexesRepositoryGroups
         GcloudGeminiCodeRepositoryIndexesRepositoryGroupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeRepositoryIndexesRepositoryGroupsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

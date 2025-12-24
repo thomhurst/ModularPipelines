@@ -37,9 +37,8 @@ public class GcloudComputeTargetHttpsProxies
         GcloudComputeTargetHttpsProxiesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetHttpsProxiesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete target HTTPS proxies
@@ -51,9 +50,8 @@ public class GcloudComputeTargetHttpsProxies
         GcloudComputeTargetHttpsProxiesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetHttpsProxiesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// display detailed information      about a target HTTPS proxy
@@ -65,9 +63,8 @@ public class GcloudComputeTargetHttpsProxies
         GcloudComputeTargetHttpsProxiesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetHttpsProxiesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export a target HTTPS proxy
@@ -79,9 +76,8 @@ public class GcloudComputeTargetHttpsProxies
         GcloudComputeTargetHttpsProxiesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetHttpsProxiesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import a target HTTPS proxy
@@ -93,9 +89,8 @@ public class GcloudComputeTargetHttpsProxies
         GcloudComputeTargetHttpsProxiesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetHttpsProxiesImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine      target HTTPS proxies
@@ -107,9 +102,8 @@ public class GcloudComputeTargetHttpsProxies
         GcloudComputeTargetHttpsProxiesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetHttpsProxiesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a target HTTPS proxy
@@ -121,9 +115,8 @@ public class GcloudComputeTargetHttpsProxies
         GcloudComputeTargetHttpsProxiesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetHttpsProxiesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

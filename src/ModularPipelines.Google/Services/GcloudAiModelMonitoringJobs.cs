@@ -37,9 +37,8 @@ public class GcloudAiModelMonitoringJobs
         GcloudAiModelMonitoringJobsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelMonitoringJobsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an existing Vertex AI model      deployment monitoring job
@@ -51,9 +50,8 @@ public class GcloudAiModelMonitoringJobs
         GcloudAiModelMonitoringJobsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelMonitoringJobsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get detailed model deployment      monitoring job information about the given job id
@@ -65,9 +63,8 @@ public class GcloudAiModelMonitoringJobs
         GcloudAiModelMonitoringJobsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelMonitoringJobsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the model deployment monitoring      jobs of the given project and region
@@ -79,9 +76,8 @@ public class GcloudAiModelMonitoringJobs
         GcloudAiModelMonitoringJobsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelMonitoringJobsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// pause a running Vertex AI model      deployment monitoring job
@@ -93,9 +89,8 @@ public class GcloudAiModelMonitoringJobs
         GcloudAiModelMonitoringJobsPauseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelMonitoringJobsPauseOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// resume a paused Vertex AI model      deployment monitoring job
@@ -107,9 +102,8 @@ public class GcloudAiModelMonitoringJobs
         GcloudAiModelMonitoringJobsResumeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelMonitoringJobsResumeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an Vertex AI model      deployment monitoring job
@@ -121,9 +115,8 @@ public class GcloudAiModelMonitoringJobs
         GcloudAiModelMonitoringJobsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelMonitoringJobsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

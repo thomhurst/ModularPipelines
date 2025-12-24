@@ -37,9 +37,8 @@ public class GcloudSccIacValidationReports
         GcloudSccIacValidationReportsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccIacValidationReportsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Cloud Security      Command Center IaC Validation Report
@@ -51,9 +50,8 @@ public class GcloudSccIacValidationReports
         GcloudSccIacValidationReportsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccIacValidationReportsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists all the Cloud Security      Command Center IaC validation reports for an organization
@@ -65,9 +63,8 @@ public class GcloudSccIacValidationReports
         GcloudSccIacValidationReportsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccIacValidationReportsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

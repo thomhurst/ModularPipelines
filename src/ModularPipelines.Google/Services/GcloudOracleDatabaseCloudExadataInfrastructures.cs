@@ -47,9 +47,8 @@ public class GcloudOracleDatabaseCloudExadataInfrastructures
         GcloudOracleDatabaseCloudExadataInfrastructuresCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudExadataInfrastructuresCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an      ExadataInfrastructure
@@ -61,9 +60,8 @@ public class GcloudOracleDatabaseCloudExadataInfrastructures
         GcloudOracleDatabaseCloudExadataInfrastructuresDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudExadataInfrastructuresDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get details      of a ExadataInfrastructure
@@ -75,9 +73,8 @@ public class GcloudOracleDatabaseCloudExadataInfrastructures
         GcloudOracleDatabaseCloudExadataInfrastructuresDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudExadataInfrastructuresDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all      ExadataInfrastructures
@@ -89,9 +86,8 @@ public class GcloudOracleDatabaseCloudExadataInfrastructures
         GcloudOracleDatabaseCloudExadataInfrastructuresListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudExadataInfrastructuresListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

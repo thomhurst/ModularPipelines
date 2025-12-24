@@ -53,9 +53,8 @@ public class GcloudTelcoAutomation
         GcloudTelcoAutomationOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTelcoAutomationOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

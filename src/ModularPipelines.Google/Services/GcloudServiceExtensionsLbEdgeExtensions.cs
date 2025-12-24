@@ -37,9 +37,8 @@ public class GcloudServiceExtensionsLbEdgeExtensions
         GcloudServiceExtensionsLbEdgeExtensionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsLbEdgeExtensionsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an      LbEdgeExtension resource
@@ -51,9 +50,8 @@ public class GcloudServiceExtensionsLbEdgeExtensions
         GcloudServiceExtensionsLbEdgeExtensionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsLbEdgeExtensionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import an      LbEdgeExtension resource
@@ -65,9 +63,8 @@ public class GcloudServiceExtensionsLbEdgeExtensions
         GcloudServiceExtensionsLbEdgeExtensionsImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsLbEdgeExtensionsImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list LbEdgeExtension      resources
@@ -79,9 +76,8 @@ public class GcloudServiceExtensionsLbEdgeExtensions
         GcloudServiceExtensionsLbEdgeExtensionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsLbEdgeExtensionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

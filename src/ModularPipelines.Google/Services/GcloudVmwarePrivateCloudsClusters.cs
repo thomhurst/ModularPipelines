@@ -47,9 +47,8 @@ public class GcloudVmwarePrivateCloudsClusters
         GcloudVmwarePrivateCloudsClustersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsClustersCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Google Cloud VMware      Engine cluster
@@ -61,9 +60,8 @@ public class GcloudVmwarePrivateCloudsClusters
         GcloudVmwarePrivateCloudsClustersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsClustersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Google Cloud      VMware Engine cluster
@@ -75,9 +73,8 @@ public class GcloudVmwarePrivateCloudsClusters
         GcloudVmwarePrivateCloudsClustersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsClustersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list clusters in a Google      Cloud VMware Engine private cloud
@@ -89,9 +86,8 @@ public class GcloudVmwarePrivateCloudsClusters
         GcloudVmwarePrivateCloudsClustersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsClustersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Google Cloud VMware      Engine cluster
@@ -103,9 +99,8 @@ public class GcloudVmwarePrivateCloudsClusters
         GcloudVmwarePrivateCloudsClustersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsClustersUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

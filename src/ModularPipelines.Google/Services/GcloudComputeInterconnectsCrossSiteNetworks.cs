@@ -37,9 +37,8 @@ public class GcloudComputeInterconnectsCrossSiteNetworks
         GcloudComputeInterconnectsCrossSiteNetworksCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsCrossSiteNetworksCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete Compute      Engine cross site networks
@@ -51,9 +50,8 @@ public class GcloudComputeInterconnectsCrossSiteNetworks
         GcloudComputeInterconnectsCrossSiteNetworksDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsCrossSiteNetworksDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a      Compute Engine cross site network
@@ -65,9 +63,8 @@ public class GcloudComputeInterconnectsCrossSiteNetworks
         GcloudComputeInterconnectsCrossSiteNetworksDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsCrossSiteNetworksDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute      Engine cross site networks
@@ -79,9 +76,8 @@ public class GcloudComputeInterconnectsCrossSiteNetworks
         GcloudComputeInterconnectsCrossSiteNetworksListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsCrossSiteNetworksListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute      Engine cross site network
@@ -93,9 +89,8 @@ public class GcloudComputeInterconnectsCrossSiteNetworks
         GcloudComputeInterconnectsCrossSiteNetworksUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsCrossSiteNetworksUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

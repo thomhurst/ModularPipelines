@@ -37,9 +37,8 @@ public class GcloudEventarcEnrollments
         GcloudEventarcEnrollmentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcEnrollmentsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an Eventarc enrollment
@@ -51,9 +50,8 @@ public class GcloudEventarcEnrollments
         GcloudEventarcEnrollmentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcEnrollmentsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an Eventarc enrollment
@@ -65,9 +63,8 @@ public class GcloudEventarcEnrollments
         GcloudEventarcEnrollmentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcEnrollmentsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Eventarc enrollments
@@ -79,9 +76,8 @@ public class GcloudEventarcEnrollments
         GcloudEventarcEnrollmentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcEnrollmentsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an Eventarc enrollment
@@ -93,9 +89,8 @@ public class GcloudEventarcEnrollments
         GcloudEventarcEnrollmentsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcEnrollmentsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudConfigConfigurations
         GcloudConfigConfigurationsActivateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudConfigConfigurationsActivateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// creates a new named configuration
@@ -51,9 +50,8 @@ public class GcloudConfigConfigurations
         GcloudConfigConfigurationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudConfigConfigurationsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a named configuration
@@ -65,9 +63,8 @@ public class GcloudConfigConfigurations
         GcloudConfigConfigurationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudConfigConfigurationsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describes a named configuration by      listing its properties
@@ -79,9 +76,8 @@ public class GcloudConfigConfigurations
         GcloudConfigConfigurationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudConfigConfigurationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists existing named configurations
@@ -93,9 +89,8 @@ public class GcloudConfigConfigurations
         GcloudConfigConfigurationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudConfigConfigurationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// renames a named configuration
@@ -107,9 +102,8 @@ public class GcloudConfigConfigurations
         GcloudConfigConfigurationsRenameOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudConfigConfigurationsRenameOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

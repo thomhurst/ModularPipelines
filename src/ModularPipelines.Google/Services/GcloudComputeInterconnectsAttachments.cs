@@ -65,9 +65,8 @@ public class GcloudComputeInterconnectsAttachments
         GcloudComputeInterconnectsAttachmentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute      Engine interconnect attachment
@@ -79,9 +78,8 @@ public class GcloudComputeInterconnectsAttachments
         GcloudComputeInterconnectsAttachmentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine      interconnect attachments
@@ -93,9 +91,8 @@ public class GcloudComputeInterconnectsAttachments
         GcloudComputeInterconnectsAttachmentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

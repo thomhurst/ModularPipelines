@@ -47,9 +47,8 @@ public class GcloudComputePublicDelegatedPrefixes
         GcloudComputePublicDelegatedPrefixesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePublicDelegatedPrefixesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a Compute Engine      public delegated prefix
@@ -61,9 +60,8 @@ public class GcloudComputePublicDelegatedPrefixes
         GcloudComputePublicDelegatedPrefixesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePublicDelegatedPrefixesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describes a Compute      Engine public delegated prefix
@@ -75,9 +73,8 @@ public class GcloudComputePublicDelegatedPrefixes
         GcloudComputePublicDelegatedPrefixesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePublicDelegatedPrefixesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine      public delegated prefixes
@@ -89,9 +86,8 @@ public class GcloudComputePublicDelegatedPrefixes
         GcloudComputePublicDelegatedPrefixesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePublicDelegatedPrefixesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates a Compute Engine      public delegated prefix
@@ -103,9 +99,8 @@ public class GcloudComputePublicDelegatedPrefixes
         GcloudComputePublicDelegatedPrefixesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePublicDelegatedPrefixesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

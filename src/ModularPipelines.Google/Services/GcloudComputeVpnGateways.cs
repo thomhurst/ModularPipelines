@@ -37,9 +37,8 @@ public class GcloudComputeVpnGateways
         GcloudComputeVpnGatewaysCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeVpnGatewaysCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete Compute Engine Highly Available      VPN Gateways
@@ -51,9 +50,8 @@ public class GcloudComputeVpnGateways
         GcloudComputeVpnGatewaysDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeVpnGatewaysDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute Engine Highly      Available VPN Gateway
@@ -65,9 +63,8 @@ public class GcloudComputeVpnGateways
         GcloudComputeVpnGatewaysDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeVpnGatewaysDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get status of a Compute Engine      Highly Available VPN Gateway
@@ -79,9 +76,8 @@ public class GcloudComputeVpnGateways
         GcloudComputeVpnGatewaysGetStatusOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeVpnGatewaysGetStatusOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine Highly      Available VPN Gateways
@@ -93,9 +89,8 @@ public class GcloudComputeVpnGateways
         GcloudComputeVpnGatewaysListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeVpnGatewaysListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine Highly      Available VPN gateway
@@ -107,9 +102,8 @@ public class GcloudComputeVpnGateways
         GcloudComputeVpnGatewaysUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeVpnGatewaysUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudHealthcareHl7v2StoresImport
         GcloudHealthcareHl7v2StoresImportGcsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresImportGcsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

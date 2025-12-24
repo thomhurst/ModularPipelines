@@ -59,9 +59,8 @@ public class GcloudPam
         GcloudPamOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// check Privileged Access Manager      onboarding status for a resource
@@ -73,9 +72,8 @@ public class GcloudPam
         GcloudPamCheckOnboardingStatusOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamCheckOnboardingStatusOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

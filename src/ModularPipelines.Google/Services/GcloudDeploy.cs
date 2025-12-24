@@ -95,9 +95,8 @@ public class GcloudDeploy
         GcloudDeployOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// applies a yaml configuration containing Delivery      Pipeline(s), Target(s), Custom Target Type(s), Deploy Policy(ies), and      Automation(s) declarative definitions
@@ -109,9 +108,8 @@ public class GcloudDeploy
         GcloudDeployApplyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployApplyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes Delivery Pipeline(s), Target(s), Custom      Target Type(s), and Automation(s) in a yaml configuration
@@ -123,9 +121,8 @@ public class GcloudDeploy
         GcloudDeployDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the Cloud Deploy config for the provided      region and project
@@ -137,9 +134,8 @@ public class GcloudDeploy
         GcloudDeployGetConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployGetConfigOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

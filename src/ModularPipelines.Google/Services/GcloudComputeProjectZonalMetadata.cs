@@ -37,9 +37,8 @@ public class GcloudComputeProjectZonalMetadata
         GcloudComputeProjectZonalMetadataAddOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeProjectZonalMetadataAddOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe project zonal      metadata
@@ -51,9 +50,8 @@ public class GcloudComputeProjectZonalMetadata
         GcloudComputeProjectZonalMetadataDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeProjectZonalMetadataDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove project zonal      metadata
@@ -65,9 +63,8 @@ public class GcloudComputeProjectZonalMetadata
         GcloudComputeProjectZonalMetadataRemoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeProjectZonalMetadataRemoveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

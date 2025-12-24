@@ -37,9 +37,8 @@ public class GcloudActiveDirectoryPeerings
         GcloudActiveDirectoryPeeringsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryPeeringsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Managed Microsoft Active      Directory domain peering
@@ -51,9 +50,8 @@ public class GcloudActiveDirectoryPeerings
         GcloudActiveDirectoryPeeringsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryPeeringsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Managed Microsoft      Active Directory domain peering
@@ -65,9 +63,8 @@ public class GcloudActiveDirectoryPeerings
         GcloudActiveDirectoryPeeringsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryPeeringsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all Managed Microsoft Active      Directory domain peerings
@@ -79,9 +76,8 @@ public class GcloudActiveDirectoryPeerings
         GcloudActiveDirectoryPeeringsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryPeeringsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Managed Microsoft Active      Directory domain peering
@@ -93,9 +89,8 @@ public class GcloudActiveDirectoryPeerings
         GcloudActiveDirectoryPeeringsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryPeeringsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

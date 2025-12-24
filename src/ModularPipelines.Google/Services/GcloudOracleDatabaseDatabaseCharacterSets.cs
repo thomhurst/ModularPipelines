@@ -37,9 +37,8 @@ public class GcloudOracleDatabaseDatabaseCharacterSets
         GcloudOracleDatabaseDatabaseCharacterSetsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseDatabaseCharacterSetsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

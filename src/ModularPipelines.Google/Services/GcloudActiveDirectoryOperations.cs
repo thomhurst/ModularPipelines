@@ -37,9 +37,8 @@ public class GcloudActiveDirectoryOperations
         GcloudActiveDirectoryOperationsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryOperationsCancelOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Managed Microsoft      AD operation
@@ -51,9 +50,8 @@ public class GcloudActiveDirectoryOperations
         GcloudActiveDirectoryOperationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryOperationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Managed Microsoft AD      operations
@@ -65,9 +63,8 @@ public class GcloudActiveDirectoryOperations
         GcloudActiveDirectoryOperationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryOperationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

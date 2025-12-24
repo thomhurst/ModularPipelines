@@ -37,9 +37,8 @@ public class GcloudNetworkServicesMulticastDomainActivations
         GcloudNetworkServicesMulticastDomainActivationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainActivationsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a      multicast domain activation
@@ -51,9 +50,8 @@ public class GcloudNetworkServicesMulticastDomainActivations
         GcloudNetworkServicesMulticastDomainActivationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainActivationsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a      multicast domain activation
@@ -65,9 +63,8 @@ public class GcloudNetworkServicesMulticastDomainActivations
         GcloudNetworkServicesMulticastDomainActivationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainActivationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list multicast      domain activations
@@ -79,9 +76,8 @@ public class GcloudNetworkServicesMulticastDomainActivations
         GcloudNetworkServicesMulticastDomainActivationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainActivationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a      multicast domain activation
@@ -93,9 +89,8 @@ public class GcloudNetworkServicesMulticastDomainActivations
         GcloudNetworkServicesMulticastDomainActivationsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainActivationsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

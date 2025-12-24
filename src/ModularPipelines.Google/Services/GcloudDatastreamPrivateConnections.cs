@@ -37,9 +37,8 @@ public class GcloudDatastreamPrivateConnections
         GcloudDatastreamPrivateConnectionsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamPrivateConnectionsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Datastream private      connection
@@ -51,9 +50,8 @@ public class GcloudDatastreamPrivateConnections
         GcloudDatastreamPrivateConnectionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamPrivateConnectionsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about a      Datastream private connection
@@ -65,9 +63,8 @@ public class GcloudDatastreamPrivateConnections
         GcloudDatastreamPrivateConnectionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamPrivateConnectionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list private connections
@@ -79,9 +76,8 @@ public class GcloudDatastreamPrivateConnections
         GcloudDatastreamPrivateConnectionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamPrivateConnectionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

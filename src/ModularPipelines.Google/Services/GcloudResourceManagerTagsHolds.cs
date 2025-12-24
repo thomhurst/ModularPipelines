@@ -37,9 +37,8 @@ public class GcloudResourceManagerTagsHolds
         GcloudResourceManagerTagsHoldsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsHoldsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a TagHold
@@ -51,9 +50,8 @@ public class GcloudResourceManagerTagsHolds
         GcloudResourceManagerTagsHoldsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsHoldsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list TagHolds under the specified      TagValue
@@ -65,9 +63,8 @@ public class GcloudResourceManagerTagsHolds
         GcloudResourceManagerTagsHoldsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsHoldsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

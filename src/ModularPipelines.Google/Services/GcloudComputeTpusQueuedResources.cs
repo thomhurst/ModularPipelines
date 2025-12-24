@@ -37,9 +37,8 @@ public class GcloudComputeTpusQueuedResources
         GcloudComputeTpusQueuedResourcesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusQueuedResourcesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Queued Resource
@@ -51,9 +50,8 @@ public class GcloudComputeTpusQueuedResources
         GcloudComputeTpusQueuedResourcesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusQueuedResourcesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Queued Resource
@@ -65,9 +63,8 @@ public class GcloudComputeTpusQueuedResources
         GcloudComputeTpusQueuedResourcesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusQueuedResourcesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Queued Resources
@@ -79,9 +76,8 @@ public class GcloudComputeTpusQueuedResources
         GcloudComputeTpusQueuedResourcesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusQueuedResourcesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// reset a Queued Resource
@@ -93,9 +89,8 @@ public class GcloudComputeTpusQueuedResources
         GcloudComputeTpusQueuedResourcesResetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusQueuedResourcesResetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// copy files to and from a Cloud      TPU Queued Resource via SCP
@@ -107,9 +102,8 @@ public class GcloudComputeTpusQueuedResources
         GcloudComputeTpusQueuedResourcesScpOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusQueuedResourcesScpOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// SSH into a Cloud TPU Queued      Resource's node(s)
@@ -121,9 +115,8 @@ public class GcloudComputeTpusQueuedResources
         GcloudComputeTpusQueuedResourcesSshOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusQueuedResourcesSshOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudComputeProjectInfo
         GcloudComputeProjectInfoAddMetadataOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeProjectInfoAddMetadataOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe the Compute Engine project      resource
@@ -51,9 +50,8 @@ public class GcloudComputeProjectInfo
         GcloudComputeProjectInfoDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeProjectInfoDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// wide metadata      entries
@@ -65,9 +63,8 @@ public class GcloudComputeProjectInfo
         GcloudComputeProjectInfoRemoveMetadataOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeProjectInfoRemoveMetadataOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set usage reporting bucket      for a project
@@ -79,9 +76,8 @@ public class GcloudComputeProjectInfo
         GcloudComputeProjectInfoSetUsageBucketOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeProjectInfoSetUsageBucketOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine project      resource
@@ -93,9 +89,8 @@ public class GcloudComputeProjectInfo
         GcloudComputeProjectInfoUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeProjectInfoUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudComputeNetworksVpcAccessOperations
         GcloudComputeNetworksVpcAccessOperationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksVpcAccessOperationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list VPC Access      Service operations
@@ -51,9 +50,8 @@ public class GcloudComputeNetworksVpcAccessOperations
         GcloudComputeNetworksVpcAccessOperationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksVpcAccessOperationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -65,9 +65,8 @@ public class GcloudComposerEnvironments
         GcloudComposerEnvironmentsCheckUpgradeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsCheckUpgradeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create and initialize a Cloud      Composer environment
@@ -79,9 +78,8 @@ public class GcloudComposerEnvironments
         GcloudComposerEnvironmentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// run a database failover      operation
@@ -93,9 +91,8 @@ public class GcloudComposerEnvironments
         GcloudComposerEnvironmentsDatabaseFailoverOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsDatabaseFailoverOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete one or more Cloud Composer      environments
@@ -107,9 +104,8 @@ public class GcloudComposerEnvironments
         GcloudComposerEnvironmentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get details about a Cloud Composer      environment
@@ -121,9 +117,8 @@ public class GcloudComposerEnvironments
         GcloudComposerEnvironmentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// fetch database      properties
@@ -135,9 +130,8 @@ public class GcloudComposerEnvironments
         GcloudComposerEnvironmentsFetchDatabasePropertiesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsFetchDatabasePropertiesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the Cloud Composer environments      under a project and location
@@ -149,9 +143,8 @@ public class GcloudComposerEnvironments
         GcloudComposerEnvironmentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all PyPI modules      installed in an Airflow worker
@@ -163,9 +156,8 @@ public class GcloudComposerEnvironments
         GcloudComposerEnvironmentsListPackagesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsListPackagesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the Cloud Composer image      version upgrades for a specific environment
@@ -177,9 +169,8 @@ public class GcloudComposerEnvironments
         GcloudComposerEnvironmentsListUpgradesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsListUpgradesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Composer workloads,      supported in Composer 3 environments or greater
@@ -191,9 +182,8 @@ public class GcloudComposerEnvironments
         GcloudComposerEnvironmentsListWorkloadsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsListWorkloadsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// restart web server for a      Cloud Composer environment
@@ -205,9 +195,8 @@ public class GcloudComposerEnvironments
         GcloudComposerEnvironmentsRestartWebServerOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsRestartWebServerOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// command remotely in a      Cloud Composer environment
@@ -219,9 +208,8 @@ public class GcloudComposerEnvironments
         GcloudComposerEnvironmentsRunOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsRunOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update properties of a Cloud Composer      environment
@@ -233,9 +221,8 @@ public class GcloudComposerEnvironments
         GcloudComposerEnvironmentsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

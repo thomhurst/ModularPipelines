@@ -37,9 +37,8 @@ public class GcloudComputeForwardingRules
         GcloudComputeForwardingRulesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeForwardingRulesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete forwarding rules
@@ -51,9 +50,8 @@ public class GcloudComputeForwardingRules
         GcloudComputeForwardingRulesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeForwardingRulesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// display detailed information      about a forwarding rule
@@ -65,9 +63,8 @@ public class GcloudComputeForwardingRules
         GcloudComputeForwardingRulesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeForwardingRulesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export a forwarding rule
@@ -79,9 +76,8 @@ public class GcloudComputeForwardingRules
         GcloudComputeForwardingRulesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeForwardingRulesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import a forwarding rule
@@ -93,9 +89,8 @@ public class GcloudComputeForwardingRules
         GcloudComputeForwardingRulesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeForwardingRulesImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine      forwarding rules
@@ -107,9 +102,8 @@ public class GcloudComputeForwardingRules
         GcloudComputeForwardingRulesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeForwardingRulesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// modify a forwarding rule to      direct network traffic to a new target
@@ -121,9 +115,8 @@ public class GcloudComputeForwardingRules
         GcloudComputeForwardingRulesSetTargetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeForwardingRulesSetTargetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine forwarding      rule
@@ -135,9 +128,8 @@ public class GcloudComputeForwardingRules
         GcloudComputeForwardingRulesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeForwardingRulesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

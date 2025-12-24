@@ -37,9 +37,8 @@ public class GcloudSccFindings
         GcloudSccFindingsBulkMuteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsBulkMuteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Security Command Center finding
@@ -51,9 +50,8 @@ public class GcloudSccFindings
         GcloudSccFindingsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export Security Command Center      findings to bigquery
@@ -65,9 +63,8 @@ public class GcloudSccFindings
         GcloudSccFindingsExportToBigqueryOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsExportToBigqueryOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// filter an organization or source's findings and      groups them by their specified properties
@@ -79,9 +76,8 @@ public class GcloudSccFindings
         GcloudSccFindingsGroupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsGroupOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list a finding's security marks
@@ -93,9 +89,8 @@ public class GcloudSccFindings
         GcloudSccFindingsListMarksOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsListMarksOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list an organization or source's findings
@@ -107,9 +102,8 @@ public class GcloudSccFindings
         GcloudSccFindingsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Security Command Center finding's      mute state
@@ -121,9 +115,8 @@ public class GcloudSccFindings
         GcloudSccFindingsSetMuteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsSetMuteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update Security Command Center finding's      security marks
@@ -135,9 +128,8 @@ public class GcloudSccFindings
         GcloudSccFindingsUpdateMarksOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsUpdateMarksOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Security Command Center finding
@@ -149,9 +141,8 @@ public class GcloudSccFindings
         GcloudSccFindingsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

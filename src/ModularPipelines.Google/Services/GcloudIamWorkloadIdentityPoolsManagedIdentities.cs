@@ -47,9 +47,8 @@ public class GcloudIamWorkloadIdentityPoolsManagedIdentities
         GcloudIamWorkloadIdentityPoolsManagedIdentitiesAddAttestationRuleOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsManagedIdentitiesAddAttestationRuleOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a      workload identity pool managed identity
@@ -61,9 +60,8 @@ public class GcloudIamWorkloadIdentityPoolsManagedIdentities
         GcloudIamWorkloadIdentityPoolsManagedIdentitiesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsManagedIdentitiesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a      workload identity pool managed identity
@@ -75,9 +73,8 @@ public class GcloudIamWorkloadIdentityPoolsManagedIdentities
         GcloudIamWorkloadIdentityPoolsManagedIdentitiesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsManagedIdentitiesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a      workload identity pool managed identity
@@ -89,9 +86,8 @@ public class GcloudIamWorkloadIdentityPoolsManagedIdentities
         GcloudIamWorkloadIdentityPoolsManagedIdentitiesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsManagedIdentitiesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// identities      list-attestation-rules - list the attestation rules on a workload      identity pool managed identity
@@ -103,9 +99,8 @@ public class GcloudIamWorkloadIdentityPoolsManagedIdentities
         GcloudIamWorkloadIdentityPoolsManagedIdentitiesListAttestationRulesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsManagedIdentitiesListAttestationRulesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list workload      identity pool managed identities
@@ -117,9 +112,8 @@ public class GcloudIamWorkloadIdentityPoolsManagedIdentities
         GcloudIamWorkloadIdentityPoolsManagedIdentitiesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsManagedIdentitiesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// identities      remove-attestation-rule - remove an attestation rule on a workload      identity pool managed identity
@@ -131,9 +125,8 @@ public class GcloudIamWorkloadIdentityPoolsManagedIdentities
         GcloudIamWorkloadIdentityPoolsManagedIdentitiesRemoveAttestationRuleOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsManagedIdentitiesRemoveAttestationRuleOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// rules      - set attestation rules on a workload identity pool managed identity
@@ -145,9 +138,8 @@ public class GcloudIamWorkloadIdentityPoolsManagedIdentities
         GcloudIamWorkloadIdentityPoolsManagedIdentitiesSetAttestationRulesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsManagedIdentitiesSetAttestationRulesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// undelete a      workload identity pool managed identity
@@ -159,9 +151,8 @@ public class GcloudIamWorkloadIdentityPoolsManagedIdentities
         GcloudIamWorkloadIdentityPoolsManagedIdentitiesUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsManagedIdentitiesUndeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update      workload identity pool managed identity
@@ -173,9 +164,8 @@ public class GcloudIamWorkloadIdentityPoolsManagedIdentities
         GcloudIamWorkloadIdentityPoolsManagedIdentitiesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsManagedIdentitiesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

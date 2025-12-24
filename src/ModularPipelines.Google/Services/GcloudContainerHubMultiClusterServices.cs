@@ -37,9 +37,8 @@ public class GcloudContainerHubMultiClusterServices
         GcloudContainerHubMultiClusterServicesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMultiClusterServicesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disable the      Multi-cluster Services Feature
@@ -51,9 +50,8 @@ public class GcloudContainerHubMultiClusterServices
         GcloudContainerHubMultiClusterServicesDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMultiClusterServicesDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enable the      Multi-cluster Services Feature
@@ -65,9 +63,8 @@ public class GcloudContainerHubMultiClusterServices
         GcloudContainerHubMultiClusterServicesEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMultiClusterServicesEnableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudComputeOsLoginSshKeys
         GcloudComputeOsLoginSshKeysAddOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsLoginSshKeysAddOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an SSH Public Key from      an OS Login Profile
@@ -51,9 +50,8 @@ public class GcloudComputeOsLoginSshKeys
         GcloudComputeOsLoginSshKeysDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsLoginSshKeysDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list SSH public keys from an OS      Login profile
@@ -65,9 +63,8 @@ public class GcloudComputeOsLoginSshKeys
         GcloudComputeOsLoginSshKeysListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsLoginSshKeysListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an SSH public key from an      OS Login profile
@@ -79,9 +76,8 @@ public class GcloudComputeOsLoginSshKeys
         GcloudComputeOsLoginSshKeysRemoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsLoginSshKeysRemoveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an SSH public key in an OS      Login profile
@@ -93,9 +89,8 @@ public class GcloudComputeOsLoginSshKeys
         GcloudComputeOsLoginSshKeysUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsLoginSshKeysUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

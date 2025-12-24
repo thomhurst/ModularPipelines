@@ -37,9 +37,8 @@ public class GcloudDataflowJobs
         GcloudDataflowJobsArchiveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowJobsArchiveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// cancels all jobs that match the command line      arguments
@@ -51,9 +50,8 @@ public class GcloudDataflowJobs
         GcloudDataflowJobsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowJobsCancelOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// outputs the Job object resulting from the      Get API
@@ -65,9 +63,8 @@ public class GcloudDataflowJobs
         GcloudDataflowJobsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowJobsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// drains all jobs that match the command line      arguments
@@ -79,9 +76,8 @@ public class GcloudDataflowJobs
         GcloudDataflowJobsDrainOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowJobsDrainOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists all jobs in a particular project,      optionally filtered by region
@@ -93,9 +89,8 @@ public class GcloudDataflowJobs
         GcloudDataflowJobsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowJobsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// runs a job from the specified path
@@ -107,9 +102,8 @@ public class GcloudDataflowJobs
         GcloudDataflowJobsRunOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowJobsRunOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// shows a short description of the given job
@@ -121,9 +115,8 @@ public class GcloudDataflowJobs
         GcloudDataflowJobsShowOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowJobsShowOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// fly      for running Dataflow jobs
@@ -135,9 +128,8 @@ public class GcloudDataflowJobs
         GcloudDataflowJobsUpdateOptionsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowJobsUpdateOptionsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

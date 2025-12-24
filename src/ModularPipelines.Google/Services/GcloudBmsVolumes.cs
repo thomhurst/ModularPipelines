@@ -53,9 +53,8 @@ public class GcloudBmsVolumes
         GcloudBmsVolumesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsVolumesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Bare Metal Solution volumes in a project
@@ -67,9 +66,8 @@ public class GcloudBmsVolumes
         GcloudBmsVolumesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsVolumesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// rename a Bare Metal Solution volume
@@ -81,9 +79,8 @@ public class GcloudBmsVolumes
         GcloudBmsVolumesRenameOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsVolumesRenameOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// restore a Bare Metal Solution boot volume from      an existing snapshot
@@ -95,9 +92,8 @@ public class GcloudBmsVolumes
         GcloudBmsVolumesRestoreOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsVolumesRestoreOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a snapshot of a Bare Metal Solution      boot volume
@@ -109,9 +105,8 @@ public class GcloudBmsVolumes
         GcloudBmsVolumesSnapshotOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsVolumesSnapshotOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Bare Metal Solution volume
@@ -123,9 +118,8 @@ public class GcloudBmsVolumes
         GcloudBmsVolumesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsVolumesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

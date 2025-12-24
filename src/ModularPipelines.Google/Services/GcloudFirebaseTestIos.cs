@@ -59,9 +59,8 @@ public class GcloudFirebaseTestIos
         GcloudFirebaseTestIosListDeviceCapacitiesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestIosListDeviceCapacitiesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// invoke a test in Firebase Test Lab for iOS      and view test results
@@ -73,9 +72,8 @@ public class GcloudFirebaseTestIos
         GcloudFirebaseTestIosRunOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestIosRunOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

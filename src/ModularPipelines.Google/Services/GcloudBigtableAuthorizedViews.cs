@@ -37,9 +37,8 @@ public class GcloudBigtableAuthorizedViews
         GcloudBigtableAuthorizedViewsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableAuthorizedViewsAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a new Cloud Bigtable      authorized view
@@ -51,9 +50,8 @@ public class GcloudBigtableAuthorizedViews
         GcloudBigtableAuthorizedViewsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableAuthorizedViewsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud Bigtable      authorized view
@@ -65,9 +63,8 @@ public class GcloudBigtableAuthorizedViews
         GcloudBigtableAuthorizedViewsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableAuthorizedViewsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Cloud Bigtable      authorized view
@@ -79,9 +76,8 @@ public class GcloudBigtableAuthorizedViews
         GcloudBigtableAuthorizedViewsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableAuthorizedViewsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get an IAM policy on a      Cloud Bigtable authorized view
@@ -93,9 +89,8 @@ public class GcloudBigtableAuthorizedViews
         GcloudBigtableAuthorizedViewsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableAuthorizedViewsGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all authorized views of a      Cloud Bigtable table
@@ -107,9 +102,8 @@ public class GcloudBigtableAuthorizedViews
         GcloudBigtableAuthorizedViewsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableAuthorizedViewsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an IAM      policy binding from a Cloud Bigtable authorized view
@@ -121,9 +115,8 @@ public class GcloudBigtableAuthorizedViews
         GcloudBigtableAuthorizedViewsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableAuthorizedViewsRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set an IAM policy on a      Cloud Bigtable authorized view
@@ -135,9 +128,8 @@ public class GcloudBigtableAuthorizedViews
         GcloudBigtableAuthorizedViewsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableAuthorizedViewsSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an existing Cloud Bigtable      authorized view
@@ -149,9 +141,8 @@ public class GcloudBigtableAuthorizedViews
         GcloudBigtableAuthorizedViewsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableAuthorizedViewsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

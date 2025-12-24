@@ -37,9 +37,8 @@ public class GcloudComputeNetworkEndpointGroups
         GcloudComputeNetworkEndpointGroupsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkEndpointGroupsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Compute Engine      network endpoint group
@@ -51,9 +50,8 @@ public class GcloudComputeNetworkEndpointGroups
         GcloudComputeNetworkEndpointGroupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkEndpointGroupsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute Engine      network endpoint group
@@ -65,9 +63,8 @@ public class GcloudComputeNetworkEndpointGroups
         GcloudComputeNetworkEndpointGroupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkEndpointGroupsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      network endpoints in a network endpoint group
@@ -79,9 +76,8 @@ public class GcloudComputeNetworkEndpointGroups
         GcloudComputeNetworkEndpointGroupsListNetworkEndpointsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkEndpointGroupsListNetworkEndpointsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine      network endpoint groups
@@ -93,9 +89,8 @@ public class GcloudComputeNetworkEndpointGroups
         GcloudComputeNetworkEndpointGroupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkEndpointGroupsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine      network endpoint group
@@ -107,9 +102,8 @@ public class GcloudComputeNetworkEndpointGroups
         GcloudComputeNetworkEndpointGroupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkEndpointGroupsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -53,9 +53,8 @@ public class GcloudHealthcareFhirStores
         GcloudHealthcareFhirStoresAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Cloud Healthcare API FHIR      store
@@ -67,9 +66,8 @@ public class GcloudHealthcareFhirStores
         GcloudHealthcareFhirStoresCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// identify data from the source      store and write it to the destination store
@@ -81,9 +79,8 @@ public class GcloudHealthcareFhirStores
         GcloudHealthcareFhirStoresDeidentifyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresDeidentifyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud Healthcare API FHIR      store
@@ -95,9 +92,8 @@ public class GcloudHealthcareFhirStores
         GcloudHealthcareFhirStoresDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Cloud Healthcare API      FHIR store
@@ -109,9 +105,8 @@ public class GcloudHealthcareFhirStores
         GcloudHealthcareFhirStoresDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// retrieve the IAM policy for      a Cloud Healthcare API FHIR store
@@ -123,9 +118,8 @@ public class GcloudHealthcareFhirStores
         GcloudHealthcareFhirStoresGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud Healthcare API FHIR stores
@@ -137,9 +131,8 @@ public class GcloudHealthcareFhirStores
         GcloudHealthcareFhirStoresListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// gets the metrics for a Cloud      Healthcare API FHIR store
@@ -151,9 +144,8 @@ public class GcloudHealthcareFhirStores
         GcloudHealthcareFhirStoresMetricsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresMetricsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an IAM      policy binding from a Cloud Healthcare API FHIR store
@@ -165,9 +157,8 @@ public class GcloudHealthcareFhirStores
         GcloudHealthcareFhirStoresRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for a      Cloud Healthcare API FHIR store
@@ -179,9 +170,8 @@ public class GcloudHealthcareFhirStores
         GcloudHealthcareFhirStoresSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud Healthcare API FHIR      store
@@ -193,9 +183,8 @@ public class GcloudHealthcareFhirStores
         GcloudHealthcareFhirStoresUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

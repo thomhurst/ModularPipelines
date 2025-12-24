@@ -37,9 +37,8 @@ public class GcloudAccessContextManagerAuthorizedOrgs
         GcloudAccessContextManagerAuthorizedOrgsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerAuthorizedOrgsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an authorized      organizations description
@@ -51,9 +50,8 @@ public class GcloudAccessContextManagerAuthorizedOrgs
         GcloudAccessContextManagerAuthorizedOrgsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerAuthorizedOrgsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about      an authorized organizations description
@@ -65,9 +63,8 @@ public class GcloudAccessContextManagerAuthorizedOrgs
         GcloudAccessContextManagerAuthorizedOrgsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerAuthorizedOrgsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list authorized      organizations descriptions
@@ -79,9 +76,8 @@ public class GcloudAccessContextManagerAuthorizedOrgs
         GcloudAccessContextManagerAuthorizedOrgsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerAuthorizedOrgsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update the      organizations for an existing authorized organizations description
@@ -93,9 +89,8 @@ public class GcloudAccessContextManagerAuthorizedOrgs
         GcloudAccessContextManagerAuthorizedOrgsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerAuthorizedOrgsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

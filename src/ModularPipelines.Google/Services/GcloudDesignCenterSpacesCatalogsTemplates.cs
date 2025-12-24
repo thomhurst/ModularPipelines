@@ -47,9 +47,8 @@ public class GcloudDesignCenterSpacesCatalogsTemplates
         GcloudDesignCenterSpacesCatalogsTemplatesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsTemplatesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a catalog      template
@@ -61,9 +60,8 @@ public class GcloudDesignCenterSpacesCatalogsTemplates
         GcloudDesignCenterSpacesCatalogsTemplatesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsTemplatesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a      catalog template
@@ -75,9 +73,8 @@ public class GcloudDesignCenterSpacesCatalogsTemplates
         GcloudDesignCenterSpacesCatalogsTemplatesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsTemplatesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list catalog      templates
@@ -89,9 +86,8 @@ public class GcloudDesignCenterSpacesCatalogsTemplates
         GcloudDesignCenterSpacesCatalogsTemplatesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsTemplatesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a catalog      template
@@ -103,9 +99,8 @@ public class GcloudDesignCenterSpacesCatalogsTemplates
         GcloudDesignCenterSpacesCatalogsTemplatesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsTemplatesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

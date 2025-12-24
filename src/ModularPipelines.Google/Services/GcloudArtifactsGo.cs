@@ -37,9 +37,8 @@ public class GcloudArtifactsGo
         GcloudArtifactsGoAuthOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsGoAuthOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// upload a Go module to an artifact repository
@@ -51,9 +50,8 @@ public class GcloudArtifactsGo
         GcloudArtifactsGoUploadOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsGoUploadOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

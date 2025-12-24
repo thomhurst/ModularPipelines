@@ -37,9 +37,8 @@ public class GcloudTransferAgentPools
         GcloudTransferAgentPoolsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferAgentPoolsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Transfer Service agent pool
@@ -51,9 +50,8 @@ public class GcloudTransferAgentPools
         GcloudTransferAgentPoolsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferAgentPoolsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get details about a specific agent      pool
@@ -65,9 +63,8 @@ public class GcloudTransferAgentPools
         GcloudTransferAgentPoolsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferAgentPoolsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Transfer Service transfer agent      pools
@@ -79,9 +76,8 @@ public class GcloudTransferAgentPools
         GcloudTransferAgentPoolsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferAgentPoolsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Transfer Service agent pool
@@ -93,9 +89,8 @@ public class GcloudTransferAgentPools
         GcloudTransferAgentPoolsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferAgentPoolsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

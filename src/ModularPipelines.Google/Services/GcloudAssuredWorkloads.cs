@@ -47,9 +47,8 @@ public class GcloudAssuredWorkloads
         GcloudAssuredWorkloadsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete Assured Workloads environment
@@ -61,9 +60,8 @@ public class GcloudAssuredWorkloads
         GcloudAssuredWorkloadsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe Assured Workloads environment
@@ -75,9 +73,8 @@ public class GcloudAssuredWorkloads
         GcloudAssuredWorkloadsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enables Resource      Monitoring for an Assured Workloads environment
@@ -89,9 +86,8 @@ public class GcloudAssuredWorkloads
         GcloudAssuredWorkloadsEnableResourceMonitoringOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsEnableResourceMonitoringOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all Assured Workloads environments      that belong to a given parent organization
@@ -103,9 +99,8 @@ public class GcloudAssuredWorkloads
         GcloudAssuredWorkloadsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update Assured Workloads environments
@@ -117,9 +112,8 @@ public class GcloudAssuredWorkloads
         GcloudAssuredWorkloadsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudBackupDrBackupsRestore
         GcloudBackupDrBackupsRestoreComputeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupsRestoreComputeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// restores a Compute Disk Backup
@@ -51,9 +50,8 @@ public class GcloudBackupDrBackupsRestore
         GcloudBackupDrBackupsRestoreDiskOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupsRestoreDiskOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

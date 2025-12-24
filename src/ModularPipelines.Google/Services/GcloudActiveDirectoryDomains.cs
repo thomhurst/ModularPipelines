@@ -53,9 +53,8 @@ public class GcloudActiveDirectoryDomains
         GcloudActiveDirectoryDomainsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a managed Microsoft Active      Directory domain
@@ -67,9 +66,8 @@ public class GcloudActiveDirectoryDomains
         GcloudActiveDirectoryDomainsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe the      LDAPS settings of a Managed Microsoft AD domain
@@ -81,9 +79,8 @@ public class GcloudActiveDirectoryDomains
         GcloudActiveDirectoryDomainsDescribeLdapsSettingsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsDescribeLdapsSettingsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Managed Microsoft AD      domain
@@ -95,9 +92,8 @@ public class GcloudActiveDirectoryDomains
         GcloudActiveDirectoryDomainsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// initiate schema extension      for a Managed Microsoft AD domain
@@ -109,9 +105,8 @@ public class GcloudActiveDirectoryDomains
         GcloudActiveDirectoryDomainsExtendSchemaOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsExtendSchemaOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe the IAM policy      for a Managed Microsoft AD domain
@@ -123,9 +118,8 @@ public class GcloudActiveDirectoryDomains
         GcloudActiveDirectoryDomainsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Managed Microsoft AD domains
@@ -137,9 +131,8 @@ public class GcloudActiveDirectoryDomains
         GcloudActiveDirectoryDomainsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// reset the admin      password for a Managed Microsoft AD domain
@@ -151,9 +144,8 @@ public class GcloudActiveDirectoryDomains
         GcloudActiveDirectoryDomainsResetAdminPasswordOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsResetAdminPasswordOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// restore a domain from the      specified backup
@@ -165,9 +157,8 @@ public class GcloudActiveDirectoryDomains
         GcloudActiveDirectoryDomainsRestoreOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsRestoreOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for a      Managed Microsoft AD domain
@@ -179,9 +170,8 @@ public class GcloudActiveDirectoryDomains
         GcloudActiveDirectoryDomainsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update the LDAPS      settings for a domain
@@ -193,9 +183,8 @@ public class GcloudActiveDirectoryDomains
         GcloudActiveDirectoryDomainsUpdateLdapsSettingsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsUpdateLdapsSettingsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Managed Microsoft AD      domain
@@ -207,9 +196,8 @@ public class GcloudActiveDirectoryDomains
         GcloudActiveDirectoryDomainsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

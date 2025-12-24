@@ -95,9 +95,8 @@ public class GcloudKms
         GcloudKmsOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// decrypt an input file using an      asymmetric-encryption key version
@@ -109,9 +108,8 @@ public class GcloudKms
         GcloudKmsAsymmetricDecryptOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsAsymmetricDecryptOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// sign a user input file using an      asymmetric-signing key version
@@ -123,9 +121,8 @@ public class GcloudKms
         GcloudKmsAsymmetricSignOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsAsymmetricSignOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// decapsulate an input file using a      key-encapsulation key version
@@ -137,9 +134,8 @@ public class GcloudKms
         GcloudKmsDecapsulateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsDecapsulateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// decrypt a ciphertext file using a Cloud KMS key
@@ -151,9 +147,8 @@ public class GcloudKms
         GcloudKmsDecryptOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsDecryptOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// encrypt a plaintext file using a key
@@ -165,9 +160,8 @@ public class GcloudKms
         GcloudKmsEncryptOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsEncryptOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// sign a user input file using a MAC key version
@@ -179,9 +173,8 @@ public class GcloudKms
         GcloudKmsMacSignOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsMacSignOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// verify a user signature file using a MAC key      version
@@ -193,9 +186,8 @@ public class GcloudKms
         GcloudKmsMacVerifyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsMacVerifyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// decrypt a ciphertext file using a raw key
@@ -207,9 +199,8 @@ public class GcloudKms
         GcloudKmsRawDecryptOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsRawDecryptOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// encrypt a plaintext file using a raw key
@@ -221,9 +212,8 @@ public class GcloudKms
         GcloudKmsRawEncryptOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsRawEncryptOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

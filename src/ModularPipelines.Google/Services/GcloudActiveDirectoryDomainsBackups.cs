@@ -37,9 +37,8 @@ public class GcloudActiveDirectoryDomainsBackups
         GcloudActiveDirectoryDomainsBackupsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsBackupsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Managed Microsoft      AD domain backup
@@ -51,9 +50,8 @@ public class GcloudActiveDirectoryDomainsBackups
         GcloudActiveDirectoryDomainsBackupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsBackupsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Managed      Microsoft AD domain backup
@@ -65,9 +63,8 @@ public class GcloudActiveDirectoryDomainsBackups
         GcloudActiveDirectoryDomainsBackupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsBackupsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all Managed Microsoft      AD domain backups
@@ -79,9 +76,8 @@ public class GcloudActiveDirectoryDomainsBackups
         GcloudActiveDirectoryDomainsBackupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsBackupsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Managed Microsoft      AD domain backup
@@ -93,9 +89,8 @@ public class GcloudActiveDirectoryDomainsBackups
         GcloudActiveDirectoryDomainsBackupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsBackupsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

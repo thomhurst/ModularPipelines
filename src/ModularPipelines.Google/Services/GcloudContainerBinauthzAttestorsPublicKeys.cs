@@ -37,9 +37,8 @@ public class GcloudContainerBinauthzAttestorsPublicKeys
         GcloudContainerBinauthzAttestorsPublicKeysAddOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestorsPublicKeysAddOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove a public      key from an Attestor
@@ -51,9 +50,8 @@ public class GcloudContainerBinauthzAttestorsPublicKeys
         GcloudContainerBinauthzAttestorsPublicKeysRemoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestorsPublicKeysRemoveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a public      key on an Attestor
@@ -65,9 +63,8 @@ public class GcloudContainerBinauthzAttestorsPublicKeys
         GcloudContainerBinauthzAttestorsPublicKeysUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestorsPublicKeysUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

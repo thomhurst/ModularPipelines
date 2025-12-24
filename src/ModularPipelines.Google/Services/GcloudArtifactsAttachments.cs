@@ -37,9 +37,8 @@ public class GcloudArtifactsAttachments
         GcloudArtifactsAttachmentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsAttachmentsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an Artifact Registry      attachment
@@ -51,9 +50,8 @@ public class GcloudArtifactsAttachments
         GcloudArtifactsAttachmentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsAttachmentsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an Artifact Registry      attachment
@@ -65,9 +63,8 @@ public class GcloudArtifactsAttachments
         GcloudArtifactsAttachmentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsAttachmentsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// download an Artifact Registry      attachment from a repository
@@ -79,9 +76,8 @@ public class GcloudArtifactsAttachments
         GcloudArtifactsAttachmentsDownloadOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsAttachmentsDownloadOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Artifact Registry attachments
@@ -93,9 +89,8 @@ public class GcloudArtifactsAttachments
         GcloudArtifactsAttachmentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsAttachmentsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

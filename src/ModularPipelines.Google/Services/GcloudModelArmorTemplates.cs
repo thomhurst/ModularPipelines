@@ -37,9 +37,8 @@ public class GcloudModelArmorTemplates
         GcloudModelArmorTemplatesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudModelArmorTemplatesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete Model Armor Template
@@ -51,9 +50,8 @@ public class GcloudModelArmorTemplates
         GcloudModelArmorTemplatesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudModelArmorTemplatesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get Model Armor Template
@@ -65,9 +63,8 @@ public class GcloudModelArmorTemplates
         GcloudModelArmorTemplatesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudModelArmorTemplatesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Model Armor Templates
@@ -79,9 +76,8 @@ public class GcloudModelArmorTemplates
         GcloudModelArmorTemplatesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudModelArmorTemplatesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// sanitize Model      Response
@@ -93,9 +89,8 @@ public class GcloudModelArmorTemplates
         GcloudModelArmorTemplatesSanitizeModelResponseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudModelArmorTemplatesSanitizeModelResponseOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// sanitize User Prompt
@@ -107,9 +102,8 @@ public class GcloudModelArmorTemplates
         GcloudModelArmorTemplatesSanitizeUserPromptOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudModelArmorTemplatesSanitizeUserPromptOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update Model Armor Template
@@ -121,9 +115,8 @@ public class GcloudModelArmorTemplates
         GcloudModelArmorTemplatesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudModelArmorTemplatesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

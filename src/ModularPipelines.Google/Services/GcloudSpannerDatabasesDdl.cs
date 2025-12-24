@@ -37,9 +37,8 @@ public class GcloudSpannerDatabasesDdl
         GcloudSpannerDatabasesDdlDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesDdlDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update the DDL for a Cloud Spanner      database
@@ -51,9 +50,8 @@ public class GcloudSpannerDatabasesDdl
         GcloudSpannerDatabasesDdlUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesDdlUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

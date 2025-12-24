@@ -37,9 +37,8 @@ public class GcloudComputeExternalVpnGateways
         GcloudComputeExternalVpnGatewaysCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeExternalVpnGatewaysCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Compute Engine      external VPN gateway
@@ -51,9 +50,8 @@ public class GcloudComputeExternalVpnGateways
         GcloudComputeExternalVpnGatewaysDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeExternalVpnGatewaysDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute Engine      external VPN gateway
@@ -65,9 +63,8 @@ public class GcloudComputeExternalVpnGateways
         GcloudComputeExternalVpnGatewaysDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeExternalVpnGatewaysDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine      external VPN gateways
@@ -79,9 +76,8 @@ public class GcloudComputeExternalVpnGateways
         GcloudComputeExternalVpnGatewaysListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeExternalVpnGatewaysListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine      external VPN gateway
@@ -93,9 +89,8 @@ public class GcloudComputeExternalVpnGateways
         GcloudComputeExternalVpnGatewaysUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeExternalVpnGatewaysUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

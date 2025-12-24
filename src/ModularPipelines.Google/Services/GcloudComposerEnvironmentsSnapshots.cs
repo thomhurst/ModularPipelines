@@ -37,9 +37,8 @@ public class GcloudComposerEnvironmentsSnapshots
         GcloudComposerEnvironmentsSnapshotsLoadOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsSnapshotsLoadOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// save a snapshot of the      environment
@@ -51,9 +50,8 @@ public class GcloudComposerEnvironmentsSnapshots
         GcloudComposerEnvironmentsSnapshotsSaveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsSnapshotsSaveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

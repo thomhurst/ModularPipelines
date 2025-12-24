@@ -37,9 +37,8 @@ public class GcloudDeployJobRuns
         GcloudDeployJobRunsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployJobRunsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the job runs
@@ -51,9 +50,8 @@ public class GcloudDeployJobRuns
         GcloudDeployJobRunsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployJobRunsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// terminates a Cloud Deploy job run
@@ -65,9 +63,8 @@ public class GcloudDeployJobRuns
         GcloudDeployJobRunsTerminateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployJobRunsTerminateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

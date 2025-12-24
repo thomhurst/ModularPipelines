@@ -37,9 +37,8 @@ public class GcloudRedisClustersBackupCollections
         GcloudRedisClustersBackupCollectionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersBackupCollectionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list backup collections in      a region
@@ -51,9 +50,8 @@ public class GcloudRedisClustersBackupCollections
         GcloudRedisClustersBackupCollectionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersBackupCollectionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

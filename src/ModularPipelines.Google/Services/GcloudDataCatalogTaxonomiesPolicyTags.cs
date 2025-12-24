@@ -37,9 +37,8 @@ public class GcloudDataCatalogTaxonomiesPolicyTags
         GcloudDataCatalogTaxonomiesPolicyTagsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTaxonomiesPolicyTagsAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Policy Tag      Manager Policy tag
@@ -51,9 +50,8 @@ public class GcloudDataCatalogTaxonomiesPolicyTags
         GcloudDataCatalogTaxonomiesPolicyTagsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTaxonomiesPolicyTagsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM      policy for a Data Catalog Policy Tag
@@ -65,9 +63,8 @@ public class GcloudDataCatalogTaxonomiesPolicyTags
         GcloudDataCatalogTaxonomiesPolicyTagsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTaxonomiesPolicyTagsGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud Policy Tag      Manager policy tags
@@ -79,9 +76,8 @@ public class GcloudDataCatalogTaxonomiesPolicyTags
         GcloudDataCatalogTaxonomiesPolicyTagsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTaxonomiesPolicyTagsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an IAM policy binding from a Data Catalog policy tag
@@ -93,9 +89,8 @@ public class GcloudDataCatalogTaxonomiesPolicyTags
         GcloudDataCatalogTaxonomiesPolicyTagsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTaxonomiesPolicyTagsRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM      policy for a Data Catalog Policy Tag
@@ -107,9 +102,8 @@ public class GcloudDataCatalogTaxonomiesPolicyTags
         GcloudDataCatalogTaxonomiesPolicyTagsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTaxonomiesPolicyTagsSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

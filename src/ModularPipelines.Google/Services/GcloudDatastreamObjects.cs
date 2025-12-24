@@ -37,9 +37,8 @@ public class GcloudDatastreamObjects
         GcloudDatastreamObjectsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamObjectsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list a Datastream stream objects
@@ -51,9 +50,8 @@ public class GcloudDatastreamObjects
         GcloudDatastreamObjectsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamObjectsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lookup a Datastream stream object
@@ -65,9 +63,8 @@ public class GcloudDatastreamObjects
         GcloudDatastreamObjectsLookupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamObjectsLookupOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// start a backfill job for a      Stream object
@@ -79,9 +76,8 @@ public class GcloudDatastreamObjects
         GcloudDatastreamObjectsStartBackfillOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamObjectsStartBackfillOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// stop a backfill job for a Stream      object
@@ -93,9 +89,8 @@ public class GcloudDatastreamObjects
         GcloudDatastreamObjectsStopBackfillOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamObjectsStopBackfillOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

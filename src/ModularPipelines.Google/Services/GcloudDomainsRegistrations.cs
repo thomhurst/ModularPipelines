@@ -65,9 +65,8 @@ public class GcloudDomainsRegistrations
         GcloudDomainsRegistrationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an existing Cloud Domains      registration
@@ -79,9 +78,8 @@ public class GcloudDomainsRegistrations
         GcloudDomainsRegistrationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get register      parameters (including availability) of a specific domain
@@ -93,9 +91,8 @@ public class GcloudDomainsRegistrations
         GcloudDomainsRegistrationsGetRegisterParametersOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsGetRegisterParametersOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// initiates the push      transfer process
@@ -107,9 +104,8 @@ public class GcloudDomainsRegistrations
         GcloudDomainsRegistrationsInitiatePushTransferOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsInitiatePushTransferOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud Domains registrations
@@ -121,9 +117,8 @@ public class GcloudDomainsRegistrations
         GcloudDomainsRegistrationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// register a new domain
@@ -135,9 +130,8 @@ public class GcloudDomainsRegistrations
         GcloudDomainsRegistrationsRegisterOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsRegisterOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// renew a recently expired Cloud      Domains registration
@@ -149,9 +143,8 @@ public class GcloudDomainsRegistrations
         GcloudDomainsRegistrationsRenewDomainOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsRenewDomainOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// search for available domains
@@ -163,9 +156,8 @@ public class GcloudDomainsRegistrations
         GcloudDomainsRegistrationsSearchDomainsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsSearchDomainsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud Domains registration
@@ -177,9 +169,8 @@ public class GcloudDomainsRegistrations
         GcloudDomainsRegistrationsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudSccCustomModulesSha
         GcloudSccCustomModulesShaCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccCustomModulesShaCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Security Health Analytics      custom module
@@ -51,9 +50,8 @@ public class GcloudSccCustomModulesSha
         GcloudSccCustomModulesShaDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccCustomModulesShaDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the details of a Security      Health Analytics custom module with effective enablement state
@@ -65,9 +63,8 @@ public class GcloudSccCustomModulesSha
         GcloudSccCustomModulesShaGetEffectiveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccCustomModulesShaGetEffectiveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the details of a Security Health      Analytics custom module
@@ -79,9 +76,8 @@ public class GcloudSccCustomModulesSha
         GcloudSccCustomModulesShaGetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccCustomModulesShaGetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the details of the      resident and descendant Security Health Analytics custom modules
@@ -93,9 +89,8 @@ public class GcloudSccCustomModulesSha
         GcloudSccCustomModulesShaListDescendantOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccCustomModulesShaListDescendantOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the details of Security      Health Analytics custom modules with effective enablement states
@@ -107,9 +102,8 @@ public class GcloudSccCustomModulesSha
         GcloudSccCustomModulesShaListEffectiveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccCustomModulesShaListEffectiveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the details of Security Health      Analytics custom modules
@@ -121,9 +115,8 @@ public class GcloudSccCustomModulesSha
         GcloudSccCustomModulesShaListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccCustomModulesShaListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// validates a Security Health      Analytics custom module
@@ -135,9 +128,8 @@ public class GcloudSccCustomModulesSha
         GcloudSccCustomModulesShaSimulateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccCustomModulesShaSimulateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Security Health Analytics      custom module
@@ -149,9 +141,8 @@ public class GcloudSccCustomModulesSha
         GcloudSccCustomModulesShaUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccCustomModulesShaUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

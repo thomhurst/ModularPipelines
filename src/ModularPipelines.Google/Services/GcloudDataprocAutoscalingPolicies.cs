@@ -37,9 +37,8 @@ public class GcloudDataprocAutoscalingPolicies
         GcloudDataprocAutoscalingPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocAutoscalingPoliciesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an autoscaling      policy
@@ -51,9 +50,8 @@ public class GcloudDataprocAutoscalingPolicies
         GcloudDataprocAutoscalingPoliciesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocAutoscalingPoliciesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export an autoscaling policy
@@ -65,9 +63,8 @@ public class GcloudDataprocAutoscalingPolicies
         GcloudDataprocAutoscalingPoliciesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocAutoscalingPoliciesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get IAM policy for an      autoscaling policy
@@ -79,9 +76,8 @@ public class GcloudDataprocAutoscalingPolicies
         GcloudDataprocAutoscalingPoliciesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocAutoscalingPoliciesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import an autoscaling policy
@@ -93,9 +89,8 @@ public class GcloudDataprocAutoscalingPolicies
         GcloudDataprocAutoscalingPoliciesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocAutoscalingPoliciesImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list autoscaling policies
@@ -107,9 +102,8 @@ public class GcloudDataprocAutoscalingPolicies
         GcloudDataprocAutoscalingPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocAutoscalingPoliciesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set IAM policy for an      autoscaling policy
@@ -121,9 +115,8 @@ public class GcloudDataprocAutoscalingPolicies
         GcloudDataprocAutoscalingPoliciesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocAutoscalingPoliciesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

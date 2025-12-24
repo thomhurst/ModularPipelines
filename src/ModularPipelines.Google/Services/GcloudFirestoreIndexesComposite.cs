@@ -37,9 +37,8 @@ public class GcloudFirestoreIndexesComposite
         GcloudFirestoreIndexesCompositeCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreIndexesCompositeCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete the given composite      index
@@ -51,9 +50,8 @@ public class GcloudFirestoreIndexesComposite
         GcloudFirestoreIndexesCompositeDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreIndexesCompositeDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe the given composite      index
@@ -65,9 +63,8 @@ public class GcloudFirestoreIndexesComposite
         GcloudFirestoreIndexesCompositeDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreIndexesCompositeDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list composite indexes
@@ -79,9 +76,8 @@ public class GcloudFirestoreIndexesComposite
         GcloudFirestoreIndexesCompositeListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreIndexesCompositeListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -47,9 +47,8 @@ public class GcloudDesignCenterSpacesApplicationTemplatesComponents
         GcloudDesignCenterSpacesApplicationTemplatesComponentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a component
@@ -61,9 +60,8 @@ public class GcloudDesignCenterSpacesApplicationTemplatesComponents
         GcloudDesignCenterSpacesApplicationTemplatesComponentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a component
@@ -75,9 +73,8 @@ public class GcloudDesignCenterSpacesApplicationTemplatesComponents
         GcloudDesignCenterSpacesApplicationTemplatesComponentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      components
@@ -89,9 +86,8 @@ public class GcloudDesignCenterSpacesApplicationTemplatesComponents
         GcloudDesignCenterSpacesApplicationTemplatesComponentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a component
@@ -103,9 +99,8 @@ public class GcloudDesignCenterSpacesApplicationTemplatesComponents
         GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

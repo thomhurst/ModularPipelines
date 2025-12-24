@@ -37,9 +37,8 @@ public class GcloudRecaptchaKeys
         GcloudRecaptchaKeysAddIpOverrideOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysAddIpOverrideOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Key
@@ -51,9 +50,8 @@ public class GcloudRecaptchaKeys
         GcloudRecaptchaKeysCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete one or more reCAPTCHA Keys
@@ -65,9 +63,8 @@ public class GcloudRecaptchaKeys
         GcloudRecaptchaKeysDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe reCAPTCHA Key
@@ -79,9 +76,8 @@ public class GcloudRecaptchaKeys
         GcloudRecaptchaKeysDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list IP overrides for a key
@@ -93,9 +89,8 @@ public class GcloudRecaptchaKeys
         GcloudRecaptchaKeysListIpOverridesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysListIpOverridesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list reCAPTCHA Keys
@@ -107,9 +102,8 @@ public class GcloudRecaptchaKeys
         GcloudRecaptchaKeysListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// migrate a key to reCAPTCHA Enterprise
@@ -121,9 +115,8 @@ public class GcloudRecaptchaKeys
         GcloudRecaptchaKeysMigrateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysMigrateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an IP override from a key
@@ -135,9 +128,8 @@ public class GcloudRecaptchaKeys
         GcloudRecaptchaKeysRemoveIpOverrideOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysRemoveIpOverrideOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Key
@@ -149,9 +141,8 @@ public class GcloudRecaptchaKeys
         GcloudRecaptchaKeysUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

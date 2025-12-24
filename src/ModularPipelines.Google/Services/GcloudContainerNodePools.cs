@@ -37,9 +37,8 @@ public class GcloudContainerNodePools
         GcloudContainerNodePoolsCompleteUpgradeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerNodePoolsCompleteUpgradeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a node pool in a running      cluster
@@ -51,9 +50,8 @@ public class GcloudContainerNodePools
         GcloudContainerNodePoolsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerNodePoolsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an existing node pool in a      running cluster
@@ -65,9 +63,8 @@ public class GcloudContainerNodePools
         GcloudContainerNodePoolsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerNodePoolsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an existing node pool for a      cluster
@@ -79,9 +76,8 @@ public class GcloudContainerNodePools
         GcloudContainerNodePoolsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerNodePoolsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get upgrade information for      an existing node pool for a cluster
@@ -93,9 +89,8 @@ public class GcloudContainerNodePools
         GcloudContainerNodePoolsGetUpgradeInfoOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerNodePoolsGetUpgradeInfoOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list existing node pools for a cluster
@@ -107,9 +102,8 @@ public class GcloudContainerNodePools
         GcloudContainerNodePoolsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerNodePoolsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// pool upgrade
@@ -121,9 +115,8 @@ public class GcloudContainerNodePools
         GcloudContainerNodePoolsRollbackOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerNodePoolsRollbackOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates a node pool in a running      cluster
@@ -135,9 +128,8 @@ public class GcloudContainerNodePools
         GcloudContainerNodePoolsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerNodePoolsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

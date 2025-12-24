@@ -37,9 +37,8 @@ public class GcloudAuthEnterpriseCertificateConfigCreate
         GcloudAuthEnterpriseCertificateConfigCreateLinuxOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthEnterpriseCertificateConfigCreateLinuxOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create an      enterprise-certificate configuration file for MacOS
@@ -51,9 +50,8 @@ public class GcloudAuthEnterpriseCertificateConfigCreate
         GcloudAuthEnterpriseCertificateConfigCreateMacosOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthEnterpriseCertificateConfigCreateMacosOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create an      enterprise-certificate configuration file for Windows
@@ -65,9 +63,8 @@ public class GcloudAuthEnterpriseCertificateConfigCreate
         GcloudAuthEnterpriseCertificateConfigCreateWindowsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthEnterpriseCertificateConfigCreateWindowsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

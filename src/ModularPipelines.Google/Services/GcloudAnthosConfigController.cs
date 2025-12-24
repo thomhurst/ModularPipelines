@@ -37,9 +37,8 @@ public class GcloudAnthosConfigController
         GcloudAnthosConfigControllerCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAnthosConfigControllerCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete Anthos Config Controller      instances
@@ -51,9 +50,8 @@ public class GcloudAnthosConfigController
         GcloudAnthosConfigControllerDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAnthosConfigControllerDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe Anthos Config      Controller instances
@@ -65,9 +63,8 @@ public class GcloudAnthosConfigController
         GcloudAnthosConfigControllerDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAnthosConfigControllerDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// fetch      default Config Connector identity
@@ -79,9 +76,8 @@ public class GcloudAnthosConfigController
         GcloudAnthosConfigControllerGetConfigConnectorIdentityOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAnthosConfigControllerGetConfigConnectorIdentityOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// fetch credentials for a      running Anthos Config Controller
@@ -93,9 +89,8 @@ public class GcloudAnthosConfigController
         GcloudAnthosConfigControllerGetCredentialsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAnthosConfigControllerGetCredentialsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Anthos Config Controller      instances
@@ -107,9 +102,8 @@ public class GcloudAnthosConfigController
         GcloudAnthosConfigControllerListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAnthosConfigControllerListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

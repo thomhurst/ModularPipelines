@@ -37,9 +37,8 @@ public class GcloudBackupDrManagementServers
         GcloudBackupDrManagementServersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrManagementServersCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete the specified      Management Server
@@ -51,9 +50,8 @@ public class GcloudBackupDrManagementServers
         GcloudBackupDrManagementServersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrManagementServersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details of the      management server
@@ -65,9 +63,8 @@ public class GcloudBackupDrManagementServers
         GcloudBackupDrManagementServersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrManagementServersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list management servers in the      project
@@ -79,9 +76,8 @@ public class GcloudBackupDrManagementServers
         GcloudBackupDrManagementServersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrManagementServersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

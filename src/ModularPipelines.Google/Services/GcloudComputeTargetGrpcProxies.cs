@@ -37,9 +37,8 @@ public class GcloudComputeTargetGrpcProxies
         GcloudComputeTargetGrpcProxiesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetGrpcProxiesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete one or more target gRPC      proxy
@@ -51,9 +50,8 @@ public class GcloudComputeTargetGrpcProxies
         GcloudComputeTargetGrpcProxiesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetGrpcProxiesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// display detailed information      about a target gRPC proxy
@@ -65,9 +63,8 @@ public class GcloudComputeTargetGrpcProxies
         GcloudComputeTargetGrpcProxiesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetGrpcProxiesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine target      gRPC proxies
@@ -79,9 +76,8 @@ public class GcloudComputeTargetGrpcProxies
         GcloudComputeTargetGrpcProxiesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetGrpcProxiesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

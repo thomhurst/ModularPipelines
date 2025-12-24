@@ -37,9 +37,8 @@ public class GcloudContainerFleetRbacrolebindingactuation
         GcloudContainerFleetRbacrolebindingactuationDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetRbacrolebindingactuationDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update      RbacRoleBinding Actuation Feature
@@ -51,9 +50,8 @@ public class GcloudContainerFleetRbacrolebindingactuation
         GcloudContainerFleetRbacrolebindingactuationUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetRbacrolebindingactuationUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

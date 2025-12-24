@@ -37,9 +37,8 @@ public class GcloudParametermanagerParametersVersions
         GcloudParametermanagerParametersVersionsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerParametersVersionsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a single      Parameter Manager parameter version
@@ -51,9 +50,8 @@ public class GcloudParametermanagerParametersVersions
         GcloudParametermanagerParametersVersionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerParametersVersionsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// gets a single      Parameter Manager parameter version
@@ -65,9 +63,8 @@ public class GcloudParametermanagerParametersVersions
         GcloudParametermanagerParametersVersionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerParametersVersionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Parameter Manager      parameter versions
@@ -79,9 +76,8 @@ public class GcloudParametermanagerParametersVersions
         GcloudParametermanagerParametersVersionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerParametersVersionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// gets a single      Parameter Manager parameter version render
@@ -93,9 +89,8 @@ public class GcloudParametermanagerParametersVersions
         GcloudParametermanagerParametersVersionsRenderOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerParametersVersionsRenderOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates the properties      of a single Parameter Manager parameter version
@@ -107,9 +102,8 @@ public class GcloudParametermanagerParametersVersions
         GcloudParametermanagerParametersVersionsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerParametersVersionsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudMonitoringUptime
         GcloudMonitoringUptimeCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringUptimeCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an uptime check or synthetic      monitor
@@ -51,9 +50,8 @@ public class GcloudMonitoringUptime
         GcloudMonitoringUptimeDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringUptimeDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an uptime check or synthetic      monitor
@@ -65,9 +63,8 @@ public class GcloudMonitoringUptime
         GcloudMonitoringUptimeDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringUptimeDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list uptime checks and synthetic      monitors
@@ -79,9 +76,8 @@ public class GcloudMonitoringUptime
         GcloudMonitoringUptimeListConfigsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringUptimeListConfigsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list uptime check server ips
@@ -93,9 +89,8 @@ public class GcloudMonitoringUptime
         GcloudMonitoringUptimeListIpsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringUptimeListIpsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an existing uptime check or      synthetic monitor
@@ -107,9 +102,8 @@ public class GcloudMonitoringUptime
         GcloudMonitoringUptimeUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringUptimeUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -47,9 +47,8 @@ public class GcloudVmwareNetworkPolicies
         GcloudVmwareNetworkPoliciesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPoliciesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a VMware Engine network      policy
@@ -61,9 +60,8 @@ public class GcloudVmwareNetworkPolicies
         GcloudVmwareNetworkPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPoliciesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a VMware Engine network      policy
@@ -75,9 +73,8 @@ public class GcloudVmwareNetworkPolicies
         GcloudVmwareNetworkPoliciesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPoliciesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list VMware Engine network policies
@@ -89,9 +86,8 @@ public class GcloudVmwareNetworkPolicies
         GcloudVmwareNetworkPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPoliciesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a VMware Engine network      policy
@@ -103,9 +99,8 @@ public class GcloudVmwareNetworkPolicies
         GcloudVmwareNetworkPoliciesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPoliciesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

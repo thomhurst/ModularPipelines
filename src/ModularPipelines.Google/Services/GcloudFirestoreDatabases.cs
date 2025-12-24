@@ -37,9 +37,8 @@ public class GcloudFirestoreDatabases
         GcloudFirestoreDatabasesCloneOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesCloneOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// prints the mongo connection      string for the given Firestore database
@@ -51,9 +50,8 @@ public class GcloudFirestoreDatabases
         GcloudFirestoreDatabasesConnectionStringOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesConnectionStringOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Google Cloud Firestore      database via Firestore API
@@ -65,9 +63,8 @@ public class GcloudFirestoreDatabases
         GcloudFirestoreDatabasesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Google Cloud Firestore      database
@@ -79,9 +76,8 @@ public class GcloudFirestoreDatabases
         GcloudFirestoreDatabasesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describes information about a Cloud      Firestore database
@@ -93,9 +89,8 @@ public class GcloudFirestoreDatabases
         GcloudFirestoreDatabasesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists all Firestore databases under the      project
@@ -107,9 +102,8 @@ public class GcloudFirestoreDatabases
         GcloudFirestoreDatabasesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// times the connection and ping time for a      Firestore with MongoDB compatibility database
@@ -121,9 +115,8 @@ public class GcloudFirestoreDatabases
         GcloudFirestoreDatabasesPingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesPingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// restores a Cloud Firestore database      from a backup
@@ -135,9 +128,8 @@ public class GcloudFirestoreDatabases
         GcloudFirestoreDatabasesRestoreOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesRestoreOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update the database configuration of a      Cloud Firestore database
@@ -149,9 +141,8 @@ public class GcloudFirestoreDatabases
         GcloudFirestoreDatabasesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

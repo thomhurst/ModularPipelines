@@ -37,9 +37,8 @@ public class GcloudEdgeCacheOrigins
         GcloudEdgeCacheOriginsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheOriginsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an EdgeCacheOrigin resource
@@ -51,9 +50,8 @@ public class GcloudEdgeCacheOrigins
         GcloudEdgeCacheOriginsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheOriginsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about an EdgeCacheOrigin      resource
@@ -65,9 +63,8 @@ public class GcloudEdgeCacheOrigins
         GcloudEdgeCacheOriginsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheOriginsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export an EdgeCacheOrigin resource
@@ -79,9 +76,8 @@ public class GcloudEdgeCacheOrigins
         GcloudEdgeCacheOriginsExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheOriginsExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import an EdgeCacheOrigin resource
@@ -93,9 +89,8 @@ public class GcloudEdgeCacheOrigins
         GcloudEdgeCacheOriginsImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheOriginsImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all EdgeCacheOrigin resources in a      project
@@ -107,9 +102,8 @@ public class GcloudEdgeCacheOrigins
         GcloudEdgeCacheOriginsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheOriginsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an EdgeCacheOrigin resource
@@ -121,9 +115,8 @@ public class GcloudEdgeCacheOrigins
         GcloudEdgeCacheOriginsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheOriginsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

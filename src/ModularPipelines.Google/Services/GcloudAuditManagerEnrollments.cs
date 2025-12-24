@@ -37,9 +37,8 @@ public class GcloudAuditManagerEnrollments
         GcloudAuditManagerEnrollmentsAddOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuditManagerEnrollmentsAddOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

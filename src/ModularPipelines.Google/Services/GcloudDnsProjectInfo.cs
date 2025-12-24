@@ -37,9 +37,8 @@ public class GcloudDnsProjectInfo
         GcloudDnsProjectInfoDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsProjectInfoDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

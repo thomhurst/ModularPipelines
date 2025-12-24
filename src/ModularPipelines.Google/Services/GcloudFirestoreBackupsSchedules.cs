@@ -37,9 +37,8 @@ public class GcloudFirestoreBackupsSchedules
         GcloudFirestoreBackupsSchedulesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreBackupsSchedulesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a Cloud Firestore      backup schedule
@@ -51,9 +50,8 @@ public class GcloudFirestoreBackupsSchedules
         GcloudFirestoreBackupsSchedulesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreBackupsSchedulesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describes a Cloud Firestore      backup schedule
@@ -65,9 +63,8 @@ public class GcloudFirestoreBackupsSchedules
         GcloudFirestoreBackupsSchedulesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreBackupsSchedulesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists backup schedules under a      Cloud Firestore database
@@ -79,9 +76,8 @@ public class GcloudFirestoreBackupsSchedules
         GcloudFirestoreBackupsSchedulesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreBackupsSchedulesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates a Cloud Firestore      backup schedule
@@ -93,9 +89,8 @@ public class GcloudFirestoreBackupsSchedules
         GcloudFirestoreBackupsSchedulesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreBackupsSchedulesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

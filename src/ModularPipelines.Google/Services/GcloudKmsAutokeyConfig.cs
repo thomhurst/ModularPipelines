@@ -37,9 +37,8 @@ public class GcloudKmsAutokeyConfig
         GcloudKmsAutokeyConfigDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsAutokeyConfigDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// gets the effective Cloud      KMS AutokeyConfig for a given project
@@ -51,9 +50,8 @@ public class GcloudKmsAutokeyConfig
         GcloudKmsAutokeyConfigShowEffectiveConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsAutokeyConfigShowEffectiveConfigOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates the AutokeyConfig for a folder
@@ -65,9 +63,8 @@ public class GcloudKmsAutokeyConfig
         GcloudKmsAutokeyConfigUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsAutokeyConfigUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

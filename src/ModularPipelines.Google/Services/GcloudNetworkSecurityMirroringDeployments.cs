@@ -37,9 +37,8 @@ public class GcloudNetworkSecurityMirroringDeployments
         GcloudNetworkSecurityMirroringDeploymentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityMirroringDeploymentsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Mirroring      Deployment
@@ -51,9 +50,8 @@ public class GcloudNetworkSecurityMirroringDeployments
         GcloudNetworkSecurityMirroringDeploymentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityMirroringDeploymentsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a      Mirroring Deployment
@@ -65,9 +63,8 @@ public class GcloudNetworkSecurityMirroringDeployments
         GcloudNetworkSecurityMirroringDeploymentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityMirroringDeploymentsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Mirroring      Deployments
@@ -79,9 +76,8 @@ public class GcloudNetworkSecurityMirroringDeployments
         GcloudNetworkSecurityMirroringDeploymentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityMirroringDeploymentsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Mirroring      Deployment
@@ -93,9 +89,8 @@ public class GcloudNetworkSecurityMirroringDeployments
         GcloudNetworkSecurityMirroringDeploymentsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityMirroringDeploymentsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

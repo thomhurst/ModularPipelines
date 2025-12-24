@@ -37,9 +37,8 @@ public class GcloudKmsInventory
         GcloudKmsInventoryGetProtectedResourcesSummaryOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsInventoryGetProtectedResourcesSummaryOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists the keys in a project
@@ -51,9 +50,8 @@ public class GcloudKmsInventory
         GcloudKmsInventoryListKeysOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsInventoryListKeysOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// searches the resources      protected by a key
@@ -65,9 +63,8 @@ public class GcloudKmsInventory
         GcloudKmsInventorySearchProtectedResourcesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsInventorySearchProtectedResourcesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

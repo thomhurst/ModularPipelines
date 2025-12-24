@@ -37,9 +37,8 @@ public class GcloudResourceManagerTagsKeys
         GcloudResourceManagerTagsKeysAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsKeysAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// creates a TagKey resource under      the specified tag parent
@@ -51,9 +50,8 @@ public class GcloudResourceManagerTagsKeys
         GcloudResourceManagerTagsKeysCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsKeysCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes the specified TagKey      resource
@@ -65,9 +63,8 @@ public class GcloudResourceManagerTagsKeys
         GcloudResourceManagerTagsKeysDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsKeysDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describes a TagKey resource
@@ -79,9 +76,8 @@ public class GcloudResourceManagerTagsKeys
         GcloudResourceManagerTagsKeysDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsKeysDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// gets the IAM policy for      a TagKey resource
@@ -93,9 +89,8 @@ public class GcloudResourceManagerTagsKeys
         GcloudResourceManagerTagsKeysGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsKeysGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists TagKeys under the specified      parent resource
@@ -107,9 +102,8 @@ public class GcloudResourceManagerTagsKeys
         GcloudResourceManagerTagsKeysListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsKeysListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// removes a      policy binding from the IAM policy of a TagKey
@@ -121,9 +115,8 @@ public class GcloudResourceManagerTagsKeys
         GcloudResourceManagerTagsKeysRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsKeysRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// sets IAM policy for a      TagKey resource
@@ -135,9 +128,8 @@ public class GcloudResourceManagerTagsKeys
         GcloudResourceManagerTagsKeysSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsKeysSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates the specified TagKey      resource's description
@@ -149,9 +141,8 @@ public class GcloudResourceManagerTagsKeys
         GcloudResourceManagerTagsKeysUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsKeysUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

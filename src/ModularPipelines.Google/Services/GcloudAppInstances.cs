@@ -37,9 +37,8 @@ public class GcloudAppInstances
         GcloudAppInstancesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppInstancesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// display all data about an existing instance
@@ -51,9 +50,8 @@ public class GcloudAppInstances
         GcloudAppInstancesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppInstancesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disable debug mode for an instance
@@ -65,9 +63,8 @@ public class GcloudAppInstances
         GcloudAppInstancesDisableDebugOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppInstancesDisableDebugOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enable debug mode for an instance      (only works on the flexible environment)
@@ -79,9 +76,8 @@ public class GcloudAppInstances
         GcloudAppInstancesEnableDebugOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppInstancesEnableDebugOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the instances affiliated with the current      App Engine project
@@ -93,9 +89,8 @@ public class GcloudAppInstances
         GcloudAppInstancesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppInstancesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// SCP from or to the VM of an App Engine Flexible      instance
@@ -107,9 +102,8 @@ public class GcloudAppInstances
         GcloudAppInstancesScpOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppInstancesScpOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// SSH into the VM of an App Engine Flexible      instance
@@ -121,9 +115,8 @@ public class GcloudAppInstances
         GcloudAppInstancesSshOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppInstancesSshOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

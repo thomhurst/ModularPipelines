@@ -37,9 +37,8 @@ public class GcloudSchedulerCmekConfig
         GcloudSchedulerCmekConfigDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerCmekConfigDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update CMEK configuration for Cloud      Scheduler in the specified location
@@ -51,9 +50,8 @@ public class GcloudSchedulerCmekConfig
         GcloudSchedulerCmekConfigUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerCmekConfigUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

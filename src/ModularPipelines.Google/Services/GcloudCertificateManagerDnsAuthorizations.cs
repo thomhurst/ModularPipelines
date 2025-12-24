@@ -37,9 +37,8 @@ public class GcloudCertificateManagerDnsAuthorizations
         GcloudCertificateManagerDnsAuthorizationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerDnsAuthorizationsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a DNS      Authorization
@@ -51,9 +50,8 @@ public class GcloudCertificateManagerDnsAuthorizations
         GcloudCertificateManagerDnsAuthorizationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerDnsAuthorizationsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about      a DNS Authorization
@@ -65,9 +63,8 @@ public class GcloudCertificateManagerDnsAuthorizations
         GcloudCertificateManagerDnsAuthorizationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerDnsAuthorizationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all DNS      Authorizations in a project
@@ -79,9 +76,8 @@ public class GcloudCertificateManagerDnsAuthorizations
         GcloudCertificateManagerDnsAuthorizationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerDnsAuthorizationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a DNS      Authorization
@@ -93,9 +89,8 @@ public class GcloudCertificateManagerDnsAuthorizations
         GcloudCertificateManagerDnsAuthorizationsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerDnsAuthorizationsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

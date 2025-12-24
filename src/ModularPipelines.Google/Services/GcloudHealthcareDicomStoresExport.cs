@@ -37,9 +37,8 @@ public class GcloudHealthcareDicomStoresExport
         GcloudHealthcareDicomStoresExportBqOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresExportBqOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export a Cloud Healthcare API      DICOM store to Google Cloud Storage
@@ -51,9 +50,8 @@ public class GcloudHealthcareDicomStoresExport
         GcloudHealthcareDicomStoresExportGcsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresExportGcsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

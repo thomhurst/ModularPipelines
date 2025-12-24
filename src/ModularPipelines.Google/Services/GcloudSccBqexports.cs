@@ -37,9 +37,8 @@ public class GcloudSccBqexports
         GcloudSccBqexportsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccBqexportsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Security Command Center BigQuery      export
@@ -51,9 +50,8 @@ public class GcloudSccBqexports
         GcloudSccBqexportsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccBqexportsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get a Security Command Center BigQuery export
@@ -65,9 +63,8 @@ public class GcloudSccBqexports
         GcloudSccBqexportsGetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccBqexportsGetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Security Command Center BigQuery exports
@@ -79,9 +76,8 @@ public class GcloudSccBqexports
         GcloudSccBqexportsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccBqexportsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Security Command Center BigQuery      export
@@ -93,9 +89,8 @@ public class GcloudSccBqexports
         GcloudSccBqexportsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccBqexportsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudComputeInterconnectsApplicationAwareness
         GcloudComputeInterconnectsApplicationAwarenessConfigureBandwidthPercentagePolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsApplicationAwarenessConfigureBandwidthPercentagePolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// awareness      configure-shaper-average-percentage - configure shaper average      percentage for application awareness configuration of a Compute Engine      interconnect
@@ -51,9 +50,8 @@ public class GcloudComputeInterconnectsApplicationAwareness
         GcloudComputeInterconnectsApplicationAwarenessConfigureShaperAveragePercentageOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsApplicationAwarenessConfigureShaperAveragePercentageOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// awareness      configure-strict-priority-policy - configure strict priority policy for      application awareness configuration of a Compute Engine interconnect
@@ -65,9 +63,8 @@ public class GcloudComputeInterconnectsApplicationAwareness
         GcloudComputeInterconnectsApplicationAwarenessConfigureStrictPriorityPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsApplicationAwarenessConfigureStrictPriorityPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete      application awareness configuration of a Compute Engine interconnect
@@ -79,9 +76,8 @@ public class GcloudComputeInterconnectsApplicationAwareness
         GcloudComputeInterconnectsApplicationAwarenessDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsApplicationAwarenessDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get      application awareness configuration of a Compute Engine interconnect
@@ -93,9 +89,8 @@ public class GcloudComputeInterconnectsApplicationAwareness
         GcloudComputeInterconnectsApplicationAwarenessGetConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsApplicationAwarenessGetConfigOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates      application awareness configuration of a Compute Engine interconnect
@@ -107,9 +102,8 @@ public class GcloudComputeInterconnectsApplicationAwareness
         GcloudComputeInterconnectsApplicationAwarenessUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsApplicationAwarenessUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

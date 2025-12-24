@@ -37,9 +37,8 @@ public class GcloudStorageBatchOperationsJobs
         GcloudStorageBatchOperationsJobsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBatchOperationsJobsCancelOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a new batch operation      job
@@ -51,9 +50,8 @@ public class GcloudStorageBatchOperationsJobs
         GcloudStorageBatchOperationsJobsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBatchOperationsJobsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// operations job
@@ -65,9 +63,8 @@ public class GcloudStorageBatchOperationsJobs
         GcloudStorageBatchOperationsJobsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBatchOperationsJobsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// operations      job
@@ -79,9 +76,8 @@ public class GcloudStorageBatchOperationsJobs
         GcloudStorageBatchOperationsJobsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBatchOperationsJobsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// operations jobs
@@ -93,9 +89,8 @@ public class GcloudStorageBatchOperationsJobs
         GcloudStorageBatchOperationsJobsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBatchOperationsJobsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudFirestoreIndexesFields
         GcloudFirestoreIndexesFieldsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreIndexesFieldsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// default index      settings
@@ -51,9 +50,8 @@ public class GcloudFirestoreIndexesFields
         GcloudFirestoreIndexesFieldsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreIndexesFieldsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update the index configuration of      the given field
@@ -65,9 +63,8 @@ public class GcloudFirestoreIndexesFields
         GcloudFirestoreIndexesFieldsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreIndexesFieldsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

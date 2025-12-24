@@ -37,9 +37,8 @@ public class GcloudDnsResponsePoliciesRules
         GcloudDnsResponsePoliciesRulesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsResponsePoliciesRulesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a Cloud DNS response      policy rule
@@ -51,9 +50,8 @@ public class GcloudDnsResponsePoliciesRules
         GcloudDnsResponsePoliciesRulesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsResponsePoliciesRulesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// shows details about a Cloud      DNS response policy rule
@@ -65,9 +63,8 @@ public class GcloudDnsResponsePoliciesRules
         GcloudDnsResponsePoliciesRulesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsResponsePoliciesRulesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// displays the list of all a Cloud      DNS response policy rules
@@ -79,9 +76,8 @@ public class GcloudDnsResponsePoliciesRules
         GcloudDnsResponsePoliciesRulesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsResponsePoliciesRulesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates a new Cloud DNS      response policy rule
@@ -93,9 +89,8 @@ public class GcloudDnsResponsePoliciesRules
         GcloudDnsResponsePoliciesRulesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsResponsePoliciesRulesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

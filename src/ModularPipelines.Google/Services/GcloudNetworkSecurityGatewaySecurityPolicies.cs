@@ -47,9 +47,8 @@ public class GcloudNetworkSecurityGatewaySecurityPolicies
         GcloudNetworkSecurityGatewaySecurityPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityGatewaySecurityPoliciesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export Gateway      Security Policy
@@ -61,9 +60,8 @@ public class GcloudNetworkSecurityGatewaySecurityPolicies
         GcloudNetworkSecurityGatewaySecurityPoliciesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityGatewaySecurityPoliciesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import Gateway      Security Policy
@@ -75,9 +73,8 @@ public class GcloudNetworkSecurityGatewaySecurityPolicies
         GcloudNetworkSecurityGatewaySecurityPoliciesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityGatewaySecurityPoliciesImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Gateway      Security Policies
@@ -89,9 +86,8 @@ public class GcloudNetworkSecurityGatewaySecurityPolicies
         GcloudNetworkSecurityGatewaySecurityPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityGatewaySecurityPoliciesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

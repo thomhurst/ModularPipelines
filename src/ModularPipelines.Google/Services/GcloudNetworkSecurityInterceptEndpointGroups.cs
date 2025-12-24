@@ -37,9 +37,8 @@ public class GcloudNetworkSecurityInterceptEndpointGroups
         GcloudNetworkSecurityInterceptEndpointGroupsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptEndpointGroupsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a      Intercept Endpoint Group
@@ -51,9 +50,8 @@ public class GcloudNetworkSecurityInterceptEndpointGroups
         GcloudNetworkSecurityInterceptEndpointGroupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptEndpointGroupsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a      Intercept Endpoint Group
@@ -65,9 +63,8 @@ public class GcloudNetworkSecurityInterceptEndpointGroups
         GcloudNetworkSecurityInterceptEndpointGroupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptEndpointGroupsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Intercept      Endpoint Groups
@@ -79,9 +76,8 @@ public class GcloudNetworkSecurityInterceptEndpointGroups
         GcloudNetworkSecurityInterceptEndpointGroupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptEndpointGroupsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a      Intercept Endpoint Group
@@ -93,9 +89,8 @@ public class GcloudNetworkSecurityInterceptEndpointGroups
         GcloudNetworkSecurityInterceptEndpointGroupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptEndpointGroupsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

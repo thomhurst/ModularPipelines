@@ -37,9 +37,8 @@ public class GcloudContainerHubCloudrun
         GcloudContainerHubCloudrunApplyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubCloudrunApplyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe the status of the      CloudRun feature
@@ -51,9 +50,8 @@ public class GcloudContainerHubCloudrun
         GcloudContainerHubCloudrunDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubCloudrunDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disable the CloudRun feature
@@ -65,9 +63,8 @@ public class GcloudContainerHubCloudrun
         GcloudContainerHubCloudrunDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubCloudrunDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enable the CloudRun feature
@@ -79,9 +76,8 @@ public class GcloudContainerHubCloudrun
         GcloudContainerHubCloudrunEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubCloudrunEnableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

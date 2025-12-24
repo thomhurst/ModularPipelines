@@ -37,9 +37,8 @@ public class GcloudBmsInstances
         GcloudBmsInstancesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disable interactive serial      console for a Bare Metal Solution instance
@@ -51,9 +50,8 @@ public class GcloudBmsInstances
         GcloudBmsInstancesDisableSerialConsoleOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesDisableSerialConsoleOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enable interactive serial      console for a Bare Metal Solution instance
@@ -65,9 +63,8 @@ public class GcloudBmsInstances
         GcloudBmsInstancesEnableSerialConsoleOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesEnableSerialConsoleOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Bare Metal Solution instances in a project
@@ -79,9 +76,8 @@ public class GcloudBmsInstances
         GcloudBmsInstancesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// rename a Bare Metal Solution instance
@@ -93,9 +89,8 @@ public class GcloudBmsInstances
         GcloudBmsInstancesRenameOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesRenameOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// reset a Bare Metal Solution instance
@@ -107,9 +102,8 @@ public class GcloudBmsInstances
         GcloudBmsInstancesResetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesResetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// start a Bare Metal Solution instance
@@ -121,9 +115,8 @@ public class GcloudBmsInstances
         GcloudBmsInstancesStartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesStartOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// stop a Bare Metal Solution instance
@@ -135,9 +128,8 @@ public class GcloudBmsInstances
         GcloudBmsInstancesStopOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesStopOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Bare Metal Solution instance
@@ -149,9 +141,8 @@ public class GcloudBmsInstances
         GcloudBmsInstancesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

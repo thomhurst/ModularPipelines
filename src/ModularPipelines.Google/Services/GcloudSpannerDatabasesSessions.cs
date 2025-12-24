@@ -37,9 +37,8 @@ public class GcloudSpannerDatabasesSessions
         GcloudSpannerDatabasesSessionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesSessionsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the Cloud Spanner sessions      contained within the given database
@@ -51,9 +50,8 @@ public class GcloudSpannerDatabasesSessions
         GcloudSpannerDatabasesSessionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesSessionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudComputeHttpHealthChecks
         GcloudComputeHttpHealthChecksCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHttpHealthChecksCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete HTTP health checks
@@ -51,9 +50,8 @@ public class GcloudComputeHttpHealthChecks
         GcloudComputeHttpHealthChecksDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHttpHealthChecksDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// display detailed information      about an HTTP health check
@@ -65,9 +63,8 @@ public class GcloudComputeHttpHealthChecks
         GcloudComputeHttpHealthChecksDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHttpHealthChecksDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine health      checks
@@ -79,9 +76,8 @@ public class GcloudComputeHttpHealthChecks
         GcloudComputeHttpHealthChecksListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHttpHealthChecksListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a legacy HTTP health      check
@@ -93,9 +89,8 @@ public class GcloudComputeHttpHealthChecks
         GcloudComputeHttpHealthChecksUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHttpHealthChecksUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

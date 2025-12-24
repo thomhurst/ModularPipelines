@@ -37,9 +37,8 @@ public class GcloudDeployDeliveryPipelines
         GcloudDeployDeliveryPipelinesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployDeliveryPipelinesAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a delivery pipeline
@@ -51,9 +50,8 @@ public class GcloudDeployDeliveryPipelines
         GcloudDeployDeliveryPipelinesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployDeliveryPipelinesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about a delivery      pipeline
@@ -65,9 +63,8 @@ public class GcloudDeployDeliveryPipelines
         GcloudDeployDeliveryPipelinesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployDeliveryPipelinesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// returns the .yaml definition of      the specified delivery pipeline
@@ -79,9 +76,8 @@ public class GcloudDeployDeliveryPipelines
         GcloudDeployDeliveryPipelinesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployDeliveryPipelinesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a      Cloud Deploy delivery pipeline
@@ -93,9 +89,8 @@ public class GcloudDeployDeliveryPipelines
         GcloudDeployDeliveryPipelinesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployDeliveryPipelinesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud Deploy delivery      pipelines
@@ -107,9 +102,8 @@ public class GcloudDeployDeliveryPipelines
         GcloudDeployDeliveryPipelinesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployDeliveryPipelinesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an IAM      policy binding for a Cloud Deploy delivery pipeline
@@ -121,9 +115,8 @@ public class GcloudDeployDeliveryPipelines
         GcloudDeployDeliveryPipelinesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployDeliveryPipelinesRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for a      Cloud Deploy delivery pipeline
@@ -135,9 +128,8 @@ public class GcloudDeployDeliveryPipelines
         GcloudDeployDeliveryPipelinesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployDeliveryPipelinesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

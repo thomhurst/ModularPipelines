@@ -37,9 +37,8 @@ public class GcloudDeployCustomTargetTypes
         GcloudDeployCustomTargetTypesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployCustomTargetTypesAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a custom target type
@@ -51,9 +50,8 @@ public class GcloudDeployCustomTargetTypes
         GcloudDeployCustomTargetTypesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployCustomTargetTypesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details for a custom      target type
@@ -65,9 +63,8 @@ public class GcloudDeployCustomTargetTypes
         GcloudDeployCustomTargetTypesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployCustomTargetTypesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// returns the .yaml definition of      the specified custom target type
@@ -79,9 +76,8 @@ public class GcloudDeployCustomTargetTypes
         GcloudDeployCustomTargetTypesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployCustomTargetTypesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a      Cloud Deploy Custom Target Type
@@ -93,9 +89,8 @@ public class GcloudDeployCustomTargetTypes
         GcloudDeployCustomTargetTypesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployCustomTargetTypesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the custom target types
@@ -107,9 +102,8 @@ public class GcloudDeployCustomTargetTypes
         GcloudDeployCustomTargetTypesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployCustomTargetTypesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an IAM      policy binding for a Cloud Deploy Custom Target Type
@@ -121,9 +115,8 @@ public class GcloudDeployCustomTargetTypes
         GcloudDeployCustomTargetTypesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployCustomTargetTypesRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for a      Cloud Deploy Custom Target Type
@@ -135,9 +128,8 @@ public class GcloudDeployCustomTargetTypes
         GcloudDeployCustomTargetTypesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployCustomTargetTypesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

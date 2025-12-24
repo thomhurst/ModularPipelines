@@ -37,9 +37,8 @@ public class GcloudDeployRollouts
         GcloudDeployRolloutsAdvanceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsAdvanceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// approves a rollout having an Approval      state of "Required"
@@ -51,9 +50,8 @@ public class GcloudDeployRollouts
         GcloudDeployRolloutsApproveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsApproveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// cancel a Rollout
@@ -65,9 +63,8 @@ public class GcloudDeployRollouts
         GcloudDeployRolloutsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsCancelOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details for a rollout
@@ -79,9 +76,8 @@ public class GcloudDeployRollouts
         GcloudDeployRolloutsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// ignores a specified job and phase      combination on a rollout
@@ -93,9 +89,8 @@ public class GcloudDeployRollouts
         GcloudDeployRolloutsIgnoreJobOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsIgnoreJobOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the rollouts
@@ -107,9 +102,8 @@ public class GcloudDeployRollouts
         GcloudDeployRolloutsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// rejects a rollout having an Approval state      of "Required"
@@ -121,9 +115,8 @@ public class GcloudDeployRollouts
         GcloudDeployRolloutsRejectOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsRejectOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// retries a specified job, phase      combination on a rollout
@@ -135,9 +128,8 @@ public class GcloudDeployRollouts
         GcloudDeployRolloutsRetryJobOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsRetryJobOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

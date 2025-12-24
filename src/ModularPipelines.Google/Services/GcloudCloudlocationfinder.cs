@@ -47,9 +47,8 @@ public class GcloudCloudlocationfinder
         GcloudCloudlocationfinderOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCloudlocationfinderOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudColabRuntimeTemplates
         GcloudColabRuntimeTemplatesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudColabRuntimeTemplatesAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a runtime template
@@ -51,9 +50,8 @@ public class GcloudColabRuntimeTemplates
         GcloudColabRuntimeTemplatesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudColabRuntimeTemplatesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a runtime template
@@ -65,9 +63,8 @@ public class GcloudColabRuntimeTemplates
         GcloudColabRuntimeTemplatesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudColabRuntimeTemplatesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a runtime template
@@ -79,9 +76,8 @@ public class GcloudColabRuntimeTemplates
         GcloudColabRuntimeTemplatesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudColabRuntimeTemplatesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get IAM policy for a Colab      Enterprise runtime template
@@ -93,9 +89,8 @@ public class GcloudColabRuntimeTemplates
         GcloudColabRuntimeTemplatesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudColabRuntimeTemplatesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list your runtime templates
@@ -107,9 +102,8 @@ public class GcloudColabRuntimeTemplates
         GcloudColabRuntimeTemplatesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudColabRuntimeTemplatesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an IAM      policy binding from a Colab Enterprise runtime template
@@ -121,9 +115,8 @@ public class GcloudColabRuntimeTemplates
         GcloudColabRuntimeTemplatesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudColabRuntimeTemplatesRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set IAM policy for a Colab      Enterprise runtime template as defined in a JSON or YAML file
@@ -135,9 +128,8 @@ public class GcloudColabRuntimeTemplates
         GcloudColabRuntimeTemplatesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudColabRuntimeTemplatesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

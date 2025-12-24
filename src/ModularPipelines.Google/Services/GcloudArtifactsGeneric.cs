@@ -37,9 +37,8 @@ public class GcloudArtifactsGeneric
         GcloudArtifactsGenericDownloadOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsGenericDownloadOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// uploads an artifact to a generic      repository
@@ -51,9 +50,8 @@ public class GcloudArtifactsGeneric
         GcloudArtifactsGenericUploadOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsGenericUploadOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

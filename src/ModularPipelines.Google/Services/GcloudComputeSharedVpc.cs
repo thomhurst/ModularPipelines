@@ -53,9 +53,8 @@ public class GcloudComputeSharedVpc
         GcloudComputeSharedVpcDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSharedVpcDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enable the given project as a shared VPC      host
@@ -67,9 +66,8 @@ public class GcloudComputeSharedVpc
         GcloudComputeSharedVpcEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSharedVpcEnableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the shared VPC host      project that the given project is associated with
@@ -81,9 +79,8 @@ public class GcloudComputeSharedVpc
         GcloudComputeSharedVpcGetHostProjectOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSharedVpcGetHostProjectOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the resources      associated with the given shared VPC host project
@@ -95,9 +92,8 @@ public class GcloudComputeSharedVpc
         GcloudComputeSharedVpcListAssociatedResourcesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSharedVpcListAssociatedResourcesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

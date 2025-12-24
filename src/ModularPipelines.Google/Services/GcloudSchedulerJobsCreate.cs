@@ -37,9 +37,8 @@ public class GcloudSchedulerJobsCreate
         GcloudSchedulerJobsCreateAppEngineOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsCreateAppEngineOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Cloud Scheduler job that      triggers an action via HTTP
@@ -51,9 +50,8 @@ public class GcloudSchedulerJobsCreate
         GcloudSchedulerJobsCreateHttpOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsCreateHttpOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Cloud Scheduler job with a      Pub/Sub target
@@ -65,9 +63,8 @@ public class GcloudSchedulerJobsCreate
         GcloudSchedulerJobsCreatePubsubOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsCreatePubsubOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

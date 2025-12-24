@@ -37,9 +37,8 @@ public class GcloudArtifactsPrintSettings
         GcloudArtifactsPrintSettingsGradleOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsPrintSettingsGradleOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// print a snippet to add a Maven      repository to the pom.xml file
@@ -51,9 +50,8 @@ public class GcloudArtifactsPrintSettings
         GcloudArtifactsPrintSettingsMvnOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsPrintSettingsMvnOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// print credential settings to add to      the .npmrc file
@@ -65,9 +63,8 @@ public class GcloudArtifactsPrintSettings
         GcloudArtifactsPrintSettingsNpmOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsPrintSettingsNpmOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// print credential settings to add      to the .pypirc and pip.conf files
@@ -79,9 +76,8 @@ public class GcloudArtifactsPrintSettings
         GcloudArtifactsPrintSettingsPythonOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsPrintSettingsPythonOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

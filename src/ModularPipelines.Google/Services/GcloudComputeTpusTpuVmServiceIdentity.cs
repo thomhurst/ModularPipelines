@@ -37,9 +37,8 @@ public class GcloudComputeTpusTpuVmServiceIdentity
         GcloudComputeTpusTpuVmServiceIdentityCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmServiceIdentityCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudRunJobsExecutionsTasks
         GcloudRunJobsExecutionsTasksDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRunJobsExecutionsTasksDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list tasks
@@ -51,9 +50,8 @@ public class GcloudRunJobsExecutionsTasks
         GcloudRunJobsExecutionsTasksListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRunJobsExecutionsTasksListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

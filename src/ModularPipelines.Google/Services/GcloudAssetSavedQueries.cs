@@ -37,9 +37,8 @@ public class GcloudAssetSavedQueries
         GcloudAssetSavedQueriesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetSavedQueriesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud Asset Inventory saved      query
@@ -51,9 +50,8 @@ public class GcloudAssetSavedQueries
         GcloudAssetSavedQueriesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetSavedQueriesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Cloud Asset Inventory      saved query
@@ -65,9 +63,8 @@ public class GcloudAssetSavedQueries
         GcloudAssetSavedQueriesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetSavedQueriesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud Asset Inventory saved query
@@ -79,9 +76,8 @@ public class GcloudAssetSavedQueries
         GcloudAssetSavedQueriesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetSavedQueriesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an existing Cloud Asset      Inventory saved query
@@ -93,9 +89,8 @@ public class GcloudAssetSavedQueries
         GcloudAssetSavedQueriesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetSavedQueriesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

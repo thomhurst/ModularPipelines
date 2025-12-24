@@ -37,9 +37,8 @@ public class GcloudEventarcGoogleApiSources
         GcloudEventarcGoogleApiSourcesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcGoogleApiSourcesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an Eventarc Google API      source
@@ -51,9 +50,8 @@ public class GcloudEventarcGoogleApiSources
         GcloudEventarcGoogleApiSourcesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcGoogleApiSourcesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an Eventarc Google      API source
@@ -65,9 +63,8 @@ public class GcloudEventarcGoogleApiSources
         GcloudEventarcGoogleApiSourcesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcGoogleApiSourcesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Eventarc Google API sources
@@ -79,9 +76,8 @@ public class GcloudEventarcGoogleApiSources
         GcloudEventarcGoogleApiSourcesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcGoogleApiSourcesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an Eventarc Google API      source
@@ -93,9 +89,8 @@ public class GcloudEventarcGoogleApiSources
         GcloudEventarcGoogleApiSourcesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcGoogleApiSourcesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

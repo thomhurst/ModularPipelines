@@ -53,9 +53,8 @@ public class GcloudDatastore
         GcloudDatastoreOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastoreOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export Cloud Datastore entities to Google Cloud      Storage
@@ -67,9 +66,8 @@ public class GcloudDatastore
         GcloudDatastoreExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastoreExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import Cloud Datastore entities from Google Cloud      Storage
@@ -81,9 +79,8 @@ public class GcloudDatastore
         GcloudDatastoreImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastoreImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

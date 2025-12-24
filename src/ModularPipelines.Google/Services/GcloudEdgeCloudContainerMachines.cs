@@ -37,9 +37,8 @@ public class GcloudEdgeCloudContainerMachines
         GcloudEdgeCloudContainerMachinesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerMachinesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Edge Container machines
@@ -51,9 +50,8 @@ public class GcloudEdgeCloudContainerMachines
         GcloudEdgeCloudContainerMachinesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerMachinesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

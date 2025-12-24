@@ -37,9 +37,8 @@ public class GcloudIamServiceAccountsKeys
         GcloudIamServiceAccountsKeysCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsKeysCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a service account key
@@ -51,9 +50,8 @@ public class GcloudIamServiceAccountsKeys
         GcloudIamServiceAccountsKeysDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsKeysDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disable a service account key
@@ -65,9 +63,8 @@ public class GcloudIamServiceAccountsKeys
         GcloudIamServiceAccountsKeysDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsKeysDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enable a service account key
@@ -79,9 +76,8 @@ public class GcloudIamServiceAccountsKeys
         GcloudIamServiceAccountsKeysEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsKeysEnableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the keys for a service account
@@ -93,9 +89,8 @@ public class GcloudIamServiceAccountsKeys
         GcloudIamServiceAccountsKeysListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsKeysListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// upload a public key for an IAM      service account
@@ -107,9 +102,8 @@ public class GcloudIamServiceAccountsKeys
         GcloudIamServiceAccountsKeysUploadOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsKeysUploadOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

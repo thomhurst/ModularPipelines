@@ -37,9 +37,8 @@ public class GcloudResourceManagerTagsBindings
         GcloudResourceManagerTagsBindingsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsBindingsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a TagBinding
@@ -51,9 +50,8 @@ public class GcloudResourceManagerTagsBindings
         GcloudResourceManagerTagsBindingsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsBindingsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists TagBindings bound to the      specified resource
@@ -65,9 +63,8 @@ public class GcloudResourceManagerTagsBindings
         GcloudResourceManagerTagsBindingsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsBindingsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

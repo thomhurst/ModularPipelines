@@ -47,9 +47,8 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesApplyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesApplyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// commit a Database      Migration Service conversion workspace
@@ -61,9 +60,8 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesCommitOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesCommitOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// convert a      Database Migration Service conversion workspace
@@ -75,9 +73,8 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesConvertOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesConvertOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Database      Migration Service conversion workspace
@@ -89,9 +86,8 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Database      Migration conversion workspace
@@ -103,9 +99,8 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe      DDLs in a Database Migration Service conversion workspace
@@ -117,9 +112,8 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesDescribeDdlsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesDescribeDdlsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe database entities in a Database Migration conversion workspace
@@ -131,9 +125,8 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesDescribeEntitiesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesDescribeEntitiesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe      issues in a Database Migration Service conversion workspace
@@ -145,9 +138,8 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesDescribeIssuesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesDescribeIssuesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details      about a database migration conversion workspace
@@ -159,9 +151,8 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import      mapping rules in a Database Migration Service conversion workspace
@@ -173,9 +164,8 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesImportRulesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesImportRulesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      background jobs in the conversion workspaces
@@ -187,9 +177,8 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesListBackgroundJobsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesListBackgroundJobsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list conversion      workspaces
@@ -201,9 +190,8 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// rollback a      Database Migration Service conversion workspace
@@ -215,9 +203,8 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesRollbackOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesRollbackOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// seed a Database      Migration Service conversion workspace
@@ -229,9 +216,8 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesSeedOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesSeedOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Database      Migration Service conversion workspace
@@ -243,9 +229,8 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

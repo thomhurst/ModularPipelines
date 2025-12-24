@@ -37,9 +37,8 @@ public class GcloudMemorystoreInstances
         GcloudMemorystoreInstancesBackupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreInstancesBackupOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Memorystore instance
@@ -51,9 +50,8 @@ public class GcloudMemorystoreInstances
         GcloudMemorystoreInstancesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreInstancesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Memorystore instance
@@ -65,9 +63,8 @@ public class GcloudMemorystoreInstances
         GcloudMemorystoreInstancesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreInstancesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get details of a Memorystore      instance
@@ -79,9 +76,8 @@ public class GcloudMemorystoreInstances
         GcloudMemorystoreInstancesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreInstancesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get certificate      authority details of a Memorystore instance
@@ -93,9 +89,8 @@ public class GcloudMemorystoreInstances
         GcloudMemorystoreInstancesGetCertificateAuthorityOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreInstancesGetCertificateAuthorityOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all Memorystore instances in a      specified project and location
@@ -107,9 +102,8 @@ public class GcloudMemorystoreInstances
         GcloudMemorystoreInstancesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreInstancesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// reschedule      maintenance window for an instance
@@ -121,9 +115,8 @@ public class GcloudMemorystoreInstances
         GcloudMemorystoreInstancesRescheduleMaintenanceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreInstancesRescheduleMaintenanceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update the configuration of a      Memorystore instance
@@ -135,9 +128,8 @@ public class GcloudMemorystoreInstances
         GcloudMemorystoreInstancesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreInstancesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

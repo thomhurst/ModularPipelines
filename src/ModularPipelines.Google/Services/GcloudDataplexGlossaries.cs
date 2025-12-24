@@ -53,9 +53,8 @@ public class GcloudDataplexGlossaries
         GcloudDataplexGlossariesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Dataplex Glossary resource
@@ -67,9 +66,8 @@ public class GcloudDataplexGlossaries
         GcloudDataplexGlossariesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Dataplex Glossary
@@ -81,9 +79,8 @@ public class GcloudDataplexGlossaries
         GcloudDataplexGlossariesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Glossary
@@ -95,9 +92,8 @@ public class GcloudDataplexGlossaries
         GcloudDataplexGlossariesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// retrieve a Dataplex Glossary      IAM policy
@@ -109,9 +105,8 @@ public class GcloudDataplexGlossaries
         GcloudDataplexGlossariesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Glossaries
@@ -123,9 +118,8 @@ public class GcloudDataplexGlossaries
         GcloudDataplexGlossariesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// removes IAM policy      binding from a Dataplex Glossary
@@ -137,9 +131,8 @@ public class GcloudDataplexGlossaries
         GcloudDataplexGlossariesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set an IAM policy binding for a      Dataplex Glossary as defined in a JSON or YAML file
@@ -151,9 +144,8 @@ public class GcloudDataplexGlossaries
         GcloudDataplexGlossariesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates a Dataplex Glossary
@@ -165,9 +157,8 @@ public class GcloudDataplexGlossaries
         GcloudDataplexGlossariesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexGlossariesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

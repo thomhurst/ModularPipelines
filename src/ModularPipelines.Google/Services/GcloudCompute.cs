@@ -455,9 +455,8 @@ public class GcloudCompute
         GcloudComputeOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// populate SSH config files with Host entries      from each instance
@@ -469,9 +468,8 @@ public class GcloudCompute
         GcloudComputeConfigSshOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeConfigSshOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// connect to the serial port of an      instance
@@ -483,9 +481,8 @@ public class GcloudCompute
         GcloudComputeConnectToSerialPortOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeConnectToSerialPortOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// copy files to and from Google Compute Engine      virtual machines via scp
@@ -497,9 +494,8 @@ public class GcloudCompute
         GcloudComputeCopyFilesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeCopyFilesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// reset and return a password for a      Windows machine instance
@@ -511,9 +507,8 @@ public class GcloudCompute
         GcloudComputeResetWindowsPasswordOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeResetWindowsPasswordOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// copy files to and from Google Compute Engine virtual      machines via scp
@@ -525,9 +520,8 @@ public class GcloudCompute
         GcloudComputeScpOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeScpOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// sign specified URL for use with Cloud CDN Signed      URLs
@@ -539,9 +533,8 @@ public class GcloudCompute
         GcloudComputeSignUrlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSignUrlOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// SSH into a virtual machine instance
@@ -553,9 +546,8 @@ public class GcloudCompute
         GcloudComputeSshOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSshOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// starts an IAP TCP forwarding tunnel
@@ -567,9 +559,8 @@ public class GcloudCompute
         GcloudComputeStartIapTunnelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeStartIapTunnelOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

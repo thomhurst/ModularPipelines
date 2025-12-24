@@ -37,9 +37,8 @@ public class GcloudBmsSshKeys
         GcloudBmsSshKeysAddOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsSshKeysAddOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the SSH keys added to the project in Bare      Metal Solution
@@ -51,9 +50,8 @@ public class GcloudBmsSshKeys
         GcloudBmsSshKeysListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsSshKeysListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an SSH key in Bare Metal Solution given      its name
@@ -65,9 +63,8 @@ public class GcloudBmsSshKeys
         GcloudBmsSshKeysRemoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsSshKeysRemoveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

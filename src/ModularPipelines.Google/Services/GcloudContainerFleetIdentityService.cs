@@ -37,9 +37,8 @@ public class GcloudContainerFleetIdentityService
         GcloudContainerFleetIdentityServiceApplyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetIdentityServiceApplyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a resource from the      Identity Service Feature
@@ -51,9 +50,8 @@ public class GcloudContainerFleetIdentityService
         GcloudContainerFleetIdentityServiceDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetIdentityServiceDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// prints the status of all      clusters with Identity Service installed
@@ -65,9 +63,8 @@ public class GcloudContainerFleetIdentityService
         GcloudContainerFleetIdentityServiceDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetIdentityServiceDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disable Identity Service      Feature
@@ -79,9 +76,8 @@ public class GcloudContainerFleetIdentityService
         GcloudContainerFleetIdentityServiceDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetIdentityServiceDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enable the Identity      Service Feature
@@ -93,9 +89,8 @@ public class GcloudContainerFleetIdentityService
         GcloudContainerFleetIdentityServiceEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetIdentityServiceEnableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

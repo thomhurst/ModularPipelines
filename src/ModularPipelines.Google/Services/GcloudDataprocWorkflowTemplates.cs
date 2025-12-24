@@ -47,9 +47,8 @@ public class GcloudDataprocWorkflowTemplates
         GcloudDataprocWorkflowTemplatesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a workflow template
@@ -61,9 +60,8 @@ public class GcloudDataprocWorkflowTemplates
         GcloudDataprocWorkflowTemplatesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a workflow template
@@ -75,9 +73,8 @@ public class GcloudDataprocWorkflowTemplates
         GcloudDataprocWorkflowTemplatesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export a workflow template
@@ -89,9 +86,8 @@ public class GcloudDataprocWorkflowTemplates
         GcloudDataprocWorkflowTemplatesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get IAM policy for a      workflow template
@@ -103,9 +99,8 @@ public class GcloudDataprocWorkflowTemplates
         GcloudDataprocWorkflowTemplatesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import a workflow template
@@ -117,9 +112,8 @@ public class GcloudDataprocWorkflowTemplates
         GcloudDataprocWorkflowTemplatesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// instantiate a      workflow template from a file
@@ -131,9 +125,8 @@ public class GcloudDataprocWorkflowTemplates
         GcloudDataprocWorkflowTemplatesInstantiateFromFileOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesInstantiateFromFileOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// instantiate a workflow      template
@@ -145,9 +138,8 @@ public class GcloudDataprocWorkflowTemplates
         GcloudDataprocWorkflowTemplatesInstantiateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesInstantiateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list workflow templates
@@ -159,9 +151,8 @@ public class GcloudDataprocWorkflowTemplates
         GcloudDataprocWorkflowTemplatesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove DAG timeout      from a workflow template
@@ -173,9 +164,8 @@ public class GcloudDataprocWorkflowTemplates
         GcloudDataprocWorkflowTemplatesRemoveDagTimeoutOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesRemoveDagTimeoutOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove a job from workflow      template
@@ -187,9 +177,8 @@ public class GcloudDataprocWorkflowTemplates
         GcloudDataprocWorkflowTemplatesRemoveJobOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesRemoveJobOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set cluster      selector for the workflow template
@@ -201,9 +190,8 @@ public class GcloudDataprocWorkflowTemplates
         GcloudDataprocWorkflowTemplatesSetClusterSelectorOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesSetClusterSelectorOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set DAG timeout on a      workflow template
@@ -215,9 +203,8 @@ public class GcloudDataprocWorkflowTemplates
         GcloudDataprocWorkflowTemplatesSetDagTimeoutOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesSetDagTimeoutOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set IAM policy for a      template
@@ -229,9 +216,8 @@ public class GcloudDataprocWorkflowTemplates
         GcloudDataprocWorkflowTemplatesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set a managed      cluster for the workflow template
@@ -243,9 +229,8 @@ public class GcloudDataprocWorkflowTemplates
         GcloudDataprocWorkflowTemplatesSetManagedClusterOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocWorkflowTemplatesSetManagedClusterOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudServiceExtensionsWasmPluginVersions
         GcloudServiceExtensionsWasmPluginVersionsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsWasmPluginVersionsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a      WasmPluginVersion resource
@@ -51,9 +50,8 @@ public class GcloudServiceExtensionsWasmPluginVersions
         GcloudServiceExtensionsWasmPluginVersionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsWasmPluginVersionsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details      about a WasmPluginVersion resource
@@ -65,9 +63,8 @@ public class GcloudServiceExtensionsWasmPluginVersions
         GcloudServiceExtensionsWasmPluginVersionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsWasmPluginVersionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all      WasmPluginVersion resources for a WasmPlugin
@@ -79,9 +76,8 @@ public class GcloudServiceExtensionsWasmPluginVersions
         GcloudServiceExtensionsWasmPluginVersionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsWasmPluginVersionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

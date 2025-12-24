@@ -37,9 +37,8 @@ public class GcloudEventarcGoogleChannels
         GcloudEventarcGoogleChannelsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcGoogleChannelsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an Eventarc Google channel
@@ -51,9 +50,8 @@ public class GcloudEventarcGoogleChannels
         GcloudEventarcGoogleChannelsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcGoogleChannelsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

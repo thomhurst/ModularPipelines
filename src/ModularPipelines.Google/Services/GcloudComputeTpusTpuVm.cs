@@ -59,9 +59,8 @@ public class GcloudComputeTpusTpuVm
         GcloudComputeTpusTpuVmCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud TPU VM node
@@ -73,9 +72,8 @@ public class GcloudComputeTpusTpuVm
         GcloudComputeTpusTpuVmDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Cloud TPU VM node
@@ -87,9 +85,8 @@ public class GcloudComputeTpusTpuVm
         GcloudComputeTpusTpuVmDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// retrieve the Guest      Attributes for a Cloud TPU VM
@@ -101,9 +98,8 @@ public class GcloudComputeTpusTpuVm
         GcloudComputeTpusTpuVmGetGuestAttributesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmGetGuestAttributesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud TPU VM nodes
@@ -115,9 +111,8 @@ public class GcloudComputeTpusTpuVm
         GcloudComputeTpusTpuVmListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// copy files to and from a Cloud TPU VM via      SCP
@@ -129,9 +124,8 @@ public class GcloudComputeTpusTpuVm
         GcloudComputeTpusTpuVmScpOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmScpOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// SSH into a Cloud TPU VM
@@ -143,9 +137,8 @@ public class GcloudComputeTpusTpuVm
         GcloudComputeTpusTpuVmSshOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmSshOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// start a Cloud TPU VM node
@@ -157,9 +150,8 @@ public class GcloudComputeTpusTpuVm
         GcloudComputeTpusTpuVmStartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmStartOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// stop a Cloud TPU VM node
@@ -171,9 +163,8 @@ public class GcloudComputeTpusTpuVm
         GcloudComputeTpusTpuVmStopOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmStopOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud TPU VM node
@@ -185,9 +176,8 @@ public class GcloudComputeTpusTpuVm
         GcloudComputeTpusTpuVmUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

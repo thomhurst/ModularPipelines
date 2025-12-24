@@ -37,9 +37,8 @@ public class GcloudIamOauthClientsCredentials
         GcloudIamOauthClientsCredentialsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamOauthClientsCredentialsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an OAuth client      credential
@@ -51,9 +50,8 @@ public class GcloudIamOauthClientsCredentials
         GcloudIamOauthClientsCredentialsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamOauthClientsCredentialsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an OAuth client      credential
@@ -65,9 +63,8 @@ public class GcloudIamOauthClientsCredentials
         GcloudIamOauthClientsCredentialsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamOauthClientsCredentialsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list OAuth client credentials
@@ -79,9 +76,8 @@ public class GcloudIamOauthClientsCredentials
         GcloudIamOauthClientsCredentialsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamOauthClientsCredentialsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an OAuth client      credential
@@ -93,9 +89,8 @@ public class GcloudIamOauthClientsCredentials
         GcloudIamOauthClientsCredentialsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamOauthClientsCredentialsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

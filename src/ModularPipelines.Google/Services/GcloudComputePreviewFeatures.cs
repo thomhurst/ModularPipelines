@@ -37,9 +37,8 @@ public class GcloudComputePreviewFeatures
         GcloudComputePreviewFeaturesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePreviewFeaturesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// view preview features
@@ -51,9 +50,8 @@ public class GcloudComputePreviewFeatures
         GcloudComputePreviewFeaturesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePreviewFeaturesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a preview feature's      activation status
@@ -65,9 +63,8 @@ public class GcloudComputePreviewFeatures
         GcloudComputePreviewFeaturesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePreviewFeaturesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

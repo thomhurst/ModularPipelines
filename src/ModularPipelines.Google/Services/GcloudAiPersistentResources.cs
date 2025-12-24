@@ -37,9 +37,8 @@ public class GcloudAiPersistentResources
         GcloudAiPersistentResourcesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPersistentResourcesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an active Persistent      Resource
@@ -51,9 +50,8 @@ public class GcloudAiPersistentResources
         GcloudAiPersistentResourcesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPersistentResourcesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get detailed information about a      PersistentResource with a given id
@@ -65,9 +63,8 @@ public class GcloudAiPersistentResources
         GcloudAiPersistentResourcesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPersistentResourcesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists the active persistent resources
@@ -79,9 +76,8 @@ public class GcloudAiPersistentResources
         GcloudAiPersistentResourcesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPersistentResourcesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// reboot a Persistent Resource
@@ -93,9 +89,8 @@ public class GcloudAiPersistentResources
         GcloudAiPersistentResourcesRebootOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPersistentResourcesRebootOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

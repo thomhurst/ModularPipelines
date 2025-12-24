@@ -37,9 +37,8 @@ public class GcloudServiceExtensionsWasmPlugins
         GcloudServiceExtensionsWasmPluginsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsWasmPluginsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a WasmPlugin      resource
@@ -51,9 +50,8 @@ public class GcloudServiceExtensionsWasmPlugins
         GcloudServiceExtensionsWasmPluginsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsWasmPluginsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about a      WasmPlugin resource
@@ -65,9 +63,8 @@ public class GcloudServiceExtensionsWasmPlugins
         GcloudServiceExtensionsWasmPluginsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsWasmPluginsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all WasmPlugin resources
@@ -79,9 +76,8 @@ public class GcloudServiceExtensionsWasmPlugins
         GcloudServiceExtensionsWasmPluginsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsWasmPluginsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a WasmPlugin      resource
@@ -93,9 +89,8 @@ public class GcloudServiceExtensionsWasmPlugins
         GcloudServiceExtensionsWasmPluginsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsWasmPluginsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

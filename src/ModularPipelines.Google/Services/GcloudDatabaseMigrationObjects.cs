@@ -37,9 +37,8 @@ public class GcloudDatabaseMigrationObjects
         GcloudDatabaseMigrationObjectsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationObjectsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lookup a DMS migration job      object
@@ -51,9 +50,8 @@ public class GcloudDatabaseMigrationObjects
         GcloudDatabaseMigrationObjectsLookupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationObjectsLookupOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

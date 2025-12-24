@@ -37,9 +37,8 @@ public class GcloudNetappStoragePools
         GcloudNetappStoragePoolsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappStoragePoolsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud NetApp Storage Pool
@@ -51,9 +50,8 @@ public class GcloudNetappStoragePools
         GcloudNetappStoragePoolsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappStoragePoolsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show metadata for a Cloud NetApp      Storage Pool
@@ -65,9 +63,8 @@ public class GcloudNetappStoragePools
         GcloudNetappStoragePoolsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappStoragePoolsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud NetApp Storage Pools
@@ -79,9 +76,8 @@ public class GcloudNetappStoragePools
         GcloudNetappStoragePoolsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappStoragePoolsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// switch a Regional Cloud NetApp Flex      Storage Pool zone
@@ -93,9 +89,8 @@ public class GcloudNetappStoragePools
         GcloudNetappStoragePoolsSwitchOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappStoragePoolsSwitchOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud NetApp Storage Pool
@@ -107,9 +102,8 @@ public class GcloudNetappStoragePools
         GcloudNetappStoragePoolsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappStoragePoolsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// validate directory      service for a Cloud Netapp storage pool
@@ -121,9 +115,8 @@ public class GcloudNetappStoragePools
         GcloudNetappStoragePoolsValidateDirectoryServiceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappStoragePoolsValidateDirectoryServiceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

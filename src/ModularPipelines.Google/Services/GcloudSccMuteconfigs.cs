@@ -37,9 +37,8 @@ public class GcloudSccMuteconfigs
         GcloudSccMuteconfigsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccMuteconfigsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Security Command Center mute      config
@@ -51,9 +50,8 @@ public class GcloudSccMuteconfigs
         GcloudSccMuteconfigsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccMuteconfigsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get a Security Command Center mute config
@@ -65,9 +63,8 @@ public class GcloudSccMuteconfigs
         GcloudSccMuteconfigsGetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccMuteconfigsGetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// listSecurity Command Center mute configs
@@ -79,9 +76,8 @@ public class GcloudSccMuteconfigs
         GcloudSccMuteconfigsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccMuteconfigsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Security Command Center mute      config
@@ -93,9 +89,8 @@ public class GcloudSccMuteconfigs
         GcloudSccMuteconfigsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccMuteconfigsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudApigeeDevelopers
         GcloudApigeeDevelopersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApigeeDevelopersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Apigee developers by email address
@@ -51,9 +50,8 @@ public class GcloudApigeeDevelopers
         GcloudApigeeDevelopersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApigeeDevelopersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

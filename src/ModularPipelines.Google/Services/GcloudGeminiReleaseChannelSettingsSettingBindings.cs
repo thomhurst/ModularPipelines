@@ -37,9 +37,8 @@ public class GcloudGeminiReleaseChannelSettingsSettingBindings
         GcloudGeminiReleaseChannelSettingsSettingBindingsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiReleaseChannelSettingsSettingBindingsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete      settingBindings
@@ -51,9 +50,8 @@ public class GcloudGeminiReleaseChannelSettingsSettingBindings
         GcloudGeminiReleaseChannelSettingsSettingBindingsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiReleaseChannelSettingsSettingBindingsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe      settingBindings
@@ -65,9 +63,8 @@ public class GcloudGeminiReleaseChannelSettingsSettingBindings
         GcloudGeminiReleaseChannelSettingsSettingBindingsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiReleaseChannelSettingsSettingBindingsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      settingBindings
@@ -79,9 +76,8 @@ public class GcloudGeminiReleaseChannelSettingsSettingBindings
         GcloudGeminiReleaseChannelSettingsSettingBindingsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiReleaseChannelSettingsSettingBindingsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update      settingBindings
@@ -93,9 +89,8 @@ public class GcloudGeminiReleaseChannelSettingsSettingBindings
         GcloudGeminiReleaseChannelSettingsSettingBindingsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiReleaseChannelSettingsSettingBindingsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

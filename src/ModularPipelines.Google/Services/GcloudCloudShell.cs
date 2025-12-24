@@ -37,9 +37,8 @@ public class GcloudCloudShell
         GcloudCloudShellOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCloudShellOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// prints a command to mount the Cloud      Shell home directory via sshfs
@@ -51,9 +50,8 @@ public class GcloudCloudShell
         GcloudCloudShellGetMountCommandOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCloudShellGetMountCommandOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// copies files between Cloud Shell and the local      machine
@@ -65,9 +63,8 @@ public class GcloudCloudShell
         GcloudCloudShellScpOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCloudShellScpOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// allows you to establish an interactive SSH session      with Cloud Shell
@@ -79,9 +76,8 @@ public class GcloudCloudShell
         GcloudCloudShellSshOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCloudShellSshOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudApphubDiscoveredWorkloads
         GcloudApphubDiscoveredWorkloadsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubDiscoveredWorkloadsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Apphub discovered workloads      that could be added to an application
@@ -51,9 +50,8 @@ public class GcloudApphubDiscoveredWorkloads
         GcloudApphubDiscoveredWorkloadsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubDiscoveredWorkloadsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lookup an Apphub discovered      workload with URI
@@ -65,9 +63,8 @@ public class GcloudApphubDiscoveredWorkloads
         GcloudApphubDiscoveredWorkloadsLookupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubDiscoveredWorkloadsLookupOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

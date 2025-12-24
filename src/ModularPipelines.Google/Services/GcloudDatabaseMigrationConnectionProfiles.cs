@@ -47,9 +47,8 @@ public class GcloudDatabaseMigrationConnectionProfiles
         GcloudDatabaseMigrationConnectionProfilesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about      a Database Migration Service connection profile
@@ -61,9 +60,8 @@ public class GcloudDatabaseMigrationConnectionProfiles
         GcloudDatabaseMigrationConnectionProfilesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Database      Migration Service connection profiles
@@ -75,9 +73,8 @@ public class GcloudDatabaseMigrationConnectionProfiles
         GcloudDatabaseMigrationConnectionProfilesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// test a Database      Migration Service connection profile
@@ -89,9 +86,8 @@ public class GcloudDatabaseMigrationConnectionProfiles
         GcloudDatabaseMigrationConnectionProfilesTestOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesTestOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Database      Migration Service connection profile
@@ -103,9 +99,8 @@ public class GcloudDatabaseMigrationConnectionProfiles
         GcloudDatabaseMigrationConnectionProfilesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudComputeResourcePoliciesCreate
         GcloudComputeResourcePoliciesCreateDiskConsistencyGroupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeResourcePoliciesCreateDiskConsistencyGroupOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Compute      Engine group placement resource policy
@@ -51,9 +50,8 @@ public class GcloudComputeResourcePoliciesCreate
         GcloudComputeResourcePoliciesCreateGroupPlacementOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeResourcePoliciesCreateGroupPlacementOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a      Compute Engine instance schedule resource policy
@@ -65,9 +63,8 @@ public class GcloudComputeResourcePoliciesCreate
         GcloudComputeResourcePoliciesCreateInstanceScheduleOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeResourcePoliciesCreateInstanceScheduleOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a      Compute Engine Snapshot Schedule Resource Policy
@@ -79,9 +76,8 @@ public class GcloudComputeResourcePoliciesCreate
         GcloudComputeResourcePoliciesCreateSnapshotScheduleOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeResourcePoliciesCreateSnapshotScheduleOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Compute      Engine workload resource policy
@@ -93,9 +89,8 @@ public class GcloudComputeResourcePoliciesCreate
         GcloudComputeResourcePoliciesCreateWorkloadPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeResourcePoliciesCreateWorkloadPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

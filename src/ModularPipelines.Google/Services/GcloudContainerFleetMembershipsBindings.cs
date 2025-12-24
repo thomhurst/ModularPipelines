@@ -37,9 +37,8 @@ public class GcloudContainerFleetMembershipsBindings
         GcloudContainerFleetMembershipsBindingsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsBindingsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Membership      Binding
@@ -51,9 +50,8 @@ public class GcloudContainerFleetMembershipsBindings
         GcloudContainerFleetMembershipsBindingsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsBindingsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show      Membership-Binding info
@@ -65,9 +63,8 @@ public class GcloudContainerFleetMembershipsBindings
         GcloudContainerFleetMembershipsBindingsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsBindingsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Bindings in a      Membership
@@ -79,9 +76,8 @@ public class GcloudContainerFleetMembershipsBindings
         GcloudContainerFleetMembershipsBindingsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsBindingsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update the Binding in      a Membership
@@ -93,9 +89,8 @@ public class GcloudContainerFleetMembershipsBindings
         GcloudContainerFleetMembershipsBindingsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsBindingsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

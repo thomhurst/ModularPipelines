@@ -37,9 +37,8 @@ public class GcloudNetworkSecurityOrgAddressGroups
         GcloudNetworkSecurityOrgAddressGroupsAddItemsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityOrgAddressGroupsAddItemsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// clone items from      source address group of organization
@@ -51,9 +50,8 @@ public class GcloudNetworkSecurityOrgAddressGroups
         GcloudNetworkSecurityOrgAddressGroupsCloneItemsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityOrgAddressGroupsCloneItemsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create an address group
@@ -65,9 +63,8 @@ public class GcloudNetworkSecurityOrgAddressGroups
         GcloudNetworkSecurityOrgAddressGroupsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityOrgAddressGroupsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete address group
@@ -79,9 +76,8 @@ public class GcloudNetworkSecurityOrgAddressGroups
         GcloudNetworkSecurityOrgAddressGroupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityOrgAddressGroupsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an address      group
@@ -93,9 +89,8 @@ public class GcloudNetworkSecurityOrgAddressGroups
         GcloudNetworkSecurityOrgAddressGroupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityOrgAddressGroupsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list address groups
@@ -107,9 +102,8 @@ public class GcloudNetworkSecurityOrgAddressGroups
         GcloudNetworkSecurityOrgAddressGroupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityOrgAddressGroupsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists      References of an Organization Address Group
@@ -121,9 +115,8 @@ public class GcloudNetworkSecurityOrgAddressGroups
         GcloudNetworkSecurityOrgAddressGroupsListReferencesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityOrgAddressGroupsListReferencesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove items from      an address group of organization
@@ -135,9 +128,8 @@ public class GcloudNetworkSecurityOrgAddressGroups
         GcloudNetworkSecurityOrgAddressGroupsRemoveItemsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityOrgAddressGroupsRemoveItemsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an address group
@@ -149,9 +141,8 @@ public class GcloudNetworkSecurityOrgAddressGroups
         GcloudNetworkSecurityOrgAddressGroupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityOrgAddressGroupsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

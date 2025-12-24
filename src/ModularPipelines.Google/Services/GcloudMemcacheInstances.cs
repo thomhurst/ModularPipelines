@@ -37,9 +37,8 @@ public class GcloudMemcacheInstances
         GcloudMemcacheInstancesApplyParametersOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemcacheInstancesApplyParametersOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Memorystore Memcached instance
@@ -51,9 +50,8 @@ public class GcloudMemcacheInstances
         GcloudMemcacheInstancesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemcacheInstancesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Memorystore Memcached instance
@@ -65,9 +63,8 @@ public class GcloudMemcacheInstances
         GcloudMemcacheInstancesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemcacheInstancesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// display metadata for a Memorystore      Memcached instance
@@ -79,9 +76,8 @@ public class GcloudMemcacheInstances
         GcloudMemcacheInstancesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemcacheInstancesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Memorystore Memcached instances
@@ -93,9 +89,8 @@ public class GcloudMemcacheInstances
         GcloudMemcacheInstancesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemcacheInstancesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// reschedule maintenance      window for a Memcache instance
@@ -107,9 +102,8 @@ public class GcloudMemcacheInstances
         GcloudMemcacheInstancesRescheduleMaintenanceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemcacheInstancesRescheduleMaintenanceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Memorystore Memcached instance
@@ -121,9 +115,8 @@ public class GcloudMemcacheInstances
         GcloudMemcacheInstancesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemcacheInstancesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// upgrade memcache instance to a newer      memcached version
@@ -135,9 +128,8 @@ public class GcloudMemcacheInstances
         GcloudMemcacheInstancesUpgradeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemcacheInstancesUpgradeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

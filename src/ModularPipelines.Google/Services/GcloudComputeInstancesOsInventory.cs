@@ -37,9 +37,8 @@ public class GcloudComputeInstancesOsInventory
         GcloudComputeInstancesOsInventoryDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesOsInventoryDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list instances with      specific OS inventory data values
@@ -51,9 +50,8 @@ public class GcloudComputeInstancesOsInventory
         GcloudComputeInstancesOsInventoryListInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesOsInventoryListInstancesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudComputeNetworkEdgeSecurityServices
         GcloudComputeNetworkEdgeSecurityServicesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkEdgeSecurityServicesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete network edge      security services
@@ -51,9 +50,8 @@ public class GcloudComputeNetworkEdgeSecurityServices
         GcloudComputeNetworkEdgeSecurityServicesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkEdgeSecurityServicesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute      Engine network edge security service
@@ -65,9 +63,8 @@ public class GcloudComputeNetworkEdgeSecurityServices
         GcloudComputeNetworkEdgeSecurityServicesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkEdgeSecurityServicesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute      Engine network edge security services
@@ -79,9 +76,8 @@ public class GcloudComputeNetworkEdgeSecurityServices
         GcloudComputeNetworkEdgeSecurityServicesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkEdgeSecurityServicesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a network      edge security service
@@ -93,9 +89,8 @@ public class GcloudComputeNetworkEdgeSecurityServices
         GcloudComputeNetworkEdgeSecurityServicesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkEdgeSecurityServicesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

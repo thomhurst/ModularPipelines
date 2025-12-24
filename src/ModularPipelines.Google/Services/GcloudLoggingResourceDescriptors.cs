@@ -37,9 +37,8 @@ public class GcloudLoggingResourceDescriptors
         GcloudLoggingResourceDescriptorsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudLoggingResourceDescriptorsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudComputeInstanceGroupsManagedResizeRequests
         GcloudComputeInstanceGroupsManagedResizeRequestsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedResizeRequestsCancelOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a      Compute Engine managed instance group resize request
@@ -51,9 +50,8 @@ public class GcloudComputeInstanceGroupsManagedResizeRequests
         GcloudComputeInstanceGroupsManagedResizeRequestsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedResizeRequestsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a      Compute Engine managed instance group resize request
@@ -65,9 +63,8 @@ public class GcloudComputeInstanceGroupsManagedResizeRequests
         GcloudComputeInstanceGroupsManagedResizeRequestsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedResizeRequestsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe      a Compute Engine managed instance group resize request resource
@@ -79,9 +76,8 @@ public class GcloudComputeInstanceGroupsManagedResizeRequests
         GcloudComputeInstanceGroupsManagedResizeRequestsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedResizeRequestsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Compute      Engine managed instance group resize requests
@@ -93,9 +89,8 @@ public class GcloudComputeInstanceGroupsManagedResizeRequests
         GcloudComputeInstanceGroupsManagedResizeRequestsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedResizeRequestsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

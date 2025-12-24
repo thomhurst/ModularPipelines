@@ -37,9 +37,8 @@ public class GcloudComputeStoragePoolTypes
         GcloudComputeStoragePoolTypesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeStoragePoolTypesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// view storage pools types
@@ -51,9 +50,8 @@ public class GcloudComputeStoragePoolTypes
         GcloudComputeStoragePoolTypesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeStoragePoolTypesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

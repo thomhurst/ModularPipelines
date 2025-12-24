@@ -37,9 +37,8 @@ public class GcloudComputeTpusTpuVmVersions
         GcloudComputeTpusTpuVmVersionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmVersionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list available runtime versions      for Cloud TPU VM nodes
@@ -51,9 +50,8 @@ public class GcloudComputeTpusTpuVmVersions
         GcloudComputeTpusTpuVmVersionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmVersionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

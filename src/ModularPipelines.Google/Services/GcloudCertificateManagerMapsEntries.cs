@@ -37,9 +37,8 @@ public class GcloudCertificateManagerMapsEntries
         GcloudCertificateManagerMapsEntriesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerMapsEntriesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a certificate map      entry
@@ -51,9 +50,8 @@ public class GcloudCertificateManagerMapsEntries
         GcloudCertificateManagerMapsEntriesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerMapsEntriesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an existing      certificate map entry
@@ -65,9 +63,8 @@ public class GcloudCertificateManagerMapsEntries
         GcloudCertificateManagerMapsEntriesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerMapsEntriesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list certificate map entries
@@ -79,9 +76,8 @@ public class GcloudCertificateManagerMapsEntries
         GcloudCertificateManagerMapsEntriesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerMapsEntriesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a certificate map      entry
@@ -93,9 +89,8 @@ public class GcloudCertificateManagerMapsEntries
         GcloudCertificateManagerMapsEntriesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerMapsEntriesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

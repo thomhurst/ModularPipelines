@@ -47,9 +47,8 @@ public class GcloudEdgeCloudContainerClusters
         GcloudEdgeCloudContainerClustersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an Edge Container      cluster
@@ -61,9 +60,8 @@ public class GcloudEdgeCloudContainerClusters
         GcloudEdgeCloudContainerClustersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about the      cluster
@@ -75,9 +73,8 @@ public class GcloudEdgeCloudContainerClusters
         GcloudEdgeCloudContainerClustersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get credentials of      an edge-container cluster
@@ -89,9 +86,8 @@ public class GcloudEdgeCloudContainerClusters
         GcloudEdgeCloudContainerClustersGetCredentialsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersGetCredentialsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Edge Container clusters
@@ -103,9 +99,8 @@ public class GcloudEdgeCloudContainerClusters
         GcloudEdgeCloudContainerClustersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an Edge Container      cluster
@@ -117,9 +112,8 @@ public class GcloudEdgeCloudContainerClusters
         GcloudEdgeCloudContainerClustersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// upgrade an Edge Container      cluster
@@ -131,9 +125,8 @@ public class GcloudEdgeCloudContainerClusters
         GcloudEdgeCloudContainerClustersUpgradeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersUpgradeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

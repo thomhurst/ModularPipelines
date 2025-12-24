@@ -37,9 +37,8 @@ public class GcloudContainerAiProfilesModels
         GcloudContainerAiProfilesModelsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAiProfilesModelsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

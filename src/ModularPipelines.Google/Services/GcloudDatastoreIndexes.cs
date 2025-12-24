@@ -37,9 +37,8 @@ public class GcloudDatastoreIndexes
         GcloudDatastoreIndexesCleanupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastoreIndexesCleanupOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create new datastore indexes based on      your local index configuration
@@ -51,9 +50,8 @@ public class GcloudDatastoreIndexes
         GcloudDatastoreIndexesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastoreIndexesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about an Cloud Datastore      index
@@ -65,9 +63,8 @@ public class GcloudDatastoreIndexes
         GcloudDatastoreIndexesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastoreIndexesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud Datastore indexes
@@ -79,9 +76,8 @@ public class GcloudDatastoreIndexes
         GcloudDatastoreIndexesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastoreIndexesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

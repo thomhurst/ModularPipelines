@@ -37,9 +37,8 @@ public class GcloudDnsRecordSetsTransaction
         GcloudDnsRecordSetsTransactionAbortOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsRecordSetsTransactionAbortOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set addition to      the transaction
@@ -51,9 +50,8 @@ public class GcloudDnsRecordSetsTransaction
         GcloudDnsRecordSetsTransactionAddOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsRecordSetsTransactionAddOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe the transaction
@@ -65,9 +63,8 @@ public class GcloudDnsRecordSetsTransaction
         GcloudDnsRecordSetsTransactionDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsRecordSetsTransactionDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// execute the transaction on      Cloud DNS
@@ -79,9 +76,8 @@ public class GcloudDnsRecordSetsTransaction
         GcloudDnsRecordSetsTransactionExecuteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsRecordSetsTransactionExecuteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set deletion to      the transaction
@@ -93,9 +89,8 @@ public class GcloudDnsRecordSetsTransaction
         GcloudDnsRecordSetsTransactionRemoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsRecordSetsTransactionRemoveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// start a transaction
@@ -107,9 +102,8 @@ public class GcloudDnsRecordSetsTransaction
         GcloudDnsRecordSetsTransactionStartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsRecordSetsTransactionStartOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

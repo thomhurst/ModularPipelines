@@ -47,9 +47,8 @@ public class GcloudEdgeCloudNetworkingInterconnectsAttachments
         GcloudEdgeCloudNetworkingInterconnectsAttachmentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingInterconnectsAttachmentsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show      details about a Distributed Cloud Edge Network interconnect attachment
@@ -61,9 +60,8 @@ public class GcloudEdgeCloudNetworkingInterconnectsAttachments
         GcloudEdgeCloudNetworkingInterconnectsAttachmentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingInterconnectsAttachmentsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      Distributed Cloud Edge Network interconnect attachments
@@ -75,9 +73,8 @@ public class GcloudEdgeCloudNetworkingInterconnectsAttachments
         GcloudEdgeCloudNetworkingInterconnectsAttachmentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingInterconnectsAttachmentsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

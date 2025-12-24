@@ -37,9 +37,8 @@ public class GcloudSqlExport
         GcloudSqlExportBakOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlExportBakOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// exports data from a Cloud SQL instance to a CSV      file
@@ -51,9 +50,8 @@ public class GcloudSqlExport
         GcloudSqlExportCsvOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlExportCsvOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// exports data from a Cloud SQL instance to a SQL      file
@@ -65,9 +63,8 @@ public class GcloudSqlExport
         GcloudSqlExportSqlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlExportSqlOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export a TDE certificate from a Cloud SQL for SQL      Server instance
@@ -79,9 +76,8 @@ public class GcloudSqlExport
         GcloudSqlExportTdeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlExportTdeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

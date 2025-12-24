@@ -37,9 +37,8 @@ public class GcloudNetworkSecurityMirroringEndpointGroups
         GcloudNetworkSecurityMirroringEndpointGroupsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityMirroringEndpointGroupsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a      Mirroring Endpoint Group
@@ -51,9 +50,8 @@ public class GcloudNetworkSecurityMirroringEndpointGroups
         GcloudNetworkSecurityMirroringEndpointGroupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityMirroringEndpointGroupsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a      Mirroring Endpoint Group
@@ -65,9 +63,8 @@ public class GcloudNetworkSecurityMirroringEndpointGroups
         GcloudNetworkSecurityMirroringEndpointGroupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityMirroringEndpointGroupsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Mirroring      Endpoint Groups
@@ -79,9 +76,8 @@ public class GcloudNetworkSecurityMirroringEndpointGroups
         GcloudNetworkSecurityMirroringEndpointGroupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityMirroringEndpointGroupsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a      Mirroring Endpoint Group
@@ -93,9 +89,8 @@ public class GcloudNetworkSecurityMirroringEndpointGroups
         GcloudNetworkSecurityMirroringEndpointGroupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityMirroringEndpointGroupsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

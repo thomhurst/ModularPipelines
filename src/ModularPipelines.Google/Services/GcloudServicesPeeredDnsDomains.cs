@@ -37,9 +37,8 @@ public class GcloudServicesPeeredDnsDomains
         GcloudServicesPeeredDnsDomainsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesPeeredDnsDomainsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a peered DNS domain for      a private service connection
@@ -51,9 +50,8 @@ public class GcloudServicesPeeredDnsDomains
         GcloudServicesPeeredDnsDomainsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesPeeredDnsDomainsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the peered DNS domains for a      private service connection
@@ -65,9 +63,8 @@ public class GcloudServicesPeeredDnsDomains
         GcloudServicesPeeredDnsDomainsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesPeeredDnsDomainsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

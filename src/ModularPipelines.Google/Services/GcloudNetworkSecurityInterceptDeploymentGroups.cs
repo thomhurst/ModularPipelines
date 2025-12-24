@@ -37,9 +37,8 @@ public class GcloudNetworkSecurityInterceptDeploymentGroups
         GcloudNetworkSecurityInterceptDeploymentGroupsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptDeploymentGroupsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an      Intercept Deployment Group
@@ -51,9 +50,8 @@ public class GcloudNetworkSecurityInterceptDeploymentGroups
         GcloudNetworkSecurityInterceptDeploymentGroupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptDeploymentGroupsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an      Intercept Deployment Group
@@ -65,9 +63,8 @@ public class GcloudNetworkSecurityInterceptDeploymentGroups
         GcloudNetworkSecurityInterceptDeploymentGroupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptDeploymentGroupsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Intercept      Deployment Groups
@@ -79,9 +76,8 @@ public class GcloudNetworkSecurityInterceptDeploymentGroups
         GcloudNetworkSecurityInterceptDeploymentGroupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptDeploymentGroupsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an      Intercept Deployment Group
@@ -93,9 +89,8 @@ public class GcloudNetworkSecurityInterceptDeploymentGroups
         GcloudNetworkSecurityInterceptDeploymentGroupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptDeploymentGroupsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

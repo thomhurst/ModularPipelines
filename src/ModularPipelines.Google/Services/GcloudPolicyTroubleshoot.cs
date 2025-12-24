@@ -37,9 +37,8 @@ public class GcloudPolicyTroubleshoot
         GcloudPolicyTroubleshootOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPolicyTroubleshootOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// troubleshoot the IAM Policy
@@ -51,9 +50,8 @@ public class GcloudPolicyTroubleshoot
         GcloudPolicyTroubleshootIamOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPolicyTroubleshootIamOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudEdgeCloudNetworkingNetworks
         GcloudEdgeCloudNetworkingNetworksCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingNetworksCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Distributed Cloud      Edge Network network
@@ -51,9 +50,8 @@ public class GcloudEdgeCloudNetworkingNetworks
         GcloudEdgeCloudNetworkingNetworksDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingNetworksDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about the      Distributed Cloud Edge Network network
@@ -65,9 +63,8 @@ public class GcloudEdgeCloudNetworkingNetworks
         GcloudEdgeCloudNetworkingNetworksDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingNetworksDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the status of a      specified Distributed Cloud Edge Network network
@@ -79,9 +76,8 @@ public class GcloudEdgeCloudNetworkingNetworks
         GcloudEdgeCloudNetworkingNetworksGetStatusOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingNetworksGetStatusOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Distributed Cloud Edge      Network networks
@@ -93,9 +89,8 @@ public class GcloudEdgeCloudNetworkingNetworks
         GcloudEdgeCloudNetworkingNetworksListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingNetworksListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

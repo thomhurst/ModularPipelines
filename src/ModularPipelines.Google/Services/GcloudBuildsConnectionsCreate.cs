@@ -37,9 +37,8 @@ public class GcloudBuildsConnectionsCreate
         GcloudBuildsConnectionsCreateBitbucketCloudOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsConnectionsCreateBitbucketCloudOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Cloud      Build Connection for Bitbucket Data Center
@@ -51,9 +50,8 @@ public class GcloudBuildsConnectionsCreate
         GcloudBuildsConnectionsCreateBitbucketDataCenterOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsConnectionsCreateBitbucketDataCenterOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Cloud Build      Connection of type GitHub Enterprise
@@ -65,9 +63,8 @@ public class GcloudBuildsConnectionsCreate
         GcloudBuildsConnectionsCreateGithubEnterpriseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsConnectionsCreateGithubEnterpriseOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Cloud Build Connection      of type GitHub
@@ -79,9 +76,8 @@ public class GcloudBuildsConnectionsCreate
         GcloudBuildsConnectionsCreateGithubOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsConnectionsCreateGithubOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Cloud Build Connection      for gitlab.com or GitLab Enterprise
@@ -93,9 +89,8 @@ public class GcloudBuildsConnectionsCreate
         GcloudBuildsConnectionsCreateGitlabOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsConnectionsCreateGitlabOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

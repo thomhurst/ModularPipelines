@@ -37,9 +37,8 @@ public class GcloudSpannerSamples
         GcloudSpannerSamplesBackendOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerSamplesBackendOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// initialize a Cloud Spanner sample app
@@ -51,9 +50,8 @@ public class GcloudSpannerSamples
         GcloudSpannerSamplesInitOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerSamplesInitOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list available sample applications
@@ -65,9 +63,8 @@ public class GcloudSpannerSamples
         GcloudSpannerSamplesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerSamplesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// run the given Cloud Spanner sample app
@@ -79,9 +76,8 @@ public class GcloudSpannerSamples
         GcloudSpannerSamplesRunOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerSamplesRunOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// generate gRPC traffic for a given sample      app's backend service
@@ -93,9 +89,8 @@ public class GcloudSpannerSamples
         GcloudSpannerSamplesWorkloadOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerSamplesWorkloadOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

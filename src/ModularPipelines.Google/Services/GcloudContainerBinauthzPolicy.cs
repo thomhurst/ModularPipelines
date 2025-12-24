@@ -37,9 +37,8 @@ public class GcloudContainerBinauthzPolicy
         GcloudContainerBinauthzPolicyAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzPolicyAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export the Binary Authorization      policy for the current project
@@ -51,9 +50,8 @@ public class GcloudContainerBinauthzPolicy
         GcloudContainerBinauthzPolicyExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzPolicyExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a      Binary Authorization policy
@@ -65,9 +63,8 @@ public class GcloudContainerBinauthzPolicy
         GcloudContainerBinauthzPolicyGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzPolicyGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import a Binary Authorization      policy to the current project
@@ -79,9 +76,8 @@ public class GcloudContainerBinauthzPolicy
         GcloudContainerBinauthzPolicyImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzPolicyImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove IAM      policy binding of a Binary Authorization policy
@@ -93,9 +89,8 @@ public class GcloudContainerBinauthzPolicy
         GcloudContainerBinauthzPolicyRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzPolicyRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for a      Binary Authorization policy
@@ -107,9 +102,8 @@ public class GcloudContainerBinauthzPolicy
         GcloudContainerBinauthzPolicySetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzPolicySetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

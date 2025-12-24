@@ -37,9 +37,8 @@ public class GcloudModelArmorFloorsettings
         GcloudModelArmorFloorsettingsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudModelArmorFloorsettingsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update the FloorSetting resource
@@ -51,9 +50,8 @@ public class GcloudModelArmorFloorsettings
         GcloudModelArmorFloorsettingsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudModelArmorFloorsettingsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudComputeInstanceGroupsManagedRollingAction
         GcloudComputeInstanceGroupsManagedRollingActionReplaceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedRollingActionReplaceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// restarts      instances in a managed instance group
@@ -51,9 +50,8 @@ public class GcloudComputeInstanceGroupsManagedRollingAction
         GcloudComputeInstanceGroupsManagedRollingActionRestartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedRollingActionRestartOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates instances in a managed instance group
@@ -65,9 +63,8 @@ public class GcloudComputeInstanceGroupsManagedRollingAction
         GcloudComputeInstanceGroupsManagedRollingActionStartUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedRollingActionStartUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update      - stop the proactive update process of managed instance group
@@ -79,9 +76,8 @@ public class GcloudComputeInstanceGroupsManagedRollingAction
         GcloudComputeInstanceGroupsManagedRollingActionStopProactiveUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedRollingActionStopProactiveUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

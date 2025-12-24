@@ -37,9 +37,8 @@ public class GcloudManagedKafkaConsumerGroups
         GcloudManagedKafkaConsumerGroupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConsumerGroupsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Managed Service      for Apache Kafka consumer group
@@ -51,9 +50,8 @@ public class GcloudManagedKafkaConsumerGroups
         GcloudManagedKafkaConsumerGroupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConsumerGroupsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all Managed Service for      Apache Kafka consumer groups in a given cluster and location
@@ -65,9 +63,8 @@ public class GcloudManagedKafkaConsumerGroups
         GcloudManagedKafkaConsumerGroupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConsumerGroupsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Managed Service for      Apache Kafka consumer group
@@ -79,9 +76,8 @@ public class GcloudManagedKafkaConsumerGroups
         GcloudManagedKafkaConsumerGroupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConsumerGroupsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

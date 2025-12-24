@@ -37,9 +37,8 @@ public class GcloudNetappVolumesSnapshots
         GcloudNetappVolumesSnapshotsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesSnapshotsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud NetApp Volume      Snapshot
@@ -51,9 +50,8 @@ public class GcloudNetappVolumesSnapshots
         GcloudNetappVolumesSnapshotsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesSnapshotsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Cloud NetApp Volume      Snapshot
@@ -65,9 +63,8 @@ public class GcloudNetappVolumesSnapshots
         GcloudNetappVolumesSnapshotsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesSnapshotsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud NetApp Volume Snapshots
@@ -79,9 +76,8 @@ public class GcloudNetappVolumesSnapshots
         GcloudNetappVolumesSnapshotsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesSnapshotsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud NetApp Volume      Snapshot
@@ -93,9 +89,8 @@ public class GcloudNetappVolumesSnapshots
         GcloudNetappVolumesSnapshotsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesSnapshotsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

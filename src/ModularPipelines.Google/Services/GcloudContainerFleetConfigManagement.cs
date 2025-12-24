@@ -37,9 +37,8 @@ public class GcloudContainerFleetConfigManagement
         GcloudContainerFleetConfigManagementDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetConfigManagementDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disable the Config      Management feature
@@ -51,9 +50,8 @@ public class GcloudContainerFleetConfigManagement
         GcloudContainerFleetConfigManagementDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetConfigManagementDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

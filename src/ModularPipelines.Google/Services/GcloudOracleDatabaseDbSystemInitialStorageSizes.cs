@@ -37,9 +37,8 @@ public class GcloudOracleDatabaseDbSystemInitialStorageSizes
         GcloudOracleDatabaseDbSystemInitialStorageSizesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseDbSystemInitialStorageSizesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

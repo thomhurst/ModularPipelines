@@ -37,9 +37,8 @@ public class GcloudBmsNetworks
         GcloudBmsNetworksDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNetworksDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list IP range reservations for      Bare Metal Solution networks in a project
@@ -51,9 +50,8 @@ public class GcloudBmsNetworks
         GcloudBmsNetworksListIpReservationsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNetworksListIpReservationsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Bare Metal Solution networks in a project
@@ -65,9 +63,8 @@ public class GcloudBmsNetworks
         GcloudBmsNetworksListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNetworksListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// rename a Bare Metal Solution network
@@ -79,9 +76,8 @@ public class GcloudBmsNetworks
         GcloudBmsNetworksRenameOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNetworksRenameOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Bare Metal Solution network
@@ -93,9 +89,8 @@ public class GcloudBmsNetworks
         GcloudBmsNetworksUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNetworksUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

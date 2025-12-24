@@ -37,9 +37,8 @@ public class GcloudSccPostures
         GcloudSccPosturesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccPosturesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud Security Command Center posture
@@ -51,9 +50,8 @@ public class GcloudSccPostures
         GcloudSccPosturesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccPosturesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Cloud Security Command Center      posture
@@ -65,9 +63,8 @@ public class GcloudSccPostures
         GcloudSccPosturesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccPosturesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// extract a Cloud Security Command Center      posture from a workload
@@ -79,9 +76,8 @@ public class GcloudSccPostures
         GcloudSccPosturesExtractOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccPosturesExtractOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists all the Cloud Security Command Center      postures for an organization
@@ -93,9 +89,8 @@ public class GcloudSccPostures
         GcloudSccPosturesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccPosturesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the revisions of a Cloud Security      Command Center posture
@@ -107,9 +102,8 @@ public class GcloudSccPostures
         GcloudSccPosturesListRevisionsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccPosturesListRevisionsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update the given Cloud Security Command Center      posture
@@ -121,9 +115,8 @@ public class GcloudSccPostures
         GcloudSccPosturesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccPosturesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

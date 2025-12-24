@@ -37,9 +37,8 @@ public class GcloudContainerHubPolicycontrollerDeployment
         GcloudContainerHubPolicycontrollerDeploymentRemoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubPolicycontrollerDeploymentRemoveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// sets configuration      of the Policy Controller components
@@ -51,9 +50,8 @@ public class GcloudContainerHubPolicycontrollerDeployment
         GcloudContainerHubPolicycontrollerDeploymentSetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubPolicycontrollerDeploymentSetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

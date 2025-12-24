@@ -37,9 +37,8 @@ public class GcloudComputeSoleTenancyNodeTypes
         GcloudComputeSoleTenancyNodeTypesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeTypesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine      node types
@@ -51,9 +50,8 @@ public class GcloudComputeSoleTenancyNodeTypes
         GcloudComputeSoleTenancyNodeTypesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeTypesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

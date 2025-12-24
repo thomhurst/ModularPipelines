@@ -37,9 +37,8 @@ public class GcloudManagedKafkaConnectors
         GcloudManagedKafkaConnectorsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectorsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Managed Service for      Apache Kafka connector
@@ -51,9 +50,8 @@ public class GcloudManagedKafkaConnectors
         GcloudManagedKafkaConnectorsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectorsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Managed Service for      Apache Kafka connector
@@ -65,9 +63,8 @@ public class GcloudManagedKafkaConnectors
         GcloudManagedKafkaConnectorsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectorsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all Managed Service for Apache      Kafka connectors for a given connect cluster
@@ -79,9 +76,8 @@ public class GcloudManagedKafkaConnectors
         GcloudManagedKafkaConnectorsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectorsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// pauses operation of a Managed      Service for Apache Kafka connector
@@ -93,9 +89,8 @@ public class GcloudManagedKafkaConnectors
         GcloudManagedKafkaConnectorsPauseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectorsPauseOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// restarts a Managed Service for      Apache Kafka connector
@@ -107,9 +102,8 @@ public class GcloudManagedKafkaConnectors
         GcloudManagedKafkaConnectorsRestartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectorsRestartOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// resumes operation of a stopped      Managed Service for Apache Kafka connector
@@ -121,9 +115,8 @@ public class GcloudManagedKafkaConnectors
         GcloudManagedKafkaConnectorsResumeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectorsResumeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// stops operation of a Managed Service      for Apache Kafka connector
@@ -135,9 +128,8 @@ public class GcloudManagedKafkaConnectors
         GcloudManagedKafkaConnectorsStopOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectorsStopOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Managed Service for      Apache Kafka connector
@@ -149,9 +141,8 @@ public class GcloudManagedKafkaConnectors
         GcloudManagedKafkaConnectorsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectorsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudEmulatorsSpanner
         GcloudEmulatorsSpannerEnvInitOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEmulatorsSpannerEnvInitOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// party notices for the local      Cloud Spanner emulator
@@ -51,9 +50,8 @@ public class GcloudEmulatorsSpanner
         GcloudEmulatorsSpannerNoticesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEmulatorsSpannerNoticesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// start a local Cloud Spanner emulator
@@ -65,9 +63,8 @@ public class GcloudEmulatorsSpanner
         GcloudEmulatorsSpannerStartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEmulatorsSpannerStartOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudAccessContextManagerCloudBindings
         GcloudAccessContextManagerCloudBindingsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerCloudBindingsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a cloud access      binding
@@ -51,9 +50,8 @@ public class GcloudAccessContextManagerCloudBindings
         GcloudAccessContextManagerCloudBindingsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerCloudBindingsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about      a cloud access binding
@@ -65,9 +63,8 @@ public class GcloudAccessContextManagerCloudBindings
         GcloudAccessContextManagerCloudBindingsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerCloudBindingsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list cloud access      bindings under an organization
@@ -79,9 +76,8 @@ public class GcloudAccessContextManagerCloudBindings
         GcloudAccessContextManagerCloudBindingsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerCloudBindingsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a existing      cloud access binding under an organization
@@ -93,9 +89,8 @@ public class GcloudAccessContextManagerCloudBindings
         GcloudAccessContextManagerCloudBindingsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerCloudBindingsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

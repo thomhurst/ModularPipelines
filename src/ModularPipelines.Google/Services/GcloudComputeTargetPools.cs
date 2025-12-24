@@ -37,9 +37,8 @@ public class GcloudComputeTargetPools
         GcloudComputeTargetPoolsAddHealthChecksOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetPoolsAddHealthChecksOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add instances to a target pool
@@ -51,9 +50,8 @@ public class GcloudComputeTargetPools
         GcloudComputeTargetPoolsAddInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetPoolsAddInstancesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// balanced pool of virtual      machine instances
@@ -65,9 +63,8 @@ public class GcloudComputeTargetPools
         GcloudComputeTargetPoolsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetPoolsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete target pools
@@ -79,9 +76,8 @@ public class GcloudComputeTargetPools
         GcloudComputeTargetPoolsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetPoolsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute Engine target      pool
@@ -93,9 +89,8 @@ public class GcloudComputeTargetPools
         GcloudComputeTargetPoolsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetPoolsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the health of instances in a      target pool
@@ -107,9 +102,8 @@ public class GcloudComputeTargetPools
         GcloudComputeTargetPoolsGetHealthOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetPoolsGetHealthOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine target pools
@@ -121,9 +115,8 @@ public class GcloudComputeTargetPools
         GcloudComputeTargetPoolsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetPoolsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an HTTP health      check from a target pool
@@ -135,9 +128,8 @@ public class GcloudComputeTargetPools
         GcloudComputeTargetPoolsRemoveHealthChecksOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetPoolsRemoveHealthChecksOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove instances from a      target pool
@@ -149,9 +141,8 @@ public class GcloudComputeTargetPools
         GcloudComputeTargetPoolsRemoveInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetPoolsRemoveInstancesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set a backup pool for a target      pool
@@ -163,9 +154,8 @@ public class GcloudComputeTargetPools
         GcloudComputeTargetPoolsSetBackupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetPoolsSetBackupOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine target pool
@@ -177,9 +167,8 @@ public class GcloudComputeTargetPools
         GcloudComputeTargetPoolsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetPoolsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -47,9 +47,8 @@ public class GcloudIamWorkforcePoolsProvidersKeys
         GcloudIamWorkforcePoolsProvidersKeysCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersKeysCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a workforce pool      provider key
@@ -61,9 +60,8 @@ public class GcloudIamWorkforcePoolsProvidersKeys
         GcloudIamWorkforcePoolsProvidersKeysDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersKeysDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a workforce      pool provider key
@@ -75,9 +73,8 @@ public class GcloudIamWorkforcePoolsProvidersKeys
         GcloudIamWorkforcePoolsProvidersKeysDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersKeysDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list workforce pool      provider keys
@@ -89,9 +86,8 @@ public class GcloudIamWorkforcePoolsProvidersKeys
         GcloudIamWorkforcePoolsProvidersKeysListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersKeysListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// undelete a workforce      pool provider key
@@ -103,9 +99,8 @@ public class GcloudIamWorkforcePoolsProvidersKeys
         GcloudIamWorkforcePoolsProvidersKeysUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersKeysUndeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudBackupDrDataSources
         GcloudBackupDrDataSourcesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrDataSourcesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Data Sources
@@ -51,9 +50,8 @@ public class GcloudBackupDrDataSources
         GcloudBackupDrDataSourcesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrDataSourcesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

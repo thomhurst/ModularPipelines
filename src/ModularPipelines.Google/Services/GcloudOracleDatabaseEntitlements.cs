@@ -37,9 +37,8 @@ public class GcloudOracleDatabaseEntitlements
         GcloudOracleDatabaseEntitlementsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseEntitlementsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

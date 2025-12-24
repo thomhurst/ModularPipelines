@@ -37,9 +37,8 @@ public class GcloudPubsubLiteSubscriptions
         GcloudPubsubLiteSubscriptionsAckUpToOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteSubscriptionsAckUpToOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Pub/Sub Lite      subscription
@@ -51,9 +50,8 @@ public class GcloudPubsubLiteSubscriptions
         GcloudPubsubLiteSubscriptionsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteSubscriptionsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Pub/Sub Lite      subscription
@@ -65,9 +63,8 @@ public class GcloudPubsubLiteSubscriptions
         GcloudPubsubLiteSubscriptionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteSubscriptionsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Pub/Sub Lite      subscription
@@ -79,9 +76,8 @@ public class GcloudPubsubLiteSubscriptions
         GcloudPubsubLiteSubscriptionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteSubscriptionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Pub/Sub Lite subscriptions
@@ -93,9 +89,8 @@ public class GcloudPubsubLiteSubscriptions
         GcloudPubsubLiteSubscriptionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteSubscriptionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// seek a Pub/Sub Lite subscription
@@ -107,9 +102,8 @@ public class GcloudPubsubLiteSubscriptions
         GcloudPubsubLiteSubscriptionsSeekOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteSubscriptionsSeekOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// stream messages from a Pub/Sub      Lite subscription
@@ -121,9 +115,8 @@ public class GcloudPubsubLiteSubscriptions
         GcloudPubsubLiteSubscriptionsSubscribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteSubscriptionsSubscribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Pub/Sub Lite      subscription
@@ -135,9 +128,8 @@ public class GcloudPubsubLiteSubscriptions
         GcloudPubsubLiteSubscriptionsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteSubscriptionsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

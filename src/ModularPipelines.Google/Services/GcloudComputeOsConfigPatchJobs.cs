@@ -37,9 +37,8 @@ public class GcloudComputeOsConfigPatchJobs
         GcloudComputeOsConfigPatchJobsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPatchJobsCancelOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a specified OS      patch job
@@ -51,9 +50,8 @@ public class GcloudComputeOsConfigPatchJobs
         GcloudComputeOsConfigPatchJobsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPatchJobsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// execute an OS patch on the      specified VM instances
@@ -65,9 +63,8 @@ public class GcloudComputeOsConfigPatchJobs
         GcloudComputeOsConfigPatchJobsExecuteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPatchJobsExecuteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the      instance details for an OS patch job
@@ -79,9 +76,8 @@ public class GcloudComputeOsConfigPatchJobs
         GcloudComputeOsConfigPatchJobsListInstanceDetailsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPatchJobsListInstanceDetailsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list ongoing and completed patch      jobs
@@ -93,9 +89,8 @@ public class GcloudComputeOsConfigPatchJobs
         GcloudComputeOsConfigPatchJobsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPatchJobsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

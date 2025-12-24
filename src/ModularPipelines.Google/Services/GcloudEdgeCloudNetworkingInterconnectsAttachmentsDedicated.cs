@@ -37,9 +37,8 @@ public class GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicated
         GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicatedCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicatedCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

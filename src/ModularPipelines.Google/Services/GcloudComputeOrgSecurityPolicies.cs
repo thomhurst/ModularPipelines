@@ -53,9 +53,8 @@ public class GcloudComputeOrgSecurityPolicies
         GcloudComputeOrgSecurityPoliciesCopyRulesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOrgSecurityPoliciesCopyRulesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Compute Engine      organization security policy
@@ -67,9 +66,8 @@ public class GcloudComputeOrgSecurityPolicies
         GcloudComputeOrgSecurityPoliciesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOrgSecurityPoliciesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Compute Engine      organization security policy
@@ -81,9 +79,8 @@ public class GcloudComputeOrgSecurityPolicies
         GcloudComputeOrgSecurityPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOrgSecurityPoliciesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute Engine      organization security policy
@@ -95,9 +92,8 @@ public class GcloudComputeOrgSecurityPolicies
         GcloudComputeOrgSecurityPoliciesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOrgSecurityPoliciesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Compute Engine      organization security policies
@@ -109,9 +105,8 @@ public class GcloudComputeOrgSecurityPolicies
         GcloudComputeOrgSecurityPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOrgSecurityPoliciesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the rules of a      Compute Engine organization security policy
@@ -123,9 +118,8 @@ public class GcloudComputeOrgSecurityPolicies
         GcloudComputeOrgSecurityPoliciesListRulesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOrgSecurityPoliciesListRulesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// move a Compute Engine      organization security policy
@@ -137,9 +131,8 @@ public class GcloudComputeOrgSecurityPolicies
         GcloudComputeOrgSecurityPoliciesMoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOrgSecurityPoliciesMoveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine      organization security policy
@@ -151,9 +144,8 @@ public class GcloudComputeOrgSecurityPolicies
         GcloudComputeOrgSecurityPoliciesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOrgSecurityPoliciesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudNetworkSecurityTlsInspectionPolicies
         GcloudNetworkSecurityTlsInspectionPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityTlsInspectionPoliciesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export TLS      Inspection Policy
@@ -51,9 +50,8 @@ public class GcloudNetworkSecurityTlsInspectionPolicies
         GcloudNetworkSecurityTlsInspectionPoliciesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityTlsInspectionPoliciesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import TLS      Inspection Policy
@@ -65,9 +63,8 @@ public class GcloudNetworkSecurityTlsInspectionPolicies
         GcloudNetworkSecurityTlsInspectionPoliciesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityTlsInspectionPoliciesImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list TLS Inspection      Policies
@@ -79,9 +76,8 @@ public class GcloudNetworkSecurityTlsInspectionPolicies
         GcloudNetworkSecurityTlsInspectionPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityTlsInspectionPoliciesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

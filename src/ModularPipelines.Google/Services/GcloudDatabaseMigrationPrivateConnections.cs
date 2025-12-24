@@ -37,9 +37,8 @@ public class GcloudDatabaseMigrationPrivateConnections
         GcloudDatabaseMigrationPrivateConnectionsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationPrivateConnectionsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Database      Migration private connection
@@ -51,9 +50,8 @@ public class GcloudDatabaseMigrationPrivateConnections
         GcloudDatabaseMigrationPrivateConnectionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationPrivateConnectionsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about      a database migration private connection
@@ -65,9 +63,8 @@ public class GcloudDatabaseMigrationPrivateConnections
         GcloudDatabaseMigrationPrivateConnectionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationPrivateConnectionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list private      connections
@@ -79,9 +76,8 @@ public class GcloudDatabaseMigrationPrivateConnections
         GcloudDatabaseMigrationPrivateConnectionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationPrivateConnectionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

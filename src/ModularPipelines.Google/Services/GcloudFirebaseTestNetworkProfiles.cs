@@ -37,9 +37,8 @@ public class GcloudFirebaseTestNetworkProfiles
         GcloudFirebaseTestNetworkProfilesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestNetworkProfilesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all network profiles      available for testing
@@ -51,9 +50,8 @@ public class GcloudFirebaseTestNetworkProfiles
         GcloudFirebaseTestNetworkProfilesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestNetworkProfilesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

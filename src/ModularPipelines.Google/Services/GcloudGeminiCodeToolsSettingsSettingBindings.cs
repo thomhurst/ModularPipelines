@@ -37,9 +37,8 @@ public class GcloudGeminiCodeToolsSettingsSettingBindings
         GcloudGeminiCodeToolsSettingsSettingBindingsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeToolsSettingsSettingBindingsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete      settingBindings
@@ -51,9 +50,8 @@ public class GcloudGeminiCodeToolsSettingsSettingBindings
         GcloudGeminiCodeToolsSettingsSettingBindingsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeToolsSettingsSettingBindingsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe      settingBindings
@@ -65,9 +63,8 @@ public class GcloudGeminiCodeToolsSettingsSettingBindings
         GcloudGeminiCodeToolsSettingsSettingBindingsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeToolsSettingsSettingBindingsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      settingBindings
@@ -79,9 +76,8 @@ public class GcloudGeminiCodeToolsSettingsSettingBindings
         GcloudGeminiCodeToolsSettingsSettingBindingsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeToolsSettingsSettingBindingsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update      settingBindings
@@ -93,9 +89,8 @@ public class GcloudGeminiCodeToolsSettingsSettingBindings
         GcloudGeminiCodeToolsSettingsSettingBindingsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeToolsSettingsSettingBindingsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

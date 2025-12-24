@@ -37,9 +37,8 @@ public class GcloudComputeAcceleratorTypes
         GcloudComputeAcceleratorTypesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeAcceleratorTypesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine      accelerator types
@@ -51,9 +50,8 @@ public class GcloudComputeAcceleratorTypes
         GcloudComputeAcceleratorTypesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeAcceleratorTypesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -47,9 +47,8 @@ public class GcloudGeminiLoggingSettings
         GcloudGeminiLoggingSettingsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiLoggingSettingsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete loggingSettings
@@ -61,9 +60,8 @@ public class GcloudGeminiLoggingSettings
         GcloudGeminiLoggingSettingsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiLoggingSettingsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe loggingSettings
@@ -75,9 +73,8 @@ public class GcloudGeminiLoggingSettings
         GcloudGeminiLoggingSettingsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiLoggingSettingsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list loggingSettings
@@ -89,9 +86,8 @@ public class GcloudGeminiLoggingSettings
         GcloudGeminiLoggingSettingsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiLoggingSettingsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update loggingSettings
@@ -103,9 +99,8 @@ public class GcloudGeminiLoggingSettings
         GcloudGeminiLoggingSettingsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiLoggingSettingsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

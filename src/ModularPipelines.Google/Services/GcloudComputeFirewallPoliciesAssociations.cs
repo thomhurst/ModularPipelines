@@ -37,9 +37,8 @@ public class GcloudComputeFirewallPoliciesAssociations
         GcloudComputeFirewallPoliciesAssociationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeFirewallPoliciesAssociationsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Compute      Engine organization firewall policy association
@@ -51,9 +50,8 @@ public class GcloudComputeFirewallPoliciesAssociations
         GcloudComputeFirewallPoliciesAssociationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeFirewallPoliciesAssociationsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the associations      of an organization or folder resource
@@ -65,9 +63,8 @@ public class GcloudComputeFirewallPoliciesAssociations
         GcloudComputeFirewallPoliciesAssociationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeFirewallPoliciesAssociationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

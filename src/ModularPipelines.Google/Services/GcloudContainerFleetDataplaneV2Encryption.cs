@@ -37,9 +37,8 @@ public class GcloudContainerFleetDataplaneV2Encryption
         GcloudContainerFleetDataplaneV2EncryptionDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetDataplaneV2EncryptionDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disables the      Dataplane V2 Encryption Feature
@@ -51,9 +50,8 @@ public class GcloudContainerFleetDataplaneV2Encryption
         GcloudContainerFleetDataplaneV2EncryptionDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetDataplaneV2EncryptionDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enables the      Dataplane V2 Encryption Feature
@@ -65,9 +63,8 @@ public class GcloudContainerFleetDataplaneV2Encryption
         GcloudContainerFleetDataplaneV2EncryptionEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetDataplaneV2EncryptionEnableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

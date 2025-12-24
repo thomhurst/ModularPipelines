@@ -37,9 +37,8 @@ public class GcloudFilestoreInstancesSnapshots
         GcloudFilestoreInstancesSnapshotsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreInstancesSnapshotsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Filestore snapshot
@@ -51,9 +50,8 @@ public class GcloudFilestoreInstancesSnapshots
         GcloudFilestoreInstancesSnapshotsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreInstancesSnapshotsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// display information about a      Filestore snapshot
@@ -65,9 +63,8 @@ public class GcloudFilestoreInstancesSnapshots
         GcloudFilestoreInstancesSnapshotsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreInstancesSnapshotsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Filestore snapshots
@@ -79,9 +76,8 @@ public class GcloudFilestoreInstancesSnapshots
         GcloudFilestoreInstancesSnapshotsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreInstancesSnapshotsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update the description or      labels of a Filestore snapshot
@@ -93,9 +89,8 @@ public class GcloudFilestoreInstancesSnapshots
         GcloudFilestoreInstancesSnapshotsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreInstancesSnapshotsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

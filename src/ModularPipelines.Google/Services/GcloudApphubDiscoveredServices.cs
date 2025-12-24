@@ -37,9 +37,8 @@ public class GcloudApphubDiscoveredServices
         GcloudApphubDiscoveredServicesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubDiscoveredServicesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Apphub discovered services
@@ -51,9 +50,8 @@ public class GcloudApphubDiscoveredServices
         GcloudApphubDiscoveredServicesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubDiscoveredServicesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lookup an Apphub discovered      service with URI
@@ -65,9 +63,8 @@ public class GcloudApphubDiscoveredServices
         GcloudApphubDiscoveredServicesLookupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubDiscoveredServicesLookupOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

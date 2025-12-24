@@ -47,9 +47,8 @@ public class GcloudComputeDisks
         GcloudComputeDisksAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add labels to Google Compute Engine      persistent disks
@@ -61,9 +60,8 @@ public class GcloudComputeDisks
         GcloudComputeDisksAddLabelsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksAddLabelsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add resource policies to a      Compute Engine disk
@@ -75,9 +73,8 @@ public class GcloudComputeDisks
         GcloudComputeDisksAddResourcePoliciesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksAddResourcePoliciesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// convert a Compute Engine Persistent Disk      volume to a Hyperdisk volume
@@ -89,9 +86,8 @@ public class GcloudComputeDisks
         GcloudComputeDisksConvertOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksConvertOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create Compute Engine persistent disks
@@ -103,9 +99,8 @@ public class GcloudComputeDisks
         GcloudComputeDisksCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Compute Engine disk
@@ -117,9 +112,8 @@ public class GcloudComputeDisks
         GcloudComputeDisksDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute Engine disk
@@ -131,9 +125,8 @@ public class GcloudComputeDisks
         GcloudComputeDisksDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a Compute      Engine disk
@@ -145,9 +138,8 @@ public class GcloudComputeDisks
         GcloudComputeDisksGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine disks
@@ -159,9 +151,8 @@ public class GcloudComputeDisks
         GcloudComputeDisksListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// move a disk between zones
@@ -173,9 +164,8 @@ public class GcloudComputeDisks
         GcloudComputeDisksMoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksMoveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove IAM policy binding      from a Compute Engine disk
@@ -187,9 +177,8 @@ public class GcloudComputeDisks
         GcloudComputeDisksRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove labels from Google Compute      Engine persistent disks
@@ -201,9 +190,8 @@ public class GcloudComputeDisks
         GcloudComputeDisksRemoveLabelsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksRemoveLabelsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove resource policies      from a Compute Engine disk
@@ -215,9 +203,8 @@ public class GcloudComputeDisks
         GcloudComputeDisksRemoveResourcePoliciesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksRemoveResourcePoliciesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// resize a disk or disks
@@ -229,9 +216,8 @@ public class GcloudComputeDisks
         GcloudComputeDisksResizeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksResizeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for a Compute      Engine disk
@@ -243,9 +229,8 @@ public class GcloudComputeDisks
         GcloudComputeDisksSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create snapshots of Compute Engine      persistent disks
@@ -257,9 +242,8 @@ public class GcloudComputeDisks
         GcloudComputeDisksSnapshotOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksSnapshotOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// start asynchronous      replication on a Compute Engine persistent disk
@@ -271,9 +255,8 @@ public class GcloudComputeDisks
         GcloudComputeDisksStartAsyncReplicationOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksStartAsyncReplicationOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// stop async replication on a      Compute Engine persistent disk
@@ -285,9 +268,8 @@ public class GcloudComputeDisks
         GcloudComputeDisksStopAsyncReplicationOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksStopAsyncReplicationOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// consistently stops a      group of asynchronously replicating disks
@@ -299,9 +281,8 @@ public class GcloudComputeDisks
         GcloudComputeDisksStopGroupAsyncReplicationOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksStopGroupAsyncReplicationOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine persistent disk
@@ -313,9 +294,8 @@ public class GcloudComputeDisks
         GcloudComputeDisksUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

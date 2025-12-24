@@ -47,9 +47,8 @@ public class GcloudMemorystoreBackupCollections
         GcloudMemorystoreBackupCollectionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreBackupCollectionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list backupCollections
@@ -61,9 +60,8 @@ public class GcloudMemorystoreBackupCollections
         GcloudMemorystoreBackupCollectionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreBackupCollectionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

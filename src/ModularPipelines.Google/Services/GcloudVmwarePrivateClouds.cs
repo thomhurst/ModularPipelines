@@ -101,9 +101,8 @@ public class GcloudVmwarePrivateClouds
         GcloudVmwarePrivateCloudsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// permanent deletion of a Google      Cloud VMware Engine private cloud currently in soft-deleted state
@@ -115,9 +114,8 @@ public class GcloudVmwarePrivateClouds
         GcloudVmwarePrivateCloudsDeleteNowOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsDeleteNowOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Google Cloud VMware Engine      private cloud
@@ -129,9 +127,8 @@ public class GcloudVmwarePrivateClouds
         GcloudVmwarePrivateCloudsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Google Cloud VMware      Engine private cloud
@@ -143,9 +140,8 @@ public class GcloudVmwarePrivateClouds
         GcloudVmwarePrivateCloudsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Cloud VMware Engine private      clouds
@@ -157,9 +153,8 @@ public class GcloudVmwarePrivateClouds
         GcloudVmwarePrivateCloudsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// cancel deletion of a Google Cloud      VMware Engine private cloud
@@ -171,9 +166,8 @@ public class GcloudVmwarePrivateClouds
         GcloudVmwarePrivateCloudsUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsUndeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Google Cloud VMware Engine      private cloud
@@ -185,9 +179,8 @@ public class GcloudVmwarePrivateClouds
         GcloudVmwarePrivateCloudsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

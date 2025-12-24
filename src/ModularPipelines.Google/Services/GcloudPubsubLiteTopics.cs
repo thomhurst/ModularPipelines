@@ -37,9 +37,8 @@ public class GcloudPubsubLiteTopics
         GcloudPubsubLiteTopicsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteTopicsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Pub/Sub Lite topic
@@ -51,9 +50,8 @@ public class GcloudPubsubLiteTopics
         GcloudPubsubLiteTopicsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteTopicsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Pub/Sub Lite topic
@@ -65,9 +63,8 @@ public class GcloudPubsubLiteTopics
         GcloudPubsubLiteTopicsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteTopicsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Pub/Sub Lite topics
@@ -79,9 +76,8 @@ public class GcloudPubsubLiteTopics
         GcloudPubsubLiteTopicsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteTopicsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Pub/Sub Lite      subscriptions for a given Lite topic
@@ -93,9 +89,8 @@ public class GcloudPubsubLiteTopics
         GcloudPubsubLiteTopicsListSubscriptionsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteTopicsListSubscriptionsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// publish Pub/Sub Lite messages
@@ -107,9 +102,8 @@ public class GcloudPubsubLiteTopics
         GcloudPubsubLiteTopicsPublishOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteTopicsPublishOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Pub/Sub Lite topic
@@ -121,9 +115,8 @@ public class GcloudPubsubLiteTopics
         GcloudPubsubLiteTopicsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteTopicsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

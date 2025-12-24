@@ -37,9 +37,8 @@ public class GcloudApphubServiceProjects
         GcloudApphubServiceProjectsAddOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubServiceProjectsAddOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an Apphub service      project
@@ -51,9 +50,8 @@ public class GcloudApphubServiceProjects
         GcloudApphubServiceProjectsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubServiceProjectsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// detach an Apphub service project
@@ -65,9 +63,8 @@ public class GcloudApphubServiceProjects
         GcloudApphubServiceProjectsDetachOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubServiceProjectsDetachOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Apphub service projects
@@ -79,9 +76,8 @@ public class GcloudApphubServiceProjects
         GcloudApphubServiceProjectsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubServiceProjectsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lookup an Apphub service project
@@ -93,9 +89,8 @@ public class GcloudApphubServiceProjects
         GcloudApphubServiceProjectsLookupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubServiceProjectsLookupOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an Apphub service project
@@ -107,9 +102,8 @@ public class GcloudApphubServiceProjects
         GcloudApphubServiceProjectsRemoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubServiceProjectsRemoveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

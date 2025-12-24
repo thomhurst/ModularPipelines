@@ -37,9 +37,8 @@ public class GcloudResourceManagerOrgPolicies
         GcloudResourceManagerOrgPoliciesAllowOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerOrgPoliciesAllowOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an Organization Policy
@@ -51,9 +50,8 @@ public class GcloudResourceManagerOrgPolicies
         GcloudResourceManagerOrgPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerOrgPoliciesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add values to an Organization      Policy denied_values list policy
@@ -65,9 +63,8 @@ public class GcloudResourceManagerOrgPolicies
         GcloudResourceManagerOrgPoliciesDenyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerOrgPoliciesDenyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an Organization      Policy
@@ -79,9 +76,8 @@ public class GcloudResourceManagerOrgPolicies
         GcloudResourceManagerOrgPoliciesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerOrgPoliciesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// turns off      enforcement of boolean Organization Policy constraint
@@ -93,9 +89,8 @@ public class GcloudResourceManagerOrgPolicies
         GcloudResourceManagerOrgPoliciesDisableEnforceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerOrgPoliciesDisableEnforceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// turns on enforcement      of boolean Organization Policy constraint
@@ -107,9 +102,8 @@ public class GcloudResourceManagerOrgPolicies
         GcloudResourceManagerOrgPoliciesEnableEnforceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerOrgPoliciesEnableEnforceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Organization Policies      associated with the specified resource
@@ -121,9 +115,8 @@ public class GcloudResourceManagerOrgPolicies
         GcloudResourceManagerOrgPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerOrgPoliciesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set Organization Policy
@@ -135,9 +128,8 @@ public class GcloudResourceManagerOrgPolicies
         GcloudResourceManagerOrgPoliciesSetPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerOrgPoliciesSetPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

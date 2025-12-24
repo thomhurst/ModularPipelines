@@ -37,9 +37,8 @@ public class GcloudNetworkServicesMulticastConsumerAssociations
         GcloudNetworkServicesMulticastConsumerAssociationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastConsumerAssociationsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a      multicast consumer association
@@ -51,9 +50,8 @@ public class GcloudNetworkServicesMulticastConsumerAssociations
         GcloudNetworkServicesMulticastConsumerAssociationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastConsumerAssociationsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe      a multicast consumer association
@@ -65,9 +63,8 @@ public class GcloudNetworkServicesMulticastConsumerAssociations
         GcloudNetworkServicesMulticastConsumerAssociationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastConsumerAssociationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      multicast consumer associations
@@ -79,9 +76,8 @@ public class GcloudNetworkServicesMulticastConsumerAssociations
         GcloudNetworkServicesMulticastConsumerAssociationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastConsumerAssociationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a      multicast consumer association
@@ -93,9 +89,8 @@ public class GcloudNetworkServicesMulticastConsumerAssociations
         GcloudNetworkServicesMulticastConsumerAssociationsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastConsumerAssociationsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -65,9 +65,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesAddAccessConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesAddAccessConfigOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add IAM policy binding to      a Compute Engine instance
@@ -79,9 +78,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add labels to Google Compute Engine      virtual machine instances
@@ -93,9 +91,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesAddLabelsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesAddLabelsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add or update instance metadata
@@ -107,9 +104,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesAddMetadataOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesAddMetadataOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add resource policies to      Compute Engine VM instances
@@ -121,9 +117,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesAddResourcePoliciesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesAddResourcePoliciesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add tags to Compute Engine virtual      machine instances
@@ -135,9 +130,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesAddTagsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesAddTagsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// attach a disk to an instance
@@ -149,9 +143,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesAttachDiskOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesAttachDiskOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create Compute Engine virtual machine      instances
@@ -163,9 +156,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// creates Compute Engine      virtual machine instances running container images
@@ -177,9 +169,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesCreateWithContainerOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesCreateWithContainerOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an access      configuration from a virtual machine network interface
@@ -191,9 +182,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesDeleteAccessConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesDeleteAccessConfigOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete Compute Engine virtual machine      instances
@@ -205,9 +195,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a virtual machine instance
@@ -219,9 +208,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// detach disks from Compute Engine      virtual machine instances
@@ -233,9 +221,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesDetachDiskOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesDetachDiskOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export a Compute Engine virtual machine      instance's configuration to a file
@@ -247,9 +234,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the Guest Attributes      for a compute instance
@@ -261,9 +247,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesGetGuestAttributesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesGetGuestAttributesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a Compute      Engine instance
@@ -275,9 +260,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// capture a screenshot (JPEG image)      of the virtual machine instance's display
@@ -289,9 +273,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesGetScreenshotOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesGetScreenshotOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// read output from a      virtual machine instance's serial port
@@ -303,9 +286,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesGetSerialPortOutputOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesGetSerialPortOutputOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the Shielded identity      for a Compute Engine instance
@@ -317,9 +299,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesGetShieldedIdentityOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesGetShieldedIdentityOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create Compute Engine virtual machine      instances from virtual appliance in OVA/OVF format
@@ -331,9 +312,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Compute Engine instances
@@ -345,9 +325,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// perform maintenance of      Google Compute Engine instance
@@ -359,9 +338,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesPerformMaintenanceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesPerformMaintenanceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove IAM policy      binding from a Compute Engine instance
@@ -373,9 +351,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove labels from Google Compute      Engine virtual machine instances
@@ -387,9 +364,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesRemoveLabelsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesRemoveLabelsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove instance metadata
@@ -401,9 +377,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesRemoveMetadataOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesRemoveMetadataOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove resource      policies from Compute Engine VM instances
@@ -415,9 +390,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesRemoveResourcePoliciesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesRemoveResourcePoliciesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove tags from Compute Engine      virtual machine instances
@@ -429,9 +403,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesRemoveTagsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesRemoveTagsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// report a host as faulty to      start the repair process
@@ -443,9 +416,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesReportHostAsFaultyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesReportHostAsFaultyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// reset a virtual machine instance
@@ -457,9 +429,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesResetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesResetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// resume a virtual machine instance
@@ -471,9 +442,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesResumeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesResumeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// send a diagnostic      interrupt to a virtual machine instance
@@ -485,9 +455,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesSendDiagnosticInterruptOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesSendDiagnosticInterruptOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete behavior      for disks
@@ -499,9 +468,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesSetDiskAutoDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesSetDiskAutoDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set IAM policy for a Compute      Engine instance
@@ -513,9 +481,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set machine type for Compute      Engine virtual machines
@@ -527,9 +494,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesSetMachineTypeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesSetMachineTypeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the name of a Compute Engine      virtual machine
@@ -541,9 +507,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesSetNameOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesSetNameOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set scheduling options for      Compute Engine virtual machines
@@ -555,9 +520,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesSetSchedulingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesSetSchedulingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set a service account and      access scopes for a Compute Engine VM instance
@@ -569,9 +533,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesSetServiceAccountOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesSetServiceAccountOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// simulate host      maintenance of VM instances
@@ -583,9 +546,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesSimulateMaintenanceEventOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesSimulateMaintenanceEventOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// start a stopped virtual machine instance
@@ -597,9 +559,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesStartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesStartOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// stop a virtual machine instance
@@ -611,9 +572,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesStopOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesStopOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// suspend a virtual machine instance
@@ -625,9 +585,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesSuspendOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesSuspendOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// periodically fetch new      output from a virtual machine instance's serial port and display it as      it becomes available
@@ -639,9 +598,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesTailSerialPortOutputOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesTailSerialPortOutputOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine      virtual machine access configuration
@@ -653,9 +611,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesUpdateAccessConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesUpdateAccessConfigOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates Compute Engine virtual      machine instances running container images
@@ -667,9 +624,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesUpdateContainerOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesUpdateContainerOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine virtual      machine instance using a configuration file
@@ -681,9 +637,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesUpdateFromFileOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesUpdateFromFileOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine virtual machine
@@ -695,9 +650,8 @@ public class GcloudComputeInstances
         GcloudComputeInstancesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

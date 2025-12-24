@@ -53,9 +53,8 @@ public class GcloudAuth
         GcloudAuthOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// authorize access to Google Cloud      with a service account
@@ -67,9 +66,8 @@ public class GcloudAuth
         GcloudAuthActivateServiceAccountOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthActivateServiceAccountOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// register gcloud as a Docker credential      helper
@@ -81,9 +79,8 @@ public class GcloudAuth
         GcloudAuthConfigureDockerOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthConfigureDockerOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists credentialed accounts
@@ -95,9 +92,8 @@ public class GcloudAuth
         GcloudAuthListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// authorize gcloud to access the Cloud Platform with      Google user credentials
@@ -109,9 +105,8 @@ public class GcloudAuth
         GcloudAuthLoginOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthLoginOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// print an access token for the specified      account
@@ -123,9 +118,8 @@ public class GcloudAuth
         GcloudAuthPrintAccessTokenOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthPrintAccessTokenOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// print an identity token for the      specified account
@@ -137,9 +131,8 @@ public class GcloudAuth
         GcloudAuthPrintIdentityTokenOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthPrintIdentityTokenOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// revoke access credentials for an account
@@ -151,9 +144,8 @@ public class GcloudAuth
         GcloudAuthRevokeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthRevokeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

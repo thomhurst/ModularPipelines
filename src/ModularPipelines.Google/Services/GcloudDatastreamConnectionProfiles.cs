@@ -37,9 +37,8 @@ public class GcloudDatastreamConnectionProfiles
         GcloudDatastreamConnectionProfilesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamConnectionProfilesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Datastream      connection profile
@@ -51,9 +50,8 @@ public class GcloudDatastreamConnectionProfiles
         GcloudDatastreamConnectionProfilesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamConnectionProfilesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about a      Datastream connection profile
@@ -65,9 +63,8 @@ public class GcloudDatastreamConnectionProfiles
         GcloudDatastreamConnectionProfilesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamConnectionProfilesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// discover a Datastream      connection profile
@@ -79,9 +76,8 @@ public class GcloudDatastreamConnectionProfiles
         GcloudDatastreamConnectionProfilesDiscoverOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamConnectionProfilesDiscoverOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Datastream connection      profiles
@@ -93,9 +89,8 @@ public class GcloudDatastreamConnectionProfiles
         GcloudDatastreamConnectionProfilesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamConnectionProfilesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Datastream      connection profile
@@ -107,9 +102,8 @@ public class GcloudDatastreamConnectionProfiles
         GcloudDatastreamConnectionProfilesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamConnectionProfilesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

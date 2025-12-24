@@ -37,9 +37,8 @@ public class GcloudStorageInsightsDatasetConfigs
         GcloudStorageInsightsDatasetConfigsCreateLinkOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsDatasetConfigsCreateLinkOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a new dataset      config for Insights
@@ -51,9 +50,8 @@ public class GcloudStorageInsightsDatasetConfigs
         GcloudStorageInsightsDatasetConfigsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsDatasetConfigsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a link to a      BigQuery instance
@@ -65,9 +63,8 @@ public class GcloudStorageInsightsDatasetConfigs
         GcloudStorageInsightsDatasetConfigsDeleteLinkOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsDatasetConfigsDeleteLinkOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete dataset config for      Insights
@@ -79,9 +76,8 @@ public class GcloudStorageInsightsDatasetConfigs
         GcloudStorageInsightsDatasetConfigsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsDatasetConfigsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe dataset config      for Insights
@@ -93,9 +89,8 @@ public class GcloudStorageInsightsDatasetConfigs
         GcloudStorageInsightsDatasetConfigsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsDatasetConfigsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list returns all the      Insights dataset configs for given location
@@ -107,9 +102,8 @@ public class GcloudStorageInsightsDatasetConfigs
         GcloudStorageInsightsDatasetConfigsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsDatasetConfigsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates a dataset config      for Insights
@@ -121,9 +115,8 @@ public class GcloudStorageInsightsDatasetConfigs
         GcloudStorageInsightsDatasetConfigsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsDatasetConfigsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

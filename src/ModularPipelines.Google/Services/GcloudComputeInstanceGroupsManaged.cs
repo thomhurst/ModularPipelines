@@ -65,9 +65,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedAbandonInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedAbandonInstancesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a new      virtual machine instance in a managed instance group with a defined      name and optionally its stateful configuration
@@ -79,9 +78,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedCreateInstanceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedCreateInstanceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Compute Engine      managed instance group
@@ -93,9 +91,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete instances      that are managed by a managed instance group
@@ -107,9 +104,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedDeleteInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedDeleteInstancesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete Compute Engine      managed instance groups
@@ -121,9 +117,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an      instance in a managed instance group
@@ -135,9 +130,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedDescribeInstanceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedDescribeInstanceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// display detailed      information about an instance group
@@ -149,9 +143,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists the named      ports for an instance group resource
@@ -163,9 +156,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedGetNamedPortsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedGetNamedPortsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list errors produced      by managed instances in a managed instance group
@@ -177,9 +169,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedListErrorsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedListErrorsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list instances      present in the managed instance group
@@ -191,9 +182,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedListInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedListInstancesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine      managed instance groups
@@ -205,9 +195,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// recreate      instances managed by a managed instance group
@@ -219,9 +208,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedRecreateInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedRecreateInstancesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set managed instance group      size
@@ -233,9 +221,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedResizeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedResizeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// resume the      suspended instances in a managed instance group
@@ -247,9 +234,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedResumeInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedResumeInstancesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set autoscaling      parameters of a managed instance group
@@ -261,9 +247,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedSetAutoscalingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedSetAutoscalingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the      instance template for a managed instance group
@@ -275,9 +260,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedSetInstanceTemplateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedSetInstanceTemplateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// sets the list of      named ports for an instance group
@@ -289,9 +273,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedSetNamedPortsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedSetNamedPortsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set target pools      of managed instance group
@@ -303,9 +286,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedSetTargetPoolsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedSetTargetPoolsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// start the stopped      instances in a managed instance group
@@ -317,9 +299,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedStartInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedStartInstancesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// stop autoscaling      a managed instance group
@@ -331,9 +312,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedStopAutoscalingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedStopAutoscalingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// stop instances      owned by a managed instance group
@@ -345,9 +325,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedStopInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedStopInstancesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// suspend      instances owned by a managed instance group
@@ -359,9 +338,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedSuspendInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedSuspendInstancesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update      autoscaling parameters of a managed instance group
@@ -373,9 +351,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedUpdateAutoscalingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedUpdateAutoscalingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// immediately      update selected instances in a Compute Engine managed instance group
@@ -387,9 +364,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedUpdateInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedUpdateInstancesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine      managed instance group
@@ -401,9 +377,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// wait until the managed      instance group reaches the desired state
@@ -415,9 +390,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedWaitUntilOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedWaitUntilOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// waits until      state of managed instance group is stable
@@ -429,9 +403,8 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedWaitUntilStableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedWaitUntilStableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

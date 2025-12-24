@@ -37,9 +37,8 @@ public class GcloudBmsNfsShares
         GcloudBmsNfsSharesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNfsSharesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Bare Metal Solution NFS share
@@ -51,9 +50,8 @@ public class GcloudBmsNfsShares
         GcloudBmsNfsSharesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNfsSharesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Bare Metal solution NFS share
@@ -65,9 +63,8 @@ public class GcloudBmsNfsShares
         GcloudBmsNfsSharesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNfsSharesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Bare Metal Solution NFS shares in a      project
@@ -79,9 +76,8 @@ public class GcloudBmsNfsShares
         GcloudBmsNfsSharesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNfsSharesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// share
@@ -93,9 +89,8 @@ public class GcloudBmsNfsShares
         GcloudBmsNfsSharesRenameOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNfsSharesRenameOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Bare Metal Solution NFS share
@@ -107,9 +102,8 @@ public class GcloudBmsNfsShares
         GcloudBmsNfsSharesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNfsSharesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudDeveloperConnectInsightsConfigs
         GcloudDeveloperConnectInsightsConfigsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectInsightsConfigsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete insightsConfigs
@@ -51,9 +50,8 @@ public class GcloudDeveloperConnectInsightsConfigs
         GcloudDeveloperConnectInsightsConfigsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectInsightsConfigsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe      insightsConfigs
@@ -65,9 +63,8 @@ public class GcloudDeveloperConnectInsightsConfigs
         GcloudDeveloperConnectInsightsConfigsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectInsightsConfigsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list insightsConfigs
@@ -79,9 +76,8 @@ public class GcloudDeveloperConnectInsightsConfigs
         GcloudDeveloperConnectInsightsConfigsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectInsightsConfigsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update the configuration      of an insight config
@@ -93,9 +89,8 @@ public class GcloudDeveloperConnectInsightsConfigs
         GcloudDeveloperConnectInsightsConfigsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectInsightsConfigsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

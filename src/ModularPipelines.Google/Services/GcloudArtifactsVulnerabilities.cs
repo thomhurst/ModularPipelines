@@ -37,9 +37,8 @@ public class GcloudArtifactsVulnerabilities
         GcloudArtifactsVulnerabilitiesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsVulnerabilitiesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// load VEX data from a CSAF file      into Artifact Analysis
@@ -51,9 +50,8 @@ public class GcloudArtifactsVulnerabilities
         GcloudArtifactsVulnerabilitiesLoadVexOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsVulnerabilitiesLoadVexOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -59,9 +59,8 @@ public class GcloudIamWorkforcePoolsProviders
         GcloudIamWorkforcePoolsProvidersCreateOidcOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersCreateOidcOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a new SAML      workforce pool provider
@@ -73,9 +72,8 @@ public class GcloudIamWorkforcePoolsProviders
         GcloudIamWorkforcePoolsProvidersCreateSamlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersCreateSamlOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a workforce pool      provider
@@ -87,9 +85,8 @@ public class GcloudIamWorkforcePoolsProviders
         GcloudIamWorkforcePoolsProvidersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a workforce pool      provider
@@ -101,9 +98,8 @@ public class GcloudIamWorkforcePoolsProviders
         GcloudIamWorkforcePoolsProvidersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list workforce pool providers
@@ -115,9 +111,8 @@ public class GcloudIamWorkforcePoolsProviders
         GcloudIamWorkforcePoolsProvidersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// undelete a workforce pool      provider
@@ -129,9 +124,8 @@ public class GcloudIamWorkforcePoolsProviders
         GcloudIamWorkforcePoolsProvidersUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersUndeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an OIDC workforce      pool provider
@@ -143,9 +137,8 @@ public class GcloudIamWorkforcePoolsProviders
         GcloudIamWorkforcePoolsProvidersUpdateOidcOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersUpdateOidcOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a new SAML      workforce pool provider
@@ -157,9 +150,8 @@ public class GcloudIamWorkforcePoolsProviders
         GcloudIamWorkforcePoolsProvidersUpdateSamlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersUpdateSamlOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

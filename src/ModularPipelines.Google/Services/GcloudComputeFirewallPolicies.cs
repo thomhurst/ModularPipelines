@@ -53,9 +53,8 @@ public class GcloudComputeFirewallPolicies
         GcloudComputeFirewallPoliciesCloneRulesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeFirewallPoliciesCloneRulesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Compute Engine      organization firewall policy
@@ -67,9 +66,8 @@ public class GcloudComputeFirewallPolicies
         GcloudComputeFirewallPoliciesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeFirewallPoliciesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Compute Engine      organization firewall policy
@@ -81,9 +79,8 @@ public class GcloudComputeFirewallPolicies
         GcloudComputeFirewallPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeFirewallPoliciesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute Engine      organization firewall policy
@@ -95,9 +92,8 @@ public class GcloudComputeFirewallPolicies
         GcloudComputeFirewallPoliciesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeFirewallPoliciesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export Compute Engine      organization firewall policy rules
@@ -109,9 +105,8 @@ public class GcloudComputeFirewallPolicies
         GcloudComputeFirewallPoliciesExportRulesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeFirewallPoliciesExportRulesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import Compute Engine      organization firewall policy rules
@@ -123,9 +118,8 @@ public class GcloudComputeFirewallPolicies
         GcloudComputeFirewallPoliciesImportRulesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeFirewallPoliciesImportRulesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Compute Engine organization      firewall policies
@@ -137,9 +131,8 @@ public class GcloudComputeFirewallPolicies
         GcloudComputeFirewallPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeFirewallPoliciesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the rules of a Compute      Engine organization firewall policy
@@ -151,9 +144,8 @@ public class GcloudComputeFirewallPolicies
         GcloudComputeFirewallPoliciesListRulesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeFirewallPoliciesListRulesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// move a Compute Engine organization      firewall policy
@@ -165,9 +157,8 @@ public class GcloudComputeFirewallPolicies
         GcloudComputeFirewallPoliciesMoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeFirewallPoliciesMoveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine      organization firewall policy
@@ -179,9 +170,8 @@ public class GcloudComputeFirewallPolicies
         GcloudComputeFirewallPoliciesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeFirewallPoliciesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

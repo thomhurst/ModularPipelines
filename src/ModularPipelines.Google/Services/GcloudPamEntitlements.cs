@@ -37,9 +37,8 @@ public class GcloudPamEntitlements
         GcloudPamEntitlementsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamEntitlementsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Privileged Access Manager      entitlement
@@ -51,9 +50,8 @@ public class GcloudPamEntitlements
         GcloudPamEntitlementsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamEntitlementsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details of a Privileged Access      Manager entitlement
@@ -65,9 +63,8 @@ public class GcloudPamEntitlements
         GcloudPamEntitlementsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamEntitlementsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export a Privileged Access Manager      entitlement into a local YAML file
@@ -79,9 +76,8 @@ public class GcloudPamEntitlements
         GcloudPamEntitlementsExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamEntitlementsExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all Privileged Access Manager      entitlements under a parent
@@ -93,9 +89,8 @@ public class GcloudPamEntitlements
         GcloudPamEntitlementsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamEntitlementsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// search and list all Privileged Access      Manager entitlements in a parent for which you are a requester/approver
@@ -107,9 +102,8 @@ public class GcloudPamEntitlements
         GcloudPamEntitlementsSearchOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamEntitlementsSearchOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an existing Privileged Access      Manager entitlement
@@ -121,9 +115,8 @@ public class GcloudPamEntitlements
         GcloudPamEntitlementsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamEntitlementsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

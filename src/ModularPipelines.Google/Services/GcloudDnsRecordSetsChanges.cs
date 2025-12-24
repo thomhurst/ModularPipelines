@@ -37,9 +37,8 @@ public class GcloudDnsRecordSetsChanges
         GcloudDnsRecordSetsChangesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsRecordSetsChangesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// view the list of changes that have      been made to your record-sets
@@ -51,9 +50,8 @@ public class GcloudDnsRecordSetsChanges
         GcloudDnsRecordSetsChangesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsRecordSetsChangesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

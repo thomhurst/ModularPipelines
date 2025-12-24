@@ -37,9 +37,8 @@ public class GcloudNetworkSecuritySecurityProfilesCustomIntercept
         GcloudNetworkSecuritySecurityProfilesCustomInterceptCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomInterceptCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete      a Security Profile
@@ -51,9 +50,8 @@ public class GcloudNetworkSecuritySecurityProfilesCustomIntercept
         GcloudNetworkSecuritySecurityProfilesCustomInterceptDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomInterceptDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Custom InterceptSecurity Profile
@@ -65,9 +63,8 @@ public class GcloudNetworkSecuritySecurityProfilesCustomIntercept
         GcloudNetworkSecuritySecurityProfilesCustomInterceptDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomInterceptDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      Custom Intercept Security Profiles
@@ -79,9 +76,8 @@ public class GcloudNetworkSecuritySecurityProfilesCustomIntercept
         GcloudNetworkSecuritySecurityProfilesCustomInterceptListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomInterceptListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates      a Custom Intercept Profile
@@ -93,9 +89,8 @@ public class GcloudNetworkSecuritySecurityProfilesCustomIntercept
         GcloudNetworkSecuritySecurityProfilesCustomInterceptUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomInterceptUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

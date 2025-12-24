@@ -37,9 +37,8 @@ public class GcloudRecommenderInsights
         GcloudRecommenderInsightsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecommenderInsightsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list insights for a Google Cloud entity
@@ -51,9 +50,8 @@ public class GcloudRecommenderInsights
         GcloudRecommenderInsightsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecommenderInsightsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// mark an insight's state as      ACCEPTED
@@ -65,9 +63,8 @@ public class GcloudRecommenderInsights
         GcloudRecommenderInsightsMarkAcceptedOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecommenderInsightsMarkAcceptedOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

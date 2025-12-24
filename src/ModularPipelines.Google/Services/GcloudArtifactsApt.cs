@@ -37,9 +37,8 @@ public class GcloudArtifactsApt
         GcloudArtifactsAptImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsAptImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// upload a Debian package to an artifact      repository
@@ -51,9 +50,8 @@ public class GcloudArtifactsApt
         GcloudArtifactsAptUploadOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsAptUploadOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

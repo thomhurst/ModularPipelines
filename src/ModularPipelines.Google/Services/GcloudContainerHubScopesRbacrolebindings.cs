@@ -37,9 +37,8 @@ public class GcloudContainerHubScopesRbacrolebindings
         GcloudContainerHubScopesRbacrolebindingsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubScopesRbacrolebindingsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a fleet scope      RBAC RoleBinding
@@ -51,9 +50,8 @@ public class GcloudContainerHubScopesRbacrolebindings
         GcloudContainerHubScopesRbacrolebindingsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubScopesRbacrolebindingsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show fleet scope      RBAC RoleBinding information
@@ -65,9 +63,8 @@ public class GcloudContainerHubScopesRbacrolebindings
         GcloudContainerHubScopesRbacrolebindingsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubScopesRbacrolebindingsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list RBAC RoleBindings      in a fleet scope
@@ -79,9 +76,8 @@ public class GcloudContainerHubScopesRbacrolebindings
         GcloudContainerHubScopesRbacrolebindingsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubScopesRbacrolebindingsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a fleet scope      RBAC RoleBinding
@@ -93,9 +89,8 @@ public class GcloudContainerHubScopesRbacrolebindings
         GcloudContainerHubScopesRbacrolebindingsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubScopesRbacrolebindingsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

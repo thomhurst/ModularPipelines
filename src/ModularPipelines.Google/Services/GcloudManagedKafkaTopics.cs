@@ -37,9 +37,8 @@ public class GcloudManagedKafkaTopics
         GcloudManagedKafkaTopicsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaTopicsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Managed Service for Apache      Kafka topic
@@ -51,9 +50,8 @@ public class GcloudManagedKafkaTopics
         GcloudManagedKafkaTopicsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaTopicsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Managed Service for      Apache Kafka topic
@@ -65,9 +63,8 @@ public class GcloudManagedKafkaTopics
         GcloudManagedKafkaTopicsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaTopicsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all Managed Service for Apache      Kafka topics in a given cluster
@@ -79,9 +76,8 @@ public class GcloudManagedKafkaTopics
         GcloudManagedKafkaTopicsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaTopicsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Managed Service for Apache      Kafka topic
@@ -93,9 +89,8 @@ public class GcloudManagedKafkaTopics
         GcloudManagedKafkaTopicsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaTopicsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

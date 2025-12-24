@@ -37,9 +37,8 @@ public class GcloudBigtableSchemaBundles
         GcloudBigtableSchemaBundlesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableSchemaBundlesAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a new Bigtable schema bundle
@@ -51,9 +50,8 @@ public class GcloudBigtableSchemaBundles
         GcloudBigtableSchemaBundlesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableSchemaBundlesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Bigtable schema bundle
@@ -65,9 +63,8 @@ public class GcloudBigtableSchemaBundles
         GcloudBigtableSchemaBundlesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableSchemaBundlesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Bigtable schema bundle
@@ -79,9 +76,8 @@ public class GcloudBigtableSchemaBundles
         GcloudBigtableSchemaBundlesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableSchemaBundlesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get an IAM policy on a      Bigtable schema bundle
@@ -93,9 +89,8 @@ public class GcloudBigtableSchemaBundles
         GcloudBigtableSchemaBundlesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableSchemaBundlesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all schema bundles of a Bigtable      table
@@ -107,9 +102,8 @@ public class GcloudBigtableSchemaBundles
         GcloudBigtableSchemaBundlesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableSchemaBundlesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an IAM      policy binding from a Bigtable schema bundle
@@ -121,9 +115,8 @@ public class GcloudBigtableSchemaBundles
         GcloudBigtableSchemaBundlesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableSchemaBundlesRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set an IAM policy on a      Bigtable schema bundle
@@ -135,9 +128,8 @@ public class GcloudBigtableSchemaBundles
         GcloudBigtableSchemaBundlesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableSchemaBundlesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an existing Bigtable schema      bundle
@@ -149,9 +141,8 @@ public class GcloudBigtableSchemaBundles
         GcloudBigtableSchemaBundlesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableSchemaBundlesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

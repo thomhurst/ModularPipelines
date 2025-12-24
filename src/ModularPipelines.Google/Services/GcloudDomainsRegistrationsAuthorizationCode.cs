@@ -37,9 +37,8 @@ public class GcloudDomainsRegistrationsAuthorizationCode
         GcloudDomainsRegistrationsAuthorizationCodeGetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsAuthorizationCodeGetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// resets      authorization code of a specific Cloud Domains registration
@@ -51,9 +50,8 @@ public class GcloudDomainsRegistrationsAuthorizationCode
         GcloudDomainsRegistrationsAuthorizationCodeResetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsAuthorizationCodeResetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

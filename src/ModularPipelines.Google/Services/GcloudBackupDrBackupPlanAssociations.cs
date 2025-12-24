@@ -37,9 +37,8 @@ public class GcloudBackupDrBackupPlanAssociations
         GcloudBackupDrBackupPlanAssociationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlanAssociationsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete the specified      backup plan association
@@ -51,9 +50,8 @@ public class GcloudBackupDrBackupPlanAssociations
         GcloudBackupDrBackupPlanAssociationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlanAssociationsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details of the      backup plan association
@@ -65,9 +63,8 @@ public class GcloudBackupDrBackupPlanAssociations
         GcloudBackupDrBackupPlanAssociationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlanAssociationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// fetch      Backup Plan Associations for a given resource type and location
@@ -79,9 +76,8 @@ public class GcloudBackupDrBackupPlanAssociations
         GcloudBackupDrBackupPlanAssociationsFetchForResourceTypeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlanAssociationsFetchForResourceTypeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Backup and DR backup      plan associations
@@ -93,9 +89,8 @@ public class GcloudBackupDrBackupPlanAssociations
         GcloudBackupDrBackupPlanAssociationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlanAssociationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create an      on-demand backup for a resource
@@ -107,9 +102,8 @@ public class GcloudBackupDrBackupPlanAssociations
         GcloudBackupDrBackupPlanAssociationsTriggerBackupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlanAssociationsTriggerBackupOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a specific backup      plan within a backup plan association
@@ -121,9 +115,8 @@ public class GcloudBackupDrBackupPlanAssociations
         GcloudBackupDrBackupPlanAssociationsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlanAssociationsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

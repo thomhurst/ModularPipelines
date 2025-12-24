@@ -37,9 +37,8 @@ public class GcloudKmsKeyHandles
         GcloudKmsKeyHandlesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeyHandlesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get metadata for a KeyHandle
@@ -51,9 +50,8 @@ public class GcloudKmsKeyHandles
         GcloudKmsKeyHandlesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeyHandlesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list KeyHandle resources within a project and      location
@@ -65,9 +63,8 @@ public class GcloudKmsKeyHandles
         GcloudKmsKeyHandlesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeyHandlesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

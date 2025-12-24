@@ -37,9 +37,8 @@ public class GcloudVmwarePrivateCloudsSubnets
         GcloudVmwarePrivateCloudsSubnetsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsSubnetsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list subnets in a VMware Engine      private cloud
@@ -51,9 +50,8 @@ public class GcloudVmwarePrivateCloudsSubnets
         GcloudVmwarePrivateCloudsSubnetsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsSubnetsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a subnet
@@ -65,9 +63,8 @@ public class GcloudVmwarePrivateCloudsSubnets
         GcloudVmwarePrivateCloudsSubnetsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsSubnetsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

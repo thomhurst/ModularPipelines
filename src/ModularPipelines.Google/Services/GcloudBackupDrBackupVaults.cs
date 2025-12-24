@@ -37,9 +37,8 @@ public class GcloudBackupDrBackupVaults
         GcloudBackupDrBackupVaultsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupVaultsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete the specified Backup Vault
@@ -51,9 +50,8 @@ public class GcloudBackupDrBackupVaults
         GcloudBackupDrBackupVaultsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupVaultsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show the metadata for a Backup      and DR backup vault
@@ -65,9 +63,8 @@ public class GcloudBackupDrBackupVaults
         GcloudBackupDrBackupVaultsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupVaultsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Backup and DR backup vaults
@@ -79,9 +76,8 @@ public class GcloudBackupDrBackupVaults
         GcloudBackupDrBackupVaultsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupVaultsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Backup and DR backup vault
@@ -93,9 +89,8 @@ public class GcloudBackupDrBackupVaults
         GcloudBackupDrBackupVaultsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupVaultsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

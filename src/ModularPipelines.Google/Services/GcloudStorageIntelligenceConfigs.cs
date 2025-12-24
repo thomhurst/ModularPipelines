@@ -37,9 +37,8 @@ public class GcloudStorageIntelligenceConfigs
         GcloudStorageIntelligenceConfigsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageIntelligenceConfigsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disables storage intelligence
@@ -51,9 +50,8 @@ public class GcloudStorageIntelligenceConfigs
         GcloudStorageIntelligenceConfigsDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageIntelligenceConfigsDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enables storage intelligence
@@ -65,9 +63,8 @@ public class GcloudStorageIntelligenceConfigs
         GcloudStorageIntelligenceConfigsEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageIntelligenceConfigsEnableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates storage intelligence      configuration
@@ -79,9 +76,8 @@ public class GcloudStorageIntelligenceConfigs
         GcloudStorageIntelligenceConfigsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageIntelligenceConfigsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -53,9 +53,8 @@ public class GcloudRedisClusters
         GcloudRedisClustersAddClusterEndpointsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersAddClusterEndpointsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a backup of a Redis cluster
@@ -67,9 +66,8 @@ public class GcloudRedisClusters
         GcloudRedisClustersCreateBackupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersCreateBackupOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a new Memorystore for Redis Cluster      instance
@@ -81,9 +79,8 @@ public class GcloudRedisClusters
         GcloudRedisClustersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Memorystore for Redis Cluster      instance
@@ -95,9 +92,8 @@ public class GcloudRedisClusters
         GcloudRedisClustersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show metadata for a Memorystore for Redis      Cluster instance
@@ -109,9 +105,8 @@ public class GcloudRedisClusters
         GcloudRedisClustersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// detach a secondary cluster
@@ -123,9 +118,8 @@ public class GcloudRedisClusters
         GcloudRedisClustersDetachOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersDetachOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// detach one or more secondary      clusters from the primary cluster
@@ -137,9 +131,8 @@ public class GcloudRedisClusters
         GcloudRedisClustersDetachSecondariesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersDetachSecondariesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the      certificate authority information for a Memorystore for Redis Cluster      instance
@@ -151,9 +144,8 @@ public class GcloudRedisClusters
         GcloudRedisClustersGetClusterCertificateAuthorityOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersGetClusterCertificateAuthorityOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Memorystore for Redis Cluster instances
@@ -165,9 +157,8 @@ public class GcloudRedisClusters
         GcloudRedisClustersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove existing      Memorystore cluster endpoints
@@ -179,9 +170,8 @@ public class GcloudRedisClusters
         GcloudRedisClustersRemoveClusterEndpointsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersRemoveClusterEndpointsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// reschedule maintenance      window for a Memorystore for Redis Cluster instance
@@ -193,9 +183,8 @@ public class GcloudRedisClusters
         GcloudRedisClustersRescheduleMaintenanceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersRescheduleMaintenanceOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// switchover to a secondary cluster
@@ -207,9 +196,8 @@ public class GcloudRedisClusters
         GcloudRedisClustersSwitchoverOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersSwitchoverOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update Memorystore Cluster for Redis      instance
@@ -221,9 +209,8 @@ public class GcloudRedisClusters
         GcloudRedisClustersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisClustersUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudContainerHubIdentityService
         GcloudContainerHubIdentityServiceApplyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubIdentityServiceApplyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a resource from the      Identity Service Feature
@@ -51,9 +50,8 @@ public class GcloudContainerHubIdentityService
         GcloudContainerHubIdentityServiceDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubIdentityServiceDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// prints the status of all      clusters with Identity Service installed
@@ -65,9 +63,8 @@ public class GcloudContainerHubIdentityService
         GcloudContainerHubIdentityServiceDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubIdentityServiceDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disable Identity Service      Feature
@@ -79,9 +76,8 @@ public class GcloudContainerHubIdentityService
         GcloudContainerHubIdentityServiceDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubIdentityServiceDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enable the Identity Service      Feature
@@ -93,9 +89,8 @@ public class GcloudContainerHubIdentityService
         GcloudContainerHubIdentityServiceEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubIdentityServiceEnableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

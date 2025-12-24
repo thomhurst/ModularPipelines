@@ -37,9 +37,8 @@ public class GcloudDataprocJobsSubmit
         GcloudDataprocJobsSubmitFlinkOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitFlinkOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// submit a Hadoop job to a cluster
@@ -51,9 +50,8 @@ public class GcloudDataprocJobsSubmit
         GcloudDataprocJobsSubmitHadoopOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitHadoopOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// submit a Hive job to a cluster
@@ -65,9 +63,8 @@ public class GcloudDataprocJobsSubmit
         GcloudDataprocJobsSubmitHiveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitHiveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// submit a Pig job to a cluster
@@ -79,9 +76,8 @@ public class GcloudDataprocJobsSubmit
         GcloudDataprocJobsSubmitPigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitPigOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// submit a Presto job to a cluster
@@ -93,9 +89,8 @@ public class GcloudDataprocJobsSubmit
         GcloudDataprocJobsSubmitPrestoOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitPrestoOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// submit a PySpark job to a cluster
@@ -107,9 +102,8 @@ public class GcloudDataprocJobsSubmit
         GcloudDataprocJobsSubmitPysparkOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitPysparkOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// submit a Spark job to a cluster
@@ -121,9 +115,8 @@ public class GcloudDataprocJobsSubmit
         GcloudDataprocJobsSubmitSparkOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitSparkOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// submit a SparkR job to a cluster
@@ -135,9 +128,8 @@ public class GcloudDataprocJobsSubmit
         GcloudDataprocJobsSubmitSparkROptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitSparkROptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// submit a Spark SQL job to a cluster
@@ -149,9 +141,8 @@ public class GcloudDataprocJobsSubmit
         GcloudDataprocJobsSubmitSparkSqlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitSparkSqlOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// submit a Trino job to a cluster
@@ -163,9 +154,8 @@ public class GcloudDataprocJobsSubmit
         GcloudDataprocJobsSubmitTrinoOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitTrinoOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

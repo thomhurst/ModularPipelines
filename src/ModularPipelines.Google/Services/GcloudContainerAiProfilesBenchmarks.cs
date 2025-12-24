@@ -37,9 +37,8 @@ public class GcloudContainerAiProfilesBenchmarks
         GcloudContainerAiProfilesBenchmarksListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAiProfilesBenchmarksListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

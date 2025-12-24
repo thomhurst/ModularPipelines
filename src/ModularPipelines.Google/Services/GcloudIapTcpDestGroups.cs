@@ -37,9 +37,8 @@ public class GcloudIapTcpDestGroups
         GcloudIapTcpDestGroupsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapTcpDestGroupsAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create the IAP TCP Destination Group      resource
@@ -51,9 +50,8 @@ public class GcloudIapTcpDestGroups
         GcloudIapTcpDestGroupsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapTcpDestGroupsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete the IAP TCP Destination Group      resource
@@ -65,9 +63,8 @@ public class GcloudIapTcpDestGroups
         GcloudIapTcpDestGroupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapTcpDestGroupsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe the IAP TCP Destination      Group resource
@@ -79,9 +76,8 @@ public class GcloudIapTcpDestGroups
         GcloudIapTcpDestGroupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapTcpDestGroupsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get IAM policy for an IAP TCP      Destination Group resource
@@ -93,9 +89,8 @@ public class GcloudIapTcpDestGroups
         GcloudIapTcpDestGroupsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapTcpDestGroupsGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists the IAP TCP Destination Group      resource
@@ -107,9 +102,8 @@ public class GcloudIapTcpDestGroups
         GcloudIapTcpDestGroupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapTcpDestGroupsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove IAM policy      binding from an IAP TCP Destination Group resource
@@ -121,9 +115,8 @@ public class GcloudIapTcpDestGroups
         GcloudIapTcpDestGroupsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapTcpDestGroupsRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for an IAP      TCP Destination Group resource
@@ -135,9 +128,8 @@ public class GcloudIapTcpDestGroups
         GcloudIapTcpDestGroupsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapTcpDestGroupsSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update the IAP TCP Destination Group      resource
@@ -149,9 +141,8 @@ public class GcloudIapTcpDestGroups
         GcloudIapTcpDestGroupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapTcpDestGroupsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

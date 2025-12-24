@@ -37,9 +37,8 @@ public class GcloudComputeSoleTenancyNodeTemplates
         GcloudComputeSoleTenancyNodeTemplatesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeTemplatesAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Compute Engine      node template
@@ -51,9 +50,8 @@ public class GcloudComputeSoleTenancyNodeTemplates
         GcloudComputeSoleTenancyNodeTemplatesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeTemplatesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Compute Engine      node template
@@ -65,9 +63,8 @@ public class GcloudComputeSoleTenancyNodeTemplates
         GcloudComputeSoleTenancyNodeTemplatesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeTemplatesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute      Engine node template
@@ -79,9 +76,8 @@ public class GcloudComputeSoleTenancyNodeTemplates
         GcloudComputeSoleTenancyNodeTemplatesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeTemplatesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM      Policy for a Compute Engine node template
@@ -93,9 +89,8 @@ public class GcloudComputeSoleTenancyNodeTemplates
         GcloudComputeSoleTenancyNodeTemplatesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeTemplatesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute      Engine node templates
@@ -107,9 +102,8 @@ public class GcloudComputeSoleTenancyNodeTemplates
         GcloudComputeSoleTenancyNodeTemplatesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeTemplatesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove IAM policy binding from a Compute Engine node template
@@ -121,9 +115,8 @@ public class GcloudComputeSoleTenancyNodeTemplates
         GcloudComputeSoleTenancyNodeTemplatesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeTemplatesRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM      policy for a Compute Engine node template
@@ -135,9 +128,8 @@ public class GcloudComputeSoleTenancyNodeTemplates
         GcloudComputeSoleTenancyNodeTemplatesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeTemplatesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudDesignCenterSpacesApplications
         GcloudDesignCenterSpacesApplicationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an application
@@ -51,9 +50,8 @@ public class GcloudDesignCenterSpacesApplications
         GcloudDesignCenterSpacesApplicationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deploy an application
@@ -65,9 +63,8 @@ public class GcloudDesignCenterSpacesApplications
         GcloudDesignCenterSpacesApplicationsDeployOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationsDeployOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an application
@@ -79,9 +76,8 @@ public class GcloudDesignCenterSpacesApplications
         GcloudDesignCenterSpacesApplicationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// generate IaC for an      application
@@ -93,9 +89,8 @@ public class GcloudDesignCenterSpacesApplications
         GcloudDesignCenterSpacesApplicationsGenerateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationsGenerateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import Infrastructure      as Code (IaC) for an Application
@@ -107,9 +102,8 @@ public class GcloudDesignCenterSpacesApplications
         GcloudDesignCenterSpacesApplicationsImportIacOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationsImportIacOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list applications
@@ -121,9 +115,8 @@ public class GcloudDesignCenterSpacesApplications
         GcloudDesignCenterSpacesApplicationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// preview an application
@@ -135,9 +128,8 @@ public class GcloudDesignCenterSpacesApplications
         GcloudDesignCenterSpacesApplicationsPreviewOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationsPreviewOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an application
@@ -149,9 +141,8 @@ public class GcloudDesignCenterSpacesApplications
         GcloudDesignCenterSpacesApplicationsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

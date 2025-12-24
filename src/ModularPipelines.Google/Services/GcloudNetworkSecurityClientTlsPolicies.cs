@@ -37,9 +37,8 @@ public class GcloudNetworkSecurityClientTlsPolicies
         GcloudNetworkSecurityClientTlsPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityClientTlsPoliciesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export ClientTlsPolicy
@@ -51,9 +50,8 @@ public class GcloudNetworkSecurityClientTlsPolicies
         GcloudNetworkSecurityClientTlsPoliciesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityClientTlsPoliciesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import ClientTlsPolicy
@@ -65,9 +63,8 @@ public class GcloudNetworkSecurityClientTlsPolicies
         GcloudNetworkSecurityClientTlsPoliciesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityClientTlsPoliciesImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list ClientTlsPolicies
@@ -79,9 +76,8 @@ public class GcloudNetworkSecurityClientTlsPolicies
         GcloudNetworkSecurityClientTlsPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityClientTlsPoliciesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

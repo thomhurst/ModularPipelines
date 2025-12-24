@@ -37,9 +37,8 @@ public class GcloudComputeTargetVpnGateways
         GcloudComputeTargetVpnGatewaysCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetVpnGatewaysCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete Cloud VPN Classic Target      VPN Gateways
@@ -51,9 +50,8 @@ public class GcloudComputeTargetVpnGateways
         GcloudComputeTargetVpnGatewaysDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetVpnGatewaysDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute Engine      Cloud VPN Classic Target VPN Gateway
@@ -65,9 +63,8 @@ public class GcloudComputeTargetVpnGateways
         GcloudComputeTargetVpnGatewaysDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetVpnGatewaysDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine Cloud      VPN Classic Target VPN Gateways
@@ -79,9 +76,8 @@ public class GcloudComputeTargetVpnGateways
         GcloudComputeTargetVpnGatewaysListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetVpnGatewaysListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

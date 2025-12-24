@@ -37,9 +37,8 @@ public class GcloudRecommenderRecommenderConfig
         GcloudRecommenderRecommenderConfigDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecommenderRecommenderConfigDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a recommender      configuration
@@ -51,9 +50,8 @@ public class GcloudRecommenderRecommenderConfig
         GcloudRecommenderRecommenderConfigUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecommenderRecommenderConfigUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

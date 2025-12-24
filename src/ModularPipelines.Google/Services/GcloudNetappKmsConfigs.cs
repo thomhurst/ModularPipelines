@@ -37,9 +37,8 @@ public class GcloudNetappKmsConfigs
         GcloudNetappKmsConfigsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappKmsConfigsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud NetApp Volumes KMS Config
@@ -51,9 +50,8 @@ public class GcloudNetappKmsConfigs
         GcloudNetappKmsConfigsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappKmsConfigsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show metadata for a Cloud NetApp      Volumes KMS Config
@@ -65,9 +63,8 @@ public class GcloudNetappKmsConfigs
         GcloudNetappKmsConfigsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappKmsConfigsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// encrypt all existing volumes and      storage pools in the same region with the desired Cloud NetApp Volumes      KMS Config
@@ -79,9 +76,8 @@ public class GcloudNetappKmsConfigs
         GcloudNetappKmsConfigsEncryptOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappKmsConfigsEncryptOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud NetApp Volumes KMS Configs
@@ -93,9 +89,8 @@ public class GcloudNetappKmsConfigs
         GcloudNetappKmsConfigsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappKmsConfigsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud NetApp Volumes KMS Config
@@ -107,9 +102,8 @@ public class GcloudNetappKmsConfigs
         GcloudNetappKmsConfigsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappKmsConfigsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// verify that the Cloud NetApp Volumes KMS      Config is reachable
@@ -121,9 +115,8 @@ public class GcloudNetappKmsConfigs
         GcloudNetappKmsConfigsVerifyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappKmsConfigsVerifyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

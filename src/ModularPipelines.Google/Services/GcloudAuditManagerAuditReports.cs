@@ -37,9 +37,8 @@ public class GcloudAuditManagerAuditReports
         GcloudAuditManagerAuditReportsGenerateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuditManagerAuditReportsGenerateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

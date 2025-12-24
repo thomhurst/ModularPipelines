@@ -37,9 +37,8 @@ public class GcloudDeployAutomationRuns
         GcloudDeployAutomationRunsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployAutomationRunsCancelOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details for an Automation Run
@@ -51,9 +50,8 @@ public class GcloudDeployAutomationRuns
         GcloudDeployAutomationRunsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployAutomationRunsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the Automation Runs
@@ -65,9 +63,8 @@ public class GcloudDeployAutomationRuns
         GcloudDeployAutomationRunsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployAutomationRunsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

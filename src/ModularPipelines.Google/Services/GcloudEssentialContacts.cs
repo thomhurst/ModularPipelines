@@ -37,9 +37,8 @@ public class GcloudEssentialContacts
         GcloudEssentialContactsOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEssentialContactsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// compute the essential contacts that are      subscribed to the specified notification categories for a resource
@@ -51,9 +50,8 @@ public class GcloudEssentialContacts
         GcloudEssentialContactsComputeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEssentialContactsComputeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create an essential contact
@@ -65,9 +63,8 @@ public class GcloudEssentialContacts
         GcloudEssentialContactsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEssentialContactsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an essential contact
@@ -79,9 +76,8 @@ public class GcloudEssentialContacts
         GcloudEssentialContactsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEssentialContactsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an essential contact
@@ -93,9 +89,8 @@ public class GcloudEssentialContacts
         GcloudEssentialContactsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEssentialContactsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list essential contacts for a resource
@@ -107,9 +102,8 @@ public class GcloudEssentialContacts
         GcloudEssentialContactsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEssentialContactsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an essential contact
@@ -121,9 +115,8 @@ public class GcloudEssentialContacts
         GcloudEssentialContactsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEssentialContactsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudFirebaseTestAndroidModels
         GcloudFirebaseTestAndroidModelsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestAndroidModelsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all Android models      available for testing
@@ -51,9 +50,8 @@ public class GcloudFirebaseTestAndroidModels
         GcloudFirebaseTestAndroidModelsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestAndroidModelsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudDatabaseMigrationMigrationJobs
         GcloudDatabaseMigrationMigrationJobsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationMigrationJobsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Database      Migration Service migration job
@@ -51,9 +50,8 @@ public class GcloudDatabaseMigrationMigrationJobs
         GcloudDatabaseMigrationMigrationJobsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationMigrationJobsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// demote a      destination of a Database Migration Service migration job
@@ -65,9 +63,8 @@ public class GcloudDatabaseMigrationMigrationJobs
         GcloudDatabaseMigrationMigrationJobsDemoteDestinationOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationMigrationJobsDemoteDestinationOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about a      Database Migration Service migration job
@@ -79,9 +76,8 @@ public class GcloudDatabaseMigrationMigrationJobs
         GcloudDatabaseMigrationMigrationJobsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationMigrationJobsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// fetch      objects for a Database Migration Service migration job by connection to      the source
@@ -93,9 +89,8 @@ public class GcloudDatabaseMigrationMigrationJobs
         GcloudDatabaseMigrationMigrationJobsFetchSourceObjectsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationMigrationJobsFetchSourceObjectsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// generate a      SSH script for a Database Migration Service migration job
@@ -107,9 +102,8 @@ public class GcloudDatabaseMigrationMigrationJobs
         GcloudDatabaseMigrationMigrationJobsGenerateSshScriptOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationMigrationJobsGenerateSshScriptOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Database Migration      Service migration jobs
@@ -121,9 +115,8 @@ public class GcloudDatabaseMigrationMigrationJobs
         GcloudDatabaseMigrationMigrationJobsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationMigrationJobsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// promote a Database      Migration Service migration job
@@ -135,9 +128,8 @@ public class GcloudDatabaseMigrationMigrationJobs
         GcloudDatabaseMigrationMigrationJobsPromoteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationMigrationJobsPromoteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// restart a Database      Migration Service migration job
@@ -149,9 +141,8 @@ public class GcloudDatabaseMigrationMigrationJobs
         GcloudDatabaseMigrationMigrationJobsRestartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationMigrationJobsRestartOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// resume a Database      Migration Service migration job
@@ -163,9 +154,8 @@ public class GcloudDatabaseMigrationMigrationJobs
         GcloudDatabaseMigrationMigrationJobsResumeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationMigrationJobsResumeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// start a Database Migration      Service migration job
@@ -177,9 +167,8 @@ public class GcloudDatabaseMigrationMigrationJobs
         GcloudDatabaseMigrationMigrationJobsStartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationMigrationJobsStartOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// stop a Database Migration      Service migration job
@@ -191,9 +180,8 @@ public class GcloudDatabaseMigrationMigrationJobs
         GcloudDatabaseMigrationMigrationJobsStopOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationMigrationJobsStopOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Database      Migration Service migration job
@@ -205,9 +193,8 @@ public class GcloudDatabaseMigrationMigrationJobs
         GcloudDatabaseMigrationMigrationJobsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationMigrationJobsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// verify a Database      Migration Service migration job
@@ -219,9 +206,8 @@ public class GcloudDatabaseMigrationMigrationJobs
         GcloudDatabaseMigrationMigrationJobsVerifyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationMigrationJobsVerifyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

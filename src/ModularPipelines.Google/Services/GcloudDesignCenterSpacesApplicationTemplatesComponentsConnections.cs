@@ -37,9 +37,8 @@ public class GcloudDesignCenterSpacesApplicationTemplatesComponentsConnections
         GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// templates components connections      delete - delete a connection
@@ -51,9 +50,8 @@ public class GcloudDesignCenterSpacesApplicationTemplatesComponentsConnections
         GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// templates components connections      describe - describe a connection
@@ -65,9 +63,8 @@ public class GcloudDesignCenterSpacesApplicationTemplatesComponentsConnections
         GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// templates components connections      list - list connections
@@ -79,9 +76,8 @@ public class GcloudDesignCenterSpacesApplicationTemplatesComponentsConnections
         GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// templates components connections      update - update a connection
@@ -93,9 +89,8 @@ public class GcloudDesignCenterSpacesApplicationTemplatesComponentsConnections
         GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

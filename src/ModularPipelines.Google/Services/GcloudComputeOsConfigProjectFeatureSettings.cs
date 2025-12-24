@@ -37,9 +37,8 @@ public class GcloudComputeOsConfigProjectFeatureSettings
         GcloudComputeOsConfigProjectFeatureSettingsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigProjectFeatureSettingsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update VM      Manager project feature settings
@@ -51,9 +50,8 @@ public class GcloudComputeOsConfigProjectFeatureSettings
         GcloudComputeOsConfigProjectFeatureSettingsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigProjectFeatureSettingsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

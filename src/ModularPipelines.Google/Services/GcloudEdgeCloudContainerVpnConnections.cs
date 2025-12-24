@@ -37,9 +37,8 @@ public class GcloudEdgeCloudContainerVpnConnections
         GcloudEdgeCloudContainerVpnConnectionsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerVpnConnectionsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a VPN      connection between an Edge Container cluster and a VPC network
@@ -51,9 +50,8 @@ public class GcloudEdgeCloudContainerVpnConnections
         GcloudEdgeCloudContainerVpnConnectionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerVpnConnectionsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about a      VPN connection
@@ -65,9 +63,8 @@ public class GcloudEdgeCloudContainerVpnConnections
         GcloudEdgeCloudContainerVpnConnectionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerVpnConnectionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list VPN connections
@@ -79,9 +76,8 @@ public class GcloudEdgeCloudContainerVpnConnections
         GcloudEdgeCloudContainerVpnConnectionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerVpnConnectionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

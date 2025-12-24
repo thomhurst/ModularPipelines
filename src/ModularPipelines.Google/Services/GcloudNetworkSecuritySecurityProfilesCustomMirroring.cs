@@ -37,9 +37,8 @@ public class GcloudNetworkSecuritySecurityProfilesCustomMirroring
         GcloudNetworkSecuritySecurityProfilesCustomMirroringCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomMirroringCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete      a Security Profile
@@ -51,9 +50,8 @@ public class GcloudNetworkSecuritySecurityProfilesCustomMirroring
         GcloudNetworkSecuritySecurityProfilesCustomMirroringDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomMirroringDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Custom MirroringSecurity Profile
@@ -65,9 +63,8 @@ public class GcloudNetworkSecuritySecurityProfilesCustomMirroring
         GcloudNetworkSecuritySecurityProfilesCustomMirroringDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomMirroringDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      Custom Mirroring Security Profiles
@@ -79,9 +76,8 @@ public class GcloudNetworkSecuritySecurityProfilesCustomMirroring
         GcloudNetworkSecuritySecurityProfilesCustomMirroringListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomMirroringListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates      a Custom Mirroring Profile
@@ -93,9 +89,8 @@ public class GcloudNetworkSecuritySecurityProfilesCustomMirroring
         GcloudNetworkSecuritySecurityProfilesCustomMirroringUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomMirroringUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

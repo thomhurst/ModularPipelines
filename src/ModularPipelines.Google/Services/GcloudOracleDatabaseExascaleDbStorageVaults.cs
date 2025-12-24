@@ -37,9 +37,8 @@ public class GcloudOracleDatabaseExascaleDbStorageVaults
         GcloudOracleDatabaseExascaleDbStorageVaultsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseExascaleDbStorageVaultsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete      exascaleDbStorageVaults
@@ -51,9 +50,8 @@ public class GcloudOracleDatabaseExascaleDbStorageVaults
         GcloudOracleDatabaseExascaleDbStorageVaultsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseExascaleDbStorageVaultsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe      exascaleDbStorageVaults
@@ -65,9 +63,8 @@ public class GcloudOracleDatabaseExascaleDbStorageVaults
         GcloudOracleDatabaseExascaleDbStorageVaultsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseExascaleDbStorageVaultsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      exascaleDbStorageVaults
@@ -79,9 +76,8 @@ public class GcloudOracleDatabaseExascaleDbStorageVaults
         GcloudOracleDatabaseExascaleDbStorageVaultsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseExascaleDbStorageVaultsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

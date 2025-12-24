@@ -37,9 +37,8 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an existing Vertex AI endpoint
@@ -51,9 +50,8 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deploy a model to an existing Vertex AI      endpoint
@@ -65,9 +63,8 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsDeployModelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsDeployModelOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an existing Vertex AI endpoint
@@ -79,9 +76,8 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// run Vertex AI online direct prediction
@@ -93,9 +89,8 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsDirectPredictOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsDirectPredictOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// run Vertex AI online direct raw      prediction
@@ -107,9 +102,8 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsDirectRawPredictOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsDirectRawPredictOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request an online explanation from an Vertex      AI endpoint
@@ -121,9 +115,8 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsExplainOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsExplainOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list existing Vertex AI endpoints
@@ -135,9 +128,8 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// run Vertex AI online prediction
@@ -149,9 +141,8 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsPredictOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsPredictOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// run Vertex AI online raw prediction
@@ -163,9 +154,8 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsRawPredictOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsRawPredictOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// run Vertex AI online stream      direct prediction
@@ -177,9 +167,8 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsStreamDirectPredictOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsStreamDirectPredictOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// run Vertex AI online stream      direct raw prediction
@@ -191,9 +180,8 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsStreamDirectRawPredictOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsStreamDirectRawPredictOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// run Vertex AI online stream raw      prediction
@@ -205,9 +193,8 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsStreamRawPredictOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsStreamRawPredictOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// undeploy a model from an existing      Vertex AI endpoint
@@ -219,9 +206,8 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsUndeployModelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsUndeployModelOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an existing Vertex AI endpoint
@@ -233,9 +219,8 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudInfraManagerResourceChanges
         GcloudInfraManagerResourceChangesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerResourceChangesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list resource changes
@@ -51,9 +50,8 @@ public class GcloudInfraManagerResourceChanges
         GcloudInfraManagerResourceChangesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerResourceChangesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudNetworkServicesMulticastGroupConsumerActivations
         GcloudNetworkServicesMulticastGroupConsumerActivationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupConsumerActivationsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a multicast group consumer activation
@@ -51,9 +50,8 @@ public class GcloudNetworkServicesMulticastGroupConsumerActivations
         GcloudNetworkServicesMulticastGroupConsumerActivationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupConsumerActivationsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a multicast group consumer activation
@@ -65,9 +63,8 @@ public class GcloudNetworkServicesMulticastGroupConsumerActivations
         GcloudNetworkServicesMulticastGroupConsumerActivationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupConsumerActivationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      multicast group consumer activations
@@ -79,9 +76,8 @@ public class GcloudNetworkServicesMulticastGroupConsumerActivations
         GcloudNetworkServicesMulticastGroupConsumerActivationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupConsumerActivationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a multicast group consumer activation
@@ -93,9 +89,8 @@ public class GcloudNetworkServicesMulticastGroupConsumerActivations
         GcloudNetworkServicesMulticastGroupConsumerActivationsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupConsumerActivationsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

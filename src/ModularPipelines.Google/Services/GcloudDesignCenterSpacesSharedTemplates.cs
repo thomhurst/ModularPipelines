@@ -47,9 +47,8 @@ public class GcloudDesignCenterSpacesSharedTemplates
         GcloudDesignCenterSpacesSharedTemplatesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesSharedTemplatesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list shared templates
@@ -61,9 +60,8 @@ public class GcloudDesignCenterSpacesSharedTemplates
         GcloudDesignCenterSpacesSharedTemplatesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesSharedTemplatesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

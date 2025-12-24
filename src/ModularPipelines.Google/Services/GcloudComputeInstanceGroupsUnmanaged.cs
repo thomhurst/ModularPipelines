@@ -37,9 +37,8 @@ public class GcloudComputeInstanceGroupsUnmanaged
         GcloudComputeInstanceGroupsUnmanagedAddInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsUnmanagedAddInstancesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Compute Engine      unmanaged instance group
@@ -51,9 +50,8 @@ public class GcloudComputeInstanceGroupsUnmanaged
         GcloudComputeInstanceGroupsUnmanagedCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsUnmanagedCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete Compute Engine      unmanaged instance groups
@@ -65,9 +63,8 @@ public class GcloudComputeInstanceGroupsUnmanaged
         GcloudComputeInstanceGroupsUnmanagedDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsUnmanagedDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an instance      group
@@ -79,9 +76,8 @@ public class GcloudComputeInstanceGroupsUnmanaged
         GcloudComputeInstanceGroupsUnmanagedDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsUnmanagedDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists the named      ports for an instance group resource
@@ -93,9 +89,8 @@ public class GcloudComputeInstanceGroupsUnmanaged
         GcloudComputeInstanceGroupsUnmanagedGetNamedPortsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsUnmanagedGetNamedPortsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list instances      present in the instance group
@@ -107,9 +102,8 @@ public class GcloudComputeInstanceGroupsUnmanaged
         GcloudComputeInstanceGroupsUnmanagedListInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsUnmanagedListInstancesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine      unmanaged instance groups
@@ -121,9 +115,8 @@ public class GcloudComputeInstanceGroupsUnmanaged
         GcloudComputeInstanceGroupsUnmanagedListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsUnmanagedListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// removes      resources from an unmanaged instance group by instance name
@@ -135,9 +128,8 @@ public class GcloudComputeInstanceGroupsUnmanaged
         GcloudComputeInstanceGroupsUnmanagedRemoveInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsUnmanagedRemoveInstancesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// sets the list of      named ports for an instance group
@@ -149,9 +141,8 @@ public class GcloudComputeInstanceGroupsUnmanaged
         GcloudComputeInstanceGroupsUnmanagedSetNamedPortsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsUnmanagedSetNamedPortsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

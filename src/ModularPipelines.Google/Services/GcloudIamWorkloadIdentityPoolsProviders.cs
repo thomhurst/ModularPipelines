@@ -53,9 +53,8 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersCreateAwsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsProvidersCreateAwsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a new      OIDC workload identity pool provider
@@ -67,9 +66,8 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersCreateOidcOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsProvidersCreateOidcOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a new      SAML workload identity pool provider
@@ -81,9 +79,8 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersCreateSamlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsProvidersCreateSamlOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a new      X.509 workload identity pool provider
@@ -95,9 +92,8 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersCreateX509Options options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsProvidersCreateX509Options(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a workload      identity pool provider
@@ -109,9 +105,8 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsProvidersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a workload      identity pool provider
@@ -123,9 +118,8 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsProvidersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list workload identity      pool providers
@@ -137,9 +131,8 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsProvidersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// undelete a workload      identity pool provider
@@ -151,9 +144,8 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsProvidersUndeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an AWS      workload identity pool provider
@@ -165,9 +157,8 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersUpdateAwsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsProvidersUpdateAwsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an OIDC      workload identity pool provider
@@ -179,9 +170,8 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersUpdateOidcOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsProvidersUpdateOidcOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a SAML      workload identity pool provider
@@ -193,9 +183,8 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersUpdateSamlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsProvidersUpdateSamlOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an X.509      workload identity pool provider
@@ -207,9 +196,8 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersUpdateX509Options options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsProvidersUpdateX509Options(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

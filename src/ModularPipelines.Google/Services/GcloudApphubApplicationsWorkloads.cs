@@ -37,9 +37,8 @@ public class GcloudApphubApplicationsWorkloads
         GcloudApphubApplicationsWorkloadsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsWorkloadsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an Apphub application      workload
@@ -51,9 +50,8 @@ public class GcloudApphubApplicationsWorkloads
         GcloudApphubApplicationsWorkloadsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsWorkloadsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an Apphub      application workload
@@ -65,9 +63,8 @@ public class GcloudApphubApplicationsWorkloads
         GcloudApphubApplicationsWorkloadsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsWorkloadsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Apphub application      workloads
@@ -79,9 +76,8 @@ public class GcloudApphubApplicationsWorkloads
         GcloudApphubApplicationsWorkloadsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsWorkloadsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an Apphub application      workload
@@ -93,9 +89,8 @@ public class GcloudApphubApplicationsWorkloads
         GcloudApphubApplicationsWorkloadsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsWorkloadsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

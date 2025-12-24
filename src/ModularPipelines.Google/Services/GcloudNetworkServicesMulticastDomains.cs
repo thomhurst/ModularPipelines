@@ -37,9 +37,8 @@ public class GcloudNetworkServicesMulticastDomains
         GcloudNetworkServicesMulticastDomainsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a multicast      domain
@@ -51,9 +50,8 @@ public class GcloudNetworkServicesMulticastDomains
         GcloudNetworkServicesMulticastDomainsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a multicast      domain
@@ -65,9 +63,8 @@ public class GcloudNetworkServicesMulticastDomains
         GcloudNetworkServicesMulticastDomainsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list multicast domains
@@ -79,9 +76,8 @@ public class GcloudNetworkServicesMulticastDomains
         GcloudNetworkServicesMulticastDomainsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a multicast      domain
@@ -93,9 +89,8 @@ public class GcloudNetworkServicesMulticastDomains
         GcloudNetworkServicesMulticastDomainsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

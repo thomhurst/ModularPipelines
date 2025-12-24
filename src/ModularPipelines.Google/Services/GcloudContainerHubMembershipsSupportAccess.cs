@@ -37,9 +37,8 @@ public class GcloudContainerHubMembershipsSupportAccess
         GcloudContainerHubMembershipsSupportAccessDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMembershipsSupportAccessDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disable support      access for the specified membership
@@ -51,9 +50,8 @@ public class GcloudContainerHubMembershipsSupportAccess
         GcloudContainerHubMembershipsSupportAccessDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMembershipsSupportAccessDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enable support      access for the specified membership
@@ -65,9 +63,8 @@ public class GcloudContainerHubMembershipsSupportAccess
         GcloudContainerHubMembershipsSupportAccessEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMembershipsSupportAccessEnableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// generates YAML      for anthos support RBAC policies
@@ -79,9 +76,8 @@ public class GcloudContainerHubMembershipsSupportAccess
         GcloudContainerHubMembershipsSupportAccessGetYamlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMembershipsSupportAccessGetYamlOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

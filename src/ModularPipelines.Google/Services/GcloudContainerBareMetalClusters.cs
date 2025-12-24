@@ -37,9 +37,8 @@ public class GcloudContainerBareMetalClusters
         GcloudContainerBareMetalClustersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalClustersCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an Anthos cluster on      bare metal
@@ -51,9 +50,8 @@ public class GcloudContainerBareMetalClusters
         GcloudContainerBareMetalClustersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalClustersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an Anthos cluster      on bare metal
@@ -65,9 +63,8 @@ public class GcloudContainerBareMetalClusters
         GcloudContainerBareMetalClustersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalClustersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enroll an Anthos cluster on      bare metal
@@ -79,9 +76,8 @@ public class GcloudContainerBareMetalClusters
         GcloudContainerBareMetalClustersEnrollOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalClustersEnrollOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Anthos clusters on bare      metal
@@ -93,9 +89,8 @@ public class GcloudContainerBareMetalClusters
         GcloudContainerBareMetalClustersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalClustersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// query versions      for creating or upgrading an Anthos on bare metal user cluster
@@ -107,9 +102,8 @@ public class GcloudContainerBareMetalClusters
         GcloudContainerBareMetalClustersQueryVersionConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalClustersQueryVersionConfigOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an Anthos cluster on      bare metal
@@ -121,9 +115,8 @@ public class GcloudContainerBareMetalClusters
         GcloudContainerBareMetalClustersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBareMetalClustersUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

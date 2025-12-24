@@ -37,9 +37,8 @@ public class GcloudNetworkConnectivitySpokesLinkedProducerVpcNetwork
         GcloudNetworkConnectivitySpokesLinkedProducerVpcNetworkCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesLinkedProducerVpcNetworkCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Producer VPC spoke
@@ -51,9 +50,8 @@ public class GcloudNetworkConnectivitySpokesLinkedProducerVpcNetwork
         GcloudNetworkConnectivitySpokesLinkedProducerVpcNetworkUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesLinkedProducerVpcNetworkUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

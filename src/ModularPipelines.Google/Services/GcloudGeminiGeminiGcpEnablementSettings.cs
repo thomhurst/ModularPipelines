@@ -47,9 +47,8 @@ public class GcloudGeminiGeminiGcpEnablementSettings
         GcloudGeminiGeminiGcpEnablementSettingsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiGeminiGcpEnablementSettingsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete      geminiGcpEnablementSettings
@@ -61,9 +60,8 @@ public class GcloudGeminiGeminiGcpEnablementSettings
         GcloudGeminiGeminiGcpEnablementSettingsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiGeminiGcpEnablementSettingsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe      geminiGcpEnablementSettings
@@ -75,9 +73,8 @@ public class GcloudGeminiGeminiGcpEnablementSettings
         GcloudGeminiGeminiGcpEnablementSettingsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiGeminiGcpEnablementSettingsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      geminiGcpEnablementSettings
@@ -89,9 +86,8 @@ public class GcloudGeminiGeminiGcpEnablementSettings
         GcloudGeminiGeminiGcpEnablementSettingsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiGeminiGcpEnablementSettingsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update      geminiGcpEnablementSettings
@@ -103,9 +99,8 @@ public class GcloudGeminiGeminiGcpEnablementSettings
         GcloudGeminiGeminiGcpEnablementSettingsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiGeminiGcpEnablementSettingsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

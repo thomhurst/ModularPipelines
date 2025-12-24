@@ -37,9 +37,8 @@ public class GcloudContainerFleetClusterupgrade
         GcloudContainerFleetClusterupgradeCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetClusterupgradeCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe the      clusterupgrade feature for a fleet within a given project
@@ -51,9 +50,8 @@ public class GcloudContainerFleetClusterupgrade
         GcloudContainerFleetClusterupgradeDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetClusterupgradeDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update the clusterupgrade      feature for a fleet within a given project
@@ -65,9 +63,8 @@ public class GcloudContainerFleetClusterupgrade
         GcloudContainerFleetClusterupgradeUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetClusterupgradeUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

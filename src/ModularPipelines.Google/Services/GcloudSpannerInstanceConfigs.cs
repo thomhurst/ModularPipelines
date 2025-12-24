@@ -37,9 +37,8 @@ public class GcloudSpannerInstanceConfigs
         GcloudSpannerInstanceConfigsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerInstanceConfigsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud Spanner instance      configuration
@@ -51,9 +50,8 @@ public class GcloudSpannerInstanceConfigs
         GcloudSpannerInstanceConfigsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerInstanceConfigsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Cloud Spanner      instance configuration
@@ -65,9 +63,8 @@ public class GcloudSpannerInstanceConfigs
         GcloudSpannerInstanceConfigsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerInstanceConfigsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the available Cloud Spanner      instance configurations
@@ -79,9 +76,8 @@ public class GcloudSpannerInstanceConfigs
         GcloudSpannerInstanceConfigsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerInstanceConfigsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud Spanner instance      configuration
@@ -93,9 +89,8 @@ public class GcloudSpannerInstanceConfigs
         GcloudSpannerInstanceConfigsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerInstanceConfigsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

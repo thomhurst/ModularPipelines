@@ -37,9 +37,8 @@ public class GcloudInfraManagerDeployments
         GcloudInfraManagerDeploymentsApplyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerDeploymentsApplyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete deployments
@@ -51,9 +50,8 @@ public class GcloudInfraManagerDeployments
         GcloudInfraManagerDeploymentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerDeploymentsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe deployments
@@ -65,9 +63,8 @@ public class GcloudInfraManagerDeployments
         GcloudInfraManagerDeploymentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerDeploymentsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// exports lock info of a      deployment
@@ -79,9 +76,8 @@ public class GcloudInfraManagerDeployments
         GcloudInfraManagerDeploymentsExportLockOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerDeploymentsExportLockOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export a terraform      state file
@@ -93,9 +89,8 @@ public class GcloudInfraManagerDeployments
         GcloudInfraManagerDeploymentsExportStatefileOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerDeploymentsExportStatefileOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import a terraform      state file
@@ -107,9 +102,8 @@ public class GcloudInfraManagerDeployments
         GcloudInfraManagerDeploymentsImportStatefileOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerDeploymentsImportStatefileOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list deployments
@@ -121,9 +115,8 @@ public class GcloudInfraManagerDeployments
         GcloudInfraManagerDeploymentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerDeploymentsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// locks the deployment
@@ -135,9 +128,8 @@ public class GcloudInfraManagerDeployments
         GcloudInfraManagerDeploymentsLockOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerDeploymentsLockOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// unlocks the deployment
@@ -149,9 +141,8 @@ public class GcloudInfraManagerDeployments
         GcloudInfraManagerDeploymentsUnlockOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerDeploymentsUnlockOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

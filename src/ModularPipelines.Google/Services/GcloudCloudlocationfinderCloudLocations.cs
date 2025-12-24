@@ -37,9 +37,8 @@ public class GcloudCloudlocationfinderCloudLocations
         GcloudCloudlocationfinderCloudLocationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCloudlocationfinderCloudLocationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list cloudLocations
@@ -51,9 +50,8 @@ public class GcloudCloudlocationfinderCloudLocations
         GcloudCloudlocationfinderCloudLocationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCloudlocationfinderCloudLocationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// search cloudLocations
@@ -65,9 +63,8 @@ public class GcloudCloudlocationfinderCloudLocations
         GcloudCloudlocationfinderCloudLocationsSearchOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCloudlocationfinderCloudLocationsSearchOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

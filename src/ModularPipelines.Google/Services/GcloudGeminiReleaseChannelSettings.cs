@@ -47,9 +47,8 @@ public class GcloudGeminiReleaseChannelSettings
         GcloudGeminiReleaseChannelSettingsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiReleaseChannelSettingsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete      releaseChannelSettings
@@ -61,9 +60,8 @@ public class GcloudGeminiReleaseChannelSettings
         GcloudGeminiReleaseChannelSettingsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiReleaseChannelSettingsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe      releaseChannelSettings
@@ -75,9 +73,8 @@ public class GcloudGeminiReleaseChannelSettings
         GcloudGeminiReleaseChannelSettingsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiReleaseChannelSettingsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list releaseChannelSettings
@@ -89,9 +86,8 @@ public class GcloudGeminiReleaseChannelSettings
         GcloudGeminiReleaseChannelSettingsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiReleaseChannelSettingsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update      releaseChannelSettings
@@ -103,9 +99,8 @@ public class GcloudGeminiReleaseChannelSettings
         GcloudGeminiReleaseChannelSettingsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiReleaseChannelSettingsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

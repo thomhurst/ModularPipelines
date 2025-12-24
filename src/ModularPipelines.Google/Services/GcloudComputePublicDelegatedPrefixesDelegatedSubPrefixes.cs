@@ -37,9 +37,8 @@ public class GcloudComputePublicDelegatedPrefixesDelegatedSubPrefixes
         GcloudComputePublicDelegatedPrefixesDelegatedSubPrefixesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePublicDelegatedPrefixesDelegatedSubPrefixesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a Compute Engine delegated sub prefix
@@ -51,9 +50,8 @@ public class GcloudComputePublicDelegatedPrefixesDelegatedSubPrefixes
         GcloudComputePublicDelegatedPrefixesDelegatedSubPrefixesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePublicDelegatedPrefixesDelegatedSubPrefixesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

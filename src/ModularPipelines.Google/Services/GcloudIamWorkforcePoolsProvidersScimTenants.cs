@@ -47,9 +47,8 @@ public class GcloudIamWorkforcePoolsProvidersScimTenants
         GcloudIamWorkforcePoolsProvidersScimTenantsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersScimTenantsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an IAM      workforce identity pool provider SCIM tenant
@@ -61,9 +60,8 @@ public class GcloudIamWorkforcePoolsProvidersScimTenants
         GcloudIamWorkforcePoolsProvidersScimTenantsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersScimTenantsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an      IAM workforce identity pool provider SCIM tenant
@@ -75,9 +73,8 @@ public class GcloudIamWorkforcePoolsProvidersScimTenants
         GcloudIamWorkforcePoolsProvidersScimTenantsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersScimTenantsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list IAM workforce      identity pool provider SCIM tenants
@@ -89,9 +86,8 @@ public class GcloudIamWorkforcePoolsProvidersScimTenants
         GcloudIamWorkforcePoolsProvidersScimTenantsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersScimTenantsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// undelete an      IAM workforce identity pool provider SCIM tenant
@@ -103,9 +99,8 @@ public class GcloudIamWorkforcePoolsProvidersScimTenants
         GcloudIamWorkforcePoolsProvidersScimTenantsUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersScimTenantsUndeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an IAM      workforce identity pool provider SCIM tenant
@@ -117,9 +112,8 @@ public class GcloudIamWorkforcePoolsProvidersScimTenants
         GcloudIamWorkforcePoolsProvidersScimTenantsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersScimTenantsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

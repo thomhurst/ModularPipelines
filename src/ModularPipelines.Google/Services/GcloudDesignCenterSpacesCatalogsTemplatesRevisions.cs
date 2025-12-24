@@ -37,9 +37,8 @@ public class GcloudDesignCenterSpacesCatalogsTemplatesRevisions
         GcloudDesignCenterSpacesCatalogsTemplatesRevisionsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsTemplatesRevisionsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a      catalog template revision
@@ -51,9 +50,8 @@ public class GcloudDesignCenterSpacesCatalogsTemplatesRevisions
         GcloudDesignCenterSpacesCatalogsTemplatesRevisionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsTemplatesRevisionsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a catalog template revision
@@ -65,9 +63,8 @@ public class GcloudDesignCenterSpacesCatalogsTemplatesRevisions
         GcloudDesignCenterSpacesCatalogsTemplatesRevisionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsTemplatesRevisionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      catalog template revisions
@@ -79,9 +76,8 @@ public class GcloudDesignCenterSpacesCatalogsTemplatesRevisions
         GcloudDesignCenterSpacesCatalogsTemplatesRevisionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsTemplatesRevisionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

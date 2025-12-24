@@ -47,9 +47,8 @@ public class GcloudContainerBinauthzAttestors
         GcloudContainerBinauthzAttestorsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestorsAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create an Attestor
@@ -61,9 +60,8 @@ public class GcloudContainerBinauthzAttestors
         GcloudContainerBinauthzAttestorsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestorsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an Attestor
@@ -75,9 +73,8 @@ public class GcloudContainerBinauthzAttestors
         GcloudContainerBinauthzAttestorsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestorsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an Attestor
@@ -89,9 +86,8 @@ public class GcloudContainerBinauthzAttestors
         GcloudContainerBinauthzAttestorsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestorsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for      an attestor
@@ -103,9 +99,8 @@ public class GcloudContainerBinauthzAttestors
         GcloudContainerBinauthzAttestorsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestorsGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Attestors associated with      the current project
@@ -117,9 +112,8 @@ public class GcloudContainerBinauthzAttestors
         GcloudContainerBinauthzAttestorsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestorsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove IAM      policy binding of a Binary Authorization attestor
@@ -131,9 +125,8 @@ public class GcloudContainerBinauthzAttestors
         GcloudContainerBinauthzAttestorsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestorsRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for      an attestor
@@ -145,9 +138,8 @@ public class GcloudContainerBinauthzAttestors
         GcloudContainerBinauthzAttestorsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestorsSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an existing Attestor
@@ -159,9 +151,8 @@ public class GcloudContainerBinauthzAttestors
         GcloudContainerBinauthzAttestorsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestorsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

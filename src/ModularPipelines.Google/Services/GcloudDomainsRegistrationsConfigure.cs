@@ -37,9 +37,8 @@ public class GcloudDomainsRegistrationsConfigure
         GcloudDomainsRegistrationsConfigureContactsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsConfigureContactsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// configure DNS settings of a      Cloud Domains registration
@@ -51,9 +50,8 @@ public class GcloudDomainsRegistrationsConfigure
         GcloudDomainsRegistrationsConfigureDnsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsConfigureDnsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// configure management      settings of a Cloud Domains registration
@@ -65,9 +63,8 @@ public class GcloudDomainsRegistrationsConfigure
         GcloudDomainsRegistrationsConfigureManagementOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsConfigureManagementOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

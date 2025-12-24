@@ -37,9 +37,8 @@ public class GcloudVmwareNetworkPeeringsRoutes
         GcloudVmwareNetworkPeeringsRoutesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPeeringsRoutesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

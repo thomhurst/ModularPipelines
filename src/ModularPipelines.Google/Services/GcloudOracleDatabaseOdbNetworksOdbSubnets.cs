@@ -37,9 +37,8 @@ public class GcloudOracleDatabaseOdbNetworksOdbSubnets
         GcloudOracleDatabaseOdbNetworksOdbSubnetsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseOdbNetworksOdbSubnetsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an      OdbSubnet
@@ -51,9 +50,8 @@ public class GcloudOracleDatabaseOdbNetworksOdbSubnets
         GcloudOracleDatabaseOdbNetworksOdbSubnetsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseOdbNetworksOdbSubnetsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get details of      an OdbSubnet
@@ -65,9 +63,8 @@ public class GcloudOracleDatabaseOdbNetworksOdbSubnets
         GcloudOracleDatabaseOdbNetworksOdbSubnetsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseOdbNetworksOdbSubnetsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all OdbSubnets
@@ -79,9 +76,8 @@ public class GcloudOracleDatabaseOdbNetworksOdbSubnets
         GcloudOracleDatabaseOdbNetworksOdbSubnetsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseOdbNetworksOdbSubnetsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudSpannerDatabasesSplits
         GcloudSpannerDatabasesSplitsAddOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesSplitsAddOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list split points that are added by      a user to a Spanner database
@@ -51,9 +50,8 @@ public class GcloudSpannerDatabasesSplits
         GcloudSpannerDatabasesSplitsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesSplitsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

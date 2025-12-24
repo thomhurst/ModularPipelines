@@ -37,9 +37,8 @@ public class GcloudAiCustomJobs
         GcloudAiCustomJobsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiCustomJobsCancelOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a new custom job
@@ -51,9 +50,8 @@ public class GcloudAiCustomJobs
         GcloudAiCustomJobsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiCustomJobsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get detailed information about the custom      job by given id
@@ -65,9 +63,8 @@ public class GcloudAiCustomJobs
         GcloudAiCustomJobsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiCustomJobsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists the existing custom jobs
@@ -79,9 +76,8 @@ public class GcloudAiCustomJobs
         GcloudAiCustomJobsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiCustomJobsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// run a custom training locally
@@ -93,9 +89,8 @@ public class GcloudAiCustomJobs
         GcloudAiCustomJobsLocalRunOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiCustomJobsLocalRunOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show stream logs from a running custom      job
@@ -107,9 +102,8 @@ public class GcloudAiCustomJobs
         GcloudAiCustomJobsStreamLogsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiCustomJobsStreamLogsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

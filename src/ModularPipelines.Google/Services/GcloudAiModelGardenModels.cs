@@ -37,9 +37,8 @@ public class GcloudAiModelGardenModels
         GcloudAiModelGardenModelsDeployOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelGardenModelsDeployOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the machine      specifications supported by and verified for a model in Model Garden
@@ -51,9 +50,8 @@ public class GcloudAiModelGardenModels
         GcloudAiModelGardenModelsListDeploymentConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelGardenModelsListDeploymentConfigOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the publisher models in Model      Garden
@@ -65,9 +63,8 @@ public class GcloudAiModelGardenModels
         GcloudAiModelGardenModelsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelGardenModelsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

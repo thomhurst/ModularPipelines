@@ -47,9 +47,8 @@ public class GcloudStorageInsightsInventoryReports
         GcloudStorageInsightsInventoryReportsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsInventoryReportsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an inventory      report config
@@ -61,9 +60,8 @@ public class GcloudStorageInsightsInventoryReports
         GcloudStorageInsightsInventoryReportsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsInventoryReportsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an inventory      report config
@@ -75,9 +73,8 @@ public class GcloudStorageInsightsInventoryReports
         GcloudStorageInsightsInventoryReportsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsInventoryReportsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists all inventory report      configs
@@ -89,9 +86,8 @@ public class GcloudStorageInsightsInventoryReports
         GcloudStorageInsightsInventoryReportsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsInventoryReportsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an inventory      report config
@@ -103,9 +99,8 @@ public class GcloudStorageInsightsInventoryReports
         GcloudStorageInsightsInventoryReportsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsInventoryReportsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

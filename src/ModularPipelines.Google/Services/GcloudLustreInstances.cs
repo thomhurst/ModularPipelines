@@ -37,9 +37,8 @@ public class GcloudLustreInstances
         GcloudLustreInstancesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreInstancesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a Managed Lustre instance
@@ -51,9 +50,8 @@ public class GcloudLustreInstances
         GcloudLustreInstancesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreInstancesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// gets details of a single Managed Lustre      instance
@@ -65,9 +63,8 @@ public class GcloudLustreInstances
         GcloudLustreInstancesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreInstancesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// exports data from Managed Lustre      instance to Cloud Storage
@@ -79,9 +76,8 @@ public class GcloudLustreInstances
         GcloudLustreInstancesExportDataOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreInstancesExportDataOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// imports data from Cloud Storage to      Managed Lustre instance
@@ -93,9 +89,8 @@ public class GcloudLustreInstances
         GcloudLustreInstancesImportDataOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreInstancesImportDataOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Lustre instances
@@ -107,9 +102,8 @@ public class GcloudLustreInstances
         GcloudLustreInstancesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreInstancesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates the parameters of a single Managed      Lustre instance
@@ -121,9 +115,8 @@ public class GcloudLustreInstances
         GcloudLustreInstancesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreInstancesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

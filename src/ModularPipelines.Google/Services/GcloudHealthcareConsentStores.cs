@@ -37,9 +37,8 @@ public class GcloudHealthcareConsentStores
         GcloudHealthcareConsentStoresAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareConsentStoresAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// check the consent for      a particular data ID
@@ -51,9 +50,8 @@ public class GcloudHealthcareConsentStores
         GcloudHealthcareConsentStoresCheckDataAccessOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareConsentStoresCheckDataAccessOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Cloud Healthcare API      consent store
@@ -65,9 +63,8 @@ public class GcloudHealthcareConsentStores
         GcloudHealthcareConsentStoresCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareConsentStoresCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Cloud Healthcare API      consent store
@@ -79,9 +76,8 @@ public class GcloudHealthcareConsentStores
         GcloudHealthcareConsentStoresDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareConsentStoresDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Cloud Healthcare API      consent store
@@ -93,9 +89,8 @@ public class GcloudHealthcareConsentStores
         GcloudHealthcareConsentStoresDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareConsentStoresDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// check the      consents for a particular user's data
@@ -107,9 +102,8 @@ public class GcloudHealthcareConsentStores
         GcloudHealthcareConsentStoresEvaluateUserConsentsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareConsentStoresEvaluateUserConsentsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// retrieve the IAM policy      for a Cloud Healthcare API consent store
@@ -121,9 +115,8 @@ public class GcloudHealthcareConsentStores
         GcloudHealthcareConsentStoresGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareConsentStoresGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Cloud Healthcare API consent      stores
@@ -135,9 +128,8 @@ public class GcloudHealthcareConsentStores
         GcloudHealthcareConsentStoresListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareConsentStoresListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// queries all      accessible data IDs
@@ -149,9 +141,8 @@ public class GcloudHealthcareConsentStores
         GcloudHealthcareConsentStoresQueryAccessibleDataOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareConsentStoresQueryAccessibleDataOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove an IAM      policy binding from a Cloud Healthcare API consent store
@@ -163,9 +154,8 @@ public class GcloudHealthcareConsentStores
         GcloudHealthcareConsentStoresRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareConsentStoresRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set the IAM policy for a      Cloud Healthcare API consent store
@@ -177,9 +167,8 @@ public class GcloudHealthcareConsentStores
         GcloudHealthcareConsentStoresSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareConsentStoresSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud Healthcare API      consent store
@@ -191,9 +180,8 @@ public class GcloudHealthcareConsentStores
         GcloudHealthcareConsentStoresUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareConsentStoresUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

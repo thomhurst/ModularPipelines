@@ -37,9 +37,8 @@ public class GcloudSchedulerJobsUpdate
         GcloudSchedulerJobsUpdateAppEngineOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsUpdateAppEngineOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud Scheduler job that      triggers an action via HTTP
@@ -51,9 +50,8 @@ public class GcloudSchedulerJobsUpdate
         GcloudSchedulerJobsUpdateHttpOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsUpdateHttpOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Cloud Scheduler job with a      Pub/Sub target
@@ -65,9 +63,8 @@ public class GcloudSchedulerJobsUpdate
         GcloudSchedulerJobsUpdatePubsubOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsUpdatePubsubOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

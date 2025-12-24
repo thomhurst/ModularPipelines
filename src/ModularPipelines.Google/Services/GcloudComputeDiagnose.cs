@@ -37,9 +37,8 @@ public class GcloudComputeDiagnose
         GcloudComputeDiagnoseExportLogsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDiagnoseExportLogsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// routes to/from Compute Engine virtual      machine instances
@@ -51,9 +50,8 @@ public class GcloudComputeDiagnose
         GcloudComputeDiagnoseRoutesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDiagnoseRoutesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

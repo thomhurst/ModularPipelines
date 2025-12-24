@@ -37,9 +37,8 @@ public class GcloudComponentsRepositories
         GcloudComponentsRepositoriesAddOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComponentsRepositoriesAddOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list any Trusted Tester component      repositories you have registered
@@ -51,9 +50,8 @@ public class GcloudComponentsRepositories
         GcloudComponentsRepositoriesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComponentsRepositoriesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove a registered Trusted Test      component repository
@@ -65,9 +63,8 @@ public class GcloudComponentsRepositories
         GcloudComponentsRepositoriesRemoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComponentsRepositoriesRemoveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

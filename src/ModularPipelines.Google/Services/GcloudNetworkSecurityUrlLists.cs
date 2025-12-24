@@ -37,9 +37,8 @@ public class GcloudNetworkSecurityUrlLists
         GcloudNetworkSecurityUrlListsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityUrlListsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export Url List
@@ -51,9 +50,8 @@ public class GcloudNetworkSecurityUrlLists
         GcloudNetworkSecurityUrlListsExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityUrlListsExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import Url List
@@ -65,9 +63,8 @@ public class GcloudNetworkSecurityUrlLists
         GcloudNetworkSecurityUrlListsImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityUrlListsImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Url Lists
@@ -79,9 +76,8 @@ public class GcloudNetworkSecurityUrlLists
         GcloudNetworkSecurityUrlListsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityUrlListsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

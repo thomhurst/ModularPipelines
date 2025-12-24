@@ -37,9 +37,8 @@ public class GcloudAssuredWorkloadsViolations
         GcloudAssuredWorkloadsViolationsAcknowledgeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsViolationsAcknowledgeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an Assured      Workloads compliance violation
@@ -51,9 +50,8 @@ public class GcloudAssuredWorkloadsViolations
         GcloudAssuredWorkloadsViolationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsViolationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all Assured Workloads      violations that belong to a assured workloads environment
@@ -65,9 +63,8 @@ public class GcloudAssuredWorkloadsViolations
         GcloudAssuredWorkloadsViolationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsViolationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

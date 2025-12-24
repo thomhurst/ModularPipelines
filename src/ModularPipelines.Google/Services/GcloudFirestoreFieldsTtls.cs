@@ -37,9 +37,8 @@ public class GcloudFirestoreFieldsTtls
         GcloudFirestoreFieldsTtlsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreFieldsTtlsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update the TTL configuration of the      given field
@@ -51,9 +50,8 @@ public class GcloudFirestoreFieldsTtls
         GcloudFirestoreFieldsTtlsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreFieldsTtlsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

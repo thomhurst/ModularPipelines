@@ -37,9 +37,8 @@ public class GcloudComputeInterconnectsMacsec
         GcloudComputeInterconnectsMacsecAddKeyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsMacsecAddKeyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get MACsec configuration      of a Compute Engine interconnect
@@ -51,9 +50,8 @@ public class GcloudComputeInterconnectsMacsec
         GcloudComputeInterconnectsMacsecGetConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsMacsecGetConfigOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// shared key from      a Compute Engine interconnect MACsec configuration
@@ -65,9 +63,8 @@ public class GcloudComputeInterconnectsMacsec
         GcloudComputeInterconnectsMacsecRemoveKeyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsMacsecRemoveKeyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// shared key in a      Compute Engine interconnect MACsec configuration
@@ -79,9 +76,8 @@ public class GcloudComputeInterconnectsMacsec
         GcloudComputeInterconnectsMacsecUpdateKeyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsMacsecUpdateKeyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine      interconnect MACsec configuration
@@ -93,9 +89,8 @@ public class GcloudComputeInterconnectsMacsec
         GcloudComputeInterconnectsMacsecUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsMacsecUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

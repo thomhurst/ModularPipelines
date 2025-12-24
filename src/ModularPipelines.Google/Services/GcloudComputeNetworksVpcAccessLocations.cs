@@ -37,9 +37,8 @@ public class GcloudComputeNetworksVpcAccessLocations
         GcloudComputeNetworksVpcAccessLocationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksVpcAccessLocationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -47,9 +47,8 @@ public class GcloudGeminiDataSharingWithGoogleSettings
         GcloudGeminiDataSharingWithGoogleSettingsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiDataSharingWithGoogleSettingsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete      dataSharingWithGoogleSettings
@@ -61,9 +60,8 @@ public class GcloudGeminiDataSharingWithGoogleSettings
         GcloudGeminiDataSharingWithGoogleSettingsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiDataSharingWithGoogleSettingsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe      dataSharingWithGoogleSettings
@@ -75,9 +73,8 @@ public class GcloudGeminiDataSharingWithGoogleSettings
         GcloudGeminiDataSharingWithGoogleSettingsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiDataSharingWithGoogleSettingsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      dataSharingWithGoogleSettings
@@ -89,9 +86,8 @@ public class GcloudGeminiDataSharingWithGoogleSettings
         GcloudGeminiDataSharingWithGoogleSettingsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiDataSharingWithGoogleSettingsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update      dataSharingWithGoogleSettings
@@ -103,9 +99,8 @@ public class GcloudGeminiDataSharingWithGoogleSettings
         GcloudGeminiDataSharingWithGoogleSettingsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiDataSharingWithGoogleSettingsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

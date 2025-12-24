@@ -37,9 +37,8 @@ public class GcloudVmwarePrivateCloudsClustersNodes
         GcloudVmwarePrivateCloudsClustersNodesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsClustersNodesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list nodes in a Google      Cloud VMware Engine private cloud's cluster
@@ -51,9 +50,8 @@ public class GcloudVmwarePrivateCloudsClustersNodes
         GcloudVmwarePrivateCloudsClustersNodesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsClustersNodesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

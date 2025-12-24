@@ -47,9 +47,8 @@ public class GcloudIamServiceAccounts
         GcloudIamServiceAccountsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a service account for a project
@@ -61,9 +60,8 @@ public class GcloudIamServiceAccounts
         GcloudIamServiceAccountsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a service account from a      project
@@ -75,9 +73,8 @@ public class GcloudIamServiceAccounts
         GcloudIamServiceAccountsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show metadata for a service account      from a project
@@ -89,9 +86,8 @@ public class GcloudIamServiceAccounts
         GcloudIamServiceAccountsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disable an IAM service account
@@ -103,9 +99,8 @@ public class GcloudIamServiceAccounts
         GcloudIamServiceAccountsDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enable an IAM service account
@@ -117,9 +112,8 @@ public class GcloudIamServiceAccounts
         GcloudIamServiceAccountsEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsEnableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the IAM policy for a      service account
@@ -131,9 +125,8 @@ public class GcloudIamServiceAccounts
         GcloudIamServiceAccountsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all of a project's service accounts
@@ -145,9 +138,8 @@ public class GcloudIamServiceAccounts
         GcloudIamServiceAccountsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove IAM policy      binding from a service account
@@ -159,9 +151,8 @@ public class GcloudIamServiceAccounts
         GcloudIamServiceAccountsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set IAM policy for a service      account
@@ -173,9 +164,8 @@ public class GcloudIamServiceAccounts
         GcloudIamServiceAccountsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// sign a blob with a managed service      account key
@@ -187,9 +177,8 @@ public class GcloudIamServiceAccounts
         GcloudIamServiceAccountsSignBlobOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsSignBlobOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// sign a JWT with a managed service      account key
@@ -201,9 +190,8 @@ public class GcloudIamServiceAccounts
         GcloudIamServiceAccountsSignJwtOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsSignJwtOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// undelete a service account for a      project
@@ -215,9 +203,8 @@ public class GcloudIamServiceAccounts
         GcloudIamServiceAccountsUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsUndeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an IAM service account
@@ -229,9 +216,8 @@ public class GcloudIamServiceAccounts
         GcloudIamServiceAccountsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

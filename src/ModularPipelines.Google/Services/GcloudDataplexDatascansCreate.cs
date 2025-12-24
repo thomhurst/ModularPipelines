@@ -37,9 +37,8 @@ public class GcloudDataplexDatascansCreate
         GcloudDataplexDatascansCreateDataDiscoveryOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexDatascansCreateDataDiscoveryOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Dataplex      data documentation scan job
@@ -51,9 +50,8 @@ public class GcloudDataplexDatascansCreate
         GcloudDataplexDatascansCreateDataDocumentationOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexDatascansCreateDataDocumentationOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Dataplex data      profile scan job
@@ -65,9 +63,8 @@ public class GcloudDataplexDatascansCreate
         GcloudDataplexDatascansCreateDataProfileOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexDatascansCreateDataProfileOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Dataplex data      quality scan job
@@ -79,9 +76,8 @@ public class GcloudDataplexDatascansCreate
         GcloudDataplexDatascansCreateDataQualityOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexDatascansCreateDataQualityOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

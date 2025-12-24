@@ -37,9 +37,8 @@ public class GcloudDeploymentManagerDeployments
         GcloudDeploymentManagerDeploymentsCancelPreviewOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeploymentManagerDeploymentsCancelPreviewOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a deployment
@@ -51,9 +50,8 @@ public class GcloudDeploymentManagerDeployments
         GcloudDeploymentManagerDeploymentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeploymentManagerDeploymentsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a deployment
@@ -65,9 +63,8 @@ public class GcloudDeploymentManagerDeployments
         GcloudDeploymentManagerDeploymentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeploymentManagerDeploymentsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// provide information about      a deployment
@@ -79,9 +76,8 @@ public class GcloudDeploymentManagerDeployments
         GcloudDeploymentManagerDeploymentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeploymentManagerDeploymentsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list deployments in a project
@@ -93,9 +89,8 @@ public class GcloudDeploymentManagerDeployments
         GcloudDeploymentManagerDeploymentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeploymentManagerDeploymentsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// stop a pending or running      deployment update or creation
@@ -107,9 +102,8 @@ public class GcloudDeploymentManagerDeployments
         GcloudDeploymentManagerDeploymentsStopOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeploymentManagerDeploymentsStopOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a deployment based on      a provided config file
@@ -121,9 +115,8 @@ public class GcloudDeploymentManagerDeployments
         GcloudDeploymentManagerDeploymentsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeploymentManagerDeploymentsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

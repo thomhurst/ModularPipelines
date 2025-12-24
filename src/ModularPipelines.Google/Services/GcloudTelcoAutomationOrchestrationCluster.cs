@@ -37,9 +37,8 @@ public class GcloudTelcoAutomationOrchestrationCluster
         GcloudTelcoAutomationOrchestrationClusterCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTelcoAutomationOrchestrationClusterCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a telco      automation orchestration cluster
@@ -51,9 +50,8 @@ public class GcloudTelcoAutomationOrchestrationCluster
         GcloudTelcoAutomationOrchestrationClusterDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTelcoAutomationOrchestrationClusterDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details about      the orchestration cluster
@@ -65,9 +63,8 @@ public class GcloudTelcoAutomationOrchestrationCluster
         GcloudTelcoAutomationOrchestrationClusterDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTelcoAutomationOrchestrationClusterDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list telco automation      orchestration clusters
@@ -79,9 +76,8 @@ public class GcloudTelcoAutomationOrchestrationCluster
         GcloudTelcoAutomationOrchestrationClusterListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTelcoAutomationOrchestrationClusterListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

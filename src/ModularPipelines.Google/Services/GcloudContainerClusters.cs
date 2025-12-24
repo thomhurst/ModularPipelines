@@ -37,9 +37,8 @@ public class GcloudContainerClusters
         GcloudContainerClustersCheckAutopilotCompatibilityOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerClustersCheckAutopilotCompatibilityOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create an Autopilot cluster for      running containers
@@ -51,9 +50,8 @@ public class GcloudContainerClusters
         GcloudContainerClustersCreateAutoOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerClustersCreateAutoOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a cluster for running containers
@@ -65,9 +63,8 @@ public class GcloudContainerClusters
         GcloudContainerClustersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerClustersCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an existing cluster for running      containers
@@ -79,9 +76,8 @@ public class GcloudContainerClusters
         GcloudContainerClustersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerClustersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an existing cluster for      running containers
@@ -93,9 +89,8 @@ public class GcloudContainerClusters
         GcloudContainerClustersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerClustersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// fetch credentials for a running      cluster
@@ -107,9 +102,8 @@ public class GcloudContainerClusters
         GcloudContainerClustersGetCredentialsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerClustersGetCredentialsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get information about upgrades      for existing clusters including auto upgrade status, upgrade history,      upgrade targets, and end of support timelines
@@ -121,9 +115,8 @@ public class GcloudContainerClusters
         GcloudContainerClustersGetUpgradeInfoOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerClustersGetUpgradeInfoOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list existing clusters for running      containers
@@ -135,9 +128,8 @@ public class GcloudContainerClusters
         GcloudContainerClustersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerClustersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// resizes an existing cluster for running      containers
@@ -149,9 +141,8 @@ public class GcloudContainerClusters
         GcloudContainerClustersResizeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerClustersResizeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update cluster settings for an existing      container cluster
@@ -163,9 +154,8 @@ public class GcloudContainerClusters
         GcloudContainerClustersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerClustersUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// upgrade the Kubernetes version of an      existing container cluster
@@ -177,9 +167,8 @@ public class GcloudContainerClusters
         GcloudContainerClustersUpgradeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerClustersUpgradeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

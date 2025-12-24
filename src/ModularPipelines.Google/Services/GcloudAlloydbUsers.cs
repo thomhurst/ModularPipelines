@@ -37,9 +37,8 @@ public class GcloudAlloydbUsers
         GcloudAlloydbUsersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbUsersCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes an AlloyDB user in a given cluster
@@ -51,9 +50,8 @@ public class GcloudAlloydbUsers
         GcloudAlloydbUsersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbUsersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists AlloyDB users in a given cluster
@@ -65,9 +63,8 @@ public class GcloudAlloydbUsers
         GcloudAlloydbUsersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbUsersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an AlloyDB user's password      within a given cluster and region
@@ -79,9 +76,8 @@ public class GcloudAlloydbUsers
         GcloudAlloydbUsersSetPasswordOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbUsersSetPasswordOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an AlloyDB user's database roles      within a given cluster and region
@@ -93,9 +89,8 @@ public class GcloudAlloydbUsers
         GcloudAlloydbUsersSetRolesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbUsersSetRolesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an AlloyDB user's superuser      role within a given cluster and region
@@ -107,9 +102,8 @@ public class GcloudAlloydbUsers
         GcloudAlloydbUsersSetSuperuserOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbUsersSetSuperuserOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

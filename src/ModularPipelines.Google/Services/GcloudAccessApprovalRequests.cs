@@ -37,9 +37,8 @@ public class GcloudAccessApprovalRequests
         GcloudAccessApprovalRequestsApproveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessApprovalRequestsApproveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// dismiss an Access Approval      request
@@ -51,9 +50,8 @@ public class GcloudAccessApprovalRequests
         GcloudAccessApprovalRequestsDismissOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessApprovalRequestsDismissOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get an Access Approval request
@@ -65,9 +63,8 @@ public class GcloudAccessApprovalRequests
         GcloudAccessApprovalRequestsGetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessApprovalRequestsGetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// invalidate an Access Approval      request
@@ -79,9 +76,8 @@ public class GcloudAccessApprovalRequests
         GcloudAccessApprovalRequestsInvalidateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessApprovalRequestsInvalidateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Access Approval requests
@@ -93,9 +89,8 @@ public class GcloudAccessApprovalRequests
         GcloudAccessApprovalRequestsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessApprovalRequestsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

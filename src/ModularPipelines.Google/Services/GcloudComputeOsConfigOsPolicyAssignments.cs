@@ -47,9 +47,8 @@ public class GcloudComputeOsConfigOsPolicyAssignments
         GcloudComputeOsConfigOsPolicyAssignmentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigOsPolicyAssignmentsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an OS policy      assignment
@@ -61,9 +60,8 @@ public class GcloudComputeOsConfigOsPolicyAssignments
         GcloudComputeOsConfigOsPolicyAssignmentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigOsPolicyAssignmentsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an OS      policy assignment
@@ -75,9 +73,8 @@ public class GcloudComputeOsConfigOsPolicyAssignments
         GcloudComputeOsConfigOsPolicyAssignmentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigOsPolicyAssignmentsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list OS policy      assignments for a specified location
@@ -89,9 +86,8 @@ public class GcloudComputeOsConfigOsPolicyAssignments
         GcloudComputeOsConfigOsPolicyAssignmentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigOsPolicyAssignmentsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the      revisions of an OS policy assignment
@@ -103,9 +99,8 @@ public class GcloudComputeOsConfigOsPolicyAssignments
         GcloudComputeOsConfigOsPolicyAssignmentsListRevisionsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigOsPolicyAssignmentsListRevisionsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an OS policy      assignment
@@ -117,9 +112,8 @@ public class GcloudComputeOsConfigOsPolicyAssignments
         GcloudComputeOsConfigOsPolicyAssignmentsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigOsPolicyAssignmentsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

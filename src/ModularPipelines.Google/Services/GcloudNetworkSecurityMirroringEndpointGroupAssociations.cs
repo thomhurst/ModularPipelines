@@ -37,9 +37,8 @@ public class GcloudNetworkSecurityMirroringEndpointGroupAssociations
         GcloudNetworkSecurityMirroringEndpointGroupAssociationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityMirroringEndpointGroupAssociationsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Mirroring Endpoint Group Association
@@ -51,9 +50,8 @@ public class GcloudNetworkSecurityMirroringEndpointGroupAssociations
         GcloudNetworkSecurityMirroringEndpointGroupAssociationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityMirroringEndpointGroupAssociationsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Mirroring Endpoint Group Association
@@ -65,9 +63,8 @@ public class GcloudNetworkSecurityMirroringEndpointGroupAssociations
         GcloudNetworkSecurityMirroringEndpointGroupAssociationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityMirroringEndpointGroupAssociationsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      Mirroring Endpoint Group Associations
@@ -79,9 +76,8 @@ public class GcloudNetworkSecurityMirroringEndpointGroupAssociations
         GcloudNetworkSecurityMirroringEndpointGroupAssociationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityMirroringEndpointGroupAssociationsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Mirroring Endpoint Group Association
@@ -93,9 +89,8 @@ public class GcloudNetworkSecurityMirroringEndpointGroupAssociations
         GcloudNetworkSecurityMirroringEndpointGroupAssociationsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityMirroringEndpointGroupAssociationsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

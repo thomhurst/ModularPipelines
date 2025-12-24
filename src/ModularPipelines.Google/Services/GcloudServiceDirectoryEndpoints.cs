@@ -37,9 +37,8 @@ public class GcloudServiceDirectoryEndpoints
         GcloudServiceDirectoryEndpointsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryEndpointsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes an endpoint
@@ -51,9 +50,8 @@ public class GcloudServiceDirectoryEndpoints
         GcloudServiceDirectoryEndpointsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryEndpointsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describes an endpoint
@@ -65,9 +63,8 @@ public class GcloudServiceDirectoryEndpoints
         GcloudServiceDirectoryEndpointsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryEndpointsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists endpoints
@@ -79,9 +76,8 @@ public class GcloudServiceDirectoryEndpoints
         GcloudServiceDirectoryEndpointsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryEndpointsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates an endpoint
@@ -93,9 +89,8 @@ public class GcloudServiceDirectoryEndpoints
         GcloudServiceDirectoryEndpointsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryEndpointsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

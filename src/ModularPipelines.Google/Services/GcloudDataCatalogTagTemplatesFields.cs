@@ -47,9 +47,8 @@ public class GcloudDataCatalogTagTemplatesFields
         GcloudDataCatalogTagTemplatesFieldsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagTemplatesFieldsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Data Catalog tag      template field
@@ -61,9 +60,8 @@ public class GcloudDataCatalogTagTemplatesFields
         GcloudDataCatalogTagTemplatesFieldsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagTemplatesFieldsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// rename a Data Catalog tag      template field
@@ -75,9 +73,8 @@ public class GcloudDataCatalogTagTemplatesFields
         GcloudDataCatalogTagTemplatesFieldsRenameOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagTemplatesFieldsRenameOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Data Catalog tag      template field
@@ -89,9 +86,8 @@ public class GcloudDataCatalogTagTemplatesFields
         GcloudDataCatalogTagTemplatesFieldsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagTemplatesFieldsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

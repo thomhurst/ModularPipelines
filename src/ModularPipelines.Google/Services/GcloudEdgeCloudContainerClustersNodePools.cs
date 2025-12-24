@@ -37,9 +37,8 @@ public class GcloudEdgeCloudContainerClustersNodePools
         GcloudEdgeCloudContainerClustersNodePoolsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersNodePoolsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an Edge      Container nodePool
@@ -51,9 +50,8 @@ public class GcloudEdgeCloudContainerClustersNodePools
         GcloudEdgeCloudContainerClustersNodePoolsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersNodePoolsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details      about the nodePool
@@ -65,9 +63,8 @@ public class GcloudEdgeCloudContainerClustersNodePools
         GcloudEdgeCloudContainerClustersNodePoolsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersNodePoolsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Edge Container      nodePools
@@ -79,9 +76,8 @@ public class GcloudEdgeCloudContainerClustersNodePools
         GcloudEdgeCloudContainerClustersNodePoolsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersNodePoolsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates an Edge      Container node pool
@@ -93,9 +89,8 @@ public class GcloudEdgeCloudContainerClustersNodePools
         GcloudEdgeCloudContainerClustersNodePoolsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersNodePoolsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudPamGrants
         GcloudPamGrantsApproveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamGrantsApproveOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a new Privileged Access Manager grant
@@ -51,9 +50,8 @@ public class GcloudPamGrants
         GcloudPamGrantsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamGrantsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deny a Privileged Access Manager grant
@@ -65,9 +63,8 @@ public class GcloudPamGrants
         GcloudPamGrantsDenyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamGrantsDenyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// show details of a Privileged Access Manager      grant
@@ -79,9 +76,8 @@ public class GcloudPamGrants
         GcloudPamGrantsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamGrantsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all Privileged Access Manager grants      associated with an entitlement
@@ -93,9 +89,8 @@ public class GcloudPamGrants
         GcloudPamGrantsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamGrantsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// revoke a Privileged Access Manager grant
@@ -107,9 +102,8 @@ public class GcloudPamGrants
         GcloudPamGrantsRevokeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamGrantsRevokeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// search for and list all Privileged Access      Manager grants you have created, have approved, or can approve
@@ -121,9 +115,8 @@ public class GcloudPamGrants
         GcloudPamGrantsSearchOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamGrantsSearchOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

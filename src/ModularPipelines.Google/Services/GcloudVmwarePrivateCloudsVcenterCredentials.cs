@@ -37,9 +37,8 @@ public class GcloudVmwarePrivateCloudsVcenterCredentials
         GcloudVmwarePrivateCloudsVcenterCredentialsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsVcenterCredentialsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// reset VMware      vCenter sign-in credentials associated with a Google Cloud VMware      Engine private cloud
@@ -51,9 +50,8 @@ public class GcloudVmwarePrivateCloudsVcenterCredentials
         GcloudVmwarePrivateCloudsVcenterCredentialsResetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsVcenterCredentialsResetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

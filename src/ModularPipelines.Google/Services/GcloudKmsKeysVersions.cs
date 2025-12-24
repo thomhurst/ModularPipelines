@@ -37,9 +37,8 @@ public class GcloudKmsKeysVersions
         GcloudKmsKeysVersionsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get metadata for a given version
@@ -51,9 +50,8 @@ public class GcloudKmsKeysVersions
         GcloudKmsKeysVersionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// schedule a version to be destroyed
@@ -65,9 +63,8 @@ public class GcloudKmsKeysVersions
         GcloudKmsKeysVersionsDestroyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsDestroyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disable a given version
@@ -79,9 +76,8 @@ public class GcloudKmsKeysVersions
         GcloudKmsKeysVersionsDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enable a given version
@@ -93,9 +89,8 @@ public class GcloudKmsKeysVersions
         GcloudKmsKeysVersionsEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsEnableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get a certificate chain      for a given version
@@ -107,9 +102,8 @@ public class GcloudKmsKeysVersions
         GcloudKmsKeysVersionsGetCertificateChainOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsGetCertificateChainOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get the public key for a given      version
@@ -121,9 +115,8 @@ public class GcloudKmsKeysVersions
         GcloudKmsKeysVersionsGetPublicKeyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsGetPublicKeyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import a version into an existing crypto      key
@@ -135,9 +128,8 @@ public class GcloudKmsKeysVersions
         GcloudKmsKeysVersionsImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the versions within a key
@@ -149,9 +141,8 @@ public class GcloudKmsKeysVersions
         GcloudKmsKeysVersionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// restore a version scheduled for      destruction
@@ -163,9 +154,8 @@ public class GcloudKmsKeysVersions
         GcloudKmsKeysVersionsRestoreOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsRestoreOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a key version
@@ -177,9 +167,8 @@ public class GcloudKmsKeysVersions
         GcloudKmsKeysVersionsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

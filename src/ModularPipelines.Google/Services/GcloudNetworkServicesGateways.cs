@@ -37,9 +37,8 @@ public class GcloudNetworkServicesGateways
         GcloudNetworkServicesGatewaysDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesGatewaysDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a gateway
@@ -51,9 +50,8 @@ public class GcloudNetworkServicesGateways
         GcloudNetworkServicesGatewaysDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesGatewaysDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export the configuration for a      gateway
@@ -65,9 +63,8 @@ public class GcloudNetworkServicesGateways
         GcloudNetworkServicesGatewaysExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesGatewaysExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import the configuration for a      gateway
@@ -79,9 +76,8 @@ public class GcloudNetworkServicesGateways
         GcloudNetworkServicesGatewaysImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesGatewaysImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list gateways
@@ -93,9 +89,8 @@ public class GcloudNetworkServicesGateways
         GcloudNetworkServicesGatewaysListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesGatewaysListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

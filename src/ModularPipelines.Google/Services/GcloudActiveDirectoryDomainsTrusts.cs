@@ -37,9 +37,8 @@ public class GcloudActiveDirectoryDomainsTrusts
         GcloudActiveDirectoryDomainsTrustsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsTrustsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an Active Directory      Trust between a Managed Microsoft AD domain and a target domain
@@ -51,9 +50,8 @@ public class GcloudActiveDirectoryDomainsTrusts
         GcloudActiveDirectoryDomainsTrustsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsTrustsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update target DNS IP      addresses for a Managed Microsoft AD trust
@@ -65,9 +63,8 @@ public class GcloudActiveDirectoryDomainsTrusts
         GcloudActiveDirectoryDomainsTrustsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsTrustsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// validate the state      of a Managed Microsoft AD trust
@@ -79,9 +76,8 @@ public class GcloudActiveDirectoryDomainsTrusts
         GcloudActiveDirectoryDomainsTrustsValidateStateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsTrustsValidateStateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

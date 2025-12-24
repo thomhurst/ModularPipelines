@@ -37,9 +37,8 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a new AlloyDB SECONDARY      cluster within a given project
@@ -51,9 +50,8 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersCreateSecondaryOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersCreateSecondaryOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an AlloyDB cluster in a given      region
@@ -65,9 +63,8 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an AlloyDB cluster in a given      project and region
@@ -79,9 +76,8 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export data from an AlloyDB cluster to      Google Cloud Storage
@@ -93,9 +89,8 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import data into an AlloyDB cluster from      Google Cloud Storage
@@ -107,9 +102,8 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list AlloyDB clusters in a given project and      region
@@ -121,9 +115,8 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// migrate Cloud SQL instance to      an AlloyDB cluster using an existing Cloud SQL backup
@@ -135,9 +128,8 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersMigrateCloudSqlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersMigrateCloudSqlOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// promote an AlloyDB SECONDARY cluster in a      given project and region
@@ -149,9 +141,8 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersPromoteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersPromoteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// restore an AlloyDB cluster from a given      backup or a source cluster and a timestamp
@@ -163,9 +154,8 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersRestoreOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersRestoreOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// switchover an AlloyDB SECONDARY      cluster in a given project and region
@@ -177,9 +167,8 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersSwitchoverOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersSwitchoverOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update an AlloyDB cluster within a given      project and region
@@ -191,9 +180,8 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// upgrade an AlloyDB cluster within a given      project and region
@@ -205,9 +193,8 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersUpgradeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersUpgradeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

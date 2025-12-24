@@ -37,9 +37,8 @@ public class GcloudOrgPolicies
         GcloudOrgPoliciesOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a custom constraint
@@ -51,9 +50,8 @@ public class GcloudOrgPolicies
         GcloudOrgPoliciesDeleteCustomConstraintOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesDeleteCustomConstraintOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete an organization policy
@@ -65,9 +63,8 @@ public class GcloudOrgPolicies
         GcloudOrgPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a custom      constraint
@@ -79,9 +76,8 @@ public class GcloudOrgPolicies
         GcloudOrgPoliciesDescribeCustomConstraintOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesDescribeCustomConstraintOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an organization policy
@@ -93,9 +89,8 @@ public class GcloudOrgPolicies
         GcloudOrgPoliciesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists the custom constraints      set on an organization
@@ -107,9 +102,8 @@ public class GcloudOrgPolicies
         GcloudOrgPoliciesListCustomConstraintsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesListCustomConstraintsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list the policies set on a resource
@@ -121,9 +115,8 @@ public class GcloudOrgPolicies
         GcloudOrgPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// reset the policy to the default for the      constraint
@@ -135,9 +128,8 @@ public class GcloudOrgPolicies
         GcloudOrgPoliciesResetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesResetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set a custom constraint from a      JSON or YAML file
@@ -149,9 +141,8 @@ public class GcloudOrgPolicies
         GcloudOrgPoliciesSetCustomConstraintOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesSetCustomConstraintOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// set an organization policy from a JSON or      YAML file
@@ -163,9 +154,8 @@ public class GcloudOrgPolicies
         GcloudOrgPoliciesSetPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesSetPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

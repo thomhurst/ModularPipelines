@@ -37,9 +37,8 @@ public class GcloudAiPlatformJobsSubmit
         GcloudAiPlatformJobsSubmitPredictionOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformJobsSubmitPredictionOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// submit an AI Platform training      job
@@ -51,9 +50,8 @@ public class GcloudAiPlatformJobsSubmit
         GcloudAiPlatformJobsSubmitTrainingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformJobsSubmitTrainingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

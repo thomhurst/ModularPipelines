@@ -37,9 +37,8 @@ public class GcloudComputeNetworksPeerings
         GcloudComputeNetworksPeeringsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksPeeringsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Compute Engine network      peering
@@ -51,9 +50,8 @@ public class GcloudComputeNetworksPeerings
         GcloudComputeNetworksPeeringsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksPeeringsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine peerings
@@ -65,9 +63,8 @@ public class GcloudComputeNetworksPeerings
         GcloudComputeNetworksPeeringsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksPeeringsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list received or advertised      routes for a VPC network peering
@@ -79,9 +76,8 @@ public class GcloudComputeNetworksPeerings
         GcloudComputeNetworksPeeringsListRoutesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksPeeringsListRoutesOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// request deletion of a      Compute Engine network peering
@@ -93,9 +89,8 @@ public class GcloudComputeNetworksPeerings
         GcloudComputeNetworksPeeringsRequestDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksPeeringsRequestDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine network      peering
@@ -107,9 +102,8 @@ public class GcloudComputeNetworksPeerings
         GcloudComputeNetworksPeeringsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksPeeringsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

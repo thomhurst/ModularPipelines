@@ -37,9 +37,8 @@ public class GcloudNetworkServicesMulticastGroupRanges
         GcloudNetworkServicesMulticastGroupRangesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupRangesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a multicast      group range
@@ -51,9 +50,8 @@ public class GcloudNetworkServicesMulticastGroupRanges
         GcloudNetworkServicesMulticastGroupRangesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupRangesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a      multicast group range
@@ -65,9 +63,8 @@ public class GcloudNetworkServicesMulticastGroupRanges
         GcloudNetworkServicesMulticastGroupRangesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupRangesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list multicast group      ranges
@@ -79,9 +76,8 @@ public class GcloudNetworkServicesMulticastGroupRanges
         GcloudNetworkServicesMulticastGroupRangesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupRangesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a multicast      group range
@@ -93,9 +89,8 @@ public class GcloudNetworkServicesMulticastGroupRanges
         GcloudNetworkServicesMulticastGroupRangesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupRangesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudNetworkServicesTcpRoutes
         GcloudNetworkServicesTcpRoutesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesTcpRoutesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a TCP route
@@ -51,9 +50,8 @@ public class GcloudNetworkServicesTcpRoutes
         GcloudNetworkServicesTcpRoutesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesTcpRoutesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export tcp route
@@ -65,9 +63,8 @@ public class GcloudNetworkServicesTcpRoutes
         GcloudNetworkServicesTcpRoutesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesTcpRoutesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import tcp route
@@ -79,9 +76,8 @@ public class GcloudNetworkServicesTcpRoutes
         GcloudNetworkServicesTcpRoutesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesTcpRoutesImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list tcp routes
@@ -93,9 +89,8 @@ public class GcloudNetworkServicesTcpRoutes
         GcloudNetworkServicesTcpRoutesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesTcpRoutesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudContainerFleetCloudrun
         GcloudContainerFleetCloudrunApplyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetCloudrunApplyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe the status of the      CloudRun feature
@@ -51,9 +50,8 @@ public class GcloudContainerFleetCloudrun
         GcloudContainerFleetCloudrunDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetCloudrunDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// disable the CloudRun feature
@@ -65,9 +63,8 @@ public class GcloudContainerFleetCloudrun
         GcloudContainerFleetCloudrunDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetCloudrunDisableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// enable the CloudRun feature
@@ -79,9 +76,8 @@ public class GcloudContainerFleetCloudrun
         GcloudContainerFleetCloudrunEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetCloudrunEnableOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

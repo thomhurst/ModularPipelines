@@ -37,9 +37,8 @@ public class GcloudFunctionsLogs
         GcloudFunctionsLogsReadOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsLogsReadOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

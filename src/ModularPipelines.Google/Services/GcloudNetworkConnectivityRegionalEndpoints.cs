@@ -37,9 +37,8 @@ public class GcloudNetworkConnectivityRegionalEndpoints
         GcloudNetworkConnectivityRegionalEndpointsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityRegionalEndpointsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a regional      endpoint
@@ -51,9 +50,8 @@ public class GcloudNetworkConnectivityRegionalEndpoints
         GcloudNetworkConnectivityRegionalEndpointsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityRegionalEndpointsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a      regional endpoint
@@ -65,9 +63,8 @@ public class GcloudNetworkConnectivityRegionalEndpoints
         GcloudNetworkConnectivityRegionalEndpointsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityRegionalEndpointsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list regional      endpoints
@@ -79,9 +76,8 @@ public class GcloudNetworkConnectivityRegionalEndpoints
         GcloudNetworkConnectivityRegionalEndpointsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityRegionalEndpointsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

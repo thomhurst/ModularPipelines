@@ -37,9 +37,8 @@ public class GcloudOracleDatabaseDbSystems
         GcloudOracleDatabaseDbSystemsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseDbSystemsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a DbSystem
@@ -51,9 +50,8 @@ public class GcloudOracleDatabaseDbSystems
         GcloudOracleDatabaseDbSystemsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseDbSystemsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// get details of a DbSystem
@@ -65,9 +63,8 @@ public class GcloudOracleDatabaseDbSystems
         GcloudOracleDatabaseDbSystemsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseDbSystemsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all DbSystems
@@ -79,9 +76,8 @@ public class GcloudOracleDatabaseDbSystems
         GcloudOracleDatabaseDbSystemsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseDbSystemsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

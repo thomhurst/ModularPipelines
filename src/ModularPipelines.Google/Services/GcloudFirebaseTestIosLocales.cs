@@ -37,9 +37,8 @@ public class GcloudFirebaseTestIosLocales
         GcloudFirebaseTestIosLocalesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestIosLocalesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list all iOS locales available for      testing internationalized apps
@@ -51,9 +50,8 @@ public class GcloudFirebaseTestIosLocales
         GcloudFirebaseTestIosLocalesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestIosLocalesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

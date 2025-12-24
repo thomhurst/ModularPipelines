@@ -37,9 +37,8 @@ public class GcloudServiceDirectoryNamespaces
         GcloudServiceDirectoryNamespacesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryNamespacesAddIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// creates a namespace
@@ -51,9 +50,8 @@ public class GcloudServiceDirectoryNamespaces
         GcloudServiceDirectoryNamespacesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryNamespacesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// deletes a namespace
@@ -65,9 +63,8 @@ public class GcloudServiceDirectoryNamespaces
         GcloudServiceDirectoryNamespacesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryNamespacesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describes a namespace
@@ -79,9 +76,8 @@ public class GcloudServiceDirectoryNamespaces
         GcloudServiceDirectoryNamespacesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryNamespacesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// gets IAM policy for a      namespace
@@ -93,9 +89,8 @@ public class GcloudServiceDirectoryNamespaces
         GcloudServiceDirectoryNamespacesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryNamespacesGetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// lists namespaces
@@ -107,9 +102,8 @@ public class GcloudServiceDirectoryNamespaces
         GcloudServiceDirectoryNamespacesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryNamespacesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// removes IAM      policy binding from a namespace
@@ -121,9 +115,8 @@ public class GcloudServiceDirectoryNamespaces
         GcloudServiceDirectoryNamespacesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryNamespacesRemoveIamPolicyBindingOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// sets IAM policy for a      namespace
@@ -135,9 +128,8 @@ public class GcloudServiceDirectoryNamespaces
         GcloudServiceDirectoryNamespacesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryNamespacesSetIamPolicyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// updates a namespace
@@ -149,9 +141,8 @@ public class GcloudServiceDirectoryNamespaces
         GcloudServiceDirectoryNamespacesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryNamespacesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

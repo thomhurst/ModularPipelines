@@ -37,9 +37,8 @@ public class GcloudNetworkConnectivityMulticloudDataTransferSupportedServices
         GcloudNetworkConnectivityMulticloudDataTransferSupportedServicesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityMulticloudDataTransferSupportedServicesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// services      list - list multicloudDataTransferSupportedServices
@@ -51,9 +50,8 @@ public class GcloudNetworkConnectivityMulticloudDataTransferSupportedServices
         GcloudNetworkConnectivityMulticloudDataTransferSupportedServicesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityMulticloudDataTransferSupportedServicesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

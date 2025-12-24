@@ -37,9 +37,8 @@ public class GcloudComputeHealthChecksCreate
         GcloudComputeHealthChecksCreateGrpcOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthChecksCreateGrpcOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a gRPC with TLS      health check to monitor load balanced instances
@@ -51,9 +50,8 @@ public class GcloudComputeHealthChecksCreate
         GcloudComputeHealthChecksCreateGrpcWithTlsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthChecksCreateGrpcWithTlsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a HTTP2 health check to      monitor load balanced instances
@@ -65,9 +63,8 @@ public class GcloudComputeHealthChecksCreate
         GcloudComputeHealthChecksCreateHttp2Options options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthChecksCreateHttp2Options(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a HTTP health check to      monitor load balanced instances
@@ -79,9 +76,8 @@ public class GcloudComputeHealthChecksCreate
         GcloudComputeHealthChecksCreateHttpOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthChecksCreateHttpOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a HTTPS health check to      monitor load balanced instances
@@ -93,9 +89,8 @@ public class GcloudComputeHealthChecksCreate
         GcloudComputeHealthChecksCreateHttpsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthChecksCreateHttpsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a SSL health check to      monitor load balanced instances
@@ -107,9 +102,8 @@ public class GcloudComputeHealthChecksCreate
         GcloudComputeHealthChecksCreateSslOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthChecksCreateSslOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a TCP health check to      monitor load balanced instances
@@ -121,9 +115,8 @@ public class GcloudComputeHealthChecksCreate
         GcloudComputeHealthChecksCreateTcpOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthChecksCreateTcpOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

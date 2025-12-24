@@ -37,9 +37,8 @@ public class GcloudDesignCenterSpacesApplicationTemplatesRevisions
         GcloudDesignCenterSpacesApplicationTemplatesRevisionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesRevisionsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe an application template revision
@@ -51,9 +50,8 @@ public class GcloudDesignCenterSpacesApplicationTemplatesRevisions
         GcloudDesignCenterSpacesApplicationTemplatesRevisionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesRevisionsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      application template revisions
@@ -65,9 +63,8 @@ public class GcloudDesignCenterSpacesApplicationTemplatesRevisions
         GcloudDesignCenterSpacesApplicationTemplatesRevisionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesRevisionsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -47,9 +47,8 @@ public class GcloudComputeSecurityPolicies
         GcloudComputeSecurityPoliciesAddLayer7DdosDefenseThresholdConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSecurityPoliciesAddLayer7DdosDefenseThresholdConfigOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// add a user      defined field to a Compute Engine security policy
@@ -61,9 +60,8 @@ public class GcloudComputeSecurityPolicies
         GcloudComputeSecurityPoliciesAddUserDefinedFieldOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSecurityPoliciesAddUserDefinedFieldOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// create a Compute Engine security      policy
@@ -75,9 +73,8 @@ public class GcloudComputeSecurityPolicies
         GcloudComputeSecurityPoliciesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSecurityPoliciesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete security policies
@@ -89,9 +86,8 @@ public class GcloudComputeSecurityPolicies
         GcloudComputeSecurityPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSecurityPoliciesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Compute Engine      security policy
@@ -103,9 +99,8 @@ public class GcloudComputeSecurityPolicies
         GcloudComputeSecurityPoliciesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSecurityPoliciesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// export security policy configs      into YAML or JSON files
@@ -117,9 +112,8 @@ public class GcloudComputeSecurityPolicies
         GcloudComputeSecurityPoliciesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSecurityPoliciesExportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// import security policy configs      into your project
@@ -131,9 +125,8 @@ public class GcloudComputeSecurityPolicies
         GcloudComputeSecurityPoliciesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSecurityPoliciesImportOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine security      policies
@@ -145,9 +138,8 @@ public class GcloudComputeSecurityPolicies
         GcloudComputeSecurityPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSecurityPoliciesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list      all available preconfigured expression sets
@@ -159,9 +151,8 @@ public class GcloudComputeSecurityPolicies
         GcloudComputeSecurityPoliciesListPreconfiguredExpressionSetsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSecurityPoliciesListPreconfiguredExpressionSetsOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// policies      remove-layer7-ddos-defense-threshold-config - remove a layer7 ddos      defense threshold config from a Compute Engine security policy
@@ -173,9 +164,8 @@ public class GcloudComputeSecurityPolicies
         GcloudComputeSecurityPoliciesRemoveLayer7DdosDefenseThresholdConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSecurityPoliciesRemoveLayer7DdosDefenseThresholdConfigOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// remove a user      defined field from a Compute Engine security policy
@@ -187,9 +177,8 @@ public class GcloudComputeSecurityPolicies
         GcloudComputeSecurityPoliciesRemoveUserDefinedFieldOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSecurityPoliciesRemoveUserDefinedFieldOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Compute Engine security      policy
@@ -201,9 +190,8 @@ public class GcloudComputeSecurityPolicies
         GcloudComputeSecurityPoliciesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSecurityPoliciesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

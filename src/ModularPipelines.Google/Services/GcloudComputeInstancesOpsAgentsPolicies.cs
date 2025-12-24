@@ -37,9 +37,8 @@ public class GcloudComputeInstancesOpsAgentsPolicies
         GcloudComputeInstancesOpsAgentsPoliciesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesOpsAgentsPoliciesCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete a Google Cloud      Observability agents policy for the Ops Agent
@@ -51,9 +50,8 @@ public class GcloudComputeInstancesOpsAgentsPolicies
         GcloudComputeInstancesOpsAgentsPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesOpsAgentsPoliciesDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// describe a Google      Cloud Observability agents policy for the Ops Agent
@@ -65,9 +63,8 @@ public class GcloudComputeInstancesOpsAgentsPolicies
         GcloudComputeInstancesOpsAgentsPoliciesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesOpsAgentsPoliciesDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list a Google Cloud      Observability agents policy for the Ops Agent
@@ -79,9 +76,8 @@ public class GcloudComputeInstancesOpsAgentsPolicies
         GcloudComputeInstancesOpsAgentsPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesOpsAgentsPoliciesListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Google Cloud      Observability agents policy for the Ops Agent
@@ -93,9 +89,8 @@ public class GcloudComputeInstancesOpsAgentsPolicies
         GcloudComputeInstancesOpsAgentsPoliciesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesOpsAgentsPoliciesUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }

@@ -37,9 +37,8 @@ public class GcloudComputeServiceAttachments
         GcloudComputeServiceAttachmentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeServiceAttachmentsCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// delete one or more Google      Compute Engine service attachments
@@ -51,9 +50,8 @@ public class GcloudComputeServiceAttachments
         GcloudComputeServiceAttachmentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeServiceAttachmentsDeleteOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// display details about a      Google Compute Engine service attachment
@@ -65,9 +63,8 @@ public class GcloudComputeServiceAttachments
         GcloudComputeServiceAttachmentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeServiceAttachmentsDescribeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// list Google Compute Engine      service attachments
@@ -79,9 +76,8 @@ public class GcloudComputeServiceAttachments
         GcloudComputeServiceAttachmentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeServiceAttachmentsListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     /// <summary>
     /// update a Google Compute Engine      service attachment
@@ -93,9 +89,8 @@ public class GcloudComputeServiceAttachments
         GcloudComputeServiceAttachmentsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeServiceAttachmentsUpdateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
-
 
     #endregion
 }
