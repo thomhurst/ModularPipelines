@@ -38,7 +38,7 @@ public sealed class Command : ICommand
     public async Task<CommandResult> ExecuteCommandLineTool(CommandLineToolOptions options, CommandLoggingOptions? loggingOptions, CancellationToken cancellationToken = default)
     {
         // Prefer LoggingOptions from options property over parameter
-        var effectiveLoggingOptions = options.LoggingOptions ?? loggingOptions;
+        var effectiveLoggingOptions = options.LogSettings ?? loggingOptions;
 
         var optionsObject = GetOptionsObject(options);
 

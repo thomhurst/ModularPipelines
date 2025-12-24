@@ -140,7 +140,7 @@ internal class StaticGitInformation : IInitializer
             var result = await _command.ExecuteCommandLineTool(new CommandLineToolOptions("git")
             {
                 Arguments = ["version"],
-                LoggingOptions = CommandLoggingOptions.Silent,
+                LogSettings = CommandLoggingOptions.Silent,
             });
 
             return result.StandardOutput;
@@ -183,7 +183,7 @@ internal class StaticGitInformation : IInitializer
         {
             var result = await _command.ExecuteCommandLineTool(gitOptions with
             {
-                LoggingOptions = _logger.IsEnabled(LogLevel.Debug) ? CommandLoggingOptions.Diagnostic : CommandLoggingOptions.Silent,
+                LogSettings = _logger.IsEnabled(LogLevel.Debug) ? CommandLoggingOptions.Diagnostic : CommandLoggingOptions.Silent,
             });
             return result.StandardOutput.Trim();
         }

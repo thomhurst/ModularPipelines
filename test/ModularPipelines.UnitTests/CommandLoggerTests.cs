@@ -220,7 +220,7 @@ public class CommandLoggerTests : TestBase
 
         await result.T.ExecuteCommandLineTool(new PowershellScriptOptions(command)
         {
-            LoggingOptions = loggingOptions,
+            LogSettings = loggingOptions,
             ThrowOnNonZeroExitCode = false,
         });
 

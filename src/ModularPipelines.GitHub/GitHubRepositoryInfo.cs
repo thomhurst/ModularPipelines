@@ -49,7 +49,7 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
             {
                 Arguments = ["get-url", "origin"],
                 ThrowOnNonZeroExitCode = false,
-                LoggingOptions = scope.ServiceProvider
+                LogSettings = scope.ServiceProvider
                 .GetRequiredService<IOptions<LoggerFilterOptions>>()
                 .Value
                 .MinLevel == LogLevel.Debug
