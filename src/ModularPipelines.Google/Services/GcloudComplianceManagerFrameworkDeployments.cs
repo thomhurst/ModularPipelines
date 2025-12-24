@@ -37,23 +37,9 @@ public class GcloudComplianceManagerFrameworkDeployments
         GcloudComplianceManagerFrameworkDeploymentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerFrameworkDeploymentsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a framework      deployment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudComplianceManagerFrameworkDeploymentsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a framework      deployment
@@ -65,23 +51,9 @@ public class GcloudComplianceManagerFrameworkDeployments
         GcloudComplianceManagerFrameworkDeploymentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerFrameworkDeploymentsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a framework      deployment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudComplianceManagerFrameworkDeploymentsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get a framework      deployment
@@ -93,23 +65,9 @@ public class GcloudComplianceManagerFrameworkDeployments
         GcloudComplianceManagerFrameworkDeploymentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerFrameworkDeploymentsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get a framework      deployment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComplianceManagerFrameworkDeploymentsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list framework      deployments
@@ -121,23 +79,9 @@ public class GcloudComplianceManagerFrameworkDeployments
         GcloudComplianceManagerFrameworkDeploymentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerFrameworkDeploymentsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list framework      deployments
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComplianceManagerFrameworkDeploymentsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudEdgeCloudNetworkingNetworks
         GcloudEdgeCloudNetworkingNetworksCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingNetworksCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Distributed Cloud      Edge Network network
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudEdgeCloudNetworkingNetworksCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Distributed Cloud      Edge Network network
@@ -65,23 +51,9 @@ public class GcloudEdgeCloudNetworkingNetworks
         GcloudEdgeCloudNetworkingNetworksDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingNetworksDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Distributed Cloud      Edge Network network
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudEdgeCloudNetworkingNetworksDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show details about the      Distributed Cloud Edge Network network
@@ -93,23 +65,9 @@ public class GcloudEdgeCloudNetworkingNetworks
         GcloudEdgeCloudNetworkingNetworksDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingNetworksDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show details about the      Distributed Cloud Edge Network network
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudEdgeCloudNetworkingNetworksDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the status of a      specified Distributed Cloud Edge Network network
@@ -121,23 +79,9 @@ public class GcloudEdgeCloudNetworkingNetworks
         GcloudEdgeCloudNetworkingNetworksGetStatusOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetStatus(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingNetworksGetStatusOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the status of a      specified Distributed Cloud Edge Network network
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetStatus(
-        GcloudEdgeCloudNetworkingNetworksGetStatusOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Distributed Cloud Edge      Network networks
@@ -149,23 +93,9 @@ public class GcloudEdgeCloudNetworkingNetworks
         GcloudEdgeCloudNetworkingNetworksListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingNetworksListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Distributed Cloud Edge      Network networks
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudEdgeCloudNetworkingNetworksListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

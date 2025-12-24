@@ -37,23 +37,9 @@ public class GcloudAiPlatformLocal
         GcloudAiPlatformLocalPredictOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Predict(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformLocalPredictOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// run prediction locally
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Predict(
-        GcloudAiPlatformLocalPredictOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// run an AI Platform training job locally
@@ -65,23 +51,9 @@ public class GcloudAiPlatformLocal
         GcloudAiPlatformLocalTrainOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Train(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformLocalTrainOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// run an AI Platform training job locally
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Train(
-        GcloudAiPlatformLocalTrainOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

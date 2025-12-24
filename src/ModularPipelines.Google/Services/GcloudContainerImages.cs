@@ -37,23 +37,9 @@ public class GcloudContainerImages
         GcloudContainerImagesAddTagOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddTag(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerImagesAddTagOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// adds tags to existing image
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddTag(
-        GcloudContainerImagesAddTagOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete existing images
@@ -65,23 +51,9 @@ public class GcloudContainerImages
         GcloudContainerImagesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerImagesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete existing images
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudContainerImagesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// lists information about the specified      image
@@ -93,23 +65,9 @@ public class GcloudContainerImages
         GcloudContainerImagesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerImagesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// lists information about the specified      image
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudContainerImagesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Container Registry usage
@@ -121,23 +79,9 @@ public class GcloudContainerImages
         GcloudContainerImagesListGcrUsageOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListGcrUsage(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerImagesListGcrUsageOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Container Registry usage
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListGcrUsage(
-        GcloudContainerImagesListGcrUsageOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list existing images
@@ -149,23 +93,9 @@ public class GcloudContainerImages
         GcloudContainerImagesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerImagesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list existing images
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudContainerImagesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list tags and digests for the specified      image
@@ -177,23 +107,9 @@ public class GcloudContainerImages
         GcloudContainerImagesListTagsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListTags(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerImagesListTagsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list tags and digests for the specified      image
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListTags(
-        GcloudContainerImagesListTagsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove existing image tags
@@ -205,23 +121,9 @@ public class GcloudContainerImages
         GcloudContainerImagesUntagOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Untag(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerImagesUntagOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove existing image tags
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Untag(
-        GcloudContainerImagesUntagOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudArtifactsPrintSettings
         GcloudArtifactsPrintSettingsGradleOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Gradle(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsPrintSettingsGradleOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// print a snippet to add a      repository to the Gradle build.gradle file
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Gradle(
-        GcloudArtifactsPrintSettingsGradleOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// print a snippet to add a Maven      repository to the pom.xml file
@@ -65,23 +51,9 @@ public class GcloudArtifactsPrintSettings
         GcloudArtifactsPrintSettingsMvnOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Mvn(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsPrintSettingsMvnOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// print a snippet to add a Maven      repository to the pom.xml file
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Mvn(
-        GcloudArtifactsPrintSettingsMvnOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// print credential settings to add to      the .npmrc file
@@ -93,23 +65,9 @@ public class GcloudArtifactsPrintSettings
         GcloudArtifactsPrintSettingsNpmOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Npm(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsPrintSettingsNpmOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// print credential settings to add to      the .npmrc file
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Npm(
-        GcloudArtifactsPrintSettingsNpmOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// print credential settings to add      to the .pypirc and pip.conf files
@@ -121,23 +79,9 @@ public class GcloudArtifactsPrintSettings
         GcloudArtifactsPrintSettingsPythonOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Python(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsPrintSettingsPythonOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// print credential settings to add      to the .pypirc and pip.conf files
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Python(
-        GcloudArtifactsPrintSettingsPythonOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudRecaptchaFirewallPolicies
         GcloudRecaptchaFirewallPoliciesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaFirewallPoliciesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Firewall Policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudRecaptchaFirewallPoliciesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete one or more reCAPTCHA      Firewall Policies
@@ -65,23 +51,9 @@ public class GcloudRecaptchaFirewallPolicies
         GcloudRecaptchaFirewallPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaFirewallPoliciesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete one or more reCAPTCHA      Firewall Policies
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudRecaptchaFirewallPoliciesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe reCAPTCHA Firewall      Policy
@@ -93,23 +65,9 @@ public class GcloudRecaptchaFirewallPolicies
         GcloudRecaptchaFirewallPoliciesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaFirewallPoliciesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe reCAPTCHA Firewall      Policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudRecaptchaFirewallPoliciesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list reCAPTCHA Firewall Policies
@@ -121,23 +79,9 @@ public class GcloudRecaptchaFirewallPolicies
         GcloudRecaptchaFirewallPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaFirewallPoliciesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list reCAPTCHA Firewall Policies
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudRecaptchaFirewallPoliciesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// reorder all Firewall Policies
@@ -149,23 +93,9 @@ public class GcloudRecaptchaFirewallPolicies
         GcloudRecaptchaFirewallPoliciesReorderOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Reorder(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaFirewallPoliciesReorderOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// reorder all Firewall Policies
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Reorder(
-        GcloudRecaptchaFirewallPoliciesReorderOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Firewall Policy
@@ -177,23 +107,9 @@ public class GcloudRecaptchaFirewallPolicies
         GcloudRecaptchaFirewallPoliciesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaFirewallPoliciesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Firewall Policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudRecaptchaFirewallPoliciesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudAiHpTuningJobs
         GcloudAiHpTuningJobsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Cancel(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiHpTuningJobsCancelOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// cancel a running hyperparameter tuning      job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Cancel(
-        GcloudAiHpTuningJobsCancelOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a hyperparameter tuning job
@@ -65,23 +51,9 @@ public class GcloudAiHpTuningJobs
         GcloudAiHpTuningJobsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiHpTuningJobsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a hyperparameter tuning job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudAiHpTuningJobsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get detail information about the      hyperparameter tuning job by given id
@@ -93,23 +65,9 @@ public class GcloudAiHpTuningJobs
         GcloudAiHpTuningJobsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiHpTuningJobsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get detail information about the      hyperparameter tuning job by given id
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudAiHpTuningJobsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list existing hyperparameter tuning jobs
@@ -121,23 +79,9 @@ public class GcloudAiHpTuningJobs
         GcloudAiHpTuningJobsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiHpTuningJobsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list existing hyperparameter tuning jobs
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudAiHpTuningJobsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// stream logs from a running Vertex AI      hyperparameter tuning job
@@ -149,23 +93,9 @@ public class GcloudAiHpTuningJobs
         GcloudAiHpTuningJobsStreamLogsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await StreamLogs(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiHpTuningJobsStreamLogsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// stream logs from a running Vertex AI      hyperparameter tuning job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> StreamLogs(
-        GcloudAiHpTuningJobsStreamLogsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

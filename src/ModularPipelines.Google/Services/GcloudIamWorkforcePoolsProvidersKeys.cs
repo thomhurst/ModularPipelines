@@ -47,23 +47,9 @@ public class GcloudIamWorkforcePoolsProvidersKeys
         GcloudIamWorkforcePoolsProvidersKeysCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersKeysCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new workforce      pool provider key
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudIamWorkforcePoolsProvidersKeysCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a workforce pool      provider key
@@ -75,23 +61,9 @@ public class GcloudIamWorkforcePoolsProvidersKeys
         GcloudIamWorkforcePoolsProvidersKeysDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersKeysDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a workforce pool      provider key
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudIamWorkforcePoolsProvidersKeysDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a workforce      pool provider key
@@ -103,23 +75,9 @@ public class GcloudIamWorkforcePoolsProvidersKeys
         GcloudIamWorkforcePoolsProvidersKeysDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersKeysDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a workforce      pool provider key
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudIamWorkforcePoolsProvidersKeysDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list workforce pool      provider keys
@@ -131,23 +89,9 @@ public class GcloudIamWorkforcePoolsProvidersKeys
         GcloudIamWorkforcePoolsProvidersKeysListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersKeysListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list workforce pool      provider keys
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudIamWorkforcePoolsProvidersKeysListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// undelete a workforce      pool provider key
@@ -159,23 +103,9 @@ public class GcloudIamWorkforcePoolsProvidersKeys
         GcloudIamWorkforcePoolsProvidersKeysUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Undelete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersKeysUndeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// undelete a workforce      pool provider key
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Undelete(
-        GcloudIamWorkforcePoolsProvidersKeysUndeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

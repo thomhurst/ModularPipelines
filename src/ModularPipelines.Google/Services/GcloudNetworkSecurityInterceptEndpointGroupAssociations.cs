@@ -37,23 +37,9 @@ public class GcloudNetworkSecurityInterceptEndpointGroupAssociations
         GcloudNetworkSecurityInterceptEndpointGroupAssociationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptEndpointGroupAssociationsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create an Intercept Endpoint Group Association
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudNetworkSecurityInterceptEndpointGroupAssociationsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an Intercept Endpoint Group Association
@@ -65,23 +51,9 @@ public class GcloudNetworkSecurityInterceptEndpointGroupAssociations
         GcloudNetworkSecurityInterceptEndpointGroupAssociationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptEndpointGroupAssociationsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an Intercept Endpoint Group Association
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudNetworkSecurityInterceptEndpointGroupAssociationsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe an Intercept Endpoint Group Association
@@ -93,23 +65,9 @@ public class GcloudNetworkSecurityInterceptEndpointGroupAssociations
         GcloudNetworkSecurityInterceptEndpointGroupAssociationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptEndpointGroupAssociationsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe an Intercept Endpoint Group Association
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudNetworkSecurityInterceptEndpointGroupAssociationsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list      Intercept Endpoint Group Associations
@@ -121,23 +79,9 @@ public class GcloudNetworkSecurityInterceptEndpointGroupAssociations
         GcloudNetworkSecurityInterceptEndpointGroupAssociationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptEndpointGroupAssociationsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list      Intercept Endpoint Group Associations
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudNetworkSecurityInterceptEndpointGroupAssociationsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an Intercept Endpoint Group Association
@@ -149,23 +93,9 @@ public class GcloudNetworkSecurityInterceptEndpointGroupAssociations
         GcloudNetworkSecurityInterceptEndpointGroupAssociationsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptEndpointGroupAssociationsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an Intercept Endpoint Group Association
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudNetworkSecurityInterceptEndpointGroupAssociationsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

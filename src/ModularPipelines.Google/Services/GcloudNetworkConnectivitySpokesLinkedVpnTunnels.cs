@@ -37,23 +37,9 @@ public class GcloudNetworkConnectivitySpokesLinkedVpnTunnels
         GcloudNetworkConnectivitySpokesLinkedVpnTunnelsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesLinkedVpnTunnelsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new      VPN spoke
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudNetworkConnectivitySpokesLinkedVpnTunnelsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a VPN      spoke
@@ -65,23 +51,9 @@ public class GcloudNetworkConnectivitySpokesLinkedVpnTunnels
         GcloudNetworkConnectivitySpokesLinkedVpnTunnelsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesLinkedVpnTunnelsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a VPN      spoke
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudNetworkConnectivitySpokesLinkedVpnTunnelsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

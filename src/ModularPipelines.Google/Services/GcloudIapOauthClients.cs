@@ -37,23 +37,9 @@ public class GcloudIapOauthClients
         GcloudIapOauthClientsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapOauthClientsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Cloud IAP OAuth client in the      project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudIapOauthClientsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Cloud IAP OAuth client
@@ -65,23 +51,9 @@ public class GcloudIapOauthClients
         GcloudIapOauthClientsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapOauthClientsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Cloud IAP OAuth client
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudIapOauthClientsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Cloud IAP OAuth client
@@ -93,23 +65,9 @@ public class GcloudIapOauthClients
         GcloudIapOauthClientsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapOauthClientsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Cloud IAP OAuth client
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudIapOauthClientsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Cloud IAP OAuth clients in the Cloud      OAuth brand
@@ -121,23 +79,9 @@ public class GcloudIapOauthClients
         GcloudIapOauthClientsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapOauthClientsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Cloud IAP OAuth clients in the Cloud      OAuth brand
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudIapOauthClientsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// reset a Cloud IAP OAuth client      secret
@@ -149,23 +93,9 @@ public class GcloudIapOauthClients
         GcloudIapOauthClientsResetSecretOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ResetSecret(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIapOauthClientsResetSecretOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// reset a Cloud IAP OAuth client      secret
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ResetSecret(
-        GcloudIapOauthClientsResetSecretOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -47,23 +47,9 @@ public class GcloudOracleDatabaseCloudVmClusters
         GcloudOracleDatabaseCloudVmClustersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudVmClustersCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new      CloudVmCluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudOracleDatabaseCloudVmClustersCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a CloudVmCluster
@@ -75,23 +61,9 @@ public class GcloudOracleDatabaseCloudVmClusters
         GcloudOracleDatabaseCloudVmClustersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudVmClustersDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a CloudVmCluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudOracleDatabaseCloudVmClustersDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe      cloudVmClusters
@@ -103,23 +75,9 @@ public class GcloudOracleDatabaseCloudVmClusters
         GcloudOracleDatabaseCloudVmClustersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudVmClustersDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe      cloudVmClusters
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudOracleDatabaseCloudVmClustersDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list all CloudVmClusters
@@ -131,23 +89,9 @@ public class GcloudOracleDatabaseCloudVmClusters
         GcloudOracleDatabaseCloudVmClustersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudVmClustersListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list all CloudVmClusters
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudOracleDatabaseCloudVmClustersListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

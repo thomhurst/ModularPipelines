@@ -47,23 +47,9 @@ public class GcloudEdgeCloudContainerClusters
         GcloudEdgeCloudContainerClustersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create an Edge Container      cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudEdgeCloudContainerClustersCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an Edge Container      cluster
@@ -75,23 +61,9 @@ public class GcloudEdgeCloudContainerClusters
         GcloudEdgeCloudContainerClustersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an Edge Container      cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudEdgeCloudContainerClustersDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show details about the      cluster
@@ -103,23 +75,9 @@ public class GcloudEdgeCloudContainerClusters
         GcloudEdgeCloudContainerClustersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show details about the      cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudEdgeCloudContainerClustersDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get credentials of      an edge-container cluster
@@ -131,23 +89,9 @@ public class GcloudEdgeCloudContainerClusters
         GcloudEdgeCloudContainerClustersGetCredentialsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetCredentials(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersGetCredentialsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get credentials of      an edge-container cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetCredentials(
-        GcloudEdgeCloudContainerClustersGetCredentialsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Edge Container clusters
@@ -159,23 +103,9 @@ public class GcloudEdgeCloudContainerClusters
         GcloudEdgeCloudContainerClustersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Edge Container clusters
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudEdgeCloudContainerClustersListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an Edge Container      cluster
@@ -187,23 +117,9 @@ public class GcloudEdgeCloudContainerClusters
         GcloudEdgeCloudContainerClustersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an Edge Container      cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudEdgeCloudContainerClustersUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// upgrade an Edge Container      cluster
@@ -215,23 +131,9 @@ public class GcloudEdgeCloudContainerClusters
         GcloudEdgeCloudContainerClustersUpgradeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Upgrade(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerClustersUpgradeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// upgrade an Edge Container      cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Upgrade(
-        GcloudEdgeCloudContainerClustersUpgradeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

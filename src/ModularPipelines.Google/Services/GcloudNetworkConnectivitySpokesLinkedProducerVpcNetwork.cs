@@ -37,23 +37,9 @@ public class GcloudNetworkConnectivitySpokesLinkedProducerVpcNetwork
         GcloudNetworkConnectivitySpokesLinkedProducerVpcNetworkCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesLinkedProducerVpcNetworkCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new Producer VPC spoke
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudNetworkConnectivitySpokesLinkedProducerVpcNetworkCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Producer VPC spoke
@@ -65,23 +51,9 @@ public class GcloudNetworkConnectivitySpokesLinkedProducerVpcNetwork
         GcloudNetworkConnectivitySpokesLinkedProducerVpcNetworkUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesLinkedProducerVpcNetworkUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Producer VPC spoke
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudNetworkConnectivitySpokesLinkedProducerVpcNetworkUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

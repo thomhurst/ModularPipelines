@@ -37,23 +37,9 @@ public class GcloudComputeTargetPools
         GcloudComputeTargetPoolsAddHealthChecksOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddHealthChecks(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetPoolsAddHealthChecksOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add a legacy HTTP health      check to a target pool
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddHealthChecks(
-        GcloudComputeTargetPoolsAddHealthChecksOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// add instances to a target pool
@@ -65,23 +51,9 @@ public class GcloudComputeTargetPools
         GcloudComputeTargetPoolsAddInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddInstances(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetPoolsAddInstancesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add instances to a target pool
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddInstances(
-        GcloudComputeTargetPoolsAddInstancesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// balanced pool of virtual      machine instances
@@ -93,23 +65,9 @@ public class GcloudComputeTargetPools
         GcloudComputeTargetPoolsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetPoolsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// balanced pool of virtual      machine instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudComputeTargetPoolsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete target pools
@@ -121,23 +79,9 @@ public class GcloudComputeTargetPools
         GcloudComputeTargetPoolsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetPoolsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete target pools
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudComputeTargetPoolsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Compute Engine target      pool
@@ -149,23 +93,9 @@ public class GcloudComputeTargetPools
         GcloudComputeTargetPoolsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetPoolsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Compute Engine target      pool
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComputeTargetPoolsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the health of instances in a      target pool
@@ -177,23 +107,9 @@ public class GcloudComputeTargetPools
         GcloudComputeTargetPoolsGetHealthOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetHealth(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetPoolsGetHealthOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the health of instances in a      target pool
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetHealth(
-        GcloudComputeTargetPoolsGetHealthOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Google Compute Engine target pools
@@ -205,23 +121,9 @@ public class GcloudComputeTargetPools
         GcloudComputeTargetPoolsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetPoolsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Google Compute Engine target pools
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComputeTargetPoolsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove an HTTP health      check from a target pool
@@ -233,23 +135,9 @@ public class GcloudComputeTargetPools
         GcloudComputeTargetPoolsRemoveHealthChecksOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveHealthChecks(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetPoolsRemoveHealthChecksOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove an HTTP health      check from a target pool
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveHealthChecks(
-        GcloudComputeTargetPoolsRemoveHealthChecksOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove instances from a      target pool
@@ -261,23 +149,9 @@ public class GcloudComputeTargetPools
         GcloudComputeTargetPoolsRemoveInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveInstances(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetPoolsRemoveInstancesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove instances from a      target pool
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveInstances(
-        GcloudComputeTargetPoolsRemoveInstancesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set a backup pool for a target      pool
@@ -289,23 +163,9 @@ public class GcloudComputeTargetPools
         GcloudComputeTargetPoolsSetBackupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetBackup(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetPoolsSetBackupOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set a backup pool for a target      pool
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetBackup(
-        GcloudComputeTargetPoolsSetBackupOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Compute Engine target pool
@@ -317,23 +177,9 @@ public class GcloudComputeTargetPools
         GcloudComputeTargetPoolsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetPoolsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Compute Engine target pool
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudComputeTargetPoolsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudEdgeCloudNetworkingSubnets
         GcloudEdgeCloudNetworkingSubnetsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingSubnetsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Distributed Cloud      Edge Network subnet
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudEdgeCloudNetworkingSubnetsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Distributed Cloud      Edge Network subnet
@@ -65,23 +51,9 @@ public class GcloudEdgeCloudNetworkingSubnets
         GcloudEdgeCloudNetworkingSubnetsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingSubnetsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Distributed Cloud      Edge Network subnet
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudEdgeCloudNetworkingSubnetsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show details about the      Distributed Cloud Edge Network subnet
@@ -93,23 +65,9 @@ public class GcloudEdgeCloudNetworkingSubnets
         GcloudEdgeCloudNetworkingSubnetsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingSubnetsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show details about the      Distributed Cloud Edge Network subnet
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudEdgeCloudNetworkingSubnetsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Distributed Cloud Edge      Network subnets
@@ -121,23 +79,9 @@ public class GcloudEdgeCloudNetworkingSubnets
         GcloudEdgeCloudNetworkingSubnetsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingSubnetsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Distributed Cloud Edge      Network subnets
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudEdgeCloudNetworkingSubnetsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

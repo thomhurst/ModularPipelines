@@ -37,23 +37,9 @@ public class GcloudLustreInstances
         GcloudLustreInstancesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreInstancesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// creates a Managed Lustre instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudLustreInstancesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// deletes a Managed Lustre instance
@@ -65,23 +51,9 @@ public class GcloudLustreInstances
         GcloudLustreInstancesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreInstancesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// deletes a Managed Lustre instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudLustreInstancesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// gets details of a single Managed Lustre      instance
@@ -93,23 +65,9 @@ public class GcloudLustreInstances
         GcloudLustreInstancesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreInstancesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// gets details of a single Managed Lustre      instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudLustreInstancesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// exports data from Managed Lustre      instance to Cloud Storage
@@ -121,23 +79,9 @@ public class GcloudLustreInstances
         GcloudLustreInstancesExportDataOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ExportData(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreInstancesExportDataOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// exports data from Managed Lustre      instance to Cloud Storage
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ExportData(
-        GcloudLustreInstancesExportDataOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// imports data from Cloud Storage to      Managed Lustre instance
@@ -149,23 +93,9 @@ public class GcloudLustreInstances
         GcloudLustreInstancesImportDataOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ImportData(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreInstancesImportDataOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// imports data from Cloud Storage to      Managed Lustre instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ImportData(
-        GcloudLustreInstancesImportDataOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Lustre instances
@@ -177,23 +107,9 @@ public class GcloudLustreInstances
         GcloudLustreInstancesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreInstancesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Lustre instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudLustreInstancesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// updates the parameters of a single Managed      Lustre instance
@@ -205,23 +121,9 @@ public class GcloudLustreInstances
         GcloudLustreInstancesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreInstancesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// updates the parameters of a single Managed      Lustre instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudLustreInstancesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

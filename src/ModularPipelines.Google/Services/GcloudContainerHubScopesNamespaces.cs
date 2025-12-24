@@ -37,23 +37,9 @@ public class GcloudContainerHubScopesNamespaces
         GcloudContainerHubScopesNamespacesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubScopesNamespacesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a fleet namespace
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudContainerHubScopesNamespacesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a fleet namespace
@@ -65,23 +51,9 @@ public class GcloudContainerHubScopesNamespaces
         GcloudContainerHubScopesNamespacesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubScopesNamespacesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a fleet namespace
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudContainerHubScopesNamespacesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show fleet namespace info
@@ -93,23 +65,9 @@ public class GcloudContainerHubScopesNamespaces
         GcloudContainerHubScopesNamespacesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubScopesNamespacesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show fleet namespace info
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudContainerHubScopesNamespacesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// fetch credentials      for a membership with a particular namespace
@@ -121,23 +79,9 @@ public class GcloudContainerHubScopesNamespaces
         GcloudContainerHubScopesNamespacesGetCredentialsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetCredentials(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubScopesNamespacesGetCredentialsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// fetch credentials      for a membership with a particular namespace
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetCredentials(
-        GcloudContainerHubScopesNamespacesGetCredentialsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list fleet namespaces in a      project
@@ -149,23 +93,9 @@ public class GcloudContainerHubScopesNamespaces
         GcloudContainerHubScopesNamespacesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubScopesNamespacesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list fleet namespaces in a      project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudContainerHubScopesNamespacesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a fleet namespace
@@ -177,23 +107,9 @@ public class GcloudContainerHubScopesNamespaces
         GcloudContainerHubScopesNamespacesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubScopesNamespacesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a fleet namespace
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudContainerHubScopesNamespacesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

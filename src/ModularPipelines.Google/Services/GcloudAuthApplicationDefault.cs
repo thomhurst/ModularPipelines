@@ -37,23 +37,9 @@ public class GcloudAuthApplicationDefault
         GcloudAuthApplicationDefaultLoginOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Login(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthApplicationDefaultLoginOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// acquire new user credentials to use      for Application Default Credentials
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Login(
-        GcloudAuthApplicationDefaultLoginOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// print an access token      for your current Application Default Credentials
@@ -65,23 +51,9 @@ public class GcloudAuthApplicationDefault
         GcloudAuthApplicationDefaultPrintAccessTokenOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await PrintAccessToken(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthApplicationDefaultPrintAccessTokenOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// print an access token      for your current Application Default Credentials
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> PrintAccessToken(
-        GcloudAuthApplicationDefaultPrintAccessTokenOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// revoke previously generated      Application Default Credentials
@@ -93,23 +65,9 @@ public class GcloudAuthApplicationDefault
         GcloudAuthApplicationDefaultRevokeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Revoke(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthApplicationDefaultRevokeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// revoke previously generated      Application Default Credentials
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Revoke(
-        GcloudAuthApplicationDefaultRevokeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update or add a quota      project in application default credentials (ADC)
@@ -121,23 +79,9 @@ public class GcloudAuthApplicationDefault
         GcloudAuthApplicationDefaultSetQuotaProjectOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetQuotaProject(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthApplicationDefaultSetQuotaProjectOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update or add a quota      project in application default credentials (ADC)
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetQuotaProject(
-        GcloudAuthApplicationDefaultSetQuotaProjectOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

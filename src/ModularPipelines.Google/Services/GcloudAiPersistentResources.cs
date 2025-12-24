@@ -37,23 +37,9 @@ public class GcloudAiPersistentResources
         GcloudAiPersistentResourcesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPersistentResourcesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new persistent resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudAiPersistentResourcesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an active Persistent      Resource
@@ -65,23 +51,9 @@ public class GcloudAiPersistentResources
         GcloudAiPersistentResourcesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPersistentResourcesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an active Persistent      Resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudAiPersistentResourcesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get detailed information about a      PersistentResource with a given id
@@ -93,23 +65,9 @@ public class GcloudAiPersistentResources
         GcloudAiPersistentResourcesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPersistentResourcesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get detailed information about a      PersistentResource with a given id
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudAiPersistentResourcesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// lists the active persistent resources
@@ -121,23 +79,9 @@ public class GcloudAiPersistentResources
         GcloudAiPersistentResourcesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPersistentResourcesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// lists the active persistent resources
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudAiPersistentResourcesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// reboot a Persistent Resource
@@ -149,23 +93,9 @@ public class GcloudAiPersistentResources
         GcloudAiPersistentResourcesRebootOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Reboot(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPersistentResourcesRebootOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// reboot a Persistent Resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Reboot(
-        GcloudAiPersistentResourcesRebootOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

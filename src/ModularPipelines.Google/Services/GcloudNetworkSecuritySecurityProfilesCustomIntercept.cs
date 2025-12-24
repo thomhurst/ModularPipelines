@@ -37,23 +37,9 @@ public class GcloudNetworkSecuritySecurityProfilesCustomIntercept
         GcloudNetworkSecuritySecurityProfilesCustomInterceptCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomInterceptCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create      a new Custom Intercept Profile
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudNetworkSecuritySecurityProfilesCustomInterceptCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete      a Security Profile
@@ -65,23 +51,9 @@ public class GcloudNetworkSecuritySecurityProfilesCustomIntercept
         GcloudNetworkSecuritySecurityProfilesCustomInterceptDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomInterceptDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete      a Security Profile
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudNetworkSecuritySecurityProfilesCustomInterceptDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Custom InterceptSecurity Profile
@@ -93,23 +65,9 @@ public class GcloudNetworkSecuritySecurityProfilesCustomIntercept
         GcloudNetworkSecuritySecurityProfilesCustomInterceptDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomInterceptDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Custom InterceptSecurity Profile
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudNetworkSecuritySecurityProfilesCustomInterceptDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list      Custom Intercept Security Profiles
@@ -121,23 +79,9 @@ public class GcloudNetworkSecuritySecurityProfilesCustomIntercept
         GcloudNetworkSecuritySecurityProfilesCustomInterceptListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomInterceptListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list      Custom Intercept Security Profiles
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudNetworkSecuritySecurityProfilesCustomInterceptListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// updates      a Custom Intercept Profile
@@ -149,23 +93,9 @@ public class GcloudNetworkSecuritySecurityProfilesCustomIntercept
         GcloudNetworkSecuritySecurityProfilesCustomInterceptUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomInterceptUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// updates      a Custom Intercept Profile
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudNetworkSecuritySecurityProfilesCustomInterceptUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

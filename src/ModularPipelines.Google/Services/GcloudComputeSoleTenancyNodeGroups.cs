@@ -37,23 +37,9 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsAddIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add IAM      policy binding to a Compute Engine node group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudComputeSoleTenancyNodeGroupsAddIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a Compute Engine      node group
@@ -65,23 +51,9 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Compute Engine      node group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudComputeSoleTenancyNodeGroupsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Compute Engine      node group
@@ -93,23 +65,9 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Compute Engine      node group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudComputeSoleTenancyNodeGroupsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Compute      Engine node group
@@ -121,23 +79,9 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Compute      Engine node group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComputeSoleTenancyNodeGroupsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the IAM policy      for a Compute Engine node group
@@ -149,23 +93,9 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsGetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the IAM policy      for a Compute Engine node group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudComputeSoleTenancyNodeGroupsGetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Compute Engine      sole-tenant nodes present in a nodegroup
@@ -177,23 +107,9 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsListNodesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListNodes(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsListNodesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Compute Engine      sole-tenant nodes present in a nodegroup
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListNodes(
-        GcloudComputeSoleTenancyNodeGroupsListNodesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Google Compute Engine      node groups
@@ -205,23 +121,9 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Google Compute Engine      node groups
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComputeSoleTenancyNodeGroupsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// perform      maintenance on nodes in a Compute Engine node group
@@ -233,23 +135,9 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsPerformMaintenanceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await PerformMaintenance(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsPerformMaintenanceOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// perform      maintenance on nodes in a Compute Engine node group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> PerformMaintenance(
-        GcloudComputeSoleTenancyNodeGroupsPerformMaintenanceOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove      IAM policy binding from a Compute Engine node group
@@ -261,23 +149,9 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsRemoveIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove      IAM policy binding from a Compute Engine node group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudComputeSoleTenancyNodeGroupsRemoveIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set the IAM policy      for a Compute Engine node group
@@ -289,23 +163,9 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsSetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set the IAM policy      for a Compute Engine node group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetIamPolicy(
-        GcloudComputeSoleTenancyNodeGroupsSetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// simulate maintenance of a Compute Engine node group
@@ -317,23 +177,9 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsSimulateMaintenanceEventOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SimulateMaintenanceEvent(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsSimulateMaintenanceEventOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// simulate maintenance of a Compute Engine node group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SimulateMaintenanceEvent(
-        GcloudComputeSoleTenancyNodeGroupsSimulateMaintenanceEventOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Compute Engine      node group
@@ -345,23 +191,9 @@ public class GcloudComputeSoleTenancyNodeGroups
         GcloudComputeSoleTenancyNodeGroupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Compute Engine      node group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudComputeSoleTenancyNodeGroupsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

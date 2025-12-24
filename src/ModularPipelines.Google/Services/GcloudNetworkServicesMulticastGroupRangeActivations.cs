@@ -37,23 +37,9 @@ public class GcloudNetworkServicesMulticastGroupRangeActivations
         GcloudNetworkServicesMulticastGroupRangeActivationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupRangeActivationsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a      multicast group range activation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudNetworkServicesMulticastGroupRangeActivationsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a      multicast group range activation
@@ -65,23 +51,9 @@ public class GcloudNetworkServicesMulticastGroupRangeActivations
         GcloudNetworkServicesMulticastGroupRangeActivationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupRangeActivationsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a      multicast group range activation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudNetworkServicesMulticastGroupRangeActivationsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a multicast group range activations
@@ -93,23 +65,9 @@ public class GcloudNetworkServicesMulticastGroupRangeActivations
         GcloudNetworkServicesMulticastGroupRangeActivationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupRangeActivationsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a multicast group range activations
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudNetworkServicesMulticastGroupRangeActivationsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list      multicast group range activations
@@ -121,23 +79,9 @@ public class GcloudNetworkServicesMulticastGroupRangeActivations
         GcloudNetworkServicesMulticastGroupRangeActivationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupRangeActivationsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list      multicast group range activations
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudNetworkServicesMulticastGroupRangeActivationsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a      multicast group range activation
@@ -149,23 +93,9 @@ public class GcloudNetworkServicesMulticastGroupRangeActivations
         GcloudNetworkServicesMulticastGroupRangeActivationsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupRangeActivationsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a      multicast group range activation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudNetworkServicesMulticastGroupRangeActivationsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

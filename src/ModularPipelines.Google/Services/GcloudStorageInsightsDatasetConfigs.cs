@@ -37,23 +37,9 @@ public class GcloudStorageInsightsDatasetConfigs
         GcloudStorageInsightsDatasetConfigsCreateLinkOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await CreateLink(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsDatasetConfigsCreateLinkOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a link to a      BigQuery instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateLink(
-        GcloudStorageInsightsDatasetConfigsCreateLinkOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a new dataset      config for Insights
@@ -65,23 +51,9 @@ public class GcloudStorageInsightsDatasetConfigs
         GcloudStorageInsightsDatasetConfigsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsDatasetConfigsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new dataset      config for Insights
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudStorageInsightsDatasetConfigsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a link to a      BigQuery instance
@@ -93,23 +65,9 @@ public class GcloudStorageInsightsDatasetConfigs
         GcloudStorageInsightsDatasetConfigsDeleteLinkOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DeleteLink(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsDatasetConfigsDeleteLinkOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a link to a      BigQuery instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeleteLink(
-        GcloudStorageInsightsDatasetConfigsDeleteLinkOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete dataset config for      Insights
@@ -121,23 +79,9 @@ public class GcloudStorageInsightsDatasetConfigs
         GcloudStorageInsightsDatasetConfigsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsDatasetConfigsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete dataset config for      Insights
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudStorageInsightsDatasetConfigsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe dataset config      for Insights
@@ -149,23 +93,9 @@ public class GcloudStorageInsightsDatasetConfigs
         GcloudStorageInsightsDatasetConfigsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsDatasetConfigsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe dataset config      for Insights
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudStorageInsightsDatasetConfigsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list returns all the      Insights dataset configs for given location
@@ -177,23 +107,9 @@ public class GcloudStorageInsightsDatasetConfigs
         GcloudStorageInsightsDatasetConfigsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsDatasetConfigsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list returns all the      Insights dataset configs for given location
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudStorageInsightsDatasetConfigsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// updates a dataset config      for Insights
@@ -205,23 +121,9 @@ public class GcloudStorageInsightsDatasetConfigs
         GcloudStorageInsightsDatasetConfigsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageInsightsDatasetConfigsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// updates a dataset config      for Insights
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudStorageInsightsDatasetConfigsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

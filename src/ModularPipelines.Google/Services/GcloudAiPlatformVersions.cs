@@ -37,23 +37,9 @@ public class GcloudAiPlatformVersions
         GcloudAiPlatformVersionsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformVersionsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new AI Platform version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudAiPlatformVersionsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an existing AI Platform version
@@ -65,23 +51,9 @@ public class GcloudAiPlatformVersions
         GcloudAiPlatformVersionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformVersionsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an existing AI Platform version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudAiPlatformVersionsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe an existing AI Platform      version
@@ -93,23 +65,9 @@ public class GcloudAiPlatformVersions
         GcloudAiPlatformVersionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformVersionsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe an existing AI Platform      version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudAiPlatformVersionsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list existing AI Platform versions
@@ -121,23 +79,9 @@ public class GcloudAiPlatformVersions
         GcloudAiPlatformVersionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformVersionsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list existing AI Platform versions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudAiPlatformVersionsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// sets an existing AI Platform      version as the default for its model
@@ -149,23 +93,9 @@ public class GcloudAiPlatformVersions
         GcloudAiPlatformVersionsSetDefaultOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetDefault(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformVersionsSetDefaultOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// sets an existing AI Platform      version as the default for its model
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetDefault(
-        GcloudAiPlatformVersionsSetDefaultOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an AI Platform version
@@ -177,23 +107,9 @@ public class GcloudAiPlatformVersions
         GcloudAiPlatformVersionsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformVersionsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an AI Platform version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudAiPlatformVersionsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

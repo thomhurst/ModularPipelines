@@ -37,23 +37,9 @@ public class GcloudCloudShell
         GcloudCloudShellOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Execute(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudCloudShellOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// manage Google Cloud Shell
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Execute(
-        GcloudCloudShellOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCloudShellOptions(), loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// prints a command to mount the Cloud      Shell home directory via sshfs
@@ -65,23 +51,9 @@ public class GcloudCloudShell
         GcloudCloudShellGetMountCommandOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetMountCommand(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudCloudShellGetMountCommandOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// prints a command to mount the Cloud      Shell home directory via sshfs
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetMountCommand(
-        GcloudCloudShellGetMountCommandOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// copies files between Cloud Shell and the local      machine
@@ -93,23 +65,9 @@ public class GcloudCloudShell
         GcloudCloudShellScpOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Scp(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudCloudShellScpOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// copies files between Cloud Shell and the local      machine
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Scp(
-        GcloudCloudShellScpOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// allows you to establish an interactive SSH session      with Cloud Shell
@@ -121,23 +79,9 @@ public class GcloudCloudShell
         GcloudCloudShellSshOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Ssh(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudCloudShellSshOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// allows you to establish an interactive SSH session      with Cloud Shell
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Ssh(
-        GcloudCloudShellSshOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

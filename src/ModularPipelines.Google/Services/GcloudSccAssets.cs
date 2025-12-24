@@ -37,23 +37,9 @@ public class GcloudSccAssets
         GcloudSccAssetsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccAssetsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe an asset given its resource name or      asset id
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudSccAssetsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the Parent for an asset given its      resource name or asset id
@@ -65,23 +51,9 @@ public class GcloudSccAssets
         GcloudSccAssetsGetParentOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetParent(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccAssetsGetParentOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the Parent for an asset given its      resource name or asset id
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetParent(
-        GcloudSccAssetsGetParentOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the Project for an asset given its      resource name or asset id
@@ -93,23 +65,9 @@ public class GcloudSccAssets
         GcloudSccAssetsGetProjectOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetProject(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccAssetsGetProjectOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the Project for an asset given its      resource name or asset id
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetProject(
-        GcloudSccAssetsGetProjectOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// filter an organization's assets and groups them      by their specified properties
@@ -121,23 +79,9 @@ public class GcloudSccAssets
         GcloudSccAssetsGroupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Group(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccAssetsGroupOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// filter an organization's assets and groups them      by their specified properties
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Group(
-        GcloudSccAssetsGroupOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list an assets's security marks
@@ -149,23 +93,9 @@ public class GcloudSccAssets
         GcloudSccAssetsListMarksOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListMarks(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccAssetsListMarksOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list an assets's security marks
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListMarks(
-        GcloudSccAssetsListMarksOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Cloud Security Command Center assets
@@ -177,23 +107,9 @@ public class GcloudSccAssets
         GcloudSccAssetsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccAssetsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Cloud Security Command Center assets
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudSccAssetsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// scan an organization for      new/modified/deleted assets
@@ -205,23 +121,9 @@ public class GcloudSccAssets
         GcloudSccAssetsRunDiscoveryOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RunDiscovery(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccAssetsRunDiscoveryOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// scan an organization for      new/modified/deleted assets
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RunDiscovery(
-        GcloudSccAssetsRunDiscoveryOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update Cloud Security Command Center      asset's security marks
@@ -233,23 +135,9 @@ public class GcloudSccAssets
         GcloudSccAssetsUpdateMarksOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateMarks(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccAssetsUpdateMarksOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update Cloud Security Command Center      asset's security marks
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateMarks(
-        GcloudSccAssetsUpdateMarksOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

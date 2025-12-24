@@ -47,23 +47,9 @@ public class GcloudAiPlatformJobs
         GcloudAiPlatformJobsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Cancel(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformJobsCancelOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// cancel a running AI Platform job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Cancel(
-        GcloudAiPlatformJobsCancelOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe an AI Platform job
@@ -75,23 +61,9 @@ public class GcloudAiPlatformJobs
         GcloudAiPlatformJobsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformJobsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe an AI Platform job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudAiPlatformJobsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list existing AI Platform jobs
@@ -103,23 +75,9 @@ public class GcloudAiPlatformJobs
         GcloudAiPlatformJobsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformJobsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list existing AI Platform jobs
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudAiPlatformJobsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show logs from a running AI Platform      job
@@ -131,23 +89,9 @@ public class GcloudAiPlatformJobs
         GcloudAiPlatformJobsStreamLogsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await StreamLogs(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformJobsStreamLogsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show logs from a running AI Platform      job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> StreamLogs(
-        GcloudAiPlatformJobsStreamLogsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an AI Platform job
@@ -159,23 +103,9 @@ public class GcloudAiPlatformJobs
         GcloudAiPlatformJobsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformJobsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an AI Platform job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudAiPlatformJobsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

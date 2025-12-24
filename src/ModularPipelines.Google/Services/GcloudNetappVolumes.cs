@@ -59,23 +59,9 @@ public class GcloudNetappVolumes
         GcloudNetappVolumesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Cloud NetApp Volume
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudNetappVolumesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Cloud NetApp Volume
@@ -87,23 +73,9 @@ public class GcloudNetappVolumes
         GcloudNetappVolumesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Cloud NetApp Volume
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudNetappVolumesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show metadata for a Cloud NetApp Volume
@@ -115,23 +87,9 @@ public class GcloudNetappVolumes
         GcloudNetappVolumesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show metadata for a Cloud NetApp Volume
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudNetappVolumesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Cloud NetApp Volumes
@@ -143,23 +101,9 @@ public class GcloudNetappVolumes
         GcloudNetappVolumesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Cloud NetApp Volumes
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudNetappVolumesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// restore specific files from a      backup to a Volume
@@ -171,23 +115,9 @@ public class GcloudNetappVolumes
         GcloudNetappVolumesRestoreBackupFilesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RestoreBackupFiles(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesRestoreBackupFilesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// restore specific files from a      backup to a Volume
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RestoreBackupFiles(
-        GcloudNetappVolumesRestoreBackupFilesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// revert a Cloud NetApp Volume back to a      specified Snapshot
@@ -199,23 +129,9 @@ public class GcloudNetappVolumes
         GcloudNetappVolumesRevertOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Revert(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesRevertOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// revert a Cloud NetApp Volume back to a      specified Snapshot
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Revert(
-        GcloudNetappVolumesRevertOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Cloud NetApp Volume
@@ -227,23 +143,9 @@ public class GcloudNetappVolumes
         GcloudNetappVolumesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Cloud NetApp Volume
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudNetappVolumesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

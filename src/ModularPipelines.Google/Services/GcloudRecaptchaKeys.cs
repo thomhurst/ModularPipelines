@@ -37,23 +37,9 @@ public class GcloudRecaptchaKeys
         GcloudRecaptchaKeysAddIpOverrideOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddIpOverride(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysAddIpOverrideOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add an IP override to a key
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddIpOverride(
-        GcloudRecaptchaKeysAddIpOverrideOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a Key
@@ -65,23 +51,9 @@ public class GcloudRecaptchaKeys
         GcloudRecaptchaKeysCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Key
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudRecaptchaKeysCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete one or more reCAPTCHA Keys
@@ -93,23 +65,9 @@ public class GcloudRecaptchaKeys
         GcloudRecaptchaKeysDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete one or more reCAPTCHA Keys
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudRecaptchaKeysDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe reCAPTCHA Key
@@ -121,23 +79,9 @@ public class GcloudRecaptchaKeys
         GcloudRecaptchaKeysDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe reCAPTCHA Key
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudRecaptchaKeysDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list IP overrides for a key
@@ -149,23 +93,9 @@ public class GcloudRecaptchaKeys
         GcloudRecaptchaKeysListIpOverridesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListIpOverrides(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysListIpOverridesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list IP overrides for a key
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListIpOverrides(
-        GcloudRecaptchaKeysListIpOverridesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list reCAPTCHA Keys
@@ -177,23 +107,9 @@ public class GcloudRecaptchaKeys
         GcloudRecaptchaKeysListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list reCAPTCHA Keys
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudRecaptchaKeysListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// migrate a key to reCAPTCHA Enterprise
@@ -205,23 +121,9 @@ public class GcloudRecaptchaKeys
         GcloudRecaptchaKeysMigrateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Migrate(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysMigrateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// migrate a key to reCAPTCHA Enterprise
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Migrate(
-        GcloudRecaptchaKeysMigrateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove an IP override from a key
@@ -233,23 +135,9 @@ public class GcloudRecaptchaKeys
         GcloudRecaptchaKeysRemoveIpOverrideOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveIpOverride(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysRemoveIpOverrideOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove an IP override from a key
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveIpOverride(
-        GcloudRecaptchaKeysRemoveIpOverrideOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Key
@@ -261,23 +149,9 @@ public class GcloudRecaptchaKeys
         GcloudRecaptchaKeysUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaKeysUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Key
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudRecaptchaKeysUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

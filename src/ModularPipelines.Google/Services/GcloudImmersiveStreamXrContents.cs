@@ -37,23 +37,9 @@ public class GcloudImmersiveStreamXrContents
         GcloudImmersiveStreamXrContentsBuildOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Build(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrContentsBuildOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// build an Immersive Stream for      XR content resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Build(
-        GcloudImmersiveStreamXrContentsBuildOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create an Immersive Stream for      XR content resource
@@ -65,23 +51,9 @@ public class GcloudImmersiveStreamXrContents
         GcloudImmersiveStreamXrContentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrContentsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create an Immersive Stream for      XR content resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudImmersiveStreamXrContentsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an Immersive Stream for      XR content resource
@@ -93,23 +65,9 @@ public class GcloudImmersiveStreamXrContents
         GcloudImmersiveStreamXrContentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrContentsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an Immersive Stream for      XR content resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudImmersiveStreamXrContentsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a specific      Immersive Stream for XR content resource
@@ -121,23 +79,9 @@ public class GcloudImmersiveStreamXrContents
         GcloudImmersiveStreamXrContentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrContentsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a specific      Immersive Stream for XR content resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudImmersiveStreamXrContentsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Immersive Stream for XR      content resources
@@ -149,23 +93,9 @@ public class GcloudImmersiveStreamXrContents
         GcloudImmersiveStreamXrContentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrContentsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Immersive Stream for XR      content resources
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudImmersiveStreamXrContentsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an Immersive Stream for      XR content resource
@@ -177,23 +107,9 @@ public class GcloudImmersiveStreamXrContents
         GcloudImmersiveStreamXrContentsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrContentsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an Immersive Stream for      XR content resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudImmersiveStreamXrContentsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

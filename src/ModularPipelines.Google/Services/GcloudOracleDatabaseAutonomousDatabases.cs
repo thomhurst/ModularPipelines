@@ -37,23 +37,9 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new      AutonomousDatabase
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudOracleDatabaseAutonomousDatabasesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an      AutonomousDatabase
@@ -65,23 +51,9 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an      AutonomousDatabase
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudOracleDatabaseAutonomousDatabasesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get details of an      AutonomousDatabase
@@ -93,23 +65,9 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get details of an      AutonomousDatabase
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudOracleDatabaseAutonomousDatabasesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// failovers a standby      AutonomousDatabase to a new primary
@@ -121,23 +79,9 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesFailoverOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Failover(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesFailoverOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// failovers a standby      AutonomousDatabase to a new primary
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Failover(
-        GcloudOracleDatabaseAutonomousDatabasesFailoverOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// generate      wallet for an AutonomousDatabase
@@ -149,23 +93,9 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesGenerateWalletOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GenerateWallet(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesGenerateWalletOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// generate      wallet for an AutonomousDatabase
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GenerateWallet(
-        GcloudOracleDatabaseAutonomousDatabasesGenerateWalletOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list all      AutonomousDatabases
@@ -177,23 +107,9 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list all      AutonomousDatabases
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudOracleDatabaseAutonomousDatabasesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// restarts an      AutonomousDatabase
@@ -205,23 +121,9 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesRestartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Restart(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesRestartOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// restarts an      AutonomousDatabase
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Restart(
-        GcloudOracleDatabaseAutonomousDatabasesRestartOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// restore an      AutonomousDatabase
@@ -233,23 +135,9 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesRestoreOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Restore(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesRestoreOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// restore an      AutonomousDatabase
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Restore(
-        GcloudOracleDatabaseAutonomousDatabasesRestoreOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// starts an      AutonomousDatabase
@@ -261,23 +149,9 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesStartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Start(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesStartOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// starts an      AutonomousDatabase
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Start(
-        GcloudOracleDatabaseAutonomousDatabasesStartOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// stops an      AutonomousDatabase
@@ -289,23 +163,9 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesStopOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Stop(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesStopOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// stops an      AutonomousDatabase
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Stop(
-        GcloudOracleDatabaseAutonomousDatabasesStopOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// switchovers an      AutonomousDatabase to a new primary
@@ -317,23 +177,9 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesSwitchoverOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Switchover(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesSwitchoverOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// switchovers an      AutonomousDatabase to a new primary
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Switchover(
-        GcloudOracleDatabaseAutonomousDatabasesSwitchoverOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an      AutonomousDatabase
@@ -345,23 +191,9 @@ public class GcloudOracleDatabaseAutonomousDatabases
         GcloudOracleDatabaseAutonomousDatabasesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseAutonomousDatabasesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an      AutonomousDatabase
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudOracleDatabaseAutonomousDatabasesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

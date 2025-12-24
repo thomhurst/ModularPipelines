@@ -59,23 +59,9 @@ public class GcloudFirebaseTestIos
         GcloudFirebaseTestIosListDeviceCapacitiesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListDeviceCapacities(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestIosListDeviceCapacitiesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list capacity information      for iOS models &amp; versions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDeviceCapacities(
-        GcloudFirebaseTestIosListDeviceCapacitiesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// invoke a test in Firebase Test Lab for iOS      and view test results
@@ -87,23 +73,9 @@ public class GcloudFirebaseTestIos
         GcloudFirebaseTestIosRunOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Run(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestIosRunOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// invoke a test in Firebase Test Lab for iOS      and view test results
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Run(
-        GcloudFirebaseTestIosRunOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

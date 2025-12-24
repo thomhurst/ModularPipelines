@@ -37,23 +37,9 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new Vertex AI endpoint
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudAiEndpointsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an existing Vertex AI endpoint
@@ -65,23 +51,9 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an existing Vertex AI endpoint
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudAiEndpointsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// deploy a model to an existing Vertex AI      endpoint
@@ -93,23 +65,9 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsDeployModelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DeployModel(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsDeployModelOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// deploy a model to an existing Vertex AI      endpoint
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeployModel(
-        GcloudAiEndpointsDeployModelOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe an existing Vertex AI endpoint
@@ -121,23 +79,9 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe an existing Vertex AI endpoint
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudAiEndpointsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// run Vertex AI online direct prediction
@@ -149,23 +93,9 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsDirectPredictOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DirectPredict(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsDirectPredictOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// run Vertex AI online direct prediction
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DirectPredict(
-        GcloudAiEndpointsDirectPredictOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// run Vertex AI online direct raw      prediction
@@ -177,23 +107,9 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsDirectRawPredictOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DirectRawPredict(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsDirectRawPredictOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// run Vertex AI online direct raw      prediction
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DirectRawPredict(
-        GcloudAiEndpointsDirectRawPredictOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// request an online explanation from an Vertex      AI endpoint
@@ -205,23 +121,9 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsExplainOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Explain(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsExplainOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// request an online explanation from an Vertex      AI endpoint
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Explain(
-        GcloudAiEndpointsExplainOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list existing Vertex AI endpoints
@@ -233,23 +135,9 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list existing Vertex AI endpoints
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudAiEndpointsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// run Vertex AI online prediction
@@ -261,23 +149,9 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsPredictOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Predict(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsPredictOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// run Vertex AI online prediction
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Predict(
-        GcloudAiEndpointsPredictOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// run Vertex AI online raw prediction
@@ -289,23 +163,9 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsRawPredictOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RawPredict(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsRawPredictOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// run Vertex AI online raw prediction
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RawPredict(
-        GcloudAiEndpointsRawPredictOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// run Vertex AI online stream      direct prediction
@@ -317,23 +177,9 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsStreamDirectPredictOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await StreamDirectPredict(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsStreamDirectPredictOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// run Vertex AI online stream      direct prediction
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> StreamDirectPredict(
-        GcloudAiEndpointsStreamDirectPredictOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// run Vertex AI online stream      direct raw prediction
@@ -345,23 +191,9 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsStreamDirectRawPredictOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await StreamDirectRawPredict(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsStreamDirectRawPredictOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// run Vertex AI online stream      direct raw prediction
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> StreamDirectRawPredict(
-        GcloudAiEndpointsStreamDirectRawPredictOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// run Vertex AI online stream raw      prediction
@@ -373,23 +205,9 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsStreamRawPredictOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await StreamRawPredict(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsStreamRawPredictOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// run Vertex AI online stream raw      prediction
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> StreamRawPredict(
-        GcloudAiEndpointsStreamRawPredictOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// undeploy a model from an existing      Vertex AI endpoint
@@ -401,23 +219,9 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsUndeployModelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await UndeployModel(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsUndeployModelOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// undeploy a model from an existing      Vertex AI endpoint
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UndeployModel(
-        GcloudAiEndpointsUndeployModelOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an existing Vertex AI endpoint
@@ -429,23 +233,9 @@ public class GcloudAiEndpoints
         GcloudAiEndpointsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiEndpointsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an existing Vertex AI endpoint
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudAiEndpointsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

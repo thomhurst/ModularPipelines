@@ -53,23 +53,9 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsAcceptSpokeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AcceptSpoke(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsAcceptSpokeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// accept a spoke into a hub
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AcceptSpoke(
-        GcloudNetworkConnectivityHubsAcceptSpokeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// accept a proposal to      update a spoke in a hub
@@ -81,23 +67,9 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsAcceptSpokeUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AcceptSpokeUpdate(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsAcceptSpokeUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// accept a proposal to      update a spoke in a hub
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AcceptSpokeUpdate(
-        GcloudNetworkConnectivityHubsAcceptSpokeUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// add an IAM policy      binding to the IAM policy of a hub resource
@@ -109,23 +81,9 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsAddIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add an IAM policy      binding to the IAM policy of a hub resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudNetworkConnectivityHubsAddIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a new hub
@@ -137,23 +95,9 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new hub
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudNetworkConnectivityHubsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a hub
@@ -165,23 +109,9 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a hub
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudNetworkConnectivityHubsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a hub
@@ -193,23 +123,9 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a hub
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudNetworkConnectivityHubsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the IAM policy for a      hub resource
@@ -221,23 +137,9 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsGetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the IAM policy for a      hub resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudNetworkConnectivityHubsGetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list hubs
@@ -249,23 +151,9 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list hubs
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudNetworkConnectivityHubsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list hub spokes
@@ -277,23 +165,9 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsListSpokesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListSpokes(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsListSpokesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list hub spokes
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListSpokes(
-        GcloudNetworkConnectivityHubsListSpokesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// query the status of Private      Service Connect propagation for a hub
@@ -305,23 +179,9 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsQueryStatusOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await QueryStatus(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsQueryStatusOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// query the status of Private      Service Connect propagation for a hub
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> QueryStatus(
-        GcloudNetworkConnectivityHubsQueryStatusOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// reject a spoke from a hub
@@ -333,23 +193,9 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsRejectSpokeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RejectSpoke(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsRejectSpokeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// reject a spoke from a hub
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RejectSpoke(
-        GcloudNetworkConnectivityHubsRejectSpokeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// reject a proposal to      update a spoke in a hub
@@ -361,23 +207,9 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsRejectSpokeUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RejectSpokeUpdate(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsRejectSpokeUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// reject a proposal to      update a spoke in a hub
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RejectSpokeUpdate(
-        GcloudNetworkConnectivityHubsRejectSpokeUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove an IAM      policy binding from the IAM policy of a hub resource
@@ -389,23 +221,9 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsRemoveIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove an IAM      policy binding from the IAM policy of a hub resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudNetworkConnectivityHubsRemoveIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set the IAM policy of a      hub resource
@@ -417,23 +235,9 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsSetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set the IAM policy of a      hub resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetIamPolicy(
-        GcloudNetworkConnectivityHubsSetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a hub
@@ -445,23 +249,9 @@ public class GcloudNetworkConnectivityHubs
         GcloudNetworkConnectivityHubsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a hub
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudNetworkConnectivityHubsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudComputeInterconnectsRemoteLocations
         GcloudComputeInterconnectsRemoteLocationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsRemoteLocationsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Google      Compute Engine interconnect remote location
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComputeInterconnectsRemoteLocationsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Google Compute      Engine Cloud Interconnect remote locations
@@ -65,23 +51,9 @@ public class GcloudComputeInterconnectsRemoteLocations
         GcloudComputeInterconnectsRemoteLocationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsRemoteLocationsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Google Compute      Engine Cloud Interconnect remote locations
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComputeInterconnectsRemoteLocationsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

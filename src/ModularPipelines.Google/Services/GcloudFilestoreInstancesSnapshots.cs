@@ -37,23 +37,9 @@ public class GcloudFilestoreInstancesSnapshots
         GcloudFilestoreInstancesSnapshotsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreInstancesSnapshotsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Filestore snapshot
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudFilestoreInstancesSnapshotsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Filestore snapshot
@@ -65,23 +51,9 @@ public class GcloudFilestoreInstancesSnapshots
         GcloudFilestoreInstancesSnapshotsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreInstancesSnapshotsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Filestore snapshot
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudFilestoreInstancesSnapshotsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// display information about a      Filestore snapshot
@@ -93,23 +65,9 @@ public class GcloudFilestoreInstancesSnapshots
         GcloudFilestoreInstancesSnapshotsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreInstancesSnapshotsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// display information about a      Filestore snapshot
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudFilestoreInstancesSnapshotsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Filestore snapshots
@@ -121,23 +79,9 @@ public class GcloudFilestoreInstancesSnapshots
         GcloudFilestoreInstancesSnapshotsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreInstancesSnapshotsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Filestore snapshots
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudFilestoreInstancesSnapshotsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update the description or      labels of a Filestore snapshot
@@ -149,23 +93,9 @@ public class GcloudFilestoreInstancesSnapshots
         GcloudFilestoreInstancesSnapshotsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreInstancesSnapshotsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update the description or      labels of a Filestore snapshot
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudFilestoreInstancesSnapshotsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

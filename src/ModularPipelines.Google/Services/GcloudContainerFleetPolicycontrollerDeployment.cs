@@ -37,23 +37,9 @@ public class GcloudContainerFleetPolicycontrollerDeployment
         GcloudContainerFleetPolicycontrollerDeploymentRemoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Remove(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPolicycontrollerDeploymentRemoveOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// removes      configuration properties from Policy Controller components
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Remove(
-        GcloudContainerFleetPolicycontrollerDeploymentRemoveOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// sets configuration      of the Policy Controller components
@@ -65,23 +51,9 @@ public class GcloudContainerFleetPolicycontrollerDeployment
         GcloudContainerFleetPolicycontrollerDeploymentSetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Set(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPolicycontrollerDeploymentSetOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// sets configuration      of the Policy Controller components
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Set(
-        GcloudContainerFleetPolicycontrollerDeploymentSetOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

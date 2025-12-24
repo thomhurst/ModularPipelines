@@ -53,23 +53,9 @@ public class GcloudContainerFleetMemberships
         GcloudContainerFleetMembershipsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a membership
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudContainerFleetMembershipsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a membership
@@ -81,23 +67,9 @@ public class GcloudContainerFleetMemberships
         GcloudContainerFleetMembershipsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a membership
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudContainerFleetMembershipsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// generate RBAC      policy files for connected clusters by the user
@@ -109,23 +81,9 @@ public class GcloudContainerFleetMemberships
         GcloudContainerFleetMembershipsGenerateGatewayRbacOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GenerateGatewayRbac(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsGenerateGatewayRbacOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// generate RBAC      policy files for connected clusters by the user
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GenerateGatewayRbac(
-        GcloudContainerFleetMembershipsGenerateGatewayRbacOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// fetch credentials for      a fleet-registered cluster to be used in Connect Gateway
@@ -137,23 +95,9 @@ public class GcloudContainerFleetMemberships
         GcloudContainerFleetMembershipsGetCredentialsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetCredentials(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsGetCredentialsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// fetch credentials for      a fleet-registered cluster to be used in Connect Gateway
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetCredentials(
-        GcloudContainerFleetMembershipsGetCredentialsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list memberships
@@ -165,23 +109,9 @@ public class GcloudContainerFleetMemberships
         GcloudContainerFleetMembershipsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list memberships
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudContainerFleetMembershipsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// register a cluster with a      fleet
@@ -193,23 +123,9 @@ public class GcloudContainerFleetMemberships
         GcloudContainerFleetMembershipsRegisterOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Register(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsRegisterOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// register a cluster with a      fleet
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Register(
-        GcloudContainerFleetMembershipsRegisterOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// unregister a cluster from a      fleet
@@ -221,23 +137,9 @@ public class GcloudContainerFleetMemberships
         GcloudContainerFleetMembershipsUnregisterOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Unregister(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsUnregisterOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// unregister a cluster from a      fleet
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Unregister(
-        GcloudContainerFleetMembershipsUnregisterOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a membership
@@ -249,23 +151,9 @@ public class GcloudContainerFleetMemberships
         GcloudContainerFleetMembershipsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a membership
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudContainerFleetMembershipsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

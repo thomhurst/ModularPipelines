@@ -47,23 +47,9 @@ public class GcloudParametermanager
         GcloudParametermanagerOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Execute(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// parameter Manager is a single source of truth to      store, access and manage the lifecycle of your application parameters
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Execute(
-        GcloudParametermanagerOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerOptions(), loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -83,23 +83,9 @@ public class GcloudFirestore
         GcloudFirestoreOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Execute(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// manage your Cloud Firestore resources
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Execute(
-        GcloudFirestoreOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreOptions(), loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// bulk delete Cloud Firestore documents
@@ -111,23 +97,9 @@ public class GcloudFirestore
         GcloudFirestoreBulkDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await BulkDelete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreBulkDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// bulk delete Cloud Firestore documents
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> BulkDelete(
-        GcloudFirestoreBulkDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// export Cloud Firestore documents to Google Cloud      Storage
@@ -139,23 +111,9 @@ public class GcloudFirestore
         GcloudFirestoreExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Export(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreExportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// export Cloud Firestore documents to Google Cloud      Storage
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Export(
-        GcloudFirestoreExportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// import Cloud Firestore documents from Google      Cloud Storage
@@ -167,23 +125,9 @@ public class GcloudFirestore
         GcloudFirestoreImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Import(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreImportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// import Cloud Firestore documents from Google      Cloud Storage
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Import(
-        GcloudFirestoreImportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

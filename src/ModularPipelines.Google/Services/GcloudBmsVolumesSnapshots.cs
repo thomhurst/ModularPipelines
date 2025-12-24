@@ -37,23 +37,9 @@ public class GcloudBmsVolumesSnapshots
         GcloudBmsVolumesSnapshotsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsVolumesSnapshotsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Bare Metal Solution boot      volume snapshot
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudBmsVolumesSnapshotsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Bare Metal Solution boot      volume snapshot
@@ -65,23 +51,9 @@ public class GcloudBmsVolumesSnapshots
         GcloudBmsVolumesSnapshotsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsVolumesSnapshotsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Bare Metal Solution boot      volume snapshot
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudBmsVolumesSnapshotsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list snapshots for a Bare Metal      Solution boot volume
@@ -93,23 +65,9 @@ public class GcloudBmsVolumesSnapshots
         GcloudBmsVolumesSnapshotsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsVolumesSnapshotsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list snapshots for a Bare Metal      Solution boot volume
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudBmsVolumesSnapshotsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

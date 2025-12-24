@@ -37,23 +37,9 @@ public class GcloudGeminiDataSharingWithGoogleSettingsSettingBindings
         GcloudGeminiDataSharingWithGoogleSettingsSettingBindingsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiDataSharingWithGoogleSettingsSettingBindingsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create settingBindings
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudGeminiDataSharingWithGoogleSettingsSettingBindingsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete settingBindings
@@ -65,23 +51,9 @@ public class GcloudGeminiDataSharingWithGoogleSettingsSettingBindings
         GcloudGeminiDataSharingWithGoogleSettingsSettingBindingsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiDataSharingWithGoogleSettingsSettingBindingsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete settingBindings
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudGeminiDataSharingWithGoogleSettingsSettingBindingsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe settingBindings
@@ -93,23 +65,9 @@ public class GcloudGeminiDataSharingWithGoogleSettingsSettingBindings
         GcloudGeminiDataSharingWithGoogleSettingsSettingBindingsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiDataSharingWithGoogleSettingsSettingBindingsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe settingBindings
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudGeminiDataSharingWithGoogleSettingsSettingBindingsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list settingBindings
@@ -121,23 +79,9 @@ public class GcloudGeminiDataSharingWithGoogleSettingsSettingBindings
         GcloudGeminiDataSharingWithGoogleSettingsSettingBindingsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiDataSharingWithGoogleSettingsSettingBindingsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list settingBindings
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudGeminiDataSharingWithGoogleSettingsSettingBindingsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update settingBindings
@@ -149,23 +93,9 @@ public class GcloudGeminiDataSharingWithGoogleSettingsSettingBindings
         GcloudGeminiDataSharingWithGoogleSettingsSettingBindingsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiDataSharingWithGoogleSettingsSettingBindingsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update settingBindings
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudGeminiDataSharingWithGoogleSettingsSettingBindingsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

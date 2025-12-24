@@ -37,23 +37,9 @@ public class GcloudPamEntitlements
         GcloudPamEntitlementsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamEntitlementsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new Privileged Access Manager      entitlement
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudPamEntitlementsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Privileged Access Manager      entitlement
@@ -65,23 +51,9 @@ public class GcloudPamEntitlements
         GcloudPamEntitlementsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamEntitlementsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Privileged Access Manager      entitlement
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudPamEntitlementsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show details of a Privileged Access      Manager entitlement
@@ -93,23 +65,9 @@ public class GcloudPamEntitlements
         GcloudPamEntitlementsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamEntitlementsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show details of a Privileged Access      Manager entitlement
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudPamEntitlementsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// export a Privileged Access Manager      entitlement into a local YAML file
@@ -121,23 +79,9 @@ public class GcloudPamEntitlements
         GcloudPamEntitlementsExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Export(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamEntitlementsExportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// export a Privileged Access Manager      entitlement into a local YAML file
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Export(
-        GcloudPamEntitlementsExportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list all Privileged Access Manager      entitlements under a parent
@@ -149,23 +93,9 @@ public class GcloudPamEntitlements
         GcloudPamEntitlementsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamEntitlementsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list all Privileged Access Manager      entitlements under a parent
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudPamEntitlementsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// search and list all Privileged Access      Manager entitlements in a parent for which you are a requester/approver
@@ -177,23 +107,9 @@ public class GcloudPamEntitlements
         GcloudPamEntitlementsSearchOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Search(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamEntitlementsSearchOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// search and list all Privileged Access      Manager entitlements in a parent for which you are a requester/approver
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Search(
-        GcloudPamEntitlementsSearchOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an existing Privileged Access      Manager entitlement
@@ -205,23 +121,9 @@ public class GcloudPamEntitlements
         GcloudPamEntitlementsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPamEntitlementsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an existing Privileged Access      Manager entitlement
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudPamEntitlementsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

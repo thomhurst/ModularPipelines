@@ -37,23 +37,9 @@ public class GcloudAlloydbUsers
         GcloudAlloydbUsersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbUsersCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// creates a user in a given cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudAlloydbUsersCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// deletes an AlloyDB user in a given cluster
@@ -65,23 +51,9 @@ public class GcloudAlloydbUsers
         GcloudAlloydbUsersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbUsersDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// deletes an AlloyDB user in a given cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudAlloydbUsersDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// lists AlloyDB users in a given cluster
@@ -93,23 +65,9 @@ public class GcloudAlloydbUsers
         GcloudAlloydbUsersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbUsersListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// lists AlloyDB users in a given cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudAlloydbUsersListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an AlloyDB user's password      within a given cluster and region
@@ -121,23 +79,9 @@ public class GcloudAlloydbUsers
         GcloudAlloydbUsersSetPasswordOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetPassword(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbUsersSetPasswordOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an AlloyDB user's password      within a given cluster and region
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetPassword(
-        GcloudAlloydbUsersSetPasswordOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an AlloyDB user's database roles      within a given cluster and region
@@ -149,23 +93,9 @@ public class GcloudAlloydbUsers
         GcloudAlloydbUsersSetRolesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetRoles(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbUsersSetRolesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an AlloyDB user's database roles      within a given cluster and region
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetRoles(
-        GcloudAlloydbUsersSetRolesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an AlloyDB user's superuser      role within a given cluster and region
@@ -177,23 +107,9 @@ public class GcloudAlloydbUsers
         GcloudAlloydbUsersSetSuperuserOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetSuperuser(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbUsersSetSuperuserOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an AlloyDB user's superuser      role within a given cluster and region
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetSuperuser(
-        GcloudAlloydbUsersSetSuperuserOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

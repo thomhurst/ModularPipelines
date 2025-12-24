@@ -37,23 +37,9 @@ public class GcloudArtifactsVulnerabilities
         GcloudArtifactsVulnerabilitiesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsVulnerabilitiesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// command for listing      vulnerabilities. To see all fields, use --format=json
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudArtifactsVulnerabilitiesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// load VEX data from a CSAF file      into Artifact Analysis
@@ -65,23 +51,9 @@ public class GcloudArtifactsVulnerabilities
         GcloudArtifactsVulnerabilitiesLoadVexOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await LoadVex(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsVulnerabilitiesLoadVexOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// load VEX data from a CSAF file      into Artifact Analysis
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> LoadVex(
-        GcloudArtifactsVulnerabilitiesLoadVexOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

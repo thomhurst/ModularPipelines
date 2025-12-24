@@ -37,23 +37,9 @@ public class GcloudDeployRollouts
         GcloudDeployRolloutsAdvanceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Advance(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsAdvanceOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// advances a rollout
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Advance(
-        GcloudDeployRolloutsAdvanceOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// approves a rollout having an Approval      state of "Required"
@@ -65,23 +51,9 @@ public class GcloudDeployRollouts
         GcloudDeployRolloutsApproveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Approve(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsApproveOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// approves a rollout having an Approval      state of "Required"
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Approve(
-        GcloudDeployRolloutsApproveOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// cancel a Rollout
@@ -93,23 +65,9 @@ public class GcloudDeployRollouts
         GcloudDeployRolloutsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Cancel(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsCancelOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// cancel a Rollout
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Cancel(
-        GcloudDeployRolloutsCancelOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show details for a rollout
@@ -121,23 +79,9 @@ public class GcloudDeployRollouts
         GcloudDeployRolloutsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show details for a rollout
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudDeployRolloutsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// ignores a specified job and phase      combination on a rollout
@@ -149,23 +93,9 @@ public class GcloudDeployRollouts
         GcloudDeployRolloutsIgnoreJobOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await IgnoreJob(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsIgnoreJobOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// ignores a specified job and phase      combination on a rollout
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> IgnoreJob(
-        GcloudDeployRolloutsIgnoreJobOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list the rollouts
@@ -177,23 +107,9 @@ public class GcloudDeployRollouts
         GcloudDeployRolloutsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list the rollouts
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudDeployRolloutsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// rejects a rollout having an Approval state      of "Required"
@@ -205,23 +121,9 @@ public class GcloudDeployRollouts
         GcloudDeployRolloutsRejectOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Reject(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsRejectOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// rejects a rollout having an Approval state      of "Required"
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Reject(
-        GcloudDeployRolloutsRejectOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// retries a specified job, phase      combination on a rollout
@@ -233,23 +135,9 @@ public class GcloudDeployRollouts
         GcloudDeployRolloutsRetryJobOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RetryJob(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsRetryJobOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// retries a specified job, phase      combination on a rollout
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RetryJob(
-        GcloudDeployRolloutsRetryJobOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

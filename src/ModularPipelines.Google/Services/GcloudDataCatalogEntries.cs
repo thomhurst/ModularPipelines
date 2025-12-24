@@ -37,23 +37,9 @@ public class GcloudDataCatalogEntries
         GcloudDataCatalogEntriesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntriesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Data Catalog entry
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudDataCatalogEntriesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Data Catalog entry
@@ -65,23 +51,9 @@ public class GcloudDataCatalogEntries
         GcloudDataCatalogEntriesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntriesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Data Catalog entry
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudDataCatalogEntriesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Data Catalog entry
@@ -93,23 +65,9 @@ public class GcloudDataCatalogEntries
         GcloudDataCatalogEntriesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntriesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Data Catalog entry
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudDataCatalogEntriesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list all entries in a Data Catalog entry      group
@@ -121,23 +79,9 @@ public class GcloudDataCatalogEntries
         GcloudDataCatalogEntriesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntriesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list all entries in a Data Catalog entry      group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudDataCatalogEntriesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// lookup a Data Catalog entry by its      target name
@@ -149,23 +93,9 @@ public class GcloudDataCatalogEntries
         GcloudDataCatalogEntriesLookupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Lookup(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntriesLookupOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// lookup a Data Catalog entry by its      target name
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Lookup(
-        GcloudDataCatalogEntriesLookupOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// star a Data Catalog entry
@@ -177,23 +107,9 @@ public class GcloudDataCatalogEntries
         GcloudDataCatalogEntriesStarOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Star(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntriesStarOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// star a Data Catalog entry
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Star(
-        GcloudDataCatalogEntriesStarOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// unstar a Data Catalog entry
@@ -205,23 +121,9 @@ public class GcloudDataCatalogEntries
         GcloudDataCatalogEntriesUnstarOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Unstar(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntriesUnstarOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// unstar a Data Catalog entry
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Unstar(
-        GcloudDataCatalogEntriesUnstarOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Data Catalog entry
@@ -233,23 +135,9 @@ public class GcloudDataCatalogEntries
         GcloudDataCatalogEntriesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogEntriesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Data Catalog entry
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudDataCatalogEntriesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

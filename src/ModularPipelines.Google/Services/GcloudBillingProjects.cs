@@ -37,23 +37,9 @@ public class GcloudBillingProjects
         GcloudBillingProjectsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBillingProjectsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show detailed billing information for a      project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudBillingProjectsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// link a project with a billing account
@@ -65,23 +51,9 @@ public class GcloudBillingProjects
         GcloudBillingProjectsLinkOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Link(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBillingProjectsLinkOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// link a project with a billing account
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Link(
-        GcloudBillingProjectsLinkOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list all active projects associated with the      specified billing account
@@ -93,23 +65,9 @@ public class GcloudBillingProjects
         GcloudBillingProjectsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBillingProjectsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list all active projects associated with the      specified billing account
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudBillingProjectsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// unlink the account (if any) linked with a      project
@@ -121,23 +79,9 @@ public class GcloudBillingProjects
         GcloudBillingProjectsUnlinkOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Unlink(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBillingProjectsUnlinkOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// unlink the account (if any) linked with a      project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Unlink(
-        GcloudBillingProjectsUnlinkOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -95,23 +95,9 @@ public class GcloudStorage
         GcloudStorageOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Execute(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create and manage Cloud Storage buckets and objects
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Execute(
-        GcloudStorageOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageOptions(), loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// outputs the contents of one or more URLs to stdout
@@ -123,23 +109,9 @@ public class GcloudStorage
         GcloudStorageCatOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Cat(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageCatOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// outputs the contents of one or more URLs to stdout
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Cat(
-        GcloudStorageCatOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// upload, download, and copy Cloud Storage objects
@@ -151,23 +123,9 @@ public class GcloudStorage
         GcloudStorageCpOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Cp(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageCpOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// upload, download, and copy Cloud Storage objects
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Cp(
-        GcloudStorageCpOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// diagnose Google Cloud Storage
@@ -179,23 +137,9 @@ public class GcloudStorage
         GcloudStorageDiagnoseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Diagnose(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageDiagnoseOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// diagnose Google Cloud Storage
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Diagnose(
-        GcloudStorageDiagnoseOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// displays the amount of space in bytes used by storage      resources
@@ -207,23 +151,9 @@ public class GcloudStorage
         GcloudStorageDuOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Du(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageDuOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// displays the amount of space in bytes used by storage      resources
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Du(
-        GcloudStorageDuOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// calculates hashes on local or cloud files
@@ -235,23 +165,9 @@ public class GcloudStorage
         GcloudStorageHashOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Hash(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageHashOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// calculates hashes on local or cloud files
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Hash(
-        GcloudStorageHashOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Cloud Storage buckets and objects
@@ -263,23 +179,9 @@ public class GcloudStorage
         GcloudStorageLsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Ls(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageLsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Cloud Storage buckets and objects
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Ls(
-        GcloudStorageLsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// moves or renames objects
@@ -291,23 +193,9 @@ public class GcloudStorage
         GcloudStorageMvOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Mv(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageMvOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// moves or renames objects
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Mv(
-        GcloudStorageMvOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// deleted objects
@@ -319,23 +207,9 @@ public class GcloudStorage
         GcloudStorageRestoreOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Restore(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageRestoreOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// deleted objects
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Restore(
-        GcloudStorageRestoreOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete objects and buckets
@@ -347,23 +221,9 @@ public class GcloudStorage
         GcloudStorageRmOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Rm(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageRmOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete objects and buckets
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Rm(
-        GcloudStorageRmOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// synchronize content of two buckets/directories
@@ -375,23 +235,9 @@ public class GcloudStorage
         GcloudStorageRsyncOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Rsync(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageRsyncOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// synchronize content of two buckets/directories
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Rsync(
-        GcloudStorageRsyncOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// manage a project's Cloud Storage service      agent, which is used to perform Cloud KMS operations
@@ -403,23 +249,9 @@ public class GcloudStorage
         GcloudStorageServiceAgentOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ServiceAgent(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageServiceAgentOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// manage a project's Cloud Storage service      agent, which is used to perform Cloud KMS operations
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ServiceAgent(
-        GcloudStorageServiceAgentOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// generate a URL with embedded authentication that      can be used by anyone
@@ -431,23 +263,9 @@ public class GcloudStorage
         GcloudStorageSignUrlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SignUrl(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageSignUrlOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// generate a URL with embedded authentication that      can be used by anyone
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SignUrl(
-        GcloudStorageSignUrlOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

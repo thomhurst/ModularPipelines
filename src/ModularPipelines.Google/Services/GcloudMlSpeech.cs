@@ -47,23 +47,9 @@ public class GcloudMlSpeech
         GcloudMlSpeechRecognizeLongRunningOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RecognizeLongRunning(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlSpeechRecognizeLongRunningOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get transcripts of longer audio      from an audio file
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RecognizeLongRunning(
-        GcloudMlSpeechRecognizeLongRunningOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get transcripts of short      (less than 60 seconds) audio from an audio file
@@ -75,23 +61,9 @@ public class GcloudMlSpeech
         GcloudMlSpeechRecognizeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Recognize(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlSpeechRecognizeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get transcripts of short      (less than 60 seconds) audio from an audio file
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Recognize(
-        GcloudMlSpeechRecognizeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

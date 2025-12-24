@@ -37,23 +37,9 @@ public class GcloudActiveDirectoryPeerings
         GcloudActiveDirectoryPeeringsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryPeeringsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Managed Microsoft Active      Directory domain peering
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudActiveDirectoryPeeringsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Managed Microsoft Active      Directory domain peering
@@ -65,23 +51,9 @@ public class GcloudActiveDirectoryPeerings
         GcloudActiveDirectoryPeeringsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryPeeringsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Managed Microsoft Active      Directory domain peering
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudActiveDirectoryPeeringsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Managed Microsoft      Active Directory domain peering
@@ -93,23 +65,9 @@ public class GcloudActiveDirectoryPeerings
         GcloudActiveDirectoryPeeringsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryPeeringsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Managed Microsoft      Active Directory domain peering
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudActiveDirectoryPeeringsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list all Managed Microsoft Active      Directory domain peerings
@@ -121,23 +79,9 @@ public class GcloudActiveDirectoryPeerings
         GcloudActiveDirectoryPeeringsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryPeeringsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list all Managed Microsoft Active      Directory domain peerings
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudActiveDirectoryPeeringsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Managed Microsoft Active      Directory domain peering
@@ -149,23 +93,9 @@ public class GcloudActiveDirectoryPeerings
         GcloudActiveDirectoryPeeringsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryPeeringsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Managed Microsoft Active      Directory domain peering
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudActiveDirectoryPeeringsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

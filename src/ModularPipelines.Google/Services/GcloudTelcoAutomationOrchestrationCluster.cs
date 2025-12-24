@@ -37,23 +37,9 @@ public class GcloudTelcoAutomationOrchestrationCluster
         GcloudTelcoAutomationOrchestrationClusterCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudTelcoAutomationOrchestrationClusterCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a telco      automation orchestration cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudTelcoAutomationOrchestrationClusterCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a telco      automation orchestration cluster
@@ -65,23 +51,9 @@ public class GcloudTelcoAutomationOrchestrationCluster
         GcloudTelcoAutomationOrchestrationClusterDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudTelcoAutomationOrchestrationClusterDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a telco      automation orchestration cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudTelcoAutomationOrchestrationClusterDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show details about      the orchestration cluster
@@ -93,23 +65,9 @@ public class GcloudTelcoAutomationOrchestrationCluster
         GcloudTelcoAutomationOrchestrationClusterDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudTelcoAutomationOrchestrationClusterDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show details about      the orchestration cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudTelcoAutomationOrchestrationClusterDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list telco automation      orchestration clusters
@@ -121,23 +79,9 @@ public class GcloudTelcoAutomationOrchestrationCluster
         GcloudTelcoAutomationOrchestrationClusterListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudTelcoAutomationOrchestrationClusterListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list telco automation      orchestration clusters
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudTelcoAutomationOrchestrationClusterListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudSqlDatabases
         GcloudSqlDatabasesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlDatabasesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// creates a database for a Cloud SQL instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudSqlDatabasesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// deletes a Cloud SQL database
@@ -65,23 +51,9 @@ public class GcloudSqlDatabases
         GcloudSqlDatabasesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlDatabasesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// deletes a Cloud SQL database
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudSqlDatabasesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// displays configuration and metadata about a      Cloud SQL database
@@ -93,23 +65,9 @@ public class GcloudSqlDatabases
         GcloudSqlDatabasesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlDatabasesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// displays configuration and metadata about a      Cloud SQL database
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudSqlDatabasesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// lists databases for a Cloud SQL instance
@@ -121,23 +79,9 @@ public class GcloudSqlDatabases
         GcloudSqlDatabasesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlDatabasesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// lists databases for a Cloud SQL instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudSqlDatabasesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// patches the settings of a Cloud SQL database
@@ -149,23 +93,9 @@ public class GcloudSqlDatabases
         GcloudSqlDatabasesPatchOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Patch(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlDatabasesPatchOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// patches the settings of a Cloud SQL database
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Patch(
-        GcloudSqlDatabasesPatchOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

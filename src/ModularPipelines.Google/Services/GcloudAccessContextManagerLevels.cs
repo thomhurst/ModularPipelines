@@ -47,23 +47,9 @@ public class GcloudAccessContextManagerLevels
         GcloudAccessContextManagerLevelsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerLevelsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new access level
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudAccessContextManagerLevelsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an access level
@@ -75,23 +61,9 @@ public class GcloudAccessContextManagerLevels
         GcloudAccessContextManagerLevelsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerLevelsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an access level
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudAccessContextManagerLevelsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show details about an      access level
@@ -103,23 +75,9 @@ public class GcloudAccessContextManagerLevels
         GcloudAccessContextManagerLevelsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerLevelsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show details about an      access level
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudAccessContextManagerLevelsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list access levels
@@ -131,23 +89,9 @@ public class GcloudAccessContextManagerLevels
         GcloudAccessContextManagerLevelsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerLevelsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list access levels
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudAccessContextManagerLevelsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// replace all existing      access levels
@@ -159,23 +103,9 @@ public class GcloudAccessContextManagerLevels
         GcloudAccessContextManagerLevelsReplaceAllOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ReplaceAll(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerLevelsReplaceAllOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// replace all existing      access levels
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ReplaceAll(
-        GcloudAccessContextManagerLevelsReplaceAllOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an existing access      level
@@ -187,23 +117,9 @@ public class GcloudAccessContextManagerLevels
         GcloudAccessContextManagerLevelsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerLevelsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an existing access      level
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudAccessContextManagerLevelsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

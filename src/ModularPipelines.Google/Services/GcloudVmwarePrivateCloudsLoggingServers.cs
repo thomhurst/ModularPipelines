@@ -37,23 +37,9 @@ public class GcloudVmwarePrivateCloudsLoggingServers
         GcloudVmwarePrivateCloudsLoggingServersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsLoggingServersCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Google Cloud      VMware Engine logging-server
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudVmwarePrivateCloudsLoggingServersCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// server      from a VMware Engine private cloud
@@ -65,23 +51,9 @@ public class GcloudVmwarePrivateCloudsLoggingServers
         GcloudVmwarePrivateCloudsLoggingServersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsLoggingServersDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// server      from a VMware Engine private cloud
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudVmwarePrivateCloudsLoggingServersDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Google      Cloud VMware Engine logging-server
@@ -93,23 +65,9 @@ public class GcloudVmwarePrivateCloudsLoggingServers
         GcloudVmwarePrivateCloudsLoggingServersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsLoggingServersDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Google      Cloud VMware Engine logging-server
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudVmwarePrivateCloudsLoggingServersDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// server in      a Google Cloud VMware Engine private cloud
@@ -121,23 +79,9 @@ public class GcloudVmwarePrivateCloudsLoggingServers
         GcloudVmwarePrivateCloudsLoggingServersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsLoggingServersListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// server in      a Google Cloud VMware Engine private cloud
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudVmwarePrivateCloudsLoggingServersListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Google Cloud      VMware Engine logging-server
@@ -149,23 +93,9 @@ public class GcloudVmwarePrivateCloudsLoggingServers
         GcloudVmwarePrivateCloudsLoggingServersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsLoggingServersUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Google Cloud      VMware Engine logging-server
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudVmwarePrivateCloudsLoggingServersUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudActiveDirectoryDomainsTrusts
         GcloudActiveDirectoryDomainsTrustsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsTrustsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Microsoft Active      Directory Trust between a Managed Microsoft AD domain and another      domain
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudActiveDirectoryDomainsTrustsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an Active Directory      Trust between a Managed Microsoft AD domain and a target domain
@@ -65,23 +51,9 @@ public class GcloudActiveDirectoryDomainsTrusts
         GcloudActiveDirectoryDomainsTrustsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsTrustsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an Active Directory      Trust between a Managed Microsoft AD domain and a target domain
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudActiveDirectoryDomainsTrustsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update target DNS IP      addresses for a Managed Microsoft AD trust
@@ -93,23 +65,9 @@ public class GcloudActiveDirectoryDomainsTrusts
         GcloudActiveDirectoryDomainsTrustsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsTrustsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update target DNS IP      addresses for a Managed Microsoft AD trust
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudActiveDirectoryDomainsTrustsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// validate the state      of a Managed Microsoft AD trust
@@ -121,23 +79,9 @@ public class GcloudActiveDirectoryDomainsTrusts
         GcloudActiveDirectoryDomainsTrustsValidateStateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ValidateState(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsTrustsValidateStateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// validate the state      of a Managed Microsoft AD trust
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ValidateState(
-        GcloudActiveDirectoryDomainsTrustsValidateStateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

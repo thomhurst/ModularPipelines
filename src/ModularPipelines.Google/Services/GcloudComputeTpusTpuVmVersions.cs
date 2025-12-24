@@ -37,23 +37,9 @@ public class GcloudComputeTpusTpuVmVersions
         GcloudComputeTpusTpuVmVersionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmVersionsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a runtime version      available for Cloud TPU VM nodes
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComputeTpusTpuVmVersionsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list available runtime versions      for Cloud TPU VM nodes
@@ -65,23 +51,9 @@ public class GcloudComputeTpusTpuVmVersions
         GcloudComputeTpusTpuVmVersionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmVersionsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list available runtime versions      for Cloud TPU VM nodes
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComputeTpusTpuVmVersionsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudNetworkServicesMulticastGroupConsumerActivations
         GcloudNetworkServicesMulticastGroupConsumerActivationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupConsumerActivationsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a multicast group consumer activation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudNetworkServicesMulticastGroupConsumerActivationsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a multicast group consumer activation
@@ -65,23 +51,9 @@ public class GcloudNetworkServicesMulticastGroupConsumerActivations
         GcloudNetworkServicesMulticastGroupConsumerActivationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupConsumerActivationsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a multicast group consumer activation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudNetworkServicesMulticastGroupConsumerActivationsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a multicast group consumer activation
@@ -93,23 +65,9 @@ public class GcloudNetworkServicesMulticastGroupConsumerActivations
         GcloudNetworkServicesMulticastGroupConsumerActivationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupConsumerActivationsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a multicast group consumer activation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudNetworkServicesMulticastGroupConsumerActivationsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list      multicast group consumer activations
@@ -121,23 +79,9 @@ public class GcloudNetworkServicesMulticastGroupConsumerActivations
         GcloudNetworkServicesMulticastGroupConsumerActivationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupConsumerActivationsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list      multicast group consumer activations
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudNetworkServicesMulticastGroupConsumerActivationsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a multicast group consumer activation
@@ -149,23 +93,9 @@ public class GcloudNetworkServicesMulticastGroupConsumerActivations
         GcloudNetworkServicesMulticastGroupConsumerActivationsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastGroupConsumerActivationsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a multicast group consumer activation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudNetworkServicesMulticastGroupConsumerActivationsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

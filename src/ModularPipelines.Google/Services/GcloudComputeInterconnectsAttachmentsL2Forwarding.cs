@@ -37,23 +37,9 @@ public class GcloudComputeInterconnectsAttachmentsL2Forwarding
         GcloudComputeInterconnectsAttachmentsL2ForwardingAddMappingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddMapping(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsL2ForwardingAddMappingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add      new vlan to ip mapping rule to an L2-forwarding attachment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddMapping(
-        GcloudComputeInterconnectsAttachmentsL2ForwardingAddMappingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a      Compute Engine L2 forwarding interconnect attachment
@@ -65,23 +51,9 @@ public class GcloudComputeInterconnectsAttachmentsL2Forwarding
         GcloudComputeInterconnectsAttachmentsL2ForwardingCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsL2ForwardingCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a      Compute Engine L2 forwarding interconnect attachment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudComputeInterconnectsAttachmentsL2ForwardingCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Compute Engine L2 forwarding interconnect attachment
@@ -93,23 +65,9 @@ public class GcloudComputeInterconnectsAttachmentsL2Forwarding
         GcloudComputeInterconnectsAttachmentsL2ForwardingDescribeMappingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DescribeMapping(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsL2ForwardingDescribeMappingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Compute Engine L2 forwarding interconnect attachment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeMapping(
-        GcloudComputeInterconnectsAttachmentsL2ForwardingDescribeMappingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list      Google Compute Engine interconnect attachments
@@ -121,23 +79,9 @@ public class GcloudComputeInterconnectsAttachmentsL2Forwarding
         GcloudComputeInterconnectsAttachmentsL2ForwardingListMappingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListMapping(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsL2ForwardingListMappingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list      Google Compute Engine interconnect attachments
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListMapping(
-        GcloudComputeInterconnectsAttachmentsL2ForwardingListMappingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove vlan to ip mapping rule to an L2-forwarding attachment
@@ -149,23 +93,9 @@ public class GcloudComputeInterconnectsAttachmentsL2Forwarding
         GcloudComputeInterconnectsAttachmentsL2ForwardingRemoveMappingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveMapping(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsL2ForwardingRemoveMappingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove vlan to ip mapping rule to an L2-forwarding attachment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveMapping(
-        GcloudComputeInterconnectsAttachmentsL2ForwardingRemoveMappingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update vlan to ip mapping rule to an L2-forwarding attachment
@@ -177,23 +107,9 @@ public class GcloudComputeInterconnectsAttachmentsL2Forwarding
         GcloudComputeInterconnectsAttachmentsL2ForwardingUpdateMappingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateMapping(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsL2ForwardingUpdateMappingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update vlan to ip mapping rule to an L2-forwarding attachment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateMapping(
-        GcloudComputeInterconnectsAttachmentsL2ForwardingUpdateMappingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a      Compute Engine L2 forwarding interconnect attachment
@@ -205,23 +121,9 @@ public class GcloudComputeInterconnectsAttachmentsL2Forwarding
         GcloudComputeInterconnectsAttachmentsL2ForwardingUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsL2ForwardingUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a      Compute Engine L2 forwarding interconnect attachment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudComputeInterconnectsAttachmentsL2ForwardingUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

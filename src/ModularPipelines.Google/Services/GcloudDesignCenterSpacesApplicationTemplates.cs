@@ -53,23 +53,9 @@ public class GcloudDesignCenterSpacesApplicationTemplates
         GcloudDesignCenterSpacesApplicationTemplatesCommitOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Commit(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesCommitOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// commit an      application template
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Commit(
-        GcloudDesignCenterSpacesApplicationTemplatesCommitOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create an      application template
@@ -81,23 +67,9 @@ public class GcloudDesignCenterSpacesApplicationTemplates
         GcloudDesignCenterSpacesApplicationTemplatesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create an      application template
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudDesignCenterSpacesApplicationTemplatesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an      application template
@@ -109,23 +81,9 @@ public class GcloudDesignCenterSpacesApplicationTemplates
         GcloudDesignCenterSpacesApplicationTemplatesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an      application template
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudDesignCenterSpacesApplicationTemplatesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe an      application template
@@ -137,23 +95,9 @@ public class GcloudDesignCenterSpacesApplicationTemplates
         GcloudDesignCenterSpacesApplicationTemplatesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe an      application template
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudDesignCenterSpacesApplicationTemplatesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// generate IaC      for an application template
@@ -165,23 +109,9 @@ public class GcloudDesignCenterSpacesApplicationTemplates
         GcloudDesignCenterSpacesApplicationTemplatesGenerateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Generate(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesGenerateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// generate IaC      for an application template
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Generate(
-        GcloudDesignCenterSpacesApplicationTemplatesGenerateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// import      Infrastructure as Code (IaC) for an Application Template
@@ -193,23 +123,9 @@ public class GcloudDesignCenterSpacesApplicationTemplates
         GcloudDesignCenterSpacesApplicationTemplatesImportIacOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ImportIac(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesImportIacOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// import      Infrastructure as Code (IaC) for an Application Template
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ImportIac(
-        GcloudDesignCenterSpacesApplicationTemplatesImportIacOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// import to an      application template
@@ -221,23 +137,9 @@ public class GcloudDesignCenterSpacesApplicationTemplates
         GcloudDesignCenterSpacesApplicationTemplatesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Import(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesImportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// import to an      application template
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Import(
-        GcloudDesignCenterSpacesApplicationTemplatesImportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list application      templates
@@ -249,23 +151,9 @@ public class GcloudDesignCenterSpacesApplicationTemplates
         GcloudDesignCenterSpacesApplicationTemplatesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list application      templates
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudDesignCenterSpacesApplicationTemplatesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an      application template
@@ -277,23 +165,9 @@ public class GcloudDesignCenterSpacesApplicationTemplates
         GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an      application template
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

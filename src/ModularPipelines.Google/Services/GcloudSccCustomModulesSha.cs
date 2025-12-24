@@ -37,23 +37,9 @@ public class GcloudSccCustomModulesSha
         GcloudSccCustomModulesShaCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccCustomModulesShaCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Security Health Analytics      custom module
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudSccCustomModulesShaCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Security Health Analytics      custom module
@@ -65,23 +51,9 @@ public class GcloudSccCustomModulesSha
         GcloudSccCustomModulesShaDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccCustomModulesShaDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Security Health Analytics      custom module
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudSccCustomModulesShaDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the details of a Security      Health Analytics custom module with effective enablement state
@@ -93,23 +65,9 @@ public class GcloudSccCustomModulesSha
         GcloudSccCustomModulesShaGetEffectiveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetEffective(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccCustomModulesShaGetEffectiveOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the details of a Security      Health Analytics custom module with effective enablement state
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetEffective(
-        GcloudSccCustomModulesShaGetEffectiveOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the details of a Security Health      Analytics custom module
@@ -121,23 +79,9 @@ public class GcloudSccCustomModulesSha
         GcloudSccCustomModulesShaGetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Get(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccCustomModulesShaGetOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the details of a Security Health      Analytics custom module
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Get(
-        GcloudSccCustomModulesShaGetOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list the details of the      resident and descendant Security Health Analytics custom modules
@@ -149,23 +93,9 @@ public class GcloudSccCustomModulesSha
         GcloudSccCustomModulesShaListDescendantOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListDescendant(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccCustomModulesShaListDescendantOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list the details of the      resident and descendant Security Health Analytics custom modules
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDescendant(
-        GcloudSccCustomModulesShaListDescendantOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list the details of Security      Health Analytics custom modules with effective enablement states
@@ -177,23 +107,9 @@ public class GcloudSccCustomModulesSha
         GcloudSccCustomModulesShaListEffectiveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListEffective(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccCustomModulesShaListEffectiveOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list the details of Security      Health Analytics custom modules with effective enablement states
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListEffective(
-        GcloudSccCustomModulesShaListEffectiveOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list the details of Security Health      Analytics custom modules
@@ -205,23 +121,9 @@ public class GcloudSccCustomModulesSha
         GcloudSccCustomModulesShaListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccCustomModulesShaListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list the details of Security Health      Analytics custom modules
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudSccCustomModulesShaListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// validates a Security Health      Analytics custom module
@@ -233,23 +135,9 @@ public class GcloudSccCustomModulesSha
         GcloudSccCustomModulesShaSimulateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Simulate(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccCustomModulesShaSimulateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// validates a Security Health      Analytics custom module
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Simulate(
-        GcloudSccCustomModulesShaSimulateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Security Health Analytics      custom module
@@ -261,23 +149,9 @@ public class GcloudSccCustomModulesSha
         GcloudSccCustomModulesShaUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccCustomModulesShaUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Security Health Analytics      custom module
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudSccCustomModulesShaUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

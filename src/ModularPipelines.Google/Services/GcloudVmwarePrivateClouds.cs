@@ -101,23 +101,9 @@ public class GcloudVmwarePrivateClouds
         GcloudVmwarePrivateCloudsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a VMware Engine private cloud
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudVmwarePrivateCloudsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// permanent deletion of a Google      Cloud VMware Engine private cloud currently in soft-deleted state
@@ -129,23 +115,9 @@ public class GcloudVmwarePrivateClouds
         GcloudVmwarePrivateCloudsDeleteNowOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DeleteNow(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsDeleteNowOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// permanent deletion of a Google      Cloud VMware Engine private cloud currently in soft-deleted state
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeleteNow(
-        GcloudVmwarePrivateCloudsDeleteNowOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Google Cloud VMware Engine      private cloud
@@ -157,23 +129,9 @@ public class GcloudVmwarePrivateClouds
         GcloudVmwarePrivateCloudsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Google Cloud VMware Engine      private cloud
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudVmwarePrivateCloudsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Google Cloud VMware      Engine private cloud
@@ -185,23 +143,9 @@ public class GcloudVmwarePrivateClouds
         GcloudVmwarePrivateCloudsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Google Cloud VMware      Engine private cloud
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudVmwarePrivateCloudsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Google Cloud VMware Engine private      clouds
@@ -213,23 +157,9 @@ public class GcloudVmwarePrivateClouds
         GcloudVmwarePrivateCloudsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Google Cloud VMware Engine private      clouds
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudVmwarePrivateCloudsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// cancel deletion of a Google Cloud      VMware Engine private cloud
@@ -241,23 +171,9 @@ public class GcloudVmwarePrivateClouds
         GcloudVmwarePrivateCloudsUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Undelete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsUndeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// cancel deletion of a Google Cloud      VMware Engine private cloud
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Undelete(
-        GcloudVmwarePrivateCloudsUndeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Google Cloud VMware Engine      private cloud
@@ -269,23 +185,9 @@ public class GcloudVmwarePrivateClouds
         GcloudVmwarePrivateCloudsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Google Cloud VMware Engine      private cloud
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudVmwarePrivateCloudsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

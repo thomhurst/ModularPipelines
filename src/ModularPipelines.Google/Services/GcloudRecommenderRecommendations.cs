@@ -37,23 +37,9 @@ public class GcloudRecommenderRecommendations
         GcloudRecommenderRecommendationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecommenderRecommendationsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a recommendation for      a Cloud project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudRecommenderRecommendationsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list operations for a      recommendation
@@ -65,23 +51,9 @@ public class GcloudRecommenderRecommendations
         GcloudRecommenderRecommendationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecommenderRecommendationsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list operations for a      recommendation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudRecommenderRecommendationsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// mark a recommendation's      state as CLAIMED
@@ -93,23 +65,9 @@ public class GcloudRecommenderRecommendations
         GcloudRecommenderRecommendationsMarkClaimedOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await MarkClaimed(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecommenderRecommendationsMarkClaimedOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// mark a recommendation's      state as CLAIMED
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> MarkClaimed(
-        GcloudRecommenderRecommendationsMarkClaimedOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// mark recommendation's      state as DISMISSED
@@ -121,23 +79,9 @@ public class GcloudRecommenderRecommendations
         GcloudRecommenderRecommendationsMarkDismissedOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await MarkDismissed(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecommenderRecommendationsMarkDismissedOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// mark recommendation's      state as DISMISSED
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> MarkDismissed(
-        GcloudRecommenderRecommendationsMarkDismissedOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// mark a recommendation's      state as FAILED
@@ -149,23 +93,9 @@ public class GcloudRecommenderRecommendations
         GcloudRecommenderRecommendationsMarkFailedOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await MarkFailed(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecommenderRecommendationsMarkFailedOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// mark a recommendation's      state as FAILED
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> MarkFailed(
-        GcloudRecommenderRecommendationsMarkFailedOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// mark a recommendation's      state as SUCCEEDED
@@ -177,23 +107,9 @@ public class GcloudRecommenderRecommendations
         GcloudRecommenderRecommendationsMarkSucceededOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await MarkSucceeded(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRecommenderRecommendationsMarkSucceededOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// mark a recommendation's      state as SUCCEEDED
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> MarkSucceeded(
-        GcloudRecommenderRecommendationsMarkSucceededOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

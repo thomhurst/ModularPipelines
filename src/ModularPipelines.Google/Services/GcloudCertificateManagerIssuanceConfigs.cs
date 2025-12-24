@@ -37,23 +37,9 @@ public class GcloudCertificateManagerIssuanceConfigs
         GcloudCertificateManagerIssuanceConfigsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerIssuanceConfigsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Certificate      Issuance Config
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudCertificateManagerIssuanceConfigsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Certificate      Issuance Config
@@ -65,23 +51,9 @@ public class GcloudCertificateManagerIssuanceConfigs
         GcloudCertificateManagerIssuanceConfigsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerIssuanceConfigsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Certificate      Issuance Config
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudCertificateManagerIssuanceConfigsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show details about a      Certificate Issuance Config
@@ -93,23 +65,9 @@ public class GcloudCertificateManagerIssuanceConfigs
         GcloudCertificateManagerIssuanceConfigsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerIssuanceConfigsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show details about a      Certificate Issuance Config
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudCertificateManagerIssuanceConfigsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list all Certificate      Issuance Configs in a project
@@ -121,23 +79,9 @@ public class GcloudCertificateManagerIssuanceConfigs
         GcloudCertificateManagerIssuanceConfigsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerIssuanceConfigsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list all Certificate      Issuance Configs in a project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudCertificateManagerIssuanceConfigsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Certificate      Issuance Config
@@ -149,23 +93,9 @@ public class GcloudCertificateManagerIssuanceConfigs
         GcloudCertificateManagerIssuanceConfigsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerIssuanceConfigsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Certificate      Issuance Config
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudCertificateManagerIssuanceConfigsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

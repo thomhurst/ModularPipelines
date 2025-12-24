@@ -53,23 +53,9 @@ public class GcloudHealthcareDicomStores
         GcloudHealthcareDicomStoresAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresAddIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add an IAM policy      binding to a Cloud Healthcare API DICOM store
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudHealthcareDicomStoresAddIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a Cloud Healthcare API DICOM      store
@@ -81,23 +67,9 @@ public class GcloudHealthcareDicomStores
         GcloudHealthcareDicomStoresCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Cloud Healthcare API DICOM      store
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudHealthcareDicomStoresCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// identify data from the      source store and write it to the destination store
@@ -109,23 +81,9 @@ public class GcloudHealthcareDicomStores
         GcloudHealthcareDicomStoresDeidentifyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Deidentify(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresDeidentifyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// identify data from the      source store and write it to the destination store
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Deidentify(
-        GcloudHealthcareDicomStoresDeidentifyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Cloud Healthcare API DICOM      store
@@ -137,23 +95,9 @@ public class GcloudHealthcareDicomStores
         GcloudHealthcareDicomStoresDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Cloud Healthcare API DICOM      store
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudHealthcareDicomStoresDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Cloud Healthcare API      DICOM store
@@ -165,23 +109,9 @@ public class GcloudHealthcareDicomStores
         GcloudHealthcareDicomStoresDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Cloud Healthcare API      DICOM store
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudHealthcareDicomStoresDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// retrieve the IAM policy for      a Cloud Healthcare API DICOM store
@@ -193,23 +123,9 @@ public class GcloudHealthcareDicomStores
         GcloudHealthcareDicomStoresGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresGetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// retrieve the IAM policy for      a Cloud Healthcare API DICOM store
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudHealthcareDicomStoresGetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Cloud Healthcare API DICOM      stores
@@ -221,23 +137,9 @@ public class GcloudHealthcareDicomStores
         GcloudHealthcareDicomStoresListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Cloud Healthcare API DICOM      stores
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudHealthcareDicomStoresListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the metrics for a Cloud      Healthcare API DICOM store
@@ -249,23 +151,9 @@ public class GcloudHealthcareDicomStores
         GcloudHealthcareDicomStoresMetricsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Metrics(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresMetricsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the metrics for a Cloud      Healthcare API DICOM store
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Metrics(
-        GcloudHealthcareDicomStoresMetricsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove an IAM      policy binding from a Cloud Healthcare API DICOM store
@@ -277,23 +165,9 @@ public class GcloudHealthcareDicomStores
         GcloudHealthcareDicomStoresRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresRemoveIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove an IAM      policy binding from a Cloud Healthcare API DICOM store
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudHealthcareDicomStoresRemoveIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set the IAM policy for a      Cloud Healthcare API DICOM store
@@ -305,23 +179,9 @@ public class GcloudHealthcareDicomStores
         GcloudHealthcareDicomStoresSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresSetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set the IAM policy for a      Cloud Healthcare API DICOM store
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetIamPolicy(
-        GcloudHealthcareDicomStoresSetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Cloud Healthcare API DICOM      store
@@ -333,23 +193,9 @@ public class GcloudHealthcareDicomStores
         GcloudHealthcareDicomStoresUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Cloud Healthcare API DICOM      store
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudHealthcareDicomStoresUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

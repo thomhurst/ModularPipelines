@@ -47,23 +47,9 @@ public class GcloudComputeDisks
         GcloudComputeDisksAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksAddIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add IAM policy binding to a      Compute Engine disk
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudComputeDisksAddIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// add labels to Google Compute Engine      persistent disks
@@ -75,23 +61,9 @@ public class GcloudComputeDisks
         GcloudComputeDisksAddLabelsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddLabels(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksAddLabelsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add labels to Google Compute Engine      persistent disks
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddLabels(
-        GcloudComputeDisksAddLabelsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// add resource policies to a      Compute Engine disk
@@ -103,23 +75,9 @@ public class GcloudComputeDisks
         GcloudComputeDisksAddResourcePoliciesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddResourcePolicies(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksAddResourcePoliciesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add resource policies to a      Compute Engine disk
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddResourcePolicies(
-        GcloudComputeDisksAddResourcePoliciesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// convert a Compute Engine Persistent Disk      volume to a Hyperdisk volume
@@ -131,23 +89,9 @@ public class GcloudComputeDisks
         GcloudComputeDisksConvertOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Convert(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksConvertOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// convert a Compute Engine Persistent Disk      volume to a Hyperdisk volume
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Convert(
-        GcloudComputeDisksConvertOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create Compute Engine persistent disks
@@ -159,23 +103,9 @@ public class GcloudComputeDisks
         GcloudComputeDisksCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create Compute Engine persistent disks
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudComputeDisksCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Compute Engine disk
@@ -187,23 +117,9 @@ public class GcloudComputeDisks
         GcloudComputeDisksDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Compute Engine disk
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudComputeDisksDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Compute Engine disk
@@ -215,23 +131,9 @@ public class GcloudComputeDisks
         GcloudComputeDisksDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Compute Engine disk
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComputeDisksDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the IAM policy for a Compute      Engine disk
@@ -243,23 +145,9 @@ public class GcloudComputeDisks
         GcloudComputeDisksGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksGetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the IAM policy for a Compute      Engine disk
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudComputeDisksGetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Google Compute Engine disks
@@ -271,23 +159,9 @@ public class GcloudComputeDisks
         GcloudComputeDisksListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Google Compute Engine disks
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComputeDisksListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// move a disk between zones
@@ -299,23 +173,9 @@ public class GcloudComputeDisks
         GcloudComputeDisksMoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Move(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksMoveOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// move a disk between zones
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Move(
-        GcloudComputeDisksMoveOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove IAM policy binding      from a Compute Engine disk
@@ -327,23 +187,9 @@ public class GcloudComputeDisks
         GcloudComputeDisksRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksRemoveIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove IAM policy binding      from a Compute Engine disk
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudComputeDisksRemoveIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove labels from Google Compute      Engine persistent disks
@@ -355,23 +201,9 @@ public class GcloudComputeDisks
         GcloudComputeDisksRemoveLabelsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveLabels(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksRemoveLabelsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove labels from Google Compute      Engine persistent disks
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveLabels(
-        GcloudComputeDisksRemoveLabelsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove resource policies      from a Compute Engine disk
@@ -383,23 +215,9 @@ public class GcloudComputeDisks
         GcloudComputeDisksRemoveResourcePoliciesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveResourcePolicies(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksRemoveResourcePoliciesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove resource policies      from a Compute Engine disk
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveResourcePolicies(
-        GcloudComputeDisksRemoveResourcePoliciesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// resize a disk or disks
@@ -411,23 +229,9 @@ public class GcloudComputeDisks
         GcloudComputeDisksResizeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Resize(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksResizeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// resize a disk or disks
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Resize(
-        GcloudComputeDisksResizeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set the IAM policy for a Compute      Engine disk
@@ -439,23 +243,9 @@ public class GcloudComputeDisks
         GcloudComputeDisksSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksSetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set the IAM policy for a Compute      Engine disk
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetIamPolicy(
-        GcloudComputeDisksSetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create snapshots of Compute Engine      persistent disks
@@ -467,23 +257,9 @@ public class GcloudComputeDisks
         GcloudComputeDisksSnapshotOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Snapshot(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksSnapshotOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create snapshots of Compute Engine      persistent disks
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Snapshot(
-        GcloudComputeDisksSnapshotOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// start asynchronous      replication on a Compute Engine persistent disk
@@ -495,23 +271,9 @@ public class GcloudComputeDisks
         GcloudComputeDisksStartAsyncReplicationOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await StartAsyncReplication(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksStartAsyncReplicationOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// start asynchronous      replication on a Compute Engine persistent disk
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> StartAsyncReplication(
-        GcloudComputeDisksStartAsyncReplicationOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// stop async replication on a      Compute Engine persistent disk
@@ -523,23 +285,9 @@ public class GcloudComputeDisks
         GcloudComputeDisksStopAsyncReplicationOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await StopAsyncReplication(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksStopAsyncReplicationOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// stop async replication on a      Compute Engine persistent disk
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> StopAsyncReplication(
-        GcloudComputeDisksStopAsyncReplicationOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// consistently stops a      group of asynchronously replicating disks
@@ -551,23 +299,9 @@ public class GcloudComputeDisks
         GcloudComputeDisksStopGroupAsyncReplicationOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await StopGroupAsyncReplication(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksStopGroupAsyncReplicationOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// consistently stops a      group of asynchronously replicating disks
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> StopGroupAsyncReplication(
-        GcloudComputeDisksStopGroupAsyncReplicationOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Compute Engine persistent disk
@@ -579,23 +313,9 @@ public class GcloudComputeDisks
         GcloudComputeDisksUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Compute Engine persistent disk
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudComputeDisksUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

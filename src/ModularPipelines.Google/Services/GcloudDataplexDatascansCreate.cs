@@ -37,23 +37,9 @@ public class GcloudDataplexDatascansCreate
         GcloudDataplexDatascansCreateDataDiscoveryOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DataDiscovery(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexDatascansCreateDataDiscoveryOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Dataplex data      discovery scan job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DataDiscovery(
-        GcloudDataplexDatascansCreateDataDiscoveryOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a Dataplex      data documentation scan job
@@ -65,23 +51,9 @@ public class GcloudDataplexDatascansCreate
         GcloudDataplexDatascansCreateDataDocumentationOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DataDocumentation(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexDatascansCreateDataDocumentationOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Dataplex      data documentation scan job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DataDocumentation(
-        GcloudDataplexDatascansCreateDataDocumentationOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a Dataplex data      profile scan job
@@ -93,23 +65,9 @@ public class GcloudDataplexDatascansCreate
         GcloudDataplexDatascansCreateDataProfileOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DataProfile(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexDatascansCreateDataProfileOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Dataplex data      profile scan job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DataProfile(
-        GcloudDataplexDatascansCreateDataProfileOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a Dataplex data      quality scan job
@@ -121,23 +79,9 @@ public class GcloudDataplexDatascansCreate
         GcloudDataplexDatascansCreateDataQualityOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DataQuality(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexDatascansCreateDataQualityOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Dataplex data      quality scan job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DataQuality(
-        GcloudDataplexDatascansCreateDataQualityOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

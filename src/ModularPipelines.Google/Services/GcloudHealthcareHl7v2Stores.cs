@@ -53,23 +53,9 @@ public class GcloudHealthcareHl7v2Stores
         GcloudHealthcareHl7v2StoresAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresAddIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add an IAM policy      binding to a Cloud Healthcare API HL7v2 store
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudHealthcareHl7v2StoresAddIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a Cloud Healthcare API HL7v2      store
@@ -81,23 +67,9 @@ public class GcloudHealthcareHl7v2Stores
         GcloudHealthcareHl7v2StoresCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Cloud Healthcare API HL7v2      store
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudHealthcareHl7v2StoresCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Cloud Healthcare API HL7v2      store
@@ -109,23 +81,9 @@ public class GcloudHealthcareHl7v2Stores
         GcloudHealthcareHl7v2StoresDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Cloud Healthcare API HL7v2      store
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudHealthcareHl7v2StoresDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Cloud Healthcare API      HL7v2 store
@@ -137,23 +95,9 @@ public class GcloudHealthcareHl7v2Stores
         GcloudHealthcareHl7v2StoresDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Cloud Healthcare API      HL7v2 store
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudHealthcareHl7v2StoresDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// retrieve the IAM policy for      a Cloud Healthcare API HL7v2 store
@@ -165,23 +109,9 @@ public class GcloudHealthcareHl7v2Stores
         GcloudHealthcareHl7v2StoresGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresGetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// retrieve the IAM policy for      a Cloud Healthcare API HL7v2 store
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudHealthcareHl7v2StoresGetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Cloud Healthcare API HL7v2      stores
@@ -193,23 +123,9 @@ public class GcloudHealthcareHl7v2Stores
         GcloudHealthcareHl7v2StoresListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Cloud Healthcare API HL7v2      stores
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudHealthcareHl7v2StoresListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// gets the metrics for a Cloud      Healthcare API HL7v2 store
@@ -221,23 +137,9 @@ public class GcloudHealthcareHl7v2Stores
         GcloudHealthcareHl7v2StoresMetricsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Metrics(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresMetricsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// gets the metrics for a Cloud      Healthcare API HL7v2 store
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Metrics(
-        GcloudHealthcareHl7v2StoresMetricsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove an IAM      policy binding from a Cloud Healthcare API HL7v2 store
@@ -249,23 +151,9 @@ public class GcloudHealthcareHl7v2Stores
         GcloudHealthcareHl7v2StoresRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresRemoveIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove an IAM      policy binding from a Cloud Healthcare API HL7v2 store
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudHealthcareHl7v2StoresRemoveIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set the IAM policy for a      Cloud Healthcare API HL7v2 store
@@ -277,23 +165,9 @@ public class GcloudHealthcareHl7v2Stores
         GcloudHealthcareHl7v2StoresSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresSetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set the IAM policy for a      Cloud Healthcare API HL7v2 store
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetIamPolicy(
-        GcloudHealthcareHl7v2StoresSetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Cloud Healthcare API HL7v2      store
@@ -305,23 +179,9 @@ public class GcloudHealthcareHl7v2Stores
         GcloudHealthcareHl7v2StoresUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareHl7v2StoresUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Cloud Healthcare API HL7v2      store
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudHealthcareHl7v2StoresUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

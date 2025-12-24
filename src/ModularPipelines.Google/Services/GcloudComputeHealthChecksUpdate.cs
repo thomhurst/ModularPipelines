@@ -37,23 +37,9 @@ public class GcloudComputeHealthChecksUpdate
         GcloudComputeHealthChecksUpdateGrpcOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Grpc(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthChecksUpdateGrpcOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a gRPC health check
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Grpc(
-        GcloudComputeHealthChecksUpdateGrpcOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a gRPC with TLS      health check
@@ -65,23 +51,9 @@ public class GcloudComputeHealthChecksUpdate
         GcloudComputeHealthChecksUpdateGrpcWithTlsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GrpcWithTls(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthChecksUpdateGrpcWithTlsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a gRPC with TLS      health check
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GrpcWithTls(
-        GcloudComputeHealthChecksUpdateGrpcWithTlsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a HTTP2 health check
@@ -93,23 +65,9 @@ public class GcloudComputeHealthChecksUpdate
         GcloudComputeHealthChecksUpdateHttp2Options options,
         CancellationToken cancellationToken = default)
     {
-        return await Http2(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthChecksUpdateHttp2Options(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a HTTP2 health check
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Http2(
-        GcloudComputeHealthChecksUpdateHttp2Options options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a HTTP health check
@@ -121,23 +79,9 @@ public class GcloudComputeHealthChecksUpdate
         GcloudComputeHealthChecksUpdateHttpOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Http(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthChecksUpdateHttpOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a HTTP health check
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Http(
-        GcloudComputeHealthChecksUpdateHttpOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a HTTPS health check
@@ -149,23 +93,9 @@ public class GcloudComputeHealthChecksUpdate
         GcloudComputeHealthChecksUpdateHttpsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Https(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthChecksUpdateHttpsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a HTTPS health check
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Https(
-        GcloudComputeHealthChecksUpdateHttpsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a SSL health check
@@ -177,23 +107,9 @@ public class GcloudComputeHealthChecksUpdate
         GcloudComputeHealthChecksUpdateSslOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Ssl(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthChecksUpdateSslOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a SSL health check
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Ssl(
-        GcloudComputeHealthChecksUpdateSslOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a TCP health check
@@ -205,23 +121,9 @@ public class GcloudComputeHealthChecksUpdate
         GcloudComputeHealthChecksUpdateTcpOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Tcp(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHealthChecksUpdateTcpOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a TCP health check
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Tcp(
-        GcloudComputeHealthChecksUpdateTcpOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

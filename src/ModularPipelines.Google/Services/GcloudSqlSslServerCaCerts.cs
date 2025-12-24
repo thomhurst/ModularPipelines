@@ -37,23 +37,9 @@ public class GcloudSqlSslServerCaCerts
         GcloudSqlSslServerCaCertsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlSslServerCaCertsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a server CA cert for a Cloud      SQL instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudSqlSslServerCaCertsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list all server CA certs for a Cloud      SQL instance
@@ -65,23 +51,9 @@ public class GcloudSqlSslServerCaCerts
         GcloudSqlSslServerCaCertsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlSslServerCaCertsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list all server CA certs for a Cloud      SQL instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudSqlSslServerCaCertsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// roll back to the previous server      CA cert for a Cloud SQL instance
@@ -93,23 +65,9 @@ public class GcloudSqlSslServerCaCerts
         GcloudSqlSslServerCaCertsRollbackOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Rollback(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlSslServerCaCertsRollbackOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// roll back to the previous server      CA cert for a Cloud SQL instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Rollback(
-        GcloudSqlSslServerCaCertsRollbackOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// rotate in the upcoming server CA      cert for a Cloud SQL instance
@@ -121,23 +79,9 @@ public class GcloudSqlSslServerCaCerts
         GcloudSqlSslServerCaCertsRotateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Rotate(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlSslServerCaCertsRotateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// rotate in the upcoming server CA      cert for a Cloud SQL instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Rotate(
-        GcloudSqlSslServerCaCertsRotateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

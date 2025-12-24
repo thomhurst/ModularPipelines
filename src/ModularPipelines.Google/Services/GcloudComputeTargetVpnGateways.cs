@@ -37,23 +37,9 @@ public class GcloudComputeTargetVpnGateways
         GcloudComputeTargetVpnGatewaysCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetVpnGatewaysCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Cloud VPN Classic      Target VPN Gateway
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudComputeTargetVpnGatewaysCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete Cloud VPN Classic Target      VPN Gateways
@@ -65,23 +51,9 @@ public class GcloudComputeTargetVpnGateways
         GcloudComputeTargetVpnGatewaysDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetVpnGatewaysDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete Cloud VPN Classic Target      VPN Gateways
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudComputeTargetVpnGatewaysDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Compute Engine      Cloud VPN Classic Target VPN Gateway
@@ -93,23 +65,9 @@ public class GcloudComputeTargetVpnGateways
         GcloudComputeTargetVpnGatewaysDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetVpnGatewaysDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Compute Engine      Cloud VPN Classic Target VPN Gateway
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComputeTargetVpnGatewaysDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Google Compute Engine Cloud      VPN Classic Target VPN Gateways
@@ -121,23 +79,9 @@ public class GcloudComputeTargetVpnGateways
         GcloudComputeTargetVpnGatewaysListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetVpnGatewaysListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Google Compute Engine Cloud      VPN Classic Target VPN Gateways
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComputeTargetVpnGatewaysListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

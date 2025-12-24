@@ -37,23 +37,9 @@ public class GcloudModelArmorTemplates
         GcloudModelArmorTemplatesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudModelArmorTemplatesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create Model Armor Template
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudModelArmorTemplatesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete Model Armor Template
@@ -65,23 +51,9 @@ public class GcloudModelArmorTemplates
         GcloudModelArmorTemplatesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudModelArmorTemplatesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete Model Armor Template
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudModelArmorTemplatesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get Model Armor Template
@@ -93,23 +65,9 @@ public class GcloudModelArmorTemplates
         GcloudModelArmorTemplatesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudModelArmorTemplatesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get Model Armor Template
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudModelArmorTemplatesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Model Armor Templates
@@ -121,23 +79,9 @@ public class GcloudModelArmorTemplates
         GcloudModelArmorTemplatesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudModelArmorTemplatesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Model Armor Templates
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudModelArmorTemplatesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// sanitize Model      Response
@@ -149,23 +93,9 @@ public class GcloudModelArmorTemplates
         GcloudModelArmorTemplatesSanitizeModelResponseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SanitizeModelResponse(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudModelArmorTemplatesSanitizeModelResponseOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// sanitize Model      Response
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SanitizeModelResponse(
-        GcloudModelArmorTemplatesSanitizeModelResponseOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// sanitize User Prompt
@@ -177,23 +107,9 @@ public class GcloudModelArmorTemplates
         GcloudModelArmorTemplatesSanitizeUserPromptOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SanitizeUserPrompt(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudModelArmorTemplatesSanitizeUserPromptOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// sanitize User Prompt
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SanitizeUserPrompt(
-        GcloudModelArmorTemplatesSanitizeUserPromptOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update Model Armor Template
@@ -205,23 +121,9 @@ public class GcloudModelArmorTemplates
         GcloudModelArmorTemplatesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudModelArmorTemplatesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update Model Armor Template
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudModelArmorTemplatesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

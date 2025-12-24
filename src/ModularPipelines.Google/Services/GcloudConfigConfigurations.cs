@@ -37,23 +37,9 @@ public class GcloudConfigConfigurations
         GcloudConfigConfigurationsActivateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Activate(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudConfigConfigurationsActivateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// activates an existing named      configuration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Activate(
-        GcloudConfigConfigurationsActivateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// creates a new named configuration
@@ -65,23 +51,9 @@ public class GcloudConfigConfigurations
         GcloudConfigConfigurationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudConfigConfigurationsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// creates a new named configuration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudConfigConfigurationsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// deletes a named configuration
@@ -93,23 +65,9 @@ public class GcloudConfigConfigurations
         GcloudConfigConfigurationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudConfigConfigurationsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// deletes a named configuration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudConfigConfigurationsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describes a named configuration by      listing its properties
@@ -121,23 +79,9 @@ public class GcloudConfigConfigurations
         GcloudConfigConfigurationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudConfigConfigurationsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describes a named configuration by      listing its properties
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudConfigConfigurationsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// lists existing named configurations
@@ -149,23 +93,9 @@ public class GcloudConfigConfigurations
         GcloudConfigConfigurationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudConfigConfigurationsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// lists existing named configurations
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudConfigConfigurationsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// renames a named configuration
@@ -177,23 +107,9 @@ public class GcloudConfigConfigurations
         GcloudConfigConfigurationsRenameOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Rename(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudConfigConfigurationsRenameOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// renames a named configuration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Rename(
-        GcloudConfigConfigurationsRenameOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

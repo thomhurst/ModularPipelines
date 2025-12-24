@@ -37,23 +37,9 @@ public class GcloudAppInstances
         GcloudAppInstancesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppInstancesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a specified instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudAppInstancesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// display all data about an existing instance
@@ -65,23 +51,9 @@ public class GcloudAppInstances
         GcloudAppInstancesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppInstancesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// display all data about an existing instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudAppInstancesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// disable debug mode for an instance
@@ -93,23 +65,9 @@ public class GcloudAppInstances
         GcloudAppInstancesDisableDebugOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DisableDebug(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppInstancesDisableDebugOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// disable debug mode for an instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DisableDebug(
-        GcloudAppInstancesDisableDebugOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// enable debug mode for an instance      (only works on the flexible environment)
@@ -121,23 +79,9 @@ public class GcloudAppInstances
         GcloudAppInstancesEnableDebugOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await EnableDebug(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppInstancesEnableDebugOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// enable debug mode for an instance      (only works on the flexible environment)
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> EnableDebug(
-        GcloudAppInstancesEnableDebugOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list the instances affiliated with the current      App Engine project
@@ -149,23 +93,9 @@ public class GcloudAppInstances
         GcloudAppInstancesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppInstancesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list the instances affiliated with the current      App Engine project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudAppInstancesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// SCP from or to the VM of an App Engine Flexible      instance
@@ -177,23 +107,9 @@ public class GcloudAppInstances
         GcloudAppInstancesScpOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Scp(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppInstancesScpOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// SCP from or to the VM of an App Engine Flexible      instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Scp(
-        GcloudAppInstancesScpOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// SSH into the VM of an App Engine Flexible      instance
@@ -205,23 +121,9 @@ public class GcloudAppInstances
         GcloudAppInstancesSshOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Ssh(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppInstancesSshOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// SSH into the VM of an App Engine Flexible      instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Ssh(
-        GcloudAppInstancesSshOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

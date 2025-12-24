@@ -37,23 +37,9 @@ public class GcloudTransferJobs
         GcloudTransferJobsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferJobsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Transfer Service transfer job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudTransferJobsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Transfer Service transfer job
@@ -65,23 +51,9 @@ public class GcloudTransferJobs
         GcloudTransferJobsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferJobsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Transfer Service transfer job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudTransferJobsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get configuration and latest operation      details about transfer job
@@ -93,23 +65,9 @@ public class GcloudTransferJobs
         GcloudTransferJobsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferJobsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get configuration and latest operation      details about transfer job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudTransferJobsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Transfer Service transfer jobs
@@ -121,23 +79,9 @@ public class GcloudTransferJobs
         GcloudTransferJobsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferJobsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Transfer Service transfer jobs
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudTransferJobsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// track progress in real time for a transfer      job's latest operation
@@ -149,23 +93,9 @@ public class GcloudTransferJobs
         GcloudTransferJobsMonitorOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Monitor(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferJobsMonitorOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// track progress in real time for a transfer      job's latest operation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Monitor(
-        GcloudTransferJobsMonitorOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// run a Transfer Service transfer job
@@ -177,23 +107,9 @@ public class GcloudTransferJobs
         GcloudTransferJobsRunOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Run(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferJobsRunOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// run a Transfer Service transfer job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Run(
-        GcloudTransferJobsRunOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Transfer Service transfer job
@@ -205,23 +121,9 @@ public class GcloudTransferJobs
         GcloudTransferJobsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferJobsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Transfer Service transfer job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudTransferJobsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

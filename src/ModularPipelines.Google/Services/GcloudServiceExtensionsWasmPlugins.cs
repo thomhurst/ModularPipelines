@@ -37,23 +37,9 @@ public class GcloudServiceExtensionsWasmPlugins
         GcloudServiceExtensionsWasmPluginsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsWasmPluginsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a WasmPlugin      resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudServiceExtensionsWasmPluginsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a WasmPlugin      resource
@@ -65,23 +51,9 @@ public class GcloudServiceExtensionsWasmPlugins
         GcloudServiceExtensionsWasmPluginsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsWasmPluginsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a WasmPlugin      resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudServiceExtensionsWasmPluginsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show details about a      WasmPlugin resource
@@ -93,23 +65,9 @@ public class GcloudServiceExtensionsWasmPlugins
         GcloudServiceExtensionsWasmPluginsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsWasmPluginsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show details about a      WasmPlugin resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudServiceExtensionsWasmPluginsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list all WasmPlugin resources
@@ -121,23 +79,9 @@ public class GcloudServiceExtensionsWasmPlugins
         GcloudServiceExtensionsWasmPluginsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsWasmPluginsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list all WasmPlugin resources
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudServiceExtensionsWasmPluginsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a WasmPlugin      resource
@@ -149,23 +93,9 @@ public class GcloudServiceExtensionsWasmPlugins
         GcloudServiceExtensionsWasmPluginsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsWasmPluginsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a WasmPlugin      resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudServiceExtensionsWasmPluginsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

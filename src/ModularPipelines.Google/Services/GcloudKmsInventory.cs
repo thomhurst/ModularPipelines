@@ -37,23 +37,9 @@ public class GcloudKmsInventory
         GcloudKmsInventoryGetProtectedResourcesSummaryOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetProtectedResourcesSummary(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsInventoryGetProtectedResourcesSummaryOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// gets the protected      resources summary
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetProtectedResourcesSummary(
-        GcloudKmsInventoryGetProtectedResourcesSummaryOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// lists the keys in a project
@@ -65,23 +51,9 @@ public class GcloudKmsInventory
         GcloudKmsInventoryListKeysOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListKeys(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsInventoryListKeysOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// lists the keys in a project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListKeys(
-        GcloudKmsInventoryListKeysOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// searches the resources      protected by a key
@@ -93,23 +65,9 @@ public class GcloudKmsInventory
         GcloudKmsInventorySearchProtectedResourcesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SearchProtectedResources(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsInventorySearchProtectedResourcesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// searches the resources      protected by a key
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SearchProtectedResources(
-        GcloudKmsInventorySearchProtectedResourcesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

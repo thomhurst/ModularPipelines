@@ -37,23 +37,9 @@ public class GcloudVmwarePrivateCloudsManagementDnsZoneBindings
         GcloudVmwarePrivateCloudsManagementDnsZoneBindingsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsManagementDnsZoneBindingsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a      management DNS zone binding
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudVmwarePrivateCloudsManagementDnsZoneBindingsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a      management DNS zone binding
@@ -65,23 +51,9 @@ public class GcloudVmwarePrivateCloudsManagementDnsZoneBindings
         GcloudVmwarePrivateCloudsManagementDnsZoneBindingsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsManagementDnsZoneBindingsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a      management DNS zone binding
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudVmwarePrivateCloudsManagementDnsZoneBindingsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a management DNS zone binding
@@ -93,23 +65,9 @@ public class GcloudVmwarePrivateCloudsManagementDnsZoneBindings
         GcloudVmwarePrivateCloudsManagementDnsZoneBindingsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsManagementDnsZoneBindingsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a management DNS zone binding
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudVmwarePrivateCloudsManagementDnsZoneBindingsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list      management DNS zone bindings in a VMware Engine private cloud
@@ -121,23 +79,9 @@ public class GcloudVmwarePrivateCloudsManagementDnsZoneBindings
         GcloudVmwarePrivateCloudsManagementDnsZoneBindingsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsManagementDnsZoneBindingsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list      management DNS zone bindings in a VMware Engine private cloud
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudVmwarePrivateCloudsManagementDnsZoneBindingsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// repair a      management DNS zone binding
@@ -149,23 +93,9 @@ public class GcloudVmwarePrivateCloudsManagementDnsZoneBindings
         GcloudVmwarePrivateCloudsManagementDnsZoneBindingsRepairOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Repair(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsManagementDnsZoneBindingsRepairOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// repair a      management DNS zone binding
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Repair(
-        GcloudVmwarePrivateCloudsManagementDnsZoneBindingsRepairOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a      management DNS zone binding
@@ -177,23 +107,9 @@ public class GcloudVmwarePrivateCloudsManagementDnsZoneBindings
         GcloudVmwarePrivateCloudsManagementDnsZoneBindingsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsManagementDnsZoneBindingsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a      management DNS zone binding
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudVmwarePrivateCloudsManagementDnsZoneBindingsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

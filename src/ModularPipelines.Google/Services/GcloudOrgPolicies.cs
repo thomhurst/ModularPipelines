@@ -37,23 +37,9 @@ public class GcloudOrgPolicies
         GcloudOrgPoliciesOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Execute(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create and manage Organization Policies
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Execute(
-        GcloudOrgPoliciesOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesOptions(), loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// deletes a custom constraint
@@ -65,23 +51,9 @@ public class GcloudOrgPolicies
         GcloudOrgPoliciesDeleteCustomConstraintOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DeleteCustomConstraint(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesDeleteCustomConstraintOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// deletes a custom constraint
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeleteCustomConstraint(
-        GcloudOrgPoliciesDeleteCustomConstraintOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an organization policy
@@ -93,23 +65,9 @@ public class GcloudOrgPolicies
         GcloudOrgPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an organization policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudOrgPoliciesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a custom      constraint
@@ -121,23 +79,9 @@ public class GcloudOrgPolicies
         GcloudOrgPoliciesDescribeCustomConstraintOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DescribeCustomConstraint(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesDescribeCustomConstraintOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a custom      constraint
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeCustomConstraint(
-        GcloudOrgPoliciesDescribeCustomConstraintOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe an organization policy
@@ -149,23 +93,9 @@ public class GcloudOrgPolicies
         GcloudOrgPoliciesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe an organization policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudOrgPoliciesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// lists the custom constraints      set on an organization
@@ -177,23 +107,9 @@ public class GcloudOrgPolicies
         GcloudOrgPoliciesListCustomConstraintsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListCustomConstraints(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesListCustomConstraintsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// lists the custom constraints      set on an organization
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListCustomConstraints(
-        GcloudOrgPoliciesListCustomConstraintsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list the policies set on a resource
@@ -205,23 +121,9 @@ public class GcloudOrgPolicies
         GcloudOrgPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list the policies set on a resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudOrgPoliciesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// reset the policy to the default for the      constraint
@@ -233,23 +135,9 @@ public class GcloudOrgPolicies
         GcloudOrgPoliciesResetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Reset(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesResetOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// reset the policy to the default for the      constraint
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Reset(
-        GcloudOrgPoliciesResetOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set a custom constraint from a      JSON or YAML file
@@ -261,23 +149,9 @@ public class GcloudOrgPolicies
         GcloudOrgPoliciesSetCustomConstraintOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetCustomConstraint(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesSetCustomConstraintOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set a custom constraint from a      JSON or YAML file
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetCustomConstraint(
-        GcloudOrgPoliciesSetCustomConstraintOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set an organization policy from a JSON or      YAML file
@@ -289,23 +163,9 @@ public class GcloudOrgPolicies
         GcloudOrgPoliciesSetPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOrgPoliciesSetPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set an organization policy from a JSON or      YAML file
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetPolicy(
-        GcloudOrgPoliciesSetPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

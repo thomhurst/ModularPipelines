@@ -37,23 +37,9 @@ public class GcloudStorageBucketsAnywhereCaches
         GcloudStorageBucketsAnywhereCachesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBucketsAnywhereCachesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create Anywhere Cache      instances for a bucket
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudStorageBucketsAnywhereCachesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// returns details of      Anywhere Cache instance of a bucket
@@ -65,23 +51,9 @@ public class GcloudStorageBucketsAnywhereCaches
         GcloudStorageBucketsAnywhereCachesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBucketsAnywhereCachesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// returns details of      Anywhere Cache instance of a bucket
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudStorageBucketsAnywhereCachesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// disable Anywhere Cache      instances
@@ -93,23 +65,9 @@ public class GcloudStorageBucketsAnywhereCaches
         GcloudStorageBucketsAnywhereCachesDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Disable(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBucketsAnywhereCachesDisableOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// disable Anywhere Cache      instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Disable(
-        GcloudStorageBucketsAnywhereCachesDisableOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list all Anywhere Cache      instances of a bucket
@@ -121,23 +79,9 @@ public class GcloudStorageBucketsAnywhereCaches
         GcloudStorageBucketsAnywhereCachesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBucketsAnywhereCachesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list all Anywhere Cache      instances of a bucket
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudStorageBucketsAnywhereCachesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// pause Anywhere Cache      instances
@@ -149,23 +93,9 @@ public class GcloudStorageBucketsAnywhereCaches
         GcloudStorageBucketsAnywhereCachesPauseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Pause(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBucketsAnywhereCachesPauseOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// pause Anywhere Cache      instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Pause(
-        GcloudStorageBucketsAnywhereCachesPauseOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// resume Anywhere Cache      instances
@@ -177,23 +107,9 @@ public class GcloudStorageBucketsAnywhereCaches
         GcloudStorageBucketsAnywhereCachesResumeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Resume(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBucketsAnywhereCachesResumeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// resume Anywhere Cache      instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Resume(
-        GcloudStorageBucketsAnywhereCachesResumeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update Anywhere Cache      instances
@@ -205,23 +121,9 @@ public class GcloudStorageBucketsAnywhereCaches
         GcloudStorageBucketsAnywhereCachesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBucketsAnywhereCachesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update Anywhere Cache      instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudStorageBucketsAnywhereCachesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

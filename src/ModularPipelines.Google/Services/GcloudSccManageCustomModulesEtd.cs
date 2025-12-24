@@ -37,23 +37,9 @@ public class GcloudSccManageCustomModulesEtd
         GcloudSccManageCustomModulesEtdCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesEtdCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create an Event Threat      Detection custom module
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudSccManageCustomModulesEtdCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an Event Threat      Detection custom module
@@ -65,23 +51,9 @@ public class GcloudSccManageCustomModulesEtd
         GcloudSccManageCustomModulesEtdDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesEtdDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an Event Threat      Detection custom module
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudSccManageCustomModulesEtdDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the effective      details of a Event Threat Detection effective custom module
@@ -93,23 +65,9 @@ public class GcloudSccManageCustomModulesEtd
         GcloudSccManageCustomModulesEtdDescribeEffectiveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DescribeEffective(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesEtdDescribeEffectiveOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the effective      details of a Event Threat Detection effective custom module
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeEffective(
-        GcloudSccManageCustomModulesEtdDescribeEffectiveOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the details of a Event      Threat Detection custom module
@@ -121,23 +79,9 @@ public class GcloudSccManageCustomModulesEtd
         GcloudSccManageCustomModulesEtdDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesEtdDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the details of a Event      Threat Detection custom module
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudSccManageCustomModulesEtdDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list the details of      the resident and descendant Event Threat Detection custom modules
@@ -149,23 +93,9 @@ public class GcloudSccManageCustomModulesEtd
         GcloudSccManageCustomModulesEtdListDescendantOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListDescendant(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesEtdListDescendantOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list the details of      the resident and descendant Event Threat Detection custom modules
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDescendant(
-        GcloudSccManageCustomModulesEtdListDescendantOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list the details of      an Event Threat Detection effective custom module
@@ -177,23 +107,9 @@ public class GcloudSccManageCustomModulesEtd
         GcloudSccManageCustomModulesEtdListEffectiveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListEffective(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesEtdListEffectiveOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list the details of      an Event Threat Detection effective custom module
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListEffective(
-        GcloudSccManageCustomModulesEtdListEffectiveOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list details of resident and      inherited Event Threat Detection Custom Modules
@@ -205,23 +121,9 @@ public class GcloudSccManageCustomModulesEtd
         GcloudSccManageCustomModulesEtdListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesEtdListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list details of resident and      inherited Event Threat Detection Custom Modules
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudSccManageCustomModulesEtdListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an Event Threat      Detection custom module
@@ -233,23 +135,9 @@ public class GcloudSccManageCustomModulesEtd
         GcloudSccManageCustomModulesEtdUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesEtdUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an Event Threat      Detection custom module
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudSccManageCustomModulesEtdUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// command to validate an ETD      custom module
@@ -261,23 +149,9 @@ public class GcloudSccManageCustomModulesEtd
         GcloudSccManageCustomModulesEtdValidateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Validate(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccManageCustomModulesEtdValidateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// command to validate an ETD      custom module
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Validate(
-        GcloudSccManageCustomModulesEtdValidateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

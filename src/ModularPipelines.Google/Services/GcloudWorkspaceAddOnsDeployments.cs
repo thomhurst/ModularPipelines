@@ -37,23 +37,9 @@ public class GcloudWorkspaceAddOnsDeployments
         GcloudWorkspaceAddOnsDeploymentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Google Workspace      Add-ons deployment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudWorkspaceAddOnsDeploymentsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Google Workspace      Add-ons deployment
@@ -65,23 +51,9 @@ public class GcloudWorkspaceAddOnsDeployments
         GcloudWorkspaceAddOnsDeploymentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Google Workspace      Add-ons deployment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudWorkspaceAddOnsDeploymentsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Google Workspace      Add-ons deployment
@@ -93,23 +65,9 @@ public class GcloudWorkspaceAddOnsDeployments
         GcloudWorkspaceAddOnsDeploymentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Google Workspace      Add-ons deployment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudWorkspaceAddOnsDeploymentsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// install a Google Workspace      Add-ons deployment
@@ -121,23 +79,9 @@ public class GcloudWorkspaceAddOnsDeployments
         GcloudWorkspaceAddOnsDeploymentsInstallOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Install(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsInstallOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// install a Google Workspace      Add-ons deployment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Install(
-        GcloudWorkspaceAddOnsDeploymentsInstallOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the install      status of a Google Workspace Add-ons deployment
@@ -149,23 +93,9 @@ public class GcloudWorkspaceAddOnsDeployments
         GcloudWorkspaceAddOnsDeploymentsInstallStatusOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await InstallStatus(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsInstallStatusOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the install      status of a Google Workspace Add-ons deployment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> InstallStatus(
-        GcloudWorkspaceAddOnsDeploymentsInstallStatusOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// ons      deployments
@@ -177,23 +107,9 @@ public class GcloudWorkspaceAddOnsDeployments
         GcloudWorkspaceAddOnsDeploymentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// ons      deployments
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudWorkspaceAddOnsDeploymentsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// replace a Google Workspace      Add-ons deployment
@@ -205,23 +121,9 @@ public class GcloudWorkspaceAddOnsDeployments
         GcloudWorkspaceAddOnsDeploymentsReplaceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Replace(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsReplaceOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// replace a Google Workspace      Add-ons deployment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Replace(
-        GcloudWorkspaceAddOnsDeploymentsReplaceOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// uninstall a Google      Workspace Add-ons deployment
@@ -233,23 +135,9 @@ public class GcloudWorkspaceAddOnsDeployments
         GcloudWorkspaceAddOnsDeploymentsUninstallOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Uninstall(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsUninstallOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// uninstall a Google      Workspace Add-ons deployment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Uninstall(
-        GcloudWorkspaceAddOnsDeploymentsUninstallOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

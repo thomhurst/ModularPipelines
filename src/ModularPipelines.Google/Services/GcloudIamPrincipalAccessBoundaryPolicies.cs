@@ -37,23 +37,9 @@ public class GcloudIamPrincipalAccessBoundaryPolicies
         GcloudIamPrincipalAccessBoundaryPoliciesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPrincipalAccessBoundaryPoliciesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create      PrincipalAccessBoundaryPolicy instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudIamPrincipalAccessBoundaryPoliciesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete      PrincipalAccessBoundaryPolicy instance
@@ -65,23 +51,9 @@ public class GcloudIamPrincipalAccessBoundaryPolicies
         GcloudIamPrincipalAccessBoundaryPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPrincipalAccessBoundaryPoliciesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete      PrincipalAccessBoundaryPolicy instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudIamPrincipalAccessBoundaryPoliciesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get      PrincipalAccessBoundaryPolicy instance
@@ -93,23 +65,9 @@ public class GcloudIamPrincipalAccessBoundaryPolicies
         GcloudIamPrincipalAccessBoundaryPoliciesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPrincipalAccessBoundaryPoliciesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get      PrincipalAccessBoundaryPolicy instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudIamPrincipalAccessBoundaryPoliciesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list      PrincipalAccessBoundaryPolicy instances
@@ -121,23 +79,9 @@ public class GcloudIamPrincipalAccessBoundaryPolicies
         GcloudIamPrincipalAccessBoundaryPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPrincipalAccessBoundaryPoliciesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list      PrincipalAccessBoundaryPolicy instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudIamPrincipalAccessBoundaryPoliciesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// search Principal Access Boundary Policy Bindings
@@ -149,23 +93,9 @@ public class GcloudIamPrincipalAccessBoundaryPolicies
         GcloudIamPrincipalAccessBoundaryPoliciesSearchPolicyBindingsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SearchPolicyBindings(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPrincipalAccessBoundaryPoliciesSearchPolicyBindingsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// search Principal Access Boundary Policy Bindings
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SearchPolicyBindings(
-        GcloudIamPrincipalAccessBoundaryPoliciesSearchPolicyBindingsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update      PrincipalAccessBoundaryPolicy instance
@@ -177,23 +107,9 @@ public class GcloudIamPrincipalAccessBoundaryPolicies
         GcloudIamPrincipalAccessBoundaryPoliciesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPrincipalAccessBoundaryPoliciesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update      PrincipalAccessBoundaryPolicy instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudIamPrincipalAccessBoundaryPoliciesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudDataprocJobsSubmit
         GcloudDataprocJobsSubmitFlinkOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Flink(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitFlinkOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// submit a Flink job to a cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Flink(
-        GcloudDataprocJobsSubmitFlinkOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// submit a Hadoop job to a cluster
@@ -65,23 +51,9 @@ public class GcloudDataprocJobsSubmit
         GcloudDataprocJobsSubmitHadoopOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Hadoop(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitHadoopOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// submit a Hadoop job to a cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Hadoop(
-        GcloudDataprocJobsSubmitHadoopOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// submit a Hive job to a cluster
@@ -93,23 +65,9 @@ public class GcloudDataprocJobsSubmit
         GcloudDataprocJobsSubmitHiveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Hive(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitHiveOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// submit a Hive job to a cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Hive(
-        GcloudDataprocJobsSubmitHiveOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// submit a Pig job to a cluster
@@ -121,23 +79,9 @@ public class GcloudDataprocJobsSubmit
         GcloudDataprocJobsSubmitPigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Pig(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitPigOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// submit a Pig job to a cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Pig(
-        GcloudDataprocJobsSubmitPigOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// submit a Presto job to a cluster
@@ -149,23 +93,9 @@ public class GcloudDataprocJobsSubmit
         GcloudDataprocJobsSubmitPrestoOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Presto(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitPrestoOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// submit a Presto job to a cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Presto(
-        GcloudDataprocJobsSubmitPrestoOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// submit a PySpark job to a cluster
@@ -177,23 +107,9 @@ public class GcloudDataprocJobsSubmit
         GcloudDataprocJobsSubmitPysparkOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Pyspark(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitPysparkOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// submit a PySpark job to a cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Pyspark(
-        GcloudDataprocJobsSubmitPysparkOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// submit a Spark job to a cluster
@@ -205,23 +121,9 @@ public class GcloudDataprocJobsSubmit
         GcloudDataprocJobsSubmitSparkOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Spark(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitSparkOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// submit a Spark job to a cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Spark(
-        GcloudDataprocJobsSubmitSparkOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// submit a SparkR job to a cluster
@@ -233,23 +135,9 @@ public class GcloudDataprocJobsSubmit
         GcloudDataprocJobsSubmitSparkROptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SparkR(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitSparkROptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// submit a SparkR job to a cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SparkR(
-        GcloudDataprocJobsSubmitSparkROptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// submit a Spark SQL job to a cluster
@@ -261,23 +149,9 @@ public class GcloudDataprocJobsSubmit
         GcloudDataprocJobsSubmitSparkSqlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SparkSql(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitSparkSqlOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// submit a Spark SQL job to a cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SparkSql(
-        GcloudDataprocJobsSubmitSparkSqlOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// submit a Trino job to a cluster
@@ -289,23 +163,9 @@ public class GcloudDataprocJobsSubmit
         GcloudDataprocJobsSubmitTrinoOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Trino(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitTrinoOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// submit a Trino job to a cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Trino(
-        GcloudDataprocJobsSubmitTrinoOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

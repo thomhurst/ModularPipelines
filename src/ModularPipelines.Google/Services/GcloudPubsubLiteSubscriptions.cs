@@ -37,23 +37,9 @@ public class GcloudPubsubLiteSubscriptions
         GcloudPubsubLiteSubscriptionsAckUpToOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AckUpTo(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteSubscriptionsAckUpToOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// acknowledge messages on a      Pub/Sub Lite subscription
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AckUpTo(
-        GcloudPubsubLiteSubscriptionsAckUpToOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a Pub/Sub Lite      subscription
@@ -65,23 +51,9 @@ public class GcloudPubsubLiteSubscriptions
         GcloudPubsubLiteSubscriptionsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteSubscriptionsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Pub/Sub Lite      subscription
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudPubsubLiteSubscriptionsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Pub/Sub Lite      subscription
@@ -93,23 +65,9 @@ public class GcloudPubsubLiteSubscriptions
         GcloudPubsubLiteSubscriptionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteSubscriptionsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Pub/Sub Lite      subscription
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudPubsubLiteSubscriptionsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Pub/Sub Lite      subscription
@@ -121,23 +79,9 @@ public class GcloudPubsubLiteSubscriptions
         GcloudPubsubLiteSubscriptionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteSubscriptionsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Pub/Sub Lite      subscription
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudPubsubLiteSubscriptionsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Pub/Sub Lite subscriptions
@@ -149,23 +93,9 @@ public class GcloudPubsubLiteSubscriptions
         GcloudPubsubLiteSubscriptionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteSubscriptionsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Pub/Sub Lite subscriptions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudPubsubLiteSubscriptionsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// seek a Pub/Sub Lite subscription
@@ -177,23 +107,9 @@ public class GcloudPubsubLiteSubscriptions
         GcloudPubsubLiteSubscriptionsSeekOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Seek(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteSubscriptionsSeekOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// seek a Pub/Sub Lite subscription
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Seek(
-        GcloudPubsubLiteSubscriptionsSeekOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// stream messages from a Pub/Sub      Lite subscription
@@ -205,23 +121,9 @@ public class GcloudPubsubLiteSubscriptions
         GcloudPubsubLiteSubscriptionsSubscribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Subscribe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteSubscriptionsSubscribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// stream messages from a Pub/Sub      Lite subscription
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Subscribe(
-        GcloudPubsubLiteSubscriptionsSubscribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Pub/Sub Lite      subscription
@@ -233,23 +135,9 @@ public class GcloudPubsubLiteSubscriptions
         GcloudPubsubLiteSubscriptionsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubLiteSubscriptionsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Pub/Sub Lite      subscription
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudPubsubLiteSubscriptionsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

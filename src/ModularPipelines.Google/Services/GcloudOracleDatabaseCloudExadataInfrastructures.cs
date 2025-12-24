@@ -47,23 +47,9 @@ public class GcloudOracleDatabaseCloudExadataInfrastructures
         GcloudOracleDatabaseCloudExadataInfrastructuresCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudExadataInfrastructuresCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new      ExadataInfrastructure
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudOracleDatabaseCloudExadataInfrastructuresCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an      ExadataInfrastructure
@@ -75,23 +61,9 @@ public class GcloudOracleDatabaseCloudExadataInfrastructures
         GcloudOracleDatabaseCloudExadataInfrastructuresDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudExadataInfrastructuresDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an      ExadataInfrastructure
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudOracleDatabaseCloudExadataInfrastructuresDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get details      of a ExadataInfrastructure
@@ -103,23 +75,9 @@ public class GcloudOracleDatabaseCloudExadataInfrastructures
         GcloudOracleDatabaseCloudExadataInfrastructuresDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudExadataInfrastructuresDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get details      of a ExadataInfrastructure
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudOracleDatabaseCloudExadataInfrastructuresDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list all      ExadataInfrastructures
@@ -131,23 +89,9 @@ public class GcloudOracleDatabaseCloudExadataInfrastructures
         GcloudOracleDatabaseCloudExadataInfrastructuresListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudExadataInfrastructuresListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list all      ExadataInfrastructures
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudOracleDatabaseCloudExadataInfrastructuresListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

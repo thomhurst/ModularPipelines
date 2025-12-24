@@ -37,23 +37,9 @@ public class GcloudInfraManagerRevisions
         GcloudInfraManagerRevisionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerRevisionsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe revisions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudInfraManagerRevisionsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// export a terraform state      file
@@ -65,23 +51,9 @@ public class GcloudInfraManagerRevisions
         GcloudInfraManagerRevisionsExportStatefileOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ExportStatefile(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerRevisionsExportStatefileOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// export a terraform state      file
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ExportStatefile(
-        GcloudInfraManagerRevisionsExportStatefileOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list revisions
@@ -93,23 +65,9 @@ public class GcloudInfraManagerRevisions
         GcloudInfraManagerRevisionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerRevisionsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list revisions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudInfraManagerRevisionsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

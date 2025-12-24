@@ -37,23 +37,9 @@ public class GcloudComputeInterconnectsAttachmentsPartner
         GcloudComputeInterconnectsAttachmentsPartnerCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsPartnerCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Compute      Engine partner interconnect attachment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudComputeInterconnectsAttachmentsPartnerCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Compute      Engine partner interconnect attachment
@@ -65,23 +51,9 @@ public class GcloudComputeInterconnectsAttachmentsPartner
         GcloudComputeInterconnectsAttachmentsPartnerUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsPartnerUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Compute      Engine partner interconnect attachment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudComputeInterconnectsAttachmentsPartnerUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

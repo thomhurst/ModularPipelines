@@ -37,23 +37,9 @@ public class GcloudComputeOrgSecurityPoliciesRules
         GcloudComputeOrgSecurityPoliciesRulesAddPreconfigWafExclusionOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddPreconfigWafExclusion(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOrgSecurityPoliciesRulesAddPreconfigWafExclusionOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add an exclusion configuration for preconfigured WAF evaluation into a      security policy rule
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddPreconfigWafExclusion(
-        GcloudComputeOrgSecurityPoliciesRulesAddPreconfigWafExclusionOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a Compute Engine      organizationsecurity policy rule
@@ -65,23 +51,9 @@ public class GcloudComputeOrgSecurityPoliciesRules
         GcloudComputeOrgSecurityPoliciesRulesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOrgSecurityPoliciesRulesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Compute Engine      organizationsecurity policy rule
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudComputeOrgSecurityPoliciesRulesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Compute Engine      organization security policy rule
@@ -93,23 +65,9 @@ public class GcloudComputeOrgSecurityPoliciesRules
         GcloudComputeOrgSecurityPoliciesRulesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOrgSecurityPoliciesRulesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Compute Engine      organization security policy rule
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudComputeOrgSecurityPoliciesRulesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Compute      Engine organization security policy rule
@@ -121,23 +79,9 @@ public class GcloudComputeOrgSecurityPoliciesRules
         GcloudComputeOrgSecurityPoliciesRulesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOrgSecurityPoliciesRulesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Compute      Engine organization security policy rule
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComputeOrgSecurityPoliciesRulesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove an exclusion configuration for preconfigured WAF evaluation from      a security policy rule
@@ -149,23 +93,9 @@ public class GcloudComputeOrgSecurityPoliciesRules
         GcloudComputeOrgSecurityPoliciesRulesRemovePreconfigWafExclusionOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemovePreconfigWafExclusion(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOrgSecurityPoliciesRulesRemovePreconfigWafExclusionOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove an exclusion configuration for preconfigured WAF evaluation from      a security policy rule
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemovePreconfigWafExclusion(
-        GcloudComputeOrgSecurityPoliciesRulesRemovePreconfigWafExclusionOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Compute Engine      security policy rule
@@ -177,23 +107,9 @@ public class GcloudComputeOrgSecurityPoliciesRules
         GcloudComputeOrgSecurityPoliciesRulesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOrgSecurityPoliciesRulesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Compute Engine      security policy rule
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudComputeOrgSecurityPoliciesRulesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

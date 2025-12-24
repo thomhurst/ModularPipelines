@@ -37,23 +37,9 @@ public class GcloudDatastreamObjects
         GcloudDatastreamObjectsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamObjectsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show details about a Stream object
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudDatastreamObjectsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list a Datastream stream objects
@@ -65,23 +51,9 @@ public class GcloudDatastreamObjects
         GcloudDatastreamObjectsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamObjectsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list a Datastream stream objects
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudDatastreamObjectsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// lookup a Datastream stream object
@@ -93,23 +65,9 @@ public class GcloudDatastreamObjects
         GcloudDatastreamObjectsLookupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Lookup(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamObjectsLookupOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// lookup a Datastream stream object
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Lookup(
-        GcloudDatastreamObjectsLookupOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// start a backfill job for a      Stream object
@@ -121,23 +79,9 @@ public class GcloudDatastreamObjects
         GcloudDatastreamObjectsStartBackfillOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await StartBackfill(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamObjectsStartBackfillOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// start a backfill job for a      Stream object
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> StartBackfill(
-        GcloudDatastreamObjectsStartBackfillOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// stop a backfill job for a Stream      object
@@ -149,23 +93,9 @@ public class GcloudDatastreamObjects
         GcloudDatastreamObjectsStopBackfillOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await StopBackfill(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamObjectsStopBackfillOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// stop a backfill job for a Stream      object
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> StopBackfill(
-        GcloudDatastreamObjectsStopBackfillOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

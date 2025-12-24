@@ -95,23 +95,9 @@ public class GcloudDeploy
         GcloudDeployOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Execute(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create and manage Cloud Deploy resources
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Execute(
-        GcloudDeployOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployOptions(), loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// applies a yaml configuration containing Delivery      Pipeline(s), Target(s), Custom Target Type(s), Deploy Policy(ies), and      Automation(s) declarative definitions
@@ -123,23 +109,9 @@ public class GcloudDeploy
         GcloudDeployApplyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Apply(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployApplyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// applies a yaml configuration containing Delivery      Pipeline(s), Target(s), Custom Target Type(s), Deploy Policy(ies), and      Automation(s) declarative definitions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Apply(
-        GcloudDeployApplyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// deletes Delivery Pipeline(s), Target(s), Custom      Target Type(s), and Automation(s) in a yaml configuration
@@ -151,23 +123,9 @@ public class GcloudDeploy
         GcloudDeployDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// deletes Delivery Pipeline(s), Target(s), Custom      Target Type(s), and Automation(s) in a yaml configuration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudDeployDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the Cloud Deploy config for the provided      region and project
@@ -179,23 +137,9 @@ public class GcloudDeploy
         GcloudDeployGetConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetConfig(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployGetConfigOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the Cloud Deploy config for the provided      region and project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetConfig(
-        GcloudDeployGetConfigOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudMemcacheInstances
         GcloudMemcacheInstancesApplyParametersOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ApplyParameters(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemcacheInstancesApplyParametersOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// apply parameter update to      nodes in a Memorystore Memcached instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ApplyParameters(
-        GcloudMemcacheInstancesApplyParametersOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a Memorystore Memcached instance
@@ -65,23 +51,9 @@ public class GcloudMemcacheInstances
         GcloudMemcacheInstancesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemcacheInstancesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Memorystore Memcached instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudMemcacheInstancesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Memorystore Memcached instance
@@ -93,23 +65,9 @@ public class GcloudMemcacheInstances
         GcloudMemcacheInstancesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemcacheInstancesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Memorystore Memcached instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudMemcacheInstancesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// display metadata for a Memorystore      Memcached instance
@@ -121,23 +79,9 @@ public class GcloudMemcacheInstances
         GcloudMemcacheInstancesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemcacheInstancesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// display metadata for a Memorystore      Memcached instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudMemcacheInstancesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Memorystore Memcached instances
@@ -149,23 +93,9 @@ public class GcloudMemcacheInstances
         GcloudMemcacheInstancesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemcacheInstancesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Memorystore Memcached instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudMemcacheInstancesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// reschedule maintenance      window for a Memcache instance
@@ -177,23 +107,9 @@ public class GcloudMemcacheInstances
         GcloudMemcacheInstancesRescheduleMaintenanceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RescheduleMaintenance(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemcacheInstancesRescheduleMaintenanceOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// reschedule maintenance      window for a Memcache instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RescheduleMaintenance(
-        GcloudMemcacheInstancesRescheduleMaintenanceOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Memorystore Memcached instance
@@ -205,23 +121,9 @@ public class GcloudMemcacheInstances
         GcloudMemcacheInstancesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemcacheInstancesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Memorystore Memcached instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudMemcacheInstancesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// upgrade memcache instance to a newer      memcached version
@@ -233,23 +135,9 @@ public class GcloudMemcacheInstances
         GcloudMemcacheInstancesUpgradeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Upgrade(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemcacheInstancesUpgradeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// upgrade memcache instance to a newer      memcached version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Upgrade(
-        GcloudMemcacheInstancesUpgradeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

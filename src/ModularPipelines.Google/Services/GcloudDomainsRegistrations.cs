@@ -65,23 +65,9 @@ public class GcloudDomainsRegistrations
         GcloudDomainsRegistrationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Cloud Domains registration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudDomainsRegistrationsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe an existing Cloud Domains      registration
@@ -93,23 +79,9 @@ public class GcloudDomainsRegistrations
         GcloudDomainsRegistrationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe an existing Cloud Domains      registration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudDomainsRegistrationsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get register      parameters (including availability) of a specific domain
@@ -121,23 +93,9 @@ public class GcloudDomainsRegistrations
         GcloudDomainsRegistrationsGetRegisterParametersOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetRegisterParameters(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsGetRegisterParametersOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get register      parameters (including availability) of a specific domain
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetRegisterParameters(
-        GcloudDomainsRegistrationsGetRegisterParametersOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// initiates the push      transfer process
@@ -149,23 +107,9 @@ public class GcloudDomainsRegistrations
         GcloudDomainsRegistrationsInitiatePushTransferOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await InitiatePushTransfer(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsInitiatePushTransferOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// initiates the push      transfer process
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> InitiatePushTransfer(
-        GcloudDomainsRegistrationsInitiatePushTransferOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Cloud Domains registrations
@@ -177,23 +121,9 @@ public class GcloudDomainsRegistrations
         GcloudDomainsRegistrationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Cloud Domains registrations
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudDomainsRegistrationsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// register a new domain
@@ -205,23 +135,9 @@ public class GcloudDomainsRegistrations
         GcloudDomainsRegistrationsRegisterOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Register(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsRegisterOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// register a new domain
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Register(
-        GcloudDomainsRegistrationsRegisterOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// renew a recently expired Cloud      Domains registration
@@ -233,23 +149,9 @@ public class GcloudDomainsRegistrations
         GcloudDomainsRegistrationsRenewDomainOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RenewDomain(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsRenewDomainOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// renew a recently expired Cloud      Domains registration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RenewDomain(
-        GcloudDomainsRegistrationsRenewDomainOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// search for available domains
@@ -261,23 +163,9 @@ public class GcloudDomainsRegistrations
         GcloudDomainsRegistrationsSearchDomainsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SearchDomains(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsSearchDomainsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// search for available domains
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SearchDomains(
-        GcloudDomainsRegistrationsSearchDomainsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Cloud Domains registration
@@ -289,23 +177,9 @@ public class GcloudDomainsRegistrations
         GcloudDomainsRegistrationsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Cloud Domains registration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudDomainsRegistrationsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudManagedKafkaConsumerGroups
         GcloudManagedKafkaConsumerGroupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConsumerGroupsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Managed Service for      Apache Kafka consumer group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudManagedKafkaConsumerGroupsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Managed Service      for Apache Kafka consumer group
@@ -65,23 +51,9 @@ public class GcloudManagedKafkaConsumerGroups
         GcloudManagedKafkaConsumerGroupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConsumerGroupsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Managed Service      for Apache Kafka consumer group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudManagedKafkaConsumerGroupsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list all Managed Service for      Apache Kafka consumer groups in a given cluster and location
@@ -93,23 +65,9 @@ public class GcloudManagedKafkaConsumerGroups
         GcloudManagedKafkaConsumerGroupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConsumerGroupsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list all Managed Service for      Apache Kafka consumer groups in a given cluster and location
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudManagedKafkaConsumerGroupsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Managed Service for      Apache Kafka consumer group
@@ -121,23 +79,9 @@ public class GcloudManagedKafkaConsumerGroups
         GcloudManagedKafkaConsumerGroupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConsumerGroupsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Managed Service for      Apache Kafka consumer group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudManagedKafkaConsumerGroupsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

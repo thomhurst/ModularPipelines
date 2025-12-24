@@ -37,23 +37,9 @@ public class GcloudComponentsRepositories
         GcloudComponentsRepositoriesAddOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Add(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComponentsRepositoriesAddOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add a new Trusted Tester component      repository
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Add(
-        GcloudComponentsRepositoriesAddOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list any Trusted Tester component      repositories you have registered
@@ -65,23 +51,9 @@ public class GcloudComponentsRepositories
         GcloudComponentsRepositoriesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComponentsRepositoriesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list any Trusted Tester component      repositories you have registered
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComponentsRepositoriesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove a registered Trusted Test      component repository
@@ -93,23 +65,9 @@ public class GcloudComponentsRepositories
         GcloudComponentsRepositoriesRemoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Remove(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComponentsRepositoriesRemoveOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove a registered Trusted Test      component repository
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Remove(
-        GcloudComponentsRepositoriesRemoveOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

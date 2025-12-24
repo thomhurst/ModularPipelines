@@ -37,23 +37,9 @@ public class GcloudRedisInstances
         GcloudRedisInstancesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Memorystore Redis instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudRedisInstancesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Redis instance
@@ -65,23 +51,9 @@ public class GcloudRedisInstances
         GcloudRedisInstancesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Redis instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudRedisInstancesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show metadata for a Memorystore Redis      instance
@@ -93,23 +65,9 @@ public class GcloudRedisInstances
         GcloudRedisInstancesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show metadata for a Memorystore Redis      instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudRedisInstancesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// export data from a Memorystore Redis      instance to Google Cloud Storage
@@ -121,23 +79,9 @@ public class GcloudRedisInstances
         GcloudRedisInstancesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Export(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesExportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// export data from a Memorystore Redis      instance to Google Cloud Storage
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Export(
-        GcloudRedisInstancesExportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// failover a standard tier Cloud      Memorystore for Redis instance from the master node to its replica
@@ -149,23 +93,9 @@ public class GcloudRedisInstances
         GcloudRedisInstancesFailoverOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Failover(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesFailoverOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// failover a standard tier Cloud      Memorystore for Redis instance from the master node to its replica
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Failover(
-        GcloudRedisInstancesFailoverOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show AUTH string for a Memorystore      Redis instance
@@ -177,23 +107,9 @@ public class GcloudRedisInstances
         GcloudRedisInstancesGetAuthStringOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetAuthString(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesGetAuthStringOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show AUTH string for a Memorystore      Redis instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetAuthString(
-        GcloudRedisInstancesGetAuthStringOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// import data to a Memorystore Redis instance      from Google Cloud Storage
@@ -205,23 +121,9 @@ public class GcloudRedisInstances
         GcloudRedisInstancesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Import(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesImportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// import data to a Memorystore Redis instance      from Google Cloud Storage
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Import(
-        GcloudRedisInstancesImportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Memorystore Redis instances
@@ -233,23 +135,9 @@ public class GcloudRedisInstances
         GcloudRedisInstancesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Memorystore Redis instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudRedisInstancesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// reschedule maintenance      window for a Redis instance
@@ -261,23 +149,9 @@ public class GcloudRedisInstances
         GcloudRedisInstancesRescheduleMaintenanceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RescheduleMaintenance(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesRescheduleMaintenanceOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// reschedule maintenance      window for a Redis instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RescheduleMaintenance(
-        GcloudRedisInstancesRescheduleMaintenanceOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update Memorystore Redis instances
@@ -289,23 +163,9 @@ public class GcloudRedisInstances
         GcloudRedisInstancesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update Memorystore Redis instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudRedisInstancesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// upgrade a Memorystore for Redis instance      to a specified Redis version
@@ -317,23 +177,9 @@ public class GcloudRedisInstances
         GcloudRedisInstancesUpgradeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Upgrade(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisInstancesUpgradeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// upgrade a Memorystore for Redis instance      to a specified Redis version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Upgrade(
-        GcloudRedisInstancesUpgradeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

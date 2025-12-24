@@ -37,23 +37,9 @@ public class GcloudSpannerSamples
         GcloudSpannerSamplesBackendOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Backend(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerSamplesBackendOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// run the backend gRPC service for the given      Cloud Spanner sample app
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Backend(
-        GcloudSpannerSamplesBackendOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// initialize a Cloud Spanner sample app
@@ -65,23 +51,9 @@ public class GcloudSpannerSamples
         GcloudSpannerSamplesInitOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Init(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerSamplesInitOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// initialize a Cloud Spanner sample app
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Init(
-        GcloudSpannerSamplesInitOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list available sample applications
@@ -93,23 +65,9 @@ public class GcloudSpannerSamples
         GcloudSpannerSamplesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerSamplesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list available sample applications
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudSpannerSamplesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// run the given Cloud Spanner sample app
@@ -121,23 +79,9 @@ public class GcloudSpannerSamples
         GcloudSpannerSamplesRunOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Run(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerSamplesRunOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// run the given Cloud Spanner sample app
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Run(
-        GcloudSpannerSamplesRunOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// generate gRPC traffic for a given sample      app's backend service
@@ -149,23 +93,9 @@ public class GcloudSpannerSamples
         GcloudSpannerSamplesWorkloadOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Workload(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerSamplesWorkloadOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// generate gRPC traffic for a given sample      app's backend service
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Workload(
-        GcloudSpannerSamplesWorkloadOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

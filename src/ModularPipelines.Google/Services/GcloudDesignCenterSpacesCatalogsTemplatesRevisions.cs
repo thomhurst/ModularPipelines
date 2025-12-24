@@ -37,23 +37,9 @@ public class GcloudDesignCenterSpacesCatalogsTemplatesRevisions
         GcloudDesignCenterSpacesCatalogsTemplatesRevisionsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsTemplatesRevisionsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a      new catalog template revision
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudDesignCenterSpacesCatalogsTemplatesRevisionsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a      catalog template revision
@@ -65,23 +51,9 @@ public class GcloudDesignCenterSpacesCatalogsTemplatesRevisions
         GcloudDesignCenterSpacesCatalogsTemplatesRevisionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsTemplatesRevisionsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a      catalog template revision
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudDesignCenterSpacesCatalogsTemplatesRevisionsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a catalog template revision
@@ -93,23 +65,9 @@ public class GcloudDesignCenterSpacesCatalogsTemplatesRevisions
         GcloudDesignCenterSpacesCatalogsTemplatesRevisionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsTemplatesRevisionsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a catalog template revision
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudDesignCenterSpacesCatalogsTemplatesRevisionsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list      catalog template revisions
@@ -121,23 +79,9 @@ public class GcloudDesignCenterSpacesCatalogsTemplatesRevisions
         GcloudDesignCenterSpacesCatalogsTemplatesRevisionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsTemplatesRevisionsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list      catalog template revisions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudDesignCenterSpacesCatalogsTemplatesRevisionsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

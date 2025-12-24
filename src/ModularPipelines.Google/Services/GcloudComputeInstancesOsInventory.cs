@@ -37,23 +37,9 @@ public class GcloudComputeInstancesOsInventory
         GcloudComputeInstancesOsInventoryDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesOsInventoryDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Compute Engine      virtual instance's OS inventory data
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComputeInstancesOsInventoryDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list instances with      specific OS inventory data values
@@ -65,23 +51,9 @@ public class GcloudComputeInstancesOsInventory
         GcloudComputeInstancesOsInventoryListInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListInstances(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesOsInventoryListInstancesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list instances with      specific OS inventory data values
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListInstances(
-        GcloudComputeInstancesOsInventoryListInstancesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

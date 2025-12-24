@@ -47,23 +47,9 @@ public class GcloudOracleDatabaseOdbNetworks
         GcloudOracleDatabaseOdbNetworksCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseOdbNetworksCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new OdbNetwork
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudOracleDatabaseOdbNetworksCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an OdbNetwork
@@ -75,23 +61,9 @@ public class GcloudOracleDatabaseOdbNetworks
         GcloudOracleDatabaseOdbNetworksDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseOdbNetworksDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an OdbNetwork
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudOracleDatabaseOdbNetworksDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get details of an OdbNetwork
@@ -103,23 +75,9 @@ public class GcloudOracleDatabaseOdbNetworks
         GcloudOracleDatabaseOdbNetworksDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseOdbNetworksDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get details of an OdbNetwork
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudOracleDatabaseOdbNetworksDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list all OdbNetworks
@@ -131,23 +89,9 @@ public class GcloudOracleDatabaseOdbNetworks
         GcloudOracleDatabaseOdbNetworksListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseOdbNetworksListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list all OdbNetworks
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudOracleDatabaseOdbNetworksListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

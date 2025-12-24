@@ -47,23 +47,9 @@ public class GcloudNetworkConnectivityMulticloudDataTransferConfigs
         GcloudNetworkConnectivityMulticloudDataTransferConfigsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityMulticloudDataTransferConfigsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a multicloudDataTransferConfig
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudNetworkConnectivityMulticloudDataTransferConfigsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a multicloudDataTransferConfig
@@ -75,23 +61,9 @@ public class GcloudNetworkConnectivityMulticloudDataTransferConfigs
         GcloudNetworkConnectivityMulticloudDataTransferConfigsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityMulticloudDataTransferConfigsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a multicloudDataTransferConfig
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudNetworkConnectivityMulticloudDataTransferConfigsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a multicloudDataTransferConfig
@@ -103,23 +75,9 @@ public class GcloudNetworkConnectivityMulticloudDataTransferConfigs
         GcloudNetworkConnectivityMulticloudDataTransferConfigsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityMulticloudDataTransferConfigsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a multicloudDataTransferConfig
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudNetworkConnectivityMulticloudDataTransferConfigsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list      multicloudDataTransferConfigs
@@ -131,23 +89,9 @@ public class GcloudNetworkConnectivityMulticloudDataTransferConfigs
         GcloudNetworkConnectivityMulticloudDataTransferConfigsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityMulticloudDataTransferConfigsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list      multicloudDataTransferConfigs
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudNetworkConnectivityMulticloudDataTransferConfigsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a multicloudDataTransferConfig
@@ -159,23 +103,9 @@ public class GcloudNetworkConnectivityMulticloudDataTransferConfigs
         GcloudNetworkConnectivityMulticloudDataTransferConfigsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityMulticloudDataTransferConfigsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a multicloudDataTransferConfig
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudNetworkConnectivityMulticloudDataTransferConfigsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

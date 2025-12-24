@@ -37,23 +37,9 @@ public class GcloudComputeProjectZonalMetadata
         GcloudComputeProjectZonalMetadataAddOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Add(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeProjectZonalMetadataAddOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add or update project zonal      metadata
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Add(
-        GcloudComputeProjectZonalMetadataAddOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe project zonal      metadata
@@ -65,23 +51,9 @@ public class GcloudComputeProjectZonalMetadata
         GcloudComputeProjectZonalMetadataDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeProjectZonalMetadataDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe project zonal      metadata
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComputeProjectZonalMetadataDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove project zonal      metadata
@@ -93,23 +65,9 @@ public class GcloudComputeProjectZonalMetadata
         GcloudComputeProjectZonalMetadataRemoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Remove(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeProjectZonalMetadataRemoveOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove project zonal      metadata
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Remove(
-        GcloudComputeProjectZonalMetadataRemoveOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

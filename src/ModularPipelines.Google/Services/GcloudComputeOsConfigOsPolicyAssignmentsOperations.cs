@@ -37,23 +37,9 @@ public class GcloudComputeOsConfigOsPolicyAssignmentsOperations
         GcloudComputeOsConfigOsPolicyAssignmentsOperationsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Cancel(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigOsPolicyAssignmentsOperationsCancelOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// cancel      an OS policy assignment operation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Cancel(
-        GcloudComputeOsConfigOsPolicyAssignmentsOperationsCancelOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe an OS policy assignment operation
@@ -65,23 +51,9 @@ public class GcloudComputeOsConfigOsPolicyAssignmentsOperations
         GcloudComputeOsConfigOsPolicyAssignmentsOperationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigOsPolicyAssignmentsOperationsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe an OS policy assignment operation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComputeOsConfigOsPolicyAssignmentsOperationsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

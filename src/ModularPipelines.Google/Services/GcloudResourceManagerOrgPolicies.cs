@@ -37,23 +37,9 @@ public class GcloudResourceManagerOrgPolicies
         GcloudResourceManagerOrgPoliciesAllowOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Allow(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerOrgPoliciesAllowOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add values to an Organization      Policy allowed_values list policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Allow(
-        GcloudResourceManagerOrgPoliciesAllowOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an Organization Policy
@@ -65,23 +51,9 @@ public class GcloudResourceManagerOrgPolicies
         GcloudResourceManagerOrgPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerOrgPoliciesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an Organization Policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudResourceManagerOrgPoliciesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// add values to an Organization      Policy denied_values list policy
@@ -93,23 +65,9 @@ public class GcloudResourceManagerOrgPolicies
         GcloudResourceManagerOrgPoliciesDenyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Deny(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerOrgPoliciesDenyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add values to an Organization      Policy denied_values list policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Deny(
-        GcloudResourceManagerOrgPoliciesDenyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe an Organization      Policy
@@ -121,23 +79,9 @@ public class GcloudResourceManagerOrgPolicies
         GcloudResourceManagerOrgPoliciesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerOrgPoliciesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe an Organization      Policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudResourceManagerOrgPoliciesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// turns off      enforcement of boolean Organization Policy constraint
@@ -149,23 +93,9 @@ public class GcloudResourceManagerOrgPolicies
         GcloudResourceManagerOrgPoliciesDisableEnforceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DisableEnforce(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerOrgPoliciesDisableEnforceOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// turns off      enforcement of boolean Organization Policy constraint
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DisableEnforce(
-        GcloudResourceManagerOrgPoliciesDisableEnforceOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// turns on enforcement      of boolean Organization Policy constraint
@@ -177,23 +107,9 @@ public class GcloudResourceManagerOrgPolicies
         GcloudResourceManagerOrgPoliciesEnableEnforceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await EnableEnforce(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerOrgPoliciesEnableEnforceOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// turns on enforcement      of boolean Organization Policy constraint
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> EnableEnforce(
-        GcloudResourceManagerOrgPoliciesEnableEnforceOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Organization Policies      associated with the specified resource
@@ -205,23 +121,9 @@ public class GcloudResourceManagerOrgPolicies
         GcloudResourceManagerOrgPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerOrgPoliciesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Organization Policies      associated with the specified resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudResourceManagerOrgPoliciesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set Organization Policy
@@ -233,23 +135,9 @@ public class GcloudResourceManagerOrgPolicies
         GcloudResourceManagerOrgPoliciesSetPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerOrgPoliciesSetPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set Organization Policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetPolicy(
-        GcloudResourceManagerOrgPoliciesSetPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

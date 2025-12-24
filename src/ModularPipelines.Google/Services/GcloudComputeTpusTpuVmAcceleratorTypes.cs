@@ -37,23 +37,9 @@ public class GcloudComputeTpusTpuVmAcceleratorTypes
         GcloudComputeTpusTpuVmAcceleratorTypesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmAcceleratorTypesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe an      accelerator type available for Cloud TPU VM nodes
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComputeTpusTpuVmAcceleratorTypesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list available      accelerator types for Cloud TPU VM nodes
@@ -65,23 +51,9 @@ public class GcloudComputeTpusTpuVmAcceleratorTypes
         GcloudComputeTpusTpuVmAcceleratorTypesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmAcceleratorTypesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list available      accelerator types for Cloud TPU VM nodes
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComputeTpusTpuVmAcceleratorTypesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

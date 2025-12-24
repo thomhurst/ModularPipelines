@@ -47,23 +47,9 @@ public class GcloudIamWorkloadIdentityPoolsNamespaces
         GcloudIamWorkloadIdentityPoolsNamespacesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsNamespacesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a workload      identity pool namespace
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudIamWorkloadIdentityPoolsNamespacesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a workload      identity pool namespace
@@ -75,23 +61,9 @@ public class GcloudIamWorkloadIdentityPoolsNamespaces
         GcloudIamWorkloadIdentityPoolsNamespacesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsNamespacesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a workload      identity pool namespace
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudIamWorkloadIdentityPoolsNamespacesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a      workload identity pool namespace
@@ -103,23 +75,9 @@ public class GcloudIamWorkloadIdentityPoolsNamespaces
         GcloudIamWorkloadIdentityPoolsNamespacesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsNamespacesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a      workload identity pool namespace
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudIamWorkloadIdentityPoolsNamespacesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list workload identity      pool namespaces
@@ -131,23 +89,9 @@ public class GcloudIamWorkloadIdentityPoolsNamespaces
         GcloudIamWorkloadIdentityPoolsNamespacesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsNamespacesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list workload identity      pool namespaces
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudIamWorkloadIdentityPoolsNamespacesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// undelete a      workload identity pool namespace
@@ -159,23 +103,9 @@ public class GcloudIamWorkloadIdentityPoolsNamespaces
         GcloudIamWorkloadIdentityPoolsNamespacesUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Undelete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsNamespacesUndeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// undelete a      workload identity pool namespace
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Undelete(
-        GcloudIamWorkloadIdentityPoolsNamespacesUndeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update workload      identity pool namespace
@@ -187,23 +117,9 @@ public class GcloudIamWorkloadIdentityPoolsNamespaces
         GcloudIamWorkloadIdentityPoolsNamespacesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsNamespacesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update workload      identity pool namespace
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudIamWorkloadIdentityPoolsNamespacesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

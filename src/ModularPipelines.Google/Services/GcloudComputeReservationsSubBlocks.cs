@@ -37,23 +37,9 @@ public class GcloudComputeReservationsSubBlocks
         GcloudComputeReservationsSubBlocksDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeReservationsSubBlocksDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Compute Engine      reservation sub-block
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComputeReservationsSubBlocksDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Compute Engine      reservation sub-blocks
@@ -65,23 +51,9 @@ public class GcloudComputeReservationsSubBlocks
         GcloudComputeReservationsSubBlocksListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeReservationsSubBlocksListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Compute Engine      reservation sub-blocks
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComputeReservationsSubBlocksListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// perform      maintenance on a reservation sub-block
@@ -93,23 +65,9 @@ public class GcloudComputeReservationsSubBlocks
         GcloudComputeReservationsSubBlocksPerformMaintenanceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await PerformMaintenance(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeReservationsSubBlocksPerformMaintenanceOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// perform      maintenance on a reservation sub-block
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> PerformMaintenance(
-        GcloudComputeReservationsSubBlocksPerformMaintenanceOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// report a      sub-block within a reservation as faulty
@@ -121,23 +79,9 @@ public class GcloudComputeReservationsSubBlocks
         GcloudComputeReservationsSubBlocksReportSubblockAsFaultyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ReportSubblockAsFaulty(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeReservationsSubBlocksReportSubblockAsFaultyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// report a      sub-block within a reservation as faulty
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ReportSubblockAsFaulty(
-        GcloudComputeReservationsSubBlocksReportSubblockAsFaultyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

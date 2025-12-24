@@ -37,23 +37,9 @@ public class GcloudComputeOsConfigPolicyOrchestrators
         GcloudComputeOsConfigPolicyOrchestratorsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPolicyOrchestratorsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a policy      orchestrator
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudComputeOsConfigPolicyOrchestratorsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a policy      orchestrator
@@ -65,23 +51,9 @@ public class GcloudComputeOsConfigPolicyOrchestrators
         GcloudComputeOsConfigPolicyOrchestratorsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPolicyOrchestratorsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a policy      orchestrator
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudComputeOsConfigPolicyOrchestratorsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a policy      orchestrator
@@ -93,23 +65,9 @@ public class GcloudComputeOsConfigPolicyOrchestrators
         GcloudComputeOsConfigPolicyOrchestratorsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPolicyOrchestratorsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a policy      orchestrator
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComputeOsConfigPolicyOrchestratorsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list policy      orchestrators
@@ -121,23 +79,9 @@ public class GcloudComputeOsConfigPolicyOrchestrators
         GcloudComputeOsConfigPolicyOrchestratorsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPolicyOrchestratorsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list policy      orchestrators
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComputeOsConfigPolicyOrchestratorsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a policy      orchestrator
@@ -149,23 +93,9 @@ public class GcloudComputeOsConfigPolicyOrchestrators
         GcloudComputeOsConfigPolicyOrchestratorsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPolicyOrchestratorsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a policy      orchestrator
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudComputeOsConfigPolicyOrchestratorsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

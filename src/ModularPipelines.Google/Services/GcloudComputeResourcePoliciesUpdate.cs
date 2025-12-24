@@ -37,23 +37,9 @@ public class GcloudComputeResourcePoliciesUpdate
         GcloudComputeResourcePoliciesUpdateInstanceScheduleOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await InstanceSchedule(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeResourcePoliciesUpdateInstanceScheduleOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a      Compute Engine Instance Schedule Resource Policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> InstanceSchedule(
-        GcloudComputeResourcePoliciesUpdateInstanceScheduleOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a      Compute Engine Snapshot Schedule Resource Policy
@@ -65,23 +51,9 @@ public class GcloudComputeResourcePoliciesUpdate
         GcloudComputeResourcePoliciesUpdateSnapshotScheduleOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SnapshotSchedule(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeResourcePoliciesUpdateSnapshotScheduleOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a      Compute Engine Snapshot Schedule Resource Policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SnapshotSchedule(
-        GcloudComputeResourcePoliciesUpdateSnapshotScheduleOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }
