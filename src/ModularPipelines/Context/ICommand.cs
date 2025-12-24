@@ -20,5 +20,6 @@ public interface ICommand
     /// <param name="loggingOptions">The logging options for this command execution.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    [Obsolete("Set LoggingOptions on CommandLineToolOptions instead. This overload will be removed in a future version.")]
     Task<CommandResult> ExecuteCommandLineTool(CommandLineToolOptions options, CommandLoggingOptions? loggingOptions, CancellationToken cancellationToken = default);
 }
