@@ -23,8 +23,12 @@ public record CommandLineOptions
 
     /// <summary>
     /// Gets or sets logging options for command execution.
-    /// When set, this takes precedence over the legacy CommandLogging property.
     /// </summary>
+    /// <remarks>
+    /// <para>Use <see cref="CommandLoggingOptions.Silent"/> to suppress all logging,
+    /// or <see cref="CommandLoggingOptions.Diagnostic"/> for maximum verbosity.</para>
+    /// <para>If not set, falls back to <see cref="PipelineOptions.DefaultLoggingOptions"/>.</para>
+    /// </remarks>
     public CommandLoggingOptions? LogSettings { get; init; }
 
     /// <summary>
