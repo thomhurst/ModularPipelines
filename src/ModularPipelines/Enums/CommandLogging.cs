@@ -4,6 +4,7 @@ namespace ModularPipelines.Enums;
 /// Enum to control the level of logging a command should do
 /// Can combine multiple e.g. Input | Error.
 /// </summary>
+[Obsolete("Use CommandLoggingOptions instead. This enum will be removed in a future version.")]
 [Flags]
 public enum CommandLogging
 {
