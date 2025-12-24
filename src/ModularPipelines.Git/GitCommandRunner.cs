@@ -4,7 +4,7 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Git;
 
-internal class GitCommandRunner
+public class GitCommandRunner
 {
     private readonly IPipelineContext _context;
 

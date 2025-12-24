@@ -14,7 +14,7 @@ public class GitCommands : IGitCommands
     private readonly GitCommandRunner _gitCommandRunner;
     private readonly IGitCommitMapper _gitCommitMapper;
 
-    internal GitCommands(ICommand command, GitCommandRunner gitCommandRunner, IGitCommitMapper gitCommitMapper)
+    public GitCommands(ICommand command, GitCommandRunner gitCommandRunner, IGitCommitMapper gitCommitMapper)
     {
         _command = command;
         _gitCommandRunner = gitCommandRunner;
