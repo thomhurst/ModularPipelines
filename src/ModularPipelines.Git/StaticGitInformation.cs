@@ -3,7 +3,6 @@ using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
-using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Models;
@@ -141,7 +140,7 @@ internal class StaticGitInformation : IInitializer
             var result = await _command.ExecuteCommandLineTool(new CommandLineToolOptions("git")
             {
                 Arguments = ["version"],
-                CommandLogging = CommandLogging.None,
+                LoggingOptions = CommandLoggingOptions.Silent,
             });
 
             return result.StandardOutput;
@@ -184,7 +183,7 @@ internal class StaticGitInformation : IInitializer
         {
             var result = await _command.ExecuteCommandLineTool(gitOptions with
             {
-                CommandLogging = _logger.IsEnabled(LogLevel.Debug) ? CommandLogging.Default : CommandLogging.None,
+                LoggingOptions = _logger.IsEnabled(LogLevel.Debug) ? CommandLoggingOptions.Diagnostic : CommandLoggingOptions.Silent,
             });
             return result.StandardOutput.Trim();
         }
