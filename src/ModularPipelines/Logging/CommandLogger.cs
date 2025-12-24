@@ -65,9 +65,9 @@ internal class CommandLogger : ICommandLogger
             return parameterOptions;
         }
 
-        if (options.LoggingOptions is not null)
+        if (options.LogSettings is not null)
         {
-            return options.LoggingOptions;
+            return options.LogSettings;
         }
 
         if (_pipelineOptions.Value.DefaultLoggingOptions is not null)

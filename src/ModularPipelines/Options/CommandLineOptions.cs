@@ -25,13 +25,13 @@ public record CommandLineOptions
     /// Gets or sets logging options for command execution.
     /// When set, this takes precedence over the legacy CommandLogging property.
     /// </summary>
-    public CommandLoggingOptions? LoggingOptions { get; init; }
+    public CommandLoggingOptions? LogSettings { get; init; }
 
     /// <summary>
     /// Gets controls command logging
     /// e.g. Logging = CommandLogging.Input | CommandLogging.Output | CommandLogging.Error.
     /// </summary>
-    [Obsolete("Use LoggingOptions instead. This property will be removed in a future version.")]
+    [Obsolete("Use LogSettings instead. This property will be removed in a future version.")]
     public CommandLogging? CommandLogging { get; init; }
 
     /// <summary>
