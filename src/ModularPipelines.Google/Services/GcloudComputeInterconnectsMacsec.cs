@@ -37,23 +37,9 @@ public class GcloudComputeInterconnectsMacsec
         GcloudComputeInterconnectsMacsecAddKeyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddKey(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsMacsecAddKeyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// shared key to a      Compute Engine interconnect MACsec configuration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddKey(
-        GcloudComputeInterconnectsMacsecAddKeyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get MACsec configuration      of a Compute Engine interconnect
@@ -65,23 +51,9 @@ public class GcloudComputeInterconnectsMacsec
         GcloudComputeInterconnectsMacsecGetConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetConfig(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsMacsecGetConfigOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get MACsec configuration      of a Compute Engine interconnect
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetConfig(
-        GcloudComputeInterconnectsMacsecGetConfigOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// shared key from      a Compute Engine interconnect MACsec configuration
@@ -93,23 +65,9 @@ public class GcloudComputeInterconnectsMacsec
         GcloudComputeInterconnectsMacsecRemoveKeyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveKey(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsMacsecRemoveKeyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// shared key from      a Compute Engine interconnect MACsec configuration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveKey(
-        GcloudComputeInterconnectsMacsecRemoveKeyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// shared key in a      Compute Engine interconnect MACsec configuration
@@ -121,23 +79,9 @@ public class GcloudComputeInterconnectsMacsec
         GcloudComputeInterconnectsMacsecUpdateKeyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateKey(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsMacsecUpdateKeyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// shared key in a      Compute Engine interconnect MACsec configuration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateKey(
-        GcloudComputeInterconnectsMacsecUpdateKeyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Compute Engine      interconnect MACsec configuration
@@ -149,23 +93,9 @@ public class GcloudComputeInterconnectsMacsec
         GcloudComputeInterconnectsMacsecUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsMacsecUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Compute Engine      interconnect MACsec configuration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudComputeInterconnectsMacsecUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudKmsEkmConnections
         GcloudKmsEkmConnectionsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsEkmConnectionsAddIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add IAM policy binding      for a kms ekm connection
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudKmsEkmConnectionsAddIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a new ekm connection
@@ -65,23 +51,9 @@ public class GcloudKmsEkmConnections
         GcloudKmsEkmConnectionsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsEkmConnectionsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new ekm connection
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudKmsEkmConnectionsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get metadata for an ekmconnection
@@ -93,23 +65,9 @@ public class GcloudKmsEkmConnections
         GcloudKmsEkmConnectionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsEkmConnectionsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get metadata for an ekmconnection
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudKmsEkmConnectionsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the IAM policy for an ekm      connection
@@ -121,23 +79,9 @@ public class GcloudKmsEkmConnections
         GcloudKmsEkmConnectionsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsEkmConnectionsGetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the IAM policy for an ekm      connection
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudKmsEkmConnectionsGetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list ekmconnections within a location
@@ -149,23 +93,9 @@ public class GcloudKmsEkmConnections
         GcloudKmsEkmConnectionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsEkmConnectionsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list ekmconnections within a location
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudKmsEkmConnectionsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove IAM policy      binding for a kms ekm connection
@@ -177,23 +107,9 @@ public class GcloudKmsEkmConnections
         GcloudKmsEkmConnectionsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsEkmConnectionsRemoveIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove IAM policy      binding for a kms ekm connection
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudKmsEkmConnectionsRemoveIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set the IAM policy binding for      a KMS ekm connection
@@ -205,23 +121,9 @@ public class GcloudKmsEkmConnections
         GcloudKmsEkmConnectionsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsEkmConnectionsSetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set the IAM policy binding for      a KMS ekm connection
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetIamPolicy(
-        GcloudKmsEkmConnectionsSetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an ekmconnection
@@ -233,23 +135,9 @@ public class GcloudKmsEkmConnections
         GcloudKmsEkmConnectionsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsEkmConnectionsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an ekmconnection
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudKmsEkmConnectionsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

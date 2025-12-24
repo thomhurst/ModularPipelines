@@ -37,23 +37,9 @@ public class GcloudGeminiOperations
         GcloudGeminiOperationsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Cancel(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiOperationsCancelOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// cancel operations
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Cancel(
-        GcloudGeminiOperationsCancelOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete operations
@@ -65,23 +51,9 @@ public class GcloudGeminiOperations
         GcloudGeminiOperationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiOperationsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete operations
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudGeminiOperationsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe operations
@@ -93,23 +65,9 @@ public class GcloudGeminiOperations
         GcloudGeminiOperationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiOperationsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe operations
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudGeminiOperationsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list operations
@@ -121,23 +79,9 @@ public class GcloudGeminiOperations
         GcloudGeminiOperationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiOperationsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list operations
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudGeminiOperationsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// wait operations
@@ -149,23 +93,9 @@ public class GcloudGeminiOperations
         GcloudGeminiOperationsWaitOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Wait(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiOperationsWaitOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// wait operations
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Wait(
-        GcloudGeminiOperationsWaitOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudMemorystoreOperations
         GcloudMemorystoreOperationsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Cancel(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreOperationsCancelOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// cancel a Memorystore operation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Cancel(
-        GcloudMemorystoreOperationsCancelOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Memorystore operation
@@ -65,23 +51,9 @@ public class GcloudMemorystoreOperations
         GcloudMemorystoreOperationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreOperationsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Memorystore operation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudMemorystoreOperationsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Memorystore operation
@@ -93,23 +65,9 @@ public class GcloudMemorystoreOperations
         GcloudMemorystoreOperationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreOperationsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Memorystore operation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudMemorystoreOperationsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Memorystore operations
@@ -121,23 +79,9 @@ public class GcloudMemorystoreOperations
         GcloudMemorystoreOperationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreOperationsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Memorystore operations
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudMemorystoreOperationsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

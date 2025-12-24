@@ -37,23 +37,9 @@ public class GcloudDomainsRegistrationsGoogleDomainsDns
         GcloudDomainsRegistrationsGoogleDomainsDnsExportDnsRecordSetsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ExportDnsRecordSets(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsGoogleDomainsDnsExportDnsRecordSetsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// export your registration's Google Domains DNS zone's record-sets into a      file
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ExportDnsRecordSets(
-        GcloudDomainsRegistrationsGoogleDomainsDnsExportDnsRecordSetsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get      forwarding configuration of a specific Cloud Domains registration
@@ -65,23 +51,9 @@ public class GcloudDomainsRegistrationsGoogleDomainsDns
         GcloudDomainsRegistrationsGoogleDomainsDnsGetForwardingConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetForwardingConfig(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsGoogleDomainsDnsGetForwardingConfigOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get      forwarding configuration of a specific Cloud Domains registration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetForwardingConfig(
-        GcloudDomainsRegistrationsGoogleDomainsDnsGetForwardingConfigOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

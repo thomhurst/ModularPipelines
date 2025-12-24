@@ -37,23 +37,9 @@ public class GcloudContainerFleetPackagesRollouts
         GcloudContainerFleetPackagesRolloutsAbortOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Abort(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPackagesRolloutsAbortOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// abort Rollout resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Abort(
-        GcloudContainerFleetPackagesRolloutsAbortOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe Rollout      resource
@@ -65,23 +51,9 @@ public class GcloudContainerFleetPackagesRollouts
         GcloudContainerFleetPackagesRolloutsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPackagesRolloutsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe Rollout      resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudContainerFleetPackagesRolloutsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Rollouts of a Fleet      Package
@@ -93,23 +65,9 @@ public class GcloudContainerFleetPackagesRollouts
         GcloudContainerFleetPackagesRolloutsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPackagesRolloutsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Rollouts of a Fleet      Package
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudContainerFleetPackagesRolloutsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// resume suspended Rollout
@@ -121,23 +79,9 @@ public class GcloudContainerFleetPackagesRollouts
         GcloudContainerFleetPackagesRolloutsResumeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Resume(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPackagesRolloutsResumeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// resume suspended Rollout
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Resume(
-        GcloudContainerFleetPackagesRolloutsResumeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// progress      Rollout
@@ -149,23 +93,9 @@ public class GcloudContainerFleetPackagesRollouts
         GcloudContainerFleetPackagesRolloutsSuspendOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Suspend(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPackagesRolloutsSuspendOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// progress      Rollout
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Suspend(
-        GcloudContainerFleetPackagesRolloutsSuspendOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudManagedKafkaConnectClusters
         GcloudManagedKafkaConnectClustersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectClustersCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Managed Service for      Apache Kafka connect cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudManagedKafkaConnectClustersCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Managed Service for      Apache Kafka connect cluster
@@ -65,23 +51,9 @@ public class GcloudManagedKafkaConnectClusters
         GcloudManagedKafkaConnectClustersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectClustersDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Managed Service for      Apache Kafka connect cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudManagedKafkaConnectClustersDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Managed Service      for Apache Kafka connect cluster
@@ -93,23 +65,9 @@ public class GcloudManagedKafkaConnectClusters
         GcloudManagedKafkaConnectClustersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectClustersDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Managed Service      for Apache Kafka connect cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudManagedKafkaConnectClustersDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list all Managed Service for      Apache Kafka connect clusters in a given location
@@ -121,23 +79,9 @@ public class GcloudManagedKafkaConnectClusters
         GcloudManagedKafkaConnectClustersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectClustersListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list all Managed Service for      Apache Kafka connect clusters in a given location
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudManagedKafkaConnectClustersListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Managed Service for      Apache Kafka for BigQuery connect cluster
@@ -149,23 +93,9 @@ public class GcloudManagedKafkaConnectClusters
         GcloudManagedKafkaConnectClustersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectClustersUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Managed Service for      Apache Kafka for BigQuery connect cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudManagedKafkaConnectClustersUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

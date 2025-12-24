@@ -37,23 +37,9 @@ public class GcloudServiceDirectoryServices
         GcloudServiceDirectoryServicesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryServicesAddIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// adds IAM policy      binding to a service
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudServiceDirectoryServicesAddIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// creates a service
@@ -65,23 +51,9 @@ public class GcloudServiceDirectoryServices
         GcloudServiceDirectoryServicesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryServicesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// creates a service
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudServiceDirectoryServicesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// deletes a service
@@ -93,23 +65,9 @@ public class GcloudServiceDirectoryServices
         GcloudServiceDirectoryServicesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryServicesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// deletes a service
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudServiceDirectoryServicesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describes a service
@@ -121,23 +79,9 @@ public class GcloudServiceDirectoryServices
         GcloudServiceDirectoryServicesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryServicesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describes a service
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudServiceDirectoryServicesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// gets IAM policy for a      service
@@ -149,23 +93,9 @@ public class GcloudServiceDirectoryServices
         GcloudServiceDirectoryServicesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryServicesGetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// gets IAM policy for a      service
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudServiceDirectoryServicesGetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// lists services
@@ -177,23 +107,9 @@ public class GcloudServiceDirectoryServices
         GcloudServiceDirectoryServicesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryServicesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// lists services
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudServiceDirectoryServicesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// removes IAM      policy binding from a service
@@ -205,23 +121,9 @@ public class GcloudServiceDirectoryServices
         GcloudServiceDirectoryServicesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryServicesRemoveIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// removes IAM      policy binding from a service
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudServiceDirectoryServicesRemoveIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// resolves a service
@@ -233,23 +135,9 @@ public class GcloudServiceDirectoryServices
         GcloudServiceDirectoryServicesResolveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Resolve(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryServicesResolveOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// resolves a service
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Resolve(
-        GcloudServiceDirectoryServicesResolveOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// sets IAM policy for a      service
@@ -261,23 +149,9 @@ public class GcloudServiceDirectoryServices
         GcloudServiceDirectoryServicesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryServicesSetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// sets IAM policy for a      service
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetIamPolicy(
-        GcloudServiceDirectoryServicesSetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// updates a service
@@ -289,23 +163,9 @@ public class GcloudServiceDirectoryServices
         GcloudServiceDirectoryServicesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryServicesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// updates a service
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudServiceDirectoryServicesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

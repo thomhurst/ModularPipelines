@@ -47,23 +47,9 @@ public class GcloudDesignCenterSpacesSharedTemplates
         GcloudDesignCenterSpacesSharedTemplatesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesSharedTemplatesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a shared      template
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudDesignCenterSpacesSharedTemplatesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list shared templates
@@ -75,23 +61,9 @@ public class GcloudDesignCenterSpacesSharedTemplates
         GcloudDesignCenterSpacesSharedTemplatesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesSharedTemplatesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list shared templates
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudDesignCenterSpacesSharedTemplatesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

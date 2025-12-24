@@ -37,23 +37,9 @@ public class GcloudContainerVmwareAdminClusters
         GcloudContainerVmwareAdminClustersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareAdminClustersDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe an Anthos on      VMware admin cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudContainerVmwareAdminClustersDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// enroll an Anthos on VMware      admin cluster
@@ -65,23 +51,9 @@ public class GcloudContainerVmwareAdminClusters
         GcloudContainerVmwareAdminClustersEnrollOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Enroll(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareAdminClustersEnrollOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// enroll an Anthos on VMware      admin cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Enroll(
-        GcloudContainerVmwareAdminClustersEnrollOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Anthos on VMware admin      clusters
@@ -93,23 +65,9 @@ public class GcloudContainerVmwareAdminClusters
         GcloudContainerVmwareAdminClustersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareAdminClustersListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Anthos on VMware admin      clusters
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudContainerVmwareAdminClustersListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// unenroll an Anthos on      VMware admin cluster
@@ -121,23 +79,9 @@ public class GcloudContainerVmwareAdminClusters
         GcloudContainerVmwareAdminClustersUnenrollOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Unenroll(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareAdminClustersUnenrollOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// unenroll an Anthos on      VMware admin cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Unenroll(
-        GcloudContainerVmwareAdminClustersUnenrollOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an Anthos on VMware      admin cluster
@@ -149,23 +93,9 @@ public class GcloudContainerVmwareAdminClusters
         GcloudContainerVmwareAdminClustersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerVmwareAdminClustersUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an Anthos on VMware      admin cluster
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudContainerVmwareAdminClustersUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudComputeNetworksSubnets
         GcloudComputeNetworksSubnetsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksSubnetsAddIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add an IAM policy      binding to a Compute Engine subnetwork
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudComputeNetworksSubnetsAddIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// define a subnet for a network in      custom subnet mode
@@ -65,23 +51,9 @@ public class GcloudComputeNetworksSubnets
         GcloudComputeNetworksSubnetsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksSubnetsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// define a subnet for a network in      custom subnet mode
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudComputeNetworksSubnetsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete Google Cloud subnetworks
@@ -93,23 +65,9 @@ public class GcloudComputeNetworksSubnets
         GcloudComputeNetworksSubnetsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksSubnetsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete Google Cloud subnetworks
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudComputeNetworksSubnetsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Compute Engine      subnetwork
@@ -121,23 +79,9 @@ public class GcloudComputeNetworksSubnets
         GcloudComputeNetworksSubnetsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksSubnetsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Compute Engine      subnetwork
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComputeNetworksSubnetsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// expand the IP range of a      Compute Engine subnetwork
@@ -149,23 +93,9 @@ public class GcloudComputeNetworksSubnets
         GcloudComputeNetworksSubnetsExpandIpRangeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ExpandIpRange(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksSubnetsExpandIpRangeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// expand the IP range of a      Compute Engine subnetwork
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ExpandIpRange(
-        GcloudComputeNetworksSubnetsExpandIpRangeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the IAM policy for a      Compute Engine subnetwork
@@ -177,23 +107,9 @@ public class GcloudComputeNetworksSubnets
         GcloudComputeNetworksSubnetsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksSubnetsGetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the IAM policy for a      Compute Engine subnetwork
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudComputeNetworksSubnetsGetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Google Compute Engine      subnetworks
@@ -205,23 +121,9 @@ public class GcloudComputeNetworksSubnets
         GcloudComputeNetworksSubnetsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksSubnetsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Google Compute Engine      subnetworks
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComputeNetworksSubnetsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Compute Engine      subnetworks permitted for use
@@ -233,23 +135,9 @@ public class GcloudComputeNetworksSubnets
         GcloudComputeNetworksSubnetsListUsableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListUsable(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksSubnetsListUsableOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Compute Engine      subnetworks permitted for use
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListUsable(
-        GcloudComputeNetworksSubnetsListUsableOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove an IAM      policy binding from a Compute Engine subnetwork
@@ -261,23 +149,9 @@ public class GcloudComputeNetworksSubnets
         GcloudComputeNetworksSubnetsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksSubnetsRemoveIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove an IAM      policy binding from a Compute Engine subnetwork
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudComputeNetworksSubnetsRemoveIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set the IAM policy for a      Compute Engine subnetwork
@@ -289,23 +163,9 @@ public class GcloudComputeNetworksSubnets
         GcloudComputeNetworksSubnetsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksSubnetsSetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set the IAM policy for a      Compute Engine subnetwork
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetIamPolicy(
-        GcloudComputeNetworksSubnetsSetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// updates properties of an existing      Compute Engine subnetwork
@@ -317,23 +177,9 @@ public class GcloudComputeNetworksSubnets
         GcloudComputeNetworksSubnetsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksSubnetsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// updates properties of an existing      Compute Engine subnetwork
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudComputeNetworksSubnetsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudAccessApprovalRequests
         GcloudAccessApprovalRequestsApproveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Approve(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessApprovalRequestsApproveOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// approve an Access Approval      request
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Approve(
-        GcloudAccessApprovalRequestsApproveOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// dismiss an Access Approval      request
@@ -65,23 +51,9 @@ public class GcloudAccessApprovalRequests
         GcloudAccessApprovalRequestsDismissOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Dismiss(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessApprovalRequestsDismissOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// dismiss an Access Approval      request
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Dismiss(
-        GcloudAccessApprovalRequestsDismissOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get an Access Approval request
@@ -93,23 +65,9 @@ public class GcloudAccessApprovalRequests
         GcloudAccessApprovalRequestsGetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Get(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessApprovalRequestsGetOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get an Access Approval request
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Get(
-        GcloudAccessApprovalRequestsGetOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// invalidate an Access Approval      request
@@ -121,23 +79,9 @@ public class GcloudAccessApprovalRequests
         GcloudAccessApprovalRequestsInvalidateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Invalidate(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessApprovalRequestsInvalidateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// invalidate an Access Approval      request
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Invalidate(
-        GcloudAccessApprovalRequestsInvalidateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Access Approval requests
@@ -149,23 +93,9 @@ public class GcloudAccessApprovalRequests
         GcloudAccessApprovalRequestsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessApprovalRequestsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Access Approval requests
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudAccessApprovalRequestsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

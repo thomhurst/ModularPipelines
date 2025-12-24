@@ -37,23 +37,9 @@ public class GcloudArtifactsApt
         GcloudArtifactsAptImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Import(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsAptImportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// import one or more Debian packages into an      artifact repository
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Import(
-        GcloudArtifactsAptImportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// upload a Debian package to an artifact      repository
@@ -65,23 +51,9 @@ public class GcloudArtifactsApt
         GcloudArtifactsAptUploadOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Upload(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsAptUploadOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// upload a Debian package to an artifact      repository
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Upload(
-        GcloudArtifactsAptUploadOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

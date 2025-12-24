@@ -37,23 +37,9 @@ public class GcloudDataflowJobs
         GcloudDataflowJobsArchiveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Archive(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowJobsArchiveOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// archives a job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Archive(
-        GcloudDataflowJobsArchiveOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// cancels all jobs that match the command line      arguments
@@ -65,23 +51,9 @@ public class GcloudDataflowJobs
         GcloudDataflowJobsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Cancel(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowJobsCancelOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// cancels all jobs that match the command line      arguments
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Cancel(
-        GcloudDataflowJobsCancelOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// outputs the Job object resulting from the      Get API
@@ -93,23 +65,9 @@ public class GcloudDataflowJobs
         GcloudDataflowJobsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowJobsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// outputs the Job object resulting from the      Get API
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudDataflowJobsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// drains all jobs that match the command line      arguments
@@ -121,23 +79,9 @@ public class GcloudDataflowJobs
         GcloudDataflowJobsDrainOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Drain(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowJobsDrainOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// drains all jobs that match the command line      arguments
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Drain(
-        GcloudDataflowJobsDrainOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// lists all jobs in a particular project,      optionally filtered by region
@@ -149,23 +93,9 @@ public class GcloudDataflowJobs
         GcloudDataflowJobsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowJobsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// lists all jobs in a particular project,      optionally filtered by region
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudDataflowJobsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// runs a job from the specified path
@@ -177,23 +107,9 @@ public class GcloudDataflowJobs
         GcloudDataflowJobsRunOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Run(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowJobsRunOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// runs a job from the specified path
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Run(
-        GcloudDataflowJobsRunOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// shows a short description of the given job
@@ -205,23 +121,9 @@ public class GcloudDataflowJobs
         GcloudDataflowJobsShowOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Show(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowJobsShowOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// shows a short description of the given job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Show(
-        GcloudDataflowJobsShowOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// fly      for running Dataflow jobs
@@ -233,23 +135,9 @@ public class GcloudDataflowJobs
         GcloudDataflowJobsUpdateOptionsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateOptions(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowJobsUpdateOptionsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// fly      for running Dataflow jobs
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateOptions(
-        GcloudDataflowJobsUpdateOptionsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

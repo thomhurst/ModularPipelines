@@ -37,23 +37,9 @@ public class GcloudSourceRepos
         GcloudSourceReposCloneOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Clone(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSourceReposCloneOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// clone a cloud source repository
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Clone(
-        GcloudSourceReposCloneOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a cloud source repository
@@ -65,23 +51,9 @@ public class GcloudSourceRepos
         GcloudSourceReposCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSourceReposCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a cloud source repository
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudSourceReposCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a cloud source repository
@@ -93,23 +65,9 @@ public class GcloudSourceRepos
         GcloudSourceReposDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSourceReposDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a cloud source repository
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudSourceReposDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a cloud source repository
@@ -121,23 +79,9 @@ public class GcloudSourceRepos
         GcloudSourceReposDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSourceReposDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a cloud source repository
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudSourceReposDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the IAM policy for the named cloud      source repository
@@ -149,23 +93,9 @@ public class GcloudSourceRepos
         GcloudSourceReposGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSourceReposGetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the IAM policy for the named cloud      source repository
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudSourceReposGetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list the repositories the currently active      project
@@ -177,23 +107,9 @@ public class GcloudSourceRepos
         GcloudSourceReposListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSourceReposListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list the repositories the currently active      project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudSourceReposListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set the IAM policy for the named      repository
@@ -205,23 +121,9 @@ public class GcloudSourceRepos
         GcloudSourceReposSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSourceReposSetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set the IAM policy for the named      repository
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetIamPolicy(
-        GcloudSourceReposSetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update the configuration of a Cloud Source      Repository
@@ -233,23 +135,9 @@ public class GcloudSourceRepos
         GcloudSourceReposUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSourceReposUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update the configuration of a Cloud Source      Repository
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudSourceReposUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

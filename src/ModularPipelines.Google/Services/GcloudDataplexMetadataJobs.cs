@@ -37,23 +37,9 @@ public class GcloudDataplexMetadataJobs
         GcloudDataplexMetadataJobsCancelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Cancel(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexMetadataJobsCancelOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// cancel a Metadata Job run
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Cancel(
-        GcloudDataplexMetadataJobsCancelOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a Dataplex Metadata Job
@@ -65,23 +51,9 @@ public class GcloudDataplexMetadataJobs
         GcloudDataplexMetadataJobsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexMetadataJobsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Dataplex Metadata Job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudDataplexMetadataJobsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Metadata Job
@@ -93,23 +65,9 @@ public class GcloudDataplexMetadataJobs
         GcloudDataplexMetadataJobsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexMetadataJobsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Metadata Job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudDataplexMetadataJobsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Metadata Job resources under a      project
@@ -121,23 +79,9 @@ public class GcloudDataplexMetadataJobs
         GcloudDataplexMetadataJobsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexMetadataJobsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Metadata Job resources under a      project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudDataplexMetadataJobsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

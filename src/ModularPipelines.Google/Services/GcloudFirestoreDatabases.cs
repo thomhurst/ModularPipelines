@@ -37,23 +37,9 @@ public class GcloudFirestoreDatabases
         GcloudFirestoreDatabasesCloneOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Clone(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesCloneOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// clone a Google Cloud Firestore database      from another
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Clone(
-        GcloudFirestoreDatabasesCloneOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// prints the mongo connection      string for the given Firestore database
@@ -65,23 +51,9 @@ public class GcloudFirestoreDatabases
         GcloudFirestoreDatabasesConnectionStringOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ConnectionString(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesConnectionStringOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// prints the mongo connection      string for the given Firestore database
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ConnectionString(
-        GcloudFirestoreDatabasesConnectionStringOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a Google Cloud Firestore      database via Firestore API
@@ -93,23 +65,9 @@ public class GcloudFirestoreDatabases
         GcloudFirestoreDatabasesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Google Cloud Firestore      database via Firestore API
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudFirestoreDatabasesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Google Cloud Firestore      database
@@ -121,23 +79,9 @@ public class GcloudFirestoreDatabases
         GcloudFirestoreDatabasesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Google Cloud Firestore      database
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudFirestoreDatabasesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describes information about a Cloud      Firestore database
@@ -149,23 +93,9 @@ public class GcloudFirestoreDatabases
         GcloudFirestoreDatabasesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describes information about a Cloud      Firestore database
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudFirestoreDatabasesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// lists all Firestore databases under the      project
@@ -177,23 +107,9 @@ public class GcloudFirestoreDatabases
         GcloudFirestoreDatabasesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// lists all Firestore databases under the      project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudFirestoreDatabasesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// times the connection and ping time for a      Firestore with MongoDB compatibility database
@@ -205,23 +121,9 @@ public class GcloudFirestoreDatabases
         GcloudFirestoreDatabasesPingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Ping(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesPingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// times the connection and ping time for a      Firestore with MongoDB compatibility database
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Ping(
-        GcloudFirestoreDatabasesPingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// restores a Cloud Firestore database      from a backup
@@ -233,23 +135,9 @@ public class GcloudFirestoreDatabases
         GcloudFirestoreDatabasesRestoreOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Restore(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesRestoreOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// restores a Cloud Firestore database      from a backup
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Restore(
-        GcloudFirestoreDatabasesRestoreOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update the database configuration of a      Cloud Firestore database
@@ -261,23 +149,9 @@ public class GcloudFirestoreDatabases
         GcloudFirestoreDatabasesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreDatabasesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update the database configuration of a      Cloud Firestore database
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudFirestoreDatabasesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

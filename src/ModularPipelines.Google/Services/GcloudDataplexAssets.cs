@@ -47,23 +47,9 @@ public class GcloudDataplexAssets
         GcloudDataplexAssetsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexAssetsAddIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// adds IAM policy binding to      a Dataplex asset resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudDataplexAssetsAddIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a Dataplex asset resource
@@ -75,23 +61,9 @@ public class GcloudDataplexAssets
         GcloudDataplexAssetsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexAssetsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Dataplex asset resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudDataplexAssetsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Dataplex asset resource
@@ -103,23 +75,9 @@ public class GcloudDataplexAssets
         GcloudDataplexAssetsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexAssetsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Dataplex asset resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudDataplexAssetsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Dataplex asset resource
@@ -131,23 +89,9 @@ public class GcloudDataplexAssets
         GcloudDataplexAssetsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexAssetsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Dataplex asset resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudDataplexAssetsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the IAM policy for a Dataplex      asset resource
@@ -159,23 +103,9 @@ public class GcloudDataplexAssets
         GcloudDataplexAssetsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexAssetsGetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the IAM policy for a Dataplex      asset resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudDataplexAssetsGetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Dataplex asset resources
@@ -187,23 +117,9 @@ public class GcloudDataplexAssets
         GcloudDataplexAssetsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexAssetsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Dataplex asset resources
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudDataplexAssetsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove IAM policy      binding from a Dataplex asset resource
@@ -215,23 +131,9 @@ public class GcloudDataplexAssets
         GcloudDataplexAssetsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexAssetsRemoveIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove IAM policy      binding from a Dataplex asset resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudDataplexAssetsRemoveIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set the IAM policy to a Dataplex      asset as defined in a JSON or YAML file
@@ -243,23 +145,9 @@ public class GcloudDataplexAssets
         GcloudDataplexAssetsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexAssetsSetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set the IAM policy to a Dataplex      asset as defined in a JSON or YAML file
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetIamPolicy(
-        GcloudDataplexAssetsSetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Dataplex asset resource
@@ -271,23 +159,9 @@ public class GcloudDataplexAssets
         GcloudDataplexAssetsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexAssetsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Dataplex asset resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudDataplexAssetsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

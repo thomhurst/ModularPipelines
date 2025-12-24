@@ -47,23 +47,9 @@ public class GcloudIamWorkforcePoolsSubjects
         GcloudIamWorkforcePoolsSubjectsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsSubjectsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a workforce pool      subject
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudIamWorkforcePoolsSubjectsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// undelete a workforce pool      subject
@@ -75,23 +61,9 @@ public class GcloudIamWorkforcePoolsSubjects
         GcloudIamWorkforcePoolsSubjectsUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Undelete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsSubjectsUndeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// undelete a workforce pool      subject
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Undelete(
-        GcloudIamWorkforcePoolsSubjectsUndeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

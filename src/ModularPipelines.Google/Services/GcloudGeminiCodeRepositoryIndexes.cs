@@ -47,23 +47,9 @@ public class GcloudGeminiCodeRepositoryIndexes
         GcloudGeminiCodeRepositoryIndexesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeRepositoryIndexesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a code repository      index instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudGeminiCodeRepositoryIndexesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a code repository      index instance
@@ -75,23 +61,9 @@ public class GcloudGeminiCodeRepositoryIndexes
         GcloudGeminiCodeRepositoryIndexesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeRepositoryIndexesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a code repository      index instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudGeminiCodeRepositoryIndexesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get details of a code      repository index instance
@@ -103,23 +75,9 @@ public class GcloudGeminiCodeRepositoryIndexes
         GcloudGeminiCodeRepositoryIndexesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeRepositoryIndexesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get details of a code      repository index instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudGeminiCodeRepositoryIndexesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list all code repository index      instances in a specified project and location
@@ -131,23 +89,9 @@ public class GcloudGeminiCodeRepositoryIndexes
         GcloudGeminiCodeRepositoryIndexesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeRepositoryIndexesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list all code repository index      instances in a specified project and location
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudGeminiCodeRepositoryIndexesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update the configuration of      a code repository index instance
@@ -159,23 +103,9 @@ public class GcloudGeminiCodeRepositoryIndexes
         GcloudGeminiCodeRepositoryIndexesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiCodeRepositoryIndexesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update the configuration of      a code repository index instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudGeminiCodeRepositoryIndexesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

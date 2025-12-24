@@ -455,23 +455,9 @@ public class GcloudCompute
         GcloudComputeOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Execute(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create and manipulate Compute Engine resources
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Execute(
-        GcloudComputeOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOptions(), loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// populate SSH config files with Host entries      from each instance
@@ -483,23 +469,9 @@ public class GcloudCompute
         GcloudComputeConfigSshOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ConfigSsh(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeConfigSshOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// populate SSH config files with Host entries      from each instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ConfigSsh(
-        GcloudComputeConfigSshOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// connect to the serial port of an      instance
@@ -511,23 +483,9 @@ public class GcloudCompute
         GcloudComputeConnectToSerialPortOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ConnectToSerialPort(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeConnectToSerialPortOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// connect to the serial port of an      instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ConnectToSerialPort(
-        GcloudComputeConnectToSerialPortOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// copy files to and from Google Compute Engine      virtual machines via scp
@@ -539,23 +497,9 @@ public class GcloudCompute
         GcloudComputeCopyFilesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await CopyFiles(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeCopyFilesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// copy files to and from Google Compute Engine      virtual machines via scp
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CopyFiles(
-        GcloudComputeCopyFilesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// reset and return a password for a      Windows machine instance
@@ -567,23 +511,9 @@ public class GcloudCompute
         GcloudComputeResetWindowsPasswordOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ResetWindowsPassword(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeResetWindowsPasswordOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// reset and return a password for a      Windows machine instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ResetWindowsPassword(
-        GcloudComputeResetWindowsPasswordOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// copy files to and from Google Compute Engine virtual      machines via scp
@@ -595,23 +525,9 @@ public class GcloudCompute
         GcloudComputeScpOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Scp(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeScpOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// copy files to and from Google Compute Engine virtual      machines via scp
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Scp(
-        GcloudComputeScpOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// sign specified URL for use with Cloud CDN Signed      URLs
@@ -623,23 +539,9 @@ public class GcloudCompute
         GcloudComputeSignUrlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SignUrl(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSignUrlOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// sign specified URL for use with Cloud CDN Signed      URLs
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SignUrl(
-        GcloudComputeSignUrlOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// SSH into a virtual machine instance
@@ -651,23 +553,9 @@ public class GcloudCompute
         GcloudComputeSshOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Ssh(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSshOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// SSH into a virtual machine instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Ssh(
-        GcloudComputeSshOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// starts an IAP TCP forwarding tunnel
@@ -679,23 +567,9 @@ public class GcloudCompute
         GcloudComputeStartIapTunnelOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await StartIapTunnel(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeStartIapTunnelOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// starts an IAP TCP forwarding tunnel
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> StartIapTunnel(
-        GcloudComputeStartIapTunnelOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

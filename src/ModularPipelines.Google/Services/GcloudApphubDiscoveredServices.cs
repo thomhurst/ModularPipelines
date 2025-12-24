@@ -37,23 +37,9 @@ public class GcloudApphubDiscoveredServices
         GcloudApphubDiscoveredServicesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubDiscoveredServicesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe an Apphub discovered      service
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudApphubDiscoveredServicesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Apphub discovered services
@@ -65,23 +51,9 @@ public class GcloudApphubDiscoveredServices
         GcloudApphubDiscoveredServicesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubDiscoveredServicesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Apphub discovered services
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudApphubDiscoveredServicesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// lookup an Apphub discovered      service with URI
@@ -93,23 +65,9 @@ public class GcloudApphubDiscoveredServices
         GcloudApphubDiscoveredServicesLookupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Lookup(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubDiscoveredServicesLookupOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// lookup an Apphub discovered      service with URI
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Lookup(
-        GcloudApphubDiscoveredServicesLookupOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

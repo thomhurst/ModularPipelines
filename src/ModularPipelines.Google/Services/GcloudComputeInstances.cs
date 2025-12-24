@@ -65,23 +65,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesAddAccessConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddAccessConfig(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesAddAccessConfigOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Compute Engine      virtual machine access configuration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddAccessConfig(
-        GcloudComputeInstancesAddAccessConfigOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// add IAM policy binding to      a Compute Engine instance
@@ -93,23 +79,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesAddIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add IAM policy binding to      a Compute Engine instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudComputeInstancesAddIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// add labels to Google Compute Engine      virtual machine instances
@@ -121,23 +93,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesAddLabelsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddLabels(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesAddLabelsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add labels to Google Compute Engine      virtual machine instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddLabels(
-        GcloudComputeInstancesAddLabelsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// add or update instance metadata
@@ -149,23 +107,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesAddMetadataOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddMetadata(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesAddMetadataOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add or update instance metadata
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddMetadata(
-        GcloudComputeInstancesAddMetadataOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// add resource policies to      Compute Engine VM instances
@@ -177,23 +121,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesAddResourcePoliciesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddResourcePolicies(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesAddResourcePoliciesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add resource policies to      Compute Engine VM instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddResourcePolicies(
-        GcloudComputeInstancesAddResourcePoliciesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// add tags to Compute Engine virtual      machine instances
@@ -205,23 +135,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesAddTagsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddTags(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesAddTagsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add tags to Compute Engine virtual      machine instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddTags(
-        GcloudComputeInstancesAddTagsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// attach a disk to an instance
@@ -233,23 +149,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesAttachDiskOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AttachDisk(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesAttachDiskOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// attach a disk to an instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AttachDisk(
-        GcloudComputeInstancesAttachDiskOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create Compute Engine virtual machine      instances
@@ -261,23 +163,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create Compute Engine virtual machine      instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudComputeInstancesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// creates Compute Engine      virtual machine instances running container images
@@ -289,23 +177,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesCreateWithContainerOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await CreateWithContainer(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesCreateWithContainerOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// creates Compute Engine      virtual machine instances running container images
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateWithContainer(
-        GcloudComputeInstancesCreateWithContainerOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an access      configuration from a virtual machine network interface
@@ -317,23 +191,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesDeleteAccessConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DeleteAccessConfig(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesDeleteAccessConfigOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an access      configuration from a virtual machine network interface
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeleteAccessConfig(
-        GcloudComputeInstancesDeleteAccessConfigOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete Compute Engine virtual machine      instances
@@ -345,23 +205,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete Compute Engine virtual machine      instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudComputeInstancesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a virtual machine instance
@@ -373,23 +219,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a virtual machine instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComputeInstancesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// detach disks from Compute Engine      virtual machine instances
@@ -401,23 +233,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesDetachDiskOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DetachDisk(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesDetachDiskOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// detach disks from Compute Engine      virtual machine instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DetachDisk(
-        GcloudComputeInstancesDetachDiskOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// export a Compute Engine virtual machine      instance's configuration to a file
@@ -429,23 +247,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Export(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesExportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// export a Compute Engine virtual machine      instance's configuration to a file
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Export(
-        GcloudComputeInstancesExportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the Guest Attributes      for a compute instance
@@ -457,23 +261,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesGetGuestAttributesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetGuestAttributes(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesGetGuestAttributesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the Guest Attributes      for a compute instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetGuestAttributes(
-        GcloudComputeInstancesGetGuestAttributesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the IAM policy for a Compute      Engine instance
@@ -485,23 +275,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesGetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the IAM policy for a Compute      Engine instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudComputeInstancesGetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// capture a screenshot (JPEG image)      of the virtual machine instance's display
@@ -513,23 +289,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesGetScreenshotOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetScreenshot(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesGetScreenshotOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// capture a screenshot (JPEG image)      of the virtual machine instance's display
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetScreenshot(
-        GcloudComputeInstancesGetScreenshotOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// read output from a      virtual machine instance's serial port
@@ -541,23 +303,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesGetSerialPortOutputOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetSerialPortOutput(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesGetSerialPortOutputOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// read output from a      virtual machine instance's serial port
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetSerialPortOutput(
-        GcloudComputeInstancesGetSerialPortOutputOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the Shielded identity      for a Compute Engine instance
@@ -569,23 +317,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesGetShieldedIdentityOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetShieldedIdentity(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesGetShieldedIdentityOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the Shielded identity      for a Compute Engine instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetShieldedIdentity(
-        GcloudComputeInstancesGetShieldedIdentityOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create Compute Engine virtual machine      instances from virtual appliance in OVA/OVF format
@@ -597,23 +331,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Import(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesImportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create Compute Engine virtual machine      instances from virtual appliance in OVA/OVF format
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Import(
-        GcloudComputeInstancesImportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Compute Engine instances
@@ -625,23 +345,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Compute Engine instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComputeInstancesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// perform maintenance of      Google Compute Engine instance
@@ -653,23 +359,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesPerformMaintenanceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await PerformMaintenance(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesPerformMaintenanceOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// perform maintenance of      Google Compute Engine instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> PerformMaintenance(
-        GcloudComputeInstancesPerformMaintenanceOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove IAM policy      binding from a Compute Engine instance
@@ -681,23 +373,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesRemoveIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove IAM policy      binding from a Compute Engine instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudComputeInstancesRemoveIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove labels from Google Compute      Engine virtual machine instances
@@ -709,23 +387,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesRemoveLabelsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveLabels(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesRemoveLabelsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove labels from Google Compute      Engine virtual machine instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveLabels(
-        GcloudComputeInstancesRemoveLabelsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove instance metadata
@@ -737,23 +401,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesRemoveMetadataOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveMetadata(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesRemoveMetadataOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove instance metadata
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveMetadata(
-        GcloudComputeInstancesRemoveMetadataOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove resource      policies from Compute Engine VM instances
@@ -765,23 +415,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesRemoveResourcePoliciesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveResourcePolicies(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesRemoveResourcePoliciesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove resource      policies from Compute Engine VM instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveResourcePolicies(
-        GcloudComputeInstancesRemoveResourcePoliciesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove tags from Compute Engine      virtual machine instances
@@ -793,23 +429,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesRemoveTagsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveTags(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesRemoveTagsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove tags from Compute Engine      virtual machine instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveTags(
-        GcloudComputeInstancesRemoveTagsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// report a host as faulty to      start the repair process
@@ -821,23 +443,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesReportHostAsFaultyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ReportHostAsFaulty(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesReportHostAsFaultyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// report a host as faulty to      start the repair process
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ReportHostAsFaulty(
-        GcloudComputeInstancesReportHostAsFaultyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// reset a virtual machine instance
@@ -849,23 +457,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesResetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Reset(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesResetOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// reset a virtual machine instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Reset(
-        GcloudComputeInstancesResetOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// resume a virtual machine instance
@@ -877,23 +471,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesResumeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Resume(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesResumeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// resume a virtual machine instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Resume(
-        GcloudComputeInstancesResumeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// send a diagnostic      interrupt to a virtual machine instance
@@ -905,23 +485,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesSendDiagnosticInterruptOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SendDiagnosticInterrupt(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesSendDiagnosticInterruptOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// send a diagnostic      interrupt to a virtual machine instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SendDiagnosticInterrupt(
-        GcloudComputeInstancesSendDiagnosticInterruptOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete behavior      for disks
@@ -933,23 +499,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesSetDiskAutoDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetDiskAutoDelete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesSetDiskAutoDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete behavior      for disks
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetDiskAutoDelete(
-        GcloudComputeInstancesSetDiskAutoDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set IAM policy for a Compute      Engine instance
@@ -961,23 +513,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesSetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set IAM policy for a Compute      Engine instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetIamPolicy(
-        GcloudComputeInstancesSetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set machine type for Compute      Engine virtual machines
@@ -989,23 +527,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesSetMachineTypeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetMachineType(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesSetMachineTypeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set machine type for Compute      Engine virtual machines
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetMachineType(
-        GcloudComputeInstancesSetMachineTypeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set the name of a Compute Engine      virtual machine
@@ -1017,23 +541,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesSetNameOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetName(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesSetNameOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set the name of a Compute Engine      virtual machine
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetName(
-        GcloudComputeInstancesSetNameOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set scheduling options for      Compute Engine virtual machines
@@ -1045,23 +555,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesSetSchedulingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetScheduling(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesSetSchedulingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set scheduling options for      Compute Engine virtual machines
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetScheduling(
-        GcloudComputeInstancesSetSchedulingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set a service account and      access scopes for a Compute Engine VM instance
@@ -1073,23 +569,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesSetServiceAccountOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetServiceAccount(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesSetServiceAccountOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set a service account and      access scopes for a Compute Engine VM instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetServiceAccount(
-        GcloudComputeInstancesSetServiceAccountOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// simulate host      maintenance of VM instances
@@ -1101,23 +583,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesSimulateMaintenanceEventOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SimulateMaintenanceEvent(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesSimulateMaintenanceEventOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// simulate host      maintenance of VM instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SimulateMaintenanceEvent(
-        GcloudComputeInstancesSimulateMaintenanceEventOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// start a stopped virtual machine instance
@@ -1129,23 +597,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesStartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Start(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesStartOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// start a stopped virtual machine instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Start(
-        GcloudComputeInstancesStartOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// stop a virtual machine instance
@@ -1157,23 +611,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesStopOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Stop(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesStopOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// stop a virtual machine instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Stop(
-        GcloudComputeInstancesStopOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// suspend a virtual machine instance
@@ -1185,23 +625,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesSuspendOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Suspend(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesSuspendOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// suspend a virtual machine instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Suspend(
-        GcloudComputeInstancesSuspendOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// periodically fetch new      output from a virtual machine instance's serial port and display it as      it becomes available
@@ -1213,23 +639,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesTailSerialPortOutputOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await TailSerialPortOutput(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesTailSerialPortOutputOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// periodically fetch new      output from a virtual machine instance's serial port and display it as      it becomes available
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> TailSerialPortOutput(
-        GcloudComputeInstancesTailSerialPortOutputOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Compute Engine      virtual machine access configuration
@@ -1241,23 +653,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesUpdateAccessConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateAccessConfig(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesUpdateAccessConfigOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Compute Engine      virtual machine access configuration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateAccessConfig(
-        GcloudComputeInstancesUpdateAccessConfigOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// updates Compute Engine virtual      machine instances running container images
@@ -1269,23 +667,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesUpdateContainerOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateContainer(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesUpdateContainerOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// updates Compute Engine virtual      machine instances running container images
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateContainer(
-        GcloudComputeInstancesUpdateContainerOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Compute Engine virtual      machine instance using a configuration file
@@ -1297,23 +681,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesUpdateFromFileOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateFromFile(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesUpdateFromFileOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Compute Engine virtual      machine instance using a configuration file
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateFromFile(
-        GcloudComputeInstancesUpdateFromFileOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Compute Engine virtual machine
@@ -1325,23 +695,9 @@ public class GcloudComputeInstances
         GcloudComputeInstancesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Compute Engine virtual machine
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudComputeInstancesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

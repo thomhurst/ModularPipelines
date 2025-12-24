@@ -37,23 +37,9 @@ public class GcloudNetworkServicesTcpRoutes
         GcloudNetworkServicesTcpRoutesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesTcpRoutesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete tcp route
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudNetworkServicesTcpRoutesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a TCP route
@@ -65,23 +51,9 @@ public class GcloudNetworkServicesTcpRoutes
         GcloudNetworkServicesTcpRoutesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesTcpRoutesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a TCP route
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudNetworkServicesTcpRoutesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// export tcp route
@@ -93,23 +65,9 @@ public class GcloudNetworkServicesTcpRoutes
         GcloudNetworkServicesTcpRoutesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Export(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesTcpRoutesExportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// export tcp route
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Export(
-        GcloudNetworkServicesTcpRoutesExportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// import tcp route
@@ -121,23 +79,9 @@ public class GcloudNetworkServicesTcpRoutes
         GcloudNetworkServicesTcpRoutesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Import(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesTcpRoutesImportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// import tcp route
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Import(
-        GcloudNetworkServicesTcpRoutesImportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list tcp routes
@@ -149,23 +93,9 @@ public class GcloudNetworkServicesTcpRoutes
         GcloudNetworkServicesTcpRoutesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesTcpRoutesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list tcp routes
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudNetworkServicesTcpRoutesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

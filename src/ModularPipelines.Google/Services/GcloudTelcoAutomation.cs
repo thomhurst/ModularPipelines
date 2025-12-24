@@ -53,23 +53,9 @@ public class GcloudTelcoAutomation
         GcloudTelcoAutomationOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Execute(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudTelcoAutomationOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// manage Telco Automation resources
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Execute(
-        GcloudTelcoAutomationOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTelcoAutomationOptions(), loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

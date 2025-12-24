@@ -37,23 +37,9 @@ public class GcloudServiceExtensionsLbTrafficExtensions
         GcloudServiceExtensionsLbTrafficExtensionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsLbTrafficExtensionsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an      LbTrafficExtension resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudServiceExtensionsLbTrafficExtensionsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe an      LbTrafficExtension resource
@@ -65,23 +51,9 @@ public class GcloudServiceExtensionsLbTrafficExtensions
         GcloudServiceExtensionsLbTrafficExtensionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsLbTrafficExtensionsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe an      LbTrafficExtension resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudServiceExtensionsLbTrafficExtensionsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// import an      LbTrafficExtension resource
@@ -93,23 +65,9 @@ public class GcloudServiceExtensionsLbTrafficExtensions
         GcloudServiceExtensionsLbTrafficExtensionsImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Import(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsLbTrafficExtensionsImportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// import an      LbTrafficExtension resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Import(
-        GcloudServiceExtensionsLbTrafficExtensionsImportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list      LbTrafficExtension resources
@@ -121,23 +79,9 @@ public class GcloudServiceExtensionsLbTrafficExtensions
         GcloudServiceExtensionsLbTrafficExtensionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsLbTrafficExtensionsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list      LbTrafficExtension resources
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudServiceExtensionsLbTrafficExtensionsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudAiIndexes
         GcloudAiIndexesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new Vertex AI index
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudAiIndexesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an existing Vertex AI index
@@ -65,23 +51,9 @@ public class GcloudAiIndexes
         GcloudAiIndexesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an existing Vertex AI index
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudAiIndexesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// gets detailed index information about the      given index id
@@ -93,23 +65,9 @@ public class GcloudAiIndexes
         GcloudAiIndexesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// gets detailed index information about the      given index id
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudAiIndexesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// lists the indexes of the given project and region
@@ -121,23 +79,9 @@ public class GcloudAiIndexes
         GcloudAiIndexesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// lists the indexes of the given project and region
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudAiIndexesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove data points from the specified      index
@@ -149,23 +93,9 @@ public class GcloudAiIndexes
         GcloudAiIndexesRemoveDatapointsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveDatapoints(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexesRemoveDatapointsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove data points from the specified      index
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveDatapoints(
-        GcloudAiIndexesRemoveDatapointsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an Vertex AI index
@@ -177,23 +107,9 @@ public class GcloudAiIndexes
         GcloudAiIndexesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an Vertex AI index
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudAiIndexesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// upsert data points into the specified      index
@@ -205,23 +121,9 @@ public class GcloudAiIndexes
         GcloudAiIndexesUpsertDatapointsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await UpsertDatapoints(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexesUpsertDatapointsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// upsert data points into the specified      index
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpsertDatapoints(
-        GcloudAiIndexesUpsertDatapointsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

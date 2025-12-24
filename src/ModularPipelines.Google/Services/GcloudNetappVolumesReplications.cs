@@ -37,23 +37,9 @@ public class GcloudNetappVolumesReplications
         GcloudNetappVolumesReplicationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesReplicationsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Cloud NetApp Volume      Replication
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudNetappVolumesReplicationsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Cloud NetApp Volume      Replication
@@ -65,23 +51,9 @@ public class GcloudNetappVolumesReplications
         GcloudNetappVolumesReplicationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesReplicationsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Cloud NetApp Volume      Replication
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudNetappVolumesReplicationsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Cloud NetApp      Volume Replication
@@ -93,23 +65,9 @@ public class GcloudNetappVolumesReplications
         GcloudNetappVolumesReplicationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesReplicationsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Cloud NetApp      Volume Replication
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudNetappVolumesReplicationsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// establish peering      for Hybrid replication
@@ -121,23 +79,9 @@ public class GcloudNetappVolumesReplications
         GcloudNetappVolumesReplicationsEstablishPeeringOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await EstablishPeering(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesReplicationsEstablishPeeringOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// establish peering      for Hybrid replication
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> EstablishPeering(
-        GcloudNetappVolumesReplicationsEstablishPeeringOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Cloud NetApp Volume      Replications
@@ -149,23 +93,9 @@ public class GcloudNetappVolumesReplications
         GcloudNetappVolumesReplicationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesReplicationsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Cloud NetApp Volume      Replications
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudNetappVolumesReplicationsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// resume a Cloud NetApp Volume      Replication
@@ -177,23 +107,9 @@ public class GcloudNetappVolumesReplications
         GcloudNetappVolumesReplicationsResumeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Resume(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesReplicationsResumeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// resume a Cloud NetApp Volume      Replication
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Resume(
-        GcloudNetappVolumesReplicationsResumeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// reverse a Cloud NetApp Volume      Replication's direction
@@ -205,23 +121,9 @@ public class GcloudNetappVolumesReplications
         GcloudNetappVolumesReplicationsReverseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Reverse(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesReplicationsReverseOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// reverse a Cloud NetApp Volume      Replication's direction
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Reverse(
-        GcloudNetappVolumesReplicationsReverseOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// stop a Cloud NetApp Volume      Replication
@@ -233,23 +135,9 @@ public class GcloudNetappVolumesReplications
         GcloudNetappVolumesReplicationsStopOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Stop(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesReplicationsStopOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// stop a Cloud NetApp Volume      Replication
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Stop(
-        GcloudNetappVolumesReplicationsStopOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// sync a Cloud NetApp Volume      Replication
@@ -261,23 +149,9 @@ public class GcloudNetappVolumesReplications
         GcloudNetappVolumesReplicationsSyncOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Sync(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesReplicationsSyncOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// sync a Cloud NetApp Volume      Replication
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Sync(
-        GcloudNetappVolumesReplicationsSyncOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Cloud NetApp Volume      Replication
@@ -289,23 +163,9 @@ public class GcloudNetappVolumesReplications
         GcloudNetappVolumesReplicationsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesReplicationsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Cloud NetApp Volume      Replication
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudNetappVolumesReplicationsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

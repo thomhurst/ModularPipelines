@@ -37,23 +37,9 @@ public class GcloudEdgeCacheKeysets
         GcloudEdgeCacheKeysetsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheKeysetsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create an EdgeCacheKeyset resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudEdgeCacheKeysetsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an EdgeCacheKeyset resource
@@ -65,23 +51,9 @@ public class GcloudEdgeCacheKeysets
         GcloudEdgeCacheKeysetsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheKeysetsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an EdgeCacheKeyset resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudEdgeCacheKeysetsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show details about an EdgeCacheKeyset      resource
@@ -93,23 +65,9 @@ public class GcloudEdgeCacheKeysets
         GcloudEdgeCacheKeysetsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheKeysetsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show details about an EdgeCacheKeyset      resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudEdgeCacheKeysetsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// export an EdgeCacheKeyset resource
@@ -121,23 +79,9 @@ public class GcloudEdgeCacheKeysets
         GcloudEdgeCacheKeysetsExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Export(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheKeysetsExportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// export an EdgeCacheKeyset resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Export(
-        GcloudEdgeCacheKeysetsExportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// import an EdgeCacheKeyset resource
@@ -149,23 +93,9 @@ public class GcloudEdgeCacheKeysets
         GcloudEdgeCacheKeysetsImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Import(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheKeysetsImportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// import an EdgeCacheKeyset resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Import(
-        GcloudEdgeCacheKeysetsImportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list EdgeCacheKeyset resources
@@ -177,23 +107,9 @@ public class GcloudEdgeCacheKeysets
         GcloudEdgeCacheKeysetsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheKeysetsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list EdgeCacheKeyset resources
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudEdgeCacheKeysetsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an EdgeCacheKeyset resource
@@ -205,23 +121,9 @@ public class GcloudEdgeCacheKeysets
         GcloudEdgeCacheKeysetsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheKeysetsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an EdgeCacheKeyset resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudEdgeCacheKeysetsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

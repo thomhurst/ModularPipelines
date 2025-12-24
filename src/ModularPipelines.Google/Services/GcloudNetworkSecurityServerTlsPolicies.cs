@@ -37,23 +37,9 @@ public class GcloudNetworkSecurityServerTlsPolicies
         GcloudNetworkSecurityServerTlsPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityServerTlsPoliciesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete ServerTlsPolicy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudNetworkSecurityServerTlsPoliciesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe      ServerTlsPolicy
@@ -65,23 +51,9 @@ public class GcloudNetworkSecurityServerTlsPolicies
         GcloudNetworkSecurityServerTlsPoliciesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityServerTlsPoliciesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe      ServerTlsPolicy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudNetworkSecurityServerTlsPoliciesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// export ServerTlsPolicy
@@ -93,23 +65,9 @@ public class GcloudNetworkSecurityServerTlsPolicies
         GcloudNetworkSecurityServerTlsPoliciesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Export(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityServerTlsPoliciesExportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// export ServerTlsPolicy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Export(
-        GcloudNetworkSecurityServerTlsPoliciesExportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// import ServerTlsPolicy
@@ -121,23 +79,9 @@ public class GcloudNetworkSecurityServerTlsPolicies
         GcloudNetworkSecurityServerTlsPoliciesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Import(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityServerTlsPoliciesImportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// import ServerTlsPolicy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Import(
-        GcloudNetworkSecurityServerTlsPoliciesImportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list ServerTlsPolicies
@@ -149,23 +93,9 @@ public class GcloudNetworkSecurityServerTlsPolicies
         GcloudNetworkSecurityServerTlsPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityServerTlsPoliciesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list ServerTlsPolicies
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudNetworkSecurityServerTlsPoliciesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

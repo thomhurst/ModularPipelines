@@ -37,23 +37,9 @@ public class GcloudDeployAutomations
         GcloudDeployAutomationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployAutomationsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// deletes a Cloud Deploy Automation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudDeployAutomationsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show details for an Automation
@@ -65,23 +51,9 @@ public class GcloudDeployAutomations
         GcloudDeployAutomationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployAutomationsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show details for an Automation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudDeployAutomationsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// returns the YAML definition of the      specified Automation
@@ -93,23 +65,9 @@ public class GcloudDeployAutomations
         GcloudDeployAutomationsExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Export(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployAutomationsExportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// returns the YAML definition of the      specified Automation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Export(
-        GcloudDeployAutomationsExportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list the Automations
@@ -121,23 +79,9 @@ public class GcloudDeployAutomations
         GcloudDeployAutomationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployAutomationsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list the Automations
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudDeployAutomationsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

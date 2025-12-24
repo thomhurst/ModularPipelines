@@ -37,23 +37,9 @@ public class GcloudParametermanagerParametersVersions
         GcloudParametermanagerParametersVersionsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerParametersVersionsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// creates an Parameter      Manager parameter version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudParametermanagerParametersVersionsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// deletes a single      Parameter Manager parameter version
@@ -65,23 +51,9 @@ public class GcloudParametermanagerParametersVersions
         GcloudParametermanagerParametersVersionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerParametersVersionsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// deletes a single      Parameter Manager parameter version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudParametermanagerParametersVersionsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// gets a single      Parameter Manager parameter version
@@ -93,23 +65,9 @@ public class GcloudParametermanagerParametersVersions
         GcloudParametermanagerParametersVersionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerParametersVersionsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// gets a single      Parameter Manager parameter version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudParametermanagerParametersVersionsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Parameter Manager      parameter versions
@@ -121,23 +79,9 @@ public class GcloudParametermanagerParametersVersions
         GcloudParametermanagerParametersVersionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerParametersVersionsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Parameter Manager      parameter versions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudParametermanagerParametersVersionsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// gets a single      Parameter Manager parameter version render
@@ -149,23 +93,9 @@ public class GcloudParametermanagerParametersVersions
         GcloudParametermanagerParametersVersionsRenderOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Render(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerParametersVersionsRenderOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// gets a single      Parameter Manager parameter version render
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Render(
-        GcloudParametermanagerParametersVersionsRenderOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// updates the properties      of a single Parameter Manager parameter version
@@ -177,23 +107,9 @@ public class GcloudParametermanagerParametersVersions
         GcloudParametermanagerParametersVersionsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerParametersVersionsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// updates the properties      of a single Parameter Manager parameter version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudParametermanagerParametersVersionsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

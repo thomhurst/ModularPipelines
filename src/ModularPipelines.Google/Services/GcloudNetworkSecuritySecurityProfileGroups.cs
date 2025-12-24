@@ -37,23 +37,9 @@ public class GcloudNetworkSecuritySecurityProfileGroups
         GcloudNetworkSecuritySecurityProfileGroupsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfileGroupsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new      Security Profile Group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudNetworkSecuritySecurityProfileGroupsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Security      Profile Group
@@ -65,23 +51,9 @@ public class GcloudNetworkSecuritySecurityProfileGroups
         GcloudNetworkSecuritySecurityProfileGroupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfileGroupsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Security      Profile Group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudNetworkSecuritySecurityProfileGroupsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a      Security Profile Group
@@ -93,23 +65,9 @@ public class GcloudNetworkSecuritySecurityProfileGroups
         GcloudNetworkSecuritySecurityProfileGroupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfileGroupsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a      Security Profile Group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudNetworkSecuritySecurityProfileGroupsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Security      Profile groups
@@ -121,23 +79,9 @@ public class GcloudNetworkSecuritySecurityProfileGroups
         GcloudNetworkSecuritySecurityProfileGroupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfileGroupsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Security      Profile groups
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudNetworkSecuritySecurityProfileGroupsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Security      Profile Group
@@ -149,23 +93,9 @@ public class GcloudNetworkSecuritySecurityProfileGroups
         GcloudNetworkSecuritySecurityProfileGroupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfileGroupsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Security      Profile Group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudNetworkSecuritySecurityProfileGroupsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

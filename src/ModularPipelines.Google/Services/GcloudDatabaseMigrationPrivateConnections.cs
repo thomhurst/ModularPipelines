@@ -37,23 +37,9 @@ public class GcloudDatabaseMigrationPrivateConnections
         GcloudDatabaseMigrationPrivateConnectionsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationPrivateConnectionsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Database      Migration private connection
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudDatabaseMigrationPrivateConnectionsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Database      Migration private connection
@@ -65,23 +51,9 @@ public class GcloudDatabaseMigrationPrivateConnections
         GcloudDatabaseMigrationPrivateConnectionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationPrivateConnectionsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Database      Migration private connection
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudDatabaseMigrationPrivateConnectionsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show details about      a database migration private connection
@@ -93,23 +65,9 @@ public class GcloudDatabaseMigrationPrivateConnections
         GcloudDatabaseMigrationPrivateConnectionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationPrivateConnectionsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show details about      a database migration private connection
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudDatabaseMigrationPrivateConnectionsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list private      connections
@@ -121,23 +79,9 @@ public class GcloudDatabaseMigrationPrivateConnections
         GcloudDatabaseMigrationPrivateConnectionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationPrivateConnectionsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list private      connections
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudDatabaseMigrationPrivateConnectionsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

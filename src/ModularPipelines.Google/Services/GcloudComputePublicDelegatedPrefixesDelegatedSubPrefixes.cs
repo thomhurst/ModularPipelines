@@ -37,23 +37,9 @@ public class GcloudComputePublicDelegatedPrefixesDelegatedSubPrefixes
         GcloudComputePublicDelegatedPrefixesDelegatedSubPrefixesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePublicDelegatedPrefixesDelegatedSubPrefixesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// creates a Compute Engine delegated sub prefix
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudComputePublicDelegatedPrefixesDelegatedSubPrefixesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// deletes a Compute Engine delegated sub prefix
@@ -65,23 +51,9 @@ public class GcloudComputePublicDelegatedPrefixesDelegatedSubPrefixes
         GcloudComputePublicDelegatedPrefixesDelegatedSubPrefixesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePublicDelegatedPrefixesDelegatedSubPrefixesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// deletes a Compute Engine delegated sub prefix
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudComputePublicDelegatedPrefixesDelegatedSubPrefixesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

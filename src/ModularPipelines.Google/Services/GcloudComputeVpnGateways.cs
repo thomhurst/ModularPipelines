@@ -37,23 +37,9 @@ public class GcloudComputeVpnGateways
         GcloudComputeVpnGatewaysCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeVpnGatewaysCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new Compute Engine Highly      Available VPN gateway
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudComputeVpnGatewaysCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete Compute Engine Highly Available      VPN Gateways
@@ -65,23 +51,9 @@ public class GcloudComputeVpnGateways
         GcloudComputeVpnGatewaysDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeVpnGatewaysDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete Compute Engine Highly Available      VPN Gateways
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudComputeVpnGatewaysDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Compute Engine Highly      Available VPN Gateway
@@ -93,23 +65,9 @@ public class GcloudComputeVpnGateways
         GcloudComputeVpnGatewaysDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeVpnGatewaysDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Compute Engine Highly      Available VPN Gateway
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComputeVpnGatewaysDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get status of a Compute Engine      Highly Available VPN Gateway
@@ -121,23 +79,9 @@ public class GcloudComputeVpnGateways
         GcloudComputeVpnGatewaysGetStatusOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetStatus(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeVpnGatewaysGetStatusOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get status of a Compute Engine      Highly Available VPN Gateway
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetStatus(
-        GcloudComputeVpnGatewaysGetStatusOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Google Compute Engine Highly      Available VPN Gateways
@@ -149,23 +93,9 @@ public class GcloudComputeVpnGateways
         GcloudComputeVpnGatewaysListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeVpnGatewaysListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Google Compute Engine Highly      Available VPN Gateways
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComputeVpnGatewaysListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Compute Engine Highly      Available VPN gateway
@@ -177,23 +107,9 @@ public class GcloudComputeVpnGateways
         GcloudComputeVpnGatewaysUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeVpnGatewaysUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Compute Engine Highly      Available VPN gateway
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudComputeVpnGatewaysUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

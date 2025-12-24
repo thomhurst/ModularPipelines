@@ -37,23 +37,9 @@ public class GcloudHealthcareFhirStoresImport
         GcloudHealthcareFhirStoresImportGcsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Gcs(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresImportGcsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// import FHIR resources from      Google Cloud Storage into a Cloud Healthcare API FHIR store
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Gcs(
-        GcloudHealthcareFhirStoresImportGcsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

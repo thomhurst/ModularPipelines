@@ -47,23 +47,9 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesApplyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Apply(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesApplyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// apply a Database      Migration Service conversion workspace
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Apply(
-        GcloudDatabaseMigrationConversionWorkspacesApplyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// commit a Database      Migration Service conversion workspace
@@ -75,23 +61,9 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesCommitOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Commit(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesCommitOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// commit a Database      Migration Service conversion workspace
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Commit(
-        GcloudDatabaseMigrationConversionWorkspacesCommitOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// convert a      Database Migration Service conversion workspace
@@ -103,23 +75,9 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesConvertOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Convert(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesConvertOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// convert a      Database Migration Service conversion workspace
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Convert(
-        GcloudDatabaseMigrationConversionWorkspacesConvertOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a Database      Migration Service conversion workspace
@@ -131,23 +89,9 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Database      Migration Service conversion workspace
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudDatabaseMigrationConversionWorkspacesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Database      Migration conversion workspace
@@ -159,23 +103,9 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Database      Migration conversion workspace
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudDatabaseMigrationConversionWorkspacesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe      DDLs in a Database Migration Service conversion workspace
@@ -187,23 +117,9 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesDescribeDdlsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DescribeDdls(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesDescribeDdlsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe      DDLs in a Database Migration Service conversion workspace
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeDdls(
-        GcloudDatabaseMigrationConversionWorkspacesDescribeDdlsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe database entities in a Database Migration conversion workspace
@@ -215,23 +131,9 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesDescribeEntitiesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DescribeEntities(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesDescribeEntitiesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe database entities in a Database Migration conversion workspace
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeEntities(
-        GcloudDatabaseMigrationConversionWorkspacesDescribeEntitiesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe      issues in a Database Migration Service conversion workspace
@@ -243,23 +145,9 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesDescribeIssuesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DescribeIssues(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesDescribeIssuesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe      issues in a Database Migration Service conversion workspace
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeIssues(
-        GcloudDatabaseMigrationConversionWorkspacesDescribeIssuesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show details      about a database migration conversion workspace
@@ -271,23 +159,9 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show details      about a database migration conversion workspace
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudDatabaseMigrationConversionWorkspacesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// import      mapping rules in a Database Migration Service conversion workspace
@@ -299,23 +173,9 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesImportRulesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ImportRules(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesImportRulesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// import      mapping rules in a Database Migration Service conversion workspace
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ImportRules(
-        GcloudDatabaseMigrationConversionWorkspacesImportRulesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list      background jobs in the conversion workspaces
@@ -327,23 +187,9 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesListBackgroundJobsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListBackgroundJobs(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesListBackgroundJobsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list      background jobs in the conversion workspaces
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListBackgroundJobs(
-        GcloudDatabaseMigrationConversionWorkspacesListBackgroundJobsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list conversion      workspaces
@@ -355,23 +201,9 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list conversion      workspaces
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudDatabaseMigrationConversionWorkspacesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// rollback a      Database Migration Service conversion workspace
@@ -383,23 +215,9 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesRollbackOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Rollback(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesRollbackOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// rollback a      Database Migration Service conversion workspace
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Rollback(
-        GcloudDatabaseMigrationConversionWorkspacesRollbackOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// seed a Database      Migration Service conversion workspace
@@ -411,23 +229,9 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesSeedOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Seed(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesSeedOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// seed a Database      Migration Service conversion workspace
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Seed(
-        GcloudDatabaseMigrationConversionWorkspacesSeedOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Database      Migration Service conversion workspace
@@ -439,23 +243,9 @@ public class GcloudDatabaseMigrationConversionWorkspaces
         GcloudDatabaseMigrationConversionWorkspacesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConversionWorkspacesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Database      Migration Service conversion workspace
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudDatabaseMigrationConversionWorkspacesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

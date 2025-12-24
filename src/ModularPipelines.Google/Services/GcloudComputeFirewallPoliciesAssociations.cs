@@ -37,23 +37,9 @@ public class GcloudComputeFirewallPoliciesAssociations
         GcloudComputeFirewallPoliciesAssociationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeFirewallPoliciesAssociationsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new      association between a firewall policy and an organization or folder      resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudComputeFirewallPoliciesAssociationsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Compute      Engine organization firewall policy association
@@ -65,23 +51,9 @@ public class GcloudComputeFirewallPoliciesAssociations
         GcloudComputeFirewallPoliciesAssociationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeFirewallPoliciesAssociationsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Compute      Engine organization firewall policy association
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudComputeFirewallPoliciesAssociationsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list the associations      of an organization or folder resource
@@ -93,23 +65,9 @@ public class GcloudComputeFirewallPoliciesAssociations
         GcloudComputeFirewallPoliciesAssociationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeFirewallPoliciesAssociationsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list the associations      of an organization or folder resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComputeFirewallPoliciesAssociationsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

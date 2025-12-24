@@ -37,23 +37,9 @@ public class GcloudApigeeApis
         GcloudApigeeApisDeployOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Deploy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudApigeeApisDeployOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// deploy an API proxy to an environment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Deploy(
-        GcloudApigeeApisDeployOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe an Apigee API proxy
@@ -65,23 +51,9 @@ public class GcloudApigeeApis
         GcloudApigeeApisDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudApigeeApisDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe an Apigee API proxy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudApigeeApisDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Apigee API proxies
@@ -93,23 +65,9 @@ public class GcloudApigeeApis
         GcloudApigeeApisListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudApigeeApisListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Apigee API proxies
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudApigeeApisListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// undeploy an Apigee API proxy from an      environment
@@ -121,23 +79,9 @@ public class GcloudApigeeApis
         GcloudApigeeApisUndeployOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Undeploy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudApigeeApisUndeployOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// undeploy an Apigee API proxy from an      environment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Undeploy(
-        GcloudApigeeApisUndeployOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

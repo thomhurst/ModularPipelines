@@ -37,23 +37,9 @@ public class GcloudEndpointsOperations
         GcloudEndpointsOperationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEndpointsOperationsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describes an operation resource for      a given operation name
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudEndpointsOperationsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list operations for a project
@@ -65,23 +51,9 @@ public class GcloudEndpointsOperations
         GcloudEndpointsOperationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEndpointsOperationsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list operations for a project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudEndpointsOperationsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// waits for an operation to complete
@@ -93,23 +65,9 @@ public class GcloudEndpointsOperations
         GcloudEndpointsOperationsWaitOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Wait(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEndpointsOperationsWaitOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// waits for an operation to complete
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Wait(
-        GcloudEndpointsOperationsWaitOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -65,23 +65,9 @@ public class GcloudFunctions
         GcloudFunctionsOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Execute(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// manage Google Cloud Functions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Execute(
-        GcloudFunctionsOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsOptions(), loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// adds an IAM policy binding for a      Google Cloud Function
@@ -93,23 +79,9 @@ public class GcloudFunctions
         GcloudFunctionsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsAddIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// adds an IAM policy binding for a      Google Cloud Function
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudFunctionsAddIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// adds an invoker binding to      the IAM policy of a Google Cloud Function
@@ -121,23 +93,9 @@ public class GcloudFunctions
         GcloudFunctionsAddInvokerPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddInvokerPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsAddInvokerPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// adds an invoker binding to      the IAM policy of a Google Cloud Function
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddInvokerPolicyBinding(
-        GcloudFunctionsAddInvokerPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// triggers execution of a Google Cloud Function
@@ -149,23 +107,9 @@ public class GcloudFunctions
         GcloudFunctionsCallOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Call(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsCallOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// triggers execution of a Google Cloud Function
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Call(
-        GcloudFunctionsCallOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Google Cloud Function
@@ -177,23 +121,9 @@ public class GcloudFunctions
         GcloudFunctionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Google Cloud Function
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudFunctionsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create or update a Google Cloud Function
@@ -205,23 +135,9 @@ public class GcloudFunctions
         GcloudFunctionsDeployOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Deploy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsDeployOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create or update a Google Cloud Function
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Deploy(
-        GcloudFunctionsDeployOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// display details of a Google Cloud Function
@@ -233,23 +149,9 @@ public class GcloudFunctions
         GcloudFunctionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// display details of a Google Cloud Function
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudFunctionsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// detach a Cloud Functions v2 function from its      existing environment and make it a native Cloud Run function
@@ -261,23 +163,9 @@ public class GcloudFunctions
         GcloudFunctionsDetachOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Detach(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsDetachOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// detach a Cloud Functions v2 function from its      existing environment and make it a native Cloud Run function
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Detach(
-        GcloudFunctionsDetachOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get IAM policy for a Google Cloud      Function
@@ -289,23 +177,9 @@ public class GcloudFunctions
         GcloudFunctionsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsGetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get IAM policy for a Google Cloud      Function
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudFunctionsGetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Google Cloud Functions
@@ -317,23 +191,9 @@ public class GcloudFunctions
         GcloudFunctionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Google Cloud Functions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudFunctionsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// removes an IAM policy binding      from a Google Cloud Function
@@ -345,23 +205,9 @@ public class GcloudFunctions
         GcloudFunctionsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsRemoveIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// removes an IAM policy binding      from a Google Cloud Function
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudFunctionsRemoveIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// removes an invoker binding      from the IAM policy of a Google Cloud Function
@@ -373,23 +219,9 @@ public class GcloudFunctions
         GcloudFunctionsRemoveInvokerPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveInvokerPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsRemoveInvokerPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// removes an invoker binding      from the IAM policy of a Google Cloud Function
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveInvokerPolicyBinding(
-        GcloudFunctionsRemoveInvokerPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// sets IAM policy for a Google Cloud      Function
@@ -401,23 +233,9 @@ public class GcloudFunctions
         GcloudFunctionsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsSetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// sets IAM policy for a Google Cloud      Function
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetIamPolicy(
-        GcloudFunctionsSetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

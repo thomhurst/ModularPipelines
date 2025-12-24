@@ -37,23 +37,9 @@ public class GcloudHealthcareDicomStoresExport
         GcloudHealthcareDicomStoresExportBqOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Bq(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresExportBqOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// export a Cloud Healthcare API      API DICOM store to BigQuery
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Bq(
-        GcloudHealthcareDicomStoresExportBqOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// export a Cloud Healthcare API      DICOM store to Google Cloud Storage
@@ -65,23 +51,9 @@ public class GcloudHealthcareDicomStoresExport
         GcloudHealthcareDicomStoresExportGcsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Gcs(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresExportGcsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// export a Cloud Healthcare API      DICOM store to Google Cloud Storage
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Gcs(
-        GcloudHealthcareDicomStoresExportGcsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

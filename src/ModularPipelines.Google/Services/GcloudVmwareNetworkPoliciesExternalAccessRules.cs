@@ -37,23 +37,9 @@ public class GcloudVmwareNetworkPoliciesExternalAccessRules
         GcloudVmwareNetworkPoliciesExternalAccessRulesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPoliciesExternalAccessRulesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a      VMware Engine external access firewall rule
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudVmwareNetworkPoliciesExternalAccessRulesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a      VMware Engine external access rule
@@ -65,23 +51,9 @@ public class GcloudVmwareNetworkPoliciesExternalAccessRules
         GcloudVmwareNetworkPoliciesExternalAccessRulesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPoliciesExternalAccessRulesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a      VMware Engine external access rule
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudVmwareNetworkPoliciesExternalAccessRulesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a      VMware Engine external access rule
@@ -93,23 +65,9 @@ public class GcloudVmwareNetworkPoliciesExternalAccessRules
         GcloudVmwareNetworkPoliciesExternalAccessRulesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPoliciesExternalAccessRulesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a      VMware Engine external access rule
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudVmwareNetworkPoliciesExternalAccessRulesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list VMware      Engine external access rules
@@ -121,23 +79,9 @@ public class GcloudVmwareNetworkPoliciesExternalAccessRules
         GcloudVmwareNetworkPoliciesExternalAccessRulesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPoliciesExternalAccessRulesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list VMware      Engine external access rules
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudVmwareNetworkPoliciesExternalAccessRulesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a      VMware Engine network policy
@@ -149,23 +93,9 @@ public class GcloudVmwareNetworkPoliciesExternalAccessRules
         GcloudVmwareNetworkPoliciesExternalAccessRulesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPoliciesExternalAccessRulesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a      VMware Engine network policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudVmwareNetworkPoliciesExternalAccessRulesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudComputeInstancesNetworkInterfaces
         GcloudComputeInstancesNetworkInterfacesAddOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Add(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesNetworkInterfacesAddOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add a Dynamic Network      Interface to a Compute Engine instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Add(
-        GcloudComputeInstancesNetworkInterfacesAddOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Dynamic      Network Interface from a Compute Engine instance
@@ -65,23 +51,9 @@ public class GcloudComputeInstancesNetworkInterfaces
         GcloudComputeInstancesNetworkInterfacesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesNetworkInterfacesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Dynamic      Network Interface from a Compute Engine instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudComputeInstancesNetworkInterfacesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get      the effective firewalls for a Compute Engine virtual machine network      interface
@@ -93,23 +65,9 @@ public class GcloudComputeInstancesNetworkInterfaces
         GcloudComputeInstancesNetworkInterfacesGetEffectiveFirewallsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetEffectiveFirewalls(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesNetworkInterfacesGetEffectiveFirewallsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get      the effective firewalls for a Compute Engine virtual machine network      interface
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetEffectiveFirewalls(
-        GcloudComputeInstancesNetworkInterfacesGetEffectiveFirewallsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Compute      Engine virtual machine network interface
@@ -121,23 +79,9 @@ public class GcloudComputeInstancesNetworkInterfaces
         GcloudComputeInstancesNetworkInterfacesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstancesNetworkInterfacesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Compute      Engine virtual machine network interface
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudComputeInstancesNetworkInterfacesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudContainerFleetMembershipsSupportAccess
         GcloudContainerFleetMembershipsSupportAccessDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsSupportAccessDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe      support access for the specified membership
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudContainerFleetMembershipsSupportAccessDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// disable support      access for the specified membership
@@ -65,23 +51,9 @@ public class GcloudContainerFleetMembershipsSupportAccess
         GcloudContainerFleetMembershipsSupportAccessDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Disable(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsSupportAccessDisableOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// disable support      access for the specified membership
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Disable(
-        GcloudContainerFleetMembershipsSupportAccessDisableOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// enable support      access for the specified membership
@@ -93,23 +65,9 @@ public class GcloudContainerFleetMembershipsSupportAccess
         GcloudContainerFleetMembershipsSupportAccessEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Enable(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsSupportAccessEnableOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// enable support      access for the specified membership
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Enable(
-        GcloudContainerFleetMembershipsSupportAccessEnableOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// generates YAML      for anthos support RBAC policies
@@ -121,23 +79,9 @@ public class GcloudContainerFleetMembershipsSupportAccess
         GcloudContainerFleetMembershipsSupportAccessGetYamlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetYaml(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMembershipsSupportAccessGetYamlOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// generates YAML      for anthos support RBAC policies
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetYaml(
-        GcloudContainerFleetMembershipsSupportAccessGetYamlOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudBmsInstances
         GcloudBmsInstancesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Bare Metal solution instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudBmsInstancesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// disable interactive serial      console for a Bare Metal Solution instance
@@ -65,23 +51,9 @@ public class GcloudBmsInstances
         GcloudBmsInstancesDisableSerialConsoleOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DisableSerialConsole(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesDisableSerialConsoleOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// disable interactive serial      console for a Bare Metal Solution instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DisableSerialConsole(
-        GcloudBmsInstancesDisableSerialConsoleOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// enable interactive serial      console for a Bare Metal Solution instance
@@ -93,23 +65,9 @@ public class GcloudBmsInstances
         GcloudBmsInstancesEnableSerialConsoleOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await EnableSerialConsole(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesEnableSerialConsoleOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// enable interactive serial      console for a Bare Metal Solution instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> EnableSerialConsole(
-        GcloudBmsInstancesEnableSerialConsoleOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Bare Metal Solution instances in a project
@@ -121,23 +79,9 @@ public class GcloudBmsInstances
         GcloudBmsInstancesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Bare Metal Solution instances in a project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudBmsInstancesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// rename a Bare Metal Solution instance
@@ -149,23 +93,9 @@ public class GcloudBmsInstances
         GcloudBmsInstancesRenameOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Rename(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesRenameOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// rename a Bare Metal Solution instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Rename(
-        GcloudBmsInstancesRenameOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// reset a Bare Metal Solution instance
@@ -177,23 +107,9 @@ public class GcloudBmsInstances
         GcloudBmsInstancesResetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Reset(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesResetOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// reset a Bare Metal Solution instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Reset(
-        GcloudBmsInstancesResetOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// start a Bare Metal Solution instance
@@ -205,23 +121,9 @@ public class GcloudBmsInstances
         GcloudBmsInstancesStartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Start(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesStartOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// start a Bare Metal Solution instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Start(
-        GcloudBmsInstancesStartOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// stop a Bare Metal Solution instance
@@ -233,23 +135,9 @@ public class GcloudBmsInstances
         GcloudBmsInstancesStopOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Stop(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesStopOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// stop a Bare Metal Solution instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Stop(
-        GcloudBmsInstancesStopOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Bare Metal Solution instance
@@ -261,23 +149,9 @@ public class GcloudBmsInstances
         GcloudBmsInstancesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsInstancesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Bare Metal Solution instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudBmsInstancesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

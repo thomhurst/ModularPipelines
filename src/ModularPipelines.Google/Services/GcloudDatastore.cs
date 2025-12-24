@@ -53,23 +53,9 @@ public class GcloudDatastore
         GcloudDatastoreOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Execute(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastoreOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// manage your Cloud Datastore resources
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Execute(
-        GcloudDatastoreOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastoreOptions(), loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// export Cloud Datastore entities to Google Cloud      Storage
@@ -81,23 +67,9 @@ public class GcloudDatastore
         GcloudDatastoreExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Export(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastoreExportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// export Cloud Datastore entities to Google Cloud      Storage
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Export(
-        GcloudDatastoreExportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// import Cloud Datastore entities from Google Cloud      Storage
@@ -109,23 +81,9 @@ public class GcloudDatastore
         GcloudDatastoreImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Import(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastoreImportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// import Cloud Datastore entities from Google Cloud      Storage
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Import(
-        GcloudDatastoreImportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -53,23 +53,9 @@ public class GcloudSchedulerJobs
         GcloudSchedulerJobsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudSchedulerJobsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show details about a job
@@ -81,23 +67,9 @@ public class GcloudSchedulerJobs
         GcloudSchedulerJobsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show details about a job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudSchedulerJobsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list jobs
@@ -109,23 +81,9 @@ public class GcloudSchedulerJobs
         GcloudSchedulerJobsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list jobs
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudSchedulerJobsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// pause the execution of a job
@@ -137,23 +95,9 @@ public class GcloudSchedulerJobs
         GcloudSchedulerJobsPauseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Pause(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsPauseOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// pause the execution of a job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Pause(
-        GcloudSchedulerJobsPauseOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// resume execution of a paused job
@@ -165,23 +109,9 @@ public class GcloudSchedulerJobs
         GcloudSchedulerJobsResumeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Resume(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsResumeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// resume execution of a paused job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Resume(
-        GcloudSchedulerJobsResumeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// demand execution of a job
@@ -193,23 +123,9 @@ public class GcloudSchedulerJobs
         GcloudSchedulerJobsRunOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Run(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsRunOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// demand execution of a job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Run(
-        GcloudSchedulerJobsRunOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

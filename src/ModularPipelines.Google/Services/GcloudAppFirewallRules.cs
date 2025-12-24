@@ -37,23 +37,9 @@ public class GcloudAppFirewallRules
         GcloudAppFirewallRulesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppFirewallRulesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// creates a firewall rule
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudAppFirewallRulesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// deletes a specified firewall rule
@@ -65,23 +51,9 @@ public class GcloudAppFirewallRules
         GcloudAppFirewallRulesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppFirewallRulesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// deletes a specified firewall rule
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudAppFirewallRulesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// prints the fields of a specified      firewall rule
@@ -93,23 +65,9 @@ public class GcloudAppFirewallRules
         GcloudAppFirewallRulesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppFirewallRulesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// prints the fields of a specified      firewall rule
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudAppFirewallRulesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// lists the firewall rules
@@ -121,23 +79,9 @@ public class GcloudAppFirewallRules
         GcloudAppFirewallRulesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppFirewallRulesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// lists the firewall rules
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudAppFirewallRulesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// display firewall rules that match a      given IP
@@ -149,23 +93,9 @@ public class GcloudAppFirewallRules
         GcloudAppFirewallRulesTestIpOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await TestIp(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppFirewallRulesTestIpOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// display firewall rules that match a      given IP
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> TestIp(
-        GcloudAppFirewallRulesTestIpOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// updates a firewall rule
@@ -177,23 +107,9 @@ public class GcloudAppFirewallRules
         GcloudAppFirewallRulesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppFirewallRulesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// updates a firewall rule
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudAppFirewallRulesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

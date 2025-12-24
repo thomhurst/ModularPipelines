@@ -37,23 +37,9 @@ public class GcloudImmersiveStreamXrOperations
         GcloudImmersiveStreamXrOperationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrOperationsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get description of a      long-running Immersive Stream for XR operation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudImmersiveStreamXrOperationsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Immersive Stream for XR      operations
@@ -65,23 +51,9 @@ public class GcloudImmersiveStreamXrOperations
         GcloudImmersiveStreamXrOperationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrOperationsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Immersive Stream for XR      operations
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudImmersiveStreamXrOperationsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// running Immersive      Stream for XR operation until it completes
@@ -93,23 +65,9 @@ public class GcloudImmersiveStreamXrOperations
         GcloudImmersiveStreamXrOperationsWaitOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Wait(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrOperationsWaitOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// running Immersive      Stream for XR operation until it completes
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Wait(
-        GcloudImmersiveStreamXrOperationsWaitOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

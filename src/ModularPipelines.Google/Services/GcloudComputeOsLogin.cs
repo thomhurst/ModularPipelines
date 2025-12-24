@@ -47,23 +47,9 @@ public class GcloudComputeOsLogin
         GcloudComputeOsLoginDescribeProfileOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DescribeProfile(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsLoginDescribeProfileOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe the OS Login profile      for the current user
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeProfile(
-        GcloudComputeOsLoginDescribeProfileOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove the posix account      information for the current user
@@ -75,23 +61,9 @@ public class GcloudComputeOsLogin
         GcloudComputeOsLoginRemoveProfileOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveProfile(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsLoginRemoveProfileOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove the posix account      information for the current user
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveProfile(
-        GcloudComputeOsLoginRemoveProfileOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

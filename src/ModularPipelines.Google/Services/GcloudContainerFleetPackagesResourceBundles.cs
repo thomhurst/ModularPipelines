@@ -47,23 +47,9 @@ public class GcloudContainerFleetPackagesResourceBundles
         GcloudContainerFleetPackagesResourceBundlesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPackagesResourceBundlesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create Package      Rollouts Resource Bundle
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudContainerFleetPackagesResourceBundlesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete Package      Rollouts Resource Bundle
@@ -75,23 +61,9 @@ public class GcloudContainerFleetPackagesResourceBundles
         GcloudContainerFleetPackagesResourceBundlesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPackagesResourceBundlesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete Package      Rollouts Resource Bundle
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudContainerFleetPackagesResourceBundlesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe      Package Rollouts Resource Bundle
@@ -103,23 +75,9 @@ public class GcloudContainerFleetPackagesResourceBundles
         GcloudContainerFleetPackagesResourceBundlesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPackagesResourceBundlesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe      Package Rollouts Resource Bundle
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudContainerFleetPackagesResourceBundlesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Package      Rollouts Resource Bundles
@@ -131,23 +89,9 @@ public class GcloudContainerFleetPackagesResourceBundles
         GcloudContainerFleetPackagesResourceBundlesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPackagesResourceBundlesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Package      Rollouts Resource Bundles
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudContainerFleetPackagesResourceBundlesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update Package      Rollouts Resource Bundle
@@ -159,23 +103,9 @@ public class GcloudContainerFleetPackagesResourceBundles
         GcloudContainerFleetPackagesResourceBundlesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetPackagesResourceBundlesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update Package      Rollouts Resource Bundle
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudContainerFleetPackagesResourceBundlesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

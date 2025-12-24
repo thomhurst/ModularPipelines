@@ -65,23 +65,9 @@ public class GcloudTransfer
         GcloudTransferOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Execute(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// manage Transfer Service jobs, operations, and agents
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Execute(
-        GcloudTransferOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferOptions(), loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// authorize an account for all Transfer Service      features
@@ -93,23 +79,9 @@ public class GcloudTransfer
         GcloudTransferAuthorizeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Authorize(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferAuthorizeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// authorize an account for all Transfer Service      features
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Authorize(
-        GcloudTransferAuthorizeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

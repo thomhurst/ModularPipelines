@@ -37,23 +37,9 @@ public class GcloudSccPostureDeployments
         GcloudSccPostureDeploymentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccPostureDeploymentsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Cloud Security Command      Center posture deployment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudSccPostureDeploymentsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Cloud Security Command      Center posture deployment
@@ -65,23 +51,9 @@ public class GcloudSccPostureDeployments
         GcloudSccPostureDeploymentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccPostureDeploymentsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Cloud Security Command      Center posture deployment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudSccPostureDeploymentsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Cloud Security Command      Center posture deployment
@@ -93,23 +65,9 @@ public class GcloudSccPostureDeployments
         GcloudSccPostureDeploymentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccPostureDeploymentsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Cloud Security Command      Center posture deployment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudSccPostureDeploymentsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list the details of the Cloud      Security Command Center posture deployments
@@ -121,23 +79,9 @@ public class GcloudSccPostureDeployments
         GcloudSccPostureDeploymentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccPostureDeploymentsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list the details of the Cloud      Security Command Center posture deployments
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudSccPostureDeploymentsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update the given Cloud Security      Command Center posture deployment
@@ -149,23 +93,9 @@ public class GcloudSccPostureDeployments
         GcloudSccPostureDeploymentsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccPostureDeploymentsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update the given Cloud Security      Command Center posture deployment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudSccPostureDeploymentsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

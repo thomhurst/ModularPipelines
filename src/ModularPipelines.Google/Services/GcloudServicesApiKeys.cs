@@ -37,23 +37,9 @@ public class GcloudServicesApiKeys
         GcloudServicesApiKeysCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesApiKeysCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create an API key
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudServicesApiKeysCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an API key
@@ -65,23 +51,9 @@ public class GcloudServicesApiKeys
         GcloudServicesApiKeysDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesApiKeysDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an API key
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudServicesApiKeysDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe an API key's metadata
@@ -93,23 +65,9 @@ public class GcloudServicesApiKeys
         GcloudServicesApiKeysDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesApiKeysDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe an API key's metadata
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudServicesApiKeysDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the key string of an API key
@@ -121,23 +79,9 @@ public class GcloudServicesApiKeys
         GcloudServicesApiKeysGetKeyStringOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetKeyString(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesApiKeysGetKeyStringOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the key string of an API key
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetKeyString(
-        GcloudServicesApiKeysGetKeyStringOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// lists API keys
@@ -149,23 +93,9 @@ public class GcloudServicesApiKeys
         GcloudServicesApiKeysListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesApiKeysListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// lists API keys
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudServicesApiKeysListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// look up resource name of a key string
@@ -177,23 +107,9 @@ public class GcloudServicesApiKeys
         GcloudServicesApiKeysLookupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Lookup(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesApiKeysLookupOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// look up resource name of a key string
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Lookup(
-        GcloudServicesApiKeysLookupOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// undelete an API key
@@ -205,23 +121,9 @@ public class GcloudServicesApiKeys
         GcloudServicesApiKeysUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Undelete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesApiKeysUndeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// undelete an API key
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Undelete(
-        GcloudServicesApiKeysUndeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an API key's metadata
@@ -233,23 +135,9 @@ public class GcloudServicesApiKeys
         GcloudServicesApiKeysUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesApiKeysUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an API key's metadata
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudServicesApiKeysUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

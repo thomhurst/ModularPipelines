@@ -37,23 +37,9 @@ public class GcloudBmsNfsShares
         GcloudBmsNfsSharesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNfsSharesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Bare Metal Solution NFS share
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudBmsNfsSharesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Bare Metal Solution NFS share
@@ -65,23 +51,9 @@ public class GcloudBmsNfsShares
         GcloudBmsNfsSharesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNfsSharesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Bare Metal Solution NFS share
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudBmsNfsSharesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Bare Metal solution NFS share
@@ -93,23 +65,9 @@ public class GcloudBmsNfsShares
         GcloudBmsNfsSharesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNfsSharesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Bare Metal solution NFS share
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudBmsNfsSharesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Bare Metal Solution NFS shares in a      project
@@ -121,23 +79,9 @@ public class GcloudBmsNfsShares
         GcloudBmsNfsSharesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNfsSharesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Bare Metal Solution NFS shares in a      project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudBmsNfsSharesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// share
@@ -149,23 +93,9 @@ public class GcloudBmsNfsShares
         GcloudBmsNfsSharesRenameOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Rename(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNfsSharesRenameOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// share
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Rename(
-        GcloudBmsNfsSharesRenameOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Bare Metal Solution NFS share
@@ -177,23 +107,9 @@ public class GcloudBmsNfsShares
         GcloudBmsNfsSharesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNfsSharesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Bare Metal Solution NFS share
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudBmsNfsSharesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

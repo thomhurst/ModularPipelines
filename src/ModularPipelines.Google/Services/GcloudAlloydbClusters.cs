@@ -37,23 +37,9 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new AlloyDB cluster within a      given project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudAlloydbClustersCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a new AlloyDB SECONDARY      cluster within a given project
@@ -65,23 +51,9 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersCreateSecondaryOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await CreateSecondary(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersCreateSecondaryOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new AlloyDB SECONDARY      cluster within a given project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateSecondary(
-        GcloudAlloydbClustersCreateSecondaryOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an AlloyDB cluster in a given      region
@@ -93,23 +65,9 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an AlloyDB cluster in a given      region
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudAlloydbClustersDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe an AlloyDB cluster in a given      project and region
@@ -121,23 +79,9 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe an AlloyDB cluster in a given      project and region
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudAlloydbClustersDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// export data from an AlloyDB cluster to      Google Cloud Storage
@@ -149,23 +93,9 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Export(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersExportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// export data from an AlloyDB cluster to      Google Cloud Storage
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Export(
-        GcloudAlloydbClustersExportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// import data into an AlloyDB cluster from      Google Cloud Storage
@@ -177,23 +107,9 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Import(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersImportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// import data into an AlloyDB cluster from      Google Cloud Storage
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Import(
-        GcloudAlloydbClustersImportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list AlloyDB clusters in a given project and      region
@@ -205,23 +121,9 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list AlloyDB clusters in a given project and      region
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudAlloydbClustersListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// migrate Cloud SQL instance to      an AlloyDB cluster using an existing Cloud SQL backup
@@ -233,23 +135,9 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersMigrateCloudSqlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await MigrateCloudSql(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersMigrateCloudSqlOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// migrate Cloud SQL instance to      an AlloyDB cluster using an existing Cloud SQL backup
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> MigrateCloudSql(
-        GcloudAlloydbClustersMigrateCloudSqlOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// promote an AlloyDB SECONDARY cluster in a      given project and region
@@ -261,23 +149,9 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersPromoteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Promote(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersPromoteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// promote an AlloyDB SECONDARY cluster in a      given project and region
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Promote(
-        GcloudAlloydbClustersPromoteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// restore an AlloyDB cluster from a given      backup or a source cluster and a timestamp
@@ -289,23 +163,9 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersRestoreOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Restore(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersRestoreOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// restore an AlloyDB cluster from a given      backup or a source cluster and a timestamp
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Restore(
-        GcloudAlloydbClustersRestoreOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// switchover an AlloyDB SECONDARY      cluster in a given project and region
@@ -317,23 +177,9 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersSwitchoverOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Switchover(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersSwitchoverOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// switchover an AlloyDB SECONDARY      cluster in a given project and region
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Switchover(
-        GcloudAlloydbClustersSwitchoverOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an AlloyDB cluster within a given      project and region
@@ -345,23 +191,9 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an AlloyDB cluster within a given      project and region
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudAlloydbClustersUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// upgrade an AlloyDB cluster within a given      project and region
@@ -373,23 +205,9 @@ public class GcloudAlloydbClusters
         GcloudAlloydbClustersUpgradeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Upgrade(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersUpgradeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// upgrade an AlloyDB cluster within a given      project and region
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Upgrade(
-        GcloudAlloydbClustersUpgradeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -47,23 +47,9 @@ public class GcloudMlVideo
         GcloudMlVideoDetectExplicitContentOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DetectExplicitContent(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlVideoDetectExplicitContentOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// detect explicit content in videos
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DetectExplicitContent(
-        GcloudMlVideoDetectExplicitContentOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// detect general labels for videos
@@ -75,23 +61,9 @@ public class GcloudMlVideo
         GcloudMlVideoDetectLabelsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DetectLabels(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlVideoDetectLabelsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// detect general labels for videos
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DetectLabels(
-        GcloudMlVideoDetectLabelsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// detect shot changes in videos
@@ -103,23 +75,9 @@ public class GcloudMlVideo
         GcloudMlVideoDetectShotChangesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DetectShotChanges(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudMlVideoDetectShotChangesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// detect shot changes in videos
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DetectShotChanges(
-        GcloudMlVideoDetectShotChangesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

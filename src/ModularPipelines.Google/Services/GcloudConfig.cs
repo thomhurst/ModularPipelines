@@ -47,23 +47,9 @@ public class GcloudConfig
         GcloudConfigOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Execute(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudConfigOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// view and edit Google Cloud CLI properties
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Execute(
-        GcloudConfigOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudConfigOptions(), loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// print the value of a Google Cloud CLI property
@@ -75,23 +61,9 @@ public class GcloudConfig
         GcloudConfigGetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Get(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudConfigGetOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// print the value of a Google Cloud CLI property
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Get(
-        GcloudConfigGetOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Google Cloud CLI properties for the currently      active configuration
@@ -103,23 +75,9 @@ public class GcloudConfig
         GcloudConfigListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudConfigListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Google Cloud CLI properties for the currently      active configuration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudConfigListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set a Google Cloud CLI property
@@ -131,23 +89,9 @@ public class GcloudConfig
         GcloudConfigSetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Set(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudConfigSetOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set a Google Cloud CLI property
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Set(
-        GcloudConfigSetOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// unset a Google Cloud CLI property
@@ -159,23 +103,9 @@ public class GcloudConfig
         GcloudConfigUnsetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Unset(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudConfigUnsetOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// unset a Google Cloud CLI property
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Unset(
-        GcloudConfigUnsetOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

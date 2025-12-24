@@ -37,23 +37,9 @@ public class GcloudNetworkServicesMulticastDomainGroups
         GcloudNetworkServicesMulticastDomainGroupsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainGroupsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a multicast      domain group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudNetworkServicesMulticastDomainGroupsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a multicast      domain group
@@ -65,23 +51,9 @@ public class GcloudNetworkServicesMulticastDomainGroups
         GcloudNetworkServicesMulticastDomainGroupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainGroupsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a multicast      domain group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudNetworkServicesMulticastDomainGroupsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a      multicast domain group
@@ -93,23 +65,9 @@ public class GcloudNetworkServicesMulticastDomainGroups
         GcloudNetworkServicesMulticastDomainGroupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainGroupsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a      multicast domain group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudNetworkServicesMulticastDomainGroupsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list multicast      domain groups
@@ -121,23 +79,9 @@ public class GcloudNetworkServicesMulticastDomainGroups
         GcloudNetworkServicesMulticastDomainGroupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainGroupsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list multicast      domain groups
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudNetworkServicesMulticastDomainGroupsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a multicast      domain group
@@ -149,23 +93,9 @@ public class GcloudNetworkServicesMulticastDomainGroups
         GcloudNetworkServicesMulticastDomainGroupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainGroupsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a multicast      domain group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudNetworkServicesMulticastDomainGroupsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

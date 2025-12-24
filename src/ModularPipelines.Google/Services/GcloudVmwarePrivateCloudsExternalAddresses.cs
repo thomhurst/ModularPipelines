@@ -37,23 +37,9 @@ public class GcloudVmwarePrivateCloudsExternalAddresses
         GcloudVmwarePrivateCloudsExternalAddressesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsExternalAddressesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create an external      IP address
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudVmwarePrivateCloudsExternalAddressesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete external IP      address from a VMware Engine private cloud
@@ -65,23 +51,9 @@ public class GcloudVmwarePrivateCloudsExternalAddresses
         GcloudVmwarePrivateCloudsExternalAddressesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsExternalAddressesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete external IP      address from a VMware Engine private cloud
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudVmwarePrivateCloudsExternalAddressesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe an      external IP address in a VMware Engine private cloud
@@ -93,23 +65,9 @@ public class GcloudVmwarePrivateCloudsExternalAddresses
         GcloudVmwarePrivateCloudsExternalAddressesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsExternalAddressesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe an      external IP address in a VMware Engine private cloud
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudVmwarePrivateCloudsExternalAddressesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list external IP      addresses in a VMware Engine private cloud
@@ -121,23 +79,9 @@ public class GcloudVmwarePrivateCloudsExternalAddresses
         GcloudVmwarePrivateCloudsExternalAddressesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsExternalAddressesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list external IP      addresses in a VMware Engine private cloud
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudVmwarePrivateCloudsExternalAddressesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an external      IP address in a VMware Engine private cloud
@@ -149,23 +93,9 @@ public class GcloudVmwarePrivateCloudsExternalAddresses
         GcloudVmwarePrivateCloudsExternalAddressesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsExternalAddressesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an external      IP address in a VMware Engine private cloud
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudVmwarePrivateCloudsExternalAddressesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

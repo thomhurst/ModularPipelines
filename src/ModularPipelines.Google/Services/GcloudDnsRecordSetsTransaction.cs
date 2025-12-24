@@ -37,23 +37,9 @@ public class GcloudDnsRecordSetsTransaction
         GcloudDnsRecordSetsTransactionAbortOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Abort(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsRecordSetsTransactionAbortOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// abort transaction
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Abort(
-        GcloudDnsRecordSetsTransactionAbortOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set addition to      the transaction
@@ -65,23 +51,9 @@ public class GcloudDnsRecordSetsTransaction
         GcloudDnsRecordSetsTransactionAddOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Add(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsRecordSetsTransactionAddOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set addition to      the transaction
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Add(
-        GcloudDnsRecordSetsTransactionAddOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe the transaction
@@ -93,23 +65,9 @@ public class GcloudDnsRecordSetsTransaction
         GcloudDnsRecordSetsTransactionDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsRecordSetsTransactionDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe the transaction
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudDnsRecordSetsTransactionDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// execute the transaction on      Cloud DNS
@@ -121,23 +79,9 @@ public class GcloudDnsRecordSetsTransaction
         GcloudDnsRecordSetsTransactionExecuteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Execute(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsRecordSetsTransactionExecuteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// execute the transaction on      Cloud DNS
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Execute(
-        GcloudDnsRecordSetsTransactionExecuteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set deletion to      the transaction
@@ -149,23 +93,9 @@ public class GcloudDnsRecordSetsTransaction
         GcloudDnsRecordSetsTransactionRemoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Remove(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsRecordSetsTransactionRemoveOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set deletion to      the transaction
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Remove(
-        GcloudDnsRecordSetsTransactionRemoveOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// start a transaction
@@ -177,23 +107,9 @@ public class GcloudDnsRecordSetsTransaction
         GcloudDnsRecordSetsTransactionStartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Start(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsRecordSetsTransactionStartOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// start a transaction
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Start(
-        GcloudDnsRecordSetsTransactionStartOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

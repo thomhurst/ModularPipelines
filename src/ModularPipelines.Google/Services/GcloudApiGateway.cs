@@ -65,23 +65,9 @@ public class GcloudApiGateway
         GcloudApiGatewayOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Execute(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudApiGatewayOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// manage Cloud API Gateway resources
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Execute(
-        GcloudApiGatewayOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudApiGatewayOptions(), loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

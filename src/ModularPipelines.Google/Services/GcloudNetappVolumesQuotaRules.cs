@@ -37,23 +37,9 @@ public class GcloudNetappVolumesQuotaRules
         GcloudNetappVolumesQuotaRulesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesQuotaRulesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Cloud NetApp Volume      Quota Rule
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudNetappVolumesQuotaRulesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Cloud NetApp Volume      QuotaRule
@@ -65,23 +51,9 @@ public class GcloudNetappVolumesQuotaRules
         GcloudNetappVolumesQuotaRulesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesQuotaRulesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Cloud NetApp Volume      QuotaRule
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudNetappVolumesQuotaRulesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Cloud NetApp Volume      Quota Rule
@@ -93,23 +65,9 @@ public class GcloudNetappVolumesQuotaRules
         GcloudNetappVolumesQuotaRulesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesQuotaRulesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Cloud NetApp Volume      Quota Rule
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudNetappVolumesQuotaRulesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Cloud NetApp Volume      QuotaRules
@@ -121,23 +79,9 @@ public class GcloudNetappVolumesQuotaRules
         GcloudNetappVolumesQuotaRulesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesQuotaRulesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Cloud NetApp Volume      QuotaRules
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudNetappVolumesQuotaRulesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Cloud NetApp Volume      QuotaRule
@@ -149,23 +93,9 @@ public class GcloudNetappVolumesQuotaRules
         GcloudNetappVolumesQuotaRulesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesQuotaRulesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Cloud NetApp Volume      QuotaRule
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudNetappVolumesQuotaRulesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

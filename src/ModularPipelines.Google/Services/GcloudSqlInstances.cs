@@ -37,23 +37,9 @@ public class GcloudSqlInstances
         GcloudSqlInstancesAcquireSsrsLeaseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AcquireSsrsLease(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesAcquireSsrsLeaseOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// acquires a SQL Server Reporting      Services lease on a Cloud SQL instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AcquireSsrsLease(
-        GcloudSqlInstancesAcquireSsrsLeaseOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// clones a Cloud SQL instance
@@ -65,23 +51,9 @@ public class GcloudSqlInstances
         GcloudSqlInstancesCloneOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Clone(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesCloneOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// clones a Cloud SQL instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Clone(
-        GcloudSqlInstancesCloneOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// creates a new Cloud SQL instance
@@ -93,23 +65,9 @@ public class GcloudSqlInstances
         GcloudSqlInstancesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// creates a new Cloud SQL instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudSqlInstancesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// deletes a Cloud SQL instance
@@ -121,23 +79,9 @@ public class GcloudSqlInstances
         GcloudSqlInstancesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// deletes a Cloud SQL instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudSqlInstancesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// displays configuration and metadata about a      Cloud SQL instance
@@ -149,23 +93,9 @@ public class GcloudSqlInstances
         GcloudSqlInstancesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// displays configuration and metadata about a      Cloud SQL instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudSqlInstancesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// exports data from a Cloud SQL instance
@@ -177,23 +107,9 @@ public class GcloudSqlInstances
         GcloudSqlInstancesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Export(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesExportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// exports data from a Cloud SQL instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Export(
-        GcloudSqlInstancesExportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// availability Cloud SQL      instance to failover
@@ -205,23 +121,9 @@ public class GcloudSqlInstances
         GcloudSqlInstancesFailoverOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Failover(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesFailoverOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// availability Cloud SQL      instance to failover
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Failover(
-        GcloudSqlInstancesFailoverOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// displays the latest      recovery time to which a Cloud SQL instance can be restored to
@@ -233,23 +135,9 @@ public class GcloudSqlInstances
         GcloudSqlInstancesGetLatestRecoveryTimeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetLatestRecoveryTime(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesGetLatestRecoveryTimeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// displays the latest      recovery time to which a Cloud SQL instance can be restored to
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetLatestRecoveryTime(
-        GcloudSqlInstancesGetLatestRecoveryTimeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// imports data into a Cloud SQL instance from      Google Cloud Storage
@@ -261,23 +149,9 @@ public class GcloudSqlInstances
         GcloudSqlInstancesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Import(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesImportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// imports data into a Cloud SQL instance from      Google Cloud Storage
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Import(
-        GcloudSqlInstancesImportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// lists Cloud SQL instances in a given project
@@ -289,23 +163,9 @@ public class GcloudSqlInstances
         GcloudSqlInstancesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// lists Cloud SQL instances in a given project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudSqlInstancesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// updates the settings of a Cloud SQL instance
@@ -317,23 +177,9 @@ public class GcloudSqlInstances
         GcloudSqlInstancesPatchOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Patch(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesPatchOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// updates the settings of a Cloud SQL instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Patch(
-        GcloudSqlInstancesPatchOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// performs a point in time      restore for a Cloud SQL instance managed by Google Cloud Backup and      Disaster Recovery Service
@@ -345,23 +191,9 @@ public class GcloudSqlInstances
         GcloudSqlInstancesPointInTimeRestoreOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await PointInTimeRestore(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesPointInTimeRestoreOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// performs a point in time      restore for a Cloud SQL instance managed by Google Cloud Backup and      Disaster Recovery Service
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> PointInTimeRestore(
-        GcloudSqlInstancesPointInTimeRestoreOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// checks      for a major version upgrade of a Cloud SQL instance
@@ -373,23 +205,9 @@ public class GcloudSqlInstances
         GcloudSqlInstancesPreCheckMajorVersionUpgradeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await PreCheckMajorVersionUpgrade(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesPreCheckMajorVersionUpgradeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// checks      for a major version upgrade of a Cloud SQL instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> PreCheckMajorVersionUpgrade(
-        GcloudSqlInstancesPreCheckMajorVersionUpgradeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// promotes Cloud SQL read replica to a      stand-alone instance
@@ -401,23 +219,9 @@ public class GcloudSqlInstances
         GcloudSqlInstancesPromoteReplicaOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await PromoteReplica(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesPromoteReplicaOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// promotes Cloud SQL read replica to a      stand-alone instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> PromoteReplica(
-        GcloudSqlInstancesPromoteReplicaOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// reencrypts a Cloud SQL CMEK instance
@@ -429,23 +233,9 @@ public class GcloudSqlInstances
         GcloudSqlInstancesReencryptOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Reencrypt(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesReencryptOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// reencrypts a Cloud SQL CMEK instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Reencrypt(
-        GcloudSqlInstancesReencryptOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// releases a SQL Server Reporting      Services lease on a Cloud SQL instance
@@ -457,23 +247,9 @@ public class GcloudSqlInstances
         GcloudSqlInstancesReleaseSsrsLeaseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ReleaseSsrsLease(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesReleaseSsrsLeaseOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// releases a SQL Server Reporting      Services lease on a Cloud SQL instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ReleaseSsrsLease(
-        GcloudSqlInstancesReleaseSsrsLeaseOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// reset SSL materials according to      the reset SSL mode
@@ -485,23 +261,9 @@ public class GcloudSqlInstances
         GcloudSqlInstancesResetSslConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ResetSslConfig(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesResetSslConfigOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// reset SSL materials according to      the reset SSL mode
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ResetSslConfig(
-        GcloudSqlInstancesResetSslConfigOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// restarts a Cloud SQL instance
@@ -513,23 +275,9 @@ public class GcloudSqlInstances
         GcloudSqlInstancesRestartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Restart(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesRestartOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// restarts a Cloud SQL instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Restart(
-        GcloudSqlInstancesRestartOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// restores a backup of a Cloud SQL      instance
@@ -541,23 +289,9 @@ public class GcloudSqlInstances
         GcloudSqlInstancesRestoreBackupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RestoreBackup(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesRestoreBackupOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// restores a backup of a Cloud SQL      instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RestoreBackup(
-        GcloudSqlInstancesRestoreBackupOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// switches over a Cloud SQL instance to one      of its replicas
@@ -569,23 +303,9 @@ public class GcloudSqlInstances
         GcloudSqlInstancesSwitchoverOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Switchover(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlInstancesSwitchoverOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// switches over a Cloud SQL instance to one      of its replicas
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Switchover(
-        GcloudSqlInstancesSwitchoverOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

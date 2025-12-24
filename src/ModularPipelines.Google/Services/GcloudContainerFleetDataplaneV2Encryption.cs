@@ -37,23 +37,9 @@ public class GcloudContainerFleetDataplaneV2Encryption
         GcloudContainerFleetDataplaneV2EncryptionDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetDataplaneV2EncryptionDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describes the      status of the Dataplane V2 Encryption Feature resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudContainerFleetDataplaneV2EncryptionDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// disables the      Dataplane V2 Encryption Feature
@@ -65,23 +51,9 @@ public class GcloudContainerFleetDataplaneV2Encryption
         GcloudContainerFleetDataplaneV2EncryptionDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Disable(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetDataplaneV2EncryptionDisableOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// disables the      Dataplane V2 Encryption Feature
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Disable(
-        GcloudContainerFleetDataplaneV2EncryptionDisableOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// enables the      Dataplane V2 Encryption Feature
@@ -93,23 +65,9 @@ public class GcloudContainerFleetDataplaneV2Encryption
         GcloudContainerFleetDataplaneV2EncryptionEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Enable(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetDataplaneV2EncryptionEnableOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// enables the      Dataplane V2 Encryption Feature
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Enable(
-        GcloudContainerFleetDataplaneV2EncryptionEnableOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

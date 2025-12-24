@@ -37,23 +37,9 @@ public class GcloudResourceManagerTagsKeys
         GcloudResourceManagerTagsKeysAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsKeysAddIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// adds a policy      binding to the IAM policy of a TagKey
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudResourceManagerTagsKeysAddIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// creates a TagKey resource under      the specified tag parent
@@ -65,23 +51,9 @@ public class GcloudResourceManagerTagsKeys
         GcloudResourceManagerTagsKeysCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsKeysCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// creates a TagKey resource under      the specified tag parent
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudResourceManagerTagsKeysCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// deletes the specified TagKey      resource
@@ -93,23 +65,9 @@ public class GcloudResourceManagerTagsKeys
         GcloudResourceManagerTagsKeysDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsKeysDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// deletes the specified TagKey      resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudResourceManagerTagsKeysDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describes a TagKey resource
@@ -121,23 +79,9 @@ public class GcloudResourceManagerTagsKeys
         GcloudResourceManagerTagsKeysDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsKeysDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describes a TagKey resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudResourceManagerTagsKeysDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// gets the IAM policy for      a TagKey resource
@@ -149,23 +93,9 @@ public class GcloudResourceManagerTagsKeys
         GcloudResourceManagerTagsKeysGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsKeysGetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// gets the IAM policy for      a TagKey resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudResourceManagerTagsKeysGetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// lists TagKeys under the specified      parent resource
@@ -177,23 +107,9 @@ public class GcloudResourceManagerTagsKeys
         GcloudResourceManagerTagsKeysListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsKeysListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// lists TagKeys under the specified      parent resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudResourceManagerTagsKeysListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// removes a      policy binding from the IAM policy of a TagKey
@@ -205,23 +121,9 @@ public class GcloudResourceManagerTagsKeys
         GcloudResourceManagerTagsKeysRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsKeysRemoveIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// removes a      policy binding from the IAM policy of a TagKey
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudResourceManagerTagsKeysRemoveIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// sets IAM policy for a      TagKey resource
@@ -233,23 +135,9 @@ public class GcloudResourceManagerTagsKeys
         GcloudResourceManagerTagsKeysSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsKeysSetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// sets IAM policy for a      TagKey resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetIamPolicy(
-        GcloudResourceManagerTagsKeysSetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// updates the specified TagKey      resource's description
@@ -261,23 +149,9 @@ public class GcloudResourceManagerTagsKeys
         GcloudResourceManagerTagsKeysUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerTagsKeysUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// updates the specified TagKey      resource's description
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudResourceManagerTagsKeysUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

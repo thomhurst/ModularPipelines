@@ -47,23 +47,9 @@ public class GcloudVmwareNetworkPeerings
         GcloudVmwareNetworkPeeringsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPeeringsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a VMware Engine VPC network      peering
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudVmwareNetworkPeeringsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Google Cloud VMware Engine      VPC network peering
@@ -75,23 +61,9 @@ public class GcloudVmwareNetworkPeerings
         GcloudVmwareNetworkPeeringsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPeeringsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Google Cloud VMware Engine      VPC network peering
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudVmwareNetworkPeeringsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Google Cloud VMware      Engine VPC network peering
@@ -103,23 +75,9 @@ public class GcloudVmwareNetworkPeerings
         GcloudVmwareNetworkPeeringsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPeeringsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Google Cloud VMware      Engine VPC network peering
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudVmwareNetworkPeeringsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Google Cloud VMware Engine VPC      network peerings
@@ -131,23 +89,9 @@ public class GcloudVmwareNetworkPeerings
         GcloudVmwareNetworkPeeringsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPeeringsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Google Cloud VMware Engine VPC      network peerings
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudVmwareNetworkPeeringsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Google Cloud VMware Engine      VPC network peering
@@ -159,23 +103,9 @@ public class GcloudVmwareNetworkPeerings
         GcloudVmwareNetworkPeeringsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPeeringsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Google Cloud VMware Engine      VPC network peering
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudVmwareNetworkPeeringsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

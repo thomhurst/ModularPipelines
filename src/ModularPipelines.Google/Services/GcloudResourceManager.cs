@@ -59,23 +59,9 @@ public class GcloudResourceManager
         GcloudResourceManagerOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Execute(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// manage Cloud Resources
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Execute(
-        GcloudResourceManagerOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerOptions(), loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudComposerEnvironmentsStoragePlugins
         GcloudComposerEnvironmentsStoragePluginsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsStoragePluginsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete plugins from      an Cloud Composer environment's Cloud Storage bucket
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudComposerEnvironmentsStoragePluginsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// export plugins from      an environment into local storage or Cloud Storage
@@ -65,23 +51,9 @@ public class GcloudComposerEnvironmentsStoragePlugins
         GcloudComposerEnvironmentsStoragePluginsExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Export(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsStoragePluginsExportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// export plugins from      an environment into local storage or Cloud Storage
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Export(
-        GcloudComposerEnvironmentsStoragePluginsExportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// import plugins from      local storage or Cloud Storage into an environment
@@ -93,23 +65,9 @@ public class GcloudComposerEnvironmentsStoragePlugins
         GcloudComposerEnvironmentsStoragePluginsImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Import(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsStoragePluginsImportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// import plugins from      local storage or Cloud Storage into an environment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Import(
-        GcloudComposerEnvironmentsStoragePluginsImportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list the plugins for a      Cloud Composer environment
@@ -121,23 +79,9 @@ public class GcloudComposerEnvironmentsStoragePlugins
         GcloudComposerEnvironmentsStoragePluginsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsStoragePluginsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list the plugins for a      Cloud Composer environment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComposerEnvironmentsStoragePluginsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

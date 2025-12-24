@@ -37,23 +37,9 @@ public class GcloudInfraManagerDeployments
         GcloudInfraManagerDeploymentsApplyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Apply(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerDeploymentsApplyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create or update a deployment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Apply(
-        GcloudInfraManagerDeploymentsApplyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete deployments
@@ -65,23 +51,9 @@ public class GcloudInfraManagerDeployments
         GcloudInfraManagerDeploymentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerDeploymentsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete deployments
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudInfraManagerDeploymentsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe deployments
@@ -93,23 +65,9 @@ public class GcloudInfraManagerDeployments
         GcloudInfraManagerDeploymentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerDeploymentsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe deployments
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudInfraManagerDeploymentsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// exports lock info of a      deployment
@@ -121,23 +79,9 @@ public class GcloudInfraManagerDeployments
         GcloudInfraManagerDeploymentsExportLockOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ExportLock(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerDeploymentsExportLockOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// exports lock info of a      deployment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ExportLock(
-        GcloudInfraManagerDeploymentsExportLockOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// export a terraform      state file
@@ -149,23 +93,9 @@ public class GcloudInfraManagerDeployments
         GcloudInfraManagerDeploymentsExportStatefileOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ExportStatefile(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerDeploymentsExportStatefileOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// export a terraform      state file
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ExportStatefile(
-        GcloudInfraManagerDeploymentsExportStatefileOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// import a terraform      state file
@@ -177,23 +107,9 @@ public class GcloudInfraManagerDeployments
         GcloudInfraManagerDeploymentsImportStatefileOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ImportStatefile(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerDeploymentsImportStatefileOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// import a terraform      state file
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ImportStatefile(
-        GcloudInfraManagerDeploymentsImportStatefileOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list deployments
@@ -205,23 +121,9 @@ public class GcloudInfraManagerDeployments
         GcloudInfraManagerDeploymentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerDeploymentsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list deployments
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudInfraManagerDeploymentsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// locks the deployment
@@ -233,23 +135,9 @@ public class GcloudInfraManagerDeployments
         GcloudInfraManagerDeploymentsLockOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Lock(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerDeploymentsLockOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// locks the deployment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Lock(
-        GcloudInfraManagerDeploymentsLockOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// unlocks the deployment
@@ -261,23 +149,9 @@ public class GcloudInfraManagerDeployments
         GcloudInfraManagerDeploymentsUnlockOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Unlock(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerDeploymentsUnlockOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// unlocks the deployment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Unlock(
-        GcloudInfraManagerDeploymentsUnlockOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

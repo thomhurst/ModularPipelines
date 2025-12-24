@@ -37,23 +37,9 @@ public class GcloudComputeDiagnose
         GcloudComputeDiagnoseExportLogsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ExportLogs(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDiagnoseExportLogsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// triggers instance to gather logs and      upload them to a Cloud Storage Bucket
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ExportLogs(
-        GcloudComputeDiagnoseExportLogsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// routes to/from Compute Engine virtual      machine instances
@@ -65,23 +51,9 @@ public class GcloudComputeDiagnose
         GcloudComputeDiagnoseRoutesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Routes(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDiagnoseRoutesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// routes to/from Compute Engine virtual      machine instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Routes(
-        GcloudComputeDiagnoseRoutesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

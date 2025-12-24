@@ -47,23 +47,9 @@ public class GcloudServicesVpcPeerings
         GcloudServicesVpcPeeringsConnectOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Connect(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesVpcPeeringsConnectOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// connect to a service via VPC peering      for a project network
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Connect(
-        GcloudServicesVpcPeeringsConnectOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a private service connection      to a service for a project network
@@ -75,23 +61,9 @@ public class GcloudServicesVpcPeerings
         GcloudServicesVpcPeeringsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesVpcPeeringsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a private service connection      to a service for a project network
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudServicesVpcPeeringsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// disable VPC      Service Controls for the peering connection
@@ -103,23 +75,9 @@ public class GcloudServicesVpcPeerings
         GcloudServicesVpcPeeringsDisableVpcServiceControlsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DisableVpcServiceControls(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesVpcPeeringsDisableVpcServiceControlsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// disable VPC      Service Controls for the peering connection
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DisableVpcServiceControls(
-        GcloudServicesVpcPeeringsDisableVpcServiceControlsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// enable VPC      Service Controls for the peering connection
@@ -131,23 +89,9 @@ public class GcloudServicesVpcPeerings
         GcloudServicesVpcPeeringsEnableVpcServiceControlsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await EnableVpcServiceControls(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesVpcPeeringsEnableVpcServiceControlsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// enable VPC      Service Controls for the peering connection
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> EnableVpcServiceControls(
-        GcloudServicesVpcPeeringsEnableVpcServiceControlsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get VPC state of      Service Controls for the peering connection
@@ -159,23 +103,9 @@ public class GcloudServicesVpcPeerings
         GcloudServicesVpcPeeringsGetVpcServiceControlsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetVpcServiceControls(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesVpcPeeringsGetVpcServiceControlsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get VPC state of      Service Controls for the peering connection
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetVpcServiceControls(
-        GcloudServicesVpcPeeringsGetVpcServiceControlsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list connections to a service via VPC      peering for a project network
@@ -187,23 +117,9 @@ public class GcloudServicesVpcPeerings
         GcloudServicesVpcPeeringsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesVpcPeeringsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list connections to a service via VPC      peering for a project network
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudServicesVpcPeeringsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a private service connection      to a service for a project network
@@ -215,23 +131,9 @@ public class GcloudServicesVpcPeerings
         GcloudServicesVpcPeeringsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesVpcPeeringsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a private service connection      to a service for a project network
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudServicesVpcPeeringsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

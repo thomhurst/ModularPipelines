@@ -37,23 +37,9 @@ public class GcloudBuildsConnectionsUpdate
         GcloudBuildsConnectionsUpdateBitbucketCloudOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await BitbucketCloud(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsConnectionsUpdateBitbucketCloudOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Cloud Build      Connection of type Bitbucket Cloud
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> BitbucketCloud(
-        GcloudBuildsConnectionsUpdateBitbucketCloudOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Cloud      Build Connection of type Bitbucket Data Center
@@ -65,23 +51,9 @@ public class GcloudBuildsConnectionsUpdate
         GcloudBuildsConnectionsUpdateBitbucketDataCenterOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await BitbucketDataCenter(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsConnectionsUpdateBitbucketDataCenterOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Cloud      Build Connection of type Bitbucket Data Center
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> BitbucketDataCenter(
-        GcloudBuildsConnectionsUpdateBitbucketDataCenterOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Cloud Build      Connection of type GitHub Enterprise
@@ -93,23 +65,9 @@ public class GcloudBuildsConnectionsUpdate
         GcloudBuildsConnectionsUpdateGithubEnterpriseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GithubEnterprise(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsConnectionsUpdateGithubEnterpriseOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Cloud Build      Connection of type GitHub Enterprise
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GithubEnterprise(
-        GcloudBuildsConnectionsUpdateGithubEnterpriseOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Cloud Build Connection      of type GitHub
@@ -121,23 +79,9 @@ public class GcloudBuildsConnectionsUpdate
         GcloudBuildsConnectionsUpdateGithubOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Github(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsConnectionsUpdateGithubOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Cloud Build Connection      of type GitHub
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Github(
-        GcloudBuildsConnectionsUpdateGithubOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Cloud Build Connection      of type gitlab.com or GitLab Enterprise
@@ -149,23 +93,9 @@ public class GcloudBuildsConnectionsUpdate
         GcloudBuildsConnectionsUpdateGitlabOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Gitlab(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsConnectionsUpdateGitlabOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Cloud Build Connection      of type gitlab.com or GitLab Enterprise
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Gitlab(
-        GcloudBuildsConnectionsUpdateGitlabOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

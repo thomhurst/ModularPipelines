@@ -37,23 +37,9 @@ public class GcloudKmsKeysVersions
         GcloudKmsKeysVersionsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudKmsKeysVersionsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get metadata for a given version
@@ -65,23 +51,9 @@ public class GcloudKmsKeysVersions
         GcloudKmsKeysVersionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get metadata for a given version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudKmsKeysVersionsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// schedule a version to be destroyed
@@ -93,23 +65,9 @@ public class GcloudKmsKeysVersions
         GcloudKmsKeysVersionsDestroyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Destroy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsDestroyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// schedule a version to be destroyed
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Destroy(
-        GcloudKmsKeysVersionsDestroyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// disable a given version
@@ -121,23 +79,9 @@ public class GcloudKmsKeysVersions
         GcloudKmsKeysVersionsDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Disable(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsDisableOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// disable a given version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Disable(
-        GcloudKmsKeysVersionsDisableOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// enable a given version
@@ -149,23 +93,9 @@ public class GcloudKmsKeysVersions
         GcloudKmsKeysVersionsEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Enable(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsEnableOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// enable a given version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Enable(
-        GcloudKmsKeysVersionsEnableOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get a certificate chain      for a given version
@@ -177,23 +107,9 @@ public class GcloudKmsKeysVersions
         GcloudKmsKeysVersionsGetCertificateChainOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetCertificateChain(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsGetCertificateChainOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get a certificate chain      for a given version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetCertificateChain(
-        GcloudKmsKeysVersionsGetCertificateChainOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the public key for a given      version
@@ -205,23 +121,9 @@ public class GcloudKmsKeysVersions
         GcloudKmsKeysVersionsGetPublicKeyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetPublicKey(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsGetPublicKeyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the public key for a given      version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetPublicKey(
-        GcloudKmsKeysVersionsGetPublicKeyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// import a version into an existing crypto      key
@@ -233,23 +135,9 @@ public class GcloudKmsKeysVersions
         GcloudKmsKeysVersionsImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Import(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsImportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// import a version into an existing crypto      key
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Import(
-        GcloudKmsKeysVersionsImportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list the versions within a key
@@ -261,23 +149,9 @@ public class GcloudKmsKeysVersions
         GcloudKmsKeysVersionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list the versions within a key
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudKmsKeysVersionsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// restore a version scheduled for      destruction
@@ -289,23 +163,9 @@ public class GcloudKmsKeysVersions
         GcloudKmsKeysVersionsRestoreOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Restore(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsRestoreOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// restore a version scheduled for      destruction
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Restore(
-        GcloudKmsKeysVersionsRestoreOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a key version
@@ -317,23 +177,9 @@ public class GcloudKmsKeysVersions
         GcloudKmsKeysVersionsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsKeysVersionsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a key version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudKmsKeysVersionsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

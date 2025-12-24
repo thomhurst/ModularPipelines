@@ -37,23 +37,9 @@ public class GcloudAnthosConfigController
         GcloudAnthosConfigControllerCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAnthosConfigControllerCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create Anthos Config Controller      instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudAnthosConfigControllerCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete Anthos Config Controller      instances
@@ -65,23 +51,9 @@ public class GcloudAnthosConfigController
         GcloudAnthosConfigControllerDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAnthosConfigControllerDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete Anthos Config Controller      instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudAnthosConfigControllerDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe Anthos Config      Controller instances
@@ -93,23 +65,9 @@ public class GcloudAnthosConfigController
         GcloudAnthosConfigControllerDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAnthosConfigControllerDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe Anthos Config      Controller instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudAnthosConfigControllerDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// fetch      default Config Connector identity
@@ -121,23 +79,9 @@ public class GcloudAnthosConfigController
         GcloudAnthosConfigControllerGetConfigConnectorIdentityOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetConfigConnectorIdentity(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAnthosConfigControllerGetConfigConnectorIdentityOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// fetch      default Config Connector identity
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetConfigConnectorIdentity(
-        GcloudAnthosConfigControllerGetConfigConnectorIdentityOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// fetch credentials for a      running Anthos Config Controller
@@ -149,23 +93,9 @@ public class GcloudAnthosConfigController
         GcloudAnthosConfigControllerGetCredentialsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetCredentials(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAnthosConfigControllerGetCredentialsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// fetch credentials for a      running Anthos Config Controller
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetCredentials(
-        GcloudAnthosConfigControllerGetCredentialsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Anthos Config Controller      instances
@@ -177,23 +107,9 @@ public class GcloudAnthosConfigController
         GcloudAnthosConfigControllerListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAnthosConfigControllerListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Anthos Config Controller      instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudAnthosConfigControllerListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

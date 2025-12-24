@@ -37,23 +37,9 @@ public class GcloudDatastoreIndexes
         GcloudDatastoreIndexesCleanupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Cleanup(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastoreIndexesCleanupOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove unused datastore indexes based on      your local index configuration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Cleanup(
-        GcloudDatastoreIndexesCleanupOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create new datastore indexes based on      your local index configuration
@@ -65,23 +51,9 @@ public class GcloudDatastoreIndexes
         GcloudDatastoreIndexesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastoreIndexesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create new datastore indexes based on      your local index configuration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudDatastoreIndexesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show details about an Cloud Datastore      index
@@ -93,23 +65,9 @@ public class GcloudDatastoreIndexes
         GcloudDatastoreIndexesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastoreIndexesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show details about an Cloud Datastore      index
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudDatastoreIndexesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Cloud Datastore indexes
@@ -121,23 +79,9 @@ public class GcloudDatastoreIndexes
         GcloudDatastoreIndexesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastoreIndexesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Cloud Datastore indexes
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudDatastoreIndexesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

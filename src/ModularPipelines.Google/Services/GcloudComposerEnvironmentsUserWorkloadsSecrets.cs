@@ -37,23 +37,9 @@ public class GcloudComposerEnvironmentsUserWorkloadsSecrets
         GcloudComposerEnvironmentsUserWorkloadsSecretsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsSecretsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a user      workloads Secret
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudComposerEnvironmentsUserWorkloadsSecretsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a user      workloads Secret
@@ -65,23 +51,9 @@ public class GcloudComposerEnvironmentsUserWorkloadsSecrets
         GcloudComposerEnvironmentsUserWorkloadsSecretsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsSecretsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a user      workloads Secret
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudComposerEnvironmentsUserWorkloadsSecretsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get details      about a user workloads Secret
@@ -93,23 +65,9 @@ public class GcloudComposerEnvironmentsUserWorkloadsSecrets
         GcloudComposerEnvironmentsUserWorkloadsSecretsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsSecretsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get details      about a user workloads Secret
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComposerEnvironmentsUserWorkloadsSecretsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list user      workloads Secrets
@@ -121,23 +79,9 @@ public class GcloudComposerEnvironmentsUserWorkloadsSecrets
         GcloudComposerEnvironmentsUserWorkloadsSecretsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsSecretsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list user      workloads Secrets
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComposerEnvironmentsUserWorkloadsSecretsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a user      workloads Secret
@@ -149,23 +93,9 @@ public class GcloudComposerEnvironmentsUserWorkloadsSecrets
         GcloudComposerEnvironmentsUserWorkloadsSecretsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsSecretsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a user      workloads Secret
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudComposerEnvironmentsUserWorkloadsSecretsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

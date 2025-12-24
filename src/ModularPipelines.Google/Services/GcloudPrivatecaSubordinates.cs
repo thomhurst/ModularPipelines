@@ -37,23 +37,9 @@ public class GcloudPrivatecaSubordinates
         GcloudPrivatecaSubordinatesActivateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Activate(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaSubordinatesActivateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// activate a subordinate certificate      authority awaiting user activation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Activate(
-        GcloudPrivatecaSubordinatesActivateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a new subordinate certificate      authority
@@ -65,23 +51,9 @@ public class GcloudPrivatecaSubordinates
         GcloudPrivatecaSubordinatesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaSubordinatesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new subordinate certificate      authority
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudPrivatecaSubordinatesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a subordinate certificate      authority
@@ -93,23 +65,9 @@ public class GcloudPrivatecaSubordinates
         GcloudPrivatecaSubordinatesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaSubordinatesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a subordinate certificate      authority
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudPrivatecaSubordinatesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get metadata for a subordinate      certificate authority
@@ -121,23 +79,9 @@ public class GcloudPrivatecaSubordinates
         GcloudPrivatecaSubordinatesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaSubordinatesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get metadata for a subordinate      certificate authority
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudPrivatecaSubordinatesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// disable a subordinate certificate      authority
@@ -149,23 +93,9 @@ public class GcloudPrivatecaSubordinates
         GcloudPrivatecaSubordinatesDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Disable(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaSubordinatesDisableOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// disable a subordinate certificate      authority
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Disable(
-        GcloudPrivatecaSubordinatesDisableOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// enable a subordinate certificate      authority
@@ -177,23 +107,9 @@ public class GcloudPrivatecaSubordinates
         GcloudPrivatecaSubordinatesEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Enable(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaSubordinatesEnableOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// enable a subordinate certificate      authority
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Enable(
-        GcloudPrivatecaSubordinatesEnableOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the CSR for a subordinate      certificate authority that has not yet been activated
@@ -205,23 +121,9 @@ public class GcloudPrivatecaSubordinates
         GcloudPrivatecaSubordinatesGetCsrOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetCsr(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaSubordinatesGetCsrOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the CSR for a subordinate      certificate authority that has not yet been activated
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetCsr(
-        GcloudPrivatecaSubordinatesGetCsrOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list subordinate certificate      authorities
@@ -233,23 +135,9 @@ public class GcloudPrivatecaSubordinates
         GcloudPrivatecaSubordinatesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaSubordinatesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list subordinate certificate      authorities
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudPrivatecaSubordinatesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// undelete a subordinate certificate      authority
@@ -261,23 +149,9 @@ public class GcloudPrivatecaSubordinates
         GcloudPrivatecaSubordinatesUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Undelete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaSubordinatesUndeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// undelete a subordinate certificate      authority
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Undelete(
-        GcloudPrivatecaSubordinatesUndeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an existing subordinate      certificate authority
@@ -289,23 +163,9 @@ public class GcloudPrivatecaSubordinates
         GcloudPrivatecaSubordinatesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaSubordinatesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an existing subordinate      certificate authority
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudPrivatecaSubordinatesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

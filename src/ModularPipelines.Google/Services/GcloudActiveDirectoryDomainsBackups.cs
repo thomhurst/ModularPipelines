@@ -37,23 +37,9 @@ public class GcloudActiveDirectoryDomainsBackups
         GcloudActiveDirectoryDomainsBackupsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsBackupsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Managed Microsoft      AD domain backup
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudActiveDirectoryDomainsBackupsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Managed Microsoft      AD domain backup
@@ -65,23 +51,9 @@ public class GcloudActiveDirectoryDomainsBackups
         GcloudActiveDirectoryDomainsBackupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsBackupsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Managed Microsoft      AD domain backup
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudActiveDirectoryDomainsBackupsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Managed      Microsoft AD domain backup
@@ -93,23 +65,9 @@ public class GcloudActiveDirectoryDomainsBackups
         GcloudActiveDirectoryDomainsBackupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsBackupsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Managed      Microsoft AD domain backup
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudActiveDirectoryDomainsBackupsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list all Managed Microsoft      AD domain backups
@@ -121,23 +79,9 @@ public class GcloudActiveDirectoryDomainsBackups
         GcloudActiveDirectoryDomainsBackupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsBackupsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list all Managed Microsoft      AD domain backups
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudActiveDirectoryDomainsBackupsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Managed Microsoft      AD domain backup
@@ -149,23 +93,9 @@ public class GcloudActiveDirectoryDomainsBackups
         GcloudActiveDirectoryDomainsBackupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsBackupsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Managed Microsoft      AD domain backup
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudActiveDirectoryDomainsBackupsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

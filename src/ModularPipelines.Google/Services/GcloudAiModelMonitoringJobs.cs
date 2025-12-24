@@ -37,23 +37,9 @@ public class GcloudAiModelMonitoringJobs
         GcloudAiModelMonitoringJobsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelMonitoringJobsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new Vertex AI model      monitoring job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudAiModelMonitoringJobsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an existing Vertex AI model      deployment monitoring job
@@ -65,23 +51,9 @@ public class GcloudAiModelMonitoringJobs
         GcloudAiModelMonitoringJobsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelMonitoringJobsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an existing Vertex AI model      deployment monitoring job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudAiModelMonitoringJobsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get detailed model deployment      monitoring job information about the given job id
@@ -93,23 +65,9 @@ public class GcloudAiModelMonitoringJobs
         GcloudAiModelMonitoringJobsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelMonitoringJobsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get detailed model deployment      monitoring job information about the given job id
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudAiModelMonitoringJobsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list the model deployment monitoring      jobs of the given project and region
@@ -121,23 +79,9 @@ public class GcloudAiModelMonitoringJobs
         GcloudAiModelMonitoringJobsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelMonitoringJobsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list the model deployment monitoring      jobs of the given project and region
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudAiModelMonitoringJobsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// pause a running Vertex AI model      deployment monitoring job
@@ -149,23 +93,9 @@ public class GcloudAiModelMonitoringJobs
         GcloudAiModelMonitoringJobsPauseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Pause(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelMonitoringJobsPauseOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// pause a running Vertex AI model      deployment monitoring job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Pause(
-        GcloudAiModelMonitoringJobsPauseOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// resume a paused Vertex AI model      deployment monitoring job
@@ -177,23 +107,9 @@ public class GcloudAiModelMonitoringJobs
         GcloudAiModelMonitoringJobsResumeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Resume(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelMonitoringJobsResumeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// resume a paused Vertex AI model      deployment monitoring job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Resume(
-        GcloudAiModelMonitoringJobsResumeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an Vertex AI model      deployment monitoring job
@@ -205,23 +121,9 @@ public class GcloudAiModelMonitoringJobs
         GcloudAiModelMonitoringJobsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelMonitoringJobsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an Vertex AI model      deployment monitoring job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudAiModelMonitoringJobsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

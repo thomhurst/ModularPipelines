@@ -37,23 +37,9 @@ public class GcloudComputeInterconnectsAttachmentsGroups
         GcloudComputeInterconnectsAttachmentsGroupsAddMembersOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddMembers(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsGroupsAddMembersOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add member      interconnect attachments to a Compute Engine interconnect attachment      group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddMembers(
-        GcloudComputeInterconnectsAttachmentsGroupsAddMembersOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a Compute      Engine interconnect attachment group
@@ -65,23 +51,9 @@ public class GcloudComputeInterconnectsAttachmentsGroups
         GcloudComputeInterconnectsAttachmentsGroupsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsGroupsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Compute      Engine interconnect attachment group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudComputeInterconnectsAttachmentsGroupsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete Compute      Engine interconnect attachment groups
@@ -93,23 +65,9 @@ public class GcloudComputeInterconnectsAttachmentsGroups
         GcloudComputeInterconnectsAttachmentsGroupsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsGroupsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete Compute      Engine interconnect attachment groups
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudComputeInterconnectsAttachmentsGroupsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a      Compute Engine interconnect attachment group
@@ -121,23 +79,9 @@ public class GcloudComputeInterconnectsAttachmentsGroups
         GcloudComputeInterconnectsAttachmentsGroupsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsGroupsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a      Compute Engine interconnect attachment group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComputeInterconnectsAttachmentsGroupsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the operational status of a Compute Engine interconnect attachment      group
@@ -149,23 +93,9 @@ public class GcloudComputeInterconnectsAttachmentsGroups
         GcloudComputeInterconnectsAttachmentsGroupsGetOperationalStatusOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetOperationalStatus(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsGroupsGetOperationalStatusOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the operational status of a Compute Engine interconnect attachment      group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetOperationalStatus(
-        GcloudComputeInterconnectsAttachmentsGroupsGetOperationalStatusOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list interconnect      attachment groups
@@ -177,23 +107,9 @@ public class GcloudComputeInterconnectsAttachmentsGroups
         GcloudComputeInterconnectsAttachmentsGroupsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsGroupsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list interconnect      attachment groups
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComputeInterconnectsAttachmentsGroupsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove      member interconnect attachments from a Compute Engine interconnect      attachment group
@@ -205,23 +121,9 @@ public class GcloudComputeInterconnectsAttachmentsGroups
         GcloudComputeInterconnectsAttachmentsGroupsRemoveMembersOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveMembers(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsGroupsRemoveMembersOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove      member interconnect attachments from a Compute Engine interconnect      attachment group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveMembers(
-        GcloudComputeInterconnectsAttachmentsGroupsRemoveMembersOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Compute      Engine interconnect attachment group
@@ -233,23 +135,9 @@ public class GcloudComputeInterconnectsAttachmentsGroups
         GcloudComputeInterconnectsAttachmentsGroupsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsAttachmentsGroupsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Compute      Engine interconnect attachment group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudComputeInterconnectsAttachmentsGroupsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

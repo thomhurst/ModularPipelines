@@ -37,23 +37,9 @@ public class GcloudNetworkConnectivitySpokesLinkedInterconnectAttachments
         GcloudNetworkConnectivitySpokesLinkedInterconnectAttachmentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesLinkedInterconnectAttachmentsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new VLAN attachment spoke
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudNetworkConnectivitySpokesLinkedInterconnectAttachmentsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a VLAN attachment spoke
@@ -65,23 +51,9 @@ public class GcloudNetworkConnectivitySpokesLinkedInterconnectAttachments
         GcloudNetworkConnectivitySpokesLinkedInterconnectAttachmentsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesLinkedInterconnectAttachmentsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a VLAN attachment spoke
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudNetworkConnectivitySpokesLinkedInterconnectAttachmentsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

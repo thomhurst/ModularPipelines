@@ -37,23 +37,9 @@ public class GcloudSccFindings
         GcloudSccFindingsBulkMuteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await BulkMute(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsBulkMuteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// bulk mute Security Command Center findings      based on a filter
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> BulkMute(
-        GcloudSccFindingsBulkMuteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a Security Command Center finding
@@ -65,23 +51,9 @@ public class GcloudSccFindings
         GcloudSccFindingsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Security Command Center finding
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudSccFindingsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// export Security Command Center      findings to bigquery
@@ -93,23 +65,9 @@ public class GcloudSccFindings
         GcloudSccFindingsExportToBigqueryOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ExportToBigquery(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsExportToBigqueryOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// export Security Command Center      findings to bigquery
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ExportToBigquery(
-        GcloudSccFindingsExportToBigqueryOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// filter an organization or source's findings and      groups them by their specified properties
@@ -121,23 +79,9 @@ public class GcloudSccFindings
         GcloudSccFindingsGroupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Group(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsGroupOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// filter an organization or source's findings and      groups them by their specified properties
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Group(
-        GcloudSccFindingsGroupOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list a finding's security marks
@@ -149,23 +93,9 @@ public class GcloudSccFindings
         GcloudSccFindingsListMarksOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListMarks(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsListMarksOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list a finding's security marks
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListMarks(
-        GcloudSccFindingsListMarksOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list an organization or source's findings
@@ -177,23 +107,9 @@ public class GcloudSccFindings
         GcloudSccFindingsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list an organization or source's findings
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudSccFindingsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Security Command Center finding's      mute state
@@ -205,23 +121,9 @@ public class GcloudSccFindings
         GcloudSccFindingsSetMuteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetMute(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsSetMuteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Security Command Center finding's      mute state
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetMute(
-        GcloudSccFindingsSetMuteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update Security Command Center finding's      security marks
@@ -233,23 +135,9 @@ public class GcloudSccFindings
         GcloudSccFindingsUpdateMarksOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateMarks(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsUpdateMarksOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update Security Command Center finding's      security marks
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateMarks(
-        GcloudSccFindingsUpdateMarksOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Security Command Center finding
@@ -261,23 +149,9 @@ public class GcloudSccFindings
         GcloudSccFindingsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSccFindingsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Security Command Center finding
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudSccFindingsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

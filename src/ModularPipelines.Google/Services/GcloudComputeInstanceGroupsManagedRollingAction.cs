@@ -37,23 +37,9 @@ public class GcloudComputeInstanceGroupsManagedRollingAction
         GcloudComputeInstanceGroupsManagedRollingActionReplaceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Replace(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedRollingActionReplaceOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// replaces      instances in a managed instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Replace(
-        GcloudComputeInstanceGroupsManagedRollingActionReplaceOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// restarts      instances in a managed instance group
@@ -65,23 +51,9 @@ public class GcloudComputeInstanceGroupsManagedRollingAction
         GcloudComputeInstanceGroupsManagedRollingActionRestartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Restart(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedRollingActionRestartOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// restarts      instances in a managed instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Restart(
-        GcloudComputeInstanceGroupsManagedRollingActionRestartOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// updates instances in a managed instance group
@@ -93,23 +65,9 @@ public class GcloudComputeInstanceGroupsManagedRollingAction
         GcloudComputeInstanceGroupsManagedRollingActionStartUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await StartUpdate(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedRollingActionStartUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// updates instances in a managed instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> StartUpdate(
-        GcloudComputeInstanceGroupsManagedRollingActionStartUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update      - stop the proactive update process of managed instance group
@@ -121,23 +79,9 @@ public class GcloudComputeInstanceGroupsManagedRollingAction
         GcloudComputeInstanceGroupsManagedRollingActionStopProactiveUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await StopProactiveUpdate(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsManagedRollingActionStopProactiveUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update      - stop the proactive update process of managed instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> StopProactiveUpdate(
-        GcloudComputeInstanceGroupsManagedRollingActionStopProactiveUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

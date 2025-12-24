@@ -37,23 +37,9 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsAddIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsAddIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// add IAM policy binding to a      topic
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudPubsubTopicsAddIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// creates one or more Cloud Pub/Sub topics
@@ -65,23 +51,9 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// creates one or more Cloud Pub/Sub topics
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudPubsubTopicsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// deletes one or more Cloud Pub/Sub topics
@@ -93,23 +65,9 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// deletes one or more Cloud Pub/Sub topics
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudPubsubTopicsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describes a Cloud Pub/Sub topic
@@ -121,23 +79,9 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describes a Cloud Pub/Sub topic
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudPubsubTopicsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// detaches one or more Cloud      Pub/Sub subscriptions
@@ -149,23 +93,9 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsDetachSubscriptionOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DetachSubscription(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsDetachSubscriptionOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// detaches one or more Cloud      Pub/Sub subscriptions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DetachSubscription(
-        GcloudPubsubTopicsDetachSubscriptionOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get the IAM policy for a Cloud      Pub/Sub Topic
@@ -177,23 +107,9 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsGetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsGetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get the IAM policy for a Cloud      Pub/Sub Topic
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudPubsubTopicsGetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// lists Cloud Pub/Sub topics within a project
@@ -205,23 +121,9 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// lists Cloud Pub/Sub topics within a project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudPubsubTopicsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// lists Cloud Pub/Sub subscriptions      from a given topic
@@ -233,23 +135,9 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsListSubscriptionsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListSubscriptions(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsListSubscriptionsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// lists Cloud Pub/Sub subscriptions      from a given topic
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListSubscriptions(
-        GcloudPubsubTopicsListSubscriptionsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// publishes a message to the specified topic
@@ -261,23 +149,9 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsPublishOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Publish(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsPublishOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// publishes a message to the specified topic
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Publish(
-        GcloudPubsubTopicsPublishOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// remove IAM policy binding      of a topic
@@ -289,23 +163,9 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsRemoveIamPolicyBindingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveIamPolicyBinding(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsRemoveIamPolicyBindingOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// remove IAM policy binding      of a topic
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudPubsubTopicsRemoveIamPolicyBindingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set IAM policy for a topic
@@ -317,23 +177,9 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsSetIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetIamPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsSetIamPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set IAM policy for a topic
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetIamPolicy(
-        GcloudPubsubTopicsSetIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// updates an existing Cloud Pub/Sub topic
@@ -345,23 +191,9 @@ public class GcloudPubsubTopics
         GcloudPubsubTopicsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubTopicsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// updates an existing Cloud Pub/Sub topic
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudPubsubTopicsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

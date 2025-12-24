@@ -37,23 +37,9 @@ public class GcloudNetworkSecurityBackendAuthenticationConfigs
         GcloudNetworkSecurityBackendAuthenticationConfigsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityBackendAuthenticationConfigsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a      BackendAuthenticationConfig
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudNetworkSecurityBackendAuthenticationConfigsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete      BackendAuthenticationConfig
@@ -65,23 +51,9 @@ public class GcloudNetworkSecurityBackendAuthenticationConfigs
         GcloudNetworkSecurityBackendAuthenticationConfigsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityBackendAuthenticationConfigsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete      BackendAuthenticationConfig
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudNetworkSecurityBackendAuthenticationConfigsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe      BackendAuthenticationConfig
@@ -93,23 +65,9 @@ public class GcloudNetworkSecurityBackendAuthenticationConfigs
         GcloudNetworkSecurityBackendAuthenticationConfigsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityBackendAuthenticationConfigsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe      BackendAuthenticationConfig
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudNetworkSecurityBackendAuthenticationConfigsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// export      BackendAuthenticationConfig
@@ -121,23 +79,9 @@ public class GcloudNetworkSecurityBackendAuthenticationConfigs
         GcloudNetworkSecurityBackendAuthenticationConfigsExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Export(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityBackendAuthenticationConfigsExportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// export      BackendAuthenticationConfig
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Export(
-        GcloudNetworkSecurityBackendAuthenticationConfigsExportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// import      BackendAuthenticationConfigs
@@ -149,23 +93,9 @@ public class GcloudNetworkSecurityBackendAuthenticationConfigs
         GcloudNetworkSecurityBackendAuthenticationConfigsImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Import(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityBackendAuthenticationConfigsImportOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// import      BackendAuthenticationConfigs
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Import(
-        GcloudNetworkSecurityBackendAuthenticationConfigsImportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list      BackendAuthenticationConfigs
@@ -177,23 +107,9 @@ public class GcloudNetworkSecurityBackendAuthenticationConfigs
         GcloudNetworkSecurityBackendAuthenticationConfigsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityBackendAuthenticationConfigsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list      BackendAuthenticationConfigs
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudNetworkSecurityBackendAuthenticationConfigsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

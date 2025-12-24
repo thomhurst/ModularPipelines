@@ -37,23 +37,9 @@ public class GcloudContainerHubScopesRbacrolebindings
         GcloudContainerHubScopesRbacrolebindingsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubScopesRbacrolebindingsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create an RBAC      RoleBinding
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudContainerHubScopesRbacrolebindingsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a fleet scope      RBAC RoleBinding
@@ -65,23 +51,9 @@ public class GcloudContainerHubScopesRbacrolebindings
         GcloudContainerHubScopesRbacrolebindingsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubScopesRbacrolebindingsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a fleet scope      RBAC RoleBinding
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudContainerHubScopesRbacrolebindingsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show fleet scope      RBAC RoleBinding information
@@ -93,23 +65,9 @@ public class GcloudContainerHubScopesRbacrolebindings
         GcloudContainerHubScopesRbacrolebindingsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubScopesRbacrolebindingsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show fleet scope      RBAC RoleBinding information
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudContainerHubScopesRbacrolebindingsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list RBAC RoleBindings      in a fleet scope
@@ -121,23 +79,9 @@ public class GcloudContainerHubScopesRbacrolebindings
         GcloudContainerHubScopesRbacrolebindingsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubScopesRbacrolebindingsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list RBAC RoleBindings      in a fleet scope
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudContainerHubScopesRbacrolebindingsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a fleet scope      RBAC RoleBinding
@@ -149,23 +93,9 @@ public class GcloudContainerHubScopesRbacrolebindings
         GcloudContainerHubScopesRbacrolebindingsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubScopesRbacrolebindingsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a fleet scope      RBAC RoleBinding
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudContainerHubScopesRbacrolebindingsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

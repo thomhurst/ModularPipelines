@@ -37,23 +37,9 @@ public class GcloudAccessContextManagerAuthorizedOrgs
         GcloudAccessContextManagerAuthorizedOrgsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerAuthorizedOrgsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a new      authorized organizations description
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudAccessContextManagerAuthorizedOrgsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an authorized      organizations description
@@ -65,23 +51,9 @@ public class GcloudAccessContextManagerAuthorizedOrgs
         GcloudAccessContextManagerAuthorizedOrgsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerAuthorizedOrgsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an authorized      organizations description
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudAccessContextManagerAuthorizedOrgsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show details about      an authorized organizations description
@@ -93,23 +65,9 @@ public class GcloudAccessContextManagerAuthorizedOrgs
         GcloudAccessContextManagerAuthorizedOrgsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerAuthorizedOrgsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show details about      an authorized organizations description
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudAccessContextManagerAuthorizedOrgsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list authorized      organizations descriptions
@@ -121,23 +79,9 @@ public class GcloudAccessContextManagerAuthorizedOrgs
         GcloudAccessContextManagerAuthorizedOrgsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerAuthorizedOrgsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list authorized      organizations descriptions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudAccessContextManagerAuthorizedOrgsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update the      organizations for an existing authorized organizations description
@@ -149,23 +93,9 @@ public class GcloudAccessContextManagerAuthorizedOrgs
         GcloudAccessContextManagerAuthorizedOrgsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerAuthorizedOrgsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update the      organizations for an existing authorized organizations description
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudAccessContextManagerAuthorizedOrgsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudComputeInstanceGroupsUnmanaged
         GcloudComputeInstanceGroupsUnmanagedAddInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddInstances(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsUnmanagedAddInstancesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// adds instances to      an unmanaged instance group by name
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddInstances(
-        GcloudComputeInstanceGroupsUnmanagedAddInstancesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a Compute Engine      unmanaged instance group
@@ -65,23 +51,9 @@ public class GcloudComputeInstanceGroupsUnmanaged
         GcloudComputeInstanceGroupsUnmanagedCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsUnmanagedCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Compute Engine      unmanaged instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudComputeInstanceGroupsUnmanagedCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete Compute Engine      unmanaged instance groups
@@ -93,23 +65,9 @@ public class GcloudComputeInstanceGroupsUnmanaged
         GcloudComputeInstanceGroupsUnmanagedDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsUnmanagedDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete Compute Engine      unmanaged instance groups
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudComputeInstanceGroupsUnmanagedDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe an instance      group
@@ -121,23 +79,9 @@ public class GcloudComputeInstanceGroupsUnmanaged
         GcloudComputeInstanceGroupsUnmanagedDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsUnmanagedDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe an instance      group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComputeInstanceGroupsUnmanagedDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// lists the named      ports for an instance group resource
@@ -149,23 +93,9 @@ public class GcloudComputeInstanceGroupsUnmanaged
         GcloudComputeInstanceGroupsUnmanagedGetNamedPortsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetNamedPorts(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsUnmanagedGetNamedPortsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// lists the named      ports for an instance group resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetNamedPorts(
-        GcloudComputeInstanceGroupsUnmanagedGetNamedPortsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list instances      present in the instance group
@@ -177,23 +107,9 @@ public class GcloudComputeInstanceGroupsUnmanaged
         GcloudComputeInstanceGroupsUnmanagedListInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListInstances(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsUnmanagedListInstancesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list instances      present in the instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListInstances(
-        GcloudComputeInstanceGroupsUnmanagedListInstancesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Google Compute Engine      unmanaged instance groups
@@ -205,23 +121,9 @@ public class GcloudComputeInstanceGroupsUnmanaged
         GcloudComputeInstanceGroupsUnmanagedListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsUnmanagedListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Google Compute Engine      unmanaged instance groups
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComputeInstanceGroupsUnmanagedListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// removes      resources from an unmanaged instance group by instance name
@@ -233,23 +135,9 @@ public class GcloudComputeInstanceGroupsUnmanaged
         GcloudComputeInstanceGroupsUnmanagedRemoveInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveInstances(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsUnmanagedRemoveInstancesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// removes      resources from an unmanaged instance group by instance name
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveInstances(
-        GcloudComputeInstanceGroupsUnmanagedRemoveInstancesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// sets the list of      named ports for an instance group
@@ -261,23 +149,9 @@ public class GcloudComputeInstanceGroupsUnmanaged
         GcloudComputeInstanceGroupsUnmanagedSetNamedPortsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetNamedPorts(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsUnmanagedSetNamedPortsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// sets the list of      named ports for an instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetNamedPorts(
-        GcloudComputeInstanceGroupsUnmanagedSetNamedPortsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

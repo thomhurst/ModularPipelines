@@ -37,23 +37,9 @@ public class GcloudEmulatorsSpanner
         GcloudEmulatorsSpannerEnvInitOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await EnvInit(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEmulatorsSpannerEnvInitOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// print the commands required to export      Spanner emulator's env variables
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> EnvInit(
-        GcloudEmulatorsSpannerEnvInitOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// party notices for the local      Cloud Spanner emulator
@@ -65,23 +51,9 @@ public class GcloudEmulatorsSpanner
         GcloudEmulatorsSpannerNoticesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Notices(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEmulatorsSpannerNoticesOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// party notices for the local      Cloud Spanner emulator
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Notices(
-        GcloudEmulatorsSpannerNoticesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// start a local Cloud Spanner emulator
@@ -93,23 +65,9 @@ public class GcloudEmulatorsSpanner
         GcloudEmulatorsSpannerStartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Start(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudEmulatorsSpannerStartOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// start a local Cloud Spanner emulator
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Start(
-        GcloudEmulatorsSpannerStartOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

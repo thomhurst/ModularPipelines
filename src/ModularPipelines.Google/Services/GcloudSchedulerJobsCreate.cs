@@ -37,23 +37,9 @@ public class GcloudSchedulerJobsCreate
         GcloudSchedulerJobsCreateAppEngineOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AppEngine(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsCreateAppEngineOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Cloud Scheduler job with      an App Engine target
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AppEngine(
-        GcloudSchedulerJobsCreateAppEngineOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a Cloud Scheduler job that      triggers an action via HTTP
@@ -65,23 +51,9 @@ public class GcloudSchedulerJobsCreate
         GcloudSchedulerJobsCreateHttpOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Http(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsCreateHttpOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Cloud Scheduler job that      triggers an action via HTTP
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Http(
-        GcloudSchedulerJobsCreateHttpOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a Cloud Scheduler job with a      Pub/Sub target
@@ -93,23 +65,9 @@ public class GcloudSchedulerJobsCreate
         GcloudSchedulerJobsCreatePubsubOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Pubsub(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsCreatePubsubOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Cloud Scheduler job with a      Pub/Sub target
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Pubsub(
-        GcloudSchedulerJobsCreatePubsubOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

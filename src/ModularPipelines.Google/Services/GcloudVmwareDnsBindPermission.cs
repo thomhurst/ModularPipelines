@@ -37,23 +37,9 @@ public class GcloudVmwareDnsBindPermission
         GcloudVmwareDnsBindPermissionDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareDnsBindPermissionDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get all users and service      accounts having bind permission
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudVmwareDnsBindPermissionDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// grants a DNS Bind Permission
@@ -65,23 +51,9 @@ public class GcloudVmwareDnsBindPermission
         GcloudVmwareDnsBindPermissionGrantOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Grant(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareDnsBindPermissionGrantOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// grants a DNS Bind Permission
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Grant(
-        GcloudVmwareDnsBindPermissionGrantOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// revokes a DNS Bind Permission
@@ -93,23 +65,9 @@ public class GcloudVmwareDnsBindPermission
         GcloudVmwareDnsBindPermissionRevokeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Revoke(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareDnsBindPermissionRevokeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// revokes a DNS Bind Permission
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Revoke(
-        GcloudVmwareDnsBindPermissionRevokeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

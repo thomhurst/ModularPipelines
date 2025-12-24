@@ -37,23 +37,9 @@ public class GcloudIamPolicies
         GcloudIamPoliciesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPoliciesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a policy on the given attachment point      with the given name
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudIamPoliciesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a policy on the given attachment point      with the given name
@@ -65,23 +51,9 @@ public class GcloudIamPolicies
         GcloudIamPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPoliciesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a policy on the given attachment point      with the given name
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudIamPoliciesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// get a policy on the given attachment point with      the given name
@@ -93,23 +65,9 @@ public class GcloudIamPolicies
         GcloudIamPoliciesGetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Get(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPoliciesGetOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get a policy on the given attachment point with      the given name
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Get(
-        GcloudIamPoliciesGetOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list the policies on the given attachment point
@@ -121,23 +79,9 @@ public class GcloudIamPolicies
         GcloudIamPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPoliciesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list the policies on the given attachment point
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudIamPoliciesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update the policy on the given attachment      point with the given name
@@ -149,23 +93,9 @@ public class GcloudIamPolicies
         GcloudIamPoliciesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamPoliciesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update the policy on the given attachment      point with the given name
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudIamPoliciesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

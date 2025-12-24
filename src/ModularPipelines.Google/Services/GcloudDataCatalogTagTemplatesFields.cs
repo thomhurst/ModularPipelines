@@ -47,23 +47,9 @@ public class GcloudDataCatalogTagTemplatesFields
         GcloudDataCatalogTagTemplatesFieldsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagTemplatesFieldsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Data Catalog tag      template field
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudDataCatalogTagTemplatesFieldsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Data Catalog tag      template field
@@ -75,23 +61,9 @@ public class GcloudDataCatalogTagTemplatesFields
         GcloudDataCatalogTagTemplatesFieldsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagTemplatesFieldsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Data Catalog tag      template field
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudDataCatalogTagTemplatesFieldsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// rename a Data Catalog tag      template field
@@ -103,23 +75,9 @@ public class GcloudDataCatalogTagTemplatesFields
         GcloudDataCatalogTagTemplatesFieldsRenameOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Rename(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagTemplatesFieldsRenameOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// rename a Data Catalog tag      template field
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Rename(
-        GcloudDataCatalogTagTemplatesFieldsRenameOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a Data Catalog tag      template field
@@ -131,23 +89,9 @@ public class GcloudDataCatalogTagTemplatesFields
         GcloudDataCatalogTagTemplatesFieldsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagTemplatesFieldsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a Data Catalog tag      template field
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudDataCatalogTagTemplatesFieldsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

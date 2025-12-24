@@ -37,23 +37,9 @@ public class GcloudContainerFleetMultiClusterServices
         GcloudContainerFleetMultiClusterServicesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMultiClusterServicesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe the      status of the Multi-cluster Services Feature resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudContainerFleetMultiClusterServicesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// disable the      Multi-cluster Services Feature
@@ -65,23 +51,9 @@ public class GcloudContainerFleetMultiClusterServices
         GcloudContainerFleetMultiClusterServicesDisableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Disable(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMultiClusterServicesDisableOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// disable the      Multi-cluster Services Feature
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Disable(
-        GcloudContainerFleetMultiClusterServicesDisableOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// enable the      Multi-cluster Services Feature
@@ -93,23 +65,9 @@ public class GcloudContainerFleetMultiClusterServices
         GcloudContainerFleetMultiClusterServicesEnableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Enable(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMultiClusterServicesEnableOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// enable the      Multi-cluster Services Feature
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Enable(
-        GcloudContainerFleetMultiClusterServicesEnableOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

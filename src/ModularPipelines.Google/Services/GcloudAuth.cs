@@ -53,23 +53,9 @@ public class GcloudAuth
         GcloudAuthOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Execute(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// manage oauth2 credentials for the Google Cloud CLI
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Execute(
-        GcloudAuthOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthOptions(), loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// authorize access to Google Cloud      with a service account
@@ -81,23 +67,9 @@ public class GcloudAuth
         GcloudAuthActivateServiceAccountOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ActivateServiceAccount(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthActivateServiceAccountOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// authorize access to Google Cloud      with a service account
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ActivateServiceAccount(
-        GcloudAuthActivateServiceAccountOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// register gcloud as a Docker credential      helper
@@ -109,23 +81,9 @@ public class GcloudAuth
         GcloudAuthConfigureDockerOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ConfigureDocker(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthConfigureDockerOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// register gcloud as a Docker credential      helper
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ConfigureDocker(
-        GcloudAuthConfigureDockerOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// lists credentialed accounts
@@ -137,23 +95,9 @@ public class GcloudAuth
         GcloudAuthListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// lists credentialed accounts
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudAuthListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// authorize gcloud to access the Cloud Platform with      Google user credentials
@@ -165,23 +109,9 @@ public class GcloudAuth
         GcloudAuthLoginOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Login(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthLoginOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// authorize gcloud to access the Cloud Platform with      Google user credentials
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Login(
-        GcloudAuthLoginOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// print an access token for the specified      account
@@ -193,23 +123,9 @@ public class GcloudAuth
         GcloudAuthPrintAccessTokenOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await PrintAccessToken(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthPrintAccessTokenOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// print an access token for the specified      account
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> PrintAccessToken(
-        GcloudAuthPrintAccessTokenOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// print an identity token for the      specified account
@@ -221,23 +137,9 @@ public class GcloudAuth
         GcloudAuthPrintIdentityTokenOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await PrintIdentityToken(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthPrintIdentityTokenOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// print an identity token for the      specified account
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> PrintIdentityToken(
-        GcloudAuthPrintIdentityTokenOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// revoke access credentials for an account
@@ -249,23 +151,9 @@ public class GcloudAuth
         GcloudAuthRevokeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Revoke(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAuthRevokeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// revoke access credentials for an account
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Revoke(
-        GcloudAuthRevokeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

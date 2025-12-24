@@ -37,23 +37,9 @@ public class GcloudComputeResourcePoliciesCreate
         GcloudComputeResourcePoliciesCreateDiskConsistencyGroupOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DiskConsistencyGroup(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeResourcePoliciesCreateDiskConsistencyGroupOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a      Compute Engine Disk Consistency Group resource policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DiskConsistencyGroup(
-        GcloudComputeResourcePoliciesCreateDiskConsistencyGroupOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a Compute      Engine group placement resource policy
@@ -65,23 +51,9 @@ public class GcloudComputeResourcePoliciesCreate
         GcloudComputeResourcePoliciesCreateGroupPlacementOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GroupPlacement(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeResourcePoliciesCreateGroupPlacementOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Compute      Engine group placement resource policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GroupPlacement(
-        GcloudComputeResourcePoliciesCreateGroupPlacementOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a      Compute Engine instance schedule resource policy
@@ -93,23 +65,9 @@ public class GcloudComputeResourcePoliciesCreate
         GcloudComputeResourcePoliciesCreateInstanceScheduleOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await InstanceSchedule(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeResourcePoliciesCreateInstanceScheduleOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a      Compute Engine instance schedule resource policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> InstanceSchedule(
-        GcloudComputeResourcePoliciesCreateInstanceScheduleOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a      Compute Engine Snapshot Schedule Resource Policy
@@ -121,23 +79,9 @@ public class GcloudComputeResourcePoliciesCreate
         GcloudComputeResourcePoliciesCreateSnapshotScheduleOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SnapshotSchedule(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeResourcePoliciesCreateSnapshotScheduleOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a      Compute Engine Snapshot Schedule Resource Policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SnapshotSchedule(
-        GcloudComputeResourcePoliciesCreateSnapshotScheduleOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a Compute      Engine workload resource policy
@@ -149,23 +93,9 @@ public class GcloudComputeResourcePoliciesCreate
         GcloudComputeResourcePoliciesCreateWorkloadPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await WorkloadPolicy(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeResourcePoliciesCreateWorkloadPolicyOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Compute      Engine workload resource policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> WorkloadPolicy(
-        GcloudComputeResourcePoliciesCreateWorkloadPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

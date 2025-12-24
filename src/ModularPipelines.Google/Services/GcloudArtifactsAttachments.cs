@@ -37,23 +37,9 @@ public class GcloudArtifactsAttachments
         GcloudArtifactsAttachmentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsAttachmentsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// creates an Artifact Registry      attachment in a repository
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudArtifactsAttachmentsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an Artifact Registry      attachment
@@ -65,23 +51,9 @@ public class GcloudArtifactsAttachments
         GcloudArtifactsAttachmentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsAttachmentsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an Artifact Registry      attachment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudArtifactsAttachmentsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe an Artifact Registry      attachment
@@ -93,23 +65,9 @@ public class GcloudArtifactsAttachments
         GcloudArtifactsAttachmentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsAttachmentsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe an Artifact Registry      attachment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudArtifactsAttachmentsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// download an Artifact Registry      attachment from a repository
@@ -121,23 +79,9 @@ public class GcloudArtifactsAttachments
         GcloudArtifactsAttachmentsDownloadOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Download(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsAttachmentsDownloadOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// download an Artifact Registry      attachment from a repository
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Download(
-        GcloudArtifactsAttachmentsDownloadOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Artifact Registry attachments
@@ -149,23 +93,9 @@ public class GcloudArtifactsAttachments
         GcloudArtifactsAttachmentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsAttachmentsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Artifact Registry attachments
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudArtifactsAttachmentsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

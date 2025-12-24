@@ -37,23 +37,9 @@ public class GcloudColabRuntimes
         GcloudColabRuntimesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudColabRuntimesCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a notebook runtime
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudColabRuntimesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a runtime
@@ -65,23 +51,9 @@ public class GcloudColabRuntimes
         GcloudColabRuntimesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudColabRuntimesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a runtime
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudColabRuntimesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a runtime
@@ -93,23 +65,9 @@ public class GcloudColabRuntimes
         GcloudColabRuntimesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudColabRuntimesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a runtime
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudColabRuntimesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list your project's runtimes
@@ -121,23 +79,9 @@ public class GcloudColabRuntimes
         GcloudColabRuntimesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudColabRuntimesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list your project's runtimes
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudColabRuntimesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// start a stopped runtime
@@ -149,23 +93,9 @@ public class GcloudColabRuntimes
         GcloudColabRuntimesStartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Start(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudColabRuntimesStartOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// start a stopped runtime
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Start(
-        GcloudColabRuntimesStartOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// stop a runtime
@@ -177,23 +107,9 @@ public class GcloudColabRuntimes
         GcloudColabRuntimesStopOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Stop(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudColabRuntimesStopOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// stop a runtime
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Stop(
-        GcloudColabRuntimesStopOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// upgrade a runtime
@@ -205,23 +121,9 @@ public class GcloudColabRuntimes
         GcloudColabRuntimesUpgradeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Upgrade(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudColabRuntimesUpgradeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// upgrade a runtime
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Upgrade(
-        GcloudColabRuntimesUpgradeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

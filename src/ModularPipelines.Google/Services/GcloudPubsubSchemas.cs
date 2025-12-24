@@ -37,23 +37,9 @@ public class GcloudPubsubSchemas
         GcloudPubsubSchemasCommitOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Commit(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasCommitOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// commit a Pub/Sub schema revision
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Commit(
-        GcloudPubsubSchemasCommitOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a Pub/Sub schema
@@ -65,23 +51,9 @@ public class GcloudPubsubSchemas
         GcloudPubsubSchemasCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a Pub/Sub schema
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudPubsubSchemasCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Pub/Sub schema
@@ -93,23 +65,9 @@ public class GcloudPubsubSchemas
         GcloudPubsubSchemasDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Pub/Sub schema
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudPubsubSchemasDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a Pub/Sub schema revision
@@ -121,23 +79,9 @@ public class GcloudPubsubSchemas
         GcloudPubsubSchemasDeleteRevisionOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DeleteRevision(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasDeleteRevisionOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a Pub/Sub schema revision
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeleteRevision(
-        GcloudPubsubSchemasDeleteRevisionOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// show details of a Pub/Sub schema
@@ -149,23 +93,9 @@ public class GcloudPubsubSchemas
         GcloudPubsubSchemasDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show details of a Pub/Sub schema
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudPubsubSchemasDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Pub/Sub schemas
@@ -177,23 +107,9 @@ public class GcloudPubsubSchemas
         GcloudPubsubSchemasListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Pub/Sub schemas
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudPubsubSchemasListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list revisions of a Pub/Sub schema
@@ -205,23 +121,9 @@ public class GcloudPubsubSchemas
         GcloudPubsubSchemasListRevisionsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListRevisions(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasListRevisionsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list revisions of a Pub/Sub schema
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListRevisions(
-        GcloudPubsubSchemasListRevisionsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// roll back a Pub/Sub schema to a specified      revision
@@ -233,23 +135,9 @@ public class GcloudPubsubSchemas
         GcloudPubsubSchemasRollbackOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Rollback(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasRollbackOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// roll back a Pub/Sub schema to a specified      revision
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Rollback(
-        GcloudPubsubSchemasRollbackOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// validate a message against a      Pub/Sub schema
@@ -261,23 +149,9 @@ public class GcloudPubsubSchemas
         GcloudPubsubSchemasValidateMessageOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ValidateMessage(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasValidateMessageOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// validate a message against a      Pub/Sub schema
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ValidateMessage(
-        GcloudPubsubSchemasValidateMessageOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// validate a Pub/Sub schema
@@ -289,23 +163,9 @@ public class GcloudPubsubSchemas
         GcloudPubsubSchemasValidateSchemaOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ValidateSchema(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubSchemasValidateSchemaOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// validate a Pub/Sub schema
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ValidateSchema(
-        GcloudPubsubSchemasValidateSchemaOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

@@ -37,23 +37,9 @@ public class GcloudDatabaseMigrationConnectionProfilesCreate
         GcloudDatabaseMigrationConnectionProfilesCreateAlloydbOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Alloydb(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesCreateAlloydbOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a      Database Migration Service connection profile for AlloyDB
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Alloydb(
-        GcloudDatabaseMigrationConnectionProfilesCreateAlloydbOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a      Database Migration Service connection profile for Cloud SQL
@@ -65,23 +51,9 @@ public class GcloudDatabaseMigrationConnectionProfilesCreate
         GcloudDatabaseMigrationConnectionProfilesCreateCloudsqlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Cloudsql(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesCreateCloudsqlOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a      Database Migration Service connection profile for Cloud SQL
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Cloudsql(
-        GcloudDatabaseMigrationConnectionProfilesCreateCloudsqlOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a      Database Migration Service connection profile for MySQL
@@ -93,23 +65,9 @@ public class GcloudDatabaseMigrationConnectionProfilesCreate
         GcloudDatabaseMigrationConnectionProfilesCreateMysqlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Mysql(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesCreateMysqlOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a      Database Migration Service connection profile for MySQL
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Mysql(
-        GcloudDatabaseMigrationConnectionProfilesCreateMysqlOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a      Database Migration Service connection profile for Oracle
@@ -121,23 +79,9 @@ public class GcloudDatabaseMigrationConnectionProfilesCreate
         GcloudDatabaseMigrationConnectionProfilesCreateOracleOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Oracle(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesCreateOracleOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a      Database Migration Service connection profile for Oracle
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Oracle(
-        GcloudDatabaseMigrationConnectionProfilesCreateOracleOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a      Database Migration Service connection profile for PostgreSQL
@@ -149,23 +93,9 @@ public class GcloudDatabaseMigrationConnectionProfilesCreate
         GcloudDatabaseMigrationConnectionProfilesCreatePostgresqlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Postgresql(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesCreatePostgresqlOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a      Database Migration Service connection profile for PostgreSQL
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Postgresql(
-        GcloudDatabaseMigrationConnectionProfilesCreatePostgresqlOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// create a      Database Migration Service connection profile for SQL Server
@@ -177,23 +107,9 @@ public class GcloudDatabaseMigrationConnectionProfilesCreate
         GcloudDatabaseMigrationConnectionProfilesCreateSqlserverOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Sqlserver(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesCreateSqlserverOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a      Database Migration Service connection profile for SQL Server
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Sqlserver(
-        GcloudDatabaseMigrationConnectionProfilesCreateSqlserverOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

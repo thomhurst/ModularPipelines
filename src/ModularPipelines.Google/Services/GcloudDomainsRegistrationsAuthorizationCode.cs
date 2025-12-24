@@ -37,23 +37,9 @@ public class GcloudDomainsRegistrationsAuthorizationCode
         GcloudDomainsRegistrationsAuthorizationCodeGetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Get(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsAuthorizationCodeGetOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// get authorization      code of a specific Cloud Domains registration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Get(
-        GcloudDomainsRegistrationsAuthorizationCodeGetOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// resets      authorization code of a specific Cloud Domains registration
@@ -65,23 +51,9 @@ public class GcloudDomainsRegistrationsAuthorizationCode
         GcloudDomainsRegistrationsAuthorizationCodeResetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Reset(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsAuthorizationCodeResetOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// resets      authorization code of a specific Cloud Domains registration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Reset(
-        GcloudDomainsRegistrationsAuthorizationCodeResetOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

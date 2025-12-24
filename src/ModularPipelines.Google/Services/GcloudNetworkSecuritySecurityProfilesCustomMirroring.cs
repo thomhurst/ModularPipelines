@@ -37,23 +37,9 @@ public class GcloudNetworkSecuritySecurityProfilesCustomMirroring
         GcloudNetworkSecuritySecurityProfilesCustomMirroringCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomMirroringCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create      a new Custom Mirroring Profile
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudNetworkSecuritySecurityProfilesCustomMirroringCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete      a Security Profile
@@ -65,23 +51,9 @@ public class GcloudNetworkSecuritySecurityProfilesCustomMirroring
         GcloudNetworkSecuritySecurityProfilesCustomMirroringDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomMirroringDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete      a Security Profile
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudNetworkSecuritySecurityProfilesCustomMirroringDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe a Custom MirroringSecurity Profile
@@ -93,23 +65,9 @@ public class GcloudNetworkSecuritySecurityProfilesCustomMirroring
         GcloudNetworkSecuritySecurityProfilesCustomMirroringDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomMirroringDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe a Custom MirroringSecurity Profile
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudNetworkSecuritySecurityProfilesCustomMirroringDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list      Custom Mirroring Security Profiles
@@ -121,23 +79,9 @@ public class GcloudNetworkSecuritySecurityProfilesCustomMirroring
         GcloudNetworkSecuritySecurityProfilesCustomMirroringListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomMirroringListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list      Custom Mirroring Security Profiles
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudNetworkSecuritySecurityProfilesCustomMirroringListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// updates      a Custom Mirroring Profile
@@ -149,23 +93,9 @@ public class GcloudNetworkSecuritySecurityProfilesCustomMirroring
         GcloudNetworkSecuritySecurityProfilesCustomMirroringUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesCustomMirroringUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// updates      a Custom Mirroring Profile
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudNetworkSecuritySecurityProfilesCustomMirroringUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

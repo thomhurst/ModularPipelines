@@ -37,23 +37,9 @@ public class GcloudSqlImport
         GcloudSqlImportBakOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Bak(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlImportBakOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// import data into a Cloud SQL instance from a BAK      file
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Bak(
-        GcloudSqlImportBakOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// imports data into a Cloud SQL instance from a CSV      file
@@ -65,23 +51,9 @@ public class GcloudSqlImport
         GcloudSqlImportCsvOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Csv(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlImportCsvOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// imports data into a Cloud SQL instance from a CSV      file
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Csv(
-        GcloudSqlImportCsvOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// imports data into a Cloud SQL instance from a SQL      dump file
@@ -93,23 +65,9 @@ public class GcloudSqlImport
         GcloudSqlImportSqlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Sql(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlImportSqlOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// imports data into a Cloud SQL instance from a SQL      dump file
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Sql(
-        GcloudSqlImportSqlOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// import TDE certificate into a Cloud SQL for SQL      Server instance
@@ -121,23 +79,9 @@ public class GcloudSqlImport
         GcloudSqlImportTdeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Tde(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlImportTdeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// import TDE certificate into a Cloud SQL for SQL      Server instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Tde(
-        GcloudSqlImportTdeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

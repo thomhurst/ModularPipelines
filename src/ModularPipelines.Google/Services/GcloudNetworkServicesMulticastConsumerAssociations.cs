@@ -37,23 +37,9 @@ public class GcloudNetworkServicesMulticastConsumerAssociations
         GcloudNetworkServicesMulticastConsumerAssociationsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastConsumerAssociationsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create a      multicast consumer association
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudNetworkServicesMulticastConsumerAssociationsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a      multicast consumer association
@@ -65,23 +51,9 @@ public class GcloudNetworkServicesMulticastConsumerAssociations
         GcloudNetworkServicesMulticastConsumerAssociationsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastConsumerAssociationsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a      multicast consumer association
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudNetworkServicesMulticastConsumerAssociationsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe      a multicast consumer association
@@ -93,23 +65,9 @@ public class GcloudNetworkServicesMulticastConsumerAssociations
         GcloudNetworkServicesMulticastConsumerAssociationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastConsumerAssociationsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe      a multicast consumer association
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudNetworkServicesMulticastConsumerAssociationsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list      multicast consumer associations
@@ -121,23 +79,9 @@ public class GcloudNetworkServicesMulticastConsumerAssociations
         GcloudNetworkServicesMulticastConsumerAssociationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastConsumerAssociationsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list      multicast consumer associations
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudNetworkServicesMulticastConsumerAssociationsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update a      multicast consumer association
@@ -149,23 +93,9 @@ public class GcloudNetworkServicesMulticastConsumerAssociations
         GcloudNetworkServicesMulticastConsumerAssociationsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastConsumerAssociationsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update a      multicast consumer association
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudNetworkServicesMulticastConsumerAssociationsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

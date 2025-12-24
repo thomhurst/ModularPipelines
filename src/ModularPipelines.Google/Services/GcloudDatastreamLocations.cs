@@ -37,23 +37,9 @@ public class GcloudDatastreamLocations
         GcloudDatastreamLocationsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamLocationsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// show details about the location
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudDatastreamLocationsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Datastream static ips      per location
@@ -65,23 +51,9 @@ public class GcloudDatastreamLocations
         GcloudDatastreamLocationsFetchStaticIpsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await FetchStaticIps(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamLocationsFetchStaticIpsOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Datastream static ips      per location
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> FetchStaticIps(
-        GcloudDatastreamLocationsFetchStaticIpsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list Datastream locations
@@ -93,23 +65,9 @@ public class GcloudDatastreamLocations
         GcloudDatastreamLocationsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamLocationsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list Datastream locations
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudDatastreamLocationsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

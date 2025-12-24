@@ -37,23 +37,9 @@ public class GcloudAppServices
         GcloudAppServicesBrowseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Browse(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppServicesBrowseOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// open the specified service(s) in a browser
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Browse(
-        GcloudAppServicesBrowseOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete services in the current project
@@ -65,23 +51,9 @@ public class GcloudAppServices
         GcloudAppServicesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppServicesDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete services in the current project
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudAppServicesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// display all data about an existing service
@@ -93,23 +65,9 @@ public class GcloudAppServices
         GcloudAppServicesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppServicesDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// display all data about an existing service
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudAppServicesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list your existing services
@@ -121,23 +79,9 @@ public class GcloudAppServices
         GcloudAppServicesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppServicesListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list your existing services
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudAppServicesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// set traffic splitting settings
@@ -149,23 +93,9 @@ public class GcloudAppServices
         GcloudAppServicesSetTrafficOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetTraffic(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppServicesSetTrafficOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// set traffic splitting settings
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetTraffic(
-        GcloudAppServicesSetTrafficOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// level settings
@@ -177,23 +107,9 @@ public class GcloudAppServices
         GcloudAppServicesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppServicesUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// level settings
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudAppServicesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

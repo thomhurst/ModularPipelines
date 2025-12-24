@@ -47,23 +47,9 @@ public class GcloudIamWorkforcePoolsProvidersScimTenants
         GcloudIamWorkforcePoolsProvidersScimTenantsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersScimTenantsCreateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// create an IAM      workforce identity pool provider SCIM tenant
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudIamWorkforcePoolsProvidersScimTenantsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete an IAM      workforce identity pool provider SCIM tenant
@@ -75,23 +61,9 @@ public class GcloudIamWorkforcePoolsProvidersScimTenants
         GcloudIamWorkforcePoolsProvidersScimTenantsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersScimTenantsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete an IAM      workforce identity pool provider SCIM tenant
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudIamWorkforcePoolsProvidersScimTenantsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// describe an      IAM workforce identity pool provider SCIM tenant
@@ -103,23 +75,9 @@ public class GcloudIamWorkforcePoolsProvidersScimTenants
         GcloudIamWorkforcePoolsProvidersScimTenantsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersScimTenantsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// describe an      IAM workforce identity pool provider SCIM tenant
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudIamWorkforcePoolsProvidersScimTenantsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list IAM workforce      identity pool provider SCIM tenants
@@ -131,23 +89,9 @@ public class GcloudIamWorkforcePoolsProvidersScimTenants
         GcloudIamWorkforcePoolsProvidersScimTenantsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersScimTenantsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list IAM workforce      identity pool provider SCIM tenants
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudIamWorkforcePoolsProvidersScimTenantsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// undelete an      IAM workforce identity pool provider SCIM tenant
@@ -159,23 +103,9 @@ public class GcloudIamWorkforcePoolsProvidersScimTenants
         GcloudIamWorkforcePoolsProvidersScimTenantsUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Undelete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersScimTenantsUndeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// undelete an      IAM workforce identity pool provider SCIM tenant
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Undelete(
-        GcloudIamWorkforcePoolsProvidersScimTenantsUndeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// update an IAM      workforce identity pool provider SCIM tenant
@@ -187,23 +117,9 @@ public class GcloudIamWorkforcePoolsProvidersScimTenants
         GcloudIamWorkforcePoolsProvidersScimTenantsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkforcePoolsProvidersScimTenantsUpdateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// update an IAM      workforce identity pool provider SCIM tenant
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudIamWorkforcePoolsProvidersScimTenantsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }

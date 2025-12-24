@@ -37,23 +37,9 @@ public class GcloudAppVersions
         GcloudAppVersionsBrowseOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Browse(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppVersionsBrowseOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// open the specified versions in a browser
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Browse(
-        GcloudAppVersionsBrowseOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// delete a specified version
@@ -65,23 +51,9 @@ public class GcloudAppVersions
         GcloudAppVersionsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppVersionsDeleteOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// delete a specified version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudAppVersionsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// display all data about an existing version
@@ -93,23 +65,9 @@ public class GcloudAppVersions
         GcloudAppVersionsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppVersionsDescribeOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// display all data about an existing version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudAppVersionsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// list your existing versions
@@ -121,23 +79,9 @@ public class GcloudAppVersions
         GcloudAppVersionsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppVersionsListOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// list your existing versions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudAppVersionsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// migrate traffic from one version to another      for a set of services
@@ -149,23 +93,9 @@ public class GcloudAppVersions
         GcloudAppVersionsMigrateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Migrate(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppVersionsMigrateOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// migrate traffic from one version to another      for a set of services
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Migrate(
-        GcloudAppVersionsMigrateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// start serving specified versions
@@ -177,23 +107,9 @@ public class GcloudAppVersions
         GcloudAppVersionsStartOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Start(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppVersionsStartOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// start serving specified versions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Start(
-        GcloudAppVersionsStartOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     /// <summary>
     /// stop serving specified versions
@@ -205,23 +121,9 @@ public class GcloudAppVersions
         GcloudAppVersionsStopOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Stop(options, null, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudAppVersionsStopOptions(), cancellationToken);
     }
 
-    /// <summary>
-    /// stop serving specified versions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Stop(
-        GcloudAppVersionsStopOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
-    }
 
     #endregion
 }
