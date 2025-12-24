@@ -24,6 +24,7 @@ public static class CommandExtensions
             CommandLineCredentials = options.CommandLineCredentials,
             EnvironmentVariables = options.EnvironmentVariables,
             CommandLogging = options.CommandLogging,
+            LoggingOptions = options.LoggingOptions,
             WorkingDirectory = options.WorkingDirectory,
             OptionsObject = options,
         };
