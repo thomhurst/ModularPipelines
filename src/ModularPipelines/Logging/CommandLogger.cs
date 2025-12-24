@@ -26,6 +26,7 @@ internal class CommandLogger : ICommandLogger
 
     public void Log(
         CommandLineToolOptions options,
+        CommandLoggingOptions? loggingOptions,
         string? inputToLog,
         int? exitCode,
         TimeSpan? runTime,
@@ -34,7 +35,7 @@ internal class CommandLogger : ICommandLogger
         string commandWorkingDirPath)
     {
         // Determine effective logging options
-        var effectiveOptions = GetEffectiveLoggingOptions(options);
+        var effectiveOptions = GetEffectiveLoggingOptions(options, loggingOptions);
 
         // Silent = no logging at all
         if (effectiveOptions.Verbosity == CommandLogVerbosity.Silent)
@@ -56,9 +57,14 @@ internal class CommandLogger : ICommandLogger
         LogWorkingDirectory(effectiveOptions, commandWorkingDirPath);
     }
 
-    private CommandLoggingOptions GetEffectiveLoggingOptions(CommandLineToolOptions options)
+    private CommandLoggingOptions GetEffectiveLoggingOptions(CommandLineToolOptions options, CommandLoggingOptions? parameterOptions)
     {
-        // Priority: options property > pipeline default > legacy enum
+        // Priority: parameter > options property > pipeline default > legacy enum
+        if (parameterOptions is not null)
+        {
+            return parameterOptions;
+        }
+
         if (options.LogSettings is not null)
         {
             return options.LogSettings;

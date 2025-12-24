@@ -30,7 +30,19 @@ public sealed class Command : ICommand
         _commandArgumentBuilder = commandArgumentBuilder;
     }
 
-    public async Task<CommandResult> ExecuteCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ExecuteCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default)
+    {
+        return ExecuteCommandLineToolInternal(options, null, cancellationToken);
+    }
+
+#pragma warning disable CS0618 // Type or member is obsolete - implementing obsolete interface method
+    public Task<CommandResult> ExecuteCommandLineTool(CommandLineToolOptions options, CommandLoggingOptions? loggingOptions, CancellationToken cancellationToken = default)
+    {
+        return ExecuteCommandLineToolInternal(options, loggingOptions, cancellationToken);
+    }
+#pragma warning restore CS0618
+
+    private async Task<CommandResult> ExecuteCommandLineToolInternal(CommandLineToolOptions options, CommandLoggingOptions? loggingOptions, CancellationToken cancellationToken = default)
     {
         var optionsObject = GetOptionsObject(options);
 
@@ -82,6 +94,7 @@ public sealed class Command : ICommand
         {
             _commandLogger.Log(
                 options: options,
+                loggingOptions: loggingOptions,
                 inputToLog: options.InputLoggingManipulator == null ? command.ToString() : options.InputLoggingManipulator(command.ToString()),
                 exitCode: 0,
                 runTime: TimeSpan.Zero,
@@ -93,7 +106,7 @@ public sealed class Command : ICommand
             return new CommandResult(command);
         }
 
-        return await Of(command, options, cancellationToken);
+        return await Of(command, options, loggingOptions, cancellationToken);
     }
 
     // Note: Placeholder sanitization is no longer needed since ReplacePlaceholders
@@ -257,7 +270,7 @@ public sealed class Command : ICommand
     }
 
     private async Task<CommandResult> Of(CliWrap.Command command,
-        CommandLineToolOptions options, CancellationToken cancellationToken = default)
+        CommandLineToolOptions options, CommandLoggingOptions? loggingOptions, CancellationToken cancellationToken = default)
     {
         StringBuilder standardOutputStringBuilder = new();
         StringBuilder standardErrorStringBuilder = new();
@@ -297,6 +310,7 @@ public sealed class Command : ICommand
             standardError = options.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : options.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
 
             _commandLogger.Log(options: options,
+                loggingOptions: loggingOptions,
                 inputToLog: inputToLog,
                 exitCode: result.ExitCode,
                 runTime: result.RunTime,
@@ -319,6 +333,7 @@ public sealed class Command : ICommand
             standardError = options.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : options.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
 
             _commandLogger.Log(options: options,
+                loggingOptions: loggingOptions,
                 inputToLog: inputToLog,
                 exitCode: e.ExitCode,
                 runTime: stopwatch.Elapsed,
@@ -335,6 +350,7 @@ public sealed class Command : ICommand
             standardError = options.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : options.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
 
             _commandLogger.Log(options: options,
+                loggingOptions: loggingOptions,
                 inputToLog: inputToLog,
                 exitCode: -1,
                 runTime: stopwatch.Elapsed,
