@@ -47,22 +47,7 @@ public class GcloudComponents
         GcloudComponentsOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Execute(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// list, install, update, or remove Google Cloud CLI      components
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Execute(
-        GcloudComponentsOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComponentsOptions(), loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -75,22 +60,7 @@ public class GcloudComponents
         GcloudComponentsInstallOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Install(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// install one or more Google Cloud CLI components
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Install(
-        GcloudComponentsInstallOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -103,22 +73,7 @@ public class GcloudComponents
         GcloudComponentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// list the status of all Google Cloud CLI components
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComponentsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -131,22 +86,7 @@ public class GcloudComponents
         GcloudComponentsReinstallOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Reinstall(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// reinstall the Google Cloud CLI with the same      components you have now
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Reinstall(
-        GcloudComponentsReinstallOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -159,22 +99,7 @@ public class GcloudComponents
         GcloudComponentsRemoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Remove(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// remove one or more installed components
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Remove(
-        GcloudComponentsRemoveOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -187,22 +112,7 @@ public class GcloudComponents
         GcloudComponentsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// update all of your installed components to the      latest version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudComponentsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

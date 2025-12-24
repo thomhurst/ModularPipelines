@@ -37,22 +37,7 @@ public class GcloudComputeTargetHttpsProxies
         GcloudComputeTargetHttpsProxiesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create a target HTTPS proxy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudComputeTargetHttpsProxiesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -65,22 +50,7 @@ public class GcloudComputeTargetHttpsProxies
         GcloudComputeTargetHttpsProxiesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// delete target HTTPS proxies
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudComputeTargetHttpsProxiesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -93,22 +63,7 @@ public class GcloudComputeTargetHttpsProxies
         GcloudComputeTargetHttpsProxiesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// display detailed information      about a target HTTPS proxy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComputeTargetHttpsProxiesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -121,22 +76,7 @@ public class GcloudComputeTargetHttpsProxies
         GcloudComputeTargetHttpsProxiesExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Export(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// export a target HTTPS proxy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Export(
-        GcloudComputeTargetHttpsProxiesExportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -149,22 +89,7 @@ public class GcloudComputeTargetHttpsProxies
         GcloudComputeTargetHttpsProxiesImportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Import(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// import a target HTTPS proxy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Import(
-        GcloudComputeTargetHttpsProxiesImportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -177,22 +102,7 @@ public class GcloudComputeTargetHttpsProxies
         GcloudComputeTargetHttpsProxiesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// list Google Compute Engine      target HTTPS proxies
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComputeTargetHttpsProxiesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -205,22 +115,7 @@ public class GcloudComputeTargetHttpsProxies
         GcloudComputeTargetHttpsProxiesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// update a target HTTPS proxy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudComputeTargetHttpsProxiesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

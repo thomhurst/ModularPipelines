@@ -47,22 +47,7 @@ public class GcloudDesignCenterSpacesApplicationTemplatesComponents
         GcloudDesignCenterSpacesApplicationTemplatesComponentsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create a component
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudDesignCenterSpacesApplicationTemplatesComponentsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -75,22 +60,7 @@ public class GcloudDesignCenterSpacesApplicationTemplatesComponents
         GcloudDesignCenterSpacesApplicationTemplatesComponentsDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// delete a component
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudDesignCenterSpacesApplicationTemplatesComponentsDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -103,22 +73,7 @@ public class GcloudDesignCenterSpacesApplicationTemplatesComponents
         GcloudDesignCenterSpacesApplicationTemplatesComponentsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// describe a component
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudDesignCenterSpacesApplicationTemplatesComponentsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -131,22 +86,7 @@ public class GcloudDesignCenterSpacesApplicationTemplatesComponents
         GcloudDesignCenterSpacesApplicationTemplatesComponentsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// list      components
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudDesignCenterSpacesApplicationTemplatesComponentsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -159,22 +99,7 @@ public class GcloudDesignCenterSpacesApplicationTemplatesComponents
         GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// update a component
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

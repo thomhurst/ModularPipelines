@@ -37,22 +37,7 @@ public class GcloudSqlSslServerCerts
         GcloudSqlSslServerCertsCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create a server certificate for a      Cloud SQL instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudSqlSslServerCertsCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -65,22 +50,7 @@ public class GcloudSqlSslServerCerts
         GcloudSqlSslServerCertsListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// list all server certificates for a Cloud      SQL instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudSqlSslServerCertsListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -93,22 +63,7 @@ public class GcloudSqlSslServerCerts
         GcloudSqlSslServerCertsRollbackOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Rollback(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// roll back to the previous server      certificate for a Cloud SQL instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Rollback(
-        GcloudSqlSslServerCertsRollbackOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -121,22 +76,7 @@ public class GcloudSqlSslServerCerts
         GcloudSqlSslServerCertsRotateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Rotate(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// rotate in the upcoming server      certificate for a Cloud SQL instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Rotate(
-        GcloudSqlSslServerCertsRotateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

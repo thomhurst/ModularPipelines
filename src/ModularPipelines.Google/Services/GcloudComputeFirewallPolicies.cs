@@ -53,22 +53,7 @@ public class GcloudComputeFirewallPolicies
         GcloudComputeFirewallPoliciesCloneRulesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await CloneRules(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// replace the rules of a      Compute Engine organization firewall policy with rules from another      policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CloneRules(
-        GcloudComputeFirewallPoliciesCloneRulesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -81,22 +66,7 @@ public class GcloudComputeFirewallPolicies
         GcloudComputeFirewallPoliciesCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create a Compute Engine      organization firewall policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudComputeFirewallPoliciesCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -109,22 +79,7 @@ public class GcloudComputeFirewallPolicies
         GcloudComputeFirewallPoliciesDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// delete a Compute Engine      organization firewall policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudComputeFirewallPoliciesDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -137,22 +92,7 @@ public class GcloudComputeFirewallPolicies
         GcloudComputeFirewallPoliciesDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// describe a Compute Engine      organization firewall policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComputeFirewallPoliciesDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -165,22 +105,7 @@ public class GcloudComputeFirewallPolicies
         GcloudComputeFirewallPoliciesExportRulesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ExportRules(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// export Compute Engine      organization firewall policy rules
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ExportRules(
-        GcloudComputeFirewallPoliciesExportRulesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -193,22 +118,7 @@ public class GcloudComputeFirewallPolicies
         GcloudComputeFirewallPoliciesImportRulesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ImportRules(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// import Compute Engine      organization firewall policy rules
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ImportRules(
-        GcloudComputeFirewallPoliciesImportRulesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -221,22 +131,7 @@ public class GcloudComputeFirewallPolicies
         GcloudComputeFirewallPoliciesListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// list Compute Engine organization      firewall policies
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComputeFirewallPoliciesListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -249,22 +144,7 @@ public class GcloudComputeFirewallPolicies
         GcloudComputeFirewallPoliciesListRulesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListRules(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// list the rules of a Compute      Engine organization firewall policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListRules(
-        GcloudComputeFirewallPoliciesListRulesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -277,22 +157,7 @@ public class GcloudComputeFirewallPolicies
         GcloudComputeFirewallPoliciesMoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Move(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// move a Compute Engine organization      firewall policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Move(
-        GcloudComputeFirewallPoliciesMoveOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -305,22 +170,7 @@ public class GcloudComputeFirewallPolicies
         GcloudComputeFirewallPoliciesUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// update a Compute Engine      organization firewall policy
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudComputeFirewallPoliciesUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

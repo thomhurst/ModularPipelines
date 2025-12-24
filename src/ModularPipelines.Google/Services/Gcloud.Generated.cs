@@ -633,16 +633,7 @@ internal class Gcloud : IGcloud
         GcloudCheatSheetOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await CheatSheet(options, null, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CommandResult> CheatSheet(
-        GcloudCheatSheetOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudCheatSheetOptions(), loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -650,16 +641,7 @@ internal class Gcloud : IGcloud
         GcloudDockerOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Docker(options, null, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CommandResult> Docker(
-        GcloudDockerOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudDockerOptions(), loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -667,16 +649,7 @@ internal class Gcloud : IGcloud
         GcloudFeedbackOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Feedback(options, null, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CommandResult> Feedback(
-        GcloudFeedbackOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudFeedbackOptions(), loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -684,16 +657,7 @@ internal class Gcloud : IGcloud
         GcloudInfoOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Info(options, null, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CommandResult> Info(
-        GcloudInfoOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInfoOptions(), loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -701,16 +665,7 @@ internal class Gcloud : IGcloud
         GcloudInitOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Init(options, null, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CommandResult> Init(
-        GcloudInitOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudInitOptions(), loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -718,16 +673,7 @@ internal class Gcloud : IGcloud
         GcloudSurveyOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Survey(options, null, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CommandResult> Survey(
-        GcloudSurveyOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSurveyOptions(), loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

@@ -37,22 +37,7 @@ public class GcloudAiPlatformJobsSubmit
         GcloudAiPlatformJobsSubmitPredictionOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Prediction(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// start an AI Platform batch      prediction job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Prediction(
-        GcloudAiPlatformJobsSubmitPredictionOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -65,22 +50,7 @@ public class GcloudAiPlatformJobsSubmit
         GcloudAiPlatformJobsSubmitTrainingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Training(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// submit an AI Platform training      job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Training(
-        GcloudAiPlatformJobsSubmitTrainingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

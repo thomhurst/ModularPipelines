@@ -37,22 +37,7 @@ public class GcloudSqlExport
         GcloudSqlExportBakOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Bak(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// export data from a Cloud SQL instance to a BAK file
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Bak(
-        GcloudSqlExportBakOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -65,22 +50,7 @@ public class GcloudSqlExport
         GcloudSqlExportCsvOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Csv(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// exports data from a Cloud SQL instance to a CSV      file
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Csv(
-        GcloudSqlExportCsvOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -93,22 +63,7 @@ public class GcloudSqlExport
         GcloudSqlExportSqlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Sql(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// exports data from a Cloud SQL instance to a SQL      file
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Sql(
-        GcloudSqlExportSqlOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -121,22 +76,7 @@ public class GcloudSqlExport
         GcloudSqlExportTdeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Tde(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// export a TDE certificate from a Cloud SQL for SQL      Server instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Tde(
-        GcloudSqlExportTdeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

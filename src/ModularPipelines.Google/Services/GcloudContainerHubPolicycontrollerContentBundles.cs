@@ -37,22 +37,7 @@ public class GcloudContainerHubPolicycontrollerContentBundles
         GcloudContainerHubPolicycontrollerContentBundlesRemoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Remove(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// removes a      bundle installation for Policy Controller content
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Remove(
-        GcloudContainerHubPolicycontrollerContentBundlesRemoveOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -65,22 +50,7 @@ public class GcloudContainerHubPolicycontrollerContentBundles
         GcloudContainerHubPolicycontrollerContentBundlesSetOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Set(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// sets bundle      installation for Policy Controller content
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Set(
-        GcloudContainerHubPolicycontrollerContentBundlesSetOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

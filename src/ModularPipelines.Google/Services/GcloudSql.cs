@@ -107,22 +107,7 @@ public class GcloudSql
         GcloudSqlOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Execute(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create and manage Google Cloud SQL databases
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Execute(
-        GcloudSqlOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlOptions(), loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -135,22 +120,7 @@ public class GcloudSql
         GcloudSqlConnectOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Connect(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// connects to a Cloud SQL instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Connect(
-        GcloudSqlConnectOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -163,22 +133,7 @@ public class GcloudSql
         GcloudSqlGenerateLoginTokenOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GenerateLoginToken(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// generate an IAM login token for Cloud SQL
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GenerateLoginToken(
-        GcloudSqlGenerateLoginTokenOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -191,22 +146,7 @@ public class GcloudSql
         GcloudSqlRescheduleMaintenanceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RescheduleMaintenance(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// reschedule a Cloud SQL instance's      maintenance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RescheduleMaintenance(
-        GcloudSqlRescheduleMaintenanceOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

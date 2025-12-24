@@ -37,22 +37,7 @@ public class GcloudArtifactsVpcscConfig
         GcloudArtifactsVpcscConfigAllowOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Allow(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// allow Artifact Registry remote      repositories inside a service perimeter to retrieve data from their      upstream sources outside of the perimeter
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Allow(
-        GcloudArtifactsVpcscConfigAllowOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -65,22 +50,7 @@ public class GcloudArtifactsVpcscConfig
         GcloudArtifactsVpcscConfigDenyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Deny(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// deny access to upstream sources      outside the service perimeter for Artifact Registry remote repositories      inside the perimeter
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Deny(
-        GcloudArtifactsVpcscConfigDenyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -93,22 +63,7 @@ public class GcloudArtifactsVpcscConfig
         GcloudArtifactsVpcscConfigDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// describe the current Artifact      Registry configuration for VPC Service Controls
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudArtifactsVpcscConfigDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

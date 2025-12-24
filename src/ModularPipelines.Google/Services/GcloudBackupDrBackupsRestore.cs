@@ -37,22 +37,7 @@ public class GcloudBackupDrBackupsRestore
         GcloudBackupDrBackupsRestoreComputeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Compute(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// restores a Compute Engine VM      Backup
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Compute(
-        GcloudBackupDrBackupsRestoreComputeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -65,22 +50,7 @@ public class GcloudBackupDrBackupsRestore
         GcloudBackupDrBackupsRestoreDiskOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Disk(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// restores a Compute Disk Backup
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Disk(
-        GcloudBackupDrBackupsRestoreDiskOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

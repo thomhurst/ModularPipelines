@@ -57,8 +57,15 @@ public record PipelineOptions
     public int DefaultRetryCount { get; set; }
 
     /// <summary>
+    /// Gets or sets the default logging options for all commands.
+    /// When set, this takes precedence over DefaultCommandLogging.
+    /// </summary>
+    public CommandLoggingOptions? DefaultLoggingOptions { get; set; }
+
+    /// <summary>
     /// Gets or sets the default command logging level for all commands.
     /// </summary>
+    [Obsolete("Use DefaultLoggingOptions instead. This property will be removed in a future version.")]
     public CommandLogging DefaultCommandLogging { get; set; } = CommandLogging.Default;
 
     /// <summary>

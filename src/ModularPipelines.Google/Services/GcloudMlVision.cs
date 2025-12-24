@@ -37,22 +37,7 @@ public class GcloudMlVision
         GcloudMlVisionDetectDocumentOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DetectDocument(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// detect dense text in an image
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DetectDocument(
-        GcloudMlVisionDetectDocumentOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -65,22 +50,7 @@ public class GcloudMlVision
         GcloudMlVisionDetectFacesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DetectFaces(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// detect faces within an image
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DetectFaces(
-        GcloudMlVisionDetectFacesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -93,22 +63,7 @@ public class GcloudMlVision
         GcloudMlVisionDetectImagePropertiesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DetectImageProperties(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// detect general attributes of an      image
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DetectImageProperties(
-        GcloudMlVisionDetectImagePropertiesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -121,22 +76,7 @@ public class GcloudMlVision
         GcloudMlVisionDetectLabelsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DetectLabels(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// detect broad sets of categories within an      image
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DetectLabels(
-        GcloudMlVisionDetectLabelsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -149,22 +89,7 @@ public class GcloudMlVision
         GcloudMlVisionDetectLandmarksOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DetectLandmarks(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// made      structures within an image
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DetectLandmarks(
-        GcloudMlVisionDetectLandmarksOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -177,22 +102,7 @@ public class GcloudMlVision
         GcloudMlVisionDetectLogosOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DetectLogos(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// detect popular product logos within an      image
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DetectLogos(
-        GcloudMlVisionDetectLogosOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -205,22 +115,7 @@ public class GcloudMlVision
         GcloudMlVisionDetectObjectsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DetectObjects(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// detect and extract multiple objects in an      image with object localization
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DetectObjects(
-        GcloudMlVisionDetectObjectsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -233,22 +128,7 @@ public class GcloudMlVision
         GcloudMlVisionDetectSafeSearchOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DetectSafeSearch(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// detect explicit content in an image
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DetectSafeSearch(
-        GcloudMlVisionDetectSafeSearchOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -261,22 +141,7 @@ public class GcloudMlVision
         GcloudMlVisionDetectTextOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DetectText(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// detect and extract text within an image
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DetectText(
-        GcloudMlVisionDetectTextOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -289,22 +154,7 @@ public class GcloudMlVision
         GcloudMlVisionDetectTextPdfOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DetectTextPdf(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// detect and transcribe text from PDF      files stored in Google Cloud Storage
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DetectTextPdf(
-        GcloudMlVisionDetectTextPdfOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -317,22 +167,7 @@ public class GcloudMlVision
         GcloudMlVisionDetectTextTiffOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DetectTextTiff(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// detect and transcribe text from TIFF      files stored in Google Cloud Storage
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DetectTextTiff(
-        GcloudMlVisionDetectTextTiffOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -345,22 +180,7 @@ public class GcloudMlVision
         GcloudMlVisionDetectWebOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DetectWeb(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// detect entities in an image from similar      images on the web
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DetectWeb(
-        GcloudMlVisionDetectWebOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -373,22 +193,7 @@ public class GcloudMlVision
         GcloudMlVisionSuggestCropOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SuggestCrop(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// suggest a bounding box in an image
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SuggestCrop(
-        GcloudMlVisionSuggestCropOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

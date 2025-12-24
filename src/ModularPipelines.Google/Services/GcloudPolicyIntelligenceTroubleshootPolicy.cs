@@ -37,22 +37,7 @@ public class GcloudPolicyIntelligenceTroubleshootPolicy
         GcloudPolicyIntelligenceTroubleshootPolicyIamOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Iam(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// troubleshoot IAM allow      and deny policies
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Iam(
-        GcloudPolicyIntelligenceTroubleshootPolicyIamOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

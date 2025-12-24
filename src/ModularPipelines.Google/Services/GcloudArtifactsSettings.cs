@@ -37,22 +37,7 @@ public class GcloudArtifactsSettings
         GcloudArtifactsSettingsDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// list all Artifact Registry project      settings
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudArtifactsSettingsDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -65,22 +50,7 @@ public class GcloudArtifactsSettings
         GcloudArtifactsSettingsDisableUpgradeRedirectionOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DisableUpgradeRedirection(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// disables      redirection from Container Registry to Artifact Registry
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DisableUpgradeRedirection(
-        GcloudArtifactsSettingsDisableUpgradeRedirectionOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -93,22 +63,7 @@ public class GcloudArtifactsSettings
         GcloudArtifactsSettingsEnableUpgradeRedirectionOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await EnableUpgradeRedirection(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// enables redirection      from Container Registry to Artifact Registry
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> EnableUpgradeRedirection(
-        GcloudArtifactsSettingsEnableUpgradeRedirectionOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

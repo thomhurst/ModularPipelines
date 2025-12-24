@@ -47,22 +47,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersAddBgpPeerOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddBgpPeer(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// add a BGP peer to a Compute Engine      router
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddBgpPeer(
-        GcloudComputeRoutersAddBgpPeerOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -75,22 +60,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersAddInterfaceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddInterface(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// add an interface to a Compute Engine      router
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddInterface(
-        GcloudComputeRoutersAddInterfaceOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -103,22 +73,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersAddRoutePolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddRoutePolicy(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// add an empty route policy to a      Compute Engine router
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddRoutePolicy(
-        GcloudComputeRoutersAddRoutePolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -131,22 +86,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersAddRoutePolicyTermOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AddRoutePolicyTerm(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// adds a new term to an      existing route policy of a Comute Engine router
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AddRoutePolicyTerm(
-        GcloudComputeRoutersAddRoutePolicyTermOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -159,22 +99,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create a Compute Engine router
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudComputeRoutersCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -187,22 +112,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// delete Compute Engine routers
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudComputeRoutersDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -215,22 +125,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// describe a Compute Engine router
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComputeRoutersDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -243,22 +138,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersDownloadRoutePolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DownloadRoutePolicy(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// download a route policy from      a Compute Engine router
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DownloadRoutePolicy(
-        GcloudComputeRoutersDownloadRoutePolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -271,22 +151,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersGetNatIpInfoOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetNatIpInfo(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// display NAT IP information in a      router
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetNatIpInfo(
-        GcloudComputeRoutersGetNatIpInfoOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -299,22 +164,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersGetNatMappingInfoOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetNatMappingInfo(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// display NAT Mapping      information in a router
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetNatMappingInfo(
-        GcloudComputeRoutersGetNatMappingInfoOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -327,22 +177,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersGetRoutePolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetRoutePolicy(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// get a route policy from a Compute      Engine router
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetRoutePolicy(
-        GcloudComputeRoutersGetRoutePolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -355,22 +190,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersGetStatusOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetStatus(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// get status of a Compute Engine router
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetStatus(
-        GcloudComputeRoutersGetStatusOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -383,22 +203,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersListBgpRoutesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListBgpRoutes(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// list routes advertised and learned      on individual BGP sessions, both pre- and post-policy evaluation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListBgpRoutes(
-        GcloudComputeRoutersListBgpRoutesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -411,22 +216,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// list Google Compute Engine routers
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComputeRoutersListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -439,22 +229,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersListRoutePoliciesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListRoutePolicies(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// list route policies from a      Compute Engine router
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListRoutePolicies(
-        GcloudComputeRoutersListRoutePoliciesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -467,22 +242,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersRemoveBgpPeerOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveBgpPeer(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// remove a BGP peer from a Compute      Engine router
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveBgpPeer(
-        GcloudComputeRoutersRemoveBgpPeerOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -495,22 +255,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersRemoveInterfaceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveInterface(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// remove an interface from a      Compute Engine router
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveInterface(
-        GcloudComputeRoutersRemoveInterfaceOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -523,22 +268,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersRemoveRoutePolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveRoutePolicy(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// remove a route policy from a      Compute Engine router
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveRoutePolicy(
-        GcloudComputeRoutersRemoveRoutePolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -551,22 +281,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersRemoveRoutePolicyTermOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RemoveRoutePolicyTerm(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// remove a route policy      term of a Compute Engine router
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RemoveRoutePolicyTerm(
-        GcloudComputeRoutersRemoveRoutePolicyTermOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -579,22 +294,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersUpdateBgpPeerOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateBgpPeer(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// update a BGP peer on a Compute      Engine router
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateBgpPeer(
-        GcloudComputeRoutersUpdateBgpPeerOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -607,22 +307,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersUpdateInterfaceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateInterface(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// update an interface on a Compute      Engine router
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateInterface(
-        GcloudComputeRoutersUpdateInterfaceOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -635,22 +320,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// update a Compute Engine router
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudComputeRoutersUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -663,22 +333,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersUpdateRoutePolicyTermOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateRoutePolicyTerm(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// updates a term of an      existing route policy of a Comute Engine router
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateRoutePolicyTerm(
-        GcloudComputeRoutersUpdateRoutePolicyTermOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -691,22 +346,7 @@ public class GcloudComputeRouters
         GcloudComputeRoutersUploadRoutePolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await UploadRoutePolicy(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// upload a route policy into a      Compute Engine router
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UploadRoutePolicy(
-        GcloudComputeRoutersUploadRoutePolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

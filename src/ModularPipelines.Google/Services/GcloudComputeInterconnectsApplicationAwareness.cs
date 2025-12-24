@@ -37,22 +37,7 @@ public class GcloudComputeInterconnectsApplicationAwareness
         GcloudComputeInterconnectsApplicationAwarenessConfigureBandwidthPercentagePolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ConfigureBandwidthPercentagePolicy(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// awareness      configure-bandwidth-percentage-policy - configure bandwidth percentage      policy for application awareness configuration of a Compute Engine      interconnect
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ConfigureBandwidthPercentagePolicy(
-        GcloudComputeInterconnectsApplicationAwarenessConfigureBandwidthPercentagePolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -65,22 +50,7 @@ public class GcloudComputeInterconnectsApplicationAwareness
         GcloudComputeInterconnectsApplicationAwarenessConfigureShaperAveragePercentageOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ConfigureShaperAveragePercentage(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// awareness      configure-shaper-average-percentage - configure shaper average      percentage for application awareness configuration of a Compute Engine      interconnect
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ConfigureShaperAveragePercentage(
-        GcloudComputeInterconnectsApplicationAwarenessConfigureShaperAveragePercentageOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -93,22 +63,7 @@ public class GcloudComputeInterconnectsApplicationAwareness
         GcloudComputeInterconnectsApplicationAwarenessConfigureStrictPriorityPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ConfigureStrictPriorityPolicy(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// awareness      configure-strict-priority-policy - configure strict priority policy for      application awareness configuration of a Compute Engine interconnect
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ConfigureStrictPriorityPolicy(
-        GcloudComputeInterconnectsApplicationAwarenessConfigureStrictPriorityPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -121,22 +76,7 @@ public class GcloudComputeInterconnectsApplicationAwareness
         GcloudComputeInterconnectsApplicationAwarenessDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// delete      application awareness configuration of a Compute Engine interconnect
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudComputeInterconnectsApplicationAwarenessDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -149,22 +89,7 @@ public class GcloudComputeInterconnectsApplicationAwareness
         GcloudComputeInterconnectsApplicationAwarenessGetConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetConfig(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// get      application awareness configuration of a Compute Engine interconnect
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetConfig(
-        GcloudComputeInterconnectsApplicationAwarenessGetConfigOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -177,22 +102,7 @@ public class GcloudComputeInterconnectsApplicationAwareness
         GcloudComputeInterconnectsApplicationAwarenessUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// updates      application awareness configuration of a Compute Engine interconnect
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudComputeInterconnectsApplicationAwarenessUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

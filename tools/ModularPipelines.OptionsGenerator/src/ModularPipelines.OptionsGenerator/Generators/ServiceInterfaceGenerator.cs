@@ -109,7 +109,7 @@ public class ServiceInterfaceGenerator : ICodeGenerator
         // Generate method name from command parts
         var methodName = GenerateMethodName(command);
 
-        // First overload: without logging options
+        // Single method - users set LogSettings on options if they need custom logging
         if (!string.IsNullOrEmpty(command.Description))
         {
             sb.AppendLine("    /// <summary>");
@@ -121,21 +121,6 @@ public class ServiceInterfaceGenerator : ICodeGenerator
         }
 
         sb.AppendLine($"    Task<CommandResult> {methodName}({command.ClassName} options, CancellationToken cancellationToken = default);");
-        sb.AppendLine();
-
-        // Second overload: with logging options
-        if (!string.IsNullOrEmpty(command.Description))
-        {
-            sb.AppendLine("    /// <summary>");
-            sb.AppendLine($"    /// {EscapeXmlComment(command.Description)}");
-            sb.AppendLine("    /// </summary>");
-            sb.AppendLine("    /// <param name=\"options\">The command options.</param>");
-            sb.AppendLine("    /// <param name=\"loggingOptions\">The logging options for this command execution.</param>");
-            sb.AppendLine("    /// <param name=\"cancellationToken\">Cancellation token.</param>");
-            sb.AppendLine("    /// <returns>The command result.</returns>");
-        }
-
-        sb.AppendLine($"    Task<CommandResult> {methodName}({command.ClassName} options, CommandLoggingOptions? loggingOptions, CancellationToken cancellationToken = default);");
     }
 
     private static string GenerateMethodName(CliCommandDefinition command)

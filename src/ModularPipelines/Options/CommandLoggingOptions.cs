@@ -3,17 +3,24 @@ namespace ModularPipelines.Options;
 /// <summary>
 /// Options for customizing command execution logging.
 /// </summary>
+/// <remarks>
+/// <para>Set via <see cref="CommandLineToolOptions.LogSettings"/> or <see cref="PipelineOptions.DefaultLoggingOptions"/>.</para>
+/// <para>Verbosity levels control what is logged automatically:</para>
+/// <list type="bullet">
+/// <item><description><see cref="CommandLogVerbosity.Silent"/> - No logging</description></item>
+/// <item><description><see cref="CommandLogVerbosity.Minimal"/> - Command input only</description></item>
+/// <item><description><see cref="CommandLogVerbosity.Normal"/> - Input, output, and errors on failure</description></item>
+/// <item><description><see cref="CommandLogVerbosity.Detailed"/> - Above plus exit code and duration</description></item>
+/// <item><description><see cref="CommandLogVerbosity.Diagnostic"/> - Everything including working directory and timestamps</description></item>
+/// </list>
+/// <para>Individual Show* properties can disable features provided by the verbosity level.</para>
+/// </remarks>
 public record CommandLoggingOptions
 {
     /// <summary>
     /// Gets or sets the verbosity level. Default is Normal.
     /// </summary>
     public CommandLogVerbosity Verbosity { get; init; } = CommandLogVerbosity.Normal;
-
-    /// <summary>
-    /// Gets or sets the output format. Default is Text.
-    /// </summary>
-    public CommandLogFormat OutputFormat { get; init; } = CommandLogFormat.Text;
 
     /// <summary>
     /// Gets or sets whether to include timestamps in output. Default is false.

@@ -37,22 +37,7 @@ public class GcloudDataprocBatchesSubmit
         GcloudDataprocBatchesSubmitPysparkOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Pyspark(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// submit a PySpark batch job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Pyspark(
-        GcloudDataprocBatchesSubmitPysparkOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -65,22 +50,7 @@ public class GcloudDataprocBatchesSubmit
         GcloudDataprocBatchesSubmitSparkOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Spark(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// submit a Spark batch job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Spark(
-        GcloudDataprocBatchesSubmitSparkOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -93,22 +63,7 @@ public class GcloudDataprocBatchesSubmit
         GcloudDataprocBatchesSubmitSparkROptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SparkR(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// submit a Spark R batch job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SparkR(
-        GcloudDataprocBatchesSubmitSparkROptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -121,22 +76,7 @@ public class GcloudDataprocBatchesSubmit
         GcloudDataprocBatchesSubmitSparkSqlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SparkSql(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// submit a Spark SQL batch job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SparkSql(
-        GcloudDataprocBatchesSubmitSparkSqlOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

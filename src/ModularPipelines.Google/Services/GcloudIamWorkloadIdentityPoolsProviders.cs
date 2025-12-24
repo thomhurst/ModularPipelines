@@ -53,22 +53,7 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersCreateAwsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await CreateAws(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create a new AWS      workload identity pool provider
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateAws(
-        GcloudIamWorkloadIdentityPoolsProvidersCreateAwsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -81,22 +66,7 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersCreateOidcOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await CreateOidc(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create a new      OIDC workload identity pool provider
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateOidc(
-        GcloudIamWorkloadIdentityPoolsProvidersCreateOidcOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -109,22 +79,7 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersCreateSamlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await CreateSaml(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create a new      SAML workload identity pool provider
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateSaml(
-        GcloudIamWorkloadIdentityPoolsProvidersCreateSamlOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -137,22 +92,7 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersCreateX509Options options,
         CancellationToken cancellationToken = default)
     {
-        return await CreateX509(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create a new      X.509 workload identity pool provider
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateX509(
-        GcloudIamWorkloadIdentityPoolsProvidersCreateX509Options options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -165,22 +105,7 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// delete a workload      identity pool provider
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudIamWorkloadIdentityPoolsProvidersDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -193,22 +118,7 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// describe a workload      identity pool provider
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudIamWorkloadIdentityPoolsProvidersDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -221,22 +131,7 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// list workload identity      pool providers
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudIamWorkloadIdentityPoolsProvidersListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -249,22 +144,7 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersUndeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Undelete(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// undelete a workload      identity pool provider
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Undelete(
-        GcloudIamWorkloadIdentityPoolsProvidersUndeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -277,22 +157,7 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersUpdateAwsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateAws(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// update an AWS      workload identity pool provider
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateAws(
-        GcloudIamWorkloadIdentityPoolsProvidersUpdateAwsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -305,22 +170,7 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersUpdateOidcOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateOidc(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// update an OIDC      workload identity pool provider
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateOidc(
-        GcloudIamWorkloadIdentityPoolsProvidersUpdateOidcOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -333,22 +183,7 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersUpdateSamlOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateSaml(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// update a SAML      workload identity pool provider
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateSaml(
-        GcloudIamWorkloadIdentityPoolsProvidersUpdateSamlOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -361,22 +196,7 @@ public class GcloudIamWorkloadIdentityPoolsProviders
         GcloudIamWorkloadIdentityPoolsProvidersUpdateX509Options options,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateX509(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// update an X.509      workload identity pool provider
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateX509(
-        GcloudIamWorkloadIdentityPoolsProvidersUpdateX509Options options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

@@ -95,22 +95,7 @@ public class GcloudKms
         GcloudKmsOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Execute(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// manage cryptographic keys in the cloud
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Execute(
-        GcloudKmsOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsOptions(), loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -123,22 +108,7 @@ public class GcloudKms
         GcloudKmsAsymmetricDecryptOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AsymmetricDecrypt(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// decrypt an input file using an      asymmetric-encryption key version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AsymmetricDecrypt(
-        GcloudKmsAsymmetricDecryptOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -151,22 +121,7 @@ public class GcloudKms
         GcloudKmsAsymmetricSignOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AsymmetricSign(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// sign a user input file using an      asymmetric-signing key version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AsymmetricSign(
-        GcloudKmsAsymmetricSignOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -179,22 +134,7 @@ public class GcloudKms
         GcloudKmsDecapsulateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Decapsulate(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// decapsulate an input file using a      key-encapsulation key version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Decapsulate(
-        GcloudKmsDecapsulateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -207,22 +147,7 @@ public class GcloudKms
         GcloudKmsDecryptOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Decrypt(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// decrypt a ciphertext file using a Cloud KMS key
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Decrypt(
-        GcloudKmsDecryptOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -235,22 +160,7 @@ public class GcloudKms
         GcloudKmsEncryptOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Encrypt(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// encrypt a plaintext file using a key
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Encrypt(
-        GcloudKmsEncryptOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -263,22 +173,7 @@ public class GcloudKms
         GcloudKmsMacSignOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await MacSign(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// sign a user input file using a MAC key version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> MacSign(
-        GcloudKmsMacSignOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -291,22 +186,7 @@ public class GcloudKms
         GcloudKmsMacVerifyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await MacVerify(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// verify a user signature file using a MAC key      version
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> MacVerify(
-        GcloudKmsMacVerifyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -319,22 +199,7 @@ public class GcloudKms
         GcloudKmsRawDecryptOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RawDecrypt(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// decrypt a ciphertext file using a raw key
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RawDecrypt(
-        GcloudKmsRawDecryptOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -347,22 +212,7 @@ public class GcloudKms
         GcloudKmsRawEncryptOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RawEncrypt(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// encrypt a plaintext file using a raw key
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RawEncrypt(
-        GcloudKmsRawEncryptOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

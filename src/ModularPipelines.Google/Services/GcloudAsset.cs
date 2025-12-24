@@ -59,22 +59,7 @@ public class GcloudAsset
         GcloudAssetOptions? options = default,
         CancellationToken cancellationToken = default)
     {
-        return await Execute(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// manage the Cloud Asset Inventory
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Execute(
-        GcloudAssetOptions? options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetOptions(), loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -87,22 +72,7 @@ public class GcloudAsset
         GcloudAssetAnalyzeIamPolicyLongrunningOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AnalyzeIamPolicyLongrunning(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// analyzes IAM policies that      match a request asynchronously and writes the results to Google Cloud      Storage or BigQuery destination
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AnalyzeIamPolicyLongrunning(
-        GcloudAssetAnalyzeIamPolicyLongrunningOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -115,22 +85,7 @@ public class GcloudAsset
         GcloudAssetAnalyzeIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AnalyzeIamPolicy(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// analyzes IAM policies that match a      request
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AnalyzeIamPolicy(
-        GcloudAssetAnalyzeIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -143,22 +98,7 @@ public class GcloudAsset
         GcloudAssetAnalyzeMoveOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AnalyzeMove(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// analyzes resource move
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AnalyzeMove(
-        GcloudAssetAnalyzeMoveOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -171,22 +111,7 @@ public class GcloudAsset
         GcloudAssetAnalyzeOrgPoliciesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AnalyzeOrgPolicies(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// analyze organization policies under a      scope
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AnalyzeOrgPolicies(
-        GcloudAssetAnalyzeOrgPoliciesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -199,22 +124,7 @@ public class GcloudAsset
         GcloudAssetAnalyzeOrgPolicyGovernedAssetsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AnalyzeOrgPolicyGovernedAssets(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// analyze organization      policies governed assets under a scope
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AnalyzeOrgPolicyGovernedAssets(
-        GcloudAssetAnalyzeOrgPolicyGovernedAssetsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -227,22 +137,7 @@ public class GcloudAsset
         GcloudAssetAnalyzeOrgPolicyGovernedContainersOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AnalyzeOrgPolicyGovernedContainers(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// analyze organization      policies governed containers under a scope
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AnalyzeOrgPolicyGovernedContainers(
-        GcloudAssetAnalyzeOrgPolicyGovernedContainersOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -255,22 +150,7 @@ public class GcloudAsset
         GcloudAssetExportOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Export(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// export the cloud assets to Google Cloud      Storage/BigQuery
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Export(
-        GcloudAssetExportOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -283,22 +163,7 @@ public class GcloudAsset
         GcloudAssetGetEffectiveIamPolicyOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetEffectiveIamPolicy(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// get effective IAM policies for a      specified list of resources within accessible scope, such as a project,      folder or organization
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetEffectiveIamPolicy(
-        GcloudAssetGetEffectiveIamPolicyOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -311,22 +176,7 @@ public class GcloudAsset
         GcloudAssetGetHistoryOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetHistory(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// get the update history of assets that overlaps a      time window
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetHistory(
-        GcloudAssetGetHistoryOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -339,22 +189,7 @@ public class GcloudAsset
         GcloudAssetListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// list the Cloud assets
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudAssetListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -367,22 +202,7 @@ public class GcloudAsset
         GcloudAssetQueryOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Query(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// query the Cloud assets
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Query(
-        GcloudAssetQueryOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -395,22 +215,7 @@ public class GcloudAsset
         GcloudAssetSearchAllIamPoliciesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SearchAllIamPolicies(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// searches all IAM policies within the      specified accessible scope, such as a project, folder or organization
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SearchAllIamPolicies(
-        GcloudAssetSearchAllIamPoliciesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -423,22 +228,7 @@ public class GcloudAsset
         GcloudAssetSearchAllResourcesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SearchAllResources(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// searches all Cloud resources within the      specified accessible scope, such as a project, folder or organization
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SearchAllResources(
-        GcloudAssetSearchAllResourcesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

@@ -53,22 +53,7 @@ public class GcloudContainerAttached
         GcloudContainerAttachedGetServerConfigOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetServerConfig(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// Cloud server      configuration for Attached clusters
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetServerConfig(
-        GcloudContainerAttachedGetServerConfigOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

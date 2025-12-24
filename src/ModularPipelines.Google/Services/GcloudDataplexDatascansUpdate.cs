@@ -37,22 +37,7 @@ public class GcloudDataplexDatascansUpdate
         GcloudDataplexDatascansUpdateDataDiscoveryOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DataDiscovery(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// update a Dataplex data      discovery scan job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DataDiscovery(
-        GcloudDataplexDatascansUpdateDataDiscoveryOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -65,22 +50,7 @@ public class GcloudDataplexDatascansUpdate
         GcloudDataplexDatascansUpdateDataDocumentationOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DataDocumentation(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// update a Dataplex      data documentation scan job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DataDocumentation(
-        GcloudDataplexDatascansUpdateDataDocumentationOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -93,22 +63,7 @@ public class GcloudDataplexDatascansUpdate
         GcloudDataplexDatascansUpdateDataProfileOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DataProfile(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// update a Dataplex data      profile scan job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DataProfile(
-        GcloudDataplexDatascansUpdateDataProfileOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -121,22 +76,7 @@ public class GcloudDataplexDatascansUpdate
         GcloudDataplexDatascansUpdateDataQualityOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DataQuality(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// update a Dataplex data      quality scan job
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DataQuality(
-        GcloudDataplexDatascansUpdateDataQualityOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

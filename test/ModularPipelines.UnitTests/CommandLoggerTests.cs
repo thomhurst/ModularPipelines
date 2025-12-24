@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
@@ -12,6 +13,7 @@ namespace ModularPipelines.UnitTests;
 
 public class CommandLoggerTests : TestBase
 {
+#pragma warning disable CS0618 // Type or member is obsolete - testing legacy CommandLogging enum
     [Test]
     [MatrixDataSource]
     public async Task Logs_As_Expected_With_Options(
@@ -126,6 +128,99 @@ public class CommandLoggerTests : TestBase
         await result.T.ExecuteCommandLineTool(new PowershellScriptOptions(command)
         {
             CommandLogging = logging,
+            ThrowOnNonZeroExitCode = false,
+        });
+
+        await result.Host.DisposeAsync();
+
+        return file;
+    }
+#pragma warning restore CS0618
+
+    [Test]
+    public async Task Silent_Verbosity_Logs_Nothing()
+    {
+        var file = await RunPowershellCommandWithLoggingOptions(
+            "echo Hello",
+            new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Silent });
+
+        var logFile = await File.ReadAllTextAsync(file);
+        await Assert.That(logFile).DoesNotContain("[ModularPipelines.Logging.CommandLogger]");
+    }
+
+    [Test]
+    public async Task Minimal_Verbosity_Logs_Only_Input()
+    {
+        var file = await RunPowershellCommandWithLoggingOptions(
+            "echo Hello",
+            new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Minimal });
+
+        var logFile = await File.ReadAllTextAsync(file);
+        await Assert.That(logFile).Contains("Command:");
+        await Assert.That(logFile).DoesNotContain("Output:");
+        await Assert.That(logFile).DoesNotContain("Exit Code:");
+        await Assert.That(logFile).DoesNotContain("Duration:");
+    }
+
+    [Test]
+    public async Task Normal_Verbosity_Logs_Input_And_Output()
+    {
+        var file = await RunPowershellCommandWithLoggingOptions(
+            "echo Hello",
+            new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Normal });
+
+        var logFile = await File.ReadAllTextAsync(file);
+        await Assert.That(logFile).Contains("Command:");
+        await Assert.That(logFile).Contains("Output:");
+        await Assert.That(logFile).DoesNotContain("Exit Code:");
+        await Assert.That(logFile).DoesNotContain("Duration:");
+    }
+
+    [Test]
+    public async Task Detailed_Verbosity_Logs_Input_Output_ExitCode_Duration()
+    {
+        var file = await RunPowershellCommandWithLoggingOptions(
+            "echo Hello",
+            new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Detailed });
+
+        var logFile = await File.ReadAllTextAsync(file);
+        await Assert.That(logFile).Contains("Command:");
+        await Assert.That(logFile).Contains("Output:");
+        await Assert.That(logFile).Contains("Exit Code:");
+        await Assert.That(logFile).Contains("Duration:");
+    }
+
+    [Test]
+    public async Task Diagnostic_Verbosity_Logs_Everything_Including_Timestamps()
+    {
+        var file = await RunPowershellCommandWithLoggingOptions(
+            "echo Hello",
+            new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Diagnostic });
+
+        var logFile = await File.ReadAllTextAsync(file);
+        await Assert.That(logFile).Contains("Command:");
+        await Assert.That(logFile).Contains("Output:");
+        await Assert.That(logFile).Contains("Exit Code:");
+        await Assert.That(logFile).Contains("Duration:");
+        await Assert.That(logFile).Contains("Working Directory:");
+        // Check for timestamp pattern [HH:mm:ss.fff]
+        await Assert.That(Regex.IsMatch(logFile, @"\[\d{2}:\d{2}:\d{2}\.\d{3}\]")).IsTrue();
+    }
+
+    private async Task<string> RunPowershellCommandWithLoggingOptions(string command, CommandLoggingOptions loggingOptions)
+    {
+        var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
+
+        var result = await GetService<ICommand>((_, collection) =>
+        {
+            collection.Configure<SpectreLoggerOptions>(options => options.MinimumLogLevel = LogLevel.Information);
+            collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
+            collection.AddLogging(builder => { builder.AddFile(file); });
+        });
+
+        await result.T.ExecuteCommandLineTool(new PowershellScriptOptions(command)
+        {
+            LogSettings = loggingOptions,
             ThrowOnNonZeroExitCode = false,
         });
 

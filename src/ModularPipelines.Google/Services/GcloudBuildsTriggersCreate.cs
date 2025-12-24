@@ -37,22 +37,7 @@ public class GcloudBuildsTriggersCreate
         GcloudBuildsTriggersCreateBitbucketCloudOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await BitbucketCloud(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create a build trigger for      a 2nd-gen Bitbucket Cloud repository
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> BitbucketCloud(
-        GcloudBuildsTriggersCreateBitbucketCloudOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -65,22 +50,7 @@ public class GcloudBuildsTriggersCreate
         GcloudBuildsTriggersCreateBitbucketDataCenterOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await BitbucketDataCenter(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create a build      trigger for a 2nd-gen Bitbucket Data Center repository
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> BitbucketDataCenter(
-        GcloudBuildsTriggersCreateBitbucketDataCenterOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -93,22 +63,7 @@ public class GcloudBuildsTriggersCreate
         GcloudBuildsTriggersCreateBitbucketserverOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Bitbucketserver(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create a build trigger for      a Bitbucket Server repository
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Bitbucketserver(
-        GcloudBuildsTriggersCreateBitbucketserverOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -121,22 +76,7 @@ public class GcloudBuildsTriggersCreate
         GcloudBuildsTriggersCreateCloudSourceRepositoriesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await CloudSourceRepositories(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create a build      trigger from a Cloud Source Repository
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CloudSourceRepositories(
-        GcloudBuildsTriggersCreateCloudSourceRepositoriesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -149,22 +89,7 @@ public class GcloudBuildsTriggersCreate
         GcloudBuildsTriggersCreateGithubOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Github(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create a build trigger for a GitHub      repository
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Github(
-        GcloudBuildsTriggersCreateGithubOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -177,22 +102,7 @@ public class GcloudBuildsTriggersCreate
         GcloudBuildsTriggersCreateGitlabOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Gitlab(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// gen      GitLab repository
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Gitlab(
-        GcloudBuildsTriggersCreateGitlabOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -205,22 +115,7 @@ public class GcloudBuildsTriggersCreate
         GcloudBuildsTriggersCreateManualOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Manual(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create a build trigger with a manual      trigger event
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Manual(
-        GcloudBuildsTriggersCreateManualOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -233,22 +128,7 @@ public class GcloudBuildsTriggersCreate
         GcloudBuildsTriggersCreatePubsubOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Pubsub(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create a build trigger with a      Pub/Sub trigger event
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Pubsub(
-        GcloudBuildsTriggersCreatePubsubOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -261,22 +141,7 @@ public class GcloudBuildsTriggersCreate
         GcloudBuildsTriggersCreateWebhookOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Webhook(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create a build trigger with a      Webhook trigger event
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Webhook(
-        GcloudBuildsTriggersCreateWebhookOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

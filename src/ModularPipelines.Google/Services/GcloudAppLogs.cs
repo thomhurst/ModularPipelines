@@ -37,22 +37,7 @@ public class GcloudAppLogs
         GcloudAppLogsReadOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Read(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// reads log entries for the current App Engine app
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Read(
-        GcloudAppLogsReadOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -65,22 +50,7 @@ public class GcloudAppLogs
         GcloudAppLogsTailOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Tail(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// streams logs for App Engine apps
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Tail(
-        GcloudAppLogsTailOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

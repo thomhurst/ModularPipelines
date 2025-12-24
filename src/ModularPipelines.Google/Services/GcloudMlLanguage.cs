@@ -37,22 +37,7 @@ public class GcloudMlLanguage
         GcloudMlLanguageAnalyzeEntitiesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AnalyzeEntities(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// use Google Cloud Natural Language API      to identify entities in text
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AnalyzeEntities(
-        GcloudMlLanguageAnalyzeEntitiesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -65,22 +50,7 @@ public class GcloudMlLanguage
         GcloudMlLanguageAnalyzeEntitySentimentOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AnalyzeEntitySentiment(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// use Google Cloud Natural      Language API to identify entity-level sentiment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AnalyzeEntitySentiment(
-        GcloudMlLanguageAnalyzeEntitySentimentOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -93,22 +63,7 @@ public class GcloudMlLanguage
         GcloudMlLanguageAnalyzeSentimentOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AnalyzeSentiment(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// use Google Cloud Natural Language      API to identify sentiments in a text
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AnalyzeSentiment(
-        GcloudMlLanguageAnalyzeSentimentOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -121,22 +76,7 @@ public class GcloudMlLanguage
         GcloudMlLanguageAnalyzeSyntaxOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AnalyzeSyntax(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// use Google Cloud Natural Language API      to identify linguistic information
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AnalyzeSyntax(
-        GcloudMlLanguageAnalyzeSyntaxOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -149,22 +89,7 @@ public class GcloudMlLanguage
         GcloudMlLanguageClassifyTextOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ClassifyText(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// classifies input document into      categories
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ClassifyText(
-        GcloudMlLanguageClassifyTextOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

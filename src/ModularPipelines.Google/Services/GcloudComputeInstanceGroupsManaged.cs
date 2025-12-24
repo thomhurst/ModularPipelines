@@ -65,22 +65,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedAbandonInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await AbandonInstances(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// abandon      instances owned by a managed instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AbandonInstances(
-        GcloudComputeInstanceGroupsManagedAbandonInstancesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -93,22 +78,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedCreateInstanceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await CreateInstance(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create a new      virtual machine instance in a managed instance group with a defined      name and optionally its stateful configuration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateInstance(
-        GcloudComputeInstanceGroupsManagedCreateInstanceOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -121,22 +91,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedCreateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Create(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create a Compute Engine      managed instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        GcloudComputeInstanceGroupsManagedCreateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -149,22 +104,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedDeleteInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DeleteInstances(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// delete instances      that are managed by a managed instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeleteInstances(
-        GcloudComputeInstanceGroupsManagedDeleteInstancesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -177,22 +117,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedDeleteOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Delete(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// delete Compute Engine      managed instance groups
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Delete(
-        GcloudComputeInstanceGroupsManagedDeleteOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -205,22 +130,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedDescribeInstanceOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await DescribeInstance(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// describe an      instance in a managed instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeInstance(
-        GcloudComputeInstanceGroupsManagedDescribeInstanceOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -233,22 +143,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedDescribeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Describe(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// display detailed      information about an instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Describe(
-        GcloudComputeInstanceGroupsManagedDescribeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -261,22 +156,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedGetNamedPortsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await GetNamedPorts(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// lists the named      ports for an instance group resource
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetNamedPorts(
-        GcloudComputeInstanceGroupsManagedGetNamedPortsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -289,22 +169,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedListErrorsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListErrors(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// list errors produced      by managed instances in a managed instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListErrors(
-        GcloudComputeInstanceGroupsManagedListErrorsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -317,22 +182,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedListInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ListInstances(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// list instances      present in the managed instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListInstances(
-        GcloudComputeInstanceGroupsManagedListInstancesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -345,22 +195,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedListOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await List(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// list Google Compute Engine      managed instance groups
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> List(
-        GcloudComputeInstanceGroupsManagedListOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -373,22 +208,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedRecreateInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await RecreateInstances(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// recreate      instances managed by a managed instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RecreateInstances(
-        GcloudComputeInstanceGroupsManagedRecreateInstancesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -401,22 +221,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedResizeOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Resize(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// set managed instance group      size
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Resize(
-        GcloudComputeInstanceGroupsManagedResizeOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -429,22 +234,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedResumeInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await ResumeInstances(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// resume the      suspended instances in a managed instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ResumeInstances(
-        GcloudComputeInstanceGroupsManagedResumeInstancesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -457,22 +247,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedSetAutoscalingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetAutoscaling(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// set autoscaling      parameters of a managed instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetAutoscaling(
-        GcloudComputeInstanceGroupsManagedSetAutoscalingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -485,22 +260,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedSetInstanceTemplateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetInstanceTemplate(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// set the      instance template for a managed instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetInstanceTemplate(
-        GcloudComputeInstanceGroupsManagedSetInstanceTemplateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -513,22 +273,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedSetNamedPortsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetNamedPorts(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// sets the list of      named ports for an instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetNamedPorts(
-        GcloudComputeInstanceGroupsManagedSetNamedPortsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -541,22 +286,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedSetTargetPoolsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SetTargetPools(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// set target pools      of managed instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetTargetPools(
-        GcloudComputeInstanceGroupsManagedSetTargetPoolsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -569,22 +299,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedStartInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await StartInstances(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// start the stopped      instances in a managed instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> StartInstances(
-        GcloudComputeInstanceGroupsManagedStartInstancesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -597,22 +312,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedStopAutoscalingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await StopAutoscaling(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// stop autoscaling      a managed instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> StopAutoscaling(
-        GcloudComputeInstanceGroupsManagedStopAutoscalingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -625,22 +325,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedStopInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await StopInstances(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// stop instances      owned by a managed instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> StopInstances(
-        GcloudComputeInstanceGroupsManagedStopInstancesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -653,22 +338,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedSuspendInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await SuspendInstances(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// suspend      instances owned by a managed instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SuspendInstances(
-        GcloudComputeInstanceGroupsManagedSuspendInstancesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -681,22 +351,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedUpdateAutoscalingOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateAutoscaling(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// update      autoscaling parameters of a managed instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateAutoscaling(
-        GcloudComputeInstanceGroupsManagedUpdateAutoscalingOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -709,22 +364,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedUpdateInstancesOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateInstances(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// immediately      update selected instances in a Compute Engine managed instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateInstances(
-        GcloudComputeInstanceGroupsManagedUpdateInstancesOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -737,22 +377,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Update(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// update a Compute Engine      managed instance group
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        GcloudComputeInstanceGroupsManagedUpdateOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -765,22 +390,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedWaitUntilOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await WaitUntil(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// wait until the managed      instance group reaches the desired state
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> WaitUntil(
-        GcloudComputeInstanceGroupsManagedWaitUntilOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -793,22 +403,7 @@ public class GcloudComputeInstanceGroupsManaged
         GcloudComputeInstanceGroupsManagedWaitUntilStableOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await WaitUntilStable(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// waits until      state of managed instance group is stable
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> WaitUntilStable(
-        GcloudComputeInstanceGroupsManagedWaitUntilStableOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

@@ -37,22 +37,7 @@ public class GcloudAuthEnterpriseCertificateConfigCreate
         GcloudAuthEnterpriseCertificateConfigCreateLinuxOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Linux(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create an      enterprise-certificate configuration file for Linux
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Linux(
-        GcloudAuthEnterpriseCertificateConfigCreateLinuxOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -65,22 +50,7 @@ public class GcloudAuthEnterpriseCertificateConfigCreate
         GcloudAuthEnterpriseCertificateConfigCreateMacosOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Macos(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create an      enterprise-certificate configuration file for MacOS
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Macos(
-        GcloudAuthEnterpriseCertificateConfigCreateMacosOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -93,22 +63,7 @@ public class GcloudAuthEnterpriseCertificateConfigCreate
         GcloudAuthEnterpriseCertificateConfigCreateWindowsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Windows(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// create an      enterprise-certificate configuration file for Windows
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Windows(
-        GcloudAuthEnterpriseCertificateConfigCreateWindowsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

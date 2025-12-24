@@ -37,22 +37,7 @@ public class GcloudDomainsRegistrationsConfigure
         GcloudDomainsRegistrationsConfigureContactsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Contacts(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// configure contact      settings of a Cloud Domains registration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Contacts(
-        GcloudDomainsRegistrationsConfigureContactsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -65,22 +50,7 @@ public class GcloudDomainsRegistrationsConfigure
         GcloudDomainsRegistrationsConfigureDnsOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Dns(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// configure DNS settings of a      Cloud Domains registration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Dns(
-        GcloudDomainsRegistrationsConfigureDnsOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     /// <summary>
@@ -93,22 +63,7 @@ public class GcloudDomainsRegistrationsConfigure
         GcloudDomainsRegistrationsConfigureManagementOptions options,
         CancellationToken cancellationToken = default)
     {
-        return await Management(options, null, cancellationToken);
-    }
-
-    /// <summary>
-    /// configure management      settings of a Cloud Domains registration
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="loggingOptions">The logging options for this command execution.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Management(
-        GcloudDomainsRegistrationsConfigureManagementOptions options,
-        CommandLoggingOptions? loggingOptions,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, loggingOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     #endregion

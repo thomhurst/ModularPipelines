@@ -12,7 +12,6 @@ internal class CommandLogger : ICommandLogger
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly ISecretObfuscator _secretObfuscator;
-    private readonly object _lock = new();
 
     public CommandLogger(IModuleLoggerProvider moduleLoggerProvider,
         IOptions<PipelineOptions> pipelineOptions,
@@ -27,7 +26,6 @@ internal class CommandLogger : ICommandLogger
 
     public void Log(
         CommandLineToolOptions options,
-        CommandLoggingOptions? loggingOptions,
         string? inputToLog,
         int? exitCode,
         TimeSpan? runTime,
@@ -35,44 +33,77 @@ internal class CommandLogger : ICommandLogger
         string standardError,
         string commandWorkingDirPath)
     {
-        // If explicit logging options specify Silent, return immediately
-        if (loggingOptions?.Verbosity == CommandLogVerbosity.Silent)
+        // Determine effective logging options
+        var effectiveOptions = GetEffectiveLoggingOptions(options);
+
+        // Silent = no logging at all
+        if (effectiveOptions.Verbosity == CommandLogVerbosity.Silent)
         {
             return;
         }
 
-        if (options.CommandLogging == CommandLogging.None)
+        if (options.InternalDryRun)
         {
+            LogDryRunCommand(effectiveOptions, commandWorkingDirPath, inputToLog);
             return;
         }
 
-        var loggingConfig = options.CommandLogging ?? _pipelineOptions.Value.DefaultCommandLogging;
-
-        lock (_lock)
-        {
-            if (options.InternalDryRun)
-            {
-                LogDryRunCommand(loggingConfig, loggingOptions, commandWorkingDirPath, inputToLog);
-                return;
-            }
-
-            LogCommandInput(loggingConfig, loggingOptions, options, commandWorkingDirPath, inputToLog);
-            LogExitCode(loggingConfig, loggingOptions, exitCode);
-            LogDuration(loggingConfig, loggingOptions, runTime);
-            LogOutput(loggingConfig, loggingOptions, options, standardOutput);
-            LogError(loggingConfig, loggingOptions, options, exitCode, standardError);
-            LogWorkingDirectory(loggingOptions, commandWorkingDirPath);
-        }
+        LogCommandInput(effectiveOptions, options, commandWorkingDirPath, inputToLog);
+        LogExitCode(effectiveOptions, exitCode);
+        LogDuration(effectiveOptions, runTime);
+        LogOutput(effectiveOptions, options, standardOutput);
+        LogError(effectiveOptions, options, exitCode, standardError);
+        LogWorkingDirectory(effectiveOptions, commandWorkingDirPath);
     }
 
-    private void LogDryRunCommand(CommandLogging loggingConfig, CommandLoggingOptions? loggingOptions, string workingDirectory, string? input)
+    private CommandLoggingOptions GetEffectiveLoggingOptions(CommandLineToolOptions options)
     {
-        if (!ShouldLogInput(loggingConfig, loggingOptions))
+        // Priority: options property > pipeline default > legacy enum
+        if (options.LogSettings is not null)
+        {
+            return options.LogSettings;
+        }
+
+        if (_pipelineOptions.Value.DefaultLoggingOptions is not null)
+        {
+            return _pipelineOptions.Value.DefaultLoggingOptions;
+        }
+
+#pragma warning disable CS0618 // Type or member is obsolete
+        // Fall back to legacy CommandLogging enum conversion
+        var legacyLogging = options.CommandLogging ?? _pipelineOptions.Value.DefaultCommandLogging;
+        return ConvertFromLegacy(legacyLogging);
+#pragma warning restore CS0618
+    }
+
+#pragma warning disable CS0618 // Type or member is obsolete
+    private static CommandLoggingOptions ConvertFromLegacy(CommandLogging legacy)
+    {
+        if (legacy == CommandLogging.None)
+        {
+            return CommandLoggingOptions.Silent;
+        }
+
+        return new CommandLoggingOptions
+        {
+            Verbosity = CommandLogVerbosity.Normal,
+            ShowCommandArguments = legacy.HasFlag(CommandLogging.Input),
+            ShowStandardOutput = legacy.HasFlag(CommandLogging.Output),
+            ShowStandardError = legacy.HasFlag(CommandLogging.Error),
+            ShowExitCode = legacy.HasFlag(CommandLogging.ExitCode),
+            ShowExecutionTime = legacy.HasFlag(CommandLogging.Duration),
+        };
+    }
+#pragma warning restore CS0618
+
+    private void LogDryRunCommand(CommandLoggingOptions options, string workingDirectory, string? input)
+    {
+        if (!ShouldShowInput(options))
         {
             return;
         }
 
-        var timestamp = GetTimestampPrefix(loggingOptions);
+        var timestamp = GetTimestampPrefix(options);
         Logger.LogInformation("{Timestamp}Command (Dry-Run): {WorkingDirectory}> {Input}",
             timestamp,
             workingDirectory,
@@ -80,100 +111,107 @@ internal class CommandLogger : ICommandLogger
         Logger.LogInformation("{Timestamp}⚠ Dry-Run: No actual execution", timestamp);
     }
 
-    private void LogCommandInput(CommandLogging loggingConfig, CommandLoggingOptions? loggingOptions, CommandLineToolOptions options, string workingDirectory, string? input)
+    private void LogCommandInput(CommandLoggingOptions options, CommandLineToolOptions commandOptions, string workingDirectory, string? input)
     {
-        // If no command logging at all, skip
-        if (loggingConfig == CommandLogging.None)
+        // Minimal and above shows command input
+        if (options.Verbosity < CommandLogVerbosity.Minimal)
         {
             return;
         }
 
-        var timestamp = GetTimestampPrefix(loggingOptions);
+        var timestamp = GetTimestampPrefix(options);
 
-        // If Input flag is set, show actual command; otherwise show obfuscated
-        if (ShouldLogInput(loggingConfig, loggingOptions))
+        if (ShouldShowInput(options))
         {
             Logger.LogInformation("{Timestamp}Command: {WorkingDirectory}> {Input}",
                 timestamp,
                 workingDirectory,
-                _secretObfuscator.Obfuscate(input, options));
+                _secretObfuscator.Obfuscate(input, commandOptions));
         }
         else
         {
-            // Still log command header with obfuscated input if any other logging is enabled
             Logger.LogInformation("{Timestamp}Command: {WorkingDirectory}> ********",
                 timestamp,
                 workingDirectory);
         }
     }
 
-    private void LogExitCode(CommandLogging loggingConfig, CommandLoggingOptions? loggingOptions, int? exitCode)
+    private void LogExitCode(CommandLoggingOptions options, int? exitCode)
     {
-        // Check both legacy flag and new options
-        var shouldLog = loggingConfig.HasFlag(CommandLogging.ExitCode) ||
-                        (loggingOptions?.ShowExitCode ?? false);
-
-        if (!shouldLog)
+        // Detailed and above shows exit code, or if explicitly requested
+        if (options.Verbosity < CommandLogVerbosity.Detailed && !options.ShowExitCode)
         {
             return;
         }
 
-        var timestamp = GetTimestampPrefix(loggingOptions);
+        var timestamp = GetTimestampPrefix(options);
         var icon = exitCode == 0 ? "✓" : "✗";
         Logger.LogInformation("{Timestamp}{Icon} Exit Code: {ExitCode}", timestamp, icon, exitCode);
     }
 
-    private void LogDuration(CommandLogging loggingConfig, CommandLoggingOptions? loggingOptions, TimeSpan? runTime)
+    private void LogDuration(CommandLoggingOptions options, TimeSpan? runTime)
     {
-        // Check both legacy flag and new options
-        var shouldLog = loggingConfig.HasFlag(CommandLogging.Duration) ||
-                        (loggingOptions?.ShowExecutionTime ?? false);
-
-        if (!shouldLog)
+        // Detailed and above shows duration, or if explicitly requested
+        if (options.Verbosity < CommandLogVerbosity.Detailed && !options.ShowExecutionTime)
         {
             return;
         }
 
-        var timestamp = GetTimestampPrefix(loggingOptions);
+        var timestamp = GetTimestampPrefix(options);
         Logger.LogInformation("{Timestamp}Duration: {Duration}", timestamp, runTime?.ToDisplayString());
     }
 
-    private void LogOutput(CommandLogging loggingConfig, CommandLoggingOptions? loggingOptions, CommandLineToolOptions options, string standardOutput)
+    private void LogOutput(CommandLoggingOptions options, CommandLineToolOptions commandOptions, string standardOutput)
     {
-        if (!ShouldLogOutput(loggingConfig, loggingOptions) || string.IsNullOrWhiteSpace(standardOutput))
+        if (string.IsNullOrWhiteSpace(standardOutput))
         {
             return;
         }
 
-        var timestamp = GetTimestampPrefix(loggingOptions);
-        Logger.LogInformation("{Timestamp}Output:\n{Output}", timestamp, _secretObfuscator.Obfuscate(standardOutput, options));
+        // Verbosity >= Normal shows output by default; ShowStandardOutput can disable it
+        if (options.Verbosity < CommandLogVerbosity.Normal || !options.ShowStandardOutput)
+        {
+            return;
+        }
+
+        var timestamp = GetTimestampPrefix(options);
+        Logger.LogInformation("{Timestamp}Output:\n{Output}", timestamp, _secretObfuscator.Obfuscate(standardOutput, commandOptions));
     }
 
-    private void LogError(CommandLogging loggingConfig, CommandLoggingOptions? loggingOptions, CommandLineToolOptions options, int? exitCode, string standardError)
+    private void LogError(CommandLoggingOptions options, CommandLineToolOptions commandOptions, int? exitCode, string standardError)
     {
-        if (!ShouldLogError(loggingConfig, loggingOptions, exitCode) || string.IsNullOrWhiteSpace(standardError))
+        if (string.IsNullOrWhiteSpace(standardError))
         {
             return;
         }
 
-        var timestamp = GetTimestampPrefix(loggingOptions);
-        Logger.LogInformation("{Timestamp}✗ Error:\n{Error}", timestamp, _secretObfuscator.Obfuscate(standardError, options));
+        // Verbosity >= Normal shows error on failure by default; ShowStandardError can disable it
+        var showDueToVerbosity = options.Verbosity >= CommandLogVerbosity.Normal && exitCode != 0;
+        if (!showDueToVerbosity || !options.ShowStandardError)
+        {
+            return;
+        }
+
+        var timestamp = GetTimestampPrefix(options);
+        Logger.LogInformation("{Timestamp}✗ Error:\n{Error}", timestamp, _secretObfuscator.Obfuscate(standardError, commandOptions));
     }
 
-    private void LogWorkingDirectory(CommandLoggingOptions? loggingOptions, string workingDirectory)
+    private void LogWorkingDirectory(CommandLoggingOptions options, string workingDirectory)
     {
-        if (loggingOptions?.ShowWorkingDirectory != true)
+        // Diagnostic shows working directory, or if explicitly requested
+        if (options.Verbosity < CommandLogVerbosity.Diagnostic && !options.ShowWorkingDirectory)
         {
             return;
         }
 
-        var timestamp = GetTimestampPrefix(loggingOptions);
+        var timestamp = GetTimestampPrefix(options);
         Logger.LogInformation("{Timestamp}Working Directory: {WorkingDirectory}", timestamp, workingDirectory);
     }
 
-    private static string GetTimestampPrefix(CommandLoggingOptions? loggingOptions)
+    private static string GetTimestampPrefix(CommandLoggingOptions options)
     {
-        if (loggingOptions?.IncludeTimestamps != true)
+        // Diagnostic automatically includes timestamps, or if explicitly requested
+        if (options.Verbosity < CommandLogVerbosity.Diagnostic && !options.IncludeTimestamps)
         {
             return string.Empty;
         }
@@ -181,36 +219,9 @@ internal class CommandLogger : ICommandLogger
         return $"[{DateTime.UtcNow:HH:mm:ss.fff}] ";
     }
 
-    private static bool ShouldLogInput(CommandLogging commandLogging, CommandLoggingOptions? loggingOptions)
+    private static bool ShouldShowInput(CommandLoggingOptions options)
     {
-        // If explicit logging options say don't show arguments, respect that
-        if (loggingOptions?.ShowCommandArguments == false)
-        {
-            return false;
-        }
-
-        return commandLogging.HasFlag(CommandLogging.Input);
-    }
-
-    private static bool ShouldLogOutput(CommandLogging commandLogging, CommandLoggingOptions? loggingOptions)
-    {
-        // If explicit logging options say don't show output, respect that
-        if (loggingOptions?.ShowStandardOutput == false)
-        {
-            return false;
-        }
-
-        return commandLogging.HasFlag(CommandLogging.Output);
-    }
-
-    private static bool ShouldLogError(CommandLogging commandLogging, CommandLoggingOptions? loggingOptions, int? resultCode)
-    {
-        // If explicit logging options say don't show error, respect that
-        if (loggingOptions?.ShowStandardError == false)
-        {
-            return false;
-        }
-
-        return resultCode != 0 && commandLogging.HasFlag(CommandLogging.Error);
+        // ShowCommandArguments controls whether to show full command or obfuscated
+        return options.ShowCommandArguments;
     }
 }

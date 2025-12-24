@@ -22,9 +22,20 @@ public record CommandLineOptions
     public Credentials? CommandLineCredentials { get; init; }
 
     /// <summary>
+    /// Gets or sets logging options for command execution.
+    /// </summary>
+    /// <remarks>
+    /// <para>Use <see cref="CommandLoggingOptions.Silent"/> to suppress all logging,
+    /// or <see cref="CommandLoggingOptions.Diagnostic"/> for maximum verbosity.</para>
+    /// <para>If not set, falls back to <see cref="PipelineOptions.DefaultLoggingOptions"/>.</para>
+    /// </remarks>
+    public CommandLoggingOptions? LogSettings { get; init; }
+
+    /// <summary>
     /// Gets controls command logging
     /// e.g. Logging = CommandLogging.Input | CommandLogging.Output | CommandLogging.Error.
     /// </summary>
+    [Obsolete("Use LogSettings instead. This property will be removed in a future version.")]
     public CommandLogging? CommandLogging { get; init; }
 
     /// <summary>
@@ -42,9 +53,12 @@ public record CommandLineOptions
     /// <summary>
     /// Gets or sets a value indicating whether prefix commands with Sudo to run with elevated priveliges for Unix systems.
     /// </summary>
-    public bool Sudo { get; set; }
+    public bool Sudo { get; init; }
 
-    public bool ThrowOnNonZeroExitCode { get; set; } = true;
+    /// <summary>
+    /// Gets or sets a value indicating whether to throw an exception on non-zero exit codes.
+    /// </summary>
+    public bool ThrowOnNonZeroExitCode { get; init; } = true;
 
     internal bool InternalDryRun { get; set; }
 }
