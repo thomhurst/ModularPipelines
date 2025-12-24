@@ -1,3 +1,4 @@
+using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Models;
 
@@ -160,4 +161,8 @@ public interface IGitCommands
     Task<CommandResult> Worktree(GitWorktreeOptions options, CancellationToken token = default);
 
     Task<CommandResult> WriteTree(GitWriteTreeOptions options, CancellationToken token = default);
+
+    IAsyncEnumerable<GitCommit> Commits(GitOptions? options = null, CancellationToken cancellationToken = default);
+
+    IAsyncEnumerable<GitCommit> Commits(string? branch, GitOptions? options = null, CancellationToken cancellationToken = default);
 }

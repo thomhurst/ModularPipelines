@@ -2,7 +2,7 @@ using ModularPipelines.Git.Models;
 
 namespace ModularPipelines.Git;
 
-internal interface IGitCommitMapper
+public interface IGitCommitMapper
 {
     GitCommit Map(string commandLineOutput);
 }

@@ -1,5 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using ModularPipelines.Context;
+using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Models;
 
@@ -9,10 +11,14 @@ namespace ModularPipelines.Git;
 public class GitCommands : IGitCommands
 {
     private readonly ICommand _command;
+    private readonly GitCommandRunner _gitCommandRunner;
+    private readonly IGitCommitMapper _gitCommitMapper;
 
-    public GitCommands(ICommand command)
+    public GitCommands(ICommand command, GitCommandRunner gitCommandRunner, IGitCommitMapper gitCommitMapper)
     {
         _command = command;
+        _gitCommandRunner = gitCommandRunner;
+        _gitCommitMapper = gitCommitMapper;
     }
 
     /// <inheritdoc/>
@@ -482,5 +488,29 @@ public class GitCommands : IGitCommands
     public virtual async Task<CommandResult> WriteTree(GitWriteTreeOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
+    }
+
+    /// <inheritdoc/>
+    public virtual IAsyncEnumerable<GitCommit> Commits(GitOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        return Commits(null, options, cancellationToken);
+    }
+
+    /// <inheritdoc/>
+    public virtual async IAsyncEnumerable<GitCommit> Commits(string? branch, GitOptions? options = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        var index = 0;
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            var output = await _gitCommandRunner.RunCommandsOrNull(options, "log", branch, $"--skip={index}", "-1", $"--format='%aN {GitConstants.GitEscapedLineSeparator} %aE {GitConstants.GitEscapedLineSeparator} %aI {GitConstants.GitEscapedLineSeparator} %cN {GitConstants.GitEscapedLineSeparator} %cE {GitConstants.GitEscapedLineSeparator} %cI {GitConstants.GitEscapedLineSeparator} %H {GitConstants.GitEscapedLineSeparator} %h {GitConstants.GitEscapedLineSeparator} %s {GitConstants.GitEscapedLineSeparator} %B'");
+
+            if (string.IsNullOrWhiteSpace(output))
+            {
+                yield break;
+            }
+
+            index++;
+            yield return _gitCommitMapper.Map(output);
+        }
     }
 }
