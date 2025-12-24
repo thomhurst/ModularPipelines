@@ -11,11 +11,6 @@ public record CommandLoggingOptions
     public CommandLogVerbosity Verbosity { get; init; } = CommandLogVerbosity.Normal;
 
     /// <summary>
-    /// Gets or sets the output format. Default is Text.
-    /// </summary>
-    public CommandLogFormat OutputFormat { get; init; } = CommandLogFormat.Text;
-
-    /// <summary>
     /// Gets or sets whether to include timestamps in output. Default is false.
     /// </summary>
     public bool IncludeTimestamps { get; init; }
