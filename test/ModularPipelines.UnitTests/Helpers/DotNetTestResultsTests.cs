@@ -17,6 +17,7 @@ namespace ModularPipelines.UnitTests.Helpers;
 [TUnit.Core.NotInParallel]
 public class DotNetTestResultsTests : TestBase
 {
+#pragma warning disable CS0618 // Type or member is obsolete - testing legacy CommandLogging enum
     private class DotNetTestWithFailureModule : Module<CommandResult>
     {
         public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -52,6 +53,7 @@ public class DotNetTestResultsTests : TestBase
             }, token: cancellationToken);
         }
     }
+#pragma warning restore CS0618
 
     [Test]
     public async Task Has_Errored()
