@@ -174,8 +174,8 @@ internal class CommandLogger : ICommandLogger
             return;
         }
 
-        // Show if verbosity is Normal+ OR if explicitly requested
-        if (options.Verbosity < CommandLogVerbosity.Normal && !options.ShowStandardOutput)
+        // Verbosity >= Normal shows output by default; ShowStandardOutput can disable it
+        if (options.Verbosity < CommandLogVerbosity.Normal || !options.ShowStandardOutput)
         {
             return;
         }
@@ -191,9 +191,9 @@ internal class CommandLogger : ICommandLogger
             return;
         }
 
-        // Show if verbosity is Normal+ and exit code is non-zero, OR if explicitly requested
+        // Verbosity >= Normal shows error on failure by default; ShowStandardError can disable it
         var showDueToVerbosity = options.Verbosity >= CommandLogVerbosity.Normal && exitCode != 0;
-        if (!showDueToVerbosity && !options.ShowStandardError)
+        if (!showDueToVerbosity || !options.ShowStandardError)
         {
             return;
         }
