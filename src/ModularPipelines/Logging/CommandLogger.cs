@@ -59,7 +59,7 @@ internal class CommandLogger : ICommandLogger
 
     private CommandLoggingOptions GetEffectiveLoggingOptions(CommandLineToolOptions options, CommandLoggingOptions? parameterOptions)
     {
-        // Priority: parameter > property > default based on legacy enum
+        // Priority: parameter > property > pipeline default > legacy enum
         if (parameterOptions is not null)
         {
             return parameterOptions;
@@ -68,6 +68,11 @@ internal class CommandLogger : ICommandLogger
         if (options.LoggingOptions is not null)
         {
             return options.LoggingOptions;
+        }
+
+        if (_pipelineOptions.Value.DefaultLoggingOptions is not null)
+        {
+            return _pipelineOptions.Value.DefaultLoggingOptions;
         }
 
 #pragma warning disable CS0618 // Type or member is obsolete
