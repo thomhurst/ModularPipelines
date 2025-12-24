@@ -17,6 +17,7 @@ namespace ModularPipelines.UnitTests;
 
 public class TrxParsingTests : TestBase
 {
+#pragma warning disable CS0618 // Type or member is obsolete - testing legacy CommandLogging enum
     public class NUnitModule : Module<DotNetTestResult>
     {
         public DotNetTestResult? LastResult { get; private set; }
@@ -49,6 +50,7 @@ public class TrxParsingTests : TestBase
             return LastResult;
         }
     }
+#pragma warning restore CS0618
 
     [Test]
     public async Task NUnit()

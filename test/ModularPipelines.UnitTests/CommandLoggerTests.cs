@@ -13,6 +13,7 @@ namespace ModularPipelines.UnitTests;
 
 public class CommandLoggerTests : TestBase
 {
+#pragma warning disable CS0618 // Type or member is obsolete - testing legacy CommandLogging enum
     [Test]
     [MatrixDataSource]
     public async Task Logs_As_Expected_With_Options(
@@ -134,6 +135,7 @@ public class CommandLoggerTests : TestBase
 
         return file;
     }
+#pragma warning restore CS0618
 
     [Test]
     public async Task Silent_Verbosity_Logs_Nothing()
