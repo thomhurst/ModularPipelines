@@ -147,6 +147,17 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IAttributeEventInvoker, AttributeEventInvoker>()
             .AddSingleton<IRegistrationEventExecutor, RegistrationEventExecutor>()
 
+            // Module execution components (SRP extraction from ModuleExecutor)
+            .AddSingleton<Engine.Execution.IModuleResultRegistrar, Engine.Execution.ModuleResultRegistrar>()
+            .AddSingleton<Engine.Execution.IParallelLimitHandler, Engine.Execution.ParallelLimitHandler>()
+            .AddSingleton<Engine.Execution.IDependencyWaiter, Engine.Execution.DependencyWaiter>()
+            .AddSingleton<Engine.Execution.IModuleLifecycleEventInvoker, Engine.Execution.ModuleLifecycleEventInvoker>()
+            .AddSingleton<Engine.Execution.IModuleRunner, Engine.Execution.ModuleRunner>()
+            .AddSingleton<Engine.Execution.IAlwaysRunHandler, Engine.Execution.AlwaysRunHandler>()
+
+            // Module scheduling components (SRP extraction from ModuleScheduler)
+            .AddSingleton<Engine.Scheduling.IModuleConstraintEvaluator, Engine.Scheduling.ModuleConstraintEvaluator>()
+
             // Metrics collection
             .AddSingleton<IMetricsCollector, MetricsCollector>()
 
