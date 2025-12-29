@@ -11,10 +11,10 @@ namespace ModularPipelines.Git;
 public class GitCommands : IGitCommands
 {
     private readonly ICommand _command;
-    private readonly GitCommandRunner _gitCommandRunner;
+    private readonly IGitCommandRunner _gitCommandRunner;
     private readonly IGitCommitMapper _gitCommitMapper;
 
-    public GitCommands(ICommand command, GitCommandRunner gitCommandRunner, IGitCommitMapper gitCommitMapper)
+    public GitCommands(ICommand command, IGitCommandRunner gitCommandRunner, IGitCommitMapper gitCommitMapper)
     {
         _command = command;
         _gitCommandRunner = gitCommandRunner;
@@ -502,7 +502,7 @@ public class GitCommands : IGitCommands
         var index = 0;
         while (!cancellationToken.IsCancellationRequested)
         {
-            var output = await _gitCommandRunner.RunCommandsOrNull(options, "log", branch, $"--skip={index}", "-1", $"--format='%aN {GitConstants.GitEscapedLineSeparator} %aE {GitConstants.GitEscapedLineSeparator} %aI {GitConstants.GitEscapedLineSeparator} %cN {GitConstants.GitEscapedLineSeparator} %cE {GitConstants.GitEscapedLineSeparator} %cI {GitConstants.GitEscapedLineSeparator} %H {GitConstants.GitEscapedLineSeparator} %h {GitConstants.GitEscapedLineSeparator} %s {GitConstants.GitEscapedLineSeparator} %B'");
+            var output = await _gitCommandRunner.RunCommandsOrNull(options, "log", branch, $"--skip={index}", "-1", $"--format={GitConstants.CommitLogFormat}");
 
             if (string.IsNullOrWhiteSpace(output))
             {
