@@ -10,7 +10,7 @@ public static class FileHelper
 
         while (stopWatch.Elapsed < TimeSpan.FromSeconds(30))
         {
-            await Task.Delay(500);
+            await Task.Delay(500).ConfigureAwait(false);
 
             if (!File.Exists(path))
             {
@@ -24,7 +24,7 @@ public static class FileHelper
                 continue;
             }
 
-            if (await IsFileLocked(fileInfo))
+            if (await IsFileLocked(fileInfo).ConfigureAwait(false))
             {
                 continue;
             }
@@ -37,8 +37,11 @@ public static class FileHelper
     {
         try
         {
-            await using var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None);
-            stream.Close();
+            var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None);
+            await using (stream.ConfigureAwait(false))
+            {
+                stream.Close();
+            }
         }
         catch (IOException)
         {

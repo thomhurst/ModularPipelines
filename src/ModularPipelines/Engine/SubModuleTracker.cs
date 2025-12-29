@@ -67,7 +67,7 @@ public class SubModuleTracker
 
         try
         {
-            var result = await action();
+            var result = await action().ConfigureAwait(false);
 
             RecordCompletion(Status.Successful);
             _completionSource.TrySetResult();
@@ -89,9 +89,9 @@ public class SubModuleTracker
     {
         await ExecuteAsync(async () =>
         {
-            await action();
+            await action().ConfigureAwait(false);
             return 0;
-        });
+        }).ConfigureAwait(false);
     }
 
     private void RecordCompletion(Status status)

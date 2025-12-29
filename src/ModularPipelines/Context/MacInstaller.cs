@@ -14,6 +14,6 @@ internal class MacInstaller : IMacInstaller
 
     public virtual async Task<CommandResult> InstallFromBrew(MacBrewOptions macBrewOptions)
     {
-        return await _command.ExecuteCommandLineTool(macBrewOptions);
+        return await _command.ExecuteCommandLineTool(macBrewOptions).ConfigureAwait(false);
     }
 }

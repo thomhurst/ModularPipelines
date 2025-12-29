@@ -24,7 +24,7 @@ internal class AttributeEventInvoker : IAttributeEventInvoker
         {
             try
             {
-                await receiver.OnRegistrationAsync(context);
+                await receiver.OnRegistrationAsync(context).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -42,7 +42,7 @@ internal class AttributeEventInvoker : IAttributeEventInvoker
         {
             try
             {
-                await receiver.OnModuleReadyAsync(context);
+                await receiver.OnModuleReadyAsync(context).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -66,7 +66,7 @@ internal class AttributeEventInvoker : IAttributeEventInvoker
         {
             try
             {
-                await receiver.OnModuleStartAsync(context);
+                await receiver.OnModuleStartAsync(context).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -91,7 +91,7 @@ internal class AttributeEventInvoker : IAttributeEventInvoker
         {
             try
             {
-                await receiver.OnModuleEndAsync(context, result);
+                await receiver.OnModuleEndAsync(context, result).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -116,7 +116,7 @@ internal class AttributeEventInvoker : IAttributeEventInvoker
         {
             try
             {
-                await receiver.OnModuleFailureAsync(context, exception);
+                await receiver.OnModuleFailureAsync(context, exception).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -141,7 +141,7 @@ internal class AttributeEventInvoker : IAttributeEventInvoker
         {
             try
             {
-                await receiver.OnModuleSkippedAsync(context, reason);
+                await receiver.OnModuleSkippedAsync(context, reason).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

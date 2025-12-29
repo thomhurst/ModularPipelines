@@ -60,7 +60,7 @@ internal class HttpRequestFormatter : IHttpRequestFormatter
 
         if (options.LogRequestBody)
         {
-            await AppendBodyAsync(sb, request.Content, options.MaxBodySizeToLog);
+            await AppendBodyAsync(sb, request.Content, options.MaxBodySizeToLog).ConfigureAwait(false);
         }
 
         return sb.ToString();
@@ -114,7 +114,7 @@ internal class HttpRequestFormatter : IHttpRequestFormatter
             return;
         }
 
-        var body = await content.ReadAsStringAsync();
+        var body = await content.ReadAsStringAsync().ConfigureAwait(false);
 
         if (string.IsNullOrWhiteSpace(body))
         {

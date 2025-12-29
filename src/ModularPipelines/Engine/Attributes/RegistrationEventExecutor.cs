@@ -58,7 +58,7 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
                 _dependencyRegistry,
                 _metadataRegistry);
 
-            await _attributeEventInvoker.InvokeRegistrationReceiversAsync(receivers, context);
+            await _attributeEventInvoker.InvokeRegistrationReceiversAsync(receivers, context).ConfigureAwait(false);
         }
     }
 }

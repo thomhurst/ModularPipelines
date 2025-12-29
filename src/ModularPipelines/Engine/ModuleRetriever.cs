@@ -52,7 +52,7 @@ internal class ModuleRetriever : IModuleRetriever
 
         foreach (var module in _modules)
         {
-            var (shouldIgnore, skipDecision) = await _moduleConditionHandler.ShouldIgnore(module);
+            var (shouldIgnore, skipDecision) = await _moduleConditionHandler.ShouldIgnore(module).ConfigureAwait(false);
             if (shouldIgnore)
             {
                 modulesToIgnore.Add(new IgnoredModule(module, skipDecision ?? SkipDecision.Skip("Module was ignored")));

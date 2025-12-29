@@ -63,7 +63,7 @@ public class PredefinedInstallers : IPredefinedInstallers
                 "SET",
                 "PATH=%PATH%;%ALLUSERSPROFILE%\\chocolatey\\bin"
             ],
-        });
+        }).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
@@ -77,17 +77,17 @@ public class PredefinedInstallers : IPredefinedInstallers
                 ? "https://github.com/PowerShell/PowerShell/releases/download/v7.3.5/PowerShell-7.3.5-win-x64.msi"
                 : "https://github.com/PowerShell/PowerShell/releases/download/v7.3.5/PowerShell-7.3.5-win-x86.msi";
 
-            return await _windowsInstaller.InstallMsi(new MsiInstallerOptions(url));
+            return await _windowsInstaller.InstallMsi(new MsiInstallerOptions(url)).ConfigureAwait(false);
         }
 
         if (operatingSystem == OperatingSystemIdentifier.MacOS)
         {
-            return await _macInstaller.InstallFromBrew(new MacBrewOptions("powershell"));
+            return await _macInstaller.InstallFromBrew(new MacBrewOptions("powershell")).ConfigureAwait(false);
         }
 
-        var linuxFile = await _downloader.DownloadFileAsync(new DownloadFileOptions(new Uri("https://github.com/PowerShell/PowerShell/releases/download/v7.3.5/powershell_7.3.5-1.deb_amd64.deb")));
+        var linuxFile = await _downloader.DownloadFileAsync(new DownloadFileOptions(new Uri("https://github.com/PowerShell/PowerShell/releases/download/v7.3.5/powershell_7.3.5-1.deb_amd64.deb"))).ConfigureAwait(false);
 
-        return await _linuxInstaller.InstallFromDpkg(new DpkgInstallOptions(linuxFile));
+        return await _linuxInstaller.InstallFromDpkg(new DpkgInstallOptions(linuxFile)).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
@@ -96,7 +96,7 @@ public class PredefinedInstallers : IPredefinedInstallers
         if (OperatingSystem.IsWindows())
         {
             var zipFile = await _downloader.DownloadFileAsync(
-                new DownloadFileOptions(new Uri("https://github.com/coreybutler/nvm-windows/releases/download/1.1.11/nvm-noinstall.zip")));
+                new DownloadFileOptions(new Uri("https://github.com/coreybutler/nvm-windows/releases/download/1.1.11/nvm-noinstall.zip"))).ConfigureAwait(false);
 
             var newFolder = _zip.UnZipToFolder(zipFile, Folder.CreateTemporaryFolder());
 
@@ -105,7 +105,7 @@ public class PredefinedInstallers : IPredefinedInstallers
                                                                path: C:\Program Files\nodejs
                                                                arch: 64
                                                                proxy: none
-                                                               """);
+                                                               """).ConfigureAwait(false);
 
             var symLinkFolder = newFolder.CreateFolder("nvm_symlink").GetFolder(Guid.NewGuid().ToString("N"));
 
@@ -118,14 +118,14 @@ public class PredefinedInstallers : IPredefinedInstallers
         }
 
         var bashScript = await _downloader.DownloadFileAsync(
-            new DownloadFileOptions(new Uri("https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh")));
+            new DownloadFileOptions(new Uri("https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh"))).ConfigureAwait(false);
 
-        await _bash.FromFile(new BashFileOptions(bashScript));
+        await _bash.FromFile(new BashFileOptions(bashScript)).ConfigureAwait(false);
 
-        await _bash.Command(new BashCommandOptions("export NVM_DIR=\"$HOME/.nvm\""));
-        await _bash.Command(new BashCommandOptions("[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\""));
-        await _bash.Command(new BashCommandOptions("[ -s \"$NVM_DIR/bash_completion\" ] && \\. \"$NVM_DIR/bash_completion\""));
-        await _bash.Command(new BashCommandOptions("source ~/.bashrc"));
+        await _bash.Command(new BashCommandOptions("export NVM_DIR=\"$HOME/.nvm\"")).ConfigureAwait(false);
+        await _bash.Command(new BashCommandOptions("[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"")).ConfigureAwait(false);
+        await _bash.Command(new BashCommandOptions("[ -s \"$NVM_DIR/bash_completion\" ] && \\. \"$NVM_DIR/bash_completion\"")).ConfigureAwait(false);
+        await _bash.Command(new BashCommandOptions("source ~/.bashrc")).ConfigureAwait(false);
 
         return new File("/home/runner/.nvm");
     }
@@ -133,16 +133,16 @@ public class PredefinedInstallers : IPredefinedInstallers
     /// <inheritdoc/>
     public virtual async Task<CommandResult> Node(string version = "--lts")
     {
-        await Nvm();
+        await Nvm().ConfigureAwait(false);
 
         if (OperatingSystem.IsWindows())
         {
             return await _command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
             {
                 Arguments = ["install", version],
-            });
+            }).ConfigureAwait(false);
         }
 
-        return await _bash.Command(new BashCommandOptions($"nvm install {version}"));
+        return await _bash.Command(new BashCommandOptions($"nvm install {version}")).ConfigureAwait(false);
     }
 }

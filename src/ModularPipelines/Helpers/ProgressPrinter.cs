@@ -62,7 +62,7 @@ internal class ProgressPrinter : IProgressPrinter,
                 while (!progressContext.IsFinished && !cancellationToken.IsCancellationRequested)
                 {
                     progressContext.Refresh();
-                    await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
+                    await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None).ConfigureAwait(false);
                 }
 
                 if (cancellationToken.IsCancellationRequested)
@@ -102,7 +102,7 @@ internal class ProgressPrinter : IProgressPrinter,
 
                     while (progressTask is { IsFinished: false, Value: < 95 } && ticksPerSecond + progressTask.Value < 95)
                     {
-                        await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
+                        await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None).ConfigureAwait(false);
                         progressTask.Increment(ticksPerSecond);
                     }
                 }
@@ -226,7 +226,7 @@ internal class ProgressPrinter : IProgressPrinter,
 
                     while (progressTask is { IsFinished: false, Value: < 95 })
                     {
-                        await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
+                        await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None).ConfigureAwait(false);
                         progressTask.Increment(ticksPerSecond);
                     }
                 }

@@ -85,22 +85,27 @@ public class File : IEquatable<File>
     {
         ModuleLogger.Current.LogInformation("Writing to File: {Path}", this);
 
-        await using var fileStream = System.IO.File.Create(Path);
-        await fileStream.WriteAsync(contents, cancellationToken);
+        var fileStream = System.IO.File.Create(Path);
+        await using (fileStream.ConfigureAwait(false))
+        {
+            await fileStream.WriteAsync(contents, cancellationToken).ConfigureAwait(false);
+        }
     }
 
     public async Task WriteAsync(Stream contents, CancellationToken cancellationToken = default)
     {
         ModuleLogger.Current.LogInformation("Writing to File: {Path}", this);
 
-        await using var fileStream = System.IO.File.Create(Path);
-
-        if (contents.CanSeek)
+        var fileStream = System.IO.File.Create(Path);
+        await using (fileStream.ConfigureAwait(false))
         {
-            contents.Position = 0;
-        }
+            if (contents.CanSeek)
+            {
+                contents.Position = 0;
+            }
 
-        await contents.CopyToAsync(fileStream, cancellationToken);
+            await contents.CopyToAsync(fileStream, cancellationToken).ConfigureAwait(false);
+        }
     }
 
     public Task AppendAsync(string contents, CancellationToken cancellationToken = default)

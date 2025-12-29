@@ -21,8 +21,8 @@ internal class Bash : IBash
     {
         return await _command.ExecuteCommandLineTool(options with
         {
-            FilePath = await ToWslPath(options.FilePath),
-        }, cancellationToken);
+            FilePath = await ToWslPath(options.FilePath).ConfigureAwait(false),
+        }, cancellationToken).ConfigureAwait(false);
     }
 
     private async Task<string> ToWslPath(string path)
@@ -32,7 +32,7 @@ internal class Bash : IBash
             var result = await _command.ExecuteCommandLineTool(new CommandLineToolOptions("wsl")
             {
                 Arguments = ["wslpath", "-a", path.Replace("\\", "\\\\")],
-            });
+            }).ConfigureAwait(false);
 
             return result.StandardOutput.Trim();
         }

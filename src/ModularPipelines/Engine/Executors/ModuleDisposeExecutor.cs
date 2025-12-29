@@ -35,13 +35,13 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
             return;
         }
 
-        var modules = await _moduleRetriever.GetOrganizedModules();
+        var modules = await _moduleRetriever.GetOrganizedModules().ConfigureAwait(false);
 
         foreach (var module in modules.AllModules)
         {
             try
             {
-                await _moduleDisposer.DisposeAsync((IModule) module);
+                await _moduleDisposer.DisposeAsync((IModule) module).ConfigureAwait(false);
             }
             catch (Exception e)
             {

@@ -35,7 +35,7 @@ internal class PipelineHost : IPipelineHost
     {
         var host = new PipelineHost(hostBuilder.Build());
 
-        await host.RootServices.InitializeAsync();
+        await host.RootServices.InitializeAsync().ConfigureAwait(false);
 
         return host;
     }
@@ -78,10 +78,10 @@ internal class PipelineHost : IPipelineHost
 
         foreach (var disposable in disposables?.OfType<IDisposable>() ?? Array.Empty<IDisposable>())
         {
-            await Disposer.DisposeObjectAsync(disposable);
+            await Disposer.DisposeObjectAsync(disposable).ConfigureAwait(false);
         }
 
-        await Disposer.DisposeObjectAsync(_hostImplementation);
+        await Disposer.DisposeObjectAsync(_hostImplementation).ConfigureAwait(false);
         GC.SuppressFinalize(this);
     }
 
