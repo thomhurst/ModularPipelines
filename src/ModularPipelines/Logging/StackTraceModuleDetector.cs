@@ -81,17 +81,26 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
         if (getLoggerFrame != null)
         {
             var getLoggerFrameIndex = stackFrames.IndexOf(getLoggerFrame);
-            var nextFrame = stackFrames[getLoggerFrameIndex + 1];
-            var type = nextFrame.GetMethod()?.ReflectedType;
+            var nextFrameIndex = getLoggerFrameIndex + 1;
 
-            if (type != null)
+            if (nextFrameIndex >= stackFrames.Count)
             {
-                if (cacheKey != null)
-                {
-                    _typeCache.TryAdd(cacheKey, type);
-                }
+                // No frame after get_Logger, fall through to next strategy
+            }
+            else
+            {
+                var nextFrame = stackFrames[nextFrameIndex];
+                var type = nextFrame.GetMethod()?.ReflectedType;
 
-                return type;
+                if (type != null)
+                {
+                    if (cacheKey != null)
+                    {
+                        _typeCache.TryAdd(cacheKey, type);
+                    }
+
+                    return type;
+                }
             }
         }
 

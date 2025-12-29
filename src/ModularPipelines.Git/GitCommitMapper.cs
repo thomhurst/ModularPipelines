@@ -4,9 +4,19 @@ namespace ModularPipelines.Git;
 
 public class GitCommitMapper : IGitCommitMapper
 {
+    private const int ExpectedLineCount = 10;
+
     public GitCommit Map(string commandLineOutput)
     {
         var lines = commandLineOutput.Split(GitConstants.DotNetLineSeparator, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToList();
+
+        if (lines.Count < ExpectedLineCount)
+        {
+            throw new ArgumentException(
+                $"Git commit output is malformed. Expected at least {ExpectedLineCount} lines but received {lines.Count}. " +
+                $"Output: {commandLineOutput}",
+                nameof(commandLineOutput));
+        }
 
         return new GitCommit
         {
