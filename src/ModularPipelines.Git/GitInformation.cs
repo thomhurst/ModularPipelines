@@ -3,7 +3,6 @@ using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
-using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
@@ -13,11 +12,15 @@ namespace ModularPipelines.Git;
 
 internal class GitInformation : IGitInformation, IInitializer
 {
-    private readonly IServiceProvider _serviceProvider;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
+    private readonly IGitCommitMapper _gitCommitMapper;
 
-    public GitInformation(IServiceProvider serviceProvider)
+    public GitInformation(
+        IServiceScopeFactory serviceScopeFactory,
+        IGitCommitMapper gitCommitMapper)
     {
-        _serviceProvider = serviceProvider;
+        _serviceScopeFactory = serviceScopeFactory;
+        _gitCommitMapper = gitCommitMapper;
     }
 
     public Folder Root { get; private set; } = null!;
@@ -32,11 +35,10 @@ internal class GitInformation : IGitInformation, IInitializer
 
     public async Task InitializeAsync()
     {
-        await using var scope = _serviceProvider.CreateAsyncScope();
+        await using var scope = _serviceScopeFactory.CreateAsyncScope();
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<GitInformation>>();
         var command = scope.ServiceProvider.GetRequiredService<ICommand>();
-        var gitCommandRunner = scope.ServiceProvider.GetRequiredService<GitCommandRunner>();
-        var gitCommitMapper = scope.ServiceProvider.GetRequiredService<IGitCommitMapper>();
+        var gitCommandRunner = scope.ServiceProvider.GetRequiredService<IGitCommandRunner>();
 
         await VerifyGitAvailable(command);
 
@@ -72,7 +74,7 @@ internal class GitInformation : IGitInformation, IInitializer
                 : DateTimeOffset.MinValue;
         });
 
-        Async(async () => PreviousCommit = await GetPreviousCommit(gitCommandRunner, gitCommitMapper));
+        Async(async () => PreviousCommit = await GetPreviousCommit(gitCommandRunner));
 
         await Task.WhenAll(tasks);
         return;
@@ -140,12 +142,12 @@ internal class GitInformation : IGitInformation, IInitializer
         }
     }
 
-    private static async Task<GitCommit?> GetPreviousCommit(GitCommandRunner gitCommandRunner, IGitCommitMapper gitCommitMapper)
+    private async Task<GitCommit?> GetPreviousCommit(IGitCommandRunner gitCommandRunner)
     {
         var output = await gitCommandRunner.RunCommandsOrNull(null, "log", "--skip=0", "-1",
-            $"--format='%aN {GitConstants.GitEscapedLineSeparator} %aE {GitConstants.GitEscapedLineSeparator} %aI {GitConstants.GitEscapedLineSeparator} %cN {GitConstants.GitEscapedLineSeparator} %cE {GitConstants.GitEscapedLineSeparator} %cI {GitConstants.GitEscapedLineSeparator} %H {GitConstants.GitEscapedLineSeparator} %h {GitConstants.GitEscapedLineSeparator} %s {GitConstants.GitEscapedLineSeparator} %b'");
+            $"--format={GitConstants.CommitLogFormat}");
 
-        return string.IsNullOrWhiteSpace(output) ? null : gitCommitMapper.Map(output);
+        return string.IsNullOrWhiteSpace(output) ? null : _gitCommitMapper.Map(output);
     }
 
     public IAsyncEnumerable<GitCommit> Commits(GitOptions? options = null, CancellationToken cancellationToken = default)
@@ -155,22 +157,21 @@ internal class GitInformation : IGitInformation, IInitializer
 
     public async IAsyncEnumerable<GitCommit> Commits(string? branch, GitOptions? options = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var gitCommandRunner = _serviceProvider.GetRequiredService<GitCommandRunner>();
-        var gitCommitMapper = _serviceProvider.GetRequiredService<IGitCommitMapper>();
+        await using var scope = _serviceScopeFactory.CreateAsyncScope();
+        var gitCommandRunner = scope.ServiceProvider.GetRequiredService<IGitCommandRunner>();
 
         var index = 0;
-        while (true)
+        while (!cancellationToken.IsCancellationRequested)
         {
-            var output = await gitCommandRunner.RunCommandsOrNull(options, "log", branch, $"--skip={index - 1}", "-1", $"--format='%aN {GitConstants.GitEscapedLineSeparator} %aE {GitConstants.GitEscapedLineSeparator} %aI {GitConstants.GitEscapedLineSeparator} %cN {GitConstants.GitEscapedLineSeparator} %cE {GitConstants.GitEscapedLineSeparator} %cI {GitConstants.GitEscapedLineSeparator} %H {GitConstants.GitEscapedLineSeparator} %h {GitConstants.GitEscapedLineSeparator} %s {GitConstants.GitEscapedLineSeparator} %B'");
+            var output = await gitCommandRunner.RunCommandsOrNull(options, "log", branch, $"--skip={index}", "-1", $"--format={GitConstants.CommitLogFormat}");
 
-            index++;
-
-            if (string.IsNullOrWhiteSpace(output) || cancellationToken.IsCancellationRequested)
+            if (string.IsNullOrWhiteSpace(output))
             {
                 yield break;
             }
 
-            yield return gitCommitMapper.Map(output);
+            index++;
+            yield return _gitCommitMapper.Map(output);
         }
     }
 }
