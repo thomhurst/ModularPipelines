@@ -1,5 +1,6 @@
 using System.Net.Http.Headers;
 using System.Text;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Http;
 
@@ -26,17 +27,41 @@ namespace ModularPipelines.Http;
 /// </example>
 internal class HttpResponseFormatter : IHttpResponseFormatter
 {
-    public async Task<string> FormatAsync(HttpResponseMessage response)
+    private static readonly HashSet<string> TextMediaTypes = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "application/json",
+        "application/xml",
+        "application/x-www-form-urlencoded",
+        "text/plain",
+        "text/html",
+        "text/xml",
+        "text/css",
+        "text/javascript",
+        "application/javascript",
+    };
+
+    public Task<string> FormatAsync(HttpResponseMessage response)
+    {
+        return FormatAsync(response, HttpLoggingOptions.Default);
+    }
+
+    public async Task<string> FormatAsync(HttpResponseMessage response, HttpLoggingOptions options)
     {
         var sb = new StringBuilder();
 
         sb.AppendLine($"HTTP/{response.Version} {response.ReasonPhrase}");
         sb.AppendLine();
 
-        AppendHeaders(sb, response.Headers, response.Content.Headers);
-        sb.AppendLine();
+        if (options.LogResponseHeaders)
+        {
+            AppendHeaders(sb, response.Headers, response.Content.Headers);
+            sb.AppendLine();
+        }
 
-        await AppendBodyAsync(sb, response.Content);
+        if (options.LogResponseBody)
+        {
+            await AppendBodyAsync(sb, response.Content, options.MaxBodySizeToLog);
+        }
 
         return sb.ToString();
     }
@@ -70,18 +95,94 @@ internal class HttpResponseFormatter : IHttpResponseFormatter
         }
     }
 
-    private static async Task AppendBodyAsync(StringBuilder sb, HttpContent? content)
+    private static async Task AppendBodyAsync(StringBuilder sb, HttpContent? content, int maxBodySize)
     {
         sb.AppendLine("Body");
-        var body = await (content?.ReadAsStringAsync() ?? Task.FromResult(string.Empty));
 
-        if (!string.IsNullOrWhiteSpace(body))
+        if (content == null)
         {
-            sb.AppendLine($"\t{body}");
+            sb.AppendLine("\t(null)");
+            return;
+        }
+
+        // Check if content is binary (stream content without text media type)
+        if (IsBinaryContent(content))
+        {
+            var contentLength = content.Headers.ContentLength;
+            var contentType = content.Headers.ContentType?.MediaType ?? "unknown";
+            sb.AppendLine($"\t[Binary content: {contentType}, {FormatSize(contentLength)}]");
+            return;
+        }
+
+        var body = await content.ReadAsStringAsync();
+
+        if (string.IsNullOrWhiteSpace(body))
+        {
+            sb.AppendLine("\t(empty)");
+            return;
+        }
+
+        // Truncate if body is too large
+        if (maxBodySize > 0 && body.Length > maxBodySize)
+        {
+            sb.AppendLine($"\t{body[..maxBodySize]}");
+            sb.AppendLine($"\t... [truncated, total size: {body.Length:N0} characters]");
         }
         else
         {
-            sb.AppendLine("\t(null)");
+            sb.AppendLine($"\t{body}");
         }
+    }
+
+    private static bool IsBinaryContent(HttpContent content)
+    {
+        var contentType = content.Headers.ContentType?.MediaType;
+
+        // If no content type, check if it's a stream content
+        if (string.IsNullOrEmpty(contentType))
+        {
+            return content is StreamContent or ByteArrayContent;
+        }
+
+        // Check for known text types
+        if (TextMediaTypes.Contains(contentType))
+        {
+            return false;
+        }
+
+        // Check if it starts with "text/"
+        if (contentType.StartsWith("text/", StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        // Check for common text-based application types
+        if (contentType.StartsWith("application/", StringComparison.OrdinalIgnoreCase))
+        {
+            // Types ending in +json or +xml are text
+            if (contentType.EndsWith("+json", StringComparison.OrdinalIgnoreCase) ||
+                contentType.EndsWith("+xml", StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+        }
+
+        // Everything else is considered binary
+        return true;
+    }
+
+    private static string FormatSize(long? bytes)
+    {
+        if (bytes == null)
+        {
+            return "unknown size";
+        }
+
+        return bytes switch
+        {
+            < 1024 => $"{bytes} bytes",
+            < 1024 * 1024 => $"{bytes / 1024.0:F1} KB",
+            _ => $"{bytes / (1024.0 * 1024.0):F1} MB",
+        };
     }
 }

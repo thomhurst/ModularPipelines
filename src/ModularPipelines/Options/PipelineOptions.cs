@@ -69,6 +69,16 @@ public record PipelineOptions
     public CommandLogging DefaultCommandLogging { get; set; } = CommandLogging.Default;
 
     /// <summary>
+    /// Gets or sets the default HTTP logging options for all HTTP requests.
+    /// Controls what parts of HTTP requests and responses are logged (headers, body, etc.).
+    /// Use <see cref="HttpLoggingOptions.None"/> to disable all logging,
+    /// <see cref="HttpLoggingOptions.Minimal"/> for URL/status only,
+    /// <see cref="HttpLoggingOptions.Headers"/> for headers without body,
+    /// or <see cref="HttpLoggingOptions.Full"/> for complete logging.
+    /// </summary>
+    public HttpLoggingOptions? DefaultHttpLoggingOptions { get; set; }
+
+    /// <summary>
     /// Gets or sets the concurrency options for module execution.
     /// Controls parallelism limits and resource-based throttling.
     /// </summary>
