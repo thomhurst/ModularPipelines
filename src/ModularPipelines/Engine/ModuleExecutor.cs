@@ -284,8 +284,8 @@ internal class ModuleExecutor : IModuleExecutor
             }
             catch (Exception alwaysRunEx)
             {
-                _logger.LogDebug("AlwaysRun module {ModuleName} threw after late start: {ExceptionType}",
-                    moduleType.Name, alwaysRunEx.GetType().Name);
+                _logger.LogWarning(alwaysRunEx, "AlwaysRun module {ModuleName} failed after late start",
+                    moduleType.Name);
             }
         }
         else if (ShouldWaitForAlwaysRunModule(moduleState))
@@ -300,8 +300,10 @@ internal class ModuleExecutor : IModuleExecutor
             }
             catch (Exception alwaysRunEx)
             {
-                _logger.LogDebug("AlwaysRun module {ModuleName} threw: {ExceptionType}",
-                    moduleType.Name, alwaysRunEx.GetType().Name);
+                _logger.LogWarning(alwaysRunEx, "AlwaysRun module {ModuleName} failed",
+                    moduleType.Name);
+
+                // Access Exception property to observe the exception and prevent TaskScheduler.UnobservedTaskException
                 _ = moduleTask.Exception;
             }
         }
