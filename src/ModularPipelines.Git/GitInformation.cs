@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Initialization.Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
@@ -11,20 +12,14 @@ namespace ModularPipelines.Git;
 
 internal class GitInformation : IGitInformation, IInitializer
 {
-    private readonly ILogger<GitInformation> _logger;
-    private readonly ICommand _command;
-    private readonly IGitCommandRunner _gitCommandRunner;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IGitCommitMapper _gitCommitMapper;
 
     public GitInformation(
-        ILogger<GitInformation> logger,
-        ICommand command,
-        IGitCommandRunner gitCommandRunner,
+        IServiceScopeFactory serviceScopeFactory,
         IGitCommitMapper gitCommitMapper)
     {
-        _logger = logger;
-        _command = command;
-        _gitCommandRunner = gitCommandRunner;
+        _serviceScopeFactory = serviceScopeFactory;
         _gitCommitMapper = gitCommitMapper;
     }
 
@@ -40,41 +35,46 @@ internal class GitInformation : IGitInformation, IInitializer
 
     public async Task InitializeAsync()
     {
-        await VerifyGitAvailable();
+        await using var scope = _serviceScopeFactory.CreateAsyncScope();
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<GitInformation>>();
+        var command = scope.ServiceProvider.GetRequiredService<ICommand>();
+        var gitCommandRunner = scope.ServiceProvider.GetRequiredService<IGitCommandRunner>();
+
+        await VerifyGitAvailable(command);
 
         var tasks = new List<Task>();
 
         Async(async () =>
         {
-            var root = await GetOutput(new GitRevParseOptions { ShowToplevel = true });
+            var root = await GetOutput(command, logger, new GitRevParseOptions { ShowToplevel = true });
             Root = root != null ? new Folder(root) : throw new InvalidOperationException("Not a git repository");
         });
 
-        Async(async () => BranchName = await GetOutput(new GitBranchOptions { ShowCurrent = true }) ?? "");
+        Async(async () => BranchName = await GetOutput(command, logger, new GitBranchOptions { ShowCurrent = true }) ?? "");
 
-        Async(async () => DefaultBranchName = await GetDefaultBranchName() ?? "");
+        Async(async () => DefaultBranchName = await GetDefaultBranchName(command, logger) ?? "");
 
-        Async(async () => LastCommitSha = await GetOutput(new GitRevParseOptions { Arguments = ["HEAD"] }) ?? "");
+        Async(async () => LastCommitSha = await GetOutput(command, logger, new GitRevParseOptions { Arguments = ["HEAD"] }) ?? "");
 
-        Async(async () => LastCommitShortSha = await GetOutput(new GitRevParseOptions { Short = true, Arguments = ["HEAD"] }) ?? "");
+        Async(async () => LastCommitShortSha = await GetOutput(command, logger, new GitRevParseOptions { Short = true, Arguments = ["HEAD"] }) ?? "");
 
-        Async(async () => Tag = await GetOutput(new GitDescribeOptions { Tags = true }) ?? "");
+        Async(async () => Tag = await GetOutput(command, logger, new GitDescribeOptions { Tags = true }) ?? "");
 
         Async(async () =>
         {
-            var countStr = await GetOutput(new GitRevListOptions { Count = true, Arguments = ["HEAD"] });
+            var countStr = await GetOutput(command, logger, new GitRevListOptions { Count = true, Arguments = ["HEAD"] });
             CommitsOnBranch = int.TryParse(countStr, out var count) ? count : 0;
         });
 
         Async(async () =>
         {
-            var timestampStr = await GetOutput(new GitLogOptions { Format = "%at", Arguments = ["-1"] });
+            var timestampStr = await GetOutput(command, logger, new GitLogOptions { Format = "%at", Arguments = ["-1"] });
             LastCommitDateTime = long.TryParse(timestampStr, out var timestamp)
                 ? DateTimeOffset.FromUnixTimeSeconds(timestamp)
                 : DateTimeOffset.MinValue;
         });
 
-        Async(async () => PreviousCommit = await GetPreviousCommit());
+        Async(async () => PreviousCommit = await GetPreviousCommit(gitCommandRunner));
 
         await Task.WhenAll(tasks);
         return;
@@ -82,11 +82,11 @@ internal class GitInformation : IGitInformation, IInitializer
         void Async(Func<Task> task) => tasks.Add(task());
     }
 
-    private async Task VerifyGitAvailable()
+    private static async Task VerifyGitAvailable(ICommand command)
     {
         try
         {
-            await _command.ExecuteCommandLineTool(new CommandLineToolOptions("git")
+            await command.ExecuteCommandLineTool(new CommandLineToolOptions("git")
             {
                 Arguments = ["version"],
                 LogSettings = CommandLoggingOptions.Silent,
@@ -98,11 +98,11 @@ internal class GitInformation : IGitInformation, IInitializer
         }
     }
 
-    private async Task<string?> GetDefaultBranchName()
+    private static async Task<string?> GetDefaultBranchName(ICommand command, ILogger logger)
     {
         try
         {
-            var output = await GetOutput(new GitRemoteOptions { Arguments = ["show", "origin"] });
+            var output = await GetOutput(command, logger, new GitRemoteOptions { Arguments = ["show", "origin"] });
             if (output == null)
             {
                 return null;
@@ -114,7 +114,7 @@ internal class GitInformation : IGitInformation, IInitializer
         }
         catch
         {
-            var output = await GetOutput(new GitRevParseOptions
+            var output = await GetOutput(command, logger, new GitRevParseOptions
             {
                 Arguments = ["origin/HEAD"],
                 AbbrevRef = true,
@@ -125,26 +125,26 @@ internal class GitInformation : IGitInformation, IInitializer
         }
     }
 
-    private async Task<string?> GetOutput(GitOptions gitOptions)
+    private static async Task<string?> GetOutput(ICommand command, ILogger logger, GitOptions gitOptions)
     {
         try
         {
-            var result = await _command.ExecuteCommandLineTool(gitOptions with
+            var result = await command.ExecuteCommandLineTool(gitOptions with
             {
-                LogSettings = _logger.IsEnabled(LogLevel.Debug) ? CommandLoggingOptions.Diagnostic : CommandLoggingOptions.Silent,
+                LogSettings = logger.IsEnabled(LogLevel.Debug) ? CommandLoggingOptions.Diagnostic : CommandLoggingOptions.Silent,
             });
             return result.StandardOutput.Trim();
         }
         catch (Exception exception)
         {
-            _logger.LogDebug(exception, "Error running Git command");
+            logger.LogDebug(exception, "Error running Git command");
             return null;
         }
     }
 
-    private async Task<GitCommit?> GetPreviousCommit()
+    private async Task<GitCommit?> GetPreviousCommit(IGitCommandRunner gitCommandRunner)
     {
-        var output = await _gitCommandRunner.RunCommandsOrNull(null, "log", "--skip=0", "-1",
+        var output = await gitCommandRunner.RunCommandsOrNull(null, "log", "--skip=0", "-1",
             $"--format={GitConstants.CommitLogFormat}");
 
         return string.IsNullOrWhiteSpace(output) ? null : _gitCommitMapper.Map(output);
@@ -157,10 +157,13 @@ internal class GitInformation : IGitInformation, IInitializer
 
     public async IAsyncEnumerable<GitCommit> Commits(string? branch, GitOptions? options = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
+        await using var scope = _serviceScopeFactory.CreateAsyncScope();
+        var gitCommandRunner = scope.ServiceProvider.GetRequiredService<IGitCommandRunner>();
+
         var index = 0;
         while (!cancellationToken.IsCancellationRequested)
         {
-            var output = await _gitCommandRunner.RunCommandsOrNull(options, "log", branch, $"--skip={index}", "-1", $"--format={GitConstants.CommitLogFormat}");
+            var output = await gitCommandRunner.RunCommandsOrNull(options, "log", branch, $"--skip={index}", "-1", $"--format={GitConstants.CommitLogFormat}");
 
             if (string.IsNullOrWhiteSpace(output))
             {
