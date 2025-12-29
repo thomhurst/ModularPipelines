@@ -39,7 +39,15 @@ internal class OptionsProvider : IOptionsProvider
 
         foreach (var option in types.Select(t => _serviceProvider.GetService(typeof(IOptions<>).MakeGenericType(t))))
         {
-            yield return option!.GetType().GetProperty("Value", BindingFlags.Public | BindingFlags.Instance)!.GetValue(option);
+            if (option is null)
+            {
+                continue;
+            }
+
+            var valueProperty = option.GetType().GetProperty("Value", BindingFlags.Public | BindingFlags.Instance)
+                ?? throw new InvalidOperationException($"Property 'Value' not found on type '{option.GetType().Name}'.");
+
+            yield return valueProperty.GetValue(option);
         }
     }
 }

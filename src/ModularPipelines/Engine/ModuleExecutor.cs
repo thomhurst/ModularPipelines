@@ -485,15 +485,25 @@ internal class ModuleExecutor : IModuleExecutor
         var resultType = module.ResultType;
 
         // Use reflection to call the generic ExecuteAsync method
-        var executeMethod = typeof(IModuleExecutionPipeline).GetMethod(nameof(IModuleExecutionPipeline.ExecuteAsync))!
-            .MakeGenericMethod(resultType);
+        var executeMethodInfo = typeof(IModuleExecutionPipeline).GetMethod(nameof(IModuleExecutionPipeline.ExecuteAsync))
+            ?? throw new InvalidOperationException($"Method '{nameof(IModuleExecutionPipeline.ExecuteAsync)}' not found on type '{nameof(IModuleExecutionPipeline)}'.");
 
-        var task = (Task) executeMethod.Invoke(_executionPipeline, new object[] { module, executionContext, moduleContext, cancellationToken })!;
+        var executeMethod = executeMethodInfo.MakeGenericMethod(resultType);
+
+        var invokeResult = executeMethod.Invoke(_executionPipeline, new object[] { module, executionContext, moduleContext, cancellationToken })
+            ?? throw new InvalidOperationException($"Invocation of '{nameof(IModuleExecutionPipeline.ExecuteAsync)}' returned null.");
+
+        var task = (Task)invokeResult;
         await task;
 
         // Get the result from the completed task
-        var resultProperty = task.GetType().GetProperty("Result")!;
-        return (IModuleResult) resultProperty.GetValue(task)!;
+        var resultProperty = task.GetType().GetProperty("Result")
+            ?? throw new InvalidOperationException($"Property 'Result' not found on task type '{task.GetType().Name}'.");
+
+        var resultValue = resultProperty.GetValue(task)
+            ?? throw new InvalidOperationException($"Property 'Result' returned null for task type '{task.GetType().Name}'.");
+
+        return (IModuleResult)resultValue;
     }
 
     private async Task<IDisposable> WaitForParallelLimiter(Type moduleType)
