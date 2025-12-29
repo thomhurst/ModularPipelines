@@ -4,8 +4,8 @@ using System.Threading.Channels;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
-using ModularPipelines.Engine.Constraints;
 using ModularPipelines.Engine.Dependencies;
+using ModularPipelines.Engine.Scheduling;
 using ModularPipelines.Enums;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
@@ -24,12 +24,12 @@ internal class ModuleScheduler : IModuleScheduler
     private readonly SchedulerOptions _options;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
     private readonly IMetricsCollector _metricsCollector;
+    private readonly IModuleConstraintEvaluator _constraintEvaluator;
     private readonly ConcurrentDictionary<Type, ModuleState> _moduleStates;
     private readonly HashSet<ModuleState> _queuedModules;
     private readonly HashSet<ModuleState> _executingModules;
     private readonly ModuleStateQueries _stateQueries;
     private readonly SchedulerExitConditions _exitConditions;
-    private readonly IModuleConstraint[] _constraints;
     private readonly Channel<ModuleState> _readyChannel;
     private readonly SemaphoreSlim _schedulerNotification;
     private readonly CancellationTokenSource _disposalCancellationTokenSource;
@@ -38,23 +38,25 @@ internal class ModuleScheduler : IModuleScheduler
     private bool _schedulerCompleted;
     private bool _isDisposed;
 
-    public ModuleScheduler(ILogger logger, TimeProvider timeProvider, IOptions<SchedulerOptions> options, IModuleDependencyRegistry dependencyRegistry, IMetricsCollector metricsCollector)
+    public ModuleScheduler(
+        ILogger logger,
+        TimeProvider timeProvider,
+        IOptions<SchedulerOptions> options,
+        IModuleDependencyRegistry dependencyRegistry,
+        IMetricsCollector metricsCollector,
+        IModuleConstraintEvaluator constraintEvaluator)
     {
         _logger = logger;
         _timeProvider = timeProvider;
         _options = options.Value;
         _dependencyRegistry = dependencyRegistry;
         _metricsCollector = metricsCollector;
+        _constraintEvaluator = constraintEvaluator;
         _moduleStates = new ConcurrentDictionary<Type, ModuleState>();
         _queuedModules = new HashSet<ModuleState>();
         _executingModules = new HashSet<ModuleState>();
         _stateQueries = new ModuleStateQueries(_moduleStates);
         _exitConditions = new SchedulerExitConditions();
-        _constraints = new IModuleConstraint[]
-        {
-            new SequentialExecutionConstraint(),
-            new LockKeyConstraint(),
-        };
         _readyChannel = Channel.CreateUnbounded<ModuleState>(new UnboundedChannelOptions
         {
             SingleWriter = true,  // Only scheduler writes
@@ -357,72 +359,17 @@ internal class ModuleScheduler : IModuleScheduler
         {
             if (_moduleStates.TryGetValue(moduleType, out var state))
             {
-                // Primary constraint check: verify no executing module has conflicting lock keys
-                // This is the most critical check - directly examine executing modules
-                if (state.RequiredLockKeys.Length > 0)
+                // Delegate constraint checking to the evaluator
+                if (!_constraintEvaluator.CanStartExecution(state, _executingModules))
                 {
-                    foreach (var executing in _executingModules)
-                    {
-                        if (executing == state)
-                        {
-                            continue;
-                        }
-
-                        if (executing.RequiredLockKeys.Length > 0)
-                        {
-                            var intersection = executing.RequiredLockKeys.Intersect(state.RequiredLockKeys).ToArray();
-                            if (intersection.Length > 0)
-                            {
-                                _logger.LogDebug(
-                                    "Module {ModuleName} BLOCKED at execution boundary - {ExecutingModule} already executing with keys [{Keys}]",
-                                    MarkupFormatter.FormatModuleName(state.ModuleType.Name),
-                                    MarkupFormatter.FormatModuleName(executing.ModuleType.Name),
-                                    string.Join(", ", intersection));
-
-                                // Reset to Pending so scheduler will retry when constraints allow
-                                _queuedModules.Remove(state);
-                                state.State = ModuleExecutionState.Pending;
-                                state.QueuedTime = null;
-
-                                // Notify the scheduler to reschedule
-                                _schedulerNotification.Release();
-                                return false;
-                            }
-                        }
-                    }
-                }
-
-                // Secondary check: sequential execution constraints
-                if (state.RequiresSequentialExecution && _executingModules.Count > 0)
-                {
-                    _logger.LogDebug(
-                        "Sequential module {ModuleName} blocked at execution boundary - {Count} modules already executing",
-                        MarkupFormatter.FormatModuleName(state.ModuleType.Name),
-                        _executingModules.Count);
-
+                    // Reset to Pending so scheduler will retry when constraints allow
                     _queuedModules.Remove(state);
                     state.State = ModuleExecutionState.Pending;
                     state.QueuedTime = null;
+
+                    // Notify the scheduler to reschedule
                     _schedulerNotification.Release();
                     return false;
-                }
-
-                // Check if any executing module requires sequential execution
-                foreach (var executing in _executingModules)
-                {
-                    if (executing.RequiresSequentialExecution)
-                    {
-                        _logger.LogDebug(
-                            "Module {ModuleName} blocked at execution boundary by sequential module {SequentialModule}",
-                            MarkupFormatter.FormatModuleName(state.ModuleType.Name),
-                            MarkupFormatter.FormatModuleName(executing.ModuleType.Name));
-
-                        _queuedModules.Remove(state);
-                        state.State = ModuleExecutionState.Pending;
-                        state.QueuedTime = null;
-                        _schedulerNotification.Release();
-                        return false;
-                    }
                 }
 
                 _queuedModules.Remove(state);
@@ -662,50 +609,10 @@ internal class ModuleScheduler : IModuleScheduler
         // Check against modules with Queued or Executing state (source of truth)
         // Using State enum instead of tracking collections prevents race conditions
         var activeModules = _moduleStates.Values
-            .Where(m => m.State == ModuleExecutionState.Queued || m.State == ModuleExecutionState.Executing)
-            .ToList();
+            .Where(m => m.State == ModuleExecutionState.Queued || m.State == ModuleExecutionState.Executing);
 
-        // Check lock key conflicts
-        foreach (var active in activeModules)
-        {
-            // Skip checking against self
-            if (active == moduleState)
-            {
-                continue;
-            }
-
-            // Check for lock key intersection
-            if (moduleState.RequiredLockKeys.Length > 0 && active.RequiredLockKeys.Length > 0)
-            {
-                var intersection = active.RequiredLockKeys.Intersect(moduleState.RequiredLockKeys).ToArray();
-                if (intersection.Length > 0)
-                {
-                    return false;
-                }
-            }
-        }
-
-        // Check sequential execution constraints
-        if (moduleState.RequiresSequentialExecution)
-        {
-            // Sequential module can only execute if no other modules are active
-            var otherActiveModules = activeModules.Where(m => m != moduleState).ToList();
-            if (otherActiveModules.Count > 0)
-            {
-                return false;
-            }
-        }
-
-        // Check if any active module requires sequential execution (blocks all others)
-        foreach (var active in activeModules)
-        {
-            if (active != moduleState && active.RequiresSequentialExecution)
-            {
-                return false;
-            }
-        }
-
-        return true;
+        // Delegate constraint checking to the evaluator
+        return _constraintEvaluator.CanQueue(moduleState, activeModules);
     }
 
     /// <summary>
