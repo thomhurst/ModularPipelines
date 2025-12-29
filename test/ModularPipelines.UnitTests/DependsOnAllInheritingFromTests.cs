@@ -18,6 +18,38 @@ public class DependsOnAllInheritingFromTests : TestBase
         public abstract override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken);
     }
 
+    // Generic base module for testing open generic type dependencies (Issue #1337)
+    private abstract class GenericBaseModule<T> : Module<T>;
+
+    private class GenericModule1 : GenericBaseModule<int>
+    {
+        public override async Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            await Task.Delay(ModuleDelay, cancellationToken);
+            return 42;
+        }
+    }
+
+    private class GenericModule2 : GenericBaseModule<string>
+    {
+        public override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            await Task.Delay(ModuleDelay, cancellationToken);
+            return "test";
+        }
+    }
+
+    // This module depends on all modules inheriting from the OPEN generic type GenericBaseModule<>
+    [DependsOnAllModulesInheritingFrom(typeof(GenericBaseModule<>))]
+    private class DependsOnOpenGenericModule : Module<bool>
+    {
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            await Task.Yield();
+            return true;
+        }
+    }
+
     private class Module1 : BaseModule
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -85,5 +117,31 @@ public class DependsOnAllInheritingFromTests : TestBase
 
         await Assert.That(result4.ModuleStart).IsGreaterThanOrEqualTo(result3.ModuleStart.Add(ModuleDelay.Add(TimeSpan.FromMilliseconds(-25))));
         await Assert.That(result4.ModuleStart).IsGreaterThanOrEqualTo(result3.ModuleEnd);
+    }
+
+    [Test]
+    public async Task DependsOnAllModulesInheritingFrom_Works_With_Open_Generic_Types()
+    {
+        // Regression test for Issue #1337
+        // DependsOnAllModulesInheritingFrom(typeof(GenericBaseModule<>)) should wait for
+        // GenericModule1 : GenericBaseModule<int> and GenericModule2 : GenericBaseModule<string>
+        var timeProvider = new FakeTimeProvider();
+
+        var host = await TestPipelineHostBuilder.Create(new TestHostSettings(), timeProvider)
+            .AddModule<GenericModule1>()
+            .AddModule<GenericModule2>()
+            .AddModule<DependsOnOpenGenericModule>()
+            .BuildHostAsync();
+
+        var pipelineSummary = await host.ExecutePipelineAsync();
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+
+        var result1 = resultRegistry.GetResult(typeof(GenericModule1))!;
+        var result2 = resultRegistry.GetResult(typeof(GenericModule2))!;
+        var dependentResult = resultRegistry.GetResult(typeof(DependsOnOpenGenericModule))!;
+
+        // The dependent module should start AFTER both generic modules complete
+        await Assert.That(dependentResult.ModuleStart).IsGreaterThanOrEqualTo(result1.ModuleEnd);
+        await Assert.That(dependentResult.ModuleStart).IsGreaterThanOrEqualTo(result2.ModuleEnd);
     }
 }
