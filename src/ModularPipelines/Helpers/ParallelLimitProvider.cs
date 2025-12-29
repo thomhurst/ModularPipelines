@@ -9,7 +9,7 @@ namespace ModularPipelines.Helpers;
 
 internal class ParallelLimitProvider : IParallelLimitProvider
 {
-    private static readonly ConcurrentDictionary<Type, AsyncSemaphore> Locks = new();
+    private readonly ConcurrentDictionary<Type, AsyncSemaphore> _locks = new();
 
     private readonly ConcurrencyOptions _concurrencyOptions;
     private readonly Lazy<AsyncSemaphore?> _cpuIntensiveLock;
@@ -47,7 +47,7 @@ internal class ParallelLimitProvider : IParallelLimitProvider
                 nameof(parallelLimitType));
         }
 
-        return Locks.GetOrAdd(parallelLimit.GetType(), _ => new AsyncSemaphore(parallelLimit.Limit));
+        return _locks.GetOrAdd(parallelLimit.GetType(), _ => new AsyncSemaphore(parallelLimit.Limit));
     }
 
     public int GetMaxDegreeOfParallelism()
