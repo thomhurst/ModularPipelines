@@ -47,7 +47,7 @@ internal class PipelineExecutor : IPipelineExecutor
         try
         {
             // ModuleExecutor handles waiting for AlwaysRun modules internally
-            await _moduleExecutor.ExecuteAsync(runnableModules);
+            await _moduleExecutor.ExecuteAsync(runnableModules).ConfigureAwait(false);
         }
         finally
         {
@@ -55,7 +55,7 @@ internal class PipelineExecutor : IPipelineExecutor
 
             pipelineSummary = new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end, _resultRegistry, _metricsCollector, _parallelLimitProvider.GetMaxDegreeOfParallelism());
 
-            await _pipelineSetupExecutor.OnEndAsync(pipelineSummary);
+            await _pipelineSetupExecutor.OnEndAsync(pipelineSummary).ConfigureAwait(false);
         }
 
         // Check for original exception first with preserved stack trace

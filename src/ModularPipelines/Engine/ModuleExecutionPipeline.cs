@@ -75,10 +75,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             // Check for skip condition
             if (module is ISkippable skippable)
             {
-                var skipDecision = await skippable.ShouldSkip(moduleContext);
+                var skipDecision = await skippable.ShouldSkip(moduleContext).ConfigureAwait(false);
                 if (skipDecision.ShouldSkip)
                 {
-                    return await HandleSkipped(module, executionContext, moduleContext, skipDecision, logger);
+                    return await HandleSkipped(module, executionContext, moduleContext, skipDecision, logger).ConfigureAwait(false);
                 }
             }
 
@@ -88,7 +88,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             // Execute before hook
             if (module is IHookable hookable)
             {
-                await hookable.OnBeforeExecute(moduleContext);
+                await hookable.OnBeforeExecute(moduleContext).ConfigureAwait(false);
             }
 
             // Mark as processing
@@ -99,7 +99,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             logger.LogDebug("Module {ModuleName} execution started at {StartTime}", moduleName, executionContext.StartTime);
 
             // Execute with timeout and retry
-            var result = await ExecuteWithPolicies(module, executionContext, moduleContext);
+            var result = await ExecuteWithPolicies(module, executionContext, moduleContext).ConfigureAwait(false);
 
             // Record successful completion
             executionContext.RecordEndTime();
@@ -110,7 +110,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             module.CompletionSource.TrySetResult(moduleResult!);
 
             // Save to history if applicable
-            await SaveToHistory(module, moduleResult, moduleContext);
+            await SaveToHistory(module, moduleResult, moduleContext).ConfigureAwait(false);
 
             logger.LogDebug("Module succeeded after {Duration}", executionContext.Duration);
 
@@ -124,7 +124,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
             module.CompletionSource.TrySetResult(new ModuleResult<T>(exception, executionContext)!);
 
-            return await HandleException(module, executionContext, moduleContext, exception, logger);
+            return await HandleException(module, executionContext, moduleContext, exception, logger).ConfigureAwait(false);
         }
         finally
         {
@@ -133,7 +133,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             {
                 try
                 {
-                    await hookable.OnAfterExecute(moduleContext);
+                    await hookable.OnAfterExecute(moduleContext).ConfigureAwait(false);
                 }
                 catch (Exception hookException)
                 {
@@ -178,7 +178,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         // For skipped modules with a history repository configured, check for cached results
         if (_resultRepository.GetType() != typeof(NoOpModuleResultRepository))
         {
-            var historicalResult = await _resultRepository.GetResultAsync<T>(module, moduleContext);
+            var historicalResult = await _resultRepository.GetResultAsync<T>(module, moduleContext).ConfigureAwait(false);
             if (historicalResult != null)
             {
                 executionContext.Status = Status.UsedHistory;
@@ -226,7 +226,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             // Race against timeout
             var timeoutTask = Task.Delay(timeout, cancellationToken);
 
-            var completedTask = await Task.WhenAny(executeTask, timeoutTask);
+            var completedTask = await Task.WhenAny(executeTask, timeoutTask).ConfigureAwait(false);
 
             if (completedTask == timeoutTask && executionContext.Status != Status.Successful)
             {
@@ -234,7 +234,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             }
         }
 
-        return await executeTask;
+        return await executeTask.ConfigureAwait(false);
     }
 
     private TimeSpan GetTimeout(IModule module)
@@ -278,7 +278,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         try
         {
-            await _resultRepository.SaveResultAsync(module, result, moduleContext);
+            await _resultRepository.SaveResultAsync(module, result, moduleContext).ConfigureAwait(false);
         }
         catch (Exception e)
         {
@@ -321,7 +321,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         // Check if we should ignore failures
         if (module is IIgnoreFailures ignoreFailures)
         {
-            if (await ignoreFailures.ShouldIgnoreFailures(moduleContext, exception))
+            if (await ignoreFailures.ShouldIgnoreFailures(moduleContext, exception).ConfigureAwait(false))
             {
                 logger.LogDebug("Ignoring failures in this module and continuing...");
                 executionContext.Status = Status.IgnoredFailure;
@@ -329,7 +329,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 var ignoredResult = new ModuleResult<T>(exception, executionContext);
                 executionContext.SetTypedResult(ignoredResult);
 
-                await SaveToHistory(module, ignoredResult, moduleContext);
+                await SaveToHistory(module, ignoredResult, moduleContext).ConfigureAwait(false);
                 return ignoredResult;
             }
         }

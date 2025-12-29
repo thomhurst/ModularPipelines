@@ -17,7 +17,7 @@ internal class StatusCodeLoggingHttpHandler : DelegatingHandler
     {
         try
         {
-            var httpResponseMessage = await base.SendAsync(request, cancellationToken);
+            var httpResponseMessage = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
 
             _httpLogger.PrintStatusCode(httpResponseMessage.StatusCode, _logger);
 

@@ -102,8 +102,8 @@ internal class ModuleExecutor : IModuleExecutor
 
         try
         {
-            scheduler = await InitializeSchedulerAsync(modules);
-            return await ExecuteWithSchedulerAsync(modules, scheduler);
+            scheduler = await InitializeSchedulerAsync(modules).ConfigureAwait(false);
+            return await ExecuteWithSchedulerAsync(modules, scheduler).ConfigureAwait(false);
         }
         catch (Exception outerEx)
         {
@@ -111,7 +111,7 @@ internal class ModuleExecutor : IModuleExecutor
 
             if (scheduler != null)
             {
-                await WaitForAlwaysRunModulesAsync(scheduler, modules);
+                await WaitForAlwaysRunModulesAsync(scheduler, modules).ConfigureAwait(false);
             }
 
             _logger.LogDebug("Outer catch block rethrowing exception");
@@ -131,7 +131,7 @@ internal class ModuleExecutor : IModuleExecutor
         _metricsCollector.SetPipelineStartTime(DateTimeOffset.UtcNow);
 
         // Invoke registration events before dependency resolution
-        await _registrationEventExecutor.InvokeRegistrationEventsAsync(modules);
+        await _registrationEventExecutor.InvokeRegistrationEventsAsync(modules).ConfigureAwait(false);
 
         var scheduler = _schedulerFactory.Create();
         scheduler.InitializeModules(modules);
@@ -153,14 +153,14 @@ internal class ModuleExecutor : IModuleExecutor
 
         try
         {
-            firstException = await ExecuteWorkerPoolAsync(scheduler, cancellationTokenSource);
+            firstException = await ExecuteWorkerPoolAsync(scheduler, cancellationTokenSource).ConfigureAwait(false);
         }
         finally
         {
             EnsureCancellation(cancellationTokenSource);
         }
 
-        await schedulerTask;
+        await schedulerTask.ConfigureAwait(false);
 
         _logger.LogDebug("All modules completed");
 
@@ -211,14 +211,14 @@ internal class ModuleExecutor : IModuleExecutor
                 {
                     try
                     {
-                        await ExecuteModule(moduleState, scheduler, ct);
+                        await ExecuteModule(moduleState, scheduler, ct).ConfigureAwait(false);
                     }
                     catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
                     {
                         Interlocked.CompareExchange(ref firstException, ex, null);
                         cancellationTokenSource.Cancel();
                     }
-                });
+                }).ConfigureAwait(false);
         }
         catch (OperationCanceledException) when (firstException != null)
         {
@@ -256,7 +256,7 @@ internal class ModuleExecutor : IModuleExecutor
 
         foreach (var module in alwaysRunModules)
         {
-            await WaitForSingleAlwaysRunModuleAsync(scheduler, module);
+            await WaitForSingleAlwaysRunModuleAsync(scheduler, module).ConfigureAwait(false);
         }
     }
 
@@ -279,7 +279,7 @@ internal class ModuleExecutor : IModuleExecutor
 
             try
             {
-                await ExecuteModuleCore(moduleState, scheduler, CancellationToken.None, skipDependencyWait: true);
+                await ExecuteModuleCore(moduleState, scheduler, CancellationToken.None, skipDependencyWait: true).ConfigureAwait(false);
                 _logger.LogDebug("AlwaysRun module {ModuleName} completed after late start", moduleType.Name);
             }
             catch (Exception alwaysRunEx)
@@ -295,7 +295,7 @@ internal class ModuleExecutor : IModuleExecutor
 
             try
             {
-                await moduleTask;
+                await moduleTask.ConfigureAwait(false);
                 _logger.LogDebug("AlwaysRun module {ModuleName} completed", moduleType.Name);
             }
             catch (Exception alwaysRunEx)
@@ -335,48 +335,50 @@ internal class ModuleExecutor : IModuleExecutor
         var moduleName = MarkupFormatter.FormatModuleName(moduleType.Name);
 
         // Create a scope to resolve scoped services like IPipelineContext and ModuleLogger<T>
-        await using var scope = _serviceProvider.CreateAsyncScope();
-
-        try
+        var scope = _serviceProvider.CreateAsyncScope();
+        await using (scope.ConfigureAwait(false))
         {
-            // Check if the module can proceed with execution
-            // Returns false if constraints (e.g., NotInParallel) prevent execution
-            if (!scheduler.MarkModuleStarted(moduleType))
+            try
             {
-                _logger.LogDebug("Module {ModuleName} deferred due to constraint check failure", moduleName);
-                return; // Module will be rescheduled by the scheduler
+                // Check if the module can proceed with execution
+                // Returns false if constraints (e.g., NotInParallel) prevent execution
+                if (!scheduler.MarkModuleStarted(moduleType))
+                {
+                    _logger.LogDebug("Module {ModuleName} deferred due to constraint check failure", moduleName);
+                    return; // Module will be rescheduled by the scheduler
+                }
+
+                _logger.LogDebug("{Icon} Starting module {ModuleName}", MarkupFormatter.PlayIcon, moduleName);
+
+                if (!skipDependencyWait)
+                {
+                    await WaitForDependenciesAsync(moduleState, scheduler, scope.ServiceProvider).ConfigureAwait(false);
+                }
+                else
+                {
+                    _logger.LogDebug("Skipping dependency wait for late-started AlwaysRun module: {ModuleName}", moduleName);
+                }
+
+                await ExecuteModuleWithPipeline(moduleState, scope.ServiceProvider, cancellationToken).ConfigureAwait(false);
+
+                scheduler.MarkModuleCompleted(moduleType, true);
             }
-
-            _logger.LogDebug("{Icon} Starting module {ModuleName}", MarkupFormatter.PlayIcon, moduleName);
-
-            if (!skipDependencyWait)
+            catch (Exception ex)
             {
-                await WaitForDependenciesAsync(moduleState, scheduler, scope.ServiceProvider);
-            }
-            else
-            {
-                _logger.LogDebug("Skipping dependency wait for late-started AlwaysRun module: {ModuleName}", moduleName);
-            }
+                _logger.LogError(ex, "Module {ModuleName} failed", moduleName);
+                scheduler.MarkModuleCompleted(moduleType, false, ex);
 
-            await ExecuteModuleWithPipeline(moduleState, scope.ServiceProvider, cancellationToken);
+                // Register a PipelineTerminated result for this module if no result was registered yet
+                // This happens when the module was waiting for a dependency that failed
+                if (moduleState.Result == null)
+                {
+                    RegisterTerminatedResult(module, moduleType, ex);
+                }
 
-            scheduler.MarkModuleCompleted(moduleType, true);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Module {ModuleName} failed", moduleName);
-            scheduler.MarkModuleCompleted(moduleType, false, ex);
-
-            // Register a PipelineTerminated result for this module if no result was registered yet
-            // This happens when the module was waiting for a dependency that failed
-            if (moduleState.Result == null)
-            {
-                RegisterTerminatedResult(module, moduleType, ex);
-            }
-
-            if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
-            {
-                throw;
+                if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
+                {
+                    throw;
+                }
             }
         }
     }
@@ -397,13 +399,13 @@ internal class ModuleExecutor : IModuleExecutor
         ModuleLogger.Values.Value = logger;
 
         // Before module hooks
-        await _pipelineSetupExecutor.OnBeforeModuleStartAsync(moduleState);
+        await _pipelineSetupExecutor.OnBeforeModuleStartAsync(moduleState).ConfigureAwait(false);
 
-        var estimatedDuration = await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(moduleType);
-        await _mediator.Publish(new ModuleStartedNotification(moduleState, estimatedDuration));
+        var estimatedDuration = await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(moduleType).ConfigureAwait(false);
+        await _mediator.Publish(new ModuleStartedNotification(moduleState, estimatedDuration)).ConfigureAwait(false);
 
-        using var semaphoreHandle = await WaitForParallelLimiter(moduleType);
-        using var executionTypeHandle = await WaitForExecutionTypeLimiter(moduleState);
+        using var semaphoreHandle = await WaitForParallelLimiter(moduleType).ConfigureAwait(false);
+        using var executionTypeHandle = await WaitForExecutionTypeLimiter(moduleState).ConfigureAwait(false);
 
         // Track start time for lifecycle events
         var startTime = DateTimeOffset.UtcNow;
@@ -412,13 +414,13 @@ internal class ModuleExecutor : IModuleExecutor
         try
         {
             // Invoke OnModuleReady lifecycle event (dependencies satisfied, about to execute)
-            await InvokeReadyEventAsync(module, moduleType, moduleAttributes, moduleState.ReadyTime ?? startTime, pipelineContext, scopedServiceProvider, cancellationToken);
+            await InvokeReadyEventAsync(module, moduleType, moduleAttributes, moduleState.ReadyTime ?? startTime, pipelineContext, scopedServiceProvider, cancellationToken).ConfigureAwait(false);
 
             // Invoke OnModuleStart lifecycle event
-            await InvokeStartEventAsync(module, moduleType, moduleAttributes, startTime, pipelineContext, scopedServiceProvider, cancellationToken);
+            await InvokeStartEventAsync(module, moduleType, moduleAttributes, startTime, pipelineContext, scopedServiceProvider, cancellationToken).ConfigureAwait(false);
 
             // Execute via the ModuleExecutionPipeline using reflection to handle the generic type
-            var result = await ExecuteTypedModule(module, executionContext, moduleContext, cancellationToken);
+            var result = await ExecuteTypedModule(module, executionContext, moduleContext, cancellationToken).ConfigureAwait(false);
 
             moduleState.Result = result;
             _resultRegistry.RegisterResult(moduleType, result);
@@ -426,20 +428,20 @@ internal class ModuleExecutor : IModuleExecutor
             if (executionContext.Status == Enums.Status.Skipped)
             {
                 // Invoke OnModuleSkipped lifecycle event
-                await InvokeSkippedEventAsync(module, moduleType, moduleAttributes, startTime, Enums.Status.Skipped, pipelineContext, scopedServiceProvider, executionContext.SkipResult!, cancellationToken);
+                await InvokeSkippedEventAsync(module, moduleType, moduleAttributes, startTime, Enums.Status.Skipped, pipelineContext, scopedServiceProvider, executionContext.SkipResult!, cancellationToken).ConfigureAwait(false);
 
-                await _mediator.Publish(new ModuleSkippedNotification(moduleState, executionContext.SkipResult));
+                await _mediator.Publish(new ModuleSkippedNotification(moduleState, executionContext.SkipResult)).ConfigureAwait(false);
                 return;
             }
 
-            await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(moduleType, executionContext.Duration);
-            await _pipelineSetupExecutor.OnAfterModuleEndAsync(moduleState);
+            await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(moduleType, executionContext.Duration).ConfigureAwait(false);
+            await _pipelineSetupExecutor.OnAfterModuleEndAsync(moduleState).ConfigureAwait(false);
 
             // Invoke OnModuleEnd lifecycle event
-            await InvokeEndEventAsync(module, moduleType, moduleAttributes, startTime, executionContext.Status, pipelineContext, scopedServiceProvider, result, cancellationToken);
+            await InvokeEndEventAsync(module, moduleType, moduleAttributes, startTime, executionContext.Status, pipelineContext, scopedServiceProvider, result, cancellationToken).ConfigureAwait(false);
 
             var isSuccessful = executionContext.Status == Enums.Status.Successful;
-            await _mediator.Publish(new ModuleCompletedNotification(moduleState, isSuccessful));
+            await _mediator.Publish(new ModuleCompletedNotification(moduleState, isSuccessful)).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -454,7 +456,7 @@ internal class ModuleExecutor : IModuleExecutor
             }
 
             // Invoke OnModuleFailed lifecycle event
-            await InvokeFailedEventAsync(module, moduleType, moduleAttributes, startTime, pipelineContext, scopedServiceProvider, ex, cancellationToken);
+            await InvokeFailedEventAsync(module, moduleType, moduleAttributes, startTime, pipelineContext, scopedServiceProvider, ex, cancellationToken).ConfigureAwait(false);
 
             throw;
         }
@@ -465,7 +467,7 @@ internal class ModuleExecutor : IModuleExecutor
 
             if (!_pipelineOptions.Value.ShowProgressInConsole)
             {
-                await _moduleDisposer.DisposeAsync(moduleState);
+                await _moduleDisposer.DisposeAsync(moduleState).ConfigureAwait(false);
             }
         }
     }
@@ -496,7 +498,7 @@ internal class ModuleExecutor : IModuleExecutor
             ?? throw new InvalidOperationException($"Invocation of '{nameof(IModuleExecutionPipeline.ExecuteAsync)}' returned null.");
 
         var task = (Task)invokeResult;
-        await task;
+        await task.ConfigureAwait(false);
 
         // Get the result from the completed task
         var resultProperty = task.GetType().GetProperty("Result")
@@ -515,7 +517,7 @@ internal class ModuleExecutor : IModuleExecutor
 
         if (parallelLimitAttributeType != null)
         {
-            return await _parallelLimitProvider.GetLock(parallelLimitAttributeType).WaitAsync();
+            return await _parallelLimitProvider.GetLock(parallelLimitAttributeType).WaitAsync().ConfigureAwait(false);
         }
 
         return NoOpDisposable.Instance;
@@ -532,7 +534,7 @@ internal class ModuleExecutor : IModuleExecutor
                 MarkupFormatter.FormatModuleName(moduleState.ModuleType.Name),
                 moduleState.ExecutionType);
 
-            return await executionTypeLock.WaitAsync();
+            return await executionTypeLock.WaitAsync().ConfigureAwait(false);
         }
 
         return NoOpDisposable.Instance;
@@ -550,7 +552,7 @@ internal class ModuleExecutor : IModuleExecutor
             {
                 try
                 {
-                    await dependencyTask;
+                    await dependencyTask.ConfigureAwait(false);
                 }
                 catch (Exception e) when (moduleState.Module.ModuleRunType == ModuleRunType.AlwaysRun)
                 {
@@ -651,7 +653,7 @@ internal class ModuleExecutor : IModuleExecutor
             _metadataRegistry,
             cancellationToken);
 
-        await _attributeEventInvoker.InvokeReadyReceiversAsync(receivers, eventContext);
+        await _attributeEventInvoker.InvokeReadyReceiversAsync(receivers, eventContext).ConfigureAwait(false);
     }
 
     private async Task InvokeStartEventAsync(
@@ -680,7 +682,7 @@ internal class ModuleExecutor : IModuleExecutor
             _metadataRegistry,
             cancellationToken);
 
-        await _attributeEventInvoker.InvokeStartReceiversAsync(receivers, eventContext);
+        await _attributeEventInvoker.InvokeStartReceiversAsync(receivers, eventContext).ConfigureAwait(false);
     }
 
     private async Task InvokeEndEventAsync(
@@ -711,7 +713,7 @@ internal class ModuleExecutor : IModuleExecutor
             _metadataRegistry,
             cancellationToken);
 
-        await _attributeEventInvoker.InvokeEndReceiversAsync(receivers, eventContext, (ModuleResult)result);
+        await _attributeEventInvoker.InvokeEndReceiversAsync(receivers, eventContext, (ModuleResult)result).ConfigureAwait(false);
     }
 
     private async Task InvokeFailedEventAsync(
@@ -741,7 +743,7 @@ internal class ModuleExecutor : IModuleExecutor
             _metadataRegistry,
             cancellationToken);
 
-        await _attributeEventInvoker.InvokeFailureReceiversAsync(receivers, eventContext, exception);
+        await _attributeEventInvoker.InvokeFailureReceiversAsync(receivers, eventContext, exception).ConfigureAwait(false);
     }
 
     private async Task InvokeSkippedEventAsync(
@@ -772,6 +774,6 @@ internal class ModuleExecutor : IModuleExecutor
             _metadataRegistry,
             cancellationToken);
 
-        await _attributeEventInvoker.InvokeSkippedReceiversAsync(receivers, eventContext, skipReason);
+        await _attributeEventInvoker.InvokeSkippedReceiversAsync(receivers, eventContext, skipReason).ConfigureAwait(false);
     }
 }

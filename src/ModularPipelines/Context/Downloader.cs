@@ -20,31 +20,35 @@ internal class Downloader : IDownloader
     public async Task<string?> DownloadStringAsync(DownloadOptions options,
         CancellationToken cancellationToken = default)
     {
-        var response = await DownloadResponseAsync(options, cancellationToken);
+        var response = await DownloadResponseAsync(options, cancellationToken).ConfigureAwait(false);
 
-        return await response.Content.ReadAsStringAsync(cancellationToken);
+        return await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<File> DownloadFileAsync(DownloadFileOptions options, CancellationToken cancellationToken = default)
     {
-        var response = await DownloadResponseAsync(options, cancellationToken);
+        var response = await DownloadResponseAsync(options, cancellationToken).ConfigureAwait(false);
 
-        await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
-
-        var filePathToSave = GetSaveLocation(options);
-
-        if (!options.Overwrite && System.IO.File.Exists(filePathToSave))
+        var stream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+        await using (stream.ConfigureAwait(false))
         {
-            throw new IOException($"{filePathToSave} already exists and overwrite is false");
+            var filePathToSave = GetSaveLocation(options);
+
+            if (!options.Overwrite && System.IO.File.Exists(filePathToSave))
+            {
+                throw new IOException($"{filePathToSave} already exists and overwrite is false");
+            }
+
+            var newFile = System.IO.File.Create(filePathToSave);
+            await using (newFile.ConfigureAwait(false))
+            {
+                await stream.CopyToAsync(newFile, cancellationToken).ConfigureAwait(false);
+            }
+
+            _moduleLoggerProvider.GetLogger().LogInformation("File {Uri} downloaded to {SaveLocation}", options.DownloadUri, filePathToSave);
+
+            return filePathToSave!;
         }
-
-        await using var newFile = System.IO.File.Create(filePathToSave);
-
-        await stream.CopyToAsync(newFile, cancellationToken);
-
-        _moduleLoggerProvider.GetLogger().LogInformation("File {Uri} downloaded to {SaveLocation}", options.DownloadUri, filePathToSave);
-
-        return filePathToSave!;
     }
 
     public async Task<HttpResponseMessage> DownloadResponseAsync(DownloadOptions options, CancellationToken cancellationToken = default)
@@ -56,7 +60,7 @@ internal class Downloader : IDownloader
         var response = await _http.SendAsync(new HttpOptions(request)
         {
             LoggingType = options.LoggingType,
-        }, cancellationToken);
+        }, cancellationToken).ConfigureAwait(false);
 
         return response.EnsureSuccessStatusCode();
     }

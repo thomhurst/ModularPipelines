@@ -27,7 +27,7 @@ internal class RequirementChecker : IRequirementChecker
             await pipelineRequirements.ToAsyncProcessorBuilder()
                 .ForEachAsync(async requirement =>
                 {
-                    var requirementDecision = await requirement.MustAsync(_moduleContextProvider.GetModuleContext());
+                    var requirementDecision = await requirement.MustAsync(_moduleContextProvider.GetModuleContext()).ConfigureAwait(false);
 
                     if (!requirementDecision.Success)
                     {

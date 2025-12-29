@@ -34,12 +34,12 @@ internal class Http : IHttp, IDisposable
     {
         if (httpOptions.HttpClient != null)
         {
-            return await SendAndWrapLogging(httpOptions, cancellationToken);
+            return await SendAndWrapLogging(httpOptions, cancellationToken).ConfigureAwait(false);
         }
 
         var httpClient = GetLoggingHttpClient(httpOptions.LoggingType);
 
-        var response = await httpClient.SendAsync(httpOptions.HttpRequestMessage, cancellationToken);
+        var response = await httpClient.SendAsync(httpOptions.HttpRequestMessage, cancellationToken).ConfigureAwait(false);
 
         if (!httpOptions.ThrowOnNonSuccessStatusCode)
         {
@@ -119,19 +119,19 @@ internal class Http : IHttp, IDisposable
 
         if (httpOptions.LoggingType.HasFlag(HttpLoggingType.Request))
         {
-            await _httpLogger.PrintRequest(httpOptions.HttpRequestMessage, logger, loggingOptions);
+            await _httpLogger.PrintRequest(httpOptions.HttpRequestMessage, logger, loggingOptions).ConfigureAwait(false);
         }
 
         var stopWatch = Stopwatch.StartNew();
 
-        var response = await httpOptions.HttpClient!.SendAsync(httpOptions.HttpRequestMessage, cancellationToken);
+        var response = await httpOptions.HttpClient!.SendAsync(httpOptions.HttpRequestMessage, cancellationToken).ConfigureAwait(false);
 
         LogStatusCode(response.StatusCode, httpOptions, loggingOptions);
         LogDuration(stopWatch.Elapsed, httpOptions, loggingOptions);
 
         if (httpOptions.LoggingType.HasFlag(HttpLoggingType.Response))
         {
-            await _httpLogger.PrintResponse(response, logger, loggingOptions);
+            await _httpLogger.PrintResponse(response, logger, loggingOptions).ConfigureAwait(false);
         }
 
         if (!httpOptions.ThrowOnNonSuccessStatusCode)

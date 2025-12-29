@@ -31,7 +31,7 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
         _printProgressCancellationTokenSource =
             CancellationTokenSource.CreateLinkedTokenSource(_engineCancellationToken.Token);
 
-        var organizedModules = await _moduleRetriever.GetOrganizedModules();
+        var organizedModules = await _moduleRetriever.GetOrganizedModules().ConfigureAwait(false);
 
         _printProgressTask =
             _consolePrinter.PrintProgress(organizedModules, _printProgressCancellationTokenSource.Token);
@@ -43,7 +43,7 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
     {
         _printProgressCancellationTokenSource?.CancelAfter(5000);
 
-        await SafelyAwaitProgressPrinter();
+        await SafelyAwaitProgressPrinter().ConfigureAwait(false);
     }
 
     private async Task SafelyAwaitProgressPrinter()
@@ -52,7 +52,7 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
         {
             if (_printProgressTask != null)
             {
-                await _printProgressTask;
+                await _printProgressTask.ConfigureAwait(false);
             }
         }
         catch (Exception e)

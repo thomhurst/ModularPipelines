@@ -11,14 +11,14 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
     public async Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType)
     {
         var fileName = $"{moduleType.FullName}.txt";
-        return await GetEstimatedTimeAsync(fileName);
+        return await GetEstimatedTimeAsync(fileName).ConfigureAwait(false);
     }
 
     public async Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration)
     {
         var fileName = $"{moduleType.FullName}.txt";
 
-        await SaveModuleTimeAsync(duration, fileName);
+        await SaveModuleTimeAsync(duration, fileName).ConfigureAwait(false);
     }
 
     public async Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType)
@@ -43,7 +43,7 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
                 try
                 {
                     var name = Path.GetFileNameWithoutExtension(file.FullName).Split("-Sub-")[1];
-                    var time = await GetEstimatedTimeAsync(file.FullName);
+                    var time = await GetEstimatedTimeAsync(file.FullName).ConfigureAwait(false);
                     return new SubModuleEstimation(name, time);
                 }
                 catch
@@ -61,7 +61,7 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
     {
         var fileName = $"Mod-{moduleType.FullName}-Sub-{subModuleEstimation.SubModuleName}.txt";
 
-        await SaveModuleTimeAsync(subModuleEstimation.EstimatedDuration, fileName);
+        await SaveModuleTimeAsync(subModuleEstimation.EstimatedDuration, fileName).ConfigureAwait(false);
     }
 
     private async Task<TimeSpan> GetEstimatedTimeAsync(string fileName)
@@ -70,7 +70,7 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
 
         if (File.Exists(path))
         {
-            var contents = await File.ReadAllTextAsync(path);
+            var contents = await File.ReadAllTextAsync(path).ConfigureAwait(false);
             return TimeSpan.Parse(contents);
         }
 
@@ -84,6 +84,6 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
 
         var path = Path.Combine(_directory, fileName);
 
-        await File.WriteAllTextAsync(path, duration.ToString());
+        await File.WriteAllTextAsync(path, duration.ToString()).ConfigureAwait(false);
     }
 }

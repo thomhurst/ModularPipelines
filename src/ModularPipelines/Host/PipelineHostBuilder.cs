@@ -198,9 +198,11 @@ public class PipelineHostBuilder
     /// <returns>A summary of the pipeline results.</returns>
     public async Task<PipelineSummary> ExecutePipelineAsync()
     {
-        await using var host = await BuildHostAsync();
-
-        return await host.ExecutePipelineAsync();
+        var host = await BuildHostAsync().ConfigureAwait(false);
+        await using (host.ConfigureAwait(false))
+        {
+            return await host.ExecutePipelineAsync().ConfigureAwait(false);
+        }
     }
 
     /// <summary>
@@ -253,7 +255,7 @@ public class PipelineHostBuilder
             }
         });
 
-        return await PipelineHost.Create(_internalHost);
+        return await PipelineHost.Create(_internalHost).ConfigureAwait(false);
     }
 
     private void LoadModularPipelineAssembliesIfNotLoadedYet()
