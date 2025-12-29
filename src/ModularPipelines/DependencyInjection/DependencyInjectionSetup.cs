@@ -38,24 +38,11 @@ internal static class DependencyInjectionSetup
 
                 builder.AddSpectreConsole(config =>
                 {
-                    config.ConfigureProfile(LogLevel.Information, profile =>
+                    config.ConfigureProfiles(profile =>
                     {
-                        profile.ConfigureOptions<Vertical.SpectreLogger.Rendering.ExceptionRenderer.Options>(options =>
-                        {
-                            options.MaxStackFrames = int.MaxValue;
-                        });
-                    });
+                        // Enable Spectre.Console markup rendering in log messages
+                        profile.PreserveMarkupInFormatStrings = true;
 
-                    config.ConfigureProfile(LogLevel.Warning, profile =>
-                    {
-                        profile.ConfigureOptions<Vertical.SpectreLogger.Rendering.ExceptionRenderer.Options>(options =>
-                        {
-                            options.MaxStackFrames = int.MaxValue;
-                        });
-                    });
-
-                    config.ConfigureProfile(LogLevel.Error, profile =>
-                    {
                         profile.ConfigureOptions<Vertical.SpectreLogger.Rendering.ExceptionRenderer.Options>(options =>
                         {
                             options.MaxStackFrames = int.MaxValue;
