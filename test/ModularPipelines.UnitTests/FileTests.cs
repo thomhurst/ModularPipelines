@@ -105,7 +105,7 @@ public class FileTests : TestBase
         file.Create();
 
         var plainText = await file.ReadAsync();
-        var lines = await file.ReadLinesAsync();
+        var lines = await ToListAsync(file.ReadLinesAsync());
         var bytes = await file.ReadBytesAsync();
         var stream = await file.GetStream().ToMemoryStreamAsync();
 
@@ -126,7 +126,7 @@ public class FileTests : TestBase
         await file.WriteAsync($"Hello{Environment.NewLine}world");
 
         var plainText = await file.ReadAsync();
-        var lines = await file.ReadLinesAsync();
+        var lines = await ToListAsync(file.ReadLinesAsync());
         var bytes = await file.ReadBytesAsync();
         var stream = await file.GetStream().ToMemoryStreamAsync();
 
@@ -152,7 +152,7 @@ public class FileTests : TestBase
         ]);
 
         var plainText = await file.ReadAsync();
-        var lines = await file.ReadLinesAsync();
+        var lines = await ToListAsync(file.ReadLinesAsync());
 
         using (Assert.Multiple())
         {
@@ -352,5 +352,15 @@ public class FileTests : TestBase
         await System.IO.File.WriteAllTextAsync(path, "Foo bar!");
 
         return new File(path);
+    }
+
+    private static async Task<List<T>> ToListAsync<T>(IAsyncEnumerable<T> source, CancellationToken cancellationToken = default)
+    {
+        var list = new List<T>();
+        await foreach (var item in source.WithCancellation(cancellationToken))
+        {
+            list.Add(item);
+        }
+        return list;
     }
 }

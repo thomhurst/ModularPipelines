@@ -40,11 +40,12 @@ public class File : IEquatable<File>
         return System.IO.File.ReadAllTextAsync(Path, cancellationToken);
     }
 
-    public Task<string[]> ReadLinesAsync(CancellationToken cancellationToken = default)
+    /// <inheritdoc cref="System.IO.File.ReadLinesAsync(string,System.Threading.CancellationToken)"/>
+    public IAsyncEnumerable<string> ReadLinesAsync(CancellationToken cancellationToken = default)
     {
         ModuleLogger.Current.LogInformation("Reading File: {Path}", this);
 
-        return System.IO.File.ReadAllLinesAsync(Path, cancellationToken);
+        return System.IO.File.ReadLinesAsync(Path, cancellationToken);
     }
 
     public Task<byte[]> ReadBytesAsync(CancellationToken cancellationToken = default)
