@@ -33,9 +33,18 @@ internal class ParallelLimitProvider : IParallelLimitProvider
     public AsyncSemaphore GetLock(Type parallelLimitType)
     {
         var parallelLimit = Activator.CreateInstance(parallelLimitType) as IParallelLimit;
-        if (parallelLimit?.Limit is null or <= 0)
+        if (parallelLimit is null)
         {
-            throw new Exception("Parallel Limit must be positive");
+            throw new ArgumentException(
+                $"Type '{parallelLimitType.FullName}' must implement {nameof(IParallelLimit)} and have a parameterless constructor.",
+                nameof(parallelLimitType));
+        }
+
+        if (parallelLimit.Limit <= 0)
+        {
+            throw new ArgumentException(
+                $"Parallel limit for type '{parallelLimitType.FullName}' must be a positive integer, but was {parallelLimit.Limit}.",
+                nameof(parallelLimitType));
         }
 
         return Locks.GetOrAdd(parallelLimit.GetType(), _ => new AsyncSemaphore(parallelLimit.Limit));

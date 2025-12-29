@@ -19,5 +19,6 @@ internal class Git : IGit
 
     public IGitVersioning Versioning { get; }
 
-    public Folder RootDirectory => Information.Root ?? throw new Exception("Git directory not detected");
+    public Folder RootDirectory => Information.Root ?? throw new InvalidOperationException(
+        "Git repository root directory not detected. Ensure this code is running from within a Git repository.");
 }

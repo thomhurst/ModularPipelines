@@ -10,21 +10,27 @@ internal class TypeDiscriminatorConverter<T> : JsonConverter<T>
     {
         if (reader.TokenType != JsonTokenType.StartObject)
         {
-            throw new JsonException();
+            throw new JsonException(
+                $"Expected JSON object start token but found '{reader.TokenType}' when deserializing type '{typeToConvert.FullName}'.");
         }
 
         using var jsonDocument = JsonDocument.ParseValue(ref reader);
 
         if (!jsonDocument.RootElement.TryGetProperty(nameof(ITypeDiscriminator.TypeDiscriminator), out var typeProperty))
         {
-            throw new JsonException();
+            throw new JsonException(
+                $"Missing required property '{nameof(ITypeDiscriminator.TypeDiscriminator)}' when deserializing type '{typeToConvert.FullName}'. " +
+                $"Ensure the JSON contains a type discriminator property.");
         }
 
-        var type = Type.GetType(typeProperty.GetString()!);
+        var typeDiscriminatorValue = typeProperty.GetString();
+        var type = Type.GetType(typeDiscriminatorValue!);
 
         if (type == null)
         {
-            throw new JsonException();
+            throw new JsonException(
+                $"Could not resolve type from discriminator value '{typeDiscriminatorValue}' when deserializing type '{typeToConvert.FullName}'. " +
+                $"Ensure the type exists and is properly qualified.");
         }
 
         var result = (T) jsonDocument.Deserialize(type, GetOptions(options))!;
