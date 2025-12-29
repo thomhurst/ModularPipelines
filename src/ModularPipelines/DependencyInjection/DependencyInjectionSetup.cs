@@ -72,16 +72,9 @@ internal static class DependencyInjectionSetup
             .AddScoped<IMacInstaller, MacInstaller>()
             .AddScoped<ILinuxInstaller, LinuxInstaller>()
             .AddScoped<IAptGet, AptGet>()
-            .AddScoped<IHasher, Hasher>()
-            .AddScoped<IBase64, Base64>()
-            .AddScoped<IHex, Hex>()
             .AddScoped<IZip, Zip>()
-            .AddScoped<IJson, Json>()
-            .AddScoped<IXml, Xml>()
-            .AddScoped<IYaml, Yaml>()
             .AddScoped<IPowershell, Powershell>()
             .AddScoped<IBash, Bash>()
-            .AddScoped<IChecksum, Checksum>()
             .AddScoped<IEnvironmentContext, EnvironmentContext>()
             .AddScoped<ModularPipelines.Http.IHttpLogger, ModularPipelines.Http.HttpLogger>()
             .AddScoped<ModularPipelines.Http.IHttpRequestFormatter, ModularPipelines.Http.HttpRequestFormatter>()
@@ -155,6 +148,15 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IRegistrationEventExecutor, RegistrationEventExecutor>()
 
             // Metrics collection
-            .AddSingleton<IMetricsCollector, MetricsCollector>();
+            .AddSingleton<IMetricsCollector, MetricsCollector>()
+
+            // Stateless utilities - safe as singletons
+            .AddSingleton<IBase64, Base64>()
+            .AddSingleton<IHex, Hex>()
+            .AddSingleton<IChecksum, Checksum>()
+            .AddSingleton<IJson, Json>()
+            .AddSingleton<IXml, Xml>()
+            .AddSingleton<IYaml, Yaml>()
+            .AddSingleton<IHasher, Hasher>();
     }
 }

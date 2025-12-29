@@ -399,4 +399,4 @@ FodyWeavers.xsd
 
 requirements
 .claude/settings.local.json
-nul
+nul.worktrees/
