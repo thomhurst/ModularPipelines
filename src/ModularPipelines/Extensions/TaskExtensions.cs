@@ -37,14 +37,14 @@ public static class TaskExtensions
 
         while (tasks.Any())
         {
-            var finished = await Task.WhenAny(tasks);
+            var finished = await Task.WhenAny(tasks).ConfigureAwait(false);
 
             // await to throw Exception if this Task errored
-            await finished;
+            await finished.ConfigureAwait(false);
 
             tasks.Remove(finished);
         }
 
-        return await Task.WhenAll(originalTasks);
+        return await Task.WhenAll(originalTasks).ConfigureAwait(false);
     }
 }

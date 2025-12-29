@@ -45,7 +45,7 @@ internal class HttpLogger : IHttpLogger
             return;
         }
 
-        var formattedRequest = await _requestFormatter.FormatAsync(request, options);
+        var formattedRequest = await _requestFormatter.FormatAsync(request, options).ConfigureAwait(false);
         logger.LogInformation("HTTP Request:\n{Request}", formattedRequest);
     }
 
@@ -74,7 +74,7 @@ internal class HttpLogger : IHttpLogger
             return;
         }
 
-        var formattedResponse = await _responseFormatter.FormatAsync(response, options);
+        var formattedResponse = await _responseFormatter.FormatAsync(response, options).ConfigureAwait(false);
         logger.LogInformation("HTTP Response:\n{Response}", formattedResponse);
     }
 

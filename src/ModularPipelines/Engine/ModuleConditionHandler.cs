@@ -34,7 +34,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             return (true, SkipDecision.Skip("The module was not in a runnable category"));
         }
 
-        var conditionResult = await IsRunnableCondition(moduleType);
+        var conditionResult = await IsRunnableCondition(moduleType).ConfigureAwait(false);
         if (!conditionResult.IsRunnable)
         {
             return (true, conditionResult.SkipDecision);
@@ -80,7 +80,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         var pipelineContext = _pipelineContextProvider.GetModuleContext();
 
         var mandatoryConditionResults = await mandatoryRunConditionAttributes.ToAsyncProcessorBuilder()
-            .SelectAsync(async runConditionAttribute => new RunnableConditionMet(await runConditionAttribute.Condition(pipelineContext), runConditionAttribute))
+            .SelectAsync(async runConditionAttribute => new RunnableConditionMet(await runConditionAttribute.Condition(pipelineContext).ConfigureAwait(false), runConditionAttribute))
             .ProcessInParallel();
 
         var mandatoryCondition = mandatoryConditionResults.FirstOrDefault(result => !result.ConditionMet);
@@ -96,7 +96,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         }
 
         var conditionResults = await runConditionAttributes.ToAsyncProcessorBuilder()
-            .SelectAsync(async runConditionAttribute => new RunnableConditionMet(await runConditionAttribute.Condition(pipelineContext), runConditionAttribute))
+            .SelectAsync(async runConditionAttribute => new RunnableConditionMet(await runConditionAttribute.Condition(pipelineContext).ConfigureAwait(false), runConditionAttribute))
             .ProcessInParallel();
 
         var runnableCondition = conditionResults.FirstOrDefault(result => result.ConditionMet);

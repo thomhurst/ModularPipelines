@@ -81,14 +81,14 @@ internal class ModuleContext : IModuleContext
     {
         var tracker = new SubModuleTracker(name, _currentModule.GetType());
         _executionContext.SubModules.Add(tracker);
-        return await tracker.ExecuteAsync(action);
+        return await tracker.ExecuteAsync(action).ConfigureAwait(false);
     }
 
     public async Task SubModule(string name, Func<Task> action)
     {
         var tracker = new SubModuleTracker(name, _currentModule.GetType());
         _executionContext.SubModules.Add(tracker);
-        await tracker.ExecuteAsync(action);
+        await tracker.ExecuteAsync(action).ConfigureAwait(false);
     }
 
     #endregion

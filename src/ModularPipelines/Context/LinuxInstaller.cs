@@ -18,12 +18,12 @@ internal class LinuxInstaller : ILinuxInstaller
 
     public virtual async Task<CommandResult> InstallFromDpkg(DpkgInstallOptions options)
     {
-        var linuxInstallationResult = await _command.ExecuteCommandLineTool(options);
+        var linuxInstallationResult = await _command.ExecuteCommandLineTool(options).ConfigureAwait(false);
 
         await _aptGet.Install(new AptGetInstallOptions(null!)
         {
             FixBroken = true,
-        });
+        }).ConfigureAwait(false);
 
         return linuxInstallationResult;
     }

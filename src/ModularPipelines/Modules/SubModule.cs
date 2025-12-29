@@ -21,7 +21,7 @@ internal class SubModule<T> : SubModuleBase
         {
             Status = Status.Processing;
 
-            var result = await action();
+            var result = await action().ConfigureAwait(false);
 
             Duration = stopwatch.Elapsed;
             EndTime = DateTimeOffset.UtcNow;
@@ -36,7 +36,7 @@ internal class SubModule<T> : SubModuleBase
             SubModuleResultTaskCompletionSource.SetException(new SubModuleFailedException(this, ex));
         }
 
-        return await SubModuleResultTaskCompletionSource.Task;
+        return await SubModuleResultTaskCompletionSource.Task.ConfigureAwait(false);
     }
 
     public override Task CallbackTask => SubModuleResultTaskCompletionSource.Task;

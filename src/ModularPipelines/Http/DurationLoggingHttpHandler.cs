@@ -20,7 +20,7 @@ internal class DurationLoggingHttpHandler : DelegatingHandler
 
         try
         {
-            return await base.SendAsync(request, cancellationToken);
+            return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
         }
         finally
         {

@@ -24,7 +24,7 @@ internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvide
     {
         try
         {
-            return await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(moduleType);
+            return await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(moduleType).ConfigureAwait(false);
         }
         catch (Exception e)
         {
@@ -37,7 +37,7 @@ internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvide
     {
         try
         {
-            await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(moduleType, duration);
+            await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(moduleType, duration).ConfigureAwait(false);
         }
         catch (Exception e)
         {
@@ -50,7 +50,7 @@ internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvide
         try
         {
             // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
-            return await _moduleEstimatedTimeProvider.GetSubModuleEstimatedTimesAsync(moduleType) ?? new List<SubModuleEstimation>();
+            return await _moduleEstimatedTimeProvider.GetSubModuleEstimatedTimesAsync(moduleType).ConfigureAwait(false) ?? new List<SubModuleEstimation>();
         }
         catch (Exception e)
         {
@@ -63,7 +63,7 @@ internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvide
     {
         try
         {
-            await _moduleEstimatedTimeProvider.SaveSubModuleTimeAsync(moduleType, subModuleEstimation);
+            await _moduleEstimatedTimeProvider.SaveSubModuleTimeAsync(moduleType, subModuleEstimation).ConfigureAwait(false);
         }
         catch (Exception e)
         {

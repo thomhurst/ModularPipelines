@@ -18,7 +18,7 @@ internal class DependencyChainProvider : IDependencyChainProvider, IInitializer
 
     public async Task InitializeAsync()
     {
-        var modules = await _moduleRetriever.GetOrganizedModules();
+        var modules = await _moduleRetriever.GetOrganizedModules().ConfigureAwait(false);
         ModuleDependencyModels = Detect(modules.AllModules.Select(x => new ModuleDependencyModel(x)).ToList());
     }
 

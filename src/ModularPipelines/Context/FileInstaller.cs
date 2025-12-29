@@ -25,23 +25,23 @@ public class FileInstaller : IFileInstaller
             return await _command.ExecuteCommandLineTool(new CommandLineToolOptions(options.Path)
             {
                 Arguments = options.Arguments ?? Array.Empty<string>(),
-            }, cancellationToken);
+            }, cancellationToken).ConfigureAwait(false);
         }
 
-        await _bash.Command(new BashCommandOptions($"chmod u+x {options.Path}"), cancellationToken);
+        await _bash.Command(new BashCommandOptions($"chmod u+x {options.Path}"), cancellationToken).ConfigureAwait(false);
 
-        return await _bash.FromFile(new BashFileOptions(options.Path), cancellationToken);
+        return await _bash.FromFile(new BashFileOptions(options.Path), cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
     public virtual async Task<CommandResult> InstallFromWebAsync(WebInstallerOptions options,
         CancellationToken cancellationToken = default)
     {
-        var file = await _downloader.DownloadFileAsync(new DownloadFileOptions(options.DownloadUri), cancellationToken);
+        var file = await _downloader.DownloadFileAsync(new DownloadFileOptions(options.DownloadUri), cancellationToken).ConfigureAwait(false);
 
         return await InstallFromFileAsync(new InstallerOptions(file.Path)
         {
             Arguments = options.Arguments,
-        }, cancellationToken);
+        }, cancellationToken).ConfigureAwait(false);
     }
 }

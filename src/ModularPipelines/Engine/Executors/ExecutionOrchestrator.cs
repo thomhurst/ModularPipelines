@@ -71,7 +71,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
     {
         try
         {
-            return await ExecuteInternal(cancellationToken);
+            return await ExecuteInternal(cancellationToken).ConfigureAwait(false);
         }
         catch (Exception exception) when (exception is PipelineCancelledException or TaskCanceledException or OperationCanceledException)
         {
@@ -134,10 +134,10 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
         ConfigureThreadPool();
 
-        var organizedModules = await _pipelineInitializer.Initialize();
+        var organizedModules = await _pipelineInitializer.Initialize().ConfigureAwait(false);
 
         // Register skipped results for ignored modules (via Category/RunCondition)
-        await RegisterIgnoredModuleResultsAsync(organizedModules.IgnoredModules);
+        await RegisterIgnoredModuleResultsAsync(organizedModules.IgnoredModules).ConfigureAwait(false);
 
         var runnableModules = organizedModules.RunnableModules.Select(x => (IModule) x.Module).ToList();
 
@@ -146,13 +146,13 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
         try
         {
-            var result = await ExecutePipeline(runnableModules, organizedModules);
+            var result = await ExecutePipeline(runnableModules, organizedModules).ConfigureAwait(false);
 
-            return await OnEnd(organizedModules, stopWatch, start, result);
+            return await OnEnd(organizedModules, stopWatch, start, result).ConfigureAwait(false);
         }
         catch
         {
-            await OnEnd(organizedModules, stopWatch, start, null);
+            await OnEnd(organizedModules, stopWatch, start, null).ConfigureAwait(false);
             throw;
         }
     }
@@ -165,7 +165,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
         _consolePrinter.PrintResults(pipelineSummary);
 
-        await Console.Out.FlushAsync();
+        await Console.Out.FlushAsync().ConfigureAwait(false);
 
         // Flush any buffered exceptions after the results table has been printed
         _exceptionBuffer.FlushExceptions();
@@ -190,11 +190,16 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
     private async Task<PipelineSummary> ExecutePipeline(List<IModule> runnableModules, OrganizedModules organizedModules)
     {
         // Dispose and flush on scope leave - So including success or if an exception is thrown
-        await using var moduleDisposeExecutor = _moduleDisposeExecutor;
-        using var printModuleOutputExecutor = _printModuleOutputExecutor;
-        await using var printProgressExecutor = await _printProgressExecutor.InitializeAsync();
-
-        return await _pipelineExecutor.ExecuteAsync(runnableModules, organizedModules);
+        var moduleDisposeExecutor = _moduleDisposeExecutor;
+        await using (moduleDisposeExecutor.ConfigureAwait(false))
+        {
+            using var printModuleOutputExecutor = _printModuleOutputExecutor;
+            var printProgressExecutor = await _printProgressExecutor.InitializeAsync().ConfigureAwait(false);
+            await using (printProgressExecutor.ConfigureAwait(false))
+            {
+                return await _pipelineExecutor.ExecuteAsync(runnableModules, organizedModules).ConfigureAwait(false);
+            }
+        }
     }
 
     /// <summary>
@@ -215,7 +220,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
             // For ignored modules, always check for historical data if a repository is configured
             if (_resultRepository.GetType() != typeof(NoOpModuleResultRepository))
             {
-                var historicalResult = await TryGetHistoricalResultAsync(module, moduleType, resultType, pipelineContext);
+                var historicalResult = await TryGetHistoricalResultAsync(module, moduleType, resultType, pipelineContext).ConfigureAwait(false);
                 if (historicalResult != null)
                 {
                     // Update the status to UsedHistory since we're using a cached result

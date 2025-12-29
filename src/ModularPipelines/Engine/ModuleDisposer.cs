@@ -15,19 +15,19 @@ internal class ModuleDisposer : IModuleDisposer
 
     public async Task DisposeAsync(ModuleState moduleState)
     {
-        await DisposeModuleCore(moduleState.Module, moduleState.ModuleType);
+        await DisposeModuleCore(moduleState.Module, moduleState.ModuleType).ConfigureAwait(false);
     }
 
     public async Task DisposeAsync(IModule module)
     {
-        await DisposeModuleCore(module, module.GetType());
+        await DisposeModuleCore(module, module.GetType()).ConfigureAwait(false);
     }
 
     private async Task DisposeModuleCore(IModule module, Type moduleType)
     {
-        await Disposer.DisposeObjectAsync(module);
+        await Disposer.DisposeObjectAsync(module).ConfigureAwait(false);
 
         var logger = _loggerContainer.GetLogger(moduleType);
-        await Disposer.DisposeObjectAsync(logger);
+        await Disposer.DisposeObjectAsync(logger).ConfigureAwait(false);
     }
 }

@@ -40,7 +40,7 @@ public static class EnumerableExtensions
     {
         foreach (var item in enumerable)
         {
-            if (await condition(item))
+            if (await condition(item).ConfigureAwait(false))
             {
                 yield return item;
             }

@@ -212,7 +212,7 @@ internal class ModuleScheduler : IModuleScheduler
             try
             {
                 _logger.LogDebug("Module scheduler started");
-                await RunSchedulerLoopAsync(cancellationToken);
+                await RunSchedulerLoopAsync(cancellationToken).ConfigureAwait(false);
                 CompleteScheduler();
                 _logger.LogDebug("Module scheduler completed");
             }
@@ -229,7 +229,7 @@ internal class ModuleScheduler : IModuleScheduler
     {
         while (ShouldContinueScheduling(cancellationToken))
         {
-            var queuedCount = await FindAndQueueReadyModulesAsync(cancellationToken);
+            var queuedCount = await FindAndQueueReadyModulesAsync(cancellationToken).ConfigureAwait(false);
 
             if (ShouldExitScheduler(queuedCount))
             {
@@ -242,7 +242,7 @@ internal class ModuleScheduler : IModuleScheduler
                 LogSchedulerWaitingState();
             }
 
-            await WaitForNextSchedulingOpportunity(cancellationToken);
+            await WaitForNextSchedulingOpportunity(cancellationToken).ConfigureAwait(false);
         }
     }
 
@@ -321,7 +321,7 @@ internal class ModuleScheduler : IModuleScheduler
     {
         try
         {
-            await _schedulerNotification.WaitAsync(_options.NotificationTimeout, cancellationToken);
+            await _schedulerNotification.WaitAsync(_options.NotificationTimeout, cancellationToken).ConfigureAwait(false);
         }
         catch (OperationCanceledException)
         {
@@ -587,7 +587,7 @@ internal class ModuleScheduler : IModuleScheduler
 
         if (modulesToQueue.Count > 0)
         {
-            await QueueModulesForExecutionAsync(modulesToQueue, cancellationToken);
+            await QueueModulesForExecutionAsync(modulesToQueue, cancellationToken).ConfigureAwait(false);
             LogQueuedModules(modulesToQueue);
         }
 
@@ -637,7 +637,7 @@ internal class ModuleScheduler : IModuleScheduler
         // Queue to channel outside lock (async operation)
         foreach (var moduleState in modulesToQueue)
         {
-            await _readyChannel.Writer.WriteAsync(moduleState, cancellationToken);
+            await _readyChannel.Writer.WriteAsync(moduleState, cancellationToken).ConfigureAwait(false);
 
             _logger.LogDebug(
                 "Queued module {ModuleName} for execution",

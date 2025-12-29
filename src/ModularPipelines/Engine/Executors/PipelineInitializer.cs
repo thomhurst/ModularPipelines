@@ -39,7 +39,7 @@ internal class PipelineInitializer : IPipelineInitializer
 
     public async Task<OrganizedModules> Initialize()
     {
-        return _organizedModules ??= await InitializeInternal();
+        return _organizedModules ??= await InitializeInternal().ConfigureAwait(false);
     }
 
     private async Task<OrganizedModules> InitializeInternal()
@@ -52,15 +52,15 @@ internal class PipelineInitializer : IPipelineInitializer
             MarkupFormatter.FormatHeader("Build System"),
             MarkupFormatter.FormatModuleName(_buildSystemDetector.GetCurrentBuildSystem().ToString()));
 
-        await _pipelineFileWriter.WritePipelineFiles();
+        await _pipelineFileWriter.WritePipelineFiles().ConfigureAwait(false);
 
         _dependencyDetector.Check();
 
-        await _pipelineSetupExecutor.OnStartAsync();
+        await _pipelineSetupExecutor.OnStartAsync().ConfigureAwait(false);
 
-        await _requirementsChecker.CheckRequirementsAsync();
+        await _requirementsChecker.CheckRequirementsAsync().ConfigureAwait(false);
 
-        return await _moduleRetriever.GetOrganizedModules();
+        return await _moduleRetriever.GetOrganizedModules().ConfigureAwait(false);
     }
 
     private void PrintEnvironmentVariables()

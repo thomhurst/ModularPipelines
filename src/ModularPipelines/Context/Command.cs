@@ -93,7 +93,7 @@ public sealed class Command : ICommand
             return new CommandResult(command);
         }
 
-        return await Of(command, options, cancellationToken);
+        return await Of(command, options, cancellationToken).ConfigureAwait(false);
     }
 
     // Note: Placeholder sanitization is no longer needed since ReplacePlaceholders
@@ -291,7 +291,7 @@ public sealed class Command : ICommand
                 .WithStandardOutputPipe(PipeTarget.ToStringBuilder(standardOutputStringBuilder))
                 .WithStandardErrorPipe(PipeTarget.ToStringBuilder(standardErrorStringBuilder))
                 .WithValidation(CommandResultValidation.None)
-                .ExecuteAsync(forcefulCancellationToken.Token, cancellationToken);
+                .ExecuteAsync(forcefulCancellationToken.Token, cancellationToken).ConfigureAwait(false);
 
             standardOutput = options.OutputLoggingManipulator == null ? standardOutputStringBuilder.ToString() : options.OutputLoggingManipulator(standardOutputStringBuilder.ToString());
             standardError = options.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : options.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
