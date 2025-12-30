@@ -168,6 +168,6 @@ public class ParallelLimiterTests
 
     private record MyParallelLimit : IParallelLimit
     {
-        public int Limit => 3;
+        public static int Limit => 3;
     }
 }

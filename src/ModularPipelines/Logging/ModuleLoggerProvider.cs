@@ -42,11 +42,20 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
             return _moduleLogger;
         }
 
+        // Fast path: check if logger is already set in AsyncLocal
         if (ModuleLogger.Values.Value != null)
         {
             return _moduleLogger = ModuleLogger.Values.Value;
         }
 
+        // Fast path: check if module type is set in AsyncLocal (avoids stack trace inspection)
+        var moduleType = ModuleLogger.CurrentModuleType.Value;
+        if (moduleType != null)
+        {
+            return MakeLogger(moduleType);
+        }
+
+        // Fallback: use stack trace inspection (for edge cases where AsyncLocal context is lost)
         var detectedType = _stackTraceDetector.DetectModuleType();
 
         if (detectedType == null)

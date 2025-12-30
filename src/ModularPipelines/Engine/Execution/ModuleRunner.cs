@@ -147,18 +147,20 @@ internal class ModuleRunner : IModuleRunner
         var logger = GetOrCreateLogger(moduleType, scopedServiceProvider);
         var moduleContext = new ModuleContext(pipelineContext, module, executionContext, logger);
 
-        // Set up logging - use try/finally to ensure cleanup of AsyncLocal context
-        // Assignment MUST be inside try block to guarantee cleanup even if an exception
+        // Set up logging and module type context - use try/finally to ensure cleanup of AsyncLocal context
+        // Assignments MUST be inside try block to guarantee cleanup even if an exception
         // occurs immediately after assignment
         try
         {
             ModuleLogger.Values.Value = logger;
+            ModuleLogger.CurrentModuleType.Value = moduleType;
             await ExecuteModuleLifecycle(moduleState, scopedServiceProvider, pipelineContext, executionContext, moduleContext, cancellationToken).ConfigureAwait(false);
         }
         finally
         {
             // Clear AsyncLocal to prevent potential leaks in edge cases (thread pool reuse, long-running contexts)
             ModuleLogger.Values.Value = null;
+            ModuleLogger.CurrentModuleType.Value = null;
         }
     }
 
@@ -259,9 +261,8 @@ internal class ModuleRunner : IModuleRunner
 
     private ModuleExecutionContext CreateExecutionContext(IModule module, Type moduleType)
     {
-        var resultType = module.ResultType;
-        var contextType = typeof(ModuleExecutionContext<>).MakeGenericType(resultType);
-        return (ModuleExecutionContext)Activator.CreateInstance(contextType, module, moduleType)!;
+        // Use compiled delegate factory instead of Activator.CreateInstance
+        return ExecutionContextFactory.Create(module, moduleType);
     }
 
     private async Task<IModuleResult> ExecuteTypedModule(
@@ -270,26 +271,10 @@ internal class ModuleRunner : IModuleRunner
         IModuleContext moduleContext,
         CancellationToken cancellationToken)
     {
-        var resultType = module.ResultType;
-
-        var executeMethodInfo = typeof(IModuleExecutionPipeline).GetMethod(nameof(IModuleExecutionPipeline.ExecuteAsync))
-            ?? throw new InvalidOperationException($"Method '{nameof(IModuleExecutionPipeline.ExecuteAsync)}' not found on type '{nameof(IModuleExecutionPipeline)}'.");
-
-        var executeMethod = executeMethodInfo.MakeGenericMethod(resultType);
-
-        var invokeResult = executeMethod.Invoke(_executionPipeline, new object[] { module, executionContext, moduleContext, cancellationToken })
-            ?? throw new InvalidOperationException($"Invocation of '{nameof(IModuleExecutionPipeline.ExecuteAsync)}' returned null.");
-
-        var task = (Task)invokeResult;
-        await task.ConfigureAwait(false);
-
-        var resultProperty = task.GetType().GetProperty("Result")
-            ?? throw new InvalidOperationException($"Property 'Result' not found on task type '{task.GetType().Name}'.");
-
-        var resultValue = resultProperty.GetValue(task)
-            ?? throw new InvalidOperationException($"Property 'Result' returned null for task type '{task.GetType().Name}'.");
-
-        return (IModuleResult)resultValue;
+        // Use compiled delegate instead of MakeGenericMethod + Invoke + GetProperty("Result")
+        var executor = ModuleExecutionDelegateFactory.GetExecutor(module.ResultType);
+        return await executor(_executionPipeline, module, executionContext, moduleContext, cancellationToken)
+            .ConfigureAwait(false);
     }
 
     private IModuleLogger GetOrCreateLogger(Type moduleType, IServiceProvider scopedServiceProvider)

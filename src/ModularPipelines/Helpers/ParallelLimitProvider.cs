@@ -30,24 +30,21 @@ internal class ParallelLimitProvider : IParallelLimitProvider
                 : null);
     }
 
-    public AsyncSemaphore GetLock(Type parallelLimitType)
+    /// <summary>
+    /// Gets a semaphore lock for the specified parallel limit type.
+    /// Uses static abstract interface member to avoid reflection.
+    /// </summary>
+    public AsyncSemaphore GetLock<TParallelLimit>() where TParallelLimit : IParallelLimit
     {
-        var parallelLimit = Activator.CreateInstance(parallelLimitType) as IParallelLimit;
-        if (parallelLimit is null)
+        var limit = TParallelLimit.Limit;
+
+        if (limit <= 0)
         {
             throw new ArgumentException(
-                $"Type '{parallelLimitType.FullName}' must implement {nameof(IParallelLimit)} and have a parameterless constructor.",
-                nameof(parallelLimitType));
+                $"Parallel limit for type '{typeof(TParallelLimit).FullName}' must be a positive integer, but was {limit}.");
         }
 
-        if (parallelLimit.Limit <= 0)
-        {
-            throw new ArgumentException(
-                $"Parallel limit for type '{parallelLimitType.FullName}' must be a positive integer, but was {parallelLimit.Limit}.",
-                nameof(parallelLimitType));
-        }
-
-        return _locks.GetOrAdd(parallelLimit.GetType(), _ => new AsyncSemaphore(parallelLimit.Limit));
+        return _locks.GetOrAdd(typeof(TParallelLimit), _ => new AsyncSemaphore(limit));
     }
 
     public int GetMaxDegreeOfParallelism()
