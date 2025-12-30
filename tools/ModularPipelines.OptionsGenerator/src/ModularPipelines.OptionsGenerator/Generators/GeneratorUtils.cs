@@ -14,7 +14,7 @@ public static partial class GeneratorUtils
     /// <summary>
     /// Escapes text for use in XML documentation comments.
     /// </summary>
-    public static string EscapeXmlComment(string text)
+    public static string EscapeXmlComment(string? text)
     {
         if (string.IsNullOrEmpty(text))
         {
@@ -156,11 +156,11 @@ public static partial class GeneratorUtils
     /// <summary>
     /// Escapes a C# identifier if it's a reserved keyword by prefixing with @.
     /// </summary>
-    public static string EscapeIdentifier(string identifier)
+    public static string EscapeIdentifier(string? identifier)
     {
         if (string.IsNullOrEmpty(identifier))
         {
-            return identifier;
+            return string.Empty;
         }
 
         return CSharpKeywords.Contains(identifier) ? $"@{identifier}" : identifier;
