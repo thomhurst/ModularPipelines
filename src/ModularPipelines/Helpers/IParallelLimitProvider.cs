@@ -4,7 +4,7 @@ using Semaphores;
 
 namespace ModularPipelines.Helpers;
 
-public interface IParallelLimitProvider
+internal interface IParallelLimitProvider
 {
     /// <summary>
     /// Gets a semaphore lock for the specified parallel limit type.

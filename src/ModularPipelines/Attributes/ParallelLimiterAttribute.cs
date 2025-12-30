@@ -17,7 +17,7 @@ public sealed class ParallelLimiterAttribute<TParallelLimit> : ParallelLimiterAt
     }
 
     /// <inheritdoc />
-    public override AsyncSemaphore GetLock(IParallelLimitProvider provider)
+    internal override AsyncSemaphore GetLock(IParallelLimitProvider provider)
     {
         return provider.GetLock<TParallelLimit>();
     }
@@ -52,5 +52,5 @@ public abstract class ParallelLimiterAttribute : Attribute
     /// </summary>
     /// <param name="provider">The parallel limit provider.</param>
     /// <returns>The semaphore for this limit type.</returns>
-    public abstract AsyncSemaphore GetLock(IParallelLimitProvider provider);
+    internal abstract AsyncSemaphore GetLock(IParallelLimitProvider provider);
 }
