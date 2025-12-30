@@ -69,7 +69,7 @@ internal static class PathHelpers
     /// </summary>
     /// <param name="path">The path to check.</param>
     /// <returns><c>true</c> if the path ends with a directory separator; otherwise, <c>false</c>.</returns>
-    private static bool EndsWithDirectorySeparator(string path)
+    internal static bool EndsWithDirectorySeparator(string path)
     {
         if (string.IsNullOrEmpty(path))
         {

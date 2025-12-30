@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Helpers;
 using ModularPipelines.Http;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
@@ -96,7 +97,7 @@ internal class Downloader : IDownloader
 
         // Check if the path explicitly ends with a directory separator
         // This is a reliable indicator that the user intends this to be a directory
-        if (EndsWithDirectorySeparator(options.SavePath))
+        if (PathHelpers.EndsWithDirectorySeparator(options.SavePath))
         {
             Directory.CreateDirectory(options.SavePath);
             return Path.Combine(options.SavePath, Guid.NewGuid() + GetExtension(options.DownloadUri.AbsoluteUri));
@@ -112,22 +113,6 @@ internal class Downloader : IDownloader
 
         Directory.CreateDirectory(options.SavePath);
         return Path.Combine(options.SavePath, Guid.NewGuid() + GetExtension(options.DownloadUri.AbsoluteUri));
-    }
-
-    /// <summary>
-    /// Determines whether the path ends with a directory separator character.
-    /// </summary>
-    /// <param name="path">The path to check.</param>
-    /// <returns><c>true</c> if the path ends with a directory separator; otherwise, <c>false</c>.</returns>
-    private static bool EndsWithDirectorySeparator(string path)
-    {
-        if (string.IsNullOrEmpty(path))
-        {
-            return false;
-        }
-
-        var lastChar = path[path.Length - 1];
-        return lastChar == Path.DirectorySeparatorChar || lastChar == Path.AltDirectorySeparatorChar;
     }
 
     private static string GetExtension(string downloadUri)
