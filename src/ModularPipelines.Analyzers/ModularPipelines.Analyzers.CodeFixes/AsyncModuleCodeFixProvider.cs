@@ -61,12 +61,15 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
 
         editor.SetModifiers(methodDeclarationSyntax, DeclarationModifiers.Override | DeclarationModifiers.Async);
 
+        // Cache the semantic model to avoid duplicate async calls
+        var semanticModel = await context.Document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
+
         foreach (var returnStatement in GetReturnStatements(methodDeclarationSyntax))
         {
             var expressionSyntax = returnStatement.ChildNodes().OfType<ExpressionSyntax>().First()!;
 
-            if (await IsTaskFromResult(expressionSyntax, context)
-                || await IsAsTaskExtension(expressionSyntax, context))
+            if (IsTaskFromResult(expressionSyntax, semanticModel)
+                || IsAsTaskExtension(expressionSyntax, semanticModel))
             {
                 var firstInnerExpression = expressionSyntax.ChildNodes().OfType<ArgumentListSyntax>().First().Arguments.First().Expression;
 
@@ -97,14 +100,17 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
                ?? Array.Empty<ReturnStatementSyntax>();
     }
 
-    private async Task<bool> IsTaskFromResult(ExpressionSyntax expressionSyntax, CodeFixContext context)
+    private static bool IsTaskFromResult(ExpressionSyntax expressionSyntax, SemanticModel? semanticModel)
     {
         if (expressionSyntax is not InvocationExpressionSyntax invocationExpressionSyntax)
         {
             return false;
         }
 
-        var semanticModel = await context.Document.GetSemanticModelAsync();
+        if (semanticModel is null)
+        {
+            return false;
+        }
 
         var symbol = semanticModel.GetSymbolInfo(invocationExpressionSyntax).Symbol;
 
@@ -119,14 +125,17 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
             && methodSymbol.ContainingNamespace.ToDisplayString() == "System.Threading.Tasks";
     }
 
-    private async Task<bool> IsAsTaskExtension(ExpressionSyntax expressionSyntax, CodeFixContext context)
+    private static bool IsAsTaskExtension(ExpressionSyntax expressionSyntax, SemanticModel? semanticModel)
     {
         if (expressionSyntax is not InvocationExpressionSyntax invocationExpressionSyntax)
         {
             return false;
         }
 
-        var semanticModel = await context.Document.GetSemanticModelAsync();
+        if (semanticModel is null)
+        {
+            return false;
+        }
 
         var symbol = semanticModel.GetSymbolInfo(invocationExpressionSyntax).Symbol;
 
