@@ -39,7 +39,7 @@ public class CmdTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(moduleResult.Value!.StandardError).IsNull().Or.IsEmpty();
-            await Assert.That(moduleResult.Value.StandardOutput.Trim()).IsEqualTo("Foo bar!");
+            await Assert.That(moduleResult.Value.StandardOutput.Trim()).IsEqualTo(TestConstants.TestString);
         }
     }
 }

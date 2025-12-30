@@ -28,7 +28,7 @@ public class CommandTests : TestBase
         public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return "Foo bar!";
+            return TestConstants.TestString;
         }
     }
 
@@ -53,7 +53,7 @@ public class CommandTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(moduleResult.Value!.StandardError).IsNull().Or.IsEmpty();
-            await Assert.That(moduleResult.Value.StandardOutput.Trim()).IsEqualTo("Foo bar!");
+            await Assert.That(moduleResult.Value.StandardOutput.Trim()).IsEqualTo(TestConstants.TestString);
         }
     }
 
@@ -64,7 +64,7 @@ public class CommandTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(moduleResult.Value!.Trim()).IsEqualTo("Foo bar!");
+            await Assert.That(moduleResult.Value!.Trim()).IsEqualTo(TestConstants.TestString);
         }
     }
 }

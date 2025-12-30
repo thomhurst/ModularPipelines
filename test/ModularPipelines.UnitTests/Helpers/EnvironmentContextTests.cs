@@ -10,12 +10,12 @@ public class EnvironmentContextTests : TestBase
     {
         var guid = Guid.NewGuid().ToString("N");
 
-        Environment.SetEnvironmentVariable(guid, "Foo bar!");
+        Environment.SetEnvironmentVariable(guid, TestConstants.TestString);
 
         var context = await GetService<IEnvironmentContext>();
 
         var result = context.EnvironmentVariables.GetEnvironmentVariable(guid);
-        await Assert.That(result).IsEqualTo("Foo bar!");
+        await Assert.That(result).IsEqualTo(TestConstants.TestString);
     }
 
     [Test]
@@ -23,14 +23,14 @@ public class EnvironmentContextTests : TestBase
     {
         var guid = Guid.NewGuid().ToString("N");
 
-        Environment.SetEnvironmentVariable(guid, "Foo bar!");
+        Environment.SetEnvironmentVariable(guid, TestConstants.TestString);
 
         var context = await GetService<IEnvironmentContext>();
 
         var result = context.EnvironmentVariables.GetEnvironmentVariables();
         await Assert.That(result).IsNotNull();
         await Assert.That((object) result).IsAssignableTo<IDictionary<string, string>>();
-        await Assert.That(result[guid]).IsEqualTo("Foo bar!");
+        await Assert.That(result[guid]).IsEqualTo(TestConstants.TestString);
     }
 
     [Test]
@@ -40,10 +40,10 @@ public class EnvironmentContextTests : TestBase
 
         var context = await GetService<IEnvironmentContext>();
 
-        context.EnvironmentVariables.SetEnvironmentVariable(guid, "Foo bar!");
+        context.EnvironmentVariables.SetEnvironmentVariable(guid, TestConstants.TestString);
 
         var result = Environment.GetEnvironmentVariable(guid);
-        await Assert.That(result).IsEqualTo("Foo bar!");
+        await Assert.That(result).IsEqualTo(TestConstants.TestString);
     }
 
     [Test]

@@ -349,7 +349,7 @@ public class FileTests : TestBase
     {
         var path = File.GetNewTemporaryFilePath();
 
-        await System.IO.File.WriteAllTextAsync(path, "Foo bar!");
+        await System.IO.File.WriteAllTextAsync(path, TestConstants.TestString);
 
         return new File(path);
     }
