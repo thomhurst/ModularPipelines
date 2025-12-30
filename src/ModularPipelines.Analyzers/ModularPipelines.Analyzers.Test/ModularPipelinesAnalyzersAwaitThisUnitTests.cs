@@ -7,96 +7,60 @@ namespace ModularPipelines.Analyzers.Test;
 [TestClass]
 public class ModularPipelinesAnalyzersAwaitThisUnitTests
 {
-    private const string BadModuleSourceAwaitThis = @"
-#nullable enable
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
-
-namespace ModularPipelines.Examples.Modules;
+    private const string BadModuleSourceAwaitThis = $@"
+{TestSourceConstants.StandardModuleHeaderWithOptions}
 
 public class Module1 : Module<CommandResult>
-{
+{{
     protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
+    {{
         // This should trigger the analyzer
-        {|#0:await this|};
+        {{|#0:await this|}};
         return null;
-    }
-}
+    }}
+}}
 ";
 
-    private const string BadModuleSourceAwaitThisInMethod = @"
-#nullable enable
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
-
-namespace ModularPipelines.Examples.Modules;
+    private const string BadModuleSourceAwaitThisInMethod = $@"
+{TestSourceConstants.StandardModuleHeaderWithOptions}
 
 public class Module1 : Module<CommandResult>
-{
+{{
     protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
+    {{
         return await ExecuteCommand(context);
-    }
+    }}
 
     private async Task<CommandResult?> ExecuteCommand(IPipelineContext context)
-    {
+    {{
         // This should also trigger the analyzer
-        {|#0:await this|};
+        {{|#0:await this|}};
         return null;
-    }
-}
+    }}
+}}
 ";
 
-    private const string GoodModuleSourceNoAwaitThis = @"
-#nullable enable
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
-
-namespace ModularPipelines.Examples.Modules;
+    private const string GoodModuleSourceNoAwaitThis = $@"
+{TestSourceConstants.StandardModuleHeaderWithOptions}
 
 public class Module1 : Module<CommandResult>
-{
+{{
     protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
+    {{
         // This is fine - awaiting something else
         var otherModule = GetModule<Module2>();
         await otherModule;
         return null;
-    }
-}
+    }}
+}}
 
 public class Module2 : Module<string>
-{
+{{
     protected override Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
+    {{
         return Task.FromResult<string?>(""Test"");
-    }
-}
+    }}
+}}
 ";
 
     private const string NonModuleClassAwaitThis = @"
@@ -122,34 +86,22 @@ public class NotAModule
 }
 ";
 
-    private const string GoodModuleSourceAwaitThisInOnAfterExecute = @"
-#nullable enable
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
-
-namespace ModularPipelines.Examples.Modules;
+    private const string GoodModuleSourceAwaitThisInOnAfterExecute = $@"
+{TestSourceConstants.StandardModuleHeaderWithOptions}
 
 public class Module1 : Module<CommandResult>
-{
+{{
     protected override Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
+    {{
         return Task.FromResult<CommandResult?>(null);
-    }
+    }}
 
     protected override async Task OnAfterExecute(IPipelineContext context)
-    {
+    {{
         // This should NOT trigger the analyzer - await this is allowed in OnAfterExecute
         var result = await this;
-    }
-}
+    }}
+}}
 ";
 
     [TestMethod]

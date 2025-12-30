@@ -1,6 +1,7 @@
 using ModularPipelines.Context;
 using ModularPipelines.TestHelpers;
 using YamlDotNet.Serialization.NamingConventions;
+using static ModularPipelines.UnitTests.Helpers.SerializationTestModels;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -11,10 +12,10 @@ public class YamlTests : TestBase
     {
         var yaml = await GetService<IYaml>();
 
-        var result = yaml.ToYaml(new YamlModel { Foo = "Bar!", Hello = "World!" });
-        await Assert.That(result.Trim()).IsEqualTo("""
-                                       foo: Bar!
-                                       hello: World!
+        var result = yaml.ToYaml(SerializationTestModel.CreateDefault());
+        await Assert.That(result.Trim()).IsEqualTo($"""
+                                       foo: {TestValues.FooValue}
+                                       hello: {TestValues.HelloValue}
                                        """);
     }
 
@@ -23,19 +24,14 @@ public class YamlTests : TestBase
     {
         var yaml = await GetService<IYaml>();
 
-        var result = yaml.ToYaml(new YamlModel
-        {
-            Foo = "Bar!",
-            Hello = "World!",
-            Items = ["One", "Two", "3"],
-        });
-        await Assert.That(result.Trim()).IsEqualTo("""
-                                              foo: Bar!
-                                              hello: World!
+        var result = yaml.ToYaml(SerializationTestModel.CreateWithItems());
+        await Assert.That(result.Trim()).IsEqualTo($"""
+                                              foo: {TestValues.FooValue}
+                                              hello: {TestValues.HelloValue}
                                               items:
-                                              - One
-                                              - Two
-                                              - 3
+                                              - {TestValues.ItemsValue[0]}
+                                              - {TestValues.ItemsValue[1]}
+                                              - {TestValues.ItemsValue[2]}
                                               """);
     }
 
@@ -44,11 +40,11 @@ public class YamlTests : TestBase
     {
         var yaml = await GetService<IYaml>();
 
-        var result = yaml.ToYaml(new YamlModel { Foo = "Bar!", Hello = "World!" },
+        var result = yaml.ToYaml(SerializationTestModel.CreateDefault(),
             PascalCaseNamingConvention.Instance);
-        await Assert.That(result.Trim()).IsEqualTo("""
-                                       Foo: Bar!
-                                       Hello: World!
+        await Assert.That(result.Trim()).IsEqualTo($"""
+                                       Foo: {TestValues.FooValue}
+                                       Hello: {TestValues.HelloValue}
                                        """);
     }
 
@@ -57,11 +53,11 @@ public class YamlTests : TestBase
     {
         var yaml = await GetService<IYaml>();
 
-        var result = yaml.FromYaml<YamlModel>("""
-                                              foo: Bar!
-                                              hello: World!
+        var result = yaml.FromYaml<SerializationTestModel>($"""
+                                              foo: {TestValues.FooValue}
+                                              hello: {TestValues.HelloValue}
                                               """);
-        await Assert.That(result).IsEqualTo(new YamlModel { Foo = "Bar!", Hello = "World!" });
+        await Assert.That(result).IsEqualTo(SerializationTestModel.CreateDefault());
     }
 
     [Test]
@@ -69,19 +65,10 @@ public class YamlTests : TestBase
     {
         var yaml = await GetService<IYaml>();
 
-        var result = yaml.FromYaml<YamlModel>("""
-                                              foo: Bar!
-                                              hello: World!
+        var result = yaml.FromYaml<SerializationTestModel>($"""
+                                              foo: {TestValues.FooValue}
+                                              hello: {TestValues.HelloValue}
                                               """, CamelCaseNamingConvention.Instance);
-        await Assert.That(result).IsEqualTo(new YamlModel { Foo = "Bar!", Hello = "World!" });
-    }
-
-    private record YamlModel
-    {
-        public string? Foo { get; set; }
-
-        public string? Hello { get; set; }
-
-        public List<string>? Items { get; set; }
+        await Assert.That(result).IsEqualTo(SerializationTestModel.CreateDefault());
     }
 }

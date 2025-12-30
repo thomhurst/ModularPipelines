@@ -6,175 +6,57 @@ namespace ModularPipelines.Analyzers.Test;
 [TestClass]
 public class ModularPipelinesAnalyzersILoggerUnitTests
 {
-    private const string BadModuleSourceILogger = @"
-#nullable enable
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
-using Microsoft.Extensions.Logging;
-
-namespace ModularPipelines.Examples.Modules;
+    private static string CreateModuleWithLoggerConstructor(string constructorParam) => $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
 
 public class Module1 : Module<List<string>>
-{
-    public Module1({|#0:ILogger logger|})
-    {
-    }
+{{
+    public Module1({{|#0:{constructorParam}|}})
+    {{
+    }}
 
     protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
+    {{
         await Task.Delay(1, cancellationToken);
         return new List<string>();
-    }
-}
+    }}
+}}
 ";
 
-    private const string BadModuleSourceILoggerProvider = @"
-#nullable enable
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
-using Microsoft.Extensions.Logging;
+    private static readonly string BadModuleSourceILogger = CreateModuleWithLoggerConstructor("ILogger logger");
+    private static readonly string BadModuleSourceILoggerProvider = CreateModuleWithLoggerConstructor("ILoggerProvider loggerProvider");
+    private static readonly string BadModuleSourceILoggerFactory = CreateModuleWithLoggerConstructor("ILoggerFactory loggerFactory");
+    private static readonly string BadModuleSourceILoggerGeneric = CreateModuleWithLoggerConstructor("ILogger<Module1> logger");
 
-namespace ModularPipelines.Examples.Modules;
+    private const string GoodModuleSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
 
 public class Module1 : Module<List<string>>
-{
-    public Module1({|#0:ILoggerProvider loggerProvider|})
-    {
-    }
-
+{{
     protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
+    {{
         await Task.Delay(1, cancellationToken);
         return new List<string>();
-    }
-}
+    }}
+}}
 ";
 
-    private const string BadModuleSourceILoggerFactory = @"
-#nullable enable
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
-using Microsoft.Extensions.Logging;
-
-namespace ModularPipelines.Examples.Modules;
-
-public class Module1 : Module<List<string>>
-{
-    public Module1({|#0:ILoggerFactory loggerFactory|})
-    {
-    }
-
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
-        await Task.Delay(1, cancellationToken);
-        return new List<string>();
-    }
-}
-";
-
-    private const string BadModuleSourceILoggerGeneric = @"
-#nullable enable
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
-using Microsoft.Extensions.Logging;
-
-namespace ModularPipelines.Examples.Modules;
-
-public class Module1 : Module<List<string>>
-{
-    public Module1({|#0:ILogger<Module1> logger|})
-    {
-    }
-
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
-        await Task.Delay(1, cancellationToken);
-        return new List<string>();
-    }
-}
-";
-
-    private const string GoodModuleSource = @"
-#nullable enable
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
-using Microsoft.Extensions.Logging;
-
-namespace ModularPipelines.Examples.Modules;
-
-public class Module1 : Module<List<string>>
-{
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
-        await Task.Delay(1, cancellationToken);
-        return new List<string>();
-    }
-}
-";
-
-    private const string GoodModuleSource2 = @"
-#nullable enable
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
-using Microsoft.Extensions.Logging;
+    private const string GoodModuleSource2 = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
 using ModularPipelines.Logging;
 
-namespace ModularPipelines.Examples.Modules;
-
 public class Module1 : Module<List<string>>
-{
+{{
     public Module1(IModuleLoggerProvider moduleLoggerProvider)
-    {
-    }
+    {{
+    }}
 
     protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
+    {{
         await Task.Delay(1, cancellationToken);
         return new List<string>();
-    }
-}
+    }}
+}}
 ";
 
     [TestMethod]

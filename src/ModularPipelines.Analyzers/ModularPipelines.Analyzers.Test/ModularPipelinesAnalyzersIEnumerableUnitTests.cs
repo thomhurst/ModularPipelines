@@ -6,52 +6,30 @@ namespace ModularPipelines.Analyzers.Test;
 [TestClass]
 public class ModularPipelinesAnalyzersIEnumerableUnitTests
 {
-    private const string BadModuleSource = @"
-#nullable enable
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
+    private const string BadModuleSource = $@"
+{TestSourceConstants.StandardModuleHeader}
 
-namespace ModularPipelines.Examples.Modules;
-
-public class Module1 : {|#0:Module<IEnumerable<string>>|}
-{
+public class Module1 : {{|#0:Module<IEnumerable<string>>|}}
+{{
     protected override async Task<IEnumerable<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
+    {{
         await Task.Delay(1, cancellationToken);
         return new ModuleResult<IEnumerable<string>>(Array.Empty<string>().Select(x => x));
-    }
-}
+    }}
+}}
 ";
 
-    private const string GoodModuleSource = @"
-#nullable enable
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
-
-namespace ModularPipelines.Examples.Modules;
+    private const string GoodModuleSource = $@"
+{TestSourceConstants.StandardModuleHeader}
 
 public class Module1 : Module<List<string>>
-{
+{{
     protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
+    {{
         await Task.Delay(1, cancellationToken);
         return new List<string>();
-    }
-}
+    }}
+}}
 ";
 
     [TestMethod]
