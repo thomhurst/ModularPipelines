@@ -8,6 +8,25 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class ZipTests : TestBase
 {
+    [After(Class)]
+    public static async Task Cleanup()
+    {
+        await Task.CompletedTask;
+
+        var zipFile = Path.Combine(TestContext.WorkingDirectory, "LoremData.zip");
+        var unzippedDir = Path.Combine(TestContext.WorkingDirectory, "LoremDataUnzipped");
+
+        if (System.IO.File.Exists(zipFile))
+        {
+            System.IO.File.Delete(zipFile);
+        }
+
+        if (Directory.Exists(unzippedDir))
+        {
+            Directory.Delete(unzippedDir, recursive: true);
+        }
+    }
+
     private class ZipModule : Module<string>
     {
         public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
