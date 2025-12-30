@@ -27,9 +27,9 @@ internal class EnvironmentContext : IEnvironmentContext
 
     public Folder AppDomainDirectory { get; } = AppDomain.CurrentDomain.BaseDirectory!;
 
-    public Folder ContentDirectory { get; set; }
+    public Folder ContentDirectory { get; }
 
-    public Folder WorkingDirectory { get; set; } = Environment.CurrentDirectory!;
+    public Folder WorkingDirectory { get; } = Environment.CurrentDirectory!;
 
     public IEnvironmentVariables EnvironmentVariables { get; }
 

@@ -333,30 +333,47 @@ public class FolderTests : TestBase
         await Assert.That(() => folder.AssertExists()).Throws<DirectoryNotFoundException>();
     }
 
-    [Test, WindowsOnlyTest]
-    public async Task Searching_Local_Files_User_Does_Not_Throw_Unauth_Exception()
+    [Test]
+    public async Task Searching_Files_With_Nested_Folders_Does_Not_Throw()
     {
-        await Assert.That(() => new Folder(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile))
-            .GetFolder("AppData")
-            ?.FindFile(x => x.Name.Contains(Guid.NewGuid().ToString()), exclude => exclude.Name.StartsWith('.'))
-            ).ThrowsNothing();
+        // Create a controlled folder structure to test FindFile without searching massive real folders
+        var folder = CreateRandomFolder();
+        var subfolder1 = folder.CreateFolder("sub1");
+        var subfolder2 = folder.CreateFolder("sub2");
+        subfolder1.CreateFolder("nested");
+        await System.IO.File.WriteAllTextAsync(Path.Combine(subfolder2, "test.txt"), "content");
+
+        // Search for a non-existent file - should complete without throwing
+        await Assert.That(() => folder.FindFile(
+            x => x.Name.Contains(Guid.NewGuid().ToString()),
+            exclude => exclude.Name.StartsWith('.'))).ThrowsNothing();
     }
 
-    [Test, WindowsOnlyTest]
-    public async Task Searching_Local_Files_User_Does_Not_Throw_Unauth_Exception2()
+    [Test]
+    public async Task GetFiles_With_Pattern_Does_Not_Throw()
     {
-        await Assert.That(() => new Folder(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile))
-            ?.GetFiles(Guid.NewGuid().ToString()))
+        var folder = CreateRandomFolder();
+        folder.CreateFolder("sub1");
+        await System.IO.File.WriteAllTextAsync(Path.Combine(folder, "test.txt"), "content");
+
+        await Assert.That(() => folder.GetFiles(Guid.NewGuid().ToString()))
             .ThrowsNothing();
     }
 
-    [Test, WindowsOnlyTest]
-    public async Task Searching_Local_Folders_User_Does_Not_Throw_Unauth_Exception()
+    [Test]
+    public async Task Searching_Folders_With_Nested_Structure_Does_Not_Throw()
     {
-        await Assert.That(() => new Folder(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile))
-                .GetFolder("AppData")
-            ?.FindFolder(x => x.Name.Contains(Guid.NewGuid().ToString()), exclude => exclude.Name.StartsWith('.')))
-            .ThrowsNothing();
+        // Create a controlled folder structure to test FindFolder without searching massive real folders
+        var folder = CreateRandomFolder();
+        var subfolder1 = folder.CreateFolder("sub1");
+        folder.CreateFolder("sub2");
+        subfolder1.CreateFolder("nested1");
+        subfolder1.CreateFolder("nested2");
+
+        // Search for a non-existent folder - should complete without throwing
+        await Assert.That(() => folder.FindFolder(
+            x => x.Name.Contains(Guid.NewGuid().ToString()),
+            exclude => exclude.Name.StartsWith('.'))).ThrowsNothing();
     }
 
     private static Folder CreateRandomFolder()

@@ -30,10 +30,20 @@ public interface IEnvironmentContext
     public Folder AppDomainDirectory { get; }
 
     /// <inheritdoc cref="IHostEnvironment.ContentRootPath"/>
-    public Folder ContentDirectory { get; set; }
+    /// <remarks>
+    /// This property is immutable after pipeline initialization.
+    /// If you need to change the working directory for command execution,
+    /// use command options or <see cref="System.Environment.CurrentDirectory"/> directly.
+    /// </remarks>
+    public Folder ContentDirectory { get; }
 
     /// <inheritdoc cref="Environment.CurrentDirectory"/>
-    public Folder WorkingDirectory { get; set; }
+    /// <remarks>
+    /// This property captures the working directory at pipeline initialization time and is immutable.
+    /// If you need to change the working directory for command execution,
+    /// use command options or <see cref="System.Environment.CurrentDirectory"/> directly.
+    /// </remarks>
+    public Folder WorkingDirectory { get; }
 
     /// <inheritdoc cref="Environment.GetFolderPath(System.Environment.SpecialFolder)"/>
     public Folder? GetFolder(Environment.SpecialFolder specialFolder);

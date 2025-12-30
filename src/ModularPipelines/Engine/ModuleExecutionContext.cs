@@ -75,9 +75,13 @@ internal class ModuleExecutionContext : IModuleExecutionContext
     public Stopwatch Stopwatch { get; }
 
     /// <summary>
-    /// Gets the cancellation token source for this module.
+    /// Gets or sets the cancellation token source for this module.
     /// </summary>
-    public CancellationTokenSource ModuleCancellationTokenSource { get; }
+    /// <remarks>
+    /// This may be replaced with a linked token source during setup
+    /// to combine external and engine-level cancellation.
+    /// </remarks>
+    public CancellationTokenSource ModuleCancellationTokenSource { get; set; }
 
     /// <summary>
     /// Gets the list of sub-module trackers.
@@ -230,7 +234,7 @@ internal interface IModuleExecutionContext
 
     Stopwatch Stopwatch { get; }
 
-    CancellationTokenSource ModuleCancellationTokenSource { get; }
+    CancellationTokenSource ModuleCancellationTokenSource { get; set; }
 
     List<SubModuleTracker> SubModules { get; }
 
