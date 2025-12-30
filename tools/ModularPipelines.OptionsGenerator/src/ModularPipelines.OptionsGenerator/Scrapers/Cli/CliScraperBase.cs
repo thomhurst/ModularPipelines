@@ -448,8 +448,7 @@ public abstract partial class CliScraperBase : ICliScraper
         // Check for deprecated commands
         if (SkipDeprecatedCommands)
         {
-            if (helpText.Contains("DEPRECATED", StringComparison.OrdinalIgnoreCase) ||
-                helpText.Contains("deprecated", StringComparison.Ordinal))
+            if (helpText.Contains("DEPRECATED", StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }
@@ -460,7 +459,6 @@ public abstract partial class CliScraperBase : ICliScraper
         {
             if (helpText.Contains("EXPERIMENTAL", StringComparison.OrdinalIgnoreCase) ||
                 helpText.Contains("BETA", StringComparison.OrdinalIgnoreCase) ||
-                helpText.Contains("experimental", StringComparison.Ordinal) ||
                 helpText.Contains("(beta)", StringComparison.OrdinalIgnoreCase))
             {
                 return true;
