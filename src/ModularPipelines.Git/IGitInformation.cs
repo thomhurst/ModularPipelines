@@ -5,7 +5,7 @@ namespace ModularPipelines.Git;
 
 public interface IGitInformation
 {
-    Folder Root { get; }
+    Folder? Root { get; }
     string BranchName { get; }
     string DefaultBranchName { get; }
     string LastCommitSha { get; }

@@ -23,7 +23,7 @@ internal class GitInformation : IGitInformation, IInitializer
         _gitCommitMapper = gitCommitMapper;
     }
 
-    public Folder Root { get; private set; } = null!;
+    public Folder? Root { get; private set; }
     public string BranchName { get; private set; } = "";
     public string DefaultBranchName { get; private set; } = "";
     public string LastCommitSha { get; private set; } = "";
