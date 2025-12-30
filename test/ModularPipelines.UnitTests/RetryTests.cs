@@ -40,23 +40,23 @@ public class RetryTests : TestBase
     /// </summary>
     private const int ModuleDelayMs = 30;
 
-    private class SuccessModule : Module<IDictionary<string, object>?>
+    private class SuccessModule : Module<bool>
     {
         internal int ExecutionCount;
 
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionCount++;
             await Task.Yield();
-            return null;
+            return true;
         }
     }
 
-    private class FailedModule : Module<IDictionary<string, object>?>
+    private class FailedModule : Module<bool>
     {
         internal int ExecutionCount;
 
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionCount++;
 
@@ -66,22 +66,22 @@ public class RetryTests : TestBase
             }
 
             await Task.Yield();
-            return null;
+            return true;
         }
     }
 
-    private class FailedModuleWithCustomRetryPolicy : Module<IDictionary<string, object>?>, IRetryable<IDictionary<string, object>?>
+    private class FailedModuleWithCustomRetryPolicy : Module<string>, IRetryable<string>
     {
         internal int ExecutionCount;
 
-        public AsyncRetryPolicy<IDictionary<string, object>?> GetRetryPolicy(IPipelineContext context)
+        public AsyncRetryPolicy<string?> GetRetryPolicy(IPipelineContext context)
         {
-            return Policy<IDictionary<string, object>?>
+            return Policy<string?>
                 .Handle<Exception>()
                 .WaitAndRetryAsync(DefaultRetryCount, _ => TimeSpan.Zero);
         }
 
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionCount++;
 
@@ -91,15 +91,15 @@ public class RetryTests : TestBase
             }
 
             await Task.Yield();
-            return null;
+            return "success";
         }
     }
 
-    private class FailedModuleWithTimeout : Module<IDictionary<string, object>?>, ITimeoutable
+    private class FailedModuleWithTimeout : Module<bool>, ITimeoutable
     {
         public TimeSpan Timeout => TimeSpan.FromMilliseconds(ModuleTimeoutMs);
 
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(TimeSpan.FromMilliseconds(ModuleDelayMs), cancellationToken);
 

@@ -33,22 +33,22 @@ public class ResultsRepositoryTests : TestBase
         }
     }
 
-    private class Module1 : Module<IDictionary<string, object>?>
+    private class Module1 : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return null;
+            return true;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>]
-    private class Module2 : Module<IDictionary<string, object>?>
+    private class Module2 : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return null;
+            return true;
         }
     }
 

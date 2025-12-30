@@ -14,9 +14,9 @@ public class EngineCancellationTokenTests : TestBase
 {
     private static readonly TimeSpan WaitForCancellationDelay = TimeSpan.FromMilliseconds(100);
 
-    private class BadModule : Module<IDictionary<string, object>?>
+    private class BadModule : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();
@@ -24,35 +24,35 @@ public class EngineCancellationTokenTests : TestBase
     }
 
     [ModularPipelines.Attributes.DependsOn<BadModule>]
-    private class Module1 : Module<IDictionary<string, object>?>
+    private class Module1 : Module<bool>
     {
-        public override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<IDictionary<string, object>?>(null);
+            return Task.FromResult(true);
         }
     }
 
-    private class LongRunningModule : Module<IDictionary<string, object>?>
+    private class LongRunningModule : Module<bool>
     {
         private readonly TaskCompletionSource<bool> _taskCompletionSource = new();
 
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await _taskCompletionSource.Task.WaitAsync(cancellationToken);
-            return null;
+            return true;
         }
     }
 
-    private class LongRunningModuleWithoutCancellation : Module<IDictionary<string, object>?>, ITimeoutable
+    private class LongRunningModuleWithoutCancellation : Module<bool>, ITimeoutable
     {
         private readonly TaskCompletionSource<bool> _taskCompletionSource = new();
 
         public TimeSpan Timeout => TimeSpan.FromSeconds(1);
 
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await _taskCompletionSource.Task;
-            return null;
+            return true;
         }
     }
 

@@ -17,7 +17,7 @@ public class LoggingSecretTests
         [SecretValue] public string Secret1 { get; set; } = "";
     }
 
-    private class SecretValueLoggingModule1 : Module<IDictionary<string, object>?>
+    private class SecretValueLoggingModule1 : Module<bool>
     {
         private readonly IOptions<MySecretSettings> _options;
 
@@ -26,11 +26,11 @@ public class LoggingSecretTests
             _options = options;
         }
 
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             context.Logger.LogInformation("My Secret Value is: {SecretValue}", _options.Value.Secret1);
             await Task.CompletedTask;
-            return null;
+            return true;
         }
     }
 

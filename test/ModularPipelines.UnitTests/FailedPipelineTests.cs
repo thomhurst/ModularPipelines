@@ -9,31 +9,31 @@ namespace ModularPipelines.UnitTests;
 
 public class FailedPipelineTests : TestBase
 {
-    private class Module1 : Module<IDictionary<string, object>?>
+    private class Module1 : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return null;
+            return true;
         }
     }
 
-    private class Module2 : Module<IDictionary<string, object>?>
+    private class Module2 : Module<bool>
     {
-        public override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             throw new Exception();
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module2>(IgnoreIfNotRegistered = true)]
-    private class Module3 : Module<IDictionary<string, object>?>
+    private class Module3 : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            _ = context.GetModuleIfRegistered<Module2, IDictionary<string, object>?>();
+            _ = context.GetModuleIfRegistered<Module2, bool>();
             await Task.Yield();
-            return null;
+            return true;
         }
     }
 

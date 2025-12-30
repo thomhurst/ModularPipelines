@@ -56,11 +56,11 @@ public class SafeEstimatedTimeProviderTests
         await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
     }
 
-    private class DummyModule : Module<IDictionary<string, object>?>
+    private class DummyModule : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await new Dictionary<string, object>().AsTask();
+            return await true.AsTask();
         }
     }
 

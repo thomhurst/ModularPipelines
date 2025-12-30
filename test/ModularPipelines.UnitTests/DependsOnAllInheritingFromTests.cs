@@ -13,9 +13,9 @@ public class DependsOnAllInheritingFromTests : TestBase
 {
     private static readonly TimeSpan ModuleDelay = TimeSpan.FromMilliseconds(50);
 
-    private abstract class BaseModule : Module<IDictionary<string, object>?>
+    private abstract class BaseModule : Module<bool>
     {
-        public abstract override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken);
+        public abstract override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken);
     }
 
     // Generic base module for testing open generic type dependencies (Issue #1337)
@@ -52,40 +52,40 @@ public class DependsOnAllInheritingFromTests : TestBase
 
     private class Module1 : BaseModule
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(ModuleDelay, cancellationToken);
-            return null;
+            return true;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>]
     private class Module2 : BaseModule
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(ModuleDelay, cancellationToken);
-            return null;
+            return true;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>(IgnoreIfNotRegistered = true)]
     private class Module3 : BaseModule
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(ModuleDelay, cancellationToken);
-            return null;
+            return true;
         }
     }
 
     [ModularPipelines.Attributes.DependsOnAllModulesInheritingFrom<BaseModule>]
-    private class Module4 : Module<IDictionary<string, object>?>
+    private class Module4 : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return null;
+            return true;
         }
     }
 

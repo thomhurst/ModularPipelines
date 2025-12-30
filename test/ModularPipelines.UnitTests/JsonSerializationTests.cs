@@ -11,9 +11,9 @@ namespace ModularPipelines.UnitTests;
 
 public class JsonSerializationTests : TestBase
 {
-    public class Module1 : Module<IDictionary<string, object>?>
+    public class Module1 : Module<IDictionary<string, object>>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -25,9 +25,9 @@ public class JsonSerializationTests : TestBase
         }
     }
 
-    public class Module2 : Module<IDictionary<string, object>?>
+    public class Module2 : Module<IDictionary<string, object>>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -39,9 +39,9 @@ public class JsonSerializationTests : TestBase
         }
     }
 
-    public class Module3 : Module<IDictionary<string, object>?>
+    public class Module3 : Module<IDictionary<string, object>>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -63,7 +63,7 @@ public class JsonSerializationTests : TestBase
         var pipelineSummary = await host.ExecutePipelineAsync();
 
         var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
-        var module1Result = resultRegistry.GetResult<IDictionary<string, object>?>(typeof(Module1))!;
+        var module1Result = resultRegistry.GetResult<IDictionary<string, object>>(typeof(Module1))!;
 
         // Serialize and deserialize the pipeline summary
         var pipelineJson = JsonSerializer.Serialize(pipelineSummary);

@@ -9,76 +9,76 @@ namespace ModularPipelines.UnitTests;
 
 public class DependsOnTests : TestBase
 {
-    private class Module1 : Module<IDictionary<string, object>?>
+    private class Module1 : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return null;
+            return true;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>]
-    private class Module2 : Module<IDictionary<string, object>?>
+    private class Module2 : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return null;
+            return true;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>(IgnoreIfNotRegistered = true)]
-    private class Module3 : Module<IDictionary<string, object>?>
+    private class Module3 : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return null;
+            return true;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>(IgnoreIfNotRegistered = true)]
-    private class Module3WithGetIfRegistered : Module<IDictionary<string, object>?>
+    private class Module3WithGetIfRegistered : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            _ = context.GetModuleIfRegistered<Module1, IDictionary<string, object>?>();
+            _ = context.GetModuleIfRegistered<Module1, bool>();
             await Task.Yield();
-            return null;
+            return true;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>(IgnoreIfNotRegistered = true)]
-    private class Module3WithGet : Module<IDictionary<string, object>?>
+    private class Module3WithGet : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            _ = context.GetModule<Module1, IDictionary<string, object>?>();
+            _ = context.GetModule<Module1, bool>();
             await Task.Yield();
-            return null;
+            return true;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<DependsOnSelfModule>]
-    private class DependsOnSelfModule : Module<IDictionary<string, object>?>
+    private class DependsOnSelfModule : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            _ = context.GetModule<Module1, IDictionary<string, object>?>();
+            _ = context.GetModule<Module1, bool>();
             await Task.Yield();
-            return null;
+            return true;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn(typeof(ModuleFailedException))]
-    private class DependsOnNonModule : Module<IDictionary<string, object>?>
+    private class DependsOnNonModule : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            _ = context.GetModule<Module1, IDictionary<string, object>?>();
+            _ = context.GetModule<Module1, bool>();
             await Task.Yield();
-            return null;
+            return true;
         }
     }
 

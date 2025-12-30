@@ -14,11 +14,11 @@ namespace ModularPipelines.UnitTests;
 public class ModuleHistoryTests
 {
     [ModuleCategory("1")]
-    private class SkipFromCategory : Module<IDictionary<string, object>?>
+    private class SkipFromCategory : Module<bool>
     {
-        public override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<IDictionary<string, object>?>(null);
+            return Task.FromResult(true);
         }
     }
 
@@ -31,24 +31,24 @@ public class ModuleHistoryTests
     }
 
     [SkipRunCondition]
-    private class SkipFromRunCondition : Module<IDictionary<string, object>?>
+    private class SkipFromRunCondition : Module<bool>
     {
-        public override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<IDictionary<string, object>?>(null);
+            return Task.FromResult(true);
         }
     }
 
-    private class SkipFromMethod : Module<IDictionary<string, object>?>, ISkippable
+    private class SkipFromMethod : Module<bool>, ISkippable
     {
         public Task<SkipDecision> ShouldSkip(IPipelineContext context)
         {
             return SkipDecision.Skip("Testing").AsTask();
         }
 
-        public override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<IDictionary<string, object>?>(null);
+            return Task.FromResult(true);
         }
     }
 
