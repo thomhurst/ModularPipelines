@@ -7,6 +7,11 @@ namespace ModularPipelines.Engine.Executors;
 [StackTraceHidden]
 internal class PrintProgressExecutor : IPrintProgressExecutor
 {
+    /// <summary>
+    /// Grace period in milliseconds for progress printer to complete before forced cancellation.
+    /// </summary>
+    private const int ProgressPrinterGracePeriodMs = 5000;
+
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly IConsolePrinter _consolePrinter;
     private readonly IModuleRetriever _moduleRetriever;
@@ -41,7 +46,7 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
 
     public async ValueTask DisposeAsync()
     {
-        _printProgressCancellationTokenSource?.CancelAfter(5000);
+        _printProgressCancellationTokenSource?.CancelAfter(ProgressPrinterGracePeriodMs);
 
         await SafelyAwaitProgressPrinter().ConfigureAwait(false);
     }
