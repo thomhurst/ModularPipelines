@@ -23,7 +23,7 @@ public class UploadPackagesToLocalNuGetModule : Module<CommandResult[]>
         return await NugetUploadHelper.UploadPackagesAsync(
             context,
             packagePaths.Value!,
-            source: localRepoLocation.Value.AssertExists()!,
+            source: localRepoLocation.Value.AssertExists()!.Path,
             apiKey: null,
             cancellationToken);
     }
