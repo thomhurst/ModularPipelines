@@ -4,5 +4,5 @@ namespace ModularPipelines.Slack;
 
 public interface ISlack
 {
-    Task PostWebHookMessage(SlackWebHookOptions options);
+    Task PostWebHookMessage(SlackWebHookOptions options, CancellationToken cancellationToken = default);
 }
