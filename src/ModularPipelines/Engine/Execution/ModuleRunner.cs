@@ -148,10 +148,11 @@ internal class ModuleRunner : IModuleRunner
         var moduleContext = new ModuleContext(pipelineContext, module, executionContext, logger);
 
         // Set up logging - use try/finally to ensure cleanup of AsyncLocal context
-        ModuleLogger.Values.Value = logger;
-
+        // Assignment MUST be inside try block to guarantee cleanup even if an exception
+        // occurs immediately after assignment
         try
         {
+            ModuleLogger.Values.Value = logger;
             await ExecuteModuleLifecycle(moduleState, scopedServiceProvider, pipelineContext, executionContext, moduleContext, cancellationToken).ConfigureAwait(false);
         }
         finally

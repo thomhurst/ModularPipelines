@@ -10,12 +10,14 @@ namespace ModularPipelines.Logging;
 /// This container tracks all module loggers created during pipeline execution
 /// and ensures they are properly flushed and disposed in the correct order
 /// (ordered by last log written time) to maintain logical output ordering.
-/// Uses ConcurrentBag for lock-free thread-safe operations during high-concurrency
-/// module execution.
+/// Uses ConcurrentDictionary for O(1) thread-safe lookups by type.
 /// </remarks>
 internal class ModuleLoggerContainer : IModuleLoggerContainer, IDisposable
 {
-    private readonly ConcurrentBag<ModuleLogger> _loggers = new();
+    private readonly ConcurrentDictionary<Type, ModuleLogger> _loggers = new();
+
+    // Interlocked.Exchange provides both atomicity and full memory barrier,
+    // making volatile unnecessary for this disposal guard pattern
     private int _isDisposed;
 
     public void FlushAndDisposeAll()
@@ -26,10 +28,8 @@ internal class ModuleLoggerContainer : IModuleLoggerContainer, IDisposable
             return;
         }
 
-        // ToArray() is thread-safe on ConcurrentBag
-        var snapshot = _loggers.ToArray();
-
-        foreach (var logger in snapshot.Where(x => x != null).OrderBy(x => x.LastLogWritten))
+        // Values provides a snapshot for safe enumeration
+        foreach (var logger in _loggers.Values.Where(x => x != null).OrderBy(x => x.LastLogWritten))
         {
             logger.Dispose();
         }
@@ -37,14 +37,14 @@ internal class ModuleLoggerContainer : IModuleLoggerContainer, IDisposable
 
     public IModuleLogger? GetLogger(Type type)
     {
-        // ToArray() creates a snapshot for safe enumeration
-        return _loggers.ToArray().FirstOrDefault(logger => logger.GetType() == type);
+        // O(1) lookup via ConcurrentDictionary
+        return _loggers.TryGetValue(type, out var logger) ? logger : null;
     }
 
     public void AddLogger(ModuleLogger logger)
     {
-        // ConcurrentBag.Add is lock-free and thread-safe
-        _loggers.Add(logger);
+        // Thread-safe add; each module type should only have one logger instance
+        _loggers.TryAdd(logger.GetType(), logger);
     }
 
     public void Dispose()
