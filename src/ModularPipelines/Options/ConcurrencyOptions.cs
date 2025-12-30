@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Constants;
 
 namespace ModularPipelines.Options;
 
@@ -22,7 +23,7 @@ public record ConcurrencyOptions
     /// options.Concurrency.MaxParallelism = int.MaxValue;
     /// </code>
     /// </example>
-    public int MaxParallelism { get; set; } = Environment.ProcessorCount * 4;
+    public int MaxParallelism { get; set; } = Environment.ProcessorCount * ConcurrencyConstants.ParallelismMultiplier;
 
     /// <summary>
     /// Gets or sets the maximum number of CPU-intensive modules that can execute concurrently.

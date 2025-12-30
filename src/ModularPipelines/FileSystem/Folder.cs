@@ -111,12 +111,16 @@ public class Folder : IEquatable<Folder>
 
         foreach (var dirPath in Directory.EnumerateDirectories(this, "*", SearchOption.AllDirectories))
         {
-            Directory.CreateDirectory(dirPath.Replace(this, targetPath));
+            var relativePath = System.IO.Path.GetRelativePath(this, dirPath);
+            var newPath = System.IO.Path.Combine(targetPath, relativePath);
+            Directory.CreateDirectory(newPath);
         }
 
-        foreach (var newPath in Directory.EnumerateFiles(this, "*", SearchOption.AllDirectories))
+        foreach (var filePath in Directory.EnumerateFiles(this, "*", SearchOption.AllDirectories))
         {
-            System.IO.File.Copy(newPath, newPath.Replace(this, targetPath), true);
+            var relativePath = System.IO.Path.GetRelativePath(this, filePath);
+            var newPath = System.IO.Path.Combine(targetPath, relativePath);
+            System.IO.File.Copy(filePath, newPath, true);
         }
 
         ModuleLogger.Current.LogInformation("Copying Folder: {Source} > {Destination}", this, targetPath);

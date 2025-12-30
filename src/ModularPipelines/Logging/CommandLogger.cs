@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Constants;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Helpers;
@@ -130,7 +131,7 @@ internal class CommandLogger : ICommandLogger
         }
         else
         {
-            Logger.LogInformation("{Timestamp}Command: {WorkingDirectory}> ********",
+            Logger.LogInformation("{Timestamp}Command: {WorkingDirectory}> " + LoggingConstants.CommandMask,
                 timestamp,
                 workingDirectory);
         }
