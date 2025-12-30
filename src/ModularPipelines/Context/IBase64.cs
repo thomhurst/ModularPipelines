@@ -27,14 +27,14 @@ public interface IBase64
     string ToBase64String(byte[] bytes);
 
     /// <summary>
-    /// Converts a bas64 encoded string to a decoded standard string.
+    /// Converts a base64 encoded string to a decoded standard string.
     /// </summary>
     /// <param name="base64Input">The base64 string to decode.</param>
     /// <returns>The unencoded string.</returns>
     string FromBase64String(string base64Input) => FromBase64String(base64Input, Encoding.UTF8);
 
     /// <summary>
-    /// Converts a bas64 encoded string to a decoded standard string.
+    /// Converts a base64 encoded string to a decoded standard string.
     /// </summary>
     /// <param name="base64Input">The base64 string to decode.</param>
     /// <param name="encoding">The string encoding.</param>
