@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace ModularPipelines.UnitTests.Helpers;
 
 /// <summary>
@@ -23,6 +25,7 @@ public static class SerializationTestModels
     {
         public string? Foo { get; set; }
         public string? Hello { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public List<string>? Items { get; set; }
 
         /// <summary>
