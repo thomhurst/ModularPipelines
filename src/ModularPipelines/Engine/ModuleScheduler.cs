@@ -35,8 +35,11 @@ internal class ModuleScheduler : IModuleScheduler
     private readonly CancellationTokenSource _disposalCancellationTokenSource;
     private readonly ReaderWriterLockSlim _stateLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
 
+    private static readonly TimeSpan StatusLogInterval = TimeSpan.FromSeconds(15);
+
     private bool _schedulerCompleted;
     private bool _isDisposed;
+    private DateTimeOffset _lastStatusLogTime;
 
     public ModuleScheduler(
         ILogger logger,
@@ -326,6 +329,14 @@ internal class ModuleScheduler : IModuleScheduler
 
     private void LogSchedulerWaitingState()
     {
+        var now = _timeProvider.GetUtcNow();
+        if (now - _lastStatusLogTime < StatusLogInterval)
+        {
+            return;
+        }
+
+        _lastStatusLogTime = now;
+
         var stats = _stateQueries.GetStatistics();
         _logger.LogDebug(
             "Scheduler waiting: Total={Total}, Queued={Queued}, Executing={Executing}, Completed={Completed}, Pending={Pending}",
