@@ -15,9 +15,11 @@ public class DotNetTests : TestBase
     {
         public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
+            // Use main solution explicitly - FindFile returns first match alphabetically
+            // which could be ModularPipelines.Analyzers.sln causing flaky failures
             return await context.DotNet().List.Package(new DotNetListPackageOptions
             {
-                ProjectSolution = context.Git().RootDirectory.FindFile(x => x.Extension == ".sln").AssertExists(),
+                ProjectSolution = context.Git().RootDirectory.FindFile(x => x.Name == "ModularPipelines.sln").AssertExists(),
             }, token: cancellationToken);
         }
     }
