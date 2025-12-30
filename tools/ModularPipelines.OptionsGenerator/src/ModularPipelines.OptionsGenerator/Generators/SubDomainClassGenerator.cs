@@ -52,7 +52,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         var collidingCommands = new Dictionary<string, CliCommandDefinition>(StringComparer.OrdinalIgnoreCase);
         foreach (var command in node.Commands)
         {
-            var methodName = GetMethodNameFromCommand(command);
+            var methodName = GeneratorUtils.GenerateMethodNameFromLastCommandPart(command);
             var matchingChild = node.Children.Values
                 .FirstOrDefault(c => c.PascalSegment.Equals(methodName, StringComparison.OrdinalIgnoreCase));
 
@@ -194,16 +194,10 @@ public class SubDomainClassGenerator : ICodeGenerator
     private static void GenerateExecuteMethod(StringBuilder sb, CliCommandDefinition command)
     {
         // Single method - users set LogSettings on options if they need custom logging
-        sb.AppendLine("    /// <summary>");
-        if (!string.IsNullOrEmpty(command.Description))
-        {
-            sb.AppendLine($"    /// {EscapeXmlComment(command.Description)}");
-        }
-        else
-        {
-            sb.AppendLine("    /// Executes the parent command directly.");
-        }
-        sb.AppendLine("    /// </summary>");
+        var description = !string.IsNullOrEmpty(command.Description)
+            ? command.Description
+            : "Executes the parent command directly.";
+        GeneratorUtils.GenerateXmlDocumentation(sb, description);
         sb.AppendLine("    /// <param name=\"options\">The command options.</param>");
         sb.AppendLine("    /// <param name=\"cancellationToken\">Cancellation token.</param>");
         sb.AppendLine("    /// <returns>The command result.</returns>");
@@ -217,14 +211,12 @@ public class SubDomainClassGenerator : ICodeGenerator
 
     private static void GenerateMethod(StringBuilder sb, CliCommandDefinition command, CommandTreeNode node)
     {
-        var methodName = GetMethodName(command, node);
+        var methodName = GeneratorUtils.GenerateMethodNameFromLastCommandPart(command);
 
         // Single method - users set LogSettings on options if they need custom logging
         if (!string.IsNullOrEmpty(command.Description))
         {
-            sb.AppendLine("    /// <summary>");
-            sb.AppendLine($"    /// {EscapeXmlComment(command.Description)}");
-            sb.AppendLine("    /// </summary>");
+            GeneratorUtils.GenerateXmlDocumentation(sb, command.Description);
             sb.AppendLine("    /// <param name=\"options\">The command options.</param>");
             sb.AppendLine("    /// <param name=\"cancellationToken\">Cancellation token.</param>");
             sb.AppendLine("    /// <returns>The command result.</returns>");
@@ -237,24 +229,4 @@ public class SubDomainClassGenerator : ICodeGenerator
         sb.AppendLine("        return await _command.ExecuteCommandLineTool(options, cancellationToken);");
         sb.AppendLine("    }");
     }
-
-    private static string GetMethodName(CliCommandDefinition command, CommandTreeNode node)
-    {
-        return GetMethodNameFromCommand(command);
-    }
-
-    private static string GetMethodNameFromCommand(CliCommandDefinition command)
-    {
-        if (command.CommandParts.Length == 0)
-        {
-            return "Execute";
-        }
-
-        var lastPart = command.CommandParts[^1];
-        var parts = lastPart.Split('-', StringSplitOptions.RemoveEmptyEntries);
-        return string.Join("", parts.Select(p =>
-            char.ToUpperInvariant(p[0]) + (p.Length > 1 ? p[1..].ToLowerInvariant() : "")));
-    }
-
-    private static string EscapeXmlComment(string text) => GeneratorUtils.EscapeXmlComment(text);
 }

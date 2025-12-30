@@ -65,12 +65,7 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine();
 
         // XML documentation
-        if (!string.IsNullOrEmpty(command.Description))
-        {
-            sb.AppendLine("/// <summary>");
-            sb.AppendLine($"/// {EscapeXmlComment(command.Description)}");
-            sb.AppendLine("/// </summary>");
-        }
+        GeneratorUtils.GenerateXmlDocumentation(sb, command.Description, "");
 
         // Class attributes
         sb.AppendLine("[ExcludeFromCodeCoverage]");
@@ -133,7 +128,7 @@ public class OptionsClassGenerator : ICodeGenerator
 
             foreach (var opt in requiredOptions)
             {
-                var attr = GetAttributeString(opt);
+                var attr = GeneratorUtils.GenerateCliAttributeString(opt);
                 parameters.Add($"    [property: {attr}] {opt.CSharpType.TrimEnd('?')} {opt.PropertyName}");
                 existingNames.Add(opt.PropertyName);
             }
@@ -162,94 +157,25 @@ public class OptionsClassGenerator : ICodeGenerator
     private static void GenerateProperty(StringBuilder sb, CliOptionDefinition option)
     {
         // XML documentation
-        if (!string.IsNullOrEmpty(option.Description))
-        {
-            sb.AppendLine("    /// <summary>");
-            sb.AppendLine($"    /// {EscapeXmlComment(option.Description)}");
-            sb.AppendLine("    /// </summary>");
-        }
+        GeneratorUtils.GenerateXmlDocumentation(sb, option.Description);
 
         // Validation attributes
         if (option.ValidationConstraints is not null)
         {
-            GenerateValidationAttributes(sb, option.ValidationConstraints);
+            GeneratorUtils.GenerateValidationAttributes(sb, option.ValidationConstraints);
         }
 
         // Command attribute
-        var attribute = GetAttributeString(option);
+        var attribute = GeneratorUtils.GenerateCliAttributeString(option);
         sb.AppendLine($"    [{attribute}]");
 
         // Property
         sb.AppendLine($"    public {option.CSharpType} {option.PropertyName} {{ get; set; }}");
     }
 
-    private static void GenerateValidationAttributes(StringBuilder sb, CliValidationConstraints constraints)
-    {
-        if (constraints.MinValue.HasValue || constraints.MaxValue.HasValue)
-        {
-            var min = constraints.MinValue ?? int.MinValue;
-            var max = constraints.MaxValue ?? int.MaxValue;
-            sb.AppendLine($"    [Range({min}, {max})]");
-        }
-
-        if (!string.IsNullOrEmpty(constraints.Pattern))
-        {
-            sb.AppendLine($"    [RegularExpression(@\"{constraints.Pattern}\")]");
-        }
-    }
-
-    private static string GetAttributeString(CliOptionDefinition option)
-    {
-        if (option.IsFlag)
-        {
-            // Use CliFlag for boolean flags
-            var parts = new List<string> { $"\"{option.SwitchName}\"" };
-
-            if (!string.IsNullOrEmpty(option.ShortForm))
-            {
-                parts.Add($"ShortForm = \"{option.ShortForm}\"");
-            }
-
-            return $"CliFlag({string.Join(", ", parts)})";
-        }
-
-        // Use CliOption for value options
-        var optionParts = new List<string> { $"\"{option.SwitchName}\"" };
-
-        if (!string.IsNullOrEmpty(option.ShortForm))
-        {
-            optionParts.Add($"ShortForm = \"{option.ShortForm}\"");
-        }
-
-        if (option.ValueSeparator == "=")
-        {
-            optionParts.Add("Format = OptionFormat.EqualsSeparated");
-        }
-        else if (option.ValueSeparator == ":")
-        {
-            optionParts.Add("Format = OptionFormat.ColonSeparated");
-        }
-        else if (option.ValueSeparator != " " && !string.IsNullOrEmpty(option.ValueSeparator))
-        {
-            optionParts.Add($"CustomSeparator = \"{option.ValueSeparator}\"");
-        }
-
-        if (option.AcceptsMultipleValues)
-        {
-            optionParts.Add("AllowMultiple = true");
-        }
-
-        return $"CliOption({string.Join(", ", optionParts)})";
-    }
-
     private static void GeneratePositionalArgument(StringBuilder sb, CliPositionalArgument positional)
     {
-        if (!string.IsNullOrEmpty(positional.Description))
-        {
-            sb.AppendLine("    /// <summary>");
-            sb.AppendLine($"    /// {EscapeXmlComment(positional.Description)}");
-            sb.AppendLine("    /// </summary>");
-        }
+        GeneratorUtils.GenerateXmlDocumentation(sb, positional.Description);
 
         var attrString = GetPositionalAttributeString(positional);
         sb.AppendLine($"    [{attrString}]");
@@ -282,6 +208,4 @@ public class OptionsClassGenerator : ICodeGenerator
 
         return $"CliArgument({string.Join(", ", parts)})";
     }
-
-    private static string EscapeXmlComment(string text) => GeneratorUtils.EscapeXmlComment(text);
 }

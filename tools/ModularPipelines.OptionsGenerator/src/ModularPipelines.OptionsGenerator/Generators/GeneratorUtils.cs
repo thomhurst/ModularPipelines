@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
+using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.Generators;
 
@@ -163,5 +164,131 @@ public static partial class GeneratorUtils
         }
 
         return CSharpKeywords.Contains(identifier) ? $"@{identifier}" : identifier;
+    }
+
+    /// <summary>
+    /// Generates the CLI attribute string for an option definition.
+    /// Used by both OptionsClassGenerator and GlobalOptionsBaseGenerator.
+    /// </summary>
+    /// <param name="option">The CLI option definition.</param>
+    /// <returns>The attribute string (e.g., "CliFlag(\"--verbose\")" or "CliOption(\"--output\")").</returns>
+    public static string GenerateCliAttributeString(CliOptionDefinition option)
+    {
+        if (option.IsFlag)
+        {
+            // Use CliFlag for boolean flags
+            var parts = new List<string> { $"\"{option.SwitchName}\"" };
+
+            if (!string.IsNullOrEmpty(option.ShortForm))
+            {
+                parts.Add($"ShortForm = \"{option.ShortForm}\"");
+            }
+
+            return $"CliFlag({string.Join(", ", parts)})";
+        }
+
+        // Use CliOption for value options
+        var optionParts = new List<string> { $"\"{option.SwitchName}\"" };
+
+        if (!string.IsNullOrEmpty(option.ShortForm))
+        {
+            optionParts.Add($"ShortForm = \"{option.ShortForm}\"");
+        }
+
+        if (option.ValueSeparator == "=")
+        {
+            optionParts.Add("Format = OptionFormat.EqualsSeparated");
+        }
+        else if (option.ValueSeparator == ":")
+        {
+            optionParts.Add("Format = OptionFormat.ColonSeparated");
+        }
+        else if (option.ValueSeparator != " " && !string.IsNullOrEmpty(option.ValueSeparator))
+        {
+            optionParts.Add($"CustomSeparator = \"{option.ValueSeparator}\"");
+        }
+
+        if (option.AcceptsMultipleValues)
+        {
+            optionParts.Add("AllowMultiple = true");
+        }
+
+        return $"CliOption({string.Join(", ", optionParts)})";
+    }
+
+    /// <summary>
+    /// Generates validation attribute lines for an option with validation constraints.
+    /// </summary>
+    /// <param name="sb">The StringBuilder to append to.</param>
+    /// <param name="constraints">The validation constraints.</param>
+    /// <param name="indent">The indentation string (defaults to 4 spaces).</param>
+    public static void GenerateValidationAttributes(StringBuilder sb, CliValidationConstraints constraints, string indent = "    ")
+    {
+        ArgumentNullException.ThrowIfNull(sb);
+        ArgumentNullException.ThrowIfNull(constraints);
+
+        if (constraints.MinValue.HasValue || constraints.MaxValue.HasValue)
+        {
+            var min = constraints.MinValue ?? int.MinValue;
+            var max = constraints.MaxValue ?? int.MaxValue;
+            sb.AppendLine($"{indent}[Range({min}, {max})]");
+        }
+
+        if (!string.IsNullOrEmpty(constraints.Pattern))
+        {
+            sb.AppendLine($"{indent}[RegularExpression(@\"{constraints.Pattern}\")]");
+        }
+    }
+
+    /// <summary>
+    /// Generates XML documentation block for a description.
+    /// </summary>
+    /// <param name="sb">The StringBuilder to append to.</param>
+    /// <param name="description">The description text.</param>
+    /// <param name="indent">The indentation string (defaults to 4 spaces).</param>
+    public static void GenerateXmlDocumentation(StringBuilder sb, string? description, string indent = "    ")
+    {
+        ArgumentNullException.ThrowIfNull(sb);
+
+        if (!string.IsNullOrEmpty(description))
+        {
+            sb.AppendLine($"{indent}/// <summary>");
+            sb.AppendLine($"{indent}/// {EscapeXmlComment(description)}");
+            sb.AppendLine($"{indent}/// </summary>");
+        }
+    }
+
+    /// <summary>
+    /// Generates a C# method name from CLI command parts.
+    /// Converts command parts to PascalCase method name.
+    /// E.g., ["container", "create"] -> "ContainerCreate", ["build-server"] -> "BuildServer"
+    /// </summary>
+    /// <param name="commandParts">The command parts array.</param>
+    /// <returns>The method name in PascalCase.</returns>
+    public static string GenerateMethodNameFromCommandParts(string[] commandParts)
+    {
+        return string.Join("", commandParts
+            .SelectMany(p => p.Split('-', StringSplitOptions.RemoveEmptyEntries))
+            .Select(p => char.ToUpperInvariant(p[0]) + (p.Length > 1 ? p[1..].ToLowerInvariant() : "")));
+    }
+
+    /// <summary>
+    /// Generates a C# method name from the last part of a CLI command.
+    /// Used for sub-domain commands where the method name is derived from the last segment.
+    /// E.g., ["network", "create"] uses "create" -> "Create"
+    /// </summary>
+    /// <param name="command">The CLI command definition.</param>
+    /// <returns>The method name in PascalCase, or "Execute" if no command parts.</returns>
+    public static string GenerateMethodNameFromLastCommandPart(CliCommandDefinition command)
+    {
+        if (command.CommandParts.Length == 0)
+        {
+            return "Execute";
+        }
+
+        var lastPart = command.CommandParts[^1];
+        var parts = lastPart.Split('-', StringSplitOptions.RemoveEmptyEntries);
+        return string.Join("", parts.Select(p =>
+            char.ToUpperInvariant(p[0]) + (p.Length > 1 ? p[1..].ToLowerInvariant() : "")));
     }
 }
