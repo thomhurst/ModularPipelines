@@ -18,6 +18,12 @@ using ModularPipelines.Engine;
 
 namespace ModularPipelines.Azure.Extensions;
 
+/// <summary>
+/// Extension methods for Azure integration with ModularPipelines.
+/// </summary>
+/// <remarks>
+/// Use <c>context.Azure()</c> to access Azure CLI commands from pipeline modules.
+/// </remarks>
 public static class AzureExtensions
 {
 #pragma warning disable CA2255
@@ -28,6 +34,11 @@ public static class AzureExtensions
         ModularPipelinesContextRegistry.RegisterContext(collection => RegisterAzureContext(collection));
     }
 
+    /// <summary>
+    /// Registers Azure services with the dependency injection container.
+    /// </summary>
+    /// <param name="services">The service collection to register services with.</param>
+    /// <returns>The service collection for method chaining.</returns>
     public static IServiceCollection RegisterAzureContext(this IServiceCollection services)
     {
         services.TryAddScoped<IAzure, Azure>();
