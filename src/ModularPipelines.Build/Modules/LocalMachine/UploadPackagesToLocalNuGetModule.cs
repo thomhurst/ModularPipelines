@@ -12,7 +12,6 @@ namespace ModularPipelines.Build.Modules.LocalMachine;
 [DependsOn<AddLocalNugetSourceModule>]
 [DependsOn<PackagePathsParserModule>]
 [DependsOn<CreateLocalNugetFolderModule>]
-[RunOnLinuxOnly]
 public class UploadPackagesToLocalNuGetModule : Module<CommandResult[]>
 {
     public override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
