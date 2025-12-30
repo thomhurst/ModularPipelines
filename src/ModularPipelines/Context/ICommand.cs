@@ -3,6 +3,13 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
 
+/// <summary>
+/// Provides functionality for executing command line tools and processes.
+/// </summary>
+/// <remarks>
+/// This interface is the core abstraction for running external processes.
+/// For shell-specific execution, see <see cref="IBash"/> and <see cref="IPowershell"/>.
+/// </remarks>
 public interface ICommand
 {
     /// <summary>
