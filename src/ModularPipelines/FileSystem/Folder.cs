@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.JsonUtils;
 using ModularPipelines.Logging;
+using ModularPipelines.Tracing;
 
 namespace ModularPipelines.FileSystem;
 
@@ -77,7 +79,7 @@ public class Folder : IEquatable<Folder>
 
     public Folder Create()
     {
-        ModuleLogger.Current.LogInformation("Creating Folder: {Path}", this);
+        LogFolderOperation("Creating Folder: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
         Directory.CreateDirectory(Path);
         return this;
@@ -85,7 +87,7 @@ public class Folder : IEquatable<Folder>
 
     public void Delete()
     {
-        ModuleLogger.Current.LogInformation("Deleting Folder: {Path}", this);
+        LogFolderOperation("Deleting Folder: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
         DirectoryInfo.Delete(true);
     }
@@ -107,7 +109,7 @@ public class Folder : IEquatable<Folder>
     /// </param>
     public void Clean(bool removeReadOnlyAttribute)
     {
-        ModuleLogger.Current.LogInformation("Cleaning Folder: {Path}", this);
+        LogFolderOperation("Cleaning Folder: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
         foreach (var directory in DirectoryInfo.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
         {
@@ -204,14 +206,14 @@ public class Folder : IEquatable<Folder>
             targetRootDir.LastAccessTimeUtc = DirectoryInfo.LastAccessTimeUtc;
         }
 
-        ModuleLogger.Current.LogInformation("Copied Folder: {Source} > {Destination}", this, targetPath);
+        LogFolderOperationWithDestination("Copied Folder: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, targetPath);
 
         return new Folder(targetPath);
     }
 
     public Folder MoveTo(string path)
     {
-        ModuleLogger.Current.LogInformation("Moving Folder: {Source} > {Destination}", this, path);
+        LogFolderOperationWithDestination("Moving Folder: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, path);
 
         DirectoryInfo.MoveTo(path);
         return this;
@@ -221,7 +223,7 @@ public class Folder : IEquatable<Folder>
     {
         var directoryInfo = new DirectoryInfo(System.IO.Path.Combine(Path, name));
 
-        ModuleLogger.Current.LogInformation("Getting Folder: {Path}", directoryInfo.FullName);
+        LogFolderOperation("Getting Folder: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", directoryInfo.FullName);
 
         return directoryInfo;
     }
@@ -230,7 +232,7 @@ public class Folder : IEquatable<Folder>
     {
         var folder = GetFolder(name).Create();
 
-        ModuleLogger.Current.LogInformation("Creating Folder: {Path}", folder);
+        LogFolderOperation("Creating Folder: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", folder);
 
         return folder;
     }
@@ -239,7 +241,7 @@ public class Folder : IEquatable<Folder>
     {
         var fileInfo = new FileInfo(System.IO.Path.Combine(Path, name));
 
-        ModuleLogger.Current.LogInformation("Getting File: {Path}", fileInfo.FullName);
+        LogFolderOperation("Getting File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", fileInfo.FullName);
 
         return fileInfo;
     }
@@ -255,7 +257,7 @@ public class Folder : IEquatable<Folder>
 
     public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate, Func<Folder, bool> exclusionFilters, [CallerArgumentExpression("predicate")] string predicateExpression = "")
     {
-        ModuleLogger.Current.LogInformation("Searching Folders in: {Path} > {Expression}", this, predicateExpression);
+        LogFolderOperationWithExpression("Searching Folders in: {Path} > {Expression} [Module: {ModuleName}, Activity: {ActivityId}]", this, predicateExpression);
 
         return SafeWalk.EnumerateFolders(this, exclusionFilters)
             .Select(x => new Folder(x))
@@ -265,7 +267,7 @@ public class Folder : IEquatable<Folder>
 
     public IEnumerable<File> GetFiles(Func<File, bool> predicate, Func<Folder, bool> directoryExclusionFilters, [CallerArgumentExpression("predicate")] string predicateExpression = "")
     {
-        ModuleLogger.Current.LogInformation("Searching Files in: {Path} > {Expression}", this, predicateExpression);
+        LogFolderOperationWithExpression("Searching Files in: {Path} > {Expression} [Module: {ModuleName}, Activity: {ActivityId}]", this, predicateExpression);
 
         return SafeWalk.EnumerateFiles(this, directoryExclusionFilters)
             .Select(x => new File(x))
@@ -275,7 +277,7 @@ public class Folder : IEquatable<Folder>
 
     public IEnumerable<File> GetFiles(string globPattern)
     {
-        ModuleLogger.Current.LogInformation("Searching Files in: {Path} > {Glob}", this, globPattern);
+        LogFolderOperationWithExpression("Searching Files in: {Path} > {Glob} [Module: {ModuleName}, Activity: {ActivityId}]", this, globPattern);
 
         return new Matcher(StringComparison.OrdinalIgnoreCase)
             .AddInclude(globPattern)
@@ -312,7 +314,7 @@ public class Folder : IEquatable<Folder>
         var tempDirectory = System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName().Replace(".", string.Empty));
         Directory.CreateDirectory(tempDirectory);
 
-        ModuleLogger.Current.LogInformation("Creating Temporary Folder: {Path}", tempDirectory);
+        LogFolderOperation("Creating Temporary Folder: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", tempDirectory);
 
         return tempDirectory!;
     }
@@ -416,5 +418,53 @@ public class Folder : IEquatable<Folder>
         {
             RemoveReadOnlyAttributeRecursively(subDirectory);
         }
+    }
+
+    /// <summary>
+    /// Logs a folder operation with Activity context information.
+    /// </summary>
+    /// <remarks>
+    /// Phase 2: Uses Activity.Current for context alongside AsyncLocal for backward compatibility.
+    /// The log message includes the current module name and activity ID when available.
+    /// </remarks>
+    private static void LogFolderOperation(string messageTemplate, object? arg1)
+    {
+        var moduleName = ModuleActivityTracing.GetCurrentModuleName() ?? "Unknown";
+        var activityId = ModuleActivityTracing.GetCurrentActivityId();
+
+        ModuleLogger.Current.LogInformation(messageTemplate, arg1, moduleName, activityId);
+    }
+
+    /// <summary>
+    /// Logs a folder operation with Activity context information for operations with source and destination.
+    /// </summary>
+    private static void LogFolderOperationWithDestination(string messageTemplate, object? source, object? destination)
+    {
+        var moduleName = ModuleActivityTracing.GetCurrentModuleName() ?? "Unknown";
+        var activityId = ModuleActivityTracing.GetCurrentActivityId();
+
+        ModuleLogger.Current.LogInformation(messageTemplate, source, destination, moduleName, activityId);
+    }
+
+    /// <summary>
+    /// Logs a folder operation with Activity context information for operations with path and expression/glob.
+    /// </summary>
+    private static void LogFolderOperationWithExpression(string messageTemplate, object? path, object? expression)
+    {
+        var moduleName = ModuleActivityTracing.GetCurrentModuleName() ?? "Unknown";
+        var activityId = ModuleActivityTracing.GetCurrentActivityId();
+
+        ModuleLogger.Current.LogInformation(messageTemplate, path, expression, moduleName, activityId);
+    }
+
+    /// <summary>
+    /// Logs a folder warning with Activity context information.
+    /// </summary>
+    private static void LogFolderWarning(Exception ex, string messageTemplate, object? arg1)
+    {
+        var moduleName = ModuleActivityTracing.GetCurrentModuleName() ?? "Unknown";
+        var activityId = ModuleActivityTracing.GetCurrentActivityId();
+
+        ModuleLogger.Current.LogWarning(ex, messageTemplate, arg1, moduleName, activityId);
     }
 }
