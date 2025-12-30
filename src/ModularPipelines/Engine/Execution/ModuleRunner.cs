@@ -147,8 +147,30 @@ internal class ModuleRunner : IModuleRunner
         var logger = GetOrCreateLogger(moduleType, scopedServiceProvider);
         var moduleContext = new ModuleContext(pipelineContext, module, executionContext, logger);
 
-        // Set up logging
+        // Set up logging - use try/finally to ensure cleanup of AsyncLocal context
         ModuleLogger.Values.Value = logger;
+
+        try
+        {
+            await ExecuteModuleLifecycle(moduleState, scopedServiceProvider, pipelineContext, executionContext, moduleContext, cancellationToken).ConfigureAwait(false);
+        }
+        finally
+        {
+            // Clear AsyncLocal to prevent potential leaks in edge cases (thread pool reuse, long-running contexts)
+            ModuleLogger.Values.Value = null;
+        }
+    }
+
+    private async Task ExecuteModuleLifecycle(
+        ModuleState moduleState,
+        IServiceProvider scopedServiceProvider,
+        IPipelineContext pipelineContext,
+        ModuleExecutionContext executionContext,
+        IModuleContext moduleContext,
+        CancellationToken cancellationToken)
+    {
+        var module = moduleState.Module;
+        var moduleType = moduleState.ModuleType;
 
         // Before module hooks
         await _pipelineSetupExecutor.OnBeforeModuleStartAsync(moduleState).ConfigureAwait(false);

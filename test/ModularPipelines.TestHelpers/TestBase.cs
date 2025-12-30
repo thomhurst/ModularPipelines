@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Executors;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Host;
@@ -36,7 +37,8 @@ public abstract class TestBase
 
         _hosts.Add(host);
 
-        var results = await host.ExecutePipelineAsync();
+        using var cts = CreateTimeoutCancellationTokenSource(testHostSettings.TestTimeout);
+        var results = await host.ExecutePipelineAsync(cts.Token);
 
         return results.Modules.OfType<T>().Single();
     }
@@ -128,6 +130,17 @@ public abstract class TestBase
         var serviceProvider = host.Services;
 
         return (serviceProvider.GetRequiredService<T>(), host);
+    }
+
+    /// <summary>
+    /// Creates a CancellationTokenSource with the specified timeout.
+    /// Returns a non-cancelling source if timeout is infinite.
+    /// </summary>
+    protected static CancellationTokenSource CreateTimeoutCancellationTokenSource(TimeSpan timeout)
+    {
+        return timeout == Timeout.InfiniteTimeSpan
+            ? new CancellationTokenSource()
+            : new CancellationTokenSource(timeout);
     }
 
     [After(Test)]

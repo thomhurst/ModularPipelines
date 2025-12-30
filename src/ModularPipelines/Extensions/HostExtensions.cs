@@ -9,6 +9,11 @@ internal static class HostExtensions
 {
     public static async Task<PipelineSummary> ExecutePipelineAsync(this IPipelineHost host)
     {
-        return await host.Services.GetRequiredService<IExecutionOrchestrator>().ExecuteAsync().ConfigureAwait(false);
+        return await host.ExecutePipelineAsync(CancellationToken.None).ConfigureAwait(false);
+    }
+
+    public static async Task<PipelineSummary> ExecutePipelineAsync(this IPipelineHost host, CancellationToken cancellationToken)
+    {
+        return await host.Services.GetRequiredService<IExecutionOrchestrator>().ExecuteAsync(cancellationToken).ConfigureAwait(false);
     }
 }

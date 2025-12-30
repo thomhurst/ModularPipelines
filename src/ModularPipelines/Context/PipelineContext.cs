@@ -10,11 +10,31 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
 
+/// <summary>
+/// Provides context and services for module execution.
+/// </summary>
+/// <remarks>
+/// This class is registered as Scoped in the DI container, meaning each module execution
+/// gets its own instance. This ensures proper isolation between concurrent module executions.
+/// </remarks>
 internal class PipelineContext : IPipelineContext
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
+
+    /// <summary>
+    /// Cached logger instance for this context.
+    /// </summary>
+    /// <remarks>
+    /// This caching is safe because PipelineContext is Scoped (one instance per module execution).
+    /// Each module gets a fresh PipelineContext, so the cached logger is inherently module-scoped.
+    /// </remarks>
     private IModuleLogger? _logger;
 
+    /// <inheritdoc />
+    /// <remarks>
+    /// Logger is lazily initialized and cached for the lifetime of this context.
+    /// Since PipelineContext is Scoped, this provides a module-specific logger.
+    /// </remarks>
     public IModuleLogger Logger => _logger ??= _moduleLoggerProvider.GetLogger();
 
     public IServiceProvider ServiceProvider { get; }
