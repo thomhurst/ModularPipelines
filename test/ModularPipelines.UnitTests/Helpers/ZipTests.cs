@@ -8,11 +8,42 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class ZipTests : TestBase
 {
+    private static readonly List<string> CreatedArtifacts = [];
+
+    [Before(Class)]
+    public static void ResetArtifacts()
+    {
+        CreatedArtifacts.Clear();
+    }
+
     [After(Class)]
     public static async Task Cleanup()
     {
         await Task.CompletedTask;
 
+        // Clean up tracked artifacts
+        foreach (var artifact in CreatedArtifacts)
+        {
+            try
+            {
+                if (System.IO.File.Exists(artifact))
+                {
+                    System.IO.File.Delete(artifact);
+                }
+                else if (Directory.Exists(artifact))
+                {
+                    Directory.Delete(artifact, recursive: true);
+                }
+            }
+            catch
+            {
+                // Best effort cleanup - ignore errors
+            }
+        }
+
+        CreatedArtifacts.Clear();
+
+        // Also clean up known test artifact locations as fallback
         var zipFile = Path.Combine(TestContext.WorkingDirectory, "LoremData.zip");
         var unzippedDir = Path.Combine(TestContext.WorkingDirectory, "LoremDataUnzipped");
 
@@ -24,6 +55,14 @@ public class ZipTests : TestBase
         if (Directory.Exists(unzippedDir))
         {
             Directory.Delete(unzippedDir, recursive: true);
+        }
+    }
+
+    private static void TrackArtifact(string path)
+    {
+        if (!CreatedArtifacts.Contains(path))
+        {
+            CreatedArtifacts.Add(path);
         }
     }
 
@@ -39,6 +78,9 @@ public class ZipTests : TestBase
                 .GetFolder("Zip");
 
             var fileToWrite = context.Environment.WorkingDirectory.GetFile("LoremData.zip");
+
+            // Track for cleanup
+            TrackArtifact(fileToWrite.Path);
 
             fileToWrite.Delete();
 
@@ -85,6 +127,9 @@ public class ZipTests : TestBase
             var zipLocation = context.Environment.WorkingDirectory.GetFile("LoremData.zip");
 
             var unzippedLocation = context.Environment.WorkingDirectory.GetFolder("LoremDataUnzipped");
+
+            // Track for cleanup
+            TrackArtifact(unzippedLocation.Path);
 
             context.Zip.UnZipToFolder(zipLocation.Path, unzippedLocation.Path);
 

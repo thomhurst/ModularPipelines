@@ -56,12 +56,10 @@ internal class Http : IHttp, IDisposable
             var moduleLogger = _moduleLoggerProvider.GetLogger();
             var serviceCollection = new ServiceCollection()
                 .AddSingleton(moduleLogger)
-                .AddSingleton(_httpLogger)
-                .AddTransient<SuccessHttpHandler>();
+                .AddSingleton(_httpLogger);
 
             var httpClientBuilder = serviceCollection
-                .AddHttpClient<ModularPipelinesHttpClientProvider>()
-                .AddHttpMessageHandler<SuccessHttpHandler>();
+                .AddHttpClient<ModularPipelinesHttpClientProvider>();
 
             if (loggingType.HasFlag(HttpLoggingType.Request))
             {
