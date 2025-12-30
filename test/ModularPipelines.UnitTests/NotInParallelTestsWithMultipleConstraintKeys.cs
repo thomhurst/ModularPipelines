@@ -5,9 +5,12 @@ using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests;
 
+[TUnit.Core.NotInParallel]
 public class NotInParallelTestsWithMultipleConstraintKeys : TestBase
 {
-    private static readonly ConcurrentBag<string> _executingModules = new();
+    // Use ConcurrentDictionary instead of ConcurrentBag to ensure we remove the correct entry
+    // ConcurrentBag.TryTake() removes an arbitrary item, which corrupts tracking
+    private static readonly ConcurrentDictionary<string, bool> _executingModules = new();
     private static readonly ConcurrentBag<string> _violations = new();
 
     [ModularPipelines.Attributes.NotInParallel("A")]
@@ -17,17 +20,17 @@ public class NotInParallelTestsWithMultipleConstraintKeys : TestBase
         {
             var moduleName = GetType().Name;
 
-            _executingModules.Add(moduleName);
+            _executingModules[moduleName] = true;
             await Task.Delay(50, cancellationToken);
 
-            if (_executingModules.Contains("Module2"))
+            if (_executingModules.ContainsKey("Module2"))
             {
                 _violations.Add($"{moduleName} started while Module2 was executing (both have 'A')");
             }
 
             await Task.Delay(50, cancellationToken);
 
-            _executingModules.TryTake(out _);
+            _executingModules.TryRemove(moduleName, out _);
             return moduleName;
         }
     }
@@ -39,22 +42,22 @@ public class NotInParallelTestsWithMultipleConstraintKeys : TestBase
         {
             var moduleName = GetType().Name;
 
-            _executingModules.Add(moduleName);
+            _executingModules[moduleName] = true;
             await Task.Delay(50, cancellationToken);
 
-            if (_executingModules.Contains("Module1"))
+            if (_executingModules.ContainsKey("Module1"))
             {
                 _violations.Add($"{moduleName} started while Module1 was executing (both have 'A')");
             }
 
-            if (_executingModules.Contains("Module3"))
+            if (_executingModules.ContainsKey("Module3"))
             {
                 _violations.Add($"{moduleName} started while Module3 was executing (both have 'B')");
             }
 
             await Task.Delay(50, cancellationToken);
 
-            _executingModules.TryTake(out _);
+            _executingModules.TryRemove(moduleName, out _);
             return moduleName;
         }
     }
@@ -66,17 +69,17 @@ public class NotInParallelTestsWithMultipleConstraintKeys : TestBase
         {
             var moduleName = GetType().Name;
 
-            _executingModules.Add(moduleName);
+            _executingModules[moduleName] = true;
             await Task.Delay(50, cancellationToken);
 
-            if (_executingModules.Contains("Module2"))
+            if (_executingModules.ContainsKey("Module2"))
             {
                 _violations.Add($"{moduleName} started while Module2 was executing (both have 'B')");
             }
 
             await Task.Delay(50, cancellationToken);
 
-            _executingModules.TryTake(out _);
+            _executingModules.TryRemove(moduleName, out _);
             return moduleName;
         }
     }
@@ -87,11 +90,11 @@ public class NotInParallelTestsWithMultipleConstraintKeys : TestBase
         public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var moduleName = GetType().Name;
-            _executingModules.Add(moduleName);
+            _executingModules[moduleName] = true;
 
             await Task.Delay(100, cancellationToken);
 
-            _executingModules.TryTake(out _);
+            _executingModules.TryRemove(moduleName, out _);
             return moduleName;
         }
     }
