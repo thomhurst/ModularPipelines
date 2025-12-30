@@ -1,11 +1,16 @@
 using ModularPipelines.Enums;
+using ModularPipelines.Interfaces;
 using Semaphores;
 
 namespace ModularPipelines.Helpers;
 
 internal interface IParallelLimitProvider
 {
-    AsyncSemaphore GetLock(Type parallelLimitType);
+    /// <summary>
+    /// Gets a semaphore lock for the specified parallel limit type.
+    /// Uses static abstract interface member to avoid reflection.
+    /// </summary>
+    AsyncSemaphore GetLock<TParallelLimit>() where TParallelLimit : IParallelLimit;
 
     int GetMaxDegreeOfParallelism();
 

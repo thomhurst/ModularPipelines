@@ -27,20 +27,13 @@ internal class ModuleResultRegistrar : IModuleResultRegistrar
     {
         var resultType = module.ResultType;
 
-        // Create execution context with PipelineTerminated status
-        var contextType = typeof(ModuleExecutionContext<>).MakeGenericType(resultType);
-        var executionContext = (ModuleExecutionContext)Activator.CreateInstance(contextType, module, moduleType)!;
+        // Create execution context with PipelineTerminated status using compiled delegate factory
+        var executionContext = ExecutionContextFactory.Create(module, moduleType);
         executionContext.Status = Enums.Status.PipelineTerminated;
         executionContext.Exception = exception;
 
-        // Create ModuleResult<T> with the exception
-        var resultGenericType = typeof(ModuleResult<>).MakeGenericType(resultType);
-        var result = (IModuleResult)Activator.CreateInstance(
-            resultGenericType,
-            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance,
-            null,
-            new object[] { exception, executionContext },
-            null)!;
+        // Create ModuleResult<T> with the exception using compiled delegate factory
+        var result = ModuleResultFactory.CreateException(resultType, exception, executionContext);
 
         _resultRegistry.RegisterResult(moduleType, result);
     }

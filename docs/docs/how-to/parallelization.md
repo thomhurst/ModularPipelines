@@ -121,7 +121,7 @@ public class BuildProjectModule : Module
 
 public record MyParallelLimit : IParallelLimit
 {
-    public int Limit => 2;
+    public static int Limit => 2;
 }
 ```
 
