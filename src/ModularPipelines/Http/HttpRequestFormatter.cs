@@ -40,12 +40,12 @@ internal class HttpRequestFormatter : IHttpRequestFormatter
         "application/javascript",
     };
 
-    public Task<string> FormatAsync(HttpRequestMessage request)
+    public Task<string> FormatAsync(HttpRequestMessage request, CancellationToken cancellationToken = default)
     {
-        return FormatAsync(request, HttpLoggingOptions.Default);
+        return FormatAsync(request, HttpLoggingOptions.Default, cancellationToken);
     }
 
-    public async Task<string> FormatAsync(HttpRequestMessage request, HttpLoggingOptions options)
+    public async Task<string> FormatAsync(HttpRequestMessage request, HttpLoggingOptions options, CancellationToken cancellationToken = default)
     {
         var sb = new StringBuilder();
 
@@ -60,7 +60,7 @@ internal class HttpRequestFormatter : IHttpRequestFormatter
 
         if (options.LogRequestBody)
         {
-            await AppendBodyAsync(sb, request.Content, options.MaxBodySizeToLog).ConfigureAwait(false);
+            await AppendBodyAsync(sb, request.Content, options.MaxBodySizeToLog, cancellationToken).ConfigureAwait(false);
         }
 
         return sb.ToString();
@@ -95,7 +95,7 @@ internal class HttpRequestFormatter : IHttpRequestFormatter
         }
     }
 
-    private static async Task AppendBodyAsync(StringBuilder sb, HttpContent? content, int maxBodySize)
+    private static async Task AppendBodyAsync(StringBuilder sb, HttpContent? content, int maxBodySize, CancellationToken cancellationToken)
     {
         sb.AppendLine("Body");
 
@@ -114,7 +114,7 @@ internal class HttpRequestFormatter : IHttpRequestFormatter
             return;
         }
 
-        var body = await content.ReadAsStringAsync().ConfigureAwait(false);
+        var body = await content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
         if (string.IsNullOrWhiteSpace(body))
         {
