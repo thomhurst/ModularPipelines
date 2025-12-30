@@ -53,7 +53,13 @@ public class CreateReleaseModule : Module<Release>, ISkippable, IIgnoreFailures
     {
         var versionInfoResult = context.GetModule<NugetVersionGeneratorModule, string>();
 
-        return await context.GitHub().Client.Repository.Release.Create(long.Parse(context.GitHub().EnvironmentVariables.RepositoryId!),
+        var repositoryIdString = context.GitHub().EnvironmentVariables.RepositoryId;
+        if (!long.TryParse(repositoryIdString, out var repositoryId))
+        {
+            throw new InvalidOperationException($"Failed to parse RepositoryId '{repositoryIdString}' as a valid long integer.");
+        }
+
+        return await context.GitHub().Client.Repository.Release.Create(repositoryId,
             new NewRelease($"v{versionInfoResult.Value}")
             {
                 Name = versionInfoResult.Value,

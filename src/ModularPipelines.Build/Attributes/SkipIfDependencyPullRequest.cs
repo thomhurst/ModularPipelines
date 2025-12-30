@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Attributes;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.GitHub.Extensions;
 
@@ -15,9 +15,18 @@ public class SkipIfDependencyPullRequest : MandatoryRunConditionAttribute
             return true;
         }
 
-        var prNumber = int.Parse(gitHubEnvironmentVariables.RefName!.Split('/').First());
+        var refNamePart = gitHubEnvironmentVariables.RefName?.Split('/').FirstOrDefault();
+        if (!int.TryParse(refNamePart, out var prNumber))
+        {
+            return true;
+        }
 
-        var pr = await pipelineContext.GitHub().Client.PullRequest.Get(int.Parse(gitHubEnvironmentVariables.RepositoryId!), prNumber);
+        if (!long.TryParse(gitHubEnvironmentVariables.RepositoryId, out var repositoryId))
+        {
+            return true;
+        }
+
+        var pr = await pipelineContext.GitHub().Client.PullRequest.Get(repositoryId, prNumber);
 
         return pr.Labels.All(x => x.Name != "dependencies");
     }
