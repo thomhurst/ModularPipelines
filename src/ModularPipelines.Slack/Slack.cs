@@ -13,8 +13,10 @@ internal class Slack : ISlack
         _http = http;
     }
 
-    public async Task PostWebHookMessage(SlackWebHookOptions options)
+    public async Task PostWebHookMessage(SlackWebHookOptions options, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         var slackClient = new SlackClient(options.WebHookUri.AbsoluteUri, httpClient: _http.GetLoggingHttpClient());
 
         await slackClient.PostAsync(options.SlackMessage);

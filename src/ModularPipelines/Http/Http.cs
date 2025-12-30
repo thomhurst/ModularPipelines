@@ -20,7 +20,6 @@ internal class Http : IHttp, IDisposable
 
     public Http(HttpClient defaultHttpClient,
         IModuleLoggerProvider moduleLoggerProvider,
-        IHttpClientFactory httpClientFactory,
         IHttpLogger httpLogger,
         IOptions<PipelineOptions> pipelineOptions)
     {
