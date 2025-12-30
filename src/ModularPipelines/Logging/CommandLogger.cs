@@ -131,9 +131,10 @@ internal class CommandLogger : ICommandLogger
         }
         else
         {
-            Logger.LogInformation("{Timestamp}Command: {WorkingDirectory}> " + LoggingConstants.CommandMask,
+            Logger.LogInformation("{Timestamp}Command: {WorkingDirectory}> {Mask}",
                 timestamp,
-                workingDirectory);
+                workingDirectory,
+                LoggingConstants.CommandMask);
         }
     }
 
