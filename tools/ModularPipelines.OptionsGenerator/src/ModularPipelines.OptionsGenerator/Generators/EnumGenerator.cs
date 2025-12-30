@@ -46,7 +46,7 @@ public class EnumGenerator : ICodeGenerator
         if (!string.IsNullOrEmpty(enumDef.Description))
         {
             sb.AppendLine("/// <summary>");
-            sb.AppendLine($"/// {EscapeXmlComment(enumDef.Description)}");
+            sb.AppendLine($"/// {GeneratorUtils.EscapeXmlComment(enumDef.Description)}");
             sb.AppendLine("/// </summary>");
         }
 
@@ -61,7 +61,7 @@ public class EnumGenerator : ICodeGenerator
             if (!string.IsNullOrEmpty(value.Description))
             {
                 sb.AppendLine("    /// <summary>");
-                sb.AppendLine($"    /// {EscapeXmlComment(value.Description)}");
+                sb.AppendLine($"    /// {GeneratorUtils.EscapeXmlComment(value.Description)}");
                 sb.AppendLine("    /// </summary>");
             }
 
@@ -80,5 +80,4 @@ public class EnumGenerator : ICodeGenerator
         return sb.ToString();
     }
 
-    private static string EscapeXmlComment(string text) => GeneratorUtils.EscapeXmlComment(text);
 }
