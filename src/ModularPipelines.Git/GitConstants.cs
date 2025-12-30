@@ -18,4 +18,9 @@ internal static class GitConstants
         $"'%aN {GitEscapedLineSeparator} %aE {GitEscapedLineSeparator} %aI {GitEscapedLineSeparator} " +
         $"%cN {GitEscapedLineSeparator} %cE {GitEscapedLineSeparator} %cI {GitEscapedLineSeparator} " +
         $"%H {GitEscapedLineSeparator} %h {GitEscapedLineSeparator} %s {GitEscapedLineSeparator} %b'";
+
+    /// <summary>
+    /// Git format specifier for Unix timestamp of author date.
+    /// </summary>
+    public const string AuthorTimestampFormat = "%at";
 }

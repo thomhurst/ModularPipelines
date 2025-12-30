@@ -68,7 +68,7 @@ internal class GitInformation : IGitInformation, IInitializer
 
         Async(async () =>
         {
-            var timestampStr = await GetOutput(command, logger, new GitLogOptions { Format = "%at", Arguments = ["-1"] });
+            var timestampStr = await GetOutput(command, logger, new GitLogOptions { Format = GitConstants.AuthorTimestampFormat, Arguments = ["-1"] });
             LastCommitDateTime = long.TryParse(timestampStr, out var timestamp)
                 ? DateTimeOffset.FromUnixTimeSeconds(timestamp)
                 : DateTimeOffset.MinValue;
