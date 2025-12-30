@@ -64,7 +64,7 @@ internal class Downloader : IDownloader
             HttpClient = options.HttpClient,
         }, cancellationToken).ConfigureAwait(false);
 
-        return response.EnsureSuccessStatusCode();
+        return await response.EnsureSuccessStatusCodeWithContentAsync(cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

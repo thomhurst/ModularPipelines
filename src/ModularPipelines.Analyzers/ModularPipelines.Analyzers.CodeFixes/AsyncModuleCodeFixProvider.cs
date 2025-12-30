@@ -66,12 +66,26 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
 
         foreach (var returnStatement in GetReturnStatements(methodDeclarationSyntax))
         {
-            var expressionSyntax = returnStatement.ChildNodes().OfType<ExpressionSyntax>().First()!;
+            var expressionSyntax = returnStatement.ChildNodes().OfType<ExpressionSyntax>().FirstOrDefault();
+
+            // Skip return statements without expressions (e.g., bare "return;")
+            if (expressionSyntax is null)
+            {
+                continue;
+            }
 
             if (IsTaskFromResult(expressionSyntax, semanticModel)
                 || IsAsTaskExtension(expressionSyntax, semanticModel))
             {
-                var firstInnerExpression = expressionSyntax.ChildNodes().OfType<ArgumentListSyntax>().First().Arguments.First().Expression;
+                var argumentList = expressionSyntax.ChildNodes().OfType<ArgumentListSyntax>().FirstOrDefault();
+                var firstArgument = argumentList?.Arguments.FirstOrDefault();
+                var firstInnerExpression = firstArgument?.Expression;
+
+                // Skip if we can't find the inner expression to unwrap
+                if (firstInnerExpression is null)
+                {
+                    continue;
+                }
 
                 var newReturnStatement = returnStatement.ReplaceNode(expressionSyntax, firstInnerExpression);
 

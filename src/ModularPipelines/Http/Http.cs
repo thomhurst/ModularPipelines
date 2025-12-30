@@ -45,7 +45,7 @@ internal class Http : IHttp, IDisposable
             return response;
         }
 
-        return response.EnsureSuccessStatusCode();
+        return await response.EnsureSuccessStatusCodeWithContentAsync(cancellationToken).ConfigureAwait(false);
     }
 
     public HttpClient GetLoggingHttpClient(HttpLoggingType loggingType)
@@ -141,7 +141,7 @@ internal class Http : IHttp, IDisposable
             return response;
         }
 
-        return response.EnsureSuccessStatusCode();
+        return await response.EnsureSuccessStatusCodeWithContentAsync(cancellationToken).ConfigureAwait(false);
     }
 
     private HttpLoggingOptions GetEffectiveLoggingOptions(HttpOptions httpOptions)
