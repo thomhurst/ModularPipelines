@@ -17,6 +17,9 @@ public record CommandLineToolOptions : CommandLineOptions
         Arguments = arguments;
     }
 
+    /// <summary>
+    /// Gets the command line tool to execute.
+    /// </summary>
     public string Tool { get; init; }
 
     public string[]? CommandParts { get; init; }

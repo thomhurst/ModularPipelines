@@ -8,7 +8,7 @@ public interface IHex
     /// Converts a string to a hex encoded string.
     /// </summary>
     /// <param name="input">The string to convert to a hex.</param>
-    /// <returns></returns>
+    /// <returns>The hex encoded string.</returns>
     string ToHex(string input) => ToHex(input, Encoding.UTF8);
 
     /// <summary>
@@ -16,21 +16,21 @@ public interface IHex
     /// </summary>
     /// <param name="input">The string to convert to a hex.</param>
     /// <param name="encoding">The string encoding.</param>
-    /// <returns></returns>
+    /// <returns>The hex encoded string.</returns>
     string ToHex(string input, Encoding encoding);
 
     /// <summary>
     /// Converts a byte sequence to a hex encoded string.
     /// </summary>
     /// <param name="bytes">The byte array to convert to a hex.</param>
-    /// <returns></returns>
+    /// <returns>The hex encoded string.</returns>
     string ToHex(IEnumerable<byte> bytes);
 
     /// <summary>
     /// Converts a hex encoded string to a decoded standard string.
     /// </summary>
     /// <param name="hexInput">The hex string to decode.</param>
-    /// <returns></returns>
+    /// <returns>The decoded string.</returns>
     string FromHex(string hexInput) => FromHex(hexInput, Encoding.UTF8);
 
     /// <summary>
@@ -38,6 +38,6 @@ public interface IHex
     /// </summary>
     /// <param name="hexInput">The hex string to decode.</param>
     /// <param name="encoding">The string encoding.</param>
-    /// <returns></returns>
+    /// <returns>The decoded string.</returns>
     string FromHex(string hexInput, Encoding encoding);
 }
