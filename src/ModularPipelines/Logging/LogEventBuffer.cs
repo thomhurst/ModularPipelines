@@ -28,14 +28,14 @@ namespace ModularPipelines.Logging;
 /// </example>
 internal class LogEventBuffer : ILogEventBuffer
 {
-    private List<StringOrLogEvent> _events = new();
+    private Queue<StringOrLogEvent> _events = new();
     private readonly object _lock = new();
 
     public void Add(StringOrLogEvent logEvent)
     {
         lock (_lock)
         {
-            _events.Add(logEvent);
+            _events.Enqueue(logEvent);
         }
     }
 
@@ -43,8 +43,8 @@ internal class LogEventBuffer : ILogEventBuffer
     {
         lock (_lock)
         {
-            var events = _events;
-            _events = new List<StringOrLogEvent>();
+            var events = _events.ToList();
+            _events = new Queue<StringOrLogEvent>();
             return events;
         }
     }
