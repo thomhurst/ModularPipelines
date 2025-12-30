@@ -12,7 +12,11 @@ public static class ModuleResultAssertions
     /// Asserts that a module result represents a successful execution with a non-null value.
     /// Checks: ModuleResultType is Success, Exception is null, Value is not null.
     /// </summary>
-    public static async Task AssertSuccessWithValue<T>(ModuleResult<T> moduleResult)
+    /// <remarks>
+    /// The signature uses <c>ModuleResult&lt;T?&gt;</c> because <see cref="Module{T}.GetAwaiter()"/>
+    /// returns <c>ModuleResult&lt;T?&gt;</c>, matching the nullable return type of ExecuteAsync.
+    /// </remarks>
+    public static async Task AssertSuccessWithValue<T>(ModuleResult<T?> moduleResult)
         where T : class
     {
         using (Assert.Multiple())
@@ -27,7 +31,12 @@ public static class ModuleResultAssertions
     /// Asserts that a module result represents a successful execution.
     /// Checks: ModuleResultType is Success, Exception is null.
     /// </summary>
-    public static async Task AssertSuccess<T>(ModuleResult<T> moduleResult)
+    /// <remarks>
+    /// The signature uses <c>ModuleResult&lt;T?&gt;</c> because <see cref="Module{T}.GetAwaiter()"/>
+    /// returns <c>ModuleResult&lt;T?&gt;</c>, matching the nullable return type of ExecuteAsync.
+    /// </remarks>
+    public static async Task AssertSuccess<T>(ModuleResult<T?> moduleResult)
+        where T : class
     {
         using (Assert.Multiple())
         {

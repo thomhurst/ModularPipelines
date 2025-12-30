@@ -3,6 +3,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Node.Extensions;
 using ModularPipelines.TestHelpers;
+using ModularPipelines.TestHelpers.Assertions;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -21,12 +22,7 @@ public class NodeTests : TestBase
     {
         var moduleResult = await await RunModule<NodeVersionModule>();
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
-            await Assert.That(moduleResult.Exception).IsNull();
-            await Assert.That(moduleResult.Value).IsNotNull();
-        }
+        await ModuleResultAssertions.AssertSuccessWithValue(moduleResult);
     }
 
     [Test]
@@ -37,7 +33,7 @@ public class NodeTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(moduleResult.Value!.StandardError).IsNull().Or.IsEmpty();
-            await Assert.That(moduleResult.Value.StandardOutput).Matches("v\\d+");
+            await Assert.That(moduleResult.Value.StandardOutput).Matches(@"v\d+");
         }
     }
 }

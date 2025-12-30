@@ -3,6 +3,7 @@ using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using ModularPipelines.TestHelpers.Assertions;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -96,11 +97,7 @@ public class ZipTests : TestBase
     {
         var moduleResult = await await RunModule<ZipModule>();
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
-            await Assert.That(moduleResult.Exception).IsNull();
-        }
+        await ModuleResultAssertions.AssertSuccess(moduleResult);
     }
 
     [Test]
@@ -143,11 +140,7 @@ public class ZipTests : TestBase
     {
         var moduleResult = await await RunModule<UnZipModule>();
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
-            await Assert.That(moduleResult.Exception).IsNull();
-        }
+        await ModuleResultAssertions.AssertSuccess(moduleResult);
     }
 
     [Test]
