@@ -24,7 +24,7 @@ public class FolderTests : TestBase
         foreach (var fileName in Enumerable.Range(0, 10)
                      .Select(x => Guid.NewGuid().ToString("N") + ".txt"))
         {
-            await File.WriteAllTextAsync(Path.Combine(folder, fileName), "Foo bar!");
+            await File.WriteAllTextAsync(Path.Combine(folder, fileName), TestConstants.TestString);
         }
 
         await Assert.That(folder.ListFiles().ToList()).HasCount().EqualTo(10);
@@ -119,7 +119,7 @@ public class FolderTests : TestBase
         foreach (var fileName in Enumerable.Range(0, 10)
                      .Select(x => Guid.NewGuid().ToString("N") + ".txt"))
         {
-            await File.WriteAllTextAsync(Path.Combine(folder, fileName), "Foo bar!");
+            await File.WriteAllTextAsync(Path.Combine(folder, fileName), TestConstants.TestString);
         }
 
         using (Assert.Multiple())
@@ -150,7 +150,7 @@ public class FolderTests : TestBase
         foreach (var fileName in Enumerable.Range(0, 10)
                      .Select(x => Guid.NewGuid().ToString("N") + ".txt"))
         {
-            await File.WriteAllTextAsync(Path.Combine(folder, fileName), "Foo bar!");
+            await File.WriteAllTextAsync(Path.Combine(folder, fileName), TestConstants.TestString);
         }
 
         using (Assert.Multiple())

@@ -17,7 +17,7 @@ public class ModuleTimeoutTests : TestBase
         public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await _taskCompletionSource.Task.WaitAsync(cancellationToken);
-            return "Foo bar!";
+            return TestConstants.TestString;
         }
     }
 
@@ -36,7 +36,7 @@ public class ModuleTimeoutTests : TestBase
             catch (TimeoutException)
             {
             }
-            return "Foo bar!";
+            return TestConstants.TestString;
         }
     }
 
@@ -45,7 +45,7 @@ public class ModuleTimeoutTests : TestBase
         public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(TimeSpan.FromMilliseconds(10), cancellationToken);
-            return "Foo bar!";
+            return TestConstants.TestString;
         }
     }
 

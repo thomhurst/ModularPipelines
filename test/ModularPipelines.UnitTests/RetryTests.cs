@@ -14,6 +14,32 @@ namespace ModularPipelines.UnitTests;
 
 public class RetryTests : TestBase
 {
+    /// <summary>
+    /// The default retry count used for testing retry behavior.
+    /// </summary>
+    private const int DefaultRetryCount = 3;
+
+    /// <summary>
+    /// The expected execution count after all retries complete (1 initial + 3 retries = 4).
+    /// </summary>
+    private const int ExpectedExecutionCountAfterRetries = 4;
+
+    /// <summary>
+    /// The expected execution count when no retries occur.
+    /// </summary>
+    private const int ExpectedSingleExecutionCount = 1;
+
+    /// <summary>
+    /// The timeout duration for the FailedModuleWithTimeout test module (in milliseconds).
+    /// </summary>
+    private const int ModuleTimeoutMs = 50;
+
+    /// <summary>
+    /// The delay duration for the FailedModuleWithTimeout test module (in milliseconds).
+    /// Must be less than ModuleTimeoutMs to allow timeout to trigger.
+    /// </summary>
+    private const int ModuleDelayMs = 30;
+
     private class SuccessModule : Module<IDictionary<string, object>?>
     {
         internal int ExecutionCount;
@@ -34,7 +60,7 @@ public class RetryTests : TestBase
         {
             ExecutionCount++;
 
-            if (ExecutionCount != 4)
+            if (ExecutionCount != ExpectedExecutionCountAfterRetries)
             {
                 throw new Exception();
             }
@@ -52,14 +78,14 @@ public class RetryTests : TestBase
         {
             return Policy<IDictionary<string, object>?>
                 .Handle<Exception>()
-                .WaitAndRetryAsync(3, _ => TimeSpan.Zero);
+                .WaitAndRetryAsync(DefaultRetryCount, _ => TimeSpan.Zero);
         }
 
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionCount++;
 
-            if (ExecutionCount != 4)
+            if (ExecutionCount != ExpectedExecutionCountAfterRetries)
             {
                 throw new Exception();
             }
@@ -71,13 +97,11 @@ public class RetryTests : TestBase
 
     private class FailedModuleWithTimeout : Module<IDictionary<string, object>?>, ITimeoutable
     {
-        // Reduced timeout from 300ms to 50ms for faster test execution
-        public TimeSpan Timeout => TimeSpan.FromMilliseconds(50);
+        public TimeSpan Timeout => TimeSpan.FromMilliseconds(ModuleTimeoutMs);
 
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            // Reduced delay from 200ms to 30ms for faster test execution
-            await Task.Delay(TimeSpan.FromMilliseconds(30), cancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(ModuleDelayMs), cancellationToken);
 
             throw new Exception();
         }
@@ -89,7 +113,7 @@ public class RetryTests : TestBase
         var host = await TestPipelineHostBuilder.Create()
             .ConfigurePipelineOptions((_, options) =>
             {
-                options.DefaultRetryCount = 3;
+                options.DefaultRetryCount = DefaultRetryCount;
             })
             .AddModule<SuccessModule>()
             .BuildHostAsync();
@@ -102,7 +126,7 @@ public class RetryTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(module.ExecutionCount).IsEqualTo(1);
+            await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedSingleExecutionCount);
             await Assert.That(result.Exception).IsNull();
         }
     }
@@ -113,7 +137,7 @@ public class RetryTests : TestBase
         var host = await TestPipelineHostBuilder.Create()
             .ConfigurePipelineOptions((_, options) =>
             {
-                options.DefaultRetryCount = 3;
+                options.DefaultRetryCount = DefaultRetryCount;
             })
             .AddModule<FailedModule>()
             .BuildHostAsync();
@@ -126,7 +150,7 @@ public class RetryTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(module.ExecutionCount).IsEqualTo(4);
+            await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedExecutionCountAfterRetries);
             await Assert.That(result.Exception).IsNull();
         }
     }
@@ -146,7 +170,7 @@ public class RetryTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(module.ExecutionCount).IsEqualTo(4);
+            await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedExecutionCountAfterRetries);
             await Assert.That(result.Exception).IsNull();
         }
     }
@@ -170,7 +194,7 @@ public class RetryTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(module.ExecutionCount).IsEqualTo(1);
+            await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedSingleExecutionCount);
             await Assert.That(result.Exception).IsNotNull();
         }
     }
@@ -181,7 +205,7 @@ public class RetryTests : TestBase
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await TestPipelineHostBuilder.Create()
             .ConfigurePipelineOptions((_, options) =>
             {
-                options.DefaultRetryCount = 3;
+                options.DefaultRetryCount = DefaultRetryCount;
             })
             .AddModule<FailedModuleWithTimeout>()
             .ExecutePipelineAsync());

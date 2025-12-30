@@ -12,7 +12,7 @@ namespace ModularPipelines.UnitTests.Helpers;
 /// </summary>
 public class EncodingTests : TestBase
 {
-    private const string TestInput = "Foo bar!";
+    private const string TestInput = TestConstants.TestString;
 
     #region Test Data
 

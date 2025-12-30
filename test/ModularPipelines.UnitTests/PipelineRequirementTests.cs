@@ -50,7 +50,7 @@ public class PipelineRequirementTests
             .ExecutePipelineAsync();
         await Assert.That(executePipelineDelegate)
             .Throws<FailedRequirementsException>()
-            .And.HasMessageEqualTo("Requirements failed:\r\nError: Foo bar!");
+            .And.HasMessageEqualTo("Requirements failed:\r\n" + TestConstants.RequirementErrorMessage);
     }
 
     private class DummyModule : Module<IDictionary<string, object>?>
@@ -85,7 +85,7 @@ public class PipelineRequirementTests
         public async Task<RequirementDecision> MustAsync(IPipelineHookContext context)
         {
             await Task.Yield();
-            return RequirementDecision.Failed("Error: Foo bar!");
+            return RequirementDecision.Failed(TestConstants.RequirementErrorMessage);
         }
     }
 }
