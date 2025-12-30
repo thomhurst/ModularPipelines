@@ -18,6 +18,11 @@ internal class Zip : IZip
 
         ZipFile.CreateFromDirectory(folder.Path, outputPath, compressionLevel, false);
 
+        if (!System.IO.File.Exists(outputPath))
+        {
+            throw new InvalidOperationException($"Failed to create zip file at '{outputPath}'.");
+        }
+
         return new File(outputPath);
     }
 

@@ -70,8 +70,16 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
 
         if (File.Exists(path))
         {
-            var contents = await File.ReadAllTextAsync(path).ConfigureAwait(false);
-            return TimeSpan.Parse(contents);
+            try
+            {
+                var contents = await File.ReadAllTextAsync(path).ConfigureAwait(false);
+                return TimeSpan.Parse(contents);
+            }
+            catch (FormatException)
+            {
+                // File contains malformed content - return default fallback
+                return TimeSpan.FromMinutes(2);
+            }
         }
 
         // Some default fallback. We can't estimate for now so we'll estimate next time.
