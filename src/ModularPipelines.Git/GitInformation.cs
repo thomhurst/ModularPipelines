@@ -112,8 +112,12 @@ internal class GitInformation : IGitInformation, IInitializer
                 .FirstOrDefault(x => x.StartsWith("HEAD branch:"))
                 ?.Split("HEAD branch: ")[1];
         }
-        catch
+        catch (Exception ex)
         {
+            // Fallback: If 'git remote show origin' fails (e.g., no remote configured, network issues,
+            // or shallow clone), try parsing origin/HEAD reference instead. This provides a best-effort
+            // approach to determine the default branch in various git repository states.
+            logger.LogDebug(ex, "Failed to get default branch from 'git remote show origin', falling back to origin/HEAD");
             var output = await GetOutput(command, logger, new GitRevParseOptions
             {
                 Arguments = ["origin/HEAD"],
