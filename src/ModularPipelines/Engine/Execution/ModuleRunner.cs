@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Reflection;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +11,7 @@ using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.Tracing;
 
 namespace ModularPipelines.Engine.Execution;
 
@@ -147,6 +149,9 @@ internal class ModuleRunner : IModuleRunner
         var logger = GetOrCreateLogger(moduleType, scopedServiceProvider);
         var moduleContext = new ModuleContext(pipelineContext, module, executionContext, logger);
 
+        // Start Activity for distributed tracing (Phase 1: alongside AsyncLocal for compatibility)
+        using var activity = ModuleActivityTracing.StartModuleActivity(moduleType);
+
         // Set up logging and module type context - use try/finally to ensure cleanup of AsyncLocal context
         // Assignments MUST be inside try block to guarantee cleanup even if an exception
         // occurs immediately after assignment
@@ -155,6 +160,22 @@ internal class ModuleRunner : IModuleRunner
             ModuleLogger.Values.Value = logger;
             ModuleLogger.CurrentModuleType.Value = moduleType;
             await ExecuteModuleLifecycle(moduleState, scopedServiceProvider, pipelineContext, executionContext, moduleContext, cancellationToken).ConfigureAwait(false);
+
+            // Record success or skip status on the Activity
+            if (executionContext.Status == Enums.Status.Skipped)
+            {
+                ModuleActivityTracing.RecordSkipped(activity);
+            }
+            else
+            {
+                ModuleActivityTracing.RecordSuccess(activity);
+            }
+        }
+        catch (Exception ex)
+        {
+            // Record failure on the Activity before re-throwing
+            ModuleActivityTracing.RecordFailure(activity, ex);
+            throw;
         }
         finally
         {
