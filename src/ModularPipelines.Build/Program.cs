@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines;
 using ModularPipelines.Build;
 using ModularPipelines.Build.Modules;
 using ModularPipelines.Build.Modules.LocalMachine;
@@ -60,17 +61,28 @@ await PipelineHostBuilder.Create()
                 new InMemoryCredentialStore(new Credentials(githubToken)));
         });
 
-        if (context.HostingEnvironment.IsDevelopment())
+        // Local NuGet modules should only run in local development, not CI
+        // IsDevelopment() returns true for both local dev AND PR builds in CI (DOTNET_ENVIRONMENT=Development)
+        // Check common CI environment variables to distinguish local dev from CI
+        var isRunningInCI = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("CI"))
+            || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GITHUB_ACTIONS"))
+            || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("TF_BUILD"))
+            || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GITLAB_CI"));
+        var isLocalDevelopment = context.HostingEnvironment.IsDevelopment() && !isRunningInCI;
+
+        if (isLocalDevelopment)
         {
             collection.AddModule<CreateLocalNugetFolderModule>()
                 .AddModule<AddLocalNugetSourceModule>()
                 .AddModule<UploadPackagesToLocalNuGetModule>();
         }
-        else
+        else if (!context.HostingEnvironment.IsDevelopment())
         {
+            // Production environment (main branch CI)
             collection.AddModule<UploadPackagesToNugetModule>()
                 .AddModule<CreateReleaseModule>();
         }
+        // else: CI Development mode (PR builds) - don't register local NuGet or production upload modules
     })
     .ConfigurePipelineOptions((context, options) => options.DefaultRetryCount = 3)
     .SetLogLevel(LogLevel.Debug) // Temporarily hardcoded for debugging
