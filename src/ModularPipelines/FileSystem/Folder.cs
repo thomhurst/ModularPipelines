@@ -90,37 +90,132 @@ public class Folder : IEquatable<Folder>
         DirectoryInfo.Delete(true);
     }
 
+    /// <summary>
+    /// Removes all files and subdirectories within the folder.
+    /// </summary>
     public void Clean()
+    {
+        Clean(removeReadOnlyAttribute: true);
+    }
+
+    /// <summary>
+    /// Removes all files and subdirectories within the folder.
+    /// </summary>
+    /// <param name="removeReadOnlyAttribute">
+    /// When true, removes the read-only attribute from files and directories before deletion.
+    /// This helps handle read-only items that would otherwise fail to delete.
+    /// </param>
+    public void Clean(bool removeReadOnlyAttribute)
     {
         ModuleLogger.Current.LogInformation("Cleaning Folder: {Path}", this);
 
         foreach (var directory in DirectoryInfo.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
         {
-            directory.Delete(true);
+            try
+            {
+                if (removeReadOnlyAttribute)
+                {
+                    RemoveReadOnlyAttributeRecursively(directory);
+                }
+
+                directory.Delete(true);
+            }
+            catch (Exception ex)
+            {
+                ModuleLogger.Current.LogWarning(ex, "Failed to delete directory: {Path}", directory.FullName);
+            }
         }
 
         foreach (var file in DirectoryInfo.EnumerateFiles("*", SearchOption.TopDirectoryOnly))
         {
-            file.Delete();
+            try
+            {
+                if (removeReadOnlyAttribute && (file.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+                {
+                    file.Attributes &= ~FileAttributes.ReadOnly;
+                }
+
+                file.Delete();
+            }
+            catch (Exception ex)
+            {
+                ModuleLogger.Current.LogWarning(ex, "Failed to delete file: {Path}", file.FullName);
+            }
         }
     }
 
+    /// <summary>
+    /// Copies the folder and its contents to the specified target path.
+    /// </summary>
+    /// <param name="targetPath">The destination path for the copied folder.</param>
+    /// <returns>A new <see cref="Folder"/> instance representing the copied folder.</returns>
     public Folder CopyTo(string targetPath)
+    {
+        return CopyTo(targetPath, preserveTimestamps: true);
+    }
+
+    /// <summary>
+    /// Copies the folder and its contents to the specified target path.
+    /// </summary>
+    /// <param name="targetPath">The destination path for the copied folder.</param>
+    /// <param name="preserveTimestamps">
+    /// When true, preserves CreationTimeUtc, LastWriteTimeUtc, and LastAccessTimeUtc
+    /// for all files and directories.
+    /// </param>
+    /// <returns>A new <see cref="Folder"/> instance representing the copied folder.</returns>
+    public Folder CopyTo(string targetPath, bool preserveTimestamps)
     {
         Directory.CreateDirectory(targetPath);
 
+        // Copy all subdirectories first
         foreach (var dirPath in Directory.EnumerateDirectories(this, "*", SearchOption.AllDirectories))
         {
+            var sourceDir = new DirectoryInfo(dirPath);
             var relativePath = System.IO.Path.GetRelativePath(this, dirPath);
             var newPath = System.IO.Path.Combine(targetPath, relativePath);
-            Directory.CreateDirectory(newPath);
+            var targetDir = Directory.CreateDirectory(newPath);
+
+            // Preserve directory attributes
+            targetDir.Attributes = sourceDir.Attributes;
+
+            if (preserveTimestamps)
+            {
+                targetDir.CreationTimeUtc = sourceDir.CreationTimeUtc;
+                targetDir.LastWriteTimeUtc = sourceDir.LastWriteTimeUtc;
+                targetDir.LastAccessTimeUtc = sourceDir.LastAccessTimeUtc;
+            }
         }
 
+        // Copy all files
         foreach (var filePath in Directory.EnumerateFiles(this, "*", SearchOption.AllDirectories))
         {
+            var sourceFile = new FileInfo(filePath);
             var relativePath = System.IO.Path.GetRelativePath(this, filePath);
             var newPath = System.IO.Path.Combine(targetPath, relativePath);
             System.IO.File.Copy(filePath, newPath, true);
+
+            var targetFile = new FileInfo(newPath);
+
+            // Preserve file attributes
+            targetFile.Attributes = sourceFile.Attributes;
+
+            if (preserveTimestamps)
+            {
+                targetFile.CreationTimeUtc = sourceFile.CreationTimeUtc;
+                targetFile.LastWriteTimeUtc = sourceFile.LastWriteTimeUtc;
+                targetFile.LastAccessTimeUtc = sourceFile.LastAccessTimeUtc;
+            }
+        }
+
+        // Preserve root directory attributes and timestamps after all content is copied
+        var targetRootDir = new DirectoryInfo(targetPath);
+        targetRootDir.Attributes = DirectoryInfo.Attributes;
+
+        if (preserveTimestamps)
+        {
+            targetRootDir.CreationTimeUtc = DirectoryInfo.CreationTimeUtc;
+            targetRootDir.LastWriteTimeUtc = DirectoryInfo.LastWriteTimeUtc;
+            targetRootDir.LastAccessTimeUtc = DirectoryInfo.LastAccessTimeUtc;
         }
 
         ModuleLogger.Current.LogInformation("Copying Folder: {Source} > {Destination}", this, targetPath);
@@ -314,5 +409,29 @@ public class Folder : IEquatable<Folder>
     public static bool operator !=(Folder? left, Folder? right)
     {
         return !Equals(left, right);
+    }
+
+    private static void RemoveReadOnlyAttributeRecursively(DirectoryInfo directory)
+    {
+        if ((directory.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+        {
+            directory.Attributes &= ~FileAttributes.ReadOnly;
+        }
+
+        foreach (var file in directory.EnumerateFiles("*", SearchOption.AllDirectories))
+        {
+            if ((file.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+            {
+                file.Attributes &= ~FileAttributes.ReadOnly;
+            }
+        }
+
+        foreach (var subDirectory in directory.EnumerateDirectories("*", SearchOption.AllDirectories))
+        {
+            if ((subDirectory.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+            {
+                subDirectory.Attributes &= ~FileAttributes.ReadOnly;
+            }
+        }
     }
 }
