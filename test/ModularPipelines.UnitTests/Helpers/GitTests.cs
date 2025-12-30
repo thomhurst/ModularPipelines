@@ -5,6 +5,7 @@ using ModularPipelines.Git.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using ModularPipelines.TestHelpers.Assertions;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -26,12 +27,7 @@ public class GitTests : TestBase
     {
         var moduleResult = await await RunModule<GitVersionModule>();
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
-            await Assert.That(moduleResult.Exception).IsNull();
-            await Assert.That(moduleResult.Value).IsNotNull();
-        }
+        await ModuleResultAssertions.AssertSuccessWithValue(moduleResult);
     }
 
     [Test]
@@ -42,7 +38,7 @@ public class GitTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(moduleResult.Value!.StandardError).IsNull().Or.IsEmpty();
-            await Assert.That(moduleResult.Value.StandardOutput).Matches("git version \\d+.*");
+            await Assert.That(moduleResult.Value.StandardOutput).Matches(@"git version \d+.*");
         }
     }
 

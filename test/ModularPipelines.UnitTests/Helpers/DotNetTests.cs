@@ -6,6 +6,7 @@ using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using ModularPipelines.TestHelpers.Assertions;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -41,12 +42,7 @@ public class DotNetTests : TestBase
     {
         var moduleResult = await await RunModule<DotNetVersionModule>();
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
-            await Assert.That(moduleResult.Exception).IsNull();
-            await Assert.That(moduleResult.Value).IsNotNull();
-        }
+        await ModuleResultAssertions.AssertSuccessWithValue(moduleResult);
     }
 
     [Test]
@@ -55,11 +51,6 @@ public class DotNetTests : TestBase
     {
         var moduleResult = await await RunModule<DotNetFormatModule>();
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
-            await Assert.That(moduleResult.Exception).IsNull();
-            await Assert.That(moduleResult.Value).IsNotNull();
-        }
+        await ModuleResultAssertions.AssertSuccessWithValue(moduleResult);
     }
 }
