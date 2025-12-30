@@ -77,7 +77,7 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 
         var attributes = classSymbol.GetAllAttributesIncludingBaseAndInterfaces();
 
-        if (!attributes.Any(x => x.IsDependsOnAttributeFor(namedTypeSymbol)))
+        if (!attributes.Any(x => x.IsDependsOnAttributeFor(context.Compilation, namedTypeSymbol)))
         {
             var properties = new Dictionary<string, string?>
             {

@@ -88,8 +88,7 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 
         namedTypeSymbol = methodSymbol.ContainingType;
 
-        if (!namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)
-                .StartsWith("global::ModularPipelines.Attributes.DependsOnAttribute"))
+        if (!IsDependsOnAttributeType(namedTypeSymbol, context.Compilation))
         {
             return false;
         }
@@ -97,11 +96,41 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         return true;
     }
 
+    /// <summary>
+    /// Checks if the given type symbol is the DependsOnAttribute type (generic or non-generic).
+    /// Uses proper symbol comparison instead of string comparison.
+    /// </summary>
+    private static bool IsDependsOnAttributeType(INamedTypeSymbol typeSymbol, Compilation compilation)
+    {
+        // Get the non-generic DependsOnAttribute type
+        var dependsOnAttributeType = compilation.GetTypeByMetadataName("ModularPipelines.Attributes.DependsOnAttribute");
+        if (dependsOnAttributeType is null)
+        {
+            return false;
+        }
+
+        // For generic types, compare the original definition
+        var typeToCompare = typeSymbol.IsGenericType
+            ? typeSymbol.OriginalDefinition
+            : typeSymbol;
+
+        // Check if it's the non-generic version
+        if (SymbolEqualityComparer.Default.Equals(typeToCompare, dependsOnAttributeType))
+        {
+            return true;
+        }
+
+        // Get and check the generic version (DependsOnAttribute`1)
+        var genericDependsOnAttributeType = compilation.GetTypeByMetadataName("ModularPipelines.Attributes.DependsOnAttribute`1");
+        return genericDependsOnAttributeType is not null &&
+               SymbolEqualityComparer.Default.Equals(typeToCompare, genericDependsOnAttributeType);
+    }
+
     private static void ReportDiagnostics(SyntaxNodeAnalysisContext context, IEnumerable<AttributeData> allAttributesOnDependentType,
         INamedTypeSymbol typeContainingAttribute, INamedTypeSymbol namedArgumentTypeSymbol)
     {
         foreach (var conflictingDependencyAttribute in allAttributesOnDependentType.Where(x =>
-                     x.IsDependsOnAttributeFor(typeContainingAttribute)))
+                     x.IsDependsOnAttributeFor(context.Compilation, typeContainingAttribute)))
         {
             context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(),
                 namedArgumentTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
