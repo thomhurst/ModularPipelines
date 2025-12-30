@@ -19,7 +19,7 @@ public record HttpOptions(HttpRequestMessage HttpRequestMessage)
     public bool ThrowOnNonSuccessStatusCode { get; set; }
 
     /// <summary>
-    /// Gets and sets the logging for the HTTP request.
+    /// Gets or sets the logging for the HTTP request.
     /// Controls which handlers are used (Request, Response, StatusCode, Duration).
     /// For fine-grained control over what gets logged within those handlers, use <see cref="LogSettings"/>.
     /// </summary>
