@@ -3,6 +3,13 @@ using System.Text;
 
 namespace ModularPipelines.Context;
 
+/// <summary>
+/// Provides hashing operations using various algorithms.
+/// </summary>
+/// <remarks>
+/// Uses the static HashData methods available in .NET 5+ which are thread-safe
+/// and don't require disposal, avoiding resource leaks.
+/// </remarks>
 internal class Hasher : IHasher
 {
     private readonly IHex _hex;
@@ -16,36 +23,31 @@ internal class Hasher : IHasher
 
     public string Sha1(string input, HashType hashType = HashType.Hex)
     {
-        return ComputeHash(SHA1.Create(), input, hashType);
+        var bytes = System.Security.Cryptography.SHA1.HashData(Encoding.UTF8.GetBytes(input));
+        return hashType == HashType.Hex ? _hex.ToHex(bytes) : _base64.ToBase64String(bytes);
     }
 
     public string Sha256(string input, HashType hashType = HashType.Hex)
     {
-        return ComputeHash(SHA256.Create(), input, hashType);
+        var bytes = System.Security.Cryptography.SHA256.HashData(Encoding.UTF8.GetBytes(input));
+        return hashType == HashType.Hex ? _hex.ToHex(bytes) : _base64.ToBase64String(bytes);
     }
 
     public string Sha384(string input, HashType hashType = HashType.Hex)
     {
-        return ComputeHash(SHA384.Create(), input, hashType);
+        var bytes = System.Security.Cryptography.SHA384.HashData(Encoding.UTF8.GetBytes(input));
+        return hashType == HashType.Hex ? _hex.ToHex(bytes) : _base64.ToBase64String(bytes);
     }
 
     public string Sha512(string input, HashType hashType = HashType.Hex)
     {
-        return ComputeHash(SHA512.Create(), input, hashType);
+        var bytes = System.Security.Cryptography.SHA512.HashData(Encoding.UTF8.GetBytes(input));
+        return hashType == HashType.Hex ? _hex.ToHex(bytes) : _base64.ToBase64String(bytes);
     }
 
     public string Md5(string input, HashType hashType = HashType.Hex)
     {
-        return ComputeHash(MD5.Create(), input, hashType);
-    }
-
-    private string ComputeHash(HashAlgorithm hashAlgorithm, string input, HashType hashType)
-    {
-        using (hashAlgorithm)
-        {
-            var bytes = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-            return hashType == HashType.Hex ? _hex.ToHex(bytes) : _base64.ToBase64String(bytes);
-        }
+        var bytes = System.Security.Cryptography.MD5.HashData(Encoding.UTF8.GetBytes(input));
+        return hashType == HashType.Hex ? _hex.ToHex(bytes) : _base64.ToBase64String(bytes);
     }
 }
