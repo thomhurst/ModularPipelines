@@ -1,6 +1,3 @@
-using System.Collections.Concurrent;
-using ModularPipelines.Context;
-using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests;
@@ -8,102 +5,41 @@ namespace ModularPipelines.UnitTests;
 [TUnit.Core.NotInParallel]
 public class NotInParallelTestsWithMultipleConstraintKeys : TestBase
 {
-    // Use ConcurrentDictionary instead of ConcurrentBag to ensure we remove the correct entry
-    // ConcurrentBag.TryTake() removes an arbitrary item, which corrupts tracking
-    private static readonly ConcurrentDictionary<string, bool> _executingModules = new();
-    private static readonly ConcurrentBag<string> _violations = new();
+    private static readonly NotInParallelTracker Tracker = new();
 
     [ModularPipelines.Attributes.NotInParallel("A")]
-    public class Module1 : Module<string>
+    public class Module1 : NotInParallelTestModule
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            var moduleName = GetType().Name;
-
-            _executingModules[moduleName] = true;
-            await Task.Delay(50, cancellationToken);
-
-            if (_executingModules.ContainsKey("Module2"))
-            {
-                _violations.Add($"{moduleName} started while Module2 was executing (both have 'A')");
-            }
-
-            await Task.Delay(50, cancellationToken);
-
-            _executingModules.TryRemove(moduleName, out _);
-            return moduleName;
-        }
+        protected override NotInParallelTracker Tracker => NotInParallelTestsWithMultipleConstraintKeys.Tracker;
+        protected override IEnumerable<string> ConflictingModuleNames => ["Module2"];
     }
 
     [ModularPipelines.Attributes.NotInParallel("A", "B")]
-    public class Module2 : Module<string>
+    public class Module2 : NotInParallelTestModule
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            var moduleName = GetType().Name;
-
-            _executingModules[moduleName] = true;
-            await Task.Delay(50, cancellationToken);
-
-            if (_executingModules.ContainsKey("Module1"))
-            {
-                _violations.Add($"{moduleName} started while Module1 was executing (both have 'A')");
-            }
-
-            if (_executingModules.ContainsKey("Module3"))
-            {
-                _violations.Add($"{moduleName} started while Module3 was executing (both have 'B')");
-            }
-
-            await Task.Delay(50, cancellationToken);
-
-            _executingModules.TryRemove(moduleName, out _);
-            return moduleName;
-        }
+        protected override NotInParallelTracker Tracker => NotInParallelTestsWithMultipleConstraintKeys.Tracker;
+        protected override IEnumerable<string> ConflictingModuleNames => ["Module1", "Module3"];
     }
 
     [ModularPipelines.Attributes.NotInParallel("B", "C")]
-    public class Module3 : Module<string>
+    public class Module3 : NotInParallelTestModule
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            var moduleName = GetType().Name;
-
-            _executingModules[moduleName] = true;
-            await Task.Delay(50, cancellationToken);
-
-            if (_executingModules.ContainsKey("Module2"))
-            {
-                _violations.Add($"{moduleName} started while Module2 was executing (both have 'B')");
-            }
-
-            await Task.Delay(50, cancellationToken);
-
-            _executingModules.TryRemove(moduleName, out _);
-            return moduleName;
-        }
+        protected override NotInParallelTracker Tracker => NotInParallelTestsWithMultipleConstraintKeys.Tracker;
+        protected override IEnumerable<string> ConflictingModuleNames => ["Module2"];
     }
 
     [ModularPipelines.Attributes.NotInParallel("D")]
-    public class Module4 : Module<string>
+    public class Module4 : NotInParallelTestModule
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            var moduleName = GetType().Name;
-            _executingModules[moduleName] = true;
-
-            await Task.Delay(100, cancellationToken);
-
-            _executingModules.TryRemove(moduleName, out _);
-            return moduleName;
-        }
+        protected override NotInParallelTracker Tracker => NotInParallelTestsWithMultipleConstraintKeys.Tracker;
+        protected override IEnumerable<string> ConflictingModuleNames => [];
+        protected override int DelayMs => 50;
     }
 
     [Test]
     public async Task NotInParallel_If_Any_Modules_Executing_With_Any_Of_Same_ConstraintKey()
     {
-        _executingModules.Clear();
-        _violations.Clear();
+        Tracker.Reset();
 
         await TestPipelineHostBuilder.Create()
             .AddModule<Module1>()
@@ -112,6 +48,6 @@ public class NotInParallelTestsWithMultipleConstraintKeys : TestBase
             .AddModule<Module4>()
             .ExecutePipelineAsync();
 
-        await Assert.That(_violations).IsEmpty();
+        await Assert.That(Tracker.Violations).IsEmpty();
     }
 }
