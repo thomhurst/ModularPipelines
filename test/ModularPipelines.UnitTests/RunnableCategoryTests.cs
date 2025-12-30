@@ -12,61 +12,61 @@ namespace ModularPipelines.UnitTests;
 public class RunnableCategoryTests : TestBase
 {
     [ModuleCategory("Run1")]
-    private class RunnableModule1 : Module<IDictionary<string, object>?>
+    private class RunnableModule1 : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return null;
+            return true;
         }
     }
 
     [ModuleCategory("Run2")]
-    private class RunnableModule2 : Module<IDictionary<string, object>?>
+    private class RunnableModule2 : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return null;
+            return true;
         }
     }
 
     [ModuleCategory("Run1")]
-    private class RunnableModule3 : Module<IDictionary<string, object>?>
+    private class RunnableModule3 : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return null;
+            return true;
         }
     }
 
     [ModuleCategory("NoRun1")]
-    private class NonRunnableModule1 : Module<IDictionary<string, object>?>
+    private class NonRunnableModule1 : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return null;
+            return true;
         }
     }
 
     [ModuleCategory("NoRun2")]
-    private class NonRunnableModule2 : Module<IDictionary<string, object>?>
+    private class NonRunnableModule2 : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return null;
+            return true;
         }
     }
 
-    private class OtherModule3 : Module<IDictionary<string, object>?>
+    private class OtherModule3 : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return null;
+            return true;
         }
     }
 

@@ -6,6 +6,12 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class DownloaderTests : TestBase
 {
+    // NOTE: This test depends on an external URL (GitHub release artifact).
+    // The URL points to a specific versioned release which should remain stable,
+    // but if the test fails, verify the URL is still accessible and the checksum
+    // matches. The Retry(3) attribute helps handle transient network issues.
+    // Using a well-known, versioned release URL provides reasonable stability
+    // while testing real download functionality.
     [Test, Retry(3)]
     public async Task Can_Download()
     {

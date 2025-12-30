@@ -30,31 +30,31 @@ public class PipelineProgressTests
         AnsiConsole.Profile.Capabilities.Interactive = _originalInteractive;
     }
 
-    private class Module1 : Module<IDictionary<string, object>?>
+    private class Module1 : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             // Reduced delay from 1 second to 50ms for faster test execution
             await Task.Delay(TimeSpan.FromMilliseconds(50), cancellationToken);
-            return null;
+            return true;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>]
-    private class Module2 : Module<IDictionary<string, object>?>
+    private class Module2 : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             // Reduced delay from 1 second to 50ms for faster test execution
             await Task.Delay(TimeSpan.FromMilliseconds(50), cancellationToken);
-            return null;
+            return true;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>]
-    private class Module3 : Module<IDictionary<string, object>?>
+    private class Module3 : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();
@@ -62,38 +62,38 @@ public class PipelineProgressTests
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>]
-    private class Module4 : Module<IDictionary<string, object>?>, ISkippable
+    private class Module4 : Module<bool>, ISkippable
     {
         public Task<SkipDecision> ShouldSkip(IPipelineContext context)
         {
             return SkipDecision.Skip("Testing").AsTask();
         }
 
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return null;
+            return true;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>]
-    private class Module5 : Module<IDictionary<string, object>?>, IIgnoreFailures
+    private class Module5 : Module<bool>, IIgnoreFailures
     {
         public Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
         {
             return true.AsTask();
         }
 
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();
         }
     }
 
-    private class Module6 : Module<IDictionary<string, object>?>
+    private class Module6 : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             // SubModule functionality now needs to be handled differently in the new architecture
             // For now, just execute some work
@@ -101,13 +101,13 @@ public class PipelineProgressTests
             {
                 await Task.Yield();
             }
-            return null;
+            return true;
         }
     }
 
-    private class Module7 : Module<IDictionary<string, object>?>
+    private class Module7 : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             // SubModule functionality now needs to be handled differently in the new architecture
             // For now, just execute some work
@@ -115,7 +115,7 @@ public class PipelineProgressTests
             {
                 await Task.Yield();
             }
-            return null;
+            return true;
         }
     }
 

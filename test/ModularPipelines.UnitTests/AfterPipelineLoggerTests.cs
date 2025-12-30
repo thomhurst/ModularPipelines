@@ -10,19 +10,19 @@ namespace ModularPipelines.UnitTests;
 
 public class AfterPipelineLoggerTests
 {
-    private class AfterPipelineLoggingModule : Module<IDictionary<string, object>?>
+    private class AfterPipelineLoggingModule : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             context.LogOnPipelineEnd("Blah!");
             await Task.CompletedTask;
-            return null;
+            return true;
         }
     }
 
-    private class AfterPipelineLoggingWithExceptionModule : Module<IDictionary<string, object>?>
+    private class AfterPipelineLoggingWithExceptionModule : Module<bool>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             context.LogOnPipelineEnd("Blah!");
             await Task.CompletedTask;
