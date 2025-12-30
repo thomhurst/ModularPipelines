@@ -30,7 +30,7 @@ public class RunUnitTestsModule : Module<CommandResult[]>, IRetryable<CommandRes
             {
                 Project = unitTestProjectFile.Path,
                 NoBuild = true,
-                Framework = "net10.0",
+                Framework = BuildConstants.TestFramework,
                 Arguments = ["--coverage", "--coverage-output-format", "cobertura"],
                 Configuration = Configuration.Release,
                 EnvironmentVariables = new Dictionary<string, string?>

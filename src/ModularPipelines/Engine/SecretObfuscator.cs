@@ -1,5 +1,6 @@
 using System.Text;
 using Initialization.Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Constants;
 
 namespace ModularPipelines.Engine;
 
@@ -30,7 +31,7 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         {
             if (input.Contains(secret))
             {
-                stringBuilder.Replace(secret, "**********");
+                stringBuilder.Replace(secret, LoggingConstants.SecretMask);
             }
         }
 

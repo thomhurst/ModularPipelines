@@ -1,3 +1,5 @@
+using ModularPipelines.Constants;
+
 namespace ModularPipelines.Options;
 
 /// <summary>
@@ -67,7 +69,7 @@ public record HttpLoggingOptions
     /// Bodies larger than this will be truncated with a message indicating the full size.
     /// Set to 0 or negative to disable truncation.
     /// </summary>
-    public int MaxBodySizeToLog { get; init; } = 4096;
+    public int MaxBodySizeToLog { get; init; } = LoggingConstants.DefaultMaxBodySizeToLog;
 
     /// <summary>
     /// Default logging options (all logging enabled, 4KB body limit).
@@ -132,6 +134,6 @@ public record HttpLoggingOptions
         LogResponseBody = true,
         LogStatusCode = true,
         LogDuration = true,
-        MaxBodySizeToLog = 65536,
+        MaxBodySizeToLog = LoggingConstants.FullLoggingMaxBodySize,
     };
 }
