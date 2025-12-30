@@ -2,7 +2,6 @@ using System.Reflection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Helpers;
-using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
 
 namespace ModularPipelines.Engine.Execution;
@@ -26,17 +25,18 @@ internal class ParallelLimitHandler : IParallelLimitHandler
     /// <inheritdoc />
     public async Task<IDisposable> AcquireParallelLimitAsync(Type moduleType)
     {
-        var parallelLimitAttributeType =
-            moduleType.GetCustomAttributes<ParallelLimiterAttribute>().FirstOrDefault()?.Type;
+        var parallelLimiterAttribute =
+            moduleType.GetCustomAttributes<ParallelLimiterAttribute>().FirstOrDefault();
 
-        if (parallelLimitAttributeType != null)
+        if (parallelLimiterAttribute != null)
         {
             _logger.LogDebug(
                 "Module {ModuleName} acquiring parallel limit from {LimiterType}",
                 MarkupFormatter.FormatModuleName(moduleType.Name),
-                parallelLimitAttributeType.Name);
+                parallelLimiterAttribute.Type.Name);
 
-            return await _parallelLimitProvider.GetLock(parallelLimitAttributeType).WaitAsync().ConfigureAwait(false);
+            // Use the attribute's GetLock method to avoid reflection on IParallelLimit
+            return await parallelLimiterAttribute.GetLock(_parallelLimitProvider).WaitAsync().ConfigureAwait(false);
         }
 
         return NoOpDisposable.Instance;
