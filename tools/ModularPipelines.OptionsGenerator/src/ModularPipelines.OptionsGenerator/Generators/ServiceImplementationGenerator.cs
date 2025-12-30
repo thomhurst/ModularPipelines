@@ -138,7 +138,7 @@ public class ServiceImplementationGenerator : ICodeGenerator
             StringComparer.OrdinalIgnoreCase);
 
         var nonCollidingRootCommands = rootCommands
-            .Where(c => !subDomainNames.Contains(GenerateMethodName(c)))
+            .Where(c => !subDomainNames.Contains(GeneratorUtils.GenerateMethodNameFromCommandParts(c.CommandParts)))
             .ToList();
 
         if (nonCollidingRootCommands.Count > 0)
@@ -162,7 +162,7 @@ public class ServiceImplementationGenerator : ICodeGenerator
 
     private static void GenerateMethod(StringBuilder sb, CliCommandDefinition command, CliToolDefinition tool)
     {
-        var methodName = GenerateMethodName(command);
+        var methodName = GeneratorUtils.GenerateMethodNameFromCommandParts(command.CommandParts);
         var hasRequiredParams = command.RequiredOptions.Count > 0 ||
                                 command.PositionalArguments.Any(p => p.IsRequired);
 
@@ -189,15 +189,5 @@ public class ServiceImplementationGenerator : ICodeGenerator
         }
 
         sb.AppendLine("    }");
-    }
-
-    private static string GenerateMethodName(CliCommandDefinition command)
-    {
-        // Convert command parts to method name
-        // e.g., ["container", "create"] -> "ContainerCreate"
-        // Handle hyphens within parts (e.g., "build-server" -> "BuildServer")
-        return string.Join("", command.CommandParts
-            .SelectMany(p => p.Split('-', StringSplitOptions.RemoveEmptyEntries))
-            .Select(p => char.ToUpperInvariant(p[0]) + p[1..].ToLowerInvariant()));
     }
 }
