@@ -16,7 +16,7 @@ internal class Http : IHttp, IDisposable
     private readonly IHttpLogger _httpLogger;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
 
-    private readonly ConcurrentDictionary<HttpLoggingType, HttpClient> _loggingHttpClients = new();
+    private readonly ConcurrentDictionary<HttpLoggingType, (HttpClient Client, ServiceProvider Provider)> _loggingHttpClients = new();
 
     public Http(HttpClient defaultHttpClient,
         IModuleLoggerProvider moduleLoggerProvider,
@@ -94,19 +94,24 @@ internal class Http : IHttp, IDisposable
                 httpClientBuilder.AddHttpMessageHandler<StatusCodeLoggingHttpHandler>();
             }
 
-            return serviceCollection.BuildServiceProvider()
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var httpClient = serviceProvider
                 .GetRequiredService<ModularPipelinesHttpClientProvider>()
                 .HttpClient;
-        });
+
+            return (httpClient, serviceProvider);
+        }).Client;
     }
 
     public void Dispose()
     {
-        HttpClient.Dispose();
+        // Note: HttpClient is obtained from IHttpClientFactory via DI and should NOT be disposed.
+        // The factory manages the lifetime of HttpClient instances.
 
-        foreach (var httpClient in _loggingHttpClients.Values)
+        // Dispose the ServiceProviders which will clean up their internal resources
+        foreach (var (_, provider) in _loggingHttpClients.Values)
         {
-            httpClient.Dispose();
+            provider.Dispose();
         }
     }
 

@@ -270,7 +270,7 @@ public sealed class Command : ICommand
 
         using var forcefulCancellationToken = new CancellationTokenSource();
 
-        cancellationToken.Register(() =>
+        await using var registration = cancellationToken.Register(() =>
         {
             try
             {
