@@ -25,7 +25,7 @@ public interface IEnvironmentContext
     public Version OperatingSystemVersion { get; }
 
     /// <summary>
-    /// Gets a value indicating whether whether the current operating system is 64 bit.
+    /// Gets a value indicating whether the current operating system is 64-bit.
     /// </summary>
     public bool Is64BitOperatingSystem { get; }
 
