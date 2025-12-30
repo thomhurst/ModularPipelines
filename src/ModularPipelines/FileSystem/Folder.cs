@@ -111,36 +111,22 @@ public class Folder : IEquatable<Folder>
 
         foreach (var directory in DirectoryInfo.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
         {
-            try
+            if (removeReadOnlyAttribute)
             {
-                if (removeReadOnlyAttribute)
-                {
-                    RemoveReadOnlyAttributeRecursively(directory);
-                }
+                RemoveReadOnlyAttributeRecursively(directory);
+            }
 
-                directory.Delete(true);
-            }
-            catch (Exception ex)
-            {
-                ModuleLogger.Current.LogWarning(ex, "Failed to delete directory: {Path}", directory.FullName);
-            }
+            directory.Delete(true);
         }
 
         foreach (var file in DirectoryInfo.EnumerateFiles("*", SearchOption.TopDirectoryOnly))
         {
-            try
+            if (removeReadOnlyAttribute && (file.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
             {
-                if (removeReadOnlyAttribute && (file.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
-                {
-                    file.Attributes &= ~FileAttributes.ReadOnly;
-                }
+                file.Attributes &= ~FileAttributes.ReadOnly;
+            }
 
-                file.Delete();
-            }
-            catch (Exception ex)
-            {
-                ModuleLogger.Current.LogWarning(ex, "Failed to delete file: {Path}", file.FullName);
-            }
+            file.Delete();
         }
     }
 
@@ -151,7 +137,7 @@ public class Folder : IEquatable<Folder>
     /// <returns>A new <see cref="Folder"/> instance representing the copied folder.</returns>
     public Folder CopyTo(string targetPath)
     {
-        return CopyTo(targetPath, preserveTimestamps: true);
+        return CopyTo(targetPath, preserveTimestamps: false);
     }
 
     /// <summary>
@@ -218,7 +204,7 @@ public class Folder : IEquatable<Folder>
             targetRootDir.LastAccessTimeUtc = DirectoryInfo.LastAccessTimeUtc;
         }
 
-        ModuleLogger.Current.LogInformation("Copying Folder: {Source} > {Destination}", this, targetPath);
+        ModuleLogger.Current.LogInformation("Copied Folder: {Source} > {Destination}", this, targetPath);
 
         return new Folder(targetPath);
     }
@@ -418,7 +404,7 @@ public class Folder : IEquatable<Folder>
             directory.Attributes &= ~FileAttributes.ReadOnly;
         }
 
-        foreach (var file in directory.EnumerateFiles("*", SearchOption.AllDirectories))
+        foreach (var file in directory.EnumerateFiles("*", SearchOption.TopDirectoryOnly))
         {
             if ((file.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
             {
@@ -426,12 +412,9 @@ public class Folder : IEquatable<Folder>
             }
         }
 
-        foreach (var subDirectory in directory.EnumerateDirectories("*", SearchOption.AllDirectories))
+        foreach (var subDirectory in directory.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
         {
-            if ((subDirectory.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
-            {
-                subDirectory.Attributes &= ~FileAttributes.ReadOnly;
-            }
+            RemoveReadOnlyAttributeRecursively(subDirectory);
         }
     }
 }
