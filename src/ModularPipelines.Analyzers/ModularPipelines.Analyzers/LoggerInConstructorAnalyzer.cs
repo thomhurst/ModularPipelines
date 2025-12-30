@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
+using ModularPipelines.Analyzers.Extensions;
 
 namespace ModularPipelines.Analyzers;
 
@@ -21,6 +22,15 @@ public class LoggerInConstructorAnalyzer : DiagnosticAnalyzer
     private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.LoggerInConstructorAnalyzerDescription), Resources.ResourceManager, typeof(Resources));
     private static readonly DiagnosticDescriptor PrivateRule = new(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Error, isEnabledByDefault: true, description: Description);
 
+    /// <summary>
+    /// Logging types from Microsoft.Extensions.Logging that should not be injected directly.
+    /// </summary>
+    private static readonly ImmutableArray<string> LoggingTypeMetadataNames = ImmutableArray.Create(
+        "Microsoft.Extensions.Logging.ILogger`1",
+        "Microsoft.Extensions.Logging.ILogger",
+        "Microsoft.Extensions.Logging.ILoggerProvider",
+        "Microsoft.Extensions.Logging.ILoggerFactory");
+
     /// <inheritdoc/>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
 
@@ -33,7 +43,7 @@ public class LoggerInConstructorAnalyzer : DiagnosticAnalyzer
         context.RegisterSyntaxNodeAction(AnalyzeLoggersInConstructors, SyntaxKind.ConstructorDeclaration);
     }
 
-    private void AnalyzeLoggersInConstructors(SyntaxNodeAnalysisContext context)
+    private static void AnalyzeLoggersInConstructors(SyntaxNodeAnalysisContext context)
     {
         if (context.Node is not ConstructorDeclarationSyntax constructorDeclarationSyntax)
         {
@@ -42,75 +52,36 @@ public class LoggerInConstructorAnalyzer : DiagnosticAnalyzer
 
         foreach (var parameter in constructorDeclarationSyntax.ParameterList.Parameters)
         {
-            if (IsGenericILogger(context, parameter, out var parameterSymbol))
+            if (TryGetProhibitedLoggerType(context, parameter, out var parameterSymbol))
             {
                 ReportDiagnostic(context, parameter.GetLocation(), parameterSymbol!);
                 return;
             }
-
-            foreach (var injectedLoggerType in ImmutableArray.Create("ILogger", "ILoggerProvider", "ILoggerFactory"))
-            {
-                if (IsNonGenericType(context, parameter, injectedLoggerType, out parameterSymbol))
-                {
-                    ReportDiagnostic(context, parameter.GetLocation(), parameterSymbol!);
-                    return;
-                }
-            }
         }
     }
 
-    private static bool IsGenericILogger(SyntaxNodeAnalysisContext context, ParameterSyntax parameter, out INamedTypeSymbol? parameterSymbol)
+    /// <summary>
+    /// Checks if the parameter type is a prohibited logging type from Microsoft.Extensions.Logging.
+    /// </summary>
+    private static bool TryGetProhibitedLoggerType(
+        SyntaxNodeAnalysisContext context,
+        ParameterSyntax parameter,
+        out INamedTypeSymbol? parameterSymbol)
     {
         parameterSymbol = null;
 
-        if (parameter.Type is not GenericNameSyntax genericNameSyntax)
+        if (parameter.Type is null)
         {
             return false;
         }
 
-        if (genericNameSyntax.Identifier.ValueText is not "ILogger")
+        var typeSymbol = context.SemanticModel.GetSymbolInfo(parameter.Type).Symbol;
+        if (typeSymbol is not INamedTypeSymbol namedTypeSymbol)
         {
             return false;
         }
 
-        var genericArgumentSymbol = context.SemanticModel.GetSymbolInfo(genericNameSyntax).Symbol;
-
-        if (genericArgumentSymbol is not INamedTypeSymbol namedTypeSymbol)
-        {
-            return false;
-        }
-
-        if (!genericArgumentSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat).StartsWith("global::Microsoft.Extensions.Logging.ILogger<"))
-        {
-            return false;
-        }
-
-        parameterSymbol = namedTypeSymbol;
-        return true;
-    }
-
-    private static bool IsNonGenericType(SyntaxNodeAnalysisContext context, ParameterSyntax parameter, string name, out INamedTypeSymbol? parameterSymbol)
-    {
-        parameterSymbol = null;
-
-        if (parameter.Type is not IdentifierNameSyntax identifierNameSyntax)
-        {
-            return false;
-        }
-
-        if (identifierNameSyntax.Identifier.ValueText != name)
-        {
-            return false;
-        }
-
-        var genericArgumentSymbol = context.SemanticModel.GetSymbolInfo(identifierNameSyntax).Symbol;
-
-        if (genericArgumentSymbol is not INamedTypeSymbol namedTypeSymbol)
-        {
-            return false;
-        }
-
-        if (!genericArgumentSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat).StartsWith($"global::Microsoft.Extensions.Logging.{name}"))
+        if (!namedTypeSymbol.IsAnyType(context.Compilation, LoggingTypeMetadataNames.AsSpan()))
         {
             return false;
         }
