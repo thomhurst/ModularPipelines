@@ -6,101 +6,44 @@ namespace ModularPipelines.Analyzers.Test;
 [TestClass]
 public class ModularPipelinesAnalyzersConflictingDependsOnAttributeUnitTests
 {
-    private const string BadModuleSource = @"
-#nullable enable
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
-using Microsoft.Extensions.Logging;
-
-namespace ModularPipelines.Examples.Modules;
-
-[{|#0:DependsOn<Module2>|}]
-public class Module1 : Module<List<string>>
+    private const string SimpleModuleBody = @"
 {
     protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
         return new List<string>();
     }
-}
+}";
 
-[{|#1:DependsOn<Module1>|}]
+    private const string BadModuleSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+[{{|#0:DependsOn<Module2>|}}]
+public class Module1 : Module<List<string>>
+{SimpleModuleBody}
+
+[{{|#1:DependsOn<Module1>|}}]
 public class Module2 : Module<List<string>>
-{
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
-        await Task.Delay(1, cancellationToken);
-        return new List<string>();
-    }
-}
+{SimpleModuleBody}
 ";
 
-    private const string BadModuleSource2 = @"
-#nullable enable
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
-using Microsoft.Extensions.Logging;
+    private const string BadModuleSource2 = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
 
-namespace ModularPipelines.Examples.Modules;
-
-[{|#0:DependsOn<Module1>|}]
+[{{|#0:DependsOn<Module1>|}}]
 public class Module1 : Module<List<string>>
-{
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
-        await Task.Delay(1, cancellationToken);
-        return new List<string>();
-    }
-}
+{SimpleModuleBody}
 ";
 
-    private const string GoodModuleSource = @"
-#nullable enable
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
-using Microsoft.Extensions.Logging;
-
-namespace ModularPipelines.Examples.Modules;
+    private const string GoodModuleSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
 
 public class Module1 : Module<List<string>>
-{
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
-        await Task.Delay(1, cancellationToken);
-        return new List<string>();
-    }
-}
+{SimpleModuleBody}
 
 [DependsOn<Module1>]
 public class Module2 : Module<List<string>>
-{
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
-        await Task.Delay(1, cancellationToken);
-        return new List<string>();
-    }
-}
+{SimpleModuleBody}
 ";
 
     [TestMethod]

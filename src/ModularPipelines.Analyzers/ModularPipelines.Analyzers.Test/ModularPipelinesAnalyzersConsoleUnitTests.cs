@@ -6,167 +6,28 @@ namespace ModularPipelines.Analyzers.Test;
 [TestClass]
 public class ModularPipelinesAnalyzersConsoleUnitTests
 {
-    private const string BadModuleSource = @"
-#nullable enable
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
-
-namespace ModularPipelines.Examples.Modules;
+    private static string CreateBadModuleSource(string consoleCall, bool isAsync = false) => $@"
+{TestSourceConstants.StandardModuleHeader}
 
 public class Module1 : Module<List<string>>
-{
+{{
     protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
+    {{
         await Task.Delay(1, cancellationToken);
 
-        {|#0:Console.WriteLine(""Done!"")|};
+        {(isAsync ? "await " : "")}{{|#0:{consoleCall}|}};
 
         return new List<string>();
-    }
-}
+    }}
+}}
 ";
 
-    private const string BadModuleSource2 = @"
-#nullable enable
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
-
-namespace ModularPipelines.Examples.Modules;
-
-public class Module1 : Module<List<string>>
-{
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
-        await Task.Delay(1, cancellationToken);
-
-        {|#0:Console.Write(""Done!"")|};
-
-        return new List<string>();
-    }
-}
-";
-
-    private const string BadModuleSource3 = @"
-#nullable enable
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
-
-namespace ModularPipelines.Examples.Modules;
-
-public class Module1 : Module<List<string>>
-{
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
-        await Task.Delay(1, cancellationToken);
-
-        {|#0:Console.Out.Write(""Done!"")|};
-
-        return new List<string>();
-    }
-}
-";
-
-    private const string BadModuleSource4 = @"
-#nullable enable
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
-
-namespace ModularPipelines.Examples.Modules;
-
-public class Module1 : Module<List<string>>
-{
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
-        await Task.Delay(1, cancellationToken);
-
-        {|#0:Console.Out.WriteLine(""Done!"")|};
-
-        return new List<string>();
-    }
-}
-";
-
-    private const string BadModuleSource5 = @"
-#nullable enable
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
-
-namespace ModularPipelines.Examples.Modules;
-
-public class Module1 : Module<List<string>>
-{
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
-        await Task.Delay(1, cancellationToken);
-
-        await {|#0:Console.Out.WriteLineAsync(""Done!"")|};
-
-        return new List<string>();
-    }
-}
-";
-
-    private const string BadModuleSource6 = @"
-#nullable enable
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Attributes;
-
-namespace ModularPipelines.Examples.Modules;
-
-public class Module1 : Module<List<string>>
-{
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
-        await Task.Delay(1, cancellationToken);
-
-        {|#0:Console.Out.Dispose()|};
-
-        return new List<string>();
-    }
-}
-";
+    private static readonly string BadModuleSource = CreateBadModuleSource(@"Console.WriteLine(""Done!"")");
+    private static readonly string BadModuleSource2 = CreateBadModuleSource(@"Console.Write(""Done!"")");
+    private static readonly string BadModuleSource3 = CreateBadModuleSource(@"Console.Out.Write(""Done!"")");
+    private static readonly string BadModuleSource4 = CreateBadModuleSource(@"Console.Out.WriteLine(""Done!"")");
+    private static readonly string BadModuleSource5 = CreateBadModuleSource(@"Console.Out.WriteLineAsync(""Done!"")", isAsync: true);
+    private static readonly string BadModuleSource6 = CreateBadModuleSource(@"Console.Out.Dispose()");
 
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_Using_Console()
