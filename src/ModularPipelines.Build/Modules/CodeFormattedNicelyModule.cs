@@ -44,21 +44,10 @@ public class CodeFormattedNicelyModule : Module<CommandResult>, ISkippable, IAlw
 
         try
         {
-            await context.DotNet().Format(new DotNetFormatOptions
-            {
-                Arguments = ["whitespace"],
-                WorkingDirectory = context.Git().RootDirectory,
-                VerifyNoChanges = true,
-                Severity = "info",
-            }, cancellationToken);
+            await RunDotNetFormat(context, whitespaceOnly: true, verifyNoChanges: true, cancellationToken);
 
             // The code hasn't been formatted nicely!
-            return await context.DotNet().Format(new DotNetFormatOptions
-            {
-                WorkingDirectory = context.Git().RootDirectory,
-                VerifyNoChanges = true,
-                Severity = "info",
-            }, cancellationToken);
+            return await RunDotNetFormat(context, whitespaceOnly: false, verifyNoChanges: true, cancellationToken);
         }
         catch (Exception)
         {
@@ -70,20 +59,8 @@ public class CodeFormattedNicelyModule : Module<CommandResult>, ISkippable, IAlw
 
             ArgumentNullException.ThrowIfNull(_githubSettings.Value.StandardToken);
 
-            await context.DotNet().Format(new DotNetFormatOptions
-            {
-                WorkingDirectory = context.Git().RootDirectory,
-                VerifyNoChanges = false,
-                Severity = "info",
-            }, cancellationToken);
-
-            await context.DotNet().Format(new DotNetFormatOptions
-            {
-                Arguments = ["whitespace"],
-                WorkingDirectory = context.Git().RootDirectory,
-                VerifyNoChanges = false,
-                Severity = "info",
-            }, cancellationToken);
+            await RunDotNetFormat(context, whitespaceOnly: false, verifyNoChanges: false, cancellationToken);
+            await RunDotNetFormat(context, whitespaceOnly: true, verifyNoChanges: false, cancellationToken);
 
             var branchTriggeringPullRequest = context.GitHub().EnvironmentVariables.HeadRef!;
 
@@ -97,5 +74,22 @@ public class CodeFormattedNicelyModule : Module<CommandResult>, ISkippable, IAlw
             // Fail this run - The git push will trigger a new run
             throw new Exception("Formatting code. This run will abort. Another run will trigger with the formatted code.");
         }
+    }
+
+    private static Task<CommandResult> RunDotNetFormat(
+        IModuleContext context,
+        bool whitespaceOnly,
+        bool verifyNoChanges,
+        CancellationToken cancellationToken)
+    {
+        var options = new DotNetFormatOptions
+        {
+            Arguments = whitespaceOnly ? ["whitespace"] : null,
+            WorkingDirectory = context.Git().RootDirectory,
+            VerifyNoChanges = verifyNoChanges,
+            Severity = "info",
+        };
+
+        return context.DotNet().Format(options, cancellationToken);
     }
 }
