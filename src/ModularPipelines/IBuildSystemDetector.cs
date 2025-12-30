@@ -61,6 +61,7 @@ public interface IBuildSystemDetector
     /// <summary>
     /// Gets a value indicating whether the current build agent is the type specified.
     /// </summary>
-    /// <returns>True if it is the current build agent type.</returns>
+    /// <param name="buildSystem">The build system type to check for.</param>
+    /// <returns>True if the pipeline is running on the specified build system; otherwise, false.</returns>
     bool Is(BuildSystem buildSystem) => GetCurrentBuildSystem() == buildSystem;
 }
