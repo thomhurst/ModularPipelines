@@ -51,7 +51,7 @@ public record CommandLineOptions
     public Func<string, string>? OutputLoggingManipulator { get; init; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether prefix commands with Sudo to run with elevated priveliges for Unix systems.
+    /// Gets or sets a value indicating whether prefix commands with Sudo to run with elevated privileges for Unix systems.
     /// </summary>
     public bool Sudo { get; init; }
 
