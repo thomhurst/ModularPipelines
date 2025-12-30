@@ -17,12 +17,12 @@ public interface IPipelineEncoding
     IJson Json { get; }
 
     /// <summary>
-    /// Gets helpers for convering XML.
+    /// Gets helpers for converting XML.
     /// </summary>
     IXml Xml { get; }
 
     /// <summary>
-    /// Gets helpers for convering YAML.
+    /// Gets helpers for converting YAML.
     /// </summary>
     IYaml Yaml { get; }
 
