@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Helpers;
 using ModularPipelines.Http;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
@@ -66,6 +67,27 @@ internal class Downloader : IDownloader
         return response.EnsureSuccessStatusCode();
     }
 
+    /// <summary>
+    /// Determines the file path where the downloaded content should be saved.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The save location is determined using the following logic:
+    /// </para>
+    /// <list type="number">
+    /// <item><description>If SavePath is null/empty, generates a temp file path with a GUID name and extension from the download URI.</description></item>
+    /// <item><description>If SavePath ends with a directory separator (e.g., "/" or "\"), treats it as a directory and generates a filename.</description></item>
+    /// <item><description>If SavePath has a file extension, treats it as a complete file path.</description></item>
+    /// <item><description>Otherwise, treats SavePath as a directory and generates a filename within it.</description></item>
+    /// </list>
+    /// <para>
+    /// <strong>Note:</strong> The extension heuristic (step 3) may not be reliable for directory names
+    /// containing dots (e.g., "my.folder"). To ensure a path is treated as a directory, append a
+    /// directory separator character to the path.
+    /// </para>
+    /// </remarks>
+    /// <param name="options">The download options containing the save path.</param>
+    /// <returns>The determined file path for saving the download.</returns>
     private string GetSaveLocation(DownloadFileOptions options)
     {
         if (string.IsNullOrWhiteSpace(options.SavePath))
@@ -73,6 +95,16 @@ internal class Downloader : IDownloader
             return Path.Combine(Path.GetTempPath(), Guid.NewGuid() + GetExtension(options.DownloadUri.AbsoluteUri));
         }
 
+        // Check if the path explicitly ends with a directory separator
+        // This is a reliable indicator that the user intends this to be a directory
+        if (PathHelpers.EndsWithDirectorySeparator(options.SavePath))
+        {
+            Directory.CreateDirectory(options.SavePath);
+            return Path.Combine(options.SavePath, Guid.NewGuid() + GetExtension(options.DownloadUri.AbsoluteUri));
+        }
+
+        // Use extension heuristic as a fallback
+        // Note: This can be unreliable for directory names containing dots (e.g., "my.folder")
         if (Path.HasExtension(options.SavePath))
         {
             Directory.CreateDirectory(new FileInfo(options.SavePath).Directory!.FullName);
@@ -83,7 +115,7 @@ internal class Downloader : IDownloader
         return Path.Combine(options.SavePath, Guid.NewGuid() + GetExtension(options.DownloadUri.AbsoluteUri));
     }
 
-    private string GetExtension(string downloadUri)
+    private static string GetExtension(string downloadUri)
     {
         if (Path.HasExtension(downloadUri))
         {
