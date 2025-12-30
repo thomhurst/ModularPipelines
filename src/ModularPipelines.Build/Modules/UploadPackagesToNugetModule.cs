@@ -1,11 +1,8 @@
-using EnumerableAsyncProcessor.Extensions;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Build.Helpers;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
-using ModularPipelines.DotNet.Extensions;
-using ModularPipelines.DotNet.Options;
 using ModularPipelines.Git.Attributes;
 using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.Models;
@@ -43,13 +40,11 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>, ISkippable
 
         var packagePaths = context.GetModule<PackagePathsParserModule, List<File>>();
 
-        return await packagePaths.Value!
-            .SelectAsync(async nugetFile => await context.DotNet().Nuget.Push(new DotNetNugetPushOptions
-            {
-                Path = nugetFile,
-                Source = "https://api.nuget.org/v3/index.json",
-                ApiKey = _nugetSettings.Value.ApiKey!,
-            }, cancellationToken), cancellationToken: cancellationToken)
-            .ProcessOneAtATime();
+        return await NugetUploadHelper.UploadPackagesAsync(
+            context,
+            packagePaths.Value!,
+            source: "https://api.nuget.org/v3/index.json",
+            apiKey: _nugetSettings.Value.ApiKey,
+            cancellationToken);
     }
 }
