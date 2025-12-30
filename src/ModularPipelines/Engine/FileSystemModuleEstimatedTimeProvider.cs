@@ -30,8 +30,6 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
             directoryInfo.Create();
         }
 
-        directoryInfo.Create();
-
         var paths = directoryInfo
             .EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly)
             .Where(x => x.Name.StartsWith($"Mod-{moduleType.FullName}"))
