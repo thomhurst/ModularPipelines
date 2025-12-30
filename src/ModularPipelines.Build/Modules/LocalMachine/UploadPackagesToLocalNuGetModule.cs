@@ -1,9 +1,6 @@
-using EnumerableAsyncProcessor.Extensions;
-using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
+using ModularPipelines.Build.Helpers;
 using ModularPipelines.Context;
-using ModularPipelines.DotNet.Extensions;
-using ModularPipelines.DotNet.Options;
 using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
@@ -23,12 +20,11 @@ public class UploadPackagesToLocalNuGetModule : Module<CommandResult[]>
         var localRepoLocation = context.GetModule<CreateLocalNugetFolderModule, Folder>();
         var packagePaths = context.GetModule<PackagePathsParserModule, List<File>>();
 
-        return await packagePaths.Value!
-            .SelectAsync(async nugetFile => await context.DotNet().Nuget.Push(new DotNetNugetPushOptions
-            {
-                Path = nugetFile,
-                Source = localRepoLocation.Value.AssertExists(),
-            }, cancellationToken), cancellationToken: cancellationToken)
-            .ProcessOneAtATime();
+        return await NugetUploadHelper.UploadPackagesAsync(
+            context,
+            packagePaths.Value!,
+            source: localRepoLocation.Value.AssertExists()!.Path,
+            apiKey: null,
+            cancellationToken);
     }
 }
