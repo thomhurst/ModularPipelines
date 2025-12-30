@@ -4,6 +4,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
+using ModularPipelines.TestHelpers.Assertions;
 using ModularPipelines.UnitTests.Attributes;
 
 namespace ModularPipelines.UnitTests.Helpers;
@@ -32,12 +33,7 @@ public class BashTests : TestBase
     {
         var moduleResult = await await RunModule<BashCommandModule>();
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
-            await Assert.That(moduleResult.Exception).IsNull();
-            await Assert.That(moduleResult.Value).IsNotNull();
-        }
+        await ModuleResultAssertions.AssertSuccessWithValue(moduleResult);
     }
 
     [Test]
@@ -45,11 +41,7 @@ public class BashTests : TestBase
     {
         var moduleResult = await await RunModule<BashCommandModule>();
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(moduleResult.Value!.StandardError).IsNull().Or.IsEmpty();
-            await Assert.That(moduleResult.Value.StandardOutput.Trim()).IsEqualTo(TestConstants.TestString);
-        }
+        await ModuleResultAssertions.AssertCommandOutput(moduleResult, TestConstants.TestString);
     }
 
     [Test]
@@ -58,10 +50,6 @@ public class BashTests : TestBase
     {
         var moduleResult = await await RunModule<BashScriptModule>();
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(moduleResult.Value!.StandardError).IsNull().Or.IsEmpty();
-            await Assert.That(moduleResult.Value.StandardOutput.Trim()).IsEqualTo(TestConstants.TestString);
-        }
+        await ModuleResultAssertions.AssertCommandOutput(moduleResult, TestConstants.TestString);
     }
 }

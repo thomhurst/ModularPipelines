@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Modules;
@@ -10,67 +9,29 @@ namespace ModularPipelines.UnitTests;
 public class NotInParallelTests : TestBase
 {
     private static readonly TimeSpan ModuleDelay = TimeSpan.FromMilliseconds(100);
-    private static readonly ConcurrentBag<string> _executingModules = new();
-    private static readonly ConcurrentBag<string> _violations = new();
+    private static readonly NotInParallelTracker Tracker = new();
 
     [ModularPipelines.Attributes.NotInParallel]
-    public class Module1 : Module<string>
+    public class Module1 : NotInParallelTestModule
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            var moduleName = GetType().Name;
-
-            _executingModules.Add(moduleName);
-            await Task.Delay(50, cancellationToken);
-
-            if (_executingModules.Contains("Module2"))
-            {
-                _violations.Add($"{moduleName} started while Module2 was executing");
-            }
-
-            await Task.Delay(50, cancellationToken);
-
-            _executingModules.TryTake(out _);
-            return moduleName;
-        }
+        protected override NotInParallelTracker Tracker => NotInParallelTests.Tracker;
+        protected override IEnumerable<string> ConflictingModuleNames => ["Module2"];
     }
 
     [ModularPipelines.Attributes.NotInParallel]
-    public class Module2 : Module<string>
+    public class Module2 : NotInParallelTestModule
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            var moduleName = GetType().Name;
-
-            _executingModules.Add(moduleName);
-            await Task.Delay(50, cancellationToken);
-
-            if (_executingModules.Contains("Module1"))
-            {
-                _violations.Add($"{moduleName} started while Module1 was executing");
-            }
-
-            await Task.Delay(50, cancellationToken);
-
-            _executingModules.TryTake(out _);
-            return moduleName;
-        }
+        protected override NotInParallelTracker Tracker => NotInParallelTests.Tracker;
+        protected override IEnumerable<string> ConflictingModuleNames => ["Module1"];
     }
 
     [ModularPipelines.Attributes.NotInParallel]
     [ModularPipelines.Attributes.DependsOn<ParallelDependency>]
-    public class NotParallelModuleWithParallelDependency : Module<string>
+    public class NotParallelModuleWithParallelDependency : NotInParallelTestModule
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            var moduleName = GetType().Name;
-
-            _executingModules.Add(moduleName);
-            await Task.Delay(100, cancellationToken);
-            _executingModules.TryTake(out _);
-
-            return moduleName;
-        }
+        protected override NotInParallelTracker Tracker => NotInParallelTests.Tracker;
+        protected override IEnumerable<string> ConflictingModuleNames => [];
+        protected override int DelayMs => 50;
     }
 
     public class ParallelDependency : Module<string>
@@ -84,60 +45,42 @@ public class NotInParallelTests : TestBase
 
     [ModularPipelines.Attributes.NotInParallel]
     [ModularPipelines.Attributes.DependsOn<NotParallelModuleWithParallelDependency>]
-    public class NotParallelModuleWithNonParallelDependency : Module<string>
+    public class NotParallelModuleWithNonParallelDependency : NotInParallelTestModule
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            var moduleName = GetType().Name;
-
-            _executingModules.Add(moduleName);
-            await Task.Delay(50, cancellationToken);
-
-            if (_executingModules.Contains("NotParallelModuleWithParallelDependency"))
-            {
-                _violations.Add($"{moduleName} started while NotParallelModuleWithParallelDependency was executing");
-            }
-
-            await Task.Delay(50, cancellationToken);
-
-            _executingModules.TryTake(out _);
-            return moduleName;
-        }
+        protected override NotInParallelTracker Tracker => NotInParallelTests.Tracker;
+        protected override IEnumerable<string> ConflictingModuleNames => ["NotParallelModuleWithParallelDependency"];
     }
 
     [Test]
     public async Task NotInParallel()
     {
-        _executingModules.Clear();
-        _violations.Clear();
+        Tracker.Reset();
 
         await TestPipelineHostBuilder.Create()
             .AddModule<Module1>()
             .AddModule<Module2>()
             .ExecutePipelineAsync();
 
-        await Assert.That(_violations).IsEmpty();
+        await Assert.That(Tracker.Violations).IsEmpty();
     }
 
     [Test]
     public async Task NotInParallel_With_ParallelDependency()
     {
-        _executingModules.Clear();
-        _violations.Clear();
+        Tracker.Reset();
 
         await TestPipelineHostBuilder.Create()
             .AddModule<NotParallelModuleWithParallelDependency>()
             .AddModule<ParallelDependency>()
             .ExecutePipelineAsync();
 
-        await Assert.That(_violations).IsEmpty();
+        await Assert.That(Tracker.Violations).IsEmpty();
     }
 
     [Test]
     public async Task NotInParallel_With_NonParallelDependency()
     {
-        _executingModules.Clear();
-        _violations.Clear();
+        Tracker.Reset();
 
         await TestPipelineHostBuilder.Create()
             .AddModule<NotParallelModuleWithParallelDependency>()
@@ -145,6 +88,6 @@ public class NotInParallelTests : TestBase
             .AddModule<NotParallelModuleWithNonParallelDependency>()
             .ExecutePipelineAsync();
 
-        await Assert.That(_violations).IsEmpty();
+        await Assert.That(Tracker.Violations).IsEmpty();
     }
 }

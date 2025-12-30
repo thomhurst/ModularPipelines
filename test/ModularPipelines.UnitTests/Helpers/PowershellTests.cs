@@ -2,6 +2,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using ModularPipelines.TestHelpers.Assertions;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -20,12 +21,7 @@ public class PowershellTests : TestBase
     {
         var moduleResult = await await RunModule<PowershellEchoModule>();
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
-            await Assert.That(moduleResult.Exception).IsNull();
-            await Assert.That(moduleResult.Value).IsNotNull();
-        }
+        await ModuleResultAssertions.AssertSuccessWithValue(moduleResult);
     }
 
     [Test]
@@ -33,10 +29,6 @@ public class PowershellTests : TestBase
     {
         var moduleResult = await await RunModule<PowershellEchoModule>();
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(moduleResult.Value!.StandardError).IsNull().Or.IsEmpty();
-            await Assert.That(moduleResult.Value.StandardOutput.Trim()).IsEqualTo(TestConstants.TestString);
-        }
+        await ModuleResultAssertions.AssertCommandOutput(moduleResult, TestConstants.TestString);
     }
 }
