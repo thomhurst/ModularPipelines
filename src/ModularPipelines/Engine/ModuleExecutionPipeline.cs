@@ -155,8 +155,14 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         var isAlwaysRun = module is IAlwaysRun || module.ModuleRunType == ModuleRunType.AlwaysRun;
         if (!isAlwaysRun)
         {
-            engineCancellationToken.Register(() =>
-                executionContext.ModuleCancellationTokenSource.Cancel());
+            // Create a linked token source that cancels when:
+            // - The engine singleton is cancelled (module failures, external cancellation via Ctrl+C or test timeout)
+            // - The original module token is cancelled (preserves any existing cancellation on the module)
+            // All external cancellation flows through _engineCancellationToken (see ExecutionOrchestrator line 108)
+            var originalToken = executionContext.ModuleCancellationTokenSource.Token;
+            executionContext.ModuleCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(
+                _engineCancellationToken.Token,
+                originalToken);
         }
 
         executionContext.ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
@@ -207,34 +213,27 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         var timeout = GetTimeout(module);
         var cancellationToken = executionContext.ModuleCancellationTokenSource.Token;
 
-        // Setup timeout
-        if (timeout != TimeSpan.Zero)
-        {
-            executionContext.ModuleCancellationTokenSource.CancelAfter(timeout);
-        }
-
         // Get retry policy if applicable
         var retryPolicy = GetRetryPolicy(module, moduleContext);
 
-        // Execute with policies
-        var executeTask = retryPolicy != null
-            ? retryPolicy.ExecuteAsync(() => module.ExecuteAsync(moduleContext, cancellationToken))
-            : module.ExecuteAsync(moduleContext, cancellationToken);
+        // Create the execution function that optionally includes retry
+        Func<CancellationToken, Task<T?>> executeFunc = retryPolicy != null
+            ? ct => retryPolicy.ExecuteAsync(() => module.ExecuteAsync(moduleContext, ct))
+            : ct => module.ExecuteAsync(moduleContext, ct);
 
-        if (timeout != TimeSpan.Zero)
+        // Use TimeoutHelper for clean timeout handling with grace period
+        try
         {
-            // Race against timeout
-            var timeoutTask = Task.Delay(timeout, cancellationToken);
-
-            var completedTask = await Task.WhenAny(executeTask, timeoutTask).ConfigureAwait(false);
-
-            if (completedTask == timeoutTask && executionContext.Status != Status.Successful)
-            {
-                throw new ModuleTimeoutException(executionContext.ModuleType, timeout);
-            }
+            return await TimeoutHelper.ExecuteWithTimeoutAsync(
+                executeFunc,
+                timeout == TimeSpan.Zero ? null : timeout,
+                cancellationToken,
+                $"Module {executionContext.ModuleType.Name} timed out after {timeout}").ConfigureAwait(false);
         }
-
-        return await executeTask.ConfigureAwait(false);
+        catch (TimeoutException)
+        {
+            throw new ModuleTimeoutException(executionContext.ModuleType, timeout);
+        }
     }
 
     private TimeSpan GetTimeout(IModule module)
